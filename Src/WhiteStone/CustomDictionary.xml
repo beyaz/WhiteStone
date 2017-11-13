@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Dictionary>
+  <Words>
+    <Recognized>
+
+      
+      <Word>IBAN</Word>
+
+    </Recognized>
+
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>BOA</Acronym>
+      <Acronym>CAVV</Acronym>
+      <Acronym>CVV</Acronym>
+      <Acronym>MCC</Acronym>
+      <Acronym>PIN</Acronym>
+      <Acronym>POS</Acronym>
+      <Acronym>TCP</Acronym>
+      <Acronym>MMYY</Acronym>
+      <Acronym>FEC</Acronym>
+      <Acronym>IBAN</Acronym>
+      <Acronym>GSM</Acronym>
+      <Acronym>SMS</Acronym>
+      <Acronym>PDF</Acronym>
+      <Acronym>ATM</Acronym>
+      <Acronym>RRN</Acronym>      
+      <Acronym>PAN</Acronym>
+      
+
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

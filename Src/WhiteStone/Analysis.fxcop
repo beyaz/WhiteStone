@@ -1,0 +1,554 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FxCopProject Version="10.0" Name="My FxCop Project">
+ <ProjectOptions>
+  <SharedProject>False</SharedProject>
+  <Stylesheet Apply="False">$(FxCopDir)\Xml\FxCopReport.xsl</Stylesheet>
+  <SaveMessages>
+   <Project Status="Excluded" NewOnly="False" />
+   <Report Status="None" NewOnly="False" />
+  </SaveMessages>
+  <ProjectFile Compress="True" DefaultTargetCheck="True" DefaultRuleCheck="True" SaveByRuleGroup="" Deterministic="True" />
+  <EnableMultithreadedLoad>True</EnableMultithreadedLoad>
+  <EnableMultithreadedAnalysis>True</EnableMultithreadedAnalysis>
+  <SourceLookup>True</SourceLookup>
+  <AnalysisExceptionsThreshold>10</AnalysisExceptionsThreshold>
+  <RuleExceptionsThreshold>1</RuleExceptionsThreshold>
+  <Spelling Locale="en-US" />
+  <OverrideRuleVisibilities>False</OverrideRuleVisibilities>
+  <CustomDictionaries SearchFxCopDir="True" SearchUserProfile="True" SearchProjectDir="True" />
+  <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
+  <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
+  <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
+ </ProjectOptions>
+ <Targets>
+  <Target Name="D:\WhiteStone\bin\WhiteStone.dll" Analyze="True" AnalyzeAllChildren="True" />
+ </Targets>
+ <Rules>
+  <RuleFiles>
+   <RuleFile Name="$(FxCopDir)\Rules\DesignRules.dll" Enabled="True" AllRulesEnabled="False">
+    <Rule Name="AbstractTypesShouldNotHaveConstructors" Enabled="True" />
+    <Rule Name="AvoidEmptyInterfaces" Enabled="True" />
+    <Rule Name="AvoidExcessiveParametersOnGenericTypes" Enabled="True" />
+    <Rule Name="AvoidOutParameters" Enabled="True" />
+    <Rule Name="CollectionsShouldImplementGenericInterface" Enabled="True" />
+    <Rule Name="ConsiderPassingBaseTypesAsParameters" Enabled="True" />
+    <Rule Name="DeclareEventHandlersCorrectly" Enabled="True" />
+    <Rule Name="DeclareTypesInNamespaces" Enabled="True" />
+    <Rule Name="DefineAccessorsForAttributeArguments" Enabled="True" />
+    <Rule Name="DoNotCatchGeneralExceptionTypes" Enabled="True" />
+    <Rule Name="DoNotDeclareProtectedMembersInSealedTypes" Enabled="True" />
+    <Rule Name="DoNotDeclareStaticMembersOnGenericTypes" Enabled="True" />
+    <Rule Name="DoNotDeclareVirtualMembersInSealedTypes" Enabled="True" />
+    <Rule Name="DoNotDeclareVisibleInstanceFields" Enabled="True" />
+    <Rule Name="DoNotExposeGenericLists" Enabled="True" />
+    <Rule Name="DoNotHideBaseClassMethods" Enabled="True" />
+    <Rule Name="DoNotNestGenericTypesInMemberSignatures" Enabled="True" />
+    <Rule Name="DoNotOverloadOperatorEqualsOnReferenceTypes" Enabled="True" />
+    <Rule Name="DoNotPassTypesByReference" Enabled="True" />
+    <Rule Name="DoNotRaiseExceptionsInUnexpectedLocations" Enabled="True" />
+    <Rule Name="EnumeratorsShouldBeStronglyTyped" Enabled="True" />
+    <Rule Name="EnumsShouldHaveZeroValue" Enabled="True" />
+    <Rule Name="EnumStorageShouldBeInt32" Enabled="True" />
+    <Rule Name="ExceptionsShouldBePublic" Enabled="True" />
+    <Rule Name="GenericMethodsShouldProvideTypeParameter" Enabled="True" />
+    <Rule Name="ICollectionImplementationsHaveStronglyTypedMembers" Enabled="True" />
+    <Rule Name="ImplementIDisposableCorrectly" Enabled="True" />
+    <Rule Name="ImplementStandardExceptionConstructors" Enabled="True" />
+    <Rule Name="IndexersShouldNotBeMultidimensional" Enabled="True" />
+    <Rule Name="InterfaceMethodsShouldBeCallableByChildTypes" Enabled="True" />
+    <Rule Name="ListsAreStronglyTyped" Enabled="True" />
+    <Rule Name="MarkAssembliesWithAssemblyVersion" Enabled="True" />
+    <Rule Name="MarkAssembliesWithComVisible" Enabled="True" />
+    <Rule Name="MarkAttributesWithAttributeUsage" Enabled="True" />
+    <Rule Name="MarkEnumsWithFlags" Enabled="True" />
+    <Rule Name="MembersShouldNotExposeCertainConcreteTypes" Enabled="True" />
+    <Rule Name="MovePInvokesToNativeMethodsClass" Enabled="True" />
+    <Rule Name="NestedTypesShouldNotBeVisible" Enabled="True" />
+    <Rule Name="OverloadOperatorEqualsOnOverloadingAddAndSubtract" Enabled="True" />
+    <Rule Name="OverrideMethodsOnComparableTypes" Enabled="True" />
+    <Rule Name="PropertiesShouldNotBeWriteOnly" Enabled="True" />
+    <Rule Name="ProvideObsoleteAttributeMessage" Enabled="True" />
+    <Rule Name="ReplaceRepetitiveArgumentsWithParamsArray" Enabled="True" />
+    <Rule Name="StaticHolderTypesShouldBeSealed" Enabled="True" />
+    <Rule Name="StaticHolderTypesShouldNotHaveConstructors" Enabled="True" />
+    <Rule Name="StringUriOverloadsCallSystemUriOverloads" Enabled="True" />
+    <Rule Name="TypesShouldNotExtendCertainBaseTypes" Enabled="True" />
+    <Rule Name="TypesThatOwnDisposableFieldsShouldBeDisposable" Enabled="True" />
+    <Rule Name="TypesThatOwnNativeResourcesShouldBeDisposable" Enabled="True" />
+    <Rule Name="UriParametersShouldNotBeStrings" Enabled="True" />
+    <Rule Name="UriPropertiesShouldNotBeStrings" Enabled="True" />
+    <Rule Name="UriReturnValuesShouldNotBeStrings" Enabled="True" />
+    <Rule Name="UseEventsWhereAppropriate" Enabled="True" />
+    <Rule Name="UseGenericEventHandlerInstances" Enabled="True" />
+    <Rule Name="UseGenericsWhereAppropriate" Enabled="True" />
+    <Rule Name="UseIntegralOrStringArgumentForIndexers" Enabled="True" />
+    <Rule Name="UsePropertiesWhereAppropriate" Enabled="True" />
+   </RuleFile>
+   <RuleFile Name="$(FxCopDir)\Rules\GlobalizationRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\InteroperabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\MobilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\NamingRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PerformanceRules.dll" Enabled="True" AllRulesEnabled="False">
+    <Rule Name="AvoidExcessiveLocals" Enabled="True" />
+    <Rule Name="AvoidUncalledPrivateCode" Enabled="True" />
+    <Rule Name="AvoidUninstantiatedInternalClasses" Enabled="True" />
+    <Rule Name="AvoidUnsealedAttributes" Enabled="True" />
+    <Rule Name="AvoidUnusedPrivateFields" Enabled="True" />
+    <Rule Name="DoNotCastUnnecessarily" Enabled="True" />
+    <Rule Name="InitializeReferenceTypeStaticFieldsInline" Enabled="True" />
+    <Rule Name="MarkMembersAsStatic" Enabled="True" />
+    <Rule Name="OverrideEqualsAndOperatorEqualsOnValueTypes" Enabled="True" />
+    <Rule Name="PreferJaggedArraysOverMultidimensional" Enabled="True" />
+    <Rule Name="PropertiesShouldNotReturnArrays" Enabled="True" />
+    <Rule Name="RemoveEmptyFinalizers" Enabled="True" />
+    <Rule Name="RemoveUnusedLocals" Enabled="True" />
+    <Rule Name="TestForEmptyStringsUsingStringLength" Enabled="True" />
+    <Rule Name="UseLiteralsWhereAppropriate" Enabled="True" />
+   </RuleFile>
+   <RuleFile Name="$(FxCopDir)\Rules\PortabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\SecurityRules.dll" Enabled="True" AllRulesEnabled="False">
+    <Rule Name="AptcaMethodsShouldOnlyCallAptcaMethods" Enabled="True" />
+    <Rule Name="AptcaTypesShouldOnlyExtendAptcaBaseTypes" Enabled="True" />
+    <Rule Name="ArrayFieldsShouldNotBeReadOnly" Enabled="True" />
+    <Rule Name="CallGCKeepAliveWhenUsingNativeResources" Enabled="True" />
+    <Rule Name="CatchNonClsCompliantExceptionsInGeneralHandlers" Enabled="True" />
+    <Rule Name="DoNotDeclareReadOnlyMutableReferenceTypes" Enabled="True" />
+    <Rule Name="MethodSecurityShouldBeASupersetOfType" Enabled="True" />
+    <Rule Name="PointersShouldNotBeVisible" Enabled="True" />
+    <Rule Name="ReviewDeclarativeSecurityOnValueTypes" Enabled="True" />
+    <Rule Name="ReviewDenyAndPermitOnlyUsage" Enabled="True" />
+    <Rule Name="ReviewImperativeSecurity" Enabled="True" />
+    <Rule Name="ReviewSuppressUnmanagedCodeSecurityUsage" Enabled="True" />
+    <Rule Name="ReviewVisibleEventHandlers" Enabled="True" />
+    <Rule Name="SealMethodsThatSatisfyPrivateInterfaces" Enabled="True" />
+    <Rule Name="SecureAsserts" Enabled="True" />
+    <Rule Name="SecuredTypesShouldNotExposeFields" Enabled="True" />
+    <Rule Name="SecureSerializationConstructors" Enabled="True" />
+    <Rule Name="StaticConstructorsShouldBePrivate" Enabled="True" />
+    <Rule Name="TypeLinkDemandsRequireInheritanceDemands" Enabled="True" />
+    <Rule Name="WrapVulnerableFinallyClausesInOuterTry" Enabled="True" />
+   </RuleFile>
+   <RuleFile Name="$(FxCopDir)\Rules\SecurityTransparencyRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\UsageRules.dll" Enabled="True" AllRulesEnabled="True" />
+  </RuleFiles>
+  <Groups />
+  <Settings />
+ </Rules>
+ <FxCopReport Version="10.0">
+  <Namespaces>
+   <Namespace Name="WhiteStone.Data.MvcWpf">
+    <Messages>
+     <Message Id="Mvc" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+      <Issue Name="Namespace">
+       <Item>Mvc</Item>
+       <Item>WhiteStone.Data.MvcWpf</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="WhiteStone.Jaml">
+    <Messages>
+     <Message Id="Jaml" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+      <Issue Name="Namespace">
+       <Item>Jaml</Item>
+       <Item>WhiteStone.Jaml</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="WhiteStone.Mvc">
+    <Messages>
+     <Message Id="Mvc" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+      <Issue Name="Namespace">
+       <Item>Mvc</Item>
+       <Item>WhiteStone.Mvc</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="WhiteStone.UI.Implementations.MvcWpf">
+    <Messages>
+     <Message Id="Mvc" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+      <Issue Name="Namespace">
+       <Item>Mvc</Item>
+       <Item>WhiteStone.UI.Implementations.MvcWpf</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="WhiteStone.UI.MvcWpf">
+    <Messages>
+     <Message Id="Mvc" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+      <Issue Name="Namespace">
+       <Item>Mvc</Item>
+       <Item>WhiteStone.UI.MvcWpf</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+  </Namespaces>
+  <Targets>
+   <Target Name="D:\WhiteStone\bin\WhiteStone.dll">
+    <Modules>
+     <Module Name="whitestone.dll">
+      <Namespaces>
+       <Namespace Name="BOA.Common.Helpers">
+        <Types>
+         <Type Name="RandomValue">
+          <Members>
+           <Member Name="#List`1(System.Nullable`1&lt;System.Int32&gt;)">
+            <Messages>
+             <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Excluded" Created="2017-09-05 09:32:50Z">
+              <Issue>
+               <Item>'List&lt;T&gt;'</Item>
+               <Item>'RandomValue.List&lt;T&gt;(int?)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="BOA.UI.Common">
+        <Types>
+         <Type Name="TraceHandlerForSpecificFile">
+          <Members>
+           <Member Name="#Write(System.String)">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Excluded" Created="2017-07-26 06:26:13Z">
+              <Issue>
+               <Item>'TraceHandlerForSpecificFile.Write(string)'</Item>
+               <Item>'object'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="WhiteStone.Helpers">
+        <Types>
+         <Type Name="ExpressionUtility">
+          <Members>
+           <Member Name="#AccessPathOf`2(!!0,System.Linq.Expressions.Expression`1&lt;System.Func`2&lt;!!0,!!1&gt;&gt;)">
+            <Messages>
+             <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Status="Excluded" Created="2017-07-26 06:26:13Z">
+              <Issue>
+               <Item>'propertyAccessor'</Item>
+               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
+               <Item>'Expression&lt;Func&lt;T, TT&gt;&gt;'</Item>
+               <Item>'LambdaExpression'</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotNestGenericTypesInMemberSignatures" Category="Microsoft.Design" CheckId="CA1006" Status="Excluded" Created="2017-07-26 06:26:13Z">
+              <Issue>
+               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
+               <Item>'Expression&lt;Func&lt;T, TT&gt;&gt;'</Item>
+              </Issue>
+             </Message>
+             <Message Id="T" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z" FixCategory="NonBreaking">
+              <Issue Name="MethodTypeParameterMoreMeaningfulName">
+               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
+               <Item>'TT'</Item>
+              </Issue>
+             </Message>
+             <Message Id="obj" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Excluded" Created="2017-07-26 06:26:13Z" FixCategory="DependsOnFix">
+              <Issue>
+               <Item>'obj'</Item>
+               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="WhiteStone.IO">
+        <Types>
+         <Type Name="FileService">
+          <Members>
+           <Member Name="#HasWritePermission(System.String)">
+            <Messages>
+             <Message TypeName="ReviewImperativeSecurity" Category="Microsoft.Security" CheckId="CA2103" Status="Excluded" Created="2017-03-29 11:13:38Z">
+              <Issue Name="Parameter">
+               <Item>'path'</Item>
+               <Item>'FileService.HasWritePermission(string)'</Item>
+               <Item>'FileIOPermission'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="WhiteStone.Jaml">
+        <Types>
+         <Type Name="TypeFinder">
+          <Members>
+           <Member Name="#Find(System.String)">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Excluded" Created="2017-03-29 11:13:38Z">
+              <Issue>
+               <Item>'TypeFinder.Find(string)'</Item>
+               <Item>'Exception'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="WhiteStone.Services">
+        <Types>
+         <Type Name="DataTableStringifier">
+          <Members>
+           <Member Name="#StringifyDataTable(System.Data.DataTable)">
+            <Messages>
+             <Message Id="Body" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Status="Excluded" Created="2017-03-29 11:13:38Z">
+              <Issue Name="Body">
+               <Item>'DataTableStringifier.StringifyDataTable(DataTable)'</Item>
+               <Item>'string[,]'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="IDataTableStringifier">
+          <Messages>
+           <Message Id="Stringifier" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+            <Issue Name="Type">
+             <Item>Stringifier</Item>
+             <Item>'IDataTableStringifier'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#StringifyDataTable(System.Data.DataTable)">
+            <Messages>
+             <Message Id="Stringify" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+              <Issue Name="Member">
+               <Item>Stringify</Item>
+               <Item>'IDataTableStringifier.StringifyDataTable(DataTable)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="WhiteStone.UI.Controls">
+        <Types>
+         <Type Name="JamlBuilderConfig">
+          <Messages>
+           <Message Id="Jaml" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+            <Issue Name="Type">
+             <Item>Jaml</Item>
+             <Item>'JamlBuilderConfig'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
+         <Type Name="LabeledTextBox">
+          <Members>
+           <Member Name="#System.Windows.Markup.IComponentConnector.Connect(System.Int32,System.Object)">
+            <Messages>
+             <Message TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033" Status="Excluded" Created="2017-03-29 11:13:38Z">
+              <Issue>
+               <Item>'LabeledTextBox'</Item>
+               <Item>'IComponentConnector.Connect(int, object)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="StartMenuItem">
+          <Members>
+           <Member Name="#System.Windows.Markup.IComponentConnector.Connect(System.Int32,System.Object)">
+            <Messages>
+             <Message TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033" Status="Excluded" Created="2017-03-29 11:13:38Z">
+              <Issue>
+               <Item>'StartMenuItem'</Item>
+               <Item>'IComponentConnector.Connect(int, object)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="ViewHolder">
+          <Members>
+           <Member Name="#System.Windows.Markup.IComponentConnector.Connect(System.Int32,System.Object)">
+            <Messages>
+             <Message TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033" Status="Excluded" Created="2017-03-29 11:13:38Z">
+              <Issue>
+               <Item>'ViewHolder'</Item>
+               <Item>'IComponentConnector.Connect(int, object)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="WhiteStone.UI.Implementations.MvcWpf">
+        <Types>
+         <Type Name="BindedInputComponentFinder">
+          <Messages>
+           <Message Id="Binded" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+            <Issue Name="Type">
+             <Item>Binded</Item>
+             <Item>'BindedInputComponentFinder'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#BindingExpressionIsMatch(System.Windows.Data.BindingExpression,System.String)">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Excluded" Created="2017-03-29 11:13:38Z">
+              <Issue>
+               <Item>'BindedInputComponentFinder.BindingExpressionIsMatch(BindingExpression, string)'</Item>
+               <Item>'Exception'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="WhiteStone.UI.MvcWpf">
+        <Types>
+         <Type Name="ActionManager">
+          <Members>
+           <Member Name="#BindedInputComponentFinder">
+            <Messages>
+             <Message Id="Binded" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+              <Issue Name="Member">
+               <Item>Binded</Item>
+               <Item>'ActionManager.BindedInputComponentFinder'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#ControllerNotifier">
+            <Messages>
+             <Message Id="Notifier" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+              <Issue Name="Member">
+               <Item>Notifier</Item>
+               <Item>'ActionManager.ControllerNotifier'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="ControllerNotifierWithDirectInvoke">
+          <Messages>
+           <Message Id="Notifier" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+            <Issue Name="Type">
+             <Item>Notifier</Item>
+             <Item>'ControllerNotifierWithDirectInvoke'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
+         <Type Name="IActionNotifier">
+          <Messages>
+           <Message Id="Notifier" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+            <Issue Name="Type">
+             <Item>Notifier</Item>
+             <Item>'IActionNotifier'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
+         <Type Name="IBindedInputComponentFinder">
+          <Messages>
+           <Message Id="Binded" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+            <Issue Name="Type">
+             <Item>Binded</Item>
+             <Item>'IBindedInputComponentFinder'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
+         <Type Name="IControllerNotifier">
+          <Messages>
+           <Message Id="Notifier" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+            <Issue Name="Type">
+             <Item>Notifier</Item>
+             <Item>'IControllerNotifier'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="WhiteStone.UI.Shell">
+        <Types>
+         <Type Name="ContextCreator">
+          <Members>
+           <Member Name="#Create()">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Excluded" Created="2017-07-26 06:26:13Z" FixCategory="DependsOnFix">
+              <Issue>
+               <Item>'ContextCreator.Create()'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+  </Targets>
+  <Rules>
+   <Rule TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011">
+    <Resolution Name="Default">Consider changing the type of parameter {0} in {1} from {2} to its base type {3}. This method appears to only require base class members in its implementation. Suppress this violation if there is a compelling reason to require the more derived type in the method signature.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
+    <Resolution Name="Default">Modify {0} to catch a more specific exception than {1} or rethrow the exception.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002">
+    <Resolution Name="Default">Change {0} in {1} to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotNestGenericTypesInMemberSignatures" Category="Microsoft.Design" CheckId="CA1006">
+    <Resolution Name="Default">Consider a design where {0} doesn't nest generic type {1}.</Resolution>
+   </Rule>
+   <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
+    <Resolution Name="Member">Correct the spelling of '{0}' in member name {1} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
+    <Resolution Name="MethodTypeParameterMoreMeaningfulName">On method {0}, consider providing a more meaningful name than generic type parameter name {1}.</Resolution>
+    <Resolution Name="Namespace">Correct the spelling of '{0}' in namespace name '{1}'.</Resolution>
+    <Resolution Name="Type">Correct the spelling of '{0}' in type name {1}.</Resolution>
+   </Rule>
+   <Rule TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033">
+    <Resolution Name="Default">Make {0} sealed (a breaking change if this class has previously shipped), implement the method non-explicitly, or implement a new method that exposes the functionality of {1} and is visible to derived classes.</Resolution>
+   </Rule>
+   <Rule TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822">
+    <Resolution Name="Default">The 'this' parameter (or 'Me' in Visual Basic) of {0} is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Resolution>
+   </Rule>
+   <Rule TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814">
+    <Resolution Name="Body">{0} uses a multidimensional array of {1}. Replace it with a jagged array if possible.</Resolution>
+   </Rule>
+   <Rule TypeName="ReviewImperativeSecurity" Category="Microsoft.Security" CheckId="CA2103">
+    <Resolution Name="Parameter">Review the following for a possible security vulnerability: Parameter {0} of {1} is being passed to a {2} constructor.</Resolution>
+   </Rule>
+   <Rule TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801">
+    <Resolution Name="Default">Parameter {0} of {1} is never used. Remove the parameter or use it in the method body.</Resolution>
+   </Rule>
+  </Rules>
+ </FxCopReport>
+</FxCopProject>

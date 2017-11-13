@@ -1,0 +1,30 @@
+﻿using System;
+
+namespace WhiteStone.Data.Attributes
+{
+    /// <summary>
+    ///     Defines database schema name.
+    /// </summary>
+    /// <seealso cref="System.Attribute" />
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class DbSchemaAttribute : Attribute
+    {
+        readonly string _name;
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DbSchemaAttribute" /> class.
+        /// </summary>
+        public DbSchemaAttribute(string name)
+        {
+            _name = name;
+        }
+    }
+}

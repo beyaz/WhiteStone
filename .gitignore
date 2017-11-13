@@ -3,3 +3,13 @@
 ################################################################################
 
 /.vs
+/packages/Newtonsoft.Json.10.0.3
+/Src/WhiteStone/bin/Debug
+/Src/WhiteStone/obj
+/Src/WhiteStone/obj
+*.user
+*.dgml
+/Src/WhiteStone.Tasks/bin/Debug
+/Src/WhiteStone.Tasks/obj
+/Test/WhiteStone.Test/bin/Debug
+/Test/WhiteStone.Test/obj

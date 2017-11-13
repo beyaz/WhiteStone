@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>WhiteStone</id>
+    <version>1.0.0.0</version>
+    <title>WhiteStone</title>
+    <authors>Abdullah Beyaztaş</authors>
+    <owners>$author$</owners>
+    <!--
+    <licenseUrl></licenseUrl>
+    <projectUrl></projectUrl>
+    <iconUrl></iconUrl>
+-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--*-->
+    <description>$description$</description>
+    <!--*-->
+    <releaseNotes>WhiteStone</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>
+    </tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Debug\WhiteStone.dll" target="lib/net452" />
+    <file src="bin\Debug\WhiteStone.XML" target="lib/net452" />
+  </files>
+</package>
