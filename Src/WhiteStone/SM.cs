@@ -3,7 +3,7 @@ using WhiteStone.Services;
 namespace WhiteStone
 {
     /// <summary>
-    ///     Defines the Service Manager
+    ///     Defines the Service Manager.
     /// </summary>
     public static class SM
     {
