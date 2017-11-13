@@ -148,7 +148,7 @@ if not exist $(SolutionDir)\bin     mkdir $(SolutionDir)\bin
 :: copy to target directory
 copy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)\bin"
 
-// copy libraries
+:: copy libraries
 copy /y "$(TargetDir)Newtonsoft.Json.dll" "$(SolutionDir)\bin"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
