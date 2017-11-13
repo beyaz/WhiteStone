@@ -8,9 +8,10 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>WhiteStone.Tasks</RootNamespace>
     <AssemblyName>WhiteStone.Tasks</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -59,7 +60,9 @@
     <PostBuildEvent>:: Create bin directory
 if not exist $(SolutionDir)\bin     mkdir $(SolutionDir)\bin
 
+
 :: copy to target directory
-copy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)\bin"</PostBuildEvent>
+copy /y "$(TargetDir)$(TargetName).dll"   "$(SolutionDir)\bin"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
