@@ -40,10 +40,6 @@
     <AssemblyOriginatorKeyFile>WhiteStoneKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetProjects.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>UI\Controls\Lib\WPFToolkit\DotNetProjects.Input.Toolkit.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -59,14 +55,6 @@
     <Reference Include="Oracle.DataAccess, Version=10.1.0.401, Culture=neutral, PublicKeyToken=89b483f429c47342">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\Oracle.DataAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\MaterialDesign\MaterialDesignColors.dll</HintPath>
-    </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=1.2.0.29624, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\MaterialDesign\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -154,8 +142,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>:: Create bin directory
+if not exist $(SolutionDir)\bin     mkdir $(SolutionDir)\bin
+
+:: copy to target directory
+copy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)\bin"
+
+// copy libraries
+copy /y "$(TargetDir)Newtonsoft.Json.dll" "$(SolutionDir)\bin"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
