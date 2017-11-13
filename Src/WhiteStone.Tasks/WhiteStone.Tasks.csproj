@@ -57,12 +57,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>:: Create bin directory
-if not exist $(SolutionDir)\bin     mkdir $(SolutionDir)\bin
-
-
-:: copy to target directory
-copy /y "$(TargetDir)$(TargetName).dll"   "$(SolutionDir)\bin"
+    <PostBuildEvent>:: copy to target directory
+copy /y "$(TargetDir)$(TargetName).exe"   "$(SolutionDir)\bin"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
