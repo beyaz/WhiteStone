@@ -10,6 +10,47 @@ namespace BOA.Common.Helpers
     {
         #region Public Methods
         /// <summary>
+        ///     Copy the directories
+        /// </summary>
+        public static void CopyDirectory(string sourceDirPath, string destDirName, bool isCopySubDirs)
+        {
+            // Get the subdirectories for the specified directory.
+            var directoryInfo = new DirectoryInfo(sourceDirPath);
+            var directories = directoryInfo.GetDirectories();
+            if (!directoryInfo.Exists)
+            {
+                throw new DirectoryNotFoundException("Source directory does not exist or could not be found: "
+                                                     + sourceDirPath);
+            }
+            var parentDirectory = Directory.GetParent(directoryInfo.FullName);
+            destDirName = Path.Combine(parentDirectory.FullName, destDirName);
+
+            // If the destination directory doesn't exist, create it. 
+            if (!Directory.Exists(destDirName))
+            {
+                Directory.CreateDirectory(destDirName);
+            }
+            // Get the files in the directory and copy them to the new location.
+            var files = directoryInfo.GetFiles();
+
+            foreach (var file in files)
+            {
+                var tempPath = Path.Combine(destDirName, file.Name);
+
+                file.CopyTo(tempPath, true);
+            }
+            // If copying subdirectories, copy them and their contents to new location using recursive  function. 
+            if (isCopySubDirs)
+            {
+                foreach (var item in directories)
+                {
+                    var tempPath = Path.Combine(destDirName, item.Name);
+                    CopyDirectory(item.FullName, tempPath, true);
+                }
+            }
+        }
+
+        /// <summary>
         ///     Downloads the string.
         /// </summary>
         public static string DownloadString(string address)
