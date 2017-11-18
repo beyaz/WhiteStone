@@ -9,6 +9,9 @@ namespace WhiteStone.Tasks
         #region Public Properties
         public string FullClassName { get; set; }
         public IDictionary<string, string> Keys { get; set; }
+
+        
+
         #endregion
     }
 }

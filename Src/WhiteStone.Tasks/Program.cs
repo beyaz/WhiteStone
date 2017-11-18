@@ -22,6 +22,9 @@ namespace WhiteStone.Tasks
             {
                 var jsonContent = File.ReadAllText(tasksFilePath);
                 var infoFile = new JsonSerializer().Deserialize<TaskInfoFile>(jsonContent);
+
+                new TaskInfoFileNormalizer {TaskInfoFile = infoFile}.Normalize();
+
                 foreach (var taskInfo in infoFile.Tasks)
                 {
                     TaskRunner.Run(taskInfo);

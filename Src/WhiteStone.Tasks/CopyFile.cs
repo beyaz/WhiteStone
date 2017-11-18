@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace WhiteStone.Tasks
@@ -17,6 +18,7 @@ namespace WhiteStone.Tasks
         #region Public Methods
         public void Run()
         {
+            Directory.CreateDirectory(Path.GetDirectoryName(Target).AssertNotNull());
             File.Copy(Source, Target, true);
         }
         #endregion
