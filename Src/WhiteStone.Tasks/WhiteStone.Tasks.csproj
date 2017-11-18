@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="CopyDirectory.cs" />
     <Compile Include="CopyFile.cs" />
+    <Compile Include="CreateDirectory.cs" />
     <Compile Include="GetFileContentFromWebIfNotInTarggetDir.cs" />
     <Compile Include="ITask.cs" />
     <Compile Include="Program.cs" />
