@@ -8,10 +8,17 @@ namespace WhiteStone.Services
     /// </summary>
     public interface ISerializer
     {
+        #region Public Methods
         /// <summary>
         ///     converts given content to requested type
         /// </summary>
         T Deserialize<T>(string serializedContent);
+
+        /// <summary>
+        ///     Serializes the specified object to a JSON string.
+        /// </summary>
+        string Serialize(object value);
+        #endregion
     }
 
     /// <summary>
@@ -20,6 +27,7 @@ namespace WhiteStone.Services
     /// <seealso cref="WhiteStone.Services.ISerializer" />
     public class JsonSerializer : ISerializer
     {
+        #region Public Methods
         /// <summary>
         ///     Converts json content to given type
         /// </summary>
@@ -27,12 +35,22 @@ namespace WhiteStone.Services
         {
             return JsonConvert.DeserializeObject<T>(serializedContent);
         }
+
         /// <summary>
-        /// Deserializes the specified serialized content.
+        ///     Deserializes the specified serialized content.
         /// </summary>
         public object Deserialize(string serializedContent, Type type)
         {
-            return JsonConvert.DeserializeObject(serializedContent,type);
+            return JsonConvert.DeserializeObject(serializedContent, type);
         }
+
+        /// <summary>
+        ///     Serializes the specified object to a JSON string.
+        /// </summary>
+        public string Serialize(object value)
+        {
+            return JsonConvert.SerializeObject(value);
+        }
+        #endregion
     }
 }
