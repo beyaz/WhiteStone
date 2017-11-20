@@ -102,6 +102,8 @@ namespace BOA.Common.Helpers
                 directoryInfo.Create();
             }
 
+            File.Delete(path);
+
             var fs = new FileStream(path, FileMode.OpenOrCreate);
             var sw = new StreamWriter(fs);
             sw.Write(data);

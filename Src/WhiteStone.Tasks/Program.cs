@@ -10,7 +10,7 @@ namespace WhiteStone.Tasks
         #region Methods
         static void Main(string[] args)
         {
-            // args = new[] {@"D:\github\TicketWebsite\TasksForPrepareOutputs.js"};
+             // args = new[] {@"D:\github\TicketWebsite\TasksForPrepareOutputs.js"};
             if (args == null || args.Length == 0)
             {
                 throw new ArgumentException(nameof(args));
