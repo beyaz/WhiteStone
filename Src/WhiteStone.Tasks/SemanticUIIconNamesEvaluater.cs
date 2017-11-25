@@ -26,6 +26,27 @@ namespace WhiteStone.Tasks
                     var endIndex = line.IndexOf(sufix, StringComparison.Ordinal);
 
                     var key = line.Substring(index, endIndex - index);
+
+                    if (key == "lock")
+                    {
+                        key = "Lock";
+                    }
+                    if (key== "birthday:")
+                    {
+                        key = "birthday";
+                    }
+
+                    if (key== "500px")
+                    {
+                        continue;
+                    }
+                    if (key== "free.code.camp")
+                    {
+                        continue;
+                        
+                    }
+
+
                     values[key] = key;
                 }
             }
