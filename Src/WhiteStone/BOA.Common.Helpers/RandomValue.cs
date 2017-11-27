@@ -173,7 +173,7 @@ namespace BOA.Common.Helpers
         {
             if (minDateTime == null)
             {
-                minDateTime = new DateTime(1610, 1, 7); //discovery of galilean moons. Using system.DateTime.Min just made weird looking dates.
+                minDateTime = System.DateTime.Now.AddYears(-1);
             }
 
             if (maxDateTime == null)
@@ -651,8 +651,8 @@ namespace BOA.Common.Helpers
             var method = GetMethod("Dictionary");
 
             return method
-                .MakeGenericMethod(genericTypeArguments[0], genericTypeArguments[1])
-                .Invoke(null, new object[] {null});
+                   .MakeGenericMethod(genericTypeArguments[0], genericTypeArguments[1])
+                   .Invoke(null, new object[] {null});
         }
 
         /// <summary>
@@ -663,8 +663,8 @@ namespace BOA.Common.Helpers
         static object EnumMethodCall(Type type)
         {
             return GetMethod("Enum")
-                .MakeGenericMethod(type)
-                .Invoke(null, new object[] { });
+                   .MakeGenericMethod(type)
+                   .Invoke(null, new object[] { });
         }
 
         /// <summary>
@@ -815,8 +815,8 @@ namespace BOA.Common.Helpers
             var method = GetMethod("IDictionary");
 
             return method
-                .MakeGenericMethod(genericTypeArguments[0], genericTypeArguments[1])
-                .Invoke(null, new object[] {null});
+                   .MakeGenericMethod(genericTypeArguments[0], genericTypeArguments[1])
+                   .Invoke(null, new object[] {null});
         }
 
         /// <summary>
@@ -827,8 +827,8 @@ namespace BOA.Common.Helpers
         static object IEnumerableMethodCall(Type type)
         {
             return GetMethod("IEnumerable")
-                .MakeGenericMethod(type)
-                .Invoke(null, new object[] { });
+                   .MakeGenericMethod(type)
+                   .Invoke(null, new object[] { });
         }
 
         /// <summary>
@@ -852,8 +852,8 @@ namespace BOA.Common.Helpers
             var method = GetMethod(nameOfMethod);
 
             return method
-                .MakeGenericMethod(type)
-                .Invoke(null, new object[] {null});
+                   .MakeGenericMethod(type)
+                   .Invoke(null, new object[] {null});
         }
 
         /// <summary>
