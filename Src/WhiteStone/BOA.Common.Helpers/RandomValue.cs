@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace BOA.Common.Helpers
 {
@@ -101,9 +102,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Arrays the specified optional length.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="optionalLength">Length of the optional.</param>
-        /// <returns></returns>
         public static T[] Array<T>(int? optionalLength = null)
         {
             return Collection<T>(optionalLength).ToArray();
@@ -112,7 +110,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Booleans this instance.
         /// </summary>
-        /// <returns></returns>
         public static bool Boolean()
         {
             var randomNumber = Int32(2);
@@ -128,10 +125,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Use for getting a random Byte for your unit tests.
         /// </summary>
-        /// <param name="maxPossibleValue">The maximum possible value.</param>
-        /// <returns>
-        ///     A random Byte
-        /// </returns>
         public static byte Byte(byte maxPossibleValue = byte.MaxValue)
         {
             return (byte) Int32(maxPossibleValue);
@@ -140,7 +133,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Characters this instance.
         /// </summary>
-        /// <returns></returns>
         public static char Char()
         {
             var buffer = new byte[sizeof(char)];
@@ -153,9 +145,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Collections the specified optional length.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="optionalLength">Length of the optional.</param>
-        /// <returns></returns>
         public static Collection<T> Collection<T>(int? optionalLength = null)
         {
             return (Collection<T>) ICollection<T>(optionalLength);
@@ -164,11 +153,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Use for getting a random DateTimes for your unit tests. Always returns a date in the past.
         /// </summary>
-        /// <param name="minDateTime">The minimum date time.</param>
-        /// <param name="maxDateTime">The maximum date time.</param>
-        /// <returns>
-        ///     A random DateTime
-        /// </returns>
         public static DateTime DateTime(DateTime? minDateTime = null, DateTime? maxDateTime = null)
         {
             if (minDateTime == null)
@@ -197,7 +181,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Dates the time offset.
         /// </summary>
-        /// <returns></returns>
         public static DateTimeOffset DateTimeOffset()
         {
             return new DateTimeOffset(DateTime());
@@ -206,8 +189,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Use for getting a random Decimal for your unit test
         /// </summary>
-        /// <param name="maxPossibleValue">Maximum decimal value, defaults to 1</param>
-        /// <returns></returns>
         public static decimal Decimal(decimal maxPossibleValue = 1m)
         {
             return (decimal) _random.NextDouble() * maxPossibleValue;
@@ -216,10 +197,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Dictionaries the specified optional length.
         /// </summary>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
-        /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <param name="optionalLength">Length of the optional.</param>
-        /// <returns></returns>
         public static Dictionary<TKey, TValue> Dictionary<TKey, TValue>(int? optionalLength = null)
         {
             return (Dictionary<TKey, TValue>) IDictionary<TKey, TValue>(optionalLength);
@@ -237,8 +214,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Enums this instance.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
         public static T Enum<T>()
         {
             var fields = typeof(T).GetRuntimeFields().Where(x => x.IsPublic && x.IsStatic).ToArray();
@@ -251,7 +226,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     GUIDs this instance.
         /// </summary>
-        /// <returns></returns>
         public static Guid Guid()
         {
             return System.Guid.NewGuid();
@@ -260,9 +234,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the collection.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="optionalLength">Length of the optional.</param>
-        /// <returns></returns>
         public static ICollection<T> ICollection<T>(int? optionalLength = null)
         {
             var numberOfItems = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
@@ -277,10 +248,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the dictionary.
         /// </summary>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
-        /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <param name="optionalLength">Length of the optional.</param>
-        /// <returns></returns>
         public static IDictionary<TKey, TValue> IDictionary<TKey, TValue>(int? optionalLength = null)
         {
             var length = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
@@ -297,8 +264,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the enumerable.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
         public static IEnumerable<T> IEnumerable<T>()
         {
             return IEnumerable<T>(null);
@@ -307,9 +272,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the enumerable.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="optionalLength">Length of the optional.</param>
-        /// <returns></returns>
         public static IEnumerable<T> IEnumerable<T>(int? optionalLength)
         {
             var numberOfItems = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
@@ -320,9 +282,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the list.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="optionalLength">Length of the optional.</param>
-        /// <returns></returns>
         public static IList<T> IList<T>(int? optionalLength = null)
         {
             return ICollection<T>(optionalLength).ToList();
@@ -331,8 +290,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Int16s the specified maximum possible value.
         /// </summary>
-        /// <param name="maxPossibleValue">The maximum possible value.</param>
-        /// <returns></returns>
         public static short Int16(short maxPossibleValue = short.MaxValue)
         {
             return (short) Int32(maxPossibleValue);
@@ -341,9 +298,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Int32s the specified maximum possible value.
         /// </summary>
-        /// <param name="maxPossibleValue">The maximum possible value.</param>
-        /// <param name="minPossibleValue">The minimum possible value.</param>
-        /// <returns></returns>
         public static int Int32(int maxPossibleValue = int.MaxValue, int minPossibleValue = 0)
         {
             if (minPossibleValue > maxPossibleValue || minPossibleValue < 0)
@@ -359,8 +313,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Int64s the specified maximum possible value.
         /// </summary>
-        /// <param name="maxPossibleValue">The maximum possible value.</param>
-        /// <returns></returns>
         public static long Int64(long maxPossibleValue = long.MaxValue)
         {
             return (long) UInt64((ulong) maxPossibleValue);
@@ -369,8 +321,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Lazies the i enumerable.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
         public static IEnumerable<T> LazyIEnumerable<T>()
         {
             var type = typeof(T);
@@ -389,9 +339,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Lists the specified optional length.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="optionalLength">Length of the optional.</param>
-        /// <returns></returns>
         public static List<T> List<T>(int? optionalLength = null)
         {
             return ICollection<T>(optionalLength).ToList();
@@ -400,8 +347,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Objects this instance.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
         public static T Object<T>() where T : new()
         {
             var genericObject = (T) Activator.CreateInstance(typeof(T));
@@ -471,9 +416,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Objects the specified after random object created.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="afterRandomObjectCreated">The after random object created.</param>
-        /// <returns></returns>
         public static T Object<T>(Action<T> afterRandomObjectCreated) where T : new()
         {
             var randomObject = Object<T>();
@@ -486,9 +428,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Observables the collection.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="optionalLength">Length of the optional.</param>
-        /// <returns></returns>
         public static ObservableCollection<T> ObservableCollection<T>(int? optionalLength = null)
         {
             return new ObservableCollection<T>(List<T>(optionalLength));
@@ -497,10 +436,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Use for getting a random Signed Byte for your unit tests.
         /// </summary>
-        /// <param name="maxPossibleValue">The maximum possible value.</param>
-        /// <returns>
-        ///     A random (positive) Signed Byte
-        /// </returns>
         public static sbyte SByte(sbyte maxPossibleValue = sbyte.MaxValue)
         {
             return (sbyte) Int32(maxPossibleValue);
@@ -509,7 +444,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Singles this instance.
         /// </summary>
-        /// <returns></returns>
         public static float Single()
         {
             return (float) _random.NextDouble();
@@ -519,9 +453,6 @@ namespace BOA.Common.Helpers
         ///     Use for getting a random string for your unit tests.  This is basically a Guid.ToString() so it will
         ///     not have any formatting and it will have "-"
         /// </summary>
-        /// <returns>
-        ///     A random string the length of a Guid
-        /// </returns>
         public static string String()
         {
             return Guid().ToString();
@@ -530,26 +461,25 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Use for getting a random string of a specific length for your unit tests.
         /// </summary>
-        /// <param name="stringLength">Length of desired random string</param>
-        /// <returns>
-        ///     A random string the length of a stringLength parameter
-        /// </returns>
-        public static string String(int stringLength) //Where did the tests go for this method? 
+        public static string String(int stringLength)
         {
-            var randomString = String();
+            var sb = new StringBuilder();
 
-            while (randomString.Length <= stringLength)
+            sb.Append(String());
+
+            while (sb.Length <= stringLength)
             {
-                randomString += String();
+                sb.Append(String());
             }
 
-            return randomString.Substring(0, stringLength);
+            sb.Length = stringLength;
+
+            return sb.ToString();
         }
 
         /// <summary>
         ///     Times the span.
         /// </summary>
-        /// <returns></returns>
         public static TimeSpan TimeSpan()
         {
             var date1 = DateTime();
@@ -561,8 +491,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     UInt16s the specified maximum possible value.
         /// </summary>
-        /// <param name="maxPossibleValue">The maximum possible value.</param>
-        /// <returns></returns>
         public static ushort UInt16(ushort maxPossibleValue = ushort.MaxValue)
         {
             return (ushort) Int32(maxPossibleValue);
@@ -571,8 +499,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     UInt32s the specified maximum possible value.
         /// </summary>
-        /// <param name="maxPossibleValue">The maximum possible value.</param>
-        /// <returns></returns>
         public static uint UInt32(uint maxPossibleValue = uint.MaxValue)
         {
             var buffer = new byte[sizeof(uint)];
@@ -591,8 +517,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     UInt64s the specified maximum possible value.
         /// </summary>
-        /// <param name="maxPossibleValue">The maximum possible value.</param>
-        /// <returns></returns>
         public static ulong UInt64(ulong maxPossibleValue = ulong.MaxValue)
         {
             var buffer = new byte[sizeof(ulong)];
@@ -614,8 +538,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Arrays the method call.
         /// </summary>
-        /// <param name="typeOfList">The type of list.</param>
-        /// <returns></returns>
         static object ArrayMethodCall(Type typeOfList)
         {
             return InvokeCollectionMethod("Array", typeOfList);
@@ -624,8 +546,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Collections the method call.
         /// </summary>
-        /// <param name="typeOfList">The type of list.</param>
-        /// <returns></returns>
         static object CollectionMethodCall(Type typeOfList)
         {
             return InvokeCollectionMethod("Collection", typeOfList);
@@ -634,8 +554,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Creates the random length if option length is null.
         /// </summary>
-        /// <param name="optionalLength">Length of the optional.</param>
-        /// <returns></returns>
         static int CreateRandomLengthIfOptionLengthIsNull(int? optionalLength)
         {
             return optionalLength ?? _random.Next(1, 10);
@@ -658,8 +576,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Enums the method call.
         /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns></returns>
         static object EnumMethodCall(Type type)
         {
             return GetMethod("Enum")
@@ -670,9 +586,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Gets the list method of collections.
         /// </summary>
-        /// <param name="propertyType">Type of the property.</param>
-        /// <param name="genericType">Type of the generic.</param>
-        /// <returns></returns>
         static object GetListMethodOfCollections(Type propertyType, Type genericType)
         {
             var typeOfList = genericType;
@@ -736,8 +649,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Gets the type of the method call associated with.
         /// </summary>
-        /// <param name="propertyType">Type of the property.</param>
-        /// <returns></returns>
         static object GetMethodCallAssociatedWithType(Type propertyType)
         {
             var supportType = GetSupportType(propertyType);
@@ -767,8 +678,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Gets the type of the support.
         /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns></returns>
         static SupportType GetSupportType(Type type)
         {
             if (SupportedTypes.ContainsKey(type))
@@ -798,8 +707,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the collection method call.
         /// </summary>
-        /// <param name="typeOfList">The type of list.</param>
-        /// <returns></returns>
         static object ICollectionMethodCall(Type typeOfList)
         {
             return InvokeCollectionMethod("ICollection", typeOfList);
@@ -808,8 +715,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the dictionary method call.
         /// </summary>
-        /// <param name="genericTypeArguments">The generic type arguments.</param>
-        /// <returns></returns>
         static object IDictionaryMethodCall(Type[] genericTypeArguments)
         {
             var method = GetMethod("IDictionary");
@@ -822,8 +727,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the enumerable method call.
         /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns></returns>
         static object IEnumerableMethodCall(Type type)
         {
             return GetMethod("IEnumerable")
@@ -834,8 +737,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the list method call.
         /// </summary>
-        /// <param name="typeOfList">The type of list.</param>
-        /// <returns></returns>
         static object IListMethodCall(Type typeOfList)
         {
             return InvokeCollectionMethod("IList", typeOfList);
@@ -844,9 +745,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Invokes the collection method.
         /// </summary>
-        /// <param name="nameOfMethod">The name of method.</param>
-        /// <param name="type">The type.</param>
-        /// <returns></returns>
         static object InvokeCollectionMethod(string nameOfMethod, Type type)
         {
             var method = GetMethod(nameOfMethod);
@@ -859,10 +757,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Determines whether [is nullable type] [the specified property type].
         /// </summary>
-        /// <param name="propertyType">Type of the property.</param>
-        /// <returns>
-        ///     <c>true</c> if [is nullable type] [the specified property type]; otherwise, <c>false</c>.
-        /// </returns>
         static bool IsNullableType(Type propertyType)
         {
             return propertyType.GetTypeInfo().IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
@@ -871,10 +765,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Determines whether [is supported collection] [the specified property type].
         /// </summary>
-        /// <param name="propertyType">Type of the property.</param>
-        /// <returns>
-        ///     <c>true</c> if [is supported collection] [the specified property type]; otherwise, <c>false</c>.
-        /// </returns>
         static bool IsSupportedCollection(Type propertyType)
         {
             var hasImplementedICollection = propertyType.GetTypeInfo().ImplementedInterfaces.Any(x => x.Name == "ICollection");
@@ -893,8 +783,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Lists the method call.
         /// </summary>
-        /// <param name="typeOfList">The type of list.</param>
-        /// <returns></returns>
         static object ListMethodCall(Type typeOfList)
         {
             return InvokeCollectionMethod("List", typeOfList);
@@ -903,8 +791,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Nullables the method call.
         /// </summary>
-        /// <param name="propertyType">Type of the property.</param>
-        /// <returns></returns>
         static object NullableMethodCall(Type propertyType)
         {
             var baseType = propertyType.GetGenericArguments()[0];
@@ -914,8 +800,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Objects the method call.
         /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns></returns>
         static object ObjectMethodCall(Type type)
         {
             var mi = typeof(RandomValue).GetRuntimeMethods()
@@ -929,8 +813,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Properties the has no setter.
         /// </summary>
-        /// <param name="prop">The property.</param>
-        /// <returns></returns>
         static bool PropertyHasNoSetter(PropertyInfo prop)
         {
             return prop.SetMethod == null;

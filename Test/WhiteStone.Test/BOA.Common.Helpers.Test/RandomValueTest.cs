@@ -29,6 +29,15 @@ namespace BOA.Common.Helpers.Test
     [TestClass]
     public class RandomValueTest
     {
+
+        [TestMethod]
+        public void String_With_Length_Parameter()
+        {
+            var len = 5432;
+            Assert.AreEqual(len, RandomValue.String(len).Length);
+        }
+
+
         #region Public Methods
         [TestMethod]
         public void If_Property_Has_Already_Value_Do_Not_Change_It()
