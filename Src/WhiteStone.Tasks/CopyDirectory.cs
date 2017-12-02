@@ -1,21 +1,16 @@
-﻿using System.Collections.Generic;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 
 namespace WhiteStone.Tasks
 {
-    public class CopyDirectory : ITask
+    public class CopyDirectory : TaskBase
     {
-        #region Public Properties
-        public IDictionary<string, string> Keys { get; set; }
-        #endregion
-
         #region Properties
-        string Source => Keys[nameof(Source)];
-        string Target => Keys[nameof(Target)];
+        string Source => GetKey(nameof(Source));
+        string Target => GetKey(nameof(Target));
         #endregion
 
         #region Public Methods
-        public void Run()
+        public override void Run()
         {
             FileHelper.CopyDirectory(Source, Target, true);
         }

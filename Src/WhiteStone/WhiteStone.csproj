@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="BOA.Common.Helpers\FileHelper.cs" />
     <Compile Include="BOA.Common.Helpers\TraceFileHelper.cs" />
+    <Compile Include="BOA.Common.Helpers\XmlHelper.cs" />
     <Compile Include="BOA.Common\Bag.cs" />
     <Compile Include="BOA.Common\CacheManager.cs" />
     <Compile Include="BOA.UI.Common\Tracer.cs" />

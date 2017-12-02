@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace WhiteStone.Tasks
 {
-    public class CopyFile : ITask
+    public class CopyFile : TaskBase
     {
-        #region Public Properties
-        public IDictionary<string, string> Keys { get; set; }
-        #endregion
-
         #region Properties
-        string Source => Keys[nameof(Source)];
-        string Target => Keys[nameof(Target)];
+        string Source => GetKey(nameof(Source));
+        string Target => GetKey(nameof(Target));
         #endregion
 
         #region Public Methods
-        public void Run()
+        public override void Run()
         {
-            
             Directory.CreateDirectory(Path.GetDirectoryName(Target).AssertNotNull());
             File.Copy(Source, Target, true);
         }

@@ -1,20 +1,15 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 
 namespace WhiteStone.Tasks
 {
-    public class CreateDirectory : ITask
+    public class CreateDirectory : TaskBase
     {
-        #region Public Properties
-        public IDictionary<string, string> Keys { get; set; }
-        #endregion
-
         #region Properties
-        string Path => Keys[nameof(Path)];
+        string Path => GetKey(nameof(Path));
         #endregion
 
         #region Public Methods
-        public void Run()
+        public override void Run()
         {
             Directory.CreateDirectory(Path);
         }

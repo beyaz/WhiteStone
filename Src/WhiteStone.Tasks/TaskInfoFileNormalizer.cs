@@ -17,12 +17,13 @@ namespace WhiteStone.Tasks
 
                 foreach (var taskInfo in TaskInfoFile.Tasks)
                 {
-                    var newKeys = new Dictionary<string, string>();
+                    var newKeys = new Dictionary<string, object>();
 
                     foreach (var key in taskInfo.Keys.Keys)
                     {
                         var newKey = key.Replace(globalKey, globalValue);
-                        var newValue = taskInfo.Keys[key]?.Replace(globalKey, globalValue);
+                        var keyValue = taskInfo.Keys[key] as string;
+                        var newValue = keyValue?.Replace(globalKey, globalValue);
 
                         newKeys[newKey] = newValue;
                     }

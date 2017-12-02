@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="BOA.Common.Helpers.Test\TraceFileHelperTest.cs" />
     <Compile Include="BagTest.cs" />
+    <Compile Include="BOA.Common.Helpers.Test\XmlHelperTest.cs" />
     <Compile Include="CastingTest.cs" />
     <Compile Include="Configuration\PropertyFileTest.cs" />
     <Compile Include="Data\SqlGeneratorTest.cs" />

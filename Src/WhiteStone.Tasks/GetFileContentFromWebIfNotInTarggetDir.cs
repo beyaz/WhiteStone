@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
 
 namespace WhiteStone.Tasks
 {
-    public class GetFileContentFromWebIfNotInTarggetDir : ITask
+    public class GetFileContentFromWebIfNotInTarggetDir : TaskBase
     {
-        #region Public Properties
-        public IDictionary<string, string> Keys { get; set; }
-        #endregion
-
         #region Properties
-        string SourceUrl => Keys[nameof(SourceUrl)];
-        string TargetDirectory => Keys[nameof(TargetDirectory)];
+        string SourceUrl => GetKey(nameof(SourceUrl));
+        string TargetDirectory => GetKey(nameof(TargetDirectory));
         #endregion
 
         #region Public Methods
-        public void Run()
+        public override void Run()
         {
             var fileName = Path.GetFileName(SourceUrl);
 

@@ -9,6 +9,8 @@ namespace WhiteStone.Tasks
         [TestMethod]
         public void Run()
         {
+
+            
             var api = new SemanticUIIconNamesEvaluater();
 
             api.Run();
