@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WhiteStone.Data.Attributes
+namespace BOA.Data.Attributes
 {
     /// <summary>
     ///     Indicates property is related with database table column.

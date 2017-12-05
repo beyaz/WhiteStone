@@ -3,9 +3,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using WhiteStone.Data.Attributes;
+using BOA.Data.Attributes;
 
-namespace WhiteStone.Data
+namespace BOA.Data
 {
     /// <summary>
     ///     Manager of sql operations

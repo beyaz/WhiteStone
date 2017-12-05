@@ -1,4 +1,4 @@
-namespace WhiteStone.Data.MvcWpf
+namespace BOA.Data.MvcWpf
 {
     /// <summary>
     ///     Defines the i model.

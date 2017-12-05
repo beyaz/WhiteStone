@@ -1,7 +1,7 @@
 using System;
 using WhiteStone.Common;
 
-namespace WhiteStone.Data.MvcWpf
+namespace BOA.Data.MvcWpf
 {
     /// <summary>
     ///     Base model definition.

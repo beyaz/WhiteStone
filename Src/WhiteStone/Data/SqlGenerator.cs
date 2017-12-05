@@ -5,9 +5,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using WhiteStone.Data.Attributes;
+using BOA.Data.Attributes;
 
-namespace WhiteStone.Data
+namespace BOA.Data
 {
     /// <summary>
     /// </summary>

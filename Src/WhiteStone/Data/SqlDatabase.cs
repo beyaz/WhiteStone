@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace WhiteStone.Data
+namespace BOA.Data
 {
     /// <summary>
     ///     Represents database layer.

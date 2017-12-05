@@ -2,7 +2,7 @@
 using System.Data;
 using Oracle.DataAccess.Client;
 
-namespace WhiteStone.Data.Oracle
+namespace BOA.Data.Oracle
 {
     /// <summary>
     ///     Represents database layer.

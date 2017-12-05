@@ -2,7 +2,7 @@
 using System.Data;
 using MySql.Data.MySqlClient;
 
-namespace WhiteStone.Data.MySql
+namespace BOA.Data.MySql
 {
     /// <summary>
     ///     Represents database layer.

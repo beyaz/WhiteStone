@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace WhiteStone.Helpers
+namespace BOA.Common.Helpers
 {
     /// <summary>
     ///     Defines the expression utility.
@@ -9,6 +10,9 @@ namespace WhiteStone.Helpers
     public static class ExpressionUtility
     {
         #region Constants
+        /// <summary>
+        ///     The dot
+        /// </summary>
         const char Dot = '.';
         #endregion
 
@@ -28,20 +32,28 @@ namespace WhiteStone.Helpers
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Nameofs all path.
+        /// </summary>
         static string NameofAllPath(MemberExpression memberExpression)
         {
-            if (memberExpression == null)
+            var path = new List<string>();
+
+            while (memberExpression != null)
+            {
+                path.Add(memberExpression.Member.Name);
+
+                memberExpression = memberExpression.Expression as MemberExpression;
+            }
+
+            if (path.Count == 0)
             {
                 return null;
             }
 
-            var left = NameofAllPath(memberExpression.Expression as MemberExpression);
-            if (left == null)
-            {
-                return memberExpression.Member.Name;
-            }
+            path.Reverse();
 
-            return left + Dot + memberExpression.Member.Name;
+            return string.Join(Dot.ToString(), path);
         }
         #endregion
     }

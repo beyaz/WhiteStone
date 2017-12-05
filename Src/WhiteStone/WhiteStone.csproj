@@ -79,7 +79,7 @@
     <Compile Include="Common\Cast.cs" />
     <Compile Include="Common\ContractBase.cs" />
     <Compile Include="Data\MvcWpf\IModel.cs" />
-    <Compile Include="Helpers\ExpressionUtility.cs" />
+    <Compile Include="BOA.Common.Helpers\ExpressionUtility.cs" />
     <Compile Include="BOA.Common.Helpers\RandomValue.cs" />
     <Compile Include="Services\FileLogging\FileLoggerCreator.cs" />
     <Compile Include="Services\ILogger.cs" />

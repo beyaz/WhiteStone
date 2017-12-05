@@ -51,7 +51,7 @@
     <Compile Include="BOA.Common.Helpers.Test\XmlHelperTest.cs" />
     <Compile Include="CastingTest.cs" />
     <Compile Include="Configuration\PropertyFileTest.cs" />
-    <Compile Include="Data\SqlGeneratorTest.cs" />
+    <Compile Include="BOA.Data.Tests\SqlGeneratorTest.cs" />
     <Compile Include="Helpers\ExpressionUtilityTest.cs" />
     <Compile Include="BOA.Common.Helpers.Test\RandomValueTest.cs" />
     <Compile Include="Helpers\ReflectionUtilityTest.cs" />

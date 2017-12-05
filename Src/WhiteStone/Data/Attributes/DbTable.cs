@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WhiteStone.Data.Attributes
+namespace BOA.Data.Attributes
 {
     /// <summary>
     ///     Defines database table name.

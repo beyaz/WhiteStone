@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WhiteStone.Data;
-using WhiteStone.Data.Attributes;
+using BOA.Data;
+using BOA.Data.Attributes;
 
-namespace WhiteStone.Test.Data
+namespace BOA.Data.Tests
 {
     [DbSchema("AAA")]
     [DbTable("Customer")]

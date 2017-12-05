@@ -1,7 +1,7 @@
 using System;
 using System.Data;
 
-namespace WhiteStone.Data
+namespace BOA.Data
 {
     /// <summary>
     ///     Manager interface of sql operations
