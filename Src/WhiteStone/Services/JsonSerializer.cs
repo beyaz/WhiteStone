@@ -15,6 +15,11 @@ namespace WhiteStone.Services
         T Deserialize<T>(string serializedContent);
 
         /// <summary>
+        ///     Deserializes the specified serialized content.
+        /// </summary>
+        object Deserialize(string serializedContent, Type type);
+
+        /// <summary>
         ///     Serializes the specified object to a JSON string.
         /// </summary>
         string Serialize(object value);

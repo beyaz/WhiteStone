@@ -6,45 +6,45 @@ namespace BOA.Common.Helpers
     /// <summary>
     ///     The file helper
     /// </summary>
-    public class FileHelper
+    public static class FileHelper
     {
         #region Public Methods
         /// <summary>
         ///     Copy the directories
         /// </summary>
-        public static void CopyDirectory(string sourceDirPath, string destDirName, bool isCopySubDirs)
+        public static void CopyDirectory(string sourceDirectoryPath, string destinationDirectoryName, bool copySubdirectories)
         {
             // Get the subdirectories for the specified directory.
-            var directoryInfo = new DirectoryInfo(sourceDirPath);
+            var directoryInfo = new DirectoryInfo(sourceDirectoryPath);
             var directories = directoryInfo.GetDirectories();
             if (!directoryInfo.Exists)
             {
                 throw new DirectoryNotFoundException("Source directory does not exist or could not be found: "
-                                                     + sourceDirPath);
+                                                     + sourceDirectoryPath);
             }
             var parentDirectory = Directory.GetParent(directoryInfo.FullName);
-            destDirName = Path.Combine(parentDirectory.FullName, destDirName);
+            destinationDirectoryName = Path.Combine(parentDirectory.FullName, destinationDirectoryName);
 
             // If the destination directory doesn't exist, create it. 
-            if (!Directory.Exists(destDirName))
+            if (!Directory.Exists(destinationDirectoryName))
             {
-                Directory.CreateDirectory(destDirName);
+                Directory.CreateDirectory(destinationDirectoryName);
             }
             // Get the files in the directory and copy them to the new location.
             var files = directoryInfo.GetFiles();
 
             foreach (var file in files)
             {
-                var tempPath = Path.Combine(destDirName, file.Name);
+                var tempPath = Path.Combine(destinationDirectoryName, file.Name);
 
                 file.CopyTo(tempPath, true);
             }
             // If copying subdirectories, copy them and their contents to new location using recursive  function. 
-            if (isCopySubDirs)
+            if (copySubdirectories)
             {
                 foreach (var item in directories)
                 {
-                    var tempPath = Path.Combine(destDirName, item.Name);
+                    var tempPath = Path.Combine(destinationDirectoryName, item.Name);
                     CopyDirectory(item.FullName, tempPath, true);
                 }
             }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text;
+using WhiteStone.Helpers;
 
 namespace System
 {
@@ -25,12 +27,20 @@ namespace System
         {
             if (value == null)
             {
-                var message = $"{valueName ?? "value"} is null." +
-                              Environment.NewLine + $"callerMemberName: {callerMemberName}" + Environment.NewLine +
-                              $"callerFilePath:{callerFilePath}" + Environment.NewLine +
-                              $"callerLineNumber:{callerLineNumber}";
+                var sb = new StringBuilder();
+                sb.Append(valueName ?? "value");
+                sb.AppendLine(" is null.");
 
-                throw new ArgumentNullException(message);
+                sb.Append("@callerMemberName:");
+                sb.AppendLine(callerMemberName);
+
+                sb.Append("@callerFilePath:");
+                sb.AppendLine(callerFilePath);
+
+                sb.Append("@callerLineNumber:");
+                sb.AppendLine(callerLineNumber.ToString(GlobalizationUtility.EnglishCulture));
+
+                throw new ArgumentNullException(sb.ToString());
             }
 
             return value;
