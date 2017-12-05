@@ -21,7 +21,7 @@
   <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
  </ProjectOptions>
  <Targets>
-  <Target Name="D:\WhiteStone\bin\WhiteStone.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="D:\github\WhiteStone\Src\WhiteStone\bin\Debug\WhiteStone.dll" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
   <RuleFiles>
@@ -188,7 +188,7 @@
    </Namespace>
   </Namespaces>
   <Targets>
-   <Target Name="D:\WhiteStone\bin\WhiteStone.dll">
+   <Target Name="D:\github\WhiteStone\Src\WhiteStone\bin\Debug\WhiteStone.dll">
     <Modules>
      <Module Name="whitestone.dll">
       <Namespaces>
