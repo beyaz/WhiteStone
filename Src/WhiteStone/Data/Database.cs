@@ -12,63 +12,13 @@ namespace BOA.Data
     /// </summary>
     public abstract class Database : IDatabase
     {
-        /// <summary>
-        ///     Adds dataparameter to Command
-        /// </summary>
-        /// <param name="parameterName"></param>
-        /// <returns></returns>
-        public object this[string parameterName]
-        {
-            set { _command.Parameters.Add(CreateParameter(parameterName, value)); }
-            get
-            {
-                if (_command == null)
-                {
-                    return null;
-                }
-
-                return (from IDbDataParameter parameter in _command.Parameters
-                    where parameter.ParameterName == parameterName
-                    select parameter.Value).FirstOrDefault();
-            }
-        }
-
         #region Fields
+        IDbCommand _command;
         IDbConnection _connection;
         IDbTransaction _transaction;
-        IDbCommand _command;
         #endregion
 
-        #region Constructor
-        /// <summary>
-        ///     Manager of sql operations
-        /// </summary>
-        protected Database(string connectionString)
-            : this(new SqlConnection(connectionString))
-        {
-        }
-
-        /// <summary>
-        ///     Manager of sql operations
-        /// </summary>
-        protected Database(IDbConnection connection)
-        {
-            OpenConnection(connection);
-        }
-        #endregion
-
-        #region Properties
-        /// <summary>
-        ///     The time (in seconds) to wait for the command to execute. The default value 30 seconds in .net
-        ///     <para>  value is null  </para>
-        /// </summary>
-        public int? CommandTimeout { set; get; }
-
-        /// <summary>
-        ///     Gets prefix of sql parameters.
-        /// </summary>
-        public abstract string ParameterPrefix { get; }
-
+        #region Public Properties
         #region string CommandText
         /// <summary>
         ///     Gets or sets the text command to run against the data source.
@@ -90,9 +40,43 @@ namespace BOA.Data
             }
         }
         #endregion
+
+        /// <summary>
+        ///     The time (in seconds) to wait for the command to execute. The default value 30 seconds in .net
+        ///     <para>  value is null  </para>
+        /// </summary>
+        public int? CommandTimeout { set; get; }
+
+        /// <summary>
+        ///     Gets prefix of sql parameters.
+        /// </summary>
+        public abstract string ParameterPrefix { get; }
         #endregion
 
-        #region Methods
+        #region Public Indexers
+        /// <summary>
+        ///     Adds dataparameter to Command
+        /// </summary>
+        /// <param name="parameterName"></param>
+        /// <returns></returns>
+        public object this[string parameterName]
+        {
+            set { _command.Parameters.Add(CreateParameter(parameterName, value)); }
+            get
+            {
+                if (_command == null)
+                {
+                    return null;
+                }
+
+                return (from IDbDataParameter parameter in _command.Parameters
+                    where parameter.ParameterName == parameterName
+                    select parameter.Value).FirstOrDefault();
+            }
+        }
+        #endregion
+
+        #region Public Methods
         /// <summary>
         ///     Starts database transaction.
         /// </summary>
@@ -114,6 +98,15 @@ namespace BOA.Data
         }
 
         /// <summary>
+        ///     if has any transaction then rollback transaction.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
         ///     Rollback database transaction.
         /// </summary>
         public void Rollback()
@@ -125,15 +118,16 @@ namespace BOA.Data
                 _transaction = null;
             }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
-        ///     if has any transaction then rollback transaction.
+        ///     Initializes new <see cref="IDbDataParameter" /> instance.
         /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        /// <param name="parameterName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        protected abstract IDbDataParameter CreateParameter(string parameterName, object value);
 
         /// <summary>
         ///     if has any transaction then rollback transaction.
@@ -155,15 +149,6 @@ namespace BOA.Data
             }
         }
 
-        void OpenConnection(IDbConnection connection)
-        {
-            _connection = connection;
-            if (connection.State != ConnectionState.Open)
-            {
-                _connection.Open();
-            }
-        }
-
         IDbCommand CreateCommand()
         {
             var c = _connection.CreateCommand();
@@ -178,6 +163,43 @@ namespace BOA.Data
             c.CommandType = CommandType.Text; // default
             return c;
         }
+
+        SqlGenerator GetGenerator()
+        {
+            return new SqlGenerator
+            {
+                ParameterPrefix = ParameterPrefix,
+                CreateDbDataParameter = CreateParameter
+            };
+        }
+
+        void OpenConnection(IDbConnection connection)
+        {
+            _connection = connection;
+            if (connection.State != ConnectionState.Open)
+            {
+                _connection.Open();
+            }
+        }
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        ///     Manager of sql operations
+        /// </summary>
+        protected Database(string connectionString)
+            : this(new SqlConnection(connectionString))
+        {
+        }
+
+        /// <summary>
+        ///     Manager of sql operations
+        /// </summary>
+        protected Database(IDbConnection connection)
+        {
+            OpenConnection(connection);
+        }
+        #endregion
 
         #region Execution
         /// <summary>
@@ -229,30 +251,11 @@ namespace BOA.Data
         }
         #endregion
 
-        /// <summary>
-        ///     Initializes new <see cref="IDbDataParameter" /> instance.
-        /// </summary>
-        /// <param name="parameterName"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected abstract IDbDataParameter CreateParameter(string parameterName, object value);
-        #endregion
-
-        SqlGenerator GetGenerator()
-        {
-            return new SqlGenerator
-            {
-                ParameterPrefix = ParameterPrefix,
-                CreateDbDataParameter = CreateParameter
-            };
-        }
-
         #region DML
         /// <summary>
         ///     Inserts the specified entity contract.
         /// </summary>
-        /// <param name="entityContract">The entity contract.</param>
-        public void Insert(object entityContract)
+        public int Insert(object entityContract)
         {
             var result = GetGenerator().GenerateInsertStatementFromEntityContract(entityContract);
 
@@ -261,14 +264,13 @@ namespace BOA.Data
                 _command.Parameters.Add(parameter);
             }
 
-            ExecuteNonQuery();
+            return ExecuteNonQuery();
         }
 
         /// <summary>
         ///     Deletes the specified entity contract.
         /// </summary>
-        /// <param name="entityContract">The entity contract.</param>
-        public void Delete(object entityContract)
+        public int Delete(object entityContract)
         {
             var result = GetGenerator().GenerateDeleteStatementFromEntityContract(entityContract);
 
@@ -277,14 +279,13 @@ namespace BOA.Data
                 _command.Parameters.Add(parameter);
             }
 
-            ExecuteNonQuery();
+            return ExecuteNonQuery();
         }
 
         /// <summary>
         ///     Updates the specified entity contract.
         /// </summary>
-        /// <param name="entityContract">The entity contract.</param>
-        public void Update(object entityContract)
+        public int Update(object entityContract)
         {
             var result = GetGenerator().GenerateUpdateStatementFromEntityContract(entityContract);
 
@@ -293,15 +294,13 @@ namespace BOA.Data
                 _command.Parameters.Add(parameter);
             }
 
-            ExecuteNonQuery();
+            return ExecuteNonQuery();
         }
 
         /// <summary>
         ///     Returns the specified entity contract with given entityContract
         /// </summary>
-        /// <param name="entityContract">The entity contract.</param>
-        /// <returns></returns>
-        public void SelectEntity(object entityContract)
+        public T SelectEntity<T>(T entityContract) where T : new()
         {
             var result = GetGenerator().GenerateSelectStatementFromEntityContract(entityContract);
 
@@ -310,12 +309,19 @@ namespace BOA.Data
                 _command.Parameters.Add(parameter);
             }
 
+            var record = default(T);
             var reader = ExecuteReader();
-            foreach (var property in entityContract.GetType().GetProperties().Where(p => p.GetCustomAttribute<DbColumnAttribute>() != null))
+            if (reader.Read())
             {
-                var value = reader[property.Name];
-                property.SetValue(entityContract, value);
+                record = new T();
+                foreach (var property in typeof(T).GetProperties().Where(p => p.GetCustomAttribute<DbColumnAttribute>() != null))
+                {
+                    var value = reader[property.Name];
+                    property.SetValue(record, value);
+                }
             }
+
+            return record;
         }
         #endregion
     }

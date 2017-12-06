@@ -75,27 +75,22 @@ namespace BOA.Data
         /// <summary>
         ///     Inserts the specified entity contract.
         /// </summary>
-        /// <param name="entityContract">The entity contract.</param>
-        void Insert(object entityContract);
+        int Insert(object entityContract);
 
         /// <summary>
         ///     Deletes the specified entity contract.
         /// </summary>
-        /// <param name="entityContract">The entity contract.</param>
-        void Delete(object entityContract);
+        int Delete(object entityContract);
 
         /// <summary>
         ///     Updates the specified entity contract.
         /// </summary>
-        /// <param name="entityContract">The entity contract.</param>
-        void Update(object entityContract);
+        int Update(object entityContract);
 
         /// <summary>
-        ///     Selects the specified entity contract with given entity contract primary columns
+        ///     Returns the specified entity contract with given entityContract
         /// </summary>
-        /// <param name="entityContract">The entity contract.</param>
-        /// <returns></returns>
-        void SelectEntity(object entityContract);
+        T SelectEntity<T>(T entityContract) where T : new();
         #endregion
     }
 }
