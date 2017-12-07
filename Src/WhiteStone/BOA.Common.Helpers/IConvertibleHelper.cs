@@ -2,24 +2,17 @@
 using System.Globalization;
 using System.Threading;
 
-namespace WhiteStone.Helpers
+namespace BOA.Common.Helpers
 {
     /// <summary>
     ///     Utility methods for primitive values casting operations.
     /// </summary>
-    public static class IConvertibleUtility
+    public static class IConvertibleHelper
     {
+        #region Public Methods
         /// <summary>
-        ///     <para>Casts given value to 'TTargetType'</para>
-        ///     <para>if value is null or empty then returns <code>default(TTargetType)</code></para>
-        ///     <para><code>TTargetType</code> can be <code>Nullable</code> type.</para>
+        ///     To the specified provider.
         /// </summary>
-        /// <typeparam name="TTargetType">Target type</typeparam>
-        /// <param name="value">
-        ///     An object that implements the <see cref="System.IConvertible" /> interface. Can be nullable value
-        ///     or enum value
-        /// </param>
-        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
         public static TTargetType To<TTargetType>(this IConvertible value, IFormatProvider provider)
         {
             if (value == null)
@@ -27,7 +20,7 @@ namespace WhiteStone.Helpers
                 return default(TTargetType);
             }
 
-            if (typeof (TTargetType) != typeof (string))
+            if (typeof(TTargetType) != typeof(string))
             {
                 var valueAsString = value as string;
                 if (valueAsString != null && string.IsNullOrWhiteSpace(valueAsString))
@@ -41,7 +34,7 @@ namespace WhiteStone.Helpers
                 return (TTargetType) value;
             }
 
-            var typeFromHandle = typeof (TTargetType);
+            var typeFromHandle = typeof(TTargetType);
 
             var underlyingType = Nullable.GetUnderlyingType(typeFromHandle);
 
@@ -59,18 +52,18 @@ namespace WhiteStone.Helpers
         }
 
         /// <summary>
-        ///     <para>Casts given value to 'TTargetType'</para>
-        ///     <para>if value is null or empty then returns <code>default(TTargetType)</code></para>
-        ///     <para><code>TTargetType</code> can be <code>Nullable</code> type.</para>
-        ///     <para>Uses <code>CultureInfo.InvariantCulture</code></para>
+        ///     To the specified value.
         /// </summary>
-        /// <typeparam name="TTargetType"></typeparam>
-        /// <param name="value">An object that implements the <see cref="System.IConvertible" /> interface. </param>
         public static TTargetType To<TTargetType>(this IConvertible value)
         {
             return To<TTargetType>(value, CultureInfo.InvariantCulture);
         }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        ///     Does the casting.
+        /// </summary>
         static TargetType DoCasting<TargetType>(object value)
         {
             try
@@ -79,9 +72,10 @@ namespace WhiteStone.Helpers
             }
             catch (Exception ex)
             {
-                var message = string.Format(Thread.CurrentThread.CurrentCulture, "'{0}' not casted to '{1}' .Exception:'{2}'", value, typeof (TargetType), ex.Message);
+                var message = string.Format(Thread.CurrentThread.CurrentCulture, "'{0}' not casted to '{1}' .Exception:'{2}'", value, typeof(TargetType), ex.Message);
                 throw new InvalidCastException(message);
             }
         }
+        #endregion
     }
 }

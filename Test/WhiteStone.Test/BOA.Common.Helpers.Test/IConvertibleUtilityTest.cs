@@ -1,30 +1,31 @@
 ﻿using System;
-using WhiteStone.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace WhiteStone.Test
+namespace BOA.Common.Helpers.Test
 {
     [TestClass]
     public class IConvertibleUtilityTest
     {
+        #region Enums
         public enum MyEnum
-        {
-            A=5,
-            B,
-            C
-        }
-        public enum MyEnum2:byte
         {
             A = 5,
             B,
             C
         }
 
+        public enum MyEnum2 : byte
+        {
+            A = 5,
+            B,
+            C
+        }
+        #endregion
 
+        #region Public Methods
         [TestMethod]
         public void To_Operation_Tests()
         {
-           
             Assert.IsTrue("65".To<int?>() == 65);
             Assert.IsTrue("65".To<int>() == 65);
             Assert.IsTrue(DBNull.Value.To<int?>() == null);
@@ -45,12 +46,11 @@ namespace WhiteStone.Test
             Assert.IsTrue("65 ".To<int?>() == 65);
             Assert.IsTrue(" 65 ".To<int?>() == 65);
 
-
             Assert.IsTrue(((short?) null).To<int?>() == null);
             Assert.IsTrue(((short?) null).To<int>() == 0);
 
             var a = MyEnum.A;
-            Assert.AreEqual(a.To<int>() ,5);
+            Assert.AreEqual(a.To<int>(), 5);
 
             a = MyEnum.C;
             Assert.AreEqual(a.To<short>(), 7);
@@ -72,7 +72,7 @@ namespace WhiteStone.Test
             Assert.IsTrue(nullableInt.To<short?>() == nullableInt);
 
             Assert.IsTrue(nullableInt.To<string>() == null);
-
         }
+        #endregion
     }
 }

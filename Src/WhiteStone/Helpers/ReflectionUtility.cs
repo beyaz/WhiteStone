@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using BOA.Common.Helpers;
 using WhiteStone.Common;
 
 namespace WhiteStone.Helpers

@@ -49,13 +49,13 @@
     <Compile Include="BOA.Common.Helpers.Test\TraceFileHelperTest.cs" />
     <Compile Include="BagTest.cs" />
     <Compile Include="BOA.Common.Helpers.Test\XmlHelperTest.cs" />
-    <Compile Include="CastingTest.cs" />
+    <Compile Include="BOA.Common.Helpers.Test\CastingTest.cs" />
     <Compile Include="Configuration\PropertyFileTest.cs" />
     <Compile Include="BOA.Data.Tests\SqlGeneratorTest.cs" />
     <Compile Include="Helpers\ExpressionUtilityTest.cs" />
     <Compile Include="BOA.Common.Helpers.Test\RandomValueTest.cs" />
     <Compile Include="Helpers\ReflectionUtilityTest.cs" />
-    <Compile Include="IConvertibleUtilityTest.cs" />
+    <Compile Include="BOA.Common.Helpers.Test\IConvertibleUtilityTest.cs" />
     <Compile Include="Jaml\BuilderTest.cs" />
     <Compile Include="ListUtilityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

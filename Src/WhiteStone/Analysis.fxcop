@@ -19,6 +19,7 @@
   <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
   <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
   <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
+  <TargetFrameworkVersion>0.0</TargetFrameworkVersion>
  </ProjectOptions>
  <Targets>
   <Target Name="D:\github\WhiteStone\Src\WhiteStone\bin\Debug\WhiteStone.dll" Analyze="True" AnalyzeAllChildren="True" />
@@ -136,12 +137,12 @@
  </Rules>
  <FxCopReport Version="10.0">
   <Namespaces>
-   <Namespace Name="WhiteStone.Data.MvcWpf">
+   <Namespace Name="BOA.Data.MvcWpf">
     <Messages>
-     <Message Id="Mvc" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z">
+     <Message Id="Mvc" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-12-07 13:41:53Z">
       <Issue Name="Namespace">
        <Item>Mvc</Item>
-       <Item>WhiteStone.Data.MvcWpf</Item>
+       <Item>BOA.Data.MvcWpf</Item>
       </Issue>
      </Message>
     </Messages>
@@ -174,6 +175,40 @@
       <Namespaces>
        <Namespace Name="BOA.Common.Helpers">
         <Types>
+         <Type Name="ExpressionUtility">
+          <Members>
+           <Member Name="#AccessPathOf`2(!!0,System.Linq.Expressions.Expression`1&lt;System.Func`2&lt;!!0,!!1&gt;&gt;)">
+            <Messages>
+             <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Status="Excluded" Created="2017-12-07 13:41:53Z">
+              <Issue>
+               <Item>'propertyAccessor'</Item>
+               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
+               <Item>'Expression&lt;Func&lt;T, TT&gt;&gt;'</Item>
+               <Item>'LambdaExpression'</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotNestGenericTypesInMemberSignatures" Category="Microsoft.Design" CheckId="CA1006" Status="Excluded" Created="2017-12-07 13:41:53Z">
+              <Issue>
+               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
+               <Item>'Expression&lt;Func&lt;T, TT&gt;&gt;'</Item>
+              </Issue>
+             </Message>
+             <Message Id="T" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-12-07 13:41:53Z" FixCategory="NonBreaking">
+              <Issue Name="MethodTypeParameterMoreMeaningfulName">
+               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
+               <Item>'TT'</Item>
+              </Issue>
+             </Message>
+             <Message Id="obj" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Excluded" Created="2017-12-07 13:41:53Z" FixCategory="DependsOnFix">
+              <Issue>
+               <Item>'obj'</Item>
+               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
          <Type Name="RandomValue">
           <Members>
            <Member Name="#List`1(System.Nullable`1&lt;System.Int32&gt;)">
@@ -200,44 +235,6 @@
               <Issue>
                <Item>'TraceHandlerForSpecificFile.Write(string)'</Item>
                <Item>'object'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-        </Types>
-       </Namespace>
-       <Namespace Name="WhiteStone.Helpers">
-        <Types>
-         <Type Name="ExpressionUtility">
-          <Members>
-           <Member Name="#AccessPathOf`2(!!0,System.Linq.Expressions.Expression`1&lt;System.Func`2&lt;!!0,!!1&gt;&gt;)">
-            <Messages>
-             <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Status="Excluded" Created="2017-07-26 06:26:13Z">
-              <Issue>
-               <Item>'propertyAccessor'</Item>
-               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
-               <Item>'Expression&lt;Func&lt;T, TT&gt;&gt;'</Item>
-               <Item>'LambdaExpression'</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="DoNotNestGenericTypesInMemberSignatures" Category="Microsoft.Design" CheckId="CA1006" Status="Excluded" Created="2017-07-26 06:26:13Z">
-              <Issue>
-               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
-               <Item>'Expression&lt;Func&lt;T, TT&gt;&gt;'</Item>
-              </Issue>
-             </Message>
-             <Message Id="T" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2017-07-26 06:26:13Z" FixCategory="NonBreaking">
-              <Issue Name="MethodTypeParameterMoreMeaningfulName">
-               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
-               <Item>'TT'</Item>
-              </Issue>
-             </Message>
-             <Message Id="obj" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Excluded" Created="2017-07-26 06:26:13Z" FixCategory="DependsOnFix">
-              <Issue>
-               <Item>'obj'</Item>
-               <Item>'ExpressionUtility.AccessPathOf&lt;T, TT&gt;(this T, Expression&lt;Func&lt;T, TT&gt;&gt;)'</Item>
               </Issue>
              </Message>
             </Messages>

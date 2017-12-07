@@ -76,7 +76,7 @@
     <Compile Include="BOA.Common\Bag.cs" />
     <Compile Include="BOA.Common\CacheManager.cs" />
     <Compile Include="BOA.UI.Common\Tracer.cs" />
-    <Compile Include="Common\Cast.cs" />
+    <Compile Include="BOA.Common.Helpers\Cast.cs" />
     <Compile Include="Common\ContractBase.cs" />
     <Compile Include="Data\MvcWpf\IModel.cs" />
     <Compile Include="BOA.Common.Helpers\ExpressionUtility.cs" />
@@ -95,7 +95,7 @@
     <Compile Include="Data\SqlDatabase.cs" />
     <Compile Include="Data\SqlGenerator.cs" />
     <Compile Include="Services\FileService.cs" />
-    <Compile Include="Helpers\IConvertibleUtility.cs" />
+    <Compile Include="BOA.Common.Helpers\IConvertibleHelper.cs" />
     <Compile Include="Helpers\IEnumerableExtension.cs" />
     <Compile Include="Helpers\INotifyPropertyChangedHelper.cs" />
     <Compile Include="Helpers\ReflectionUtility.AssemblyResolver.cs" />
