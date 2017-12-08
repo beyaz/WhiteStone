@@ -164,9 +164,9 @@ namespace BOA.Data
             return c;
         }
 
-        SqlGenerator GetGenerator()
+        DmlSqlGenerator GetGenerator()
         {
-            return new SqlGenerator
+            return new DmlSqlGenerator
             {
                 ParameterPrefix = ParameterPrefix,
                 CreateDbDataParameter = CreateParameter
@@ -252,17 +252,24 @@ namespace BOA.Data
         #endregion
 
         #region DML
+
+        void PrepareCommand(DmlSqlGeneratorOutput input)
+        {
+            CommandText = input.GenratedSql;
+            CommandIsStoredProcedure = false;
+
+            foreach (var parameter in input.GeneratedParameters)
+            {
+                _command.Parameters.Add(parameter);
+            }
+        }
         /// <summary>
         ///     Inserts the specified entity contract.
         /// </summary>
         public int Insert(object entityContract)
         {
-            var result = GetGenerator().GenerateInsertStatementFromEntityContract(entityContract);
+            PrepareCommand(GetGenerator().GenerateInsertStatementFromEntityContract(entityContract));
 
-            foreach (var parameter in result.GeneratedParameters)
-            {
-                _command.Parameters.Add(parameter);
-            }
 
             return ExecuteNonQuery();
         }
@@ -272,12 +279,8 @@ namespace BOA.Data
         /// </summary>
         public int Delete(object entityContract)
         {
-            var result = GetGenerator().GenerateDeleteStatementFromEntityContract(entityContract);
-
-            foreach (var parameter in result.GeneratedParameters)
-            {
-                _command.Parameters.Add(parameter);
-            }
+            PrepareCommand(GetGenerator().GenerateDeleteStatementFromEntityContract(entityContract));
+            
 
             return ExecuteNonQuery();
         }
@@ -287,13 +290,8 @@ namespace BOA.Data
         /// </summary>
         public int Update(object entityContract)
         {
-            var result = GetGenerator().GenerateUpdateStatementFromEntityContract(entityContract);
-
-            foreach (var parameter in result.GeneratedParameters)
-            {
-                _command.Parameters.Add(parameter);
-            }
-
+            PrepareCommand(GetGenerator().GenerateUpdateStatementFromEntityContract(entityContract));
+            
             return ExecuteNonQuery();
         }
 
@@ -302,12 +300,7 @@ namespace BOA.Data
         /// </summary>
         public T SelectEntity<T>(T entityContract) where T : new()
         {
-            var result = GetGenerator().GenerateSelectStatementFromEntityContract(entityContract);
-
-            foreach (var parameter in result.GeneratedParameters)
-            {
-                _command.Parameters.Add(parameter);
-            }
+            PrepareCommand(GetGenerator().GenerateSelectStatementFromEntityContract(entityContract));
 
             var record = default(T);
             var reader = ExecuteReader();

@@ -78,6 +78,7 @@
     <Compile Include="BOA.UI.Common\Tracer.cs" />
     <Compile Include="BOA.Common.Helpers\Cast.cs" />
     <Compile Include="Common\ContractBase.cs" />
+    <Compile Include="Data\DmlSqlGeneratorOutput.cs" />
     <Compile Include="Data\MvcWpf\IModel.cs" />
     <Compile Include="BOA.Common.Helpers\ExpressionUtility.cs" />
     <Compile Include="BOA.Common.Helpers\RandomValue.cs" />
@@ -93,12 +94,12 @@
     <Compile Include="Data\MySql\MySqlDatabase.cs" />
     <Compile Include="Data\Oracle\OracleDatabase.cs" />
     <Compile Include="Data\SqlDatabase.cs" />
-    <Compile Include="Data\SqlGenerator.cs" />
+    <Compile Include="Data\DmlSqlGenerator.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="BOA.Common.Helpers\IConvertibleHelper.cs" />
     <Compile Include="Helpers\IEnumerableExtension.cs" />
     <Compile Include="Helpers\INotifyPropertyChangedHelper.cs" />
-    <Compile Include="Helpers\ReflectionUtility.AssemblyResolver.cs" />
+    <Compile Include="BOA.Common.Helpers\ReflectionUtility.AssemblyResolver.cs" />
     <Compile Include="Jaml\All.cs" />
     <Compile Include="Jaml\Extensions.cs" />
     <Compile Include="Mvc\All.cs" />
@@ -112,7 +113,7 @@
     <Compile Include="Communication\RequestBase.cs" />
     <Compile Include="Communication\ResponseBase.cs" />
     <Compile Include="Helpers\GlobalizationUtility.cs" />
-    <Compile Include="Helpers\ReflectionUtility.cs" />
+    <Compile Include="BOA.Common.Helpers\ReflectionHelper.cs" />
     <Compile Include="Data\IDatabase.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Helpers\DataReaderUtility.cs" />

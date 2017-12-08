@@ -9,16 +9,15 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using BOA.Common.Helpers;
-using WhiteStone.Common;
 
-namespace WhiteStone.Helpers
+namespace BOA.Common.Helpers
 {
     /// <summary>
     ///     Utility methods for reflection operations.
     /// </summary>
-    public static partial class ReflectionUtility
+    public static partial class ReflectionHelper
     {
+        #region Public Properties
         /// <summary>
         ///     BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
         ///     BindingFlags.Static
@@ -26,6 +25,37 @@ namespace WhiteStone.Helpers
         public static BindingFlags AllBindings
         {
             get { return BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static; }
+        }
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        ///     Perform a deep Copy of the object.
+        /// </summary>
+        /// <typeparam name="T">The type of object being copied.</typeparam>
+        /// <param name="source">The object instance to copy.</param>
+        /// <returns>The copied object.</returns>
+        public static T Clone<T>(this T source)
+        {
+            if (!typeof(T).IsSerializable)
+            {
+                throw new ArgumentException("The type must be serializable.", nameof(source));
+            }
+
+            // Don't serialize a null object, simply return the default for that object
+            if (ReferenceEquals(source, null))
+            {
+                return default(T);
+            }
+
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new MemoryStream();
+            using (stream)
+            {
+                formatter.Serialize(stream, source);
+                stream.Seek(0, SeekOrigin.Begin);
+                return (T) formatter.Deserialize(stream);
+            }
         }
 
         /// <summary>
@@ -60,6 +90,47 @@ namespace WhiteStone.Helpers
             }
 
             return destination;
+        }
+
+        /// <summary>
+        ///     Exports <paramref name="instance" /> to c# code initialization
+        /// </summary>
+        public static string ExportObjectToCSharpCode(object instance)
+        {
+            return new ObjectToCSharpCodeExporter().Export(instance);
+        }
+
+        /// <summary>
+        ///     Gets default value of <paramref name="type" />
+        /// </summary>
+        public static object GetDefaultValue(this Type type)
+        {
+            if (type.IsValueType && Nullable.GetUnderlyingType(type) == null)
+            {
+                return Activator.CreateInstance(type);
+            }
+            return null;
+        }
+
+        /// <summary>
+        ///     Reads embeded resource as string.
+        /// </summary>
+        public static string ReadEmbeddedResourceAsString(this Assembly assembly, string resourceNameLike)
+        {
+            var resourceName = assembly.GetManifestResourceNames().First(x => x.Contains(resourceNameLike));
+
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            {
+                if (stream != null)
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        return reader.ReadToEnd();
+                    }
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -175,38 +246,85 @@ namespace WhiteStone.Helpers
             targetProperty.SetValue(instance, value, null);
             return true;
         }
-
-        /// <summary>
-        ///     Gets default value of <paramref name="type" />
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static object GetDefaultValue(this Type type)
-        {
-            if (type.IsValueType && Nullable.GetUnderlyingType(type) == null)
-            {
-                return Activator.CreateInstance(type);
-            }
-            return null;
-        }
-
-        
-
-        /// <summary>
-        ///     Exports <paramref name="instance" /> to c# code initialization
-        /// </summary>
-        public static string ExportObjectToCSharpCode(object instance)
-        {
-            return new ObjectToCSharpCodeExporter().Export(instance);
-        }
+        #endregion
 
         class ObjectToCSharpCodeExporter
         {
-            int _currentPadding;
+            #region Static Fields
+            static readonly CultureInfo EnglishCulture = new CultureInfo("en-US");
+            #endregion
+
+            #region Fields
             readonly int _padding = 4;
             readonly StringBuilder _sb = new StringBuilder();
+            int _currentPadding;
+            #endregion
 
-            static readonly CultureInfo EnglishCulture = new CultureInfo("en-US");
+            #region Methods
+            internal string Export(object obj)
+            {
+                Write(obj);
+
+                return _sb.ToString();
+            }
+
+            /// <summary>
+            ///     Gets default value of <paramref name="type" />
+            /// </summary>
+            static object GetDefaultValueFromType(Type type)
+            {
+                if (type.IsValueType && Nullable.GetUnderlyingType(type) == null)
+                {
+                    return Activator.CreateInstance(type);
+                }
+                return null;
+            }
+
+            /// <summary>
+            ///     Return true if given <paramref name="value" /> is instanceOf <paramref name="targetType" />
+            /// </summary>
+            static bool IsInstanceofGeneric(Type targetType, object value)
+            {
+                if (value == null)
+                {
+                    return false;
+                }
+
+                var oType = value.GetType();
+
+                if (oType.IsGenericType && oType.GetGenericTypeDefinition() == targetType)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            void Append(string value)
+            {
+                WritePadding();
+                _sb.Append(value);
+            }
+
+            void AppendLine(string value = "")
+            {
+                WritePadding();
+                _sb.AppendLine(value);
+            }
+
+            void AppendNoPadding(string value)
+            {
+                _sb.Append(value);
+            }
+
+            void PaddingBack()
+            {
+                _currentPadding -= _padding;
+            }
+
+            void PaddingNext()
+            {
+                _currentPadding += _padding;
+            }
 
             void Write(object obj)
             {
@@ -270,7 +388,7 @@ namespace WhiteStone.Helpers
                 if (obj is DateTime)
                 {
                     var date = (DateTime) obj;
-                    AppendNoPadding(string.Format(EnglishCulture,"new System.DateTime({0},{1},{2},{3},{4},{5},{6})", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond));
+                    AppendNoPadding(string.Format(EnglishCulture, "new System.DateTime({0},{1},{2},{3},{4},{5},{6})", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond));
                     return;
                 }
 
@@ -440,41 +558,6 @@ namespace WhiteStone.Helpers
                 Append("}");
             }
 
-            void PaddingNext()
-            {
-                _currentPadding += _padding;
-            }
-
-            void PaddingBack()
-            {
-                _currentPadding -= _padding;
-            }
-
-            void Append(string value)
-            {
-                WritePadding();
-                _sb.Append(value);
-            }
-
-            /// <summary>
-            ///     Return true if given <paramref name="value" /> is instanceOf <paramref name="targetType" />
-            /// </summary>
-            static bool IsInstanceofGeneric(Type targetType, object value)
-            {
-                if (value == null)
-                {
-                    return false;
-                }
-
-                var oType = value.GetType();
-
-                if (oType.IsGenericType && oType.GetGenericTypeDefinition() == targetType)
-                {
-                    return true;
-                }
-                return false;
-            }
-
             void WritePadding()
             {
                 if (_currentPadding > 0)
@@ -482,86 +565,7 @@ namespace WhiteStone.Helpers
                     _sb.Append("".PadRight(_currentPadding, ' '));
                 }
             }
-
-            void AppendNoPadding(string value)
-            {
-                _sb.Append(value);
-            }
-
-            void AppendLine(string value = "")
-            {
-                WritePadding();
-                _sb.AppendLine(value);
-            }
-
-            internal string Export(object obj)
-            {
-                Write(obj);
-
-                return _sb.ToString();
-            }
-
-            /// <summary>
-            ///     Gets default value of <paramref name="type" />
-            /// </summary>
-            static object GetDefaultValueFromType(Type type)
-            {
-                if (type.IsValueType && Nullable.GetUnderlyingType(type) == null)
-                {
-                    return Activator.CreateInstance(type);
-                }
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///     Perform a deep Copy of the object.
-        /// </summary>
-        /// <typeparam name="T">The type of object being copied.</typeparam>
-        /// <param name="source">The object instance to copy.</param>
-        /// <returns>The copied object.</returns>
-        public static T Clone<T>(this T source)
-        {
-            if (!typeof(T).IsSerializable)
-            {
-                throw new ArgumentException("The type must be serializable.", nameof(source));
-            }
-
-            // Don't serialize a null object, simply return the default for that object
-            if (ReferenceEquals(source, null))
-            {
-                return default(T);
-            }
-
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new MemoryStream();
-            using (stream)
-            {
-                formatter.Serialize(stream, source);
-                stream.Seek(0, SeekOrigin.Begin);
-                return (T) formatter.Deserialize(stream);
-            }
-        }
-
-        /// <summary>
-        ///     Reads embeded resource as string.
-        /// </summary>
-        public static string ReadEmbeddedResourceAsString(this Assembly assembly, string resourceNameLike)
-        {
-            var resourceName = assembly.GetManifestResourceNames().First(x => x.Contains(resourceNameLike));
-
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
-            {
-                if (stream != null)
-                {
-                    using (var reader = new StreamReader(stream))
-                    {
-                        return reader.ReadToEnd();
-                    }
-                }
-            }
-
-            return null;
+            #endregion
         }
     }
 }

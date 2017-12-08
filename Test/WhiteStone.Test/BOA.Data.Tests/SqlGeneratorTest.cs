@@ -37,7 +37,7 @@ namespace BOA.Data.Tests
         public void GenerateInsertStatementFromEntityContract()
         {
             // ARRANGE
-            var generator = new SqlGenerator();
+            var generator = new DmlSqlGenerator();
             var contract = new SqlGeneratorTestClass1
             {
                 P1 = "A",
@@ -77,7 +77,7 @@ namespace BOA.Data.Tests
         public void GenerateSelectStatementFromEntityContract()
         {
             // ARRANGE
-            var generator = new SqlGenerator();
+            var generator = new DmlSqlGenerator();
             var contract = new SqlGeneratorTestClass1
             {
                 P1 = "A",
@@ -109,7 +109,7 @@ namespace BOA.Data.Tests
         public void GenerateDeleteStatementFromEntityContract()
         {
             // ARRANGE
-            var generator = new SqlGenerator();
+            var generator = new DmlSqlGenerator();
             var contract = new SqlGeneratorTestClass1
             {
                 P1 = "A",
@@ -141,7 +141,7 @@ namespace BOA.Data.Tests
         public void GenerateUpdateStatementFromEntityContract()
         {
             // ARRANGE
-            var generator = new SqlGenerator();
+            var generator = new DmlSqlGenerator();
             var contract = new SqlGeneratorTestClass1
             {
                 P1 = "A",

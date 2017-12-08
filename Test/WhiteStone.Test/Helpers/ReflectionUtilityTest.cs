@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BOA.Common.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhiteStone.Common;
 using WhiteStone.Helpers;

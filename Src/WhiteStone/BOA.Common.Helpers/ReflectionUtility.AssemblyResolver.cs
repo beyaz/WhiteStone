@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 
-namespace WhiteStone.Helpers
+namespace BOA.Common.Helpers
 {
-    static partial class ReflectionUtility
+    static partial class ReflectionHelper
     {
         /// <summary>
         ///     Creates the assembly resolve handler.

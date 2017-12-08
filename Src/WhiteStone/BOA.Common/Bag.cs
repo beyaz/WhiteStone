@@ -124,11 +124,6 @@ namespace System
         /// <summary>
         ///     Determines whether this instance is numeric.
         /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>
-        ///     <c>true</c> if the specified value is numeric; otherwise, <c>false</c>.
-        /// </returns>
-        /// <exception cref="System.ArgumentException"></exception>
         public static bool IsNumeric(this object value)
         {
             if (ReferenceEquals(value, null))
@@ -151,7 +146,36 @@ namespace System
                 return true;
             }
 
-            throw new ArgumentException(value.ToString());
+            return false;
+        }
+
+        /// <summary>
+        ///     Determines whether this instance is numeric.
+        /// </summary>
+        public static bool IsNumeric(this Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+            
+
+            if (type == typeof( byte) ||
+                type == typeof( sbyte) ||
+                type == typeof( ushort) ||
+                type == typeof( uint) ||
+                type == typeof( ulong) ||
+                type == typeof( short) ||
+                type == typeof( int) ||
+                type == typeof( long) ||
+                type == typeof( decimal) ||
+                type == typeof( double) ||
+                type == typeof( float))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading;
 
 namespace BOA.Common.Helpers
 {
@@ -11,26 +10,35 @@ namespace BOA.Common.Helpers
     {
         #region Public Methods
         /// <summary>
-        ///     Casts value to 'TTargetType'
+        ///     To the specified value.
         /// </summary>
-        public static TTargetType To<TTargetType>(object value, IFormatProvider provider)
+        public static object To(object value, Type targetType, IFormatProvider provider)
         {
-            if (value is TTargetType)
+            if (value == null)
             {
-                return (TTargetType) value;
+                return targetType.GetDefaultValue();
+            }
+
+            if (value.GetType().IsAssignableFrom(targetType))
+            {
+                return value;
             }
 
             var convertible = value as IConvertible;
             if (convertible != null)
             {
-                return convertible.To<TTargetType>(provider);
+                return convertible.ConvertTo(targetType, provider);
             }
 
-            if (value == null)
-            {
-                return default(TTargetType);
-            }
-            return DoCasting<TTargetType>(value);
+            throw new InvalidCastException("@value:" + value + "not convertible to " + targetType.FullName);
+        }
+
+        /// <summary>
+        ///     Casts value to 'TTargetType'
+        /// </summary>
+        public static TTargetType To<TTargetType>(object value, IFormatProvider provider)
+        {
+            return (TTargetType) To(value, typeof(TTargetType), provider);
         }
 
         /// <summary>
@@ -39,24 +47,6 @@ namespace BOA.Common.Helpers
         public static TTargetType To<TTargetType>(object value)
         {
             return To<TTargetType>(value, CultureInfo.InvariantCulture);
-        }
-        #endregion
-
-        #region Methods
-        /// <summary>
-        ///     Does the casting.
-        /// </summary>
-        static TargetType DoCasting<TargetType>(object value)
-        {
-            try
-            {
-                return (TargetType) value;
-            }
-            catch (Exception ex)
-            {
-                var message = string.Format(Thread.CurrentThread.CurrentCulture, "'{0}' not casted to '{1}' .Exception:'{2}'", value, typeof(TargetType), ex.Message);
-                throw new InvalidCastException(message);
-            }
         }
         #endregion
     }

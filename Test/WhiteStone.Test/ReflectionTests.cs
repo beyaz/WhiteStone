@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using BOA.Common.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhiteStone.Helpers;
 
@@ -36,7 +37,7 @@ namespace WhiteStone.Test
 
         string ExportObjectToCSharpCode(object obj)
         {
-            var str = ReflectionUtility.ExportObjectToCSharpCode(obj);
+            var str = ReflectionHelper.ExportObjectToCSharpCode(obj);
             return str.Replace(Environment.NewLine, "").Replace(" ", "");
         }
 

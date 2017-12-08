@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading;
 
 namespace BOA.Common.Helpers
 {
@@ -11,44 +10,51 @@ namespace BOA.Common.Helpers
     {
         #region Public Methods
         /// <summary>
-        ///     To the specified provider.
+        ///     Converts to.
         /// </summary>
-        public static TTargetType To<TTargetType>(this IConvertible value, IFormatProvider provider)
+        public static object ConvertTo(this IConvertible value, Type targetType, IFormatProvider provider)
         {
             if (value == null)
             {
-                return default(TTargetType);
+                return targetType.GetDefaultValue();
             }
 
-            if (typeof(TTargetType) != typeof(string))
+            if (targetType != typeof(string))
             {
                 var valueAsString = value as string;
                 if (valueAsString != null && string.IsNullOrWhiteSpace(valueAsString))
                 {
-                    return default(TTargetType);
+                    return targetType.GetDefaultValue();
                 }
             }
 
-            if (value is TTargetType)
+            if (value.GetTypeCode() == Type.GetTypeCode(targetType) ||
+                value.GetType().IsAssignableFrom(targetType))
             {
-                return (TTargetType) value;
+                return value;
             }
 
-            var typeFromHandle = typeof(TTargetType);
-
-            var underlyingType = Nullable.GetUnderlyingType(typeFromHandle);
+            var underlyingType = Nullable.GetUnderlyingType(targetType);
 
             if (underlyingType != null)
             {
                 if (DBNull.Value.Equals(value))
                 {
-                    return default(TTargetType);
+                    return targetType.GetDefaultValue();
                 }
 
-                typeFromHandle = underlyingType;
+                targetType = underlyingType;
             }
 
-            return DoCasting<TTargetType>(Convert.ChangeType(value, typeFromHandle, provider));
+            return Convert.ChangeType(value, targetType, provider);
+        }
+
+        /// <summary>
+        ///     To the specified provider.
+        /// </summary>
+        public static TTargetType To<TTargetType>(this IConvertible value, IFormatProvider provider)
+        {
+            return DoCasting<TTargetType>(ConvertTo(value, typeof(TTargetType), provider));
         }
 
         /// <summary>
@@ -72,7 +78,7 @@ namespace BOA.Common.Helpers
             }
             catch (Exception ex)
             {
-                var message = string.Format(Thread.CurrentThread.CurrentCulture, "'{0}' not casted to '{1}' .Exception:'{2}'", value, typeof(TargetType), ex.Message);
+                var message = string.Format(CultureInfo.CurrentCulture, "'{0}' not casted to '{1}' .Exception:'{2}'", value, typeof(TargetType), ex.Message);
                 throw new InvalidCastException(message);
             }
         }

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
+using BOA.Common.Helpers;
 using WhiteStone.Helpers;
 
 namespace WhiteStone.Services
@@ -35,7 +36,7 @@ namespace WhiteStone.Services
 
             if (instance != null)
             {
-                message += Colon + ReflectionUtility.ExportObjectToCSharpCode(instance);
+                message += Colon + ReflectionHelper.ExportObjectToCSharpCode(instance);
             }
 
             TraceMain(PrepareMessage(message, callerMemberName, callerFilePath, callerLineNumber));
