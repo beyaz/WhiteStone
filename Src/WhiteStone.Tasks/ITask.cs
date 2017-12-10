@@ -13,20 +13,31 @@ namespace WhiteStone.Tasks
         #endregion
     }
 
-    public abstract class TaskBase: ITask
+    public abstract class TaskBase : ITask
     {
+        #region Public Properties
         public IDictionary<string, object> Keys { get; set; }
+        #endregion
 
-        protected string GetKey( string key)
+        #region Public Methods
+        public abstract void Run();
+        #endregion
+
+        #region Methods
+        protected string GetKey(string key)
         {
-            return Keys[key] as string;
+            return GetValueByKey(key) as string;
         }
 
         protected bool? GetKeyAsBoolean(string key)
         {
-            return Keys[key] as bool?;
+            return GetValueByKey(key) as bool?;
         }
 
-        public abstract void Run();
+        object GetValueByKey(string key)
+        {
+            return Keys.TryGetValue(key, null);
+        }
+        #endregion
     }
 }

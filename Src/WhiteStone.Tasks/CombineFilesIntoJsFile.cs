@@ -7,33 +7,26 @@ using WhiteStone.Services;
 
 namespace WhiteStone.Tasks
 {
-    public class CombineFilesIntoJsFile : ITask
+    public class CombineFilesIntoJsFile : TaskBase
     {
-        #region Public Properties
-        public IDictionary<string, object> Keys { get; set; }
-        #endregion
-
         #region Properties
-        string JsObjectPath => Keys[nameof(JsObjectPath)] as string;
-        string Source => Keys[nameof(Source)] as string;
-        string Target => Keys[nameof(Target)] as string;
-
-        bool? ClearXml => Keys[nameof(ClearXml)] as bool?;
+        bool? ClearXml => GetKeyAsBoolean(nameof(ClearXml));
+        string JsObjectPath => GetKey(nameof(JsObjectPath));
+        string Source => GetKey(nameof(Source));
+        string Target => GetKey(nameof(Target));
         #endregion
 
         #region Public Methods
-        public void Run()
+        public override void Run()
         {
             var strings = Source.Split('*');
-
-            
 
             var dir = strings[0];
 
             var pattern = "*" + strings[1];
 
             var dictionary = new Dictionary<string, string>();
-            foreach (var filePath in Directory.GetFileSystemEntries(dir, pattern,SearchOption.AllDirectories))
+            foreach (var filePath in Directory.GetFileSystemEntries(dir, pattern, SearchOption.AllDirectories))
             {
                 var fileContent = File.ReadAllText(filePath);
 
