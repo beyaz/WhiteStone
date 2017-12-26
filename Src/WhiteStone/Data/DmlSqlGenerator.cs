@@ -42,6 +42,11 @@ namespace BOA.Data
         /// </summary>
         public DmlSqlGeneratorOutput GenerateDeleteStatementFromEntityContract(object instance)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             var output = new DmlSqlGeneratorOutput();
             var sb = new StringBuilder();
             var parameters = new List<IDbDataParameter>();
@@ -78,6 +83,11 @@ namespace BOA.Data
         /// </summary>
         public DmlSqlGeneratorOutput GenerateInsertStatementFromEntityContract(object instance)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             var output = new DmlSqlGeneratorOutput();
             var sb = new StringBuilder();
             var parameters = new List<IDbDataParameter>();
@@ -96,7 +106,9 @@ namespace BOA.Data
             sb.Append("]");
             sb.Append(" (");
 
-            foreach (var property in type.GetProperties().Where(p => p.GetCustomAttribute<DbColumnAttribute>() != null))
+            foreach (var property in from p in type.GetProperties()
+                where p.GetCustomAttribute<DbColumnAttribute>() != null && p.GetCustomAttribute<DbIdentityColumnAttribute>() == null
+                select p)
             {
                 parameters.Add(CreateDbDataParameter(property.Name, property.GetValue(instance)));
             }
@@ -119,6 +131,11 @@ namespace BOA.Data
         /// </summary>
         public DmlSqlGeneratorOutput GenerateSelectStatementFromEntityContract(object instance)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             var output = new DmlSqlGeneratorOutput();
             var sb = new StringBuilder();
             var parameters = new List<IDbDataParameter>();
@@ -155,6 +172,11 @@ namespace BOA.Data
         /// </summary>
         public DmlSqlGeneratorOutput GenerateUpdateStatementFromEntityContract(object instance)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             var output = new DmlSqlGeneratorOutput();
             var sb = new StringBuilder();
             var parameters = new List<IDbDataParameter>();
