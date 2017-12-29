@@ -9,10 +9,10 @@ namespace BOA.Data
     /// </summary>
     public class SqlDatabase : Database
     {
+        #region Constructors
         /// <summary>
         ///     Initializes a new instance of the <see cref="SqlDatabase" />
         /// </summary>
-        /// <param name="connectionString"></param>
         public SqlDatabase(string connectionString)
             : base(connectionString)
         {
@@ -21,12 +21,13 @@ namespace BOA.Data
         /// <summary>
         ///     Initializes a new instance of the <see cref="SqlDatabase" />
         /// </summary>
-        /// <param name="connection"></param>
         public SqlDatabase(IDbConnection connection)
             : base(connection)
         {
         }
+        #endregion
 
+        #region Public Properties
         /// <summary>
         ///     Gets prefix of sql parameters.
         /// </summary>
@@ -34,13 +35,12 @@ namespace BOA.Data
         {
             get { return "@"; }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         ///     Initializes new <see cref="SqlParameter" /> instance.
         /// </summary>
-        /// <param name="parameterName"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         protected override IDbDataParameter CreateParameter(string parameterName, object value)
         {
             if (string.IsNullOrWhiteSpace(parameterName))
@@ -50,5 +50,6 @@ namespace BOA.Data
 
             return new SqlParameter(parameterName, value ?? DBNull.Value);
         }
+        #endregion
     }
 }

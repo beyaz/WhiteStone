@@ -7,7 +7,7 @@
     <ProjectGuid>{D699BE0C-9704-4846-83FA-47857CF77034}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WhiteStone</RootNamespace>
+    <RootNamespace>BOA</RootNamespace>
     <AssemblyName>WhiteStone</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
