@@ -13,7 +13,7 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Runs the script.
         /// </summary>
-        public static void RunScript(IDatabase database, string script)
+        public static void RunScript(this IDatabase database, string script)
         {
             foreach (var commandString in SplitScript(script))
             {

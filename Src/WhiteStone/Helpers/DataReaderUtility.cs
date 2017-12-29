@@ -12,11 +12,21 @@ namespace WhiteStone.Helpers
     /// </summary>
     public static class DataReaderUtility
     {
+        #region Public Methods
+        /// <summary>
+        ///     Fors the each row.
+        /// </summary>
+        public static void ForEachRow(this IDataReader dataReader, Action<IDataReader> action)
+        {
+            while (dataReader.Read())
+            {
+                action(dataReader);
+            }
+        }
+
         /// <summary>
         ///     Converts <paramref name="dataReader" /> value to DataTable instance.
         /// </summary>
-        /// <param name="dataReader"></param>
-        /// <returns></returns>
         public static DataTable ToDataTable(this IDataReader dataReader)
         {
             if (dataReader == null)
@@ -39,19 +49,26 @@ namespace WhiteStone.Helpers
         /// <summary>
         ///     Converts <paramref name="dataReader" /> parameter to list of <code>TContract</code>
         /// </summary>
-        /// <param name="dataReader"></param>
-        /// <returns></returns>
         public static IList<TContract> ToList<TContract>(this IDataReader dataReader) where TContract : class, new()
         {
             return ToDataTable(dataReader).ToList<TContract>();
         }
+        #endregion
 
+        /// <summary>
+        ///     The data reader adapter
+        /// </summary>
         internal class DataReaderAdapter : DataAdapter
         {
+            #region Public Methods
+            /// <summary>
+            ///     Fills from reader.
+            /// </summary>
             public void FillFromReader(DataTable dataTable, IDataReader dataReader)
             {
                 Fill(dataTable, dataReader);
             }
+            #endregion
         }
     }
 }
