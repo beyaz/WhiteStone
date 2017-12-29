@@ -1,9 +1,9 @@
-﻿using System;
+﻿using BOA.Data.Attributes;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using BOA.Data.Attributes;
 
 namespace BOA.Data
 {
@@ -17,6 +17,11 @@ namespace BOA.Data
         IDbConnection _connection;
         IDbTransaction _transaction;
         #endregion
+
+
+        public IDbConnection Connection => _connection;
+        public IDbTransaction Transaction => _transaction;
+
 
         #region Public Properties
         #region string CommandText
@@ -70,8 +75,8 @@ namespace BOA.Data
                 }
 
                 return (from IDbDataParameter parameter in _command.Parameters
-                    where parameter.ParameterName == parameterName
-                    select parameter.Value).FirstOrDefault();
+                        where parameter.ParameterName == parameterName
+                        select parameter.Value).FirstOrDefault();
             }
         }
         #endregion
@@ -154,7 +159,7 @@ namespace BOA.Data
             var c = _connection.CreateCommand();
             if (CommandTimeout != null)
             {
-                c.CommandTimeout = (int) CommandTimeout;
+                c.CommandTimeout = (int)CommandTimeout;
             }
             if (_transaction != null)
             {
@@ -280,7 +285,6 @@ namespace BOA.Data
         public int Delete(object entityContract)
         {
             PrepareCommand(GetGenerator().GenerateDeleteStatementFromEntityContract(entityContract));
-            
 
             return ExecuteNonQuery();
         }
@@ -291,7 +295,7 @@ namespace BOA.Data
         public int Update(object entityContract)
         {
             PrepareCommand(GetGenerator().GenerateUpdateStatementFromEntityContract(entityContract));
-            
+
             return ExecuteNonQuery();
         }
 
