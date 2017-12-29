@@ -8,6 +8,13 @@ namespace BOA.DatabaseAccess
     /// </summary>
     public interface IDatabase : IDisposable
     {
+        #region Public Properties
+        /// <summary>
+        ///     Indicates CommandType is StoredProcedure or Text
+        /// </summary>
+        /// <returns></returns>
+        bool CommandIsStoredProcedure { set; get; }
+
         /// <summary>
         ///     Command that will be execute
         /// </summary>
@@ -22,19 +29,33 @@ namespace BOA.DatabaseAccess
         ///     Parameter prefix for sql sentences.
         /// </summary>
         string ParameterPrefix { get; }
+        #endregion
 
+        #region Public Indexers
         /// <summary>
         ///     Adds a parameter to sql command.
         /// </summary>
         /// <param name="parameterName"></param>
         /// <returns></returns>
         object this[string parameterName] { set; get; }
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        ///     Begins database transaction
+        /// </summary>
+        void BeginTransaction();
 
         /// <summary>
-        ///     Indicates CommandType is StoredProcedure or Text
+        ///     Commits transaction
+        /// </summary>
+        void Commit();
+
+        /// <summary>
+        ///     Executes command and returns effected row counts
         /// </summary>
         /// <returns></returns>
-        bool CommandIsStoredProcedure { set; get; }
+        int ExecuteNonQuery();
 
         /// <summary>
         ///     Executes command and returns reader
@@ -49,28 +70,9 @@ namespace BOA.DatabaseAccess
         object ExecuteScalar();
 
         /// <summary>
-        ///     Executes command and returns effected row counts
-        /// </summary>
-        /// <returns></returns>
-        int ExecuteNonQuery();
-
-       
-
-        /// <summary>
-        ///     Begins database transaction
-        /// </summary>
-        void BeginTransaction();
-
-        /// <summary>
-        ///     Commits transaction
-        /// </summary>
-        void Commit();
-
-        /// <summary>
         ///     Rollback transaction
         /// </summary>
         void Rollback();
-
-       
+        #endregion
     }
 }

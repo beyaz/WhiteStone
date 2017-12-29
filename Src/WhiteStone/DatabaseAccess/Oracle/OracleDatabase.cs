@@ -10,6 +10,7 @@ namespace BOA.Data.Oracle
     /// </summary>
     public class OracleDatabase : Database
     {
+        #region Constructors
         /// <summary>
         ///     Initializes a new instance of the <see cref="OracleDatabase" />
         /// </summary>
@@ -27,7 +28,9 @@ namespace BOA.Data.Oracle
             : base(connection)
         {
         }
+        #endregion
 
+        #region Public Properties
         /// <summary>
         ///     Gets prefix of sql parameters.
         /// </summary>
@@ -35,7 +38,9 @@ namespace BOA.Data.Oracle
         {
             get { return ":"; }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         ///     Initializes new <see cref="OracleParameter" /> instance.
         /// </summary>
@@ -51,5 +56,6 @@ namespace BOA.Data.Oracle
 
             return new OracleParameter(parameterName, value ?? DBNull.Value);
         }
+        #endregion
     }
 }

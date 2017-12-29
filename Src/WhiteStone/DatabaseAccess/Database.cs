@@ -2,37 +2,76 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Reflection;
-using BOA.Data;
 
 namespace BOA.DatabaseAccess
 {
     /// <summary>
-    ///     Manager of sql operations
+    ///     The database
     /// </summary>
     public abstract class Database : IDatabase
     {
         #region Fields
+        /// <summary>
+        ///     The command
+        /// </summary>
         IDbCommand _command;
+
+        /// <summary>
+        ///     The connection
+        /// </summary>
         IDbConnection _connection;
+
+        /// <summary>
+        ///     The transaction
+        /// </summary>
         IDbTransaction _transaction;
         #endregion
 
+        #region Constructors
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Database" /> class.
+        /// </summary>
+        protected Database(string connectionString)
+            : this(new SqlConnection(connectionString))
+        {
+        }
 
-        public IDbConnection Connection => _connection;
-        public IDbTransaction Transaction => _transaction;
-
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Database" /> class.
+        /// </summary>
+        protected Database(IDbConnection connection)
+        {
+            OpenConnection(connection);
+        }
+        #endregion
 
         #region Public Properties
-        #region string CommandText
         /// <summary>
-        ///     Gets or sets the text command to run against the data source.
+        ///     Indicates CommandType is StoredProcedure or Text
+        /// </summary>
+        public bool CommandIsStoredProcedure
+        {
+            set
+            {
+                if (value)
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    return;
+                }
+
+                _command.CommandType = CommandType.Text;
+            }
+            get { return _command.CommandType == CommandType.StoredProcedure; }
+        }
+
+        /// <summary>
+        ///     Command that will be execute
         /// </summary>
         public string CommandText
         {
             set
             {
-                _command = CreateCommand();
+                _command             = CreateCommand();
                 _command.CommandText = value;
             }
             get
@@ -41,29 +80,36 @@ namespace BOA.DatabaseAccess
                 {
                     return null;
                 }
+
                 return _command.CommandText;
             }
         }
-        #endregion
 
         /// <summary>
-        ///     The time (in seconds) to wait for the command to execute. The default value 30 seconds in .net
-        ///     <para>  value is null  </para>
+        ///     Command timeout value
         /// </summary>
         public int? CommandTimeout { set; get; }
 
         /// <summary>
-        ///     Gets prefix of sql parameters.
+        ///     Gets the connection.
+        /// </summary>
+        public IDbConnection Connection => _connection;
+
+        /// <summary>
+        ///     Parameter prefix for sql sentences.
         /// </summary>
         public abstract string ParameterPrefix { get; }
+
+        /// <summary>
+        ///     Gets the transaction.
+        /// </summary>
+        public IDbTransaction Transaction => _transaction;
         #endregion
 
         #region Public Indexers
         /// <summary>
-        ///     Adds dataparameter to Command
+        ///     Gets or sets the <see cref="System.Object" /> with the specified parameter name.
         /// </summary>
-        /// <param name="parameterName"></param>
-        /// <returns></returns>
         public object this[string parameterName]
         {
             set { _command.Parameters.Add(CreateParameter(parameterName, value)); }
@@ -83,7 +129,7 @@ namespace BOA.DatabaseAccess
 
         #region Public Methods
         /// <summary>
-        ///     Starts database transaction.
+        ///     Begins database transaction
         /// </summary>
         public void BeginTransaction()
         {
@@ -91,7 +137,7 @@ namespace BOA.DatabaseAccess
         }
 
         /// <summary>
-        ///     Commits database transaction.
+        ///     Commits transaction
         /// </summary>
         public void Commit()
         {
@@ -103,7 +149,7 @@ namespace BOA.DatabaseAccess
         }
 
         /// <summary>
-        ///     if has any transaction then rollback transaction.
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
@@ -112,7 +158,31 @@ namespace BOA.DatabaseAccess
         }
 
         /// <summary>
-        ///     Rollback database transaction.
+        ///     Executes command and returns effected row counts
+        /// </summary>
+        public int ExecuteNonQuery()
+        {
+            return _command.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        ///     Executes command and returns reader
+        /// </summary>
+        public IDataReader ExecuteReader()
+        {
+            return _command.ExecuteReader();
+        }
+
+        /// <summary>
+        ///     Executes commands ands returns command value.
+        /// </summary>
+        public object ExecuteScalar()
+        {
+            return _command.ExecuteScalar();
+        }
+
+        /// <summary>
+        ///     Rollback transaction
         /// </summary>
         public void Rollback()
         {
@@ -127,17 +197,13 @@ namespace BOA.DatabaseAccess
 
         #region Methods
         /// <summary>
-        ///     Initializes new <see cref="IDbDataParameter" /> instance.
+        ///     Creates the parameter.
         /// </summary>
-        /// <param name="parameterName"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         protected abstract IDbDataParameter CreateParameter(string parameterName, object value);
 
         /// <summary>
-        ///     if has any transaction then rollback transaction.
+        ///     Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -146,31 +212,39 @@ namespace BOA.DatabaseAccess
                 {
                     Rollback();
                 }
+
                 if (_connection.State != ConnectionState.Closed)
                 {
                     _connection.Close();
                 }
+
                 _connection.Dispose();
             }
         }
 
+        /// <summary>
+        ///     Creates the command.
+        /// </summary>
         IDbCommand CreateCommand()
         {
             var c = _connection.CreateCommand();
             if (CommandTimeout != null)
             {
-                c.CommandTimeout = (int)CommandTimeout;
+                c.CommandTimeout = (int) CommandTimeout;
             }
+
             if (_transaction != null)
             {
                 c.Transaction = _transaction;
             }
-            c.CommandType = CommandType.Text; // default
+
+            c.CommandType = CommandType.Text;
             return c;
         }
 
-     
-
+        /// <summary>
+        ///     Opens the connection.
+        /// </summary>
         void OpenConnection(IDbConnection connection)
         {
             _connection = connection;
@@ -180,75 +254,5 @@ namespace BOA.DatabaseAccess
             }
         }
         #endregion
-
-        #region Constructor
-        /// <summary>
-        ///     Manager of sql operations
-        /// </summary>
-        protected Database(string connectionString)
-            : this(new SqlConnection(connectionString))
-        {
-        }
-
-        /// <summary>
-        ///     Manager of sql operations
-        /// </summary>
-        protected Database(IDbConnection connection)
-        {
-            OpenConnection(connection);
-        }
-        #endregion
-
-        #region Execution
-        /// <summary>
-        ///     Executes the System.Data.IDbCommand.CommandText against the System.Data.IDbCommand.Connection
-        ///     and builds an System.Data.IDataReader.
-        /// </summary>
-        /// <returns></returns>
-        public IDataReader ExecuteReader()
-        {
-            return _command.ExecuteReader();
-        }
-
-        /// <summary>
-        ///     Executes the query, and returns the first column of the first row in the resultset
-        ///     returned by the query. Extra columns or rows are ignored.
-        /// </summary>
-        /// <returns></returns>
-        public object ExecuteScalar()
-        {
-            return _command.ExecuteScalar();
-        }
-
-        /// <summary>
-        ///     Executes an SQL statement against the Connection object of a .NET Framework data
-        ///     provider, and returns the number of rows affected.
-        /// </summary>
-        public int ExecuteNonQuery()
-        {
-            return _command.ExecuteNonQuery();
-        }
-
-        /// <summary>
-        ///     Indicates CommandType is StoredProcedure or Text
-        /// </summary>
-        /// <returns></returns>
-        public bool CommandIsStoredProcedure
-        {
-            set
-            {
-                if (value)
-                {
-                    _command.CommandType = CommandType.StoredProcedure;
-                    return;
-                }
-
-                _command.CommandType = CommandType.Text;
-            }
-            get { return _command.CommandType == CommandType.StoredProcedure; }
-        }
-        #endregion
-
-        
     }
 }

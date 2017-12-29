@@ -10,6 +10,7 @@ namespace BOA.Data.MySql
     /// </summary>
     public class MySqlDatabase : Database
     {
+        #region Constructors
         /// <summary>
         ///     Initializes a new instance of the <see cref="MySqlDatabase" />
         /// </summary>
@@ -27,7 +28,9 @@ namespace BOA.Data.MySql
             : base(connection)
         {
         }
+        #endregion
 
+        #region Public Properties
         /// <summary>
         ///     Gets prefix of sql parameters.
         /// </summary>
@@ -35,7 +38,9 @@ namespace BOA.Data.MySql
         {
             get { return "@"; }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         ///     Initializes new <see cref="MySqlParameter" /> instance.
         /// </summary>
@@ -51,5 +56,6 @@ namespace BOA.Data.MySql
 
             return new MySqlParameter(parameterName, value ?? DBNull.Value);
         }
+        #endregion
     }
 }
