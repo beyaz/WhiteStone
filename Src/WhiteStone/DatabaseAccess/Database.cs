@@ -1,11 +1,11 @@
-﻿using BOA.Data.Attributes;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using BOA.Data;
 
-namespace BOA.Data
+namespace BOA.DatabaseAccess
 {
     /// <summary>
     ///     Manager of sql operations
@@ -169,14 +169,7 @@ namespace BOA.Data
             return c;
         }
 
-        DmlSqlGenerator GetGenerator()
-        {
-            return new DmlSqlGenerator
-            {
-                ParameterPrefix = ParameterPrefix,
-                CreateDbDataParameter = CreateParameter
-            };
-        }
+     
 
         void OpenConnection(IDbConnection connection)
         {
@@ -256,70 +249,6 @@ namespace BOA.Data
         }
         #endregion
 
-        #region DML
-
-        void PrepareCommand(DmlSqlGeneratorOutput input)
-        {
-            CommandText = input.GenratedSql;
-            CommandIsStoredProcedure = false;
-
-            foreach (var parameter in input.GeneratedParameters)
-            {
-                _command.Parameters.Add(parameter);
-            }
-        }
-        /// <summary>
-        ///     Inserts the specified entity contract.
-        /// </summary>
-        public int Insert(object entityContract)
-        {
-            PrepareCommand(GetGenerator().GenerateInsertStatementFromEntityContract(entityContract));
-
-
-            return ExecuteNonQuery();
-        }
-
-        /// <summary>
-        ///     Deletes the specified entity contract.
-        /// </summary>
-        public int Delete(object entityContract)
-        {
-            PrepareCommand(GetGenerator().GenerateDeleteStatementFromEntityContract(entityContract));
-
-            return ExecuteNonQuery();
-        }
-
-        /// <summary>
-        ///     Updates the specified entity contract.
-        /// </summary>
-        public int Update(object entityContract)
-        {
-            PrepareCommand(GetGenerator().GenerateUpdateStatementFromEntityContract(entityContract));
-
-            return ExecuteNonQuery();
-        }
-
-        /// <summary>
-        ///     Returns the specified entity contract with given entityContract
-        /// </summary>
-        public T SelectEntity<T>(T entityContract) where T : new()
-        {
-            PrepareCommand(GetGenerator().GenerateSelectStatementFromEntityContract(entityContract));
-
-            var record = default(T);
-            var reader = ExecuteReader();
-            if (reader.Read())
-            {
-                record = new T();
-                foreach (var property in typeof(T).GetProperties().Where(p => p.GetCustomAttribute<DbColumnAttribute>() != null))
-                {
-                    var value = reader[property.Name];
-                    property.SetValue(record, value);
-                }
-            }
-
-            return record;
-        }
-        #endregion
+        
     }
 }

@@ -1,32 +1,33 @@
 ﻿using System;
 using System.Data;
-using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 
-namespace BOA.Data.MySql
+namespace BOA.DatabaseAccess
 {
     /// <summary>
     ///     Represents database layer.
     /// </summary>
-    public class MySqlDatabase : Database
+    public class SqlDatabase : Database
     {
+        #region Constructors
         /// <summary>
-        ///     Initializes a new instance of the <see cref="MySqlDatabase" />
+        ///     Initializes a new instance of the <see cref="SqlDatabase" />
         /// </summary>
-        /// <param name="connectionString"></param>
-        public MySqlDatabase(string connectionString)
+        public SqlDatabase(string connectionString)
             : base(connectionString)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="MySqlDatabase" />
+        ///     Initializes a new instance of the <see cref="SqlDatabase" />
         /// </summary>
-        /// <param name="connection"></param>
-        public MySqlDatabase(IDbConnection connection)
+        public SqlDatabase(IDbConnection connection)
             : base(connection)
         {
         }
+        #endregion
 
+        #region Public Properties
         /// <summary>
         ///     Gets prefix of sql parameters.
         /// </summary>
@@ -34,13 +35,12 @@ namespace BOA.Data.MySql
         {
             get { return "@"; }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
-        ///     Initializes new <see cref="MySqlParameter" /> instance.
+        ///     Initializes new <see cref="SqlParameter" /> instance.
         /// </summary>
-        /// <param name="parameterName"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         protected override IDbDataParameter CreateParameter(string parameterName, object value)
         {
             if (string.IsNullOrWhiteSpace(parameterName))
@@ -48,7 +48,8 @@ namespace BOA.Data.MySql
                 throw new ArgumentNullException("parameterName");
             }
 
-            return new MySqlParameter(parameterName, value ?? DBNull.Value);
+            return new SqlParameter(parameterName, value ?? DBNull.Value);
         }
+        #endregion
     }
 }

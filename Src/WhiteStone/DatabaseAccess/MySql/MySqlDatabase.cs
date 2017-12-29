@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Data;
-using Oracle.DataAccess.Client;
+using BOA.DatabaseAccess;
+using MySql.Data.MySqlClient;
 
-namespace BOA.Data.Oracle
+namespace BOA.Data.MySql
 {
     /// <summary>
     ///     Represents database layer.
     /// </summary>
-    public class OracleDatabase : Database
+    public class MySqlDatabase : Database
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="OracleDatabase" />
+        ///     Initializes a new instance of the <see cref="MySqlDatabase" />
         /// </summary>
         /// <param name="connectionString"></param>
-        public OracleDatabase(string connectionString)
+        public MySqlDatabase(string connectionString)
             : base(connectionString)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="OracleDatabase" />
+        ///     Initializes a new instance of the <see cref="MySqlDatabase" />
         /// </summary>
         /// <param name="connection"></param>
-        public OracleDatabase(IDbConnection connection)
+        public MySqlDatabase(IDbConnection connection)
             : base(connection)
         {
         }
@@ -32,11 +33,11 @@ namespace BOA.Data.Oracle
         /// </summary>
         public override string ParameterPrefix
         {
-            get { return ":"; }
+            get { return "@"; }
         }
 
         /// <summary>
-        ///     Initializes new <see cref="OracleParameter" /> instance.
+        ///     Initializes new <see cref="MySqlParameter" /> instance.
         /// </summary>
         /// <param name="parameterName"></param>
         /// <param name="value"></param>
@@ -48,7 +49,7 @@ namespace BOA.Data.Oracle
                 throw new ArgumentNullException("parameterName");
             }
 
-            return new OracleParameter(parameterName, value ?? DBNull.Value);
+            return new MySqlParameter(parameterName, value ?? DBNull.Value);
         }
     }
 }

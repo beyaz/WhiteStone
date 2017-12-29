@@ -1,7 +1,7 @@
 using System;
 using System.Data;
 
-namespace BOA.Data
+namespace BOA.DatabaseAccess
 {
     /// <summary>
     ///     Manager interface of sql operations
@@ -71,26 +71,6 @@ namespace BOA.Data
         /// </summary>
         void Rollback();
 
-        #region DML
-        /// <summary>
-        ///     Inserts the specified entity contract.
-        /// </summary>
-        int Insert(object entityContract);
-
-        /// <summary>
-        ///     Deletes the specified entity contract.
-        /// </summary>
-        int Delete(object entityContract);
-
-        /// <summary>
-        ///     Updates the specified entity contract.
-        /// </summary>
-        int Update(object entityContract);
-
-        /// <summary>
-        ///     Returns the specified entity contract with given entityContract
-        /// </summary>
-        T SelectEntity<T>(T entityContract) where T : new();
-        #endregion
+       
     }
 }

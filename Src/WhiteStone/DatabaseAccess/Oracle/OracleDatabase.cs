@@ -1,46 +1,47 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using BOA.DatabaseAccess;
+using Oracle.DataAccess.Client;
 
-namespace BOA.Data
+namespace BOA.Data.Oracle
 {
     /// <summary>
     ///     Represents database layer.
     /// </summary>
-    public class SqlDatabase : Database
+    public class OracleDatabase : Database
     {
-        #region Constructors
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SqlDatabase" />
+        ///     Initializes a new instance of the <see cref="OracleDatabase" />
         /// </summary>
-        public SqlDatabase(string connectionString)
+        /// <param name="connectionString"></param>
+        public OracleDatabase(string connectionString)
             : base(connectionString)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SqlDatabase" />
+        ///     Initializes a new instance of the <see cref="OracleDatabase" />
         /// </summary>
-        public SqlDatabase(IDbConnection connection)
+        /// <param name="connection"></param>
+        public OracleDatabase(IDbConnection connection)
             : base(connection)
         {
         }
-        #endregion
 
-        #region Public Properties
         /// <summary>
         ///     Gets prefix of sql parameters.
         /// </summary>
         public override string ParameterPrefix
         {
-            get { return "@"; }
+            get { return ":"; }
         }
-        #endregion
 
-        #region Methods
         /// <summary>
-        ///     Initializes new <see cref="SqlParameter" /> instance.
+        ///     Initializes new <see cref="OracleParameter" /> instance.
         /// </summary>
+        /// <param name="parameterName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         protected override IDbDataParameter CreateParameter(string parameterName, object value)
         {
             if (string.IsNullOrWhiteSpace(parameterName))
@@ -48,8 +49,7 @@ namespace BOA.Data
                 throw new ArgumentNullException("parameterName");
             }
 
-            return new SqlParameter(parameterName, value ?? DBNull.Value);
+            return new OracleParameter(parameterName, value ?? DBNull.Value);
         }
-        #endregion
     }
 }
