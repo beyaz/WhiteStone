@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>WhiteStone</id>
-    <version>1.0.0.0</version>
+    <version>1.0.0.3</version>
     <title>WhiteStone</title>
     <authors>Abdullah Beyaztaş</authors>
     <owners>$author$</owners>
@@ -20,7 +20,10 @@
     <tags>
     </tags>
     <dependencies>
-    </dependencies>
+   <group targetFramework="net45">
+      <dependency id="Newtonsoft.Json" version="10.0.3" />
+   </group>
+</dependencies>
   </metadata>
   <files>
     <file src="bin\Debug\WhiteStone.dll" target="lib/net452" />

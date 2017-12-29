@@ -14,3 +14,7 @@
 /Test/WhiteStone.Test/bin/Debug
 /Test/WhiteStone.Test/obj
 /bin
+/Src/bin
+/Src/WhiteStone/bin/
+/Src/WhiteStone.Tasks/bin/
+/Test/WhiteStone.Test/bin/Release
