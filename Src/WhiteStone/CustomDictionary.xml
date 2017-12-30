@@ -5,6 +5,7 @@
 
       
       <Word>IBAN</Word>
+	  <Word>SQLDBLayer</Word>
 
     </Recognized>
 

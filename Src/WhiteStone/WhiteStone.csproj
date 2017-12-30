@@ -81,6 +81,7 @@
     <Compile Include="Common\ContractBase.cs" />
     <Compile Include="DatabaseAccess\IDataRecordHelper.cs" />
     <Compile Include="DatabaseAccess\Extensions.cs" />
+    <Compile Include="DatabaseAccess\SQLDBLayer.cs" />
     <Compile Include="Data\MvcWpf\IModel.cs" />
     <Compile Include="BOA.Common.Helpers\ExpressionUtility.cs" />
     <Compile Include="BOA.Common.Helpers\RandomValue.cs" />
