@@ -19,7 +19,6 @@
   <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
   <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
   <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
-  <TargetFrameworkVersion>0.0</TargetFrameworkVersion>
  </ProjectOptions>
  <Targets>
   <Target Name="D:\github\WhiteStone\Src\WhiteStone\bin\Debug\WhiteStone.dll" Analyze="True" AnalyzeAllChildren="True" />
@@ -225,6 +224,219 @@
          </Type>
         </Types>
        </Namespace>
+       <Namespace Name="BOA.DatabaseAccess">
+        <Types>
+         <Type Name="IDataRecordHelper">
+          <Members>
+           <Member Name="#GetBooleanNullableValue(System.Data.IDataRecord,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToBoolean(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToBoolean(object)'</Item>
+               <Item>'IDataRecordHelper.GetBooleanNullableValue(this IDataRecord, string)'</Item>
+               <Item>'Convert.ToBoolean(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetByteNullableValue(System.Data.IDataRecord,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToByte(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToByte(object)'</Item>
+               <Item>'IDataRecordHelper.GetByteNullableValue(this IDataRecord, string)'</Item>
+               <Item>'Convert.ToByte(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetDateTimeNullableValue(System.Data.IDataRecord,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToDateTime(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToDateTime(object)'</Item>
+               <Item>'IDataRecordHelper.GetDateTimeNullableValue(this IDataRecord, string)'</Item>
+               <Item>'Convert.ToDateTime(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetDecimalNullableValue(System.Data.IDataRecord,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToDecimal(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToDecimal(object)'</Item>
+               <Item>'IDataRecordHelper.GetDecimalNullableValue(this IDataRecord, string)'</Item>
+               <Item>'Convert.ToDecimal(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetDoubleNullableValue(System.Data.IDataRecord,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToDouble(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToDouble(object)'</Item>
+               <Item>'IDataRecordHelper.GetDoubleNullableValue(this IDataRecord, string)'</Item>
+               <Item>'Convert.ToDouble(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetInt16NullableValue(System.Data.IDataRecord,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToInt16(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt16(object)'</Item>
+               <Item>'IDataRecordHelper.GetInt16NullableValue(this IDataRecord, string)'</Item>
+               <Item>'Convert.ToInt16(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetInt32NullableValue(System.Data.IDataRecord,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToInt32(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt32(object)'</Item>
+               <Item>'IDataRecordHelper.GetInt32NullableValue(this IDataRecord, string)'</Item>
+               <Item>'Convert.ToInt32(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetInt64NullableValue(System.Data.IDataRecord,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToInt64(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt64(object)'</Item>
+               <Item>'IDataRecordHelper.GetInt64NullableValue(this IDataRecord, string)'</Item>
+               <Item>'Convert.ToInt64(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetSByteNullableValue(System.Data.IDataRecord,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToSByte(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToSByte(object)'</Item>
+               <Item>'IDataRecordHelper.GetSByteNullableValue(this IDataRecord, string)'</Item>
+               <Item>'Convert.ToSByte(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetSingleNullableValue(System.Data.IDataRecord,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToSingle(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToSingle(object)'</Item>
+               <Item>'IDataRecordHelper.GetSingleNullableValue(this IDataRecord, string)'</Item>
+               <Item>'Convert.ToSingle(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetStringValue(System.Data.IDataRecord,System.String,System.Boolean)">
+            <Messages>
+             <Message Id="System.Convert.ToString(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Excluded" Created="2017-12-30 10:33:09Z">
+              <Issue Name="IFormatProviderAlternateString">
+               <Item>'Convert.ToString(object)'</Item>
+               <Item>'IDataRecordHelper.GetStringValue(this IDataRecord, string, bool)'</Item>
+               <Item>'Convert.ToString(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Issue Name="IFormatProviderAlternateString">
+               <Item>'Convert.ToString(object)'</Item>
+               <Item>'IDataRecordHelper.GetStringValue(this IDataRecord, string, bool)'</Item>
+               <Item>'Convert.ToString(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="0" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
        <Namespace Name="BOA.UI.Common">
         <Types>
          <Type Name="TraceHandlerForSpecificFile">
@@ -325,6 +537,11 @@
     </Modules>
    </Target>
   </Targets>
+  <Notes>
+   <User Name="beyaztas">
+    <Note Id="0" Modified="2017-12-30 10:33:34Z">.</Note>
+   </User>
+  </Notes>
   <Rules>
    <Rule TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011">
     <Resolution Name="Default">Consider changing the type of parameter {0} in {1} from {2} to its base type {3}. This method appears to only require base class members in its implementation. Suppress this violation if there is a compelling reason to require the more derived type in the method signature.</Resolution>
@@ -352,6 +569,10 @@
    </Rule>
    <Rule TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801">
     <Resolution Name="Default">Parameter {0} of {1} is never used. Remove the parameter or use it in the method body.</Resolution>
+   </Rule>
+   <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+    <Resolution Name="IFormatProviderAlternate">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be based on input from the user, specify {3} as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify {4}.</Resolution>
+    <Resolution Name="IFormatProviderAlternateString">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify {3} as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify {4}.</Resolution>
    </Rule>
   </Rules>
  </FxCopReport>

@@ -79,6 +79,7 @@
     <Compile Include="BOA.UI.Common\Tracer.cs" />
     <Compile Include="BOA.Common.Helpers\Cast.cs" />
     <Compile Include="Common\ContractBase.cs" />
+    <Compile Include="DatabaseAccess\IDataRecordHelper.cs" />
     <Compile Include="DatabaseAccess\Extensions.cs" />
     <Compile Include="Data\MvcWpf\IModel.cs" />
     <Compile Include="BOA.Common.Helpers\ExpressionUtility.cs" />
@@ -150,7 +151,13 @@ if not exist $(SolutionDir)\bin     mkdir $(SolutionDir)\bin
 copy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)\bin"
 
 :: copy libraries
-copy /y "$(TargetDir)Newtonsoft.Json.dll" "$(SolutionDir)\bin"</PostBuildEvent>
+copy /y "$(TargetDir)Newtonsoft.Json.dll" "$(SolutionDir)\bin"
+
+
+:: copy to target directory
+copy /y "$(TargetDir)$(TargetName).dll" "D:\github\FundManagement\FundManagement\packages\WhiteStone.1.0.0.4\lib\net45\"
+
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
