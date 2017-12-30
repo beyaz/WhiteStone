@@ -110,13 +110,14 @@ namespace BOA.DatabaseAccess
                 transaction.Dispose();
             }
 
+            Transactions.Clear();
             StartTransaction = false;
         }
 
         /// <summary>
         ///     Executes the data table.
         /// </summary>
-        public DataTable ExecuteDataTable(DbCommand command)
+        public DataTable ExecuteDataTable(DbCommand command) 
         {
             var dataTable  = new DataTable(Guid.NewGuid().ToString());
             var dataReader = command.ExecuteReader();
@@ -189,6 +190,7 @@ namespace BOA.DatabaseAccess
                 transaction.Dispose();
             }
 
+            Transactions.Clear();
             StartTransaction = false;
         }
         #endregion
