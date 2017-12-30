@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace BOA.DatabaseAccess
 {
     public class SqlDatabaseLayer
     {
-        #region Fields
-        public Func<string, string> GetConnectionStringByConnectionName;
-        #endregion
-
         #region Public Properties
-        public bool StartTransaction { get; set; }
-
-        public int Timeout { get; set; } = 200;
+        public Func<string, string> GetConnectionStringByConnectionName { get; set; }
+        public bool                 StartTransaction                    { get; set; }
+        public int                  Timeout                             { get; set; } = 200;
         #endregion
 
         #region Properties
         Dictionary<string, SqlConnection> Connections { get; } = new Dictionary<string, SqlConnection>();
 
-        List<Tuple<SqlCommand, SqlDataReader>> DataReaders  { get; } = new List<Tuple<SqlCommand, SqlDataReader>>();
-        Dictionary<string, SqlTransaction>     Transactions { get; } = new Dictionary<string, SqlTransaction>();
+        List<Tuple<DbCommand, IDataReader>> DataReaders { get; } = new List<Tuple<DbCommand, IDataReader>>();
+
+        Dictionary<string, SqlTransaction> Transactions { get; } = new Dictionary<string, SqlTransaction>();
         #endregion
 
         #region Public Methods
@@ -32,7 +30,7 @@ namespace BOA.DatabaseAccess
 
         public void AddInParameter(SqlCommand sqlCommand, string name, SqlDbType dbType, object value, int size)
         {
-            SqlParameter param = new SqlParameter();
+            var param = new SqlParameter();
             ConfigureParameter(param, name, dbType, size, ParameterDirection.Input, false, 0, 0, string.Empty, value);
             sqlCommand.Parameters.Add(param);
         }
@@ -40,6 +38,30 @@ namespace BOA.DatabaseAccess
         public void BeginTransaction()
         {
             StartTransaction = true;
+        }
+
+        public void CloseConnections()
+        {
+            foreach (var dataReader in DataReaders)
+            {
+                if (dataReader.Item2.IsClosed == false)
+                {
+                    throw new InvalidOperationException("DataReaders must be close.");
+                }
+            }
+
+            foreach (var connection in Connections.Values)
+            {
+                if (connection == null)
+                {
+                    continue;
+                }
+
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void CommitTransaction()
@@ -53,10 +75,10 @@ namespace BOA.DatabaseAccess
             StartTransaction = false;
         }
 
-        public DataTable ExecuteDataTable(SqlCommand command)
+        public DataTable ExecuteDataTable(DbCommand command)
         {
-            DataTable dataTable  = new DataTable(Guid.NewGuid().ToString());
-            var       dataReader = command.ExecuteReader();
+            var dataTable  = new DataTable(Guid.NewGuid().ToString());
+            var dataReader = command.ExecuteReader();
             dataTable.Load(dataReader);
 
             dataReader.Close();
@@ -64,7 +86,7 @@ namespace BOA.DatabaseAccess
             return dataTable;
         }
 
-        public int ExecuteNonQuery(SqlCommand command)
+        public int ExecuteNonQuery(DbCommand command)
         {
             return command.ExecuteNonQuery();
         }
@@ -73,12 +95,12 @@ namespace BOA.DatabaseAccess
         {
             var reader = command.ExecuteReader();
 
-            DataReaders.Add(new Tuple<SqlCommand, SqlDataReader>(command, reader));
+            DataReaders.Add(new Tuple<DbCommand, IDataReader>(command, reader));
 
             return reader;
         }
 
-        public T ExecuteScalar<T>(SqlCommand command)
+        public T ExecuteScalar<T>(DbCommand command)
         {
             var value = command.ExecuteScalar();
 
@@ -88,6 +110,11 @@ namespace BOA.DatabaseAccess
             }
 
             return (T) value;
+        }
+
+        public SqlCommand GetDBCommand(Enum connectionName, string commandTextAsStoredProcedureName)
+        {
+            return GetDBCommand(connectionName.ToString(), commandTextAsStoredProcedureName);
         }
 
         public SqlCommand GetDBCommand(string connectionName, string commandTextAsStoredProcedureName)
@@ -108,23 +135,6 @@ namespace BOA.DatabaseAccess
         #endregion
 
         #region Methods
-        public void CloseConnections()
-        {
-            foreach (var connection in Connections.Values)
-            {
-                if (connection == null)
-                {
-                    continue;
-                }
-
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                }
-            }
-          
-        }
-
         static void ConfigureParameter(SqlParameter param, string name, SqlDbType dbType, int size, ParameterDirection direction, bool nullable, byte precision, byte scale, string sourceColumn, object value)
         {
             param.ParameterName = name;
@@ -148,6 +158,7 @@ namespace BOA.DatabaseAccess
             var connection = GetConnection(key, 3);
 
             SqlTransaction transaction = null;
+
             Transactions.TryGetValue(key, out transaction);
 
             if (StartTransaction && transaction == null)
