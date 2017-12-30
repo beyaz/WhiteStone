@@ -6,28 +6,57 @@ using System.Data.SqlClient;
 
 namespace BOA.DatabaseAccess
 {
+    /// <summary>
+    ///     The SQL database layer
+    /// </summary>
     public class SqlDatabaseLayer
     {
         #region Public Properties
+        /// <summary>
+        ///     Gets or sets the name of the get connection string by connection.
+        /// </summary>
         public Func<string, string> GetConnectionStringByConnectionName { get; set; }
-        public bool                 StartTransaction                    { get; set; }
-        public int                  Timeout                             { get; set; } = 200;
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether [start transaction].
+        /// </summary>
+        public bool StartTransaction { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the timeout.
+        /// </summary>
+        public int Timeout { get; set; } = 200;
         #endregion
 
         #region Properties
+        /// <summary>
+        ///     Gets the connections.
+        /// </summary>
         Dictionary<string, SqlConnection> Connections { get; } = new Dictionary<string, SqlConnection>();
 
+        /// <summary>
+        ///     Gets the data readers.
+        /// </summary>
         List<Tuple<DbCommand, IDataReader>> DataReaders { get; } = new List<Tuple<DbCommand, IDataReader>>();
 
+        /// <summary>
+        ///     Gets the transactions.
+        /// </summary>
         Dictionary<string, SqlTransaction> Transactions { get; } = new Dictionary<string, SqlTransaction>();
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Adds the in parameter.
+        /// </summary>
         public void AddInParameter(SqlCommand sqlCommand, string name, SqlDbType dbType, object value)
         {
             AddInParameter(sqlCommand, name, dbType, value, 0);
         }
 
+        /// <summary>
+        ///     Adds the in parameter.
+        /// </summary>
         public void AddInParameter(SqlCommand sqlCommand, string name, SqlDbType dbType, object value, int size)
         {
             var param = new SqlParameter();
@@ -35,11 +64,17 @@ namespace BOA.DatabaseAccess
             sqlCommand.Parameters.Add(param);
         }
 
+        /// <summary>
+        ///     Begins the transaction.
+        /// </summary>
         public void BeginTransaction()
         {
             StartTransaction = true;
         }
 
+        /// <summary>
+        ///     Closes the connections.
+        /// </summary>
         public void CloseConnections()
         {
             foreach (var dataReader in DataReaders)
@@ -64,6 +99,9 @@ namespace BOA.DatabaseAccess
             }
         }
 
+        /// <summary>
+        ///     Commits the transaction.
+        /// </summary>
         public void CommitTransaction()
         {
             foreach (var transaction in Transactions.Values)
@@ -75,6 +113,9 @@ namespace BOA.DatabaseAccess
             StartTransaction = false;
         }
 
+        /// <summary>
+        ///     Executes the data table.
+        /// </summary>
         public DataTable ExecuteDataTable(DbCommand command)
         {
             var dataTable  = new DataTable(Guid.NewGuid().ToString());
@@ -86,11 +127,17 @@ namespace BOA.DatabaseAccess
             return dataTable;
         }
 
+        /// <summary>
+        ///     Executes the non query.
+        /// </summary>
         public int ExecuteNonQuery(DbCommand command)
         {
             return command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        ///     Executes the reader.
+        /// </summary>
         public SqlDataReader ExecuteReader(SqlCommand command)
         {
             var reader = command.ExecuteReader();
@@ -100,6 +147,9 @@ namespace BOA.DatabaseAccess
             return reader;
         }
 
+        /// <summary>
+        ///     Executes the scalar.
+        /// </summary>
         public T ExecuteScalar<T>(DbCommand command)
         {
             var value = command.ExecuteScalar();
@@ -112,16 +162,25 @@ namespace BOA.DatabaseAccess
             return (T) value;
         }
 
+        /// <summary>
+        ///     Gets the database command.
+        /// </summary>
         public SqlCommand GetDBCommand(Enum connectionName, string commandTextAsStoredProcedureName)
         {
             return GetDBCommand(connectionName.ToString(), commandTextAsStoredProcedureName);
         }
 
+        /// <summary>
+        ///     Gets the database command.
+        /// </summary>
         public SqlCommand GetDBCommand(string connectionName, string commandTextAsStoredProcedureName)
         {
             return CreateDBCommand(connectionName, commandTextAsStoredProcedureName, null, CommandType.StoredProcedure);
         }
 
+        /// <summary>
+        ///     Rollbacks the transaction.
+        /// </summary>
         public void RollbackTransaction()
         {
             foreach (var transaction in Transactions.Values)
@@ -135,6 +194,9 @@ namespace BOA.DatabaseAccess
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Configures the parameter.
+        /// </summary>
         static void ConfigureParameter(SqlParameter param, string name, SqlDbType dbType, int size, ParameterDirection direction, bool nullable, byte precision, byte scale, string sourceColumn, object value)
         {
             param.ParameterName = name;
@@ -148,6 +210,9 @@ namespace BOA.DatabaseAccess
             param.Scale         = scale;
         }
 
+        /// <summary>
+        ///     Creates the database command.
+        /// </summary>
         SqlCommand CreateDBCommand(string key, string commandText, SqlParameter[] sqlParameters, CommandType commandType)
         {
             if (commandText == null)
@@ -185,6 +250,9 @@ namespace BOA.DatabaseAccess
             return dbCommand;
         }
 
+        /// <summary>
+        ///     Gets the connection.
+        /// </summary>
         SqlConnection GetConnection(string key, int retryCount = 0)
         {
             SqlConnection connection = null;
@@ -215,6 +283,9 @@ namespace BOA.DatabaseAccess
             }
         }
 
+        /// <summary>
+        ///     Gets the database connection.
+        /// </summary>
         SqlConnection GetDBConnection(string key)
         {
             var sqlConnection = new SqlConnection(GetConnectionStringByConnectionName(key));
