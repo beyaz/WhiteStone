@@ -81,7 +81,7 @@
     <Compile Include="Common\ContractBase.cs" />
     <Compile Include="DatabaseAccess\IDataRecordHelper.cs" />
     <Compile Include="DatabaseAccess\Extensions.cs" />
-    <Compile Include="DatabaseAccess\SQLDBLayer.cs" />
+    <Compile Include="DatabaseAccess\SqlDatabaseLayer.cs" />
     <Compile Include="Data\MvcWpf\IModel.cs" />
     <Compile Include="BOA.Common.Helpers\ExpressionUtility.cs" />
     <Compile Include="BOA.Common.Helpers\RandomValue.cs" />
@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.fxcop" />
+    <None Include="package.nuspec" />
     <None Include="packages.config" />
     <None Include="WhiteStoneKey.pfx" />
   </ItemGroup>

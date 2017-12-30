@@ -2,23 +2,15 @@
 <package>
   <metadata>
     <id>WhiteStone</id>
-    <version>1.0.0.4</version>
+    <version>1.0.0.5</version>
     <title>WhiteStone</title>
     <authors>Abdullah Beyaztaş</authors>
-    <owners>$author$</owners>
-    <!--
-    <licenseUrl></licenseUrl>
-    <projectUrl></projectUrl>
-    <iconUrl></iconUrl>
--->
+    <owners>Abdullah Beyaztaş</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <!--*-->
-    <description>$description$</description>
-    <!--*-->
+    <description>.</description>
     <releaseNotes>WhiteStone</releaseNotes>
-    <copyright>$copyright$</copyright>
-    <tags>
-    </tags>
+    <copyright>Abdullah Beyaztaş</copyright>
+    <tags />
     <dependencies>
    <group targetFramework="net45">
       <dependency id="Newtonsoft.Json" version="10.0.3" />
