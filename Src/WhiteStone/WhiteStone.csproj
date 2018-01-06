@@ -59,6 +59,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -128,6 +129,7 @@
     <Compile Include="Helpers\StreamUtility.cs" />
     <Compile Include="Data\MvcWpf\ModelBase.cs" />
     <Compile Include="System.Collections.Generic\Extensions.cs" />
+    <Compile Include="System.Web\WhiteStoneExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.fxcop" />
