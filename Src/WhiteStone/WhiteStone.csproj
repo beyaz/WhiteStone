@@ -156,9 +156,6 @@ copy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)\bin"
 copy /y "$(TargetDir)Newtonsoft.Json.dll" "$(SolutionDir)\bin"
 
 
-:: copy to target directory
-copy /y "$(TargetDir)$(TargetName).*" "D:\github\FundManagement\FundManagement\packages\WhiteStone.1.0.0.4\lib\net45\"
-
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

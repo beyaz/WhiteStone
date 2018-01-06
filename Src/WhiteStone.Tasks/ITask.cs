@@ -34,6 +34,11 @@ namespace WhiteStone.Tasks
             return GetValueByKey(key) as bool?;
         }
 
+        protected string[] GetKeyAsStringArray(string key)
+        {
+            return GetValueByKey(key) as string[];
+        }
+
         object GetValueByKey(string key)
         {
             return Keys.TryGetValue(key, null);
