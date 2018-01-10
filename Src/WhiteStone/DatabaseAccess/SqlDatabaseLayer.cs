@@ -50,7 +50,7 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Adds the in parameter.
         /// </summary>
-        public void AddInParameter(DbCommand dbCommand, string name, SqlDbType dbType, object value)
+        public virtual  void AddInParameter(DbCommand dbCommand, string name, SqlDbType dbType, object value)
         {
             DbParameter dbParameter = null;
 

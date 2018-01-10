@@ -66,6 +66,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOA.Common.Helpers\DateTimeExtensions.cs" />
     <Compile Include="BOA.Common.Helpers\ExceptionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\FileHelper.cs" />
     <Compile Include="BOA.Common.Helpers\SqlCommandDumper.cs" />

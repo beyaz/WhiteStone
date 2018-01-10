@@ -438,20 +438,6 @@
          </Type>
          <Type Name="SqlDatabaseLayer">
           <Members>
-           <Member Name="#AddInParameter(System.Data.SqlClient.SqlCommand,System.String,System.Data.SqlDbType,System.Object,System.Int32)">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Excluded" Created="2018-01-06 17:26:00Z" FixCategory="DependsOnFix">
-              <Issue>
-               <Item>'SqlDatabaseLayer.AddInParameter(SqlCommand, string, SqlDbType, object, int)'</Item>
-              </Issue>
-              <Notes>
-               <User Name="beyaztas">
-                <Note Id="1" />
-               </User>
-              </Notes>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="#ExecuteDataTable(System.Data.Common.DbCommand)">
             <Messages>
              <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Excluded" Created="2018-01-06 17:26:00Z" FixCategory="DependsOnFix">
