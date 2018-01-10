@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace BOA.DatabaseAccess
 {
@@ -212,7 +213,20 @@ namespace BOA.DatabaseAccess
             param.Precision     = precision;
             param.Scale         = scale;
         }
-      
+
+        static void ConfigureParameter(MySqlParameter param, string name, MySqlDbType dbType, int size, ParameterDirection direction, bool nullable, byte precision, byte scale, string sourceColumn, object value)
+        {
+            param.ParameterName = name;
+            param.MySqlDbType   = dbType;
+            param.Size          = size;
+            param.Value         = value ?? DBNull.Value;
+            param.Direction     = direction;
+            param.IsNullable    = nullable;
+            param.SourceColumn  = sourceColumn;
+            param.Precision     = precision;
+            param.Scale         = scale;
+        }
+
 
         /// <summary>
         ///     Creates the database command.
