@@ -13,9 +13,8 @@ namespace BOA.DatabaseAccess
     public class SqlDatabaseLayer
     {
         #region Public Properties
-
         /// <summary>
-        /// Gets or sets the name of the get connection by connection.
+        ///     Gets or sets the name of the get connection by connection.
         /// </summary>
         public Func<string, DbConnection> GetConnectionByConnectionName { get; set; }
 
@@ -51,19 +50,46 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Adds the in parameter.
         /// </summary>
-        public void AddInParameter(SqlCommand sqlCommand, string name, SqlDbType dbType, object value)
+        public void AddInParameter(DbCommand dbCommand, string name, SqlDbType dbType, object value)
         {
-            AddInParameter(sqlCommand, name, dbType, value, 0);
-        }
+            DbParameter dbParameter = null;
 
-        /// <summary>
-        ///     Adds the in parameter.
-        /// </summary>
-        public void AddInParameter(SqlCommand sqlCommand, string name, SqlDbType dbType, object value, int size)
-        {
-            var param = new SqlParameter();
-            ConfigureParameter(param, name, dbType, size, ParameterDirection.Input, false, 0, 0, string.Empty, value);
-            sqlCommand.Parameters.Add(param);
+            if (dbCommand is SqlCommand)
+            {
+                dbParameter = new SqlParameter
+                {
+                    ParameterName = name,
+                    SqlDbType     = dbType,
+                    Size          = 0,
+                    Value         = value ?? DBNull.Value,
+                    Direction     = ParameterDirection.Input,
+                    IsNullable    = false,
+                    SourceColumn  = string.Empty,
+                    Precision     = 0,
+                    Scale         = 0
+                };
+            }
+            else if (dbCommand is MySqlCommand)
+            {
+                dbParameter = new MySqlParameter
+                {
+                    ParameterName = name,
+                    MySqlDbType   = ConvertToMySqlDbType(dbType),
+                    Size          = 0,
+                    Value         = value ?? DBNull.Value,
+                    Direction     = ParameterDirection.Input,
+                    IsNullable    = false,
+                    SourceColumn  = string.Empty,
+                    Precision     = 0,
+                    Scale         = 0
+                };
+            }
+            else
+            {
+                throw new NotImplementedException(dbCommand.GetType().FullName);
+            }
+
+            dbCommand.Parameters.Add(dbParameter);
         }
 
         /// <summary>
@@ -119,7 +145,7 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Executes the data table.
         /// </summary>
-        public DataTable ExecuteDataTable(DbCommand command) 
+        public DataTable ExecuteDataTable(DbCommand command)
         {
             var dataTable  = new DataTable(Guid.NewGuid().ToString());
             var dataReader = command.ExecuteReader();
@@ -178,7 +204,7 @@ namespace BOA.DatabaseAccess
         /// </summary>
         public DbCommand GetDBCommand(string connectionName, string commandTextAsStoredProcedureName)
         {
-            return CreateDBCommand(connectionName, commandTextAsStoredProcedureName, null, CommandType.StoredProcedure);
+            return CreateDBCommand(connectionName, commandTextAsStoredProcedureName, CommandType.StoredProcedure);
         }
 
         /// <summary>
@@ -199,39 +225,37 @@ namespace BOA.DatabaseAccess
 
         #region Methods
         /// <summary>
-        ///     Configures the parameter.
+        ///     Converts the type of to my SQL database.
         /// </summary>
-        static void ConfigureParameter(SqlParameter param, string name, SqlDbType dbType, int size, ParameterDirection direction, bool nullable, byte precision, byte scale, string sourceColumn, object value)
+        static MySqlDbType ConvertToMySqlDbType(SqlDbType sqlDbType)
         {
-            param.ParameterName = name;
-            param.SqlDbType     = dbType;
-            param.Size          = size;
-            param.Value         = value ?? DBNull.Value;
-            param.Direction     = direction;
-            param.IsNullable    = nullable;
-            param.SourceColumn  = sourceColumn;
-            param.Precision     = precision;
-            param.Scale         = scale;
-        }
+            if (sqlDbType == SqlDbType.Int)
+            {
+                return MySqlDbType.Int32;
+            }
 
-        static void ConfigureParameter(MySqlParameter param, string name, MySqlDbType dbType, int size, ParameterDirection direction, bool nullable, byte precision, byte scale, string sourceColumn, object value)
-        {
-            param.ParameterName = name;
-            param.MySqlDbType   = dbType;
-            param.Size          = size;
-            param.Value         = value ?? DBNull.Value;
-            param.Direction     = direction;
-            param.IsNullable    = nullable;
-            param.SourceColumn  = sourceColumn;
-            param.Precision     = precision;
-            param.Scale         = scale;
-        }
+            if (sqlDbType == SqlDbType.Decimal)
+            {
+                return MySqlDbType.Decimal;
+            }
 
+            if (sqlDbType == SqlDbType.DateTime)
+            {
+                return MySqlDbType.DateTime;
+            }
+
+            if (sqlDbType == SqlDbType.NVarChar || sqlDbType == SqlDbType.VarChar)
+            {
+                return MySqlDbType.VarChar;
+            }
+
+            throw new NotImplementedException(sqlDbType.ToString());
+        }
 
         /// <summary>
         ///     Creates the database command.
         /// </summary>
-        DbCommand CreateDBCommand(string key, string commandText, SqlParameter[] sqlParameters, CommandType commandType)
+        DbCommand CreateDBCommand(string key, string commandText, CommandType commandType)
         {
             if (commandText == null)
             {
@@ -240,32 +264,35 @@ namespace BOA.DatabaseAccess
 
             var connection = GetConnection(key, 3);
 
-            DbTransaction transaction = null;
+            var transaction = GetTransaction(key, connection);
 
-            Transactions.TryGetValue(key, out transaction);
-
-            if (StartTransaction && transaction == null)
+            var sqlConnection = connection as SqlConnection;
+            if (sqlConnection != null)
             {
-                transaction = connection.BeginTransaction();
-
-                Transactions[key] = transaction;
+                return new SqlCommand
+                {
+                    CommandText    = commandText,
+                    CommandType    = commandType,
+                    Connection     = sqlConnection,
+                    Transaction    = (SqlTransaction) transaction,
+                    CommandTimeout = Timeout
+                };
             }
 
-            DbCommand dbCommand = new SqlCommand
+            var mySqlConnection = connection as MySqlConnection;
+            if (mySqlConnection != null)
             {
-                CommandText    = commandText,
-                CommandType    = commandType,
-                Connection     = (SqlConnection)connection,
-                Transaction    = (SqlTransaction)transaction,
-                CommandTimeout = Timeout
-            };
-
-            if (sqlParameters != null)
-            {
-                dbCommand.Parameters.AddRange(sqlParameters);
+                return new MySqlCommand
+                {
+                    CommandText    = commandText,
+                    CommandType    = commandType,
+                    Connection     = mySqlConnection,
+                    Transaction    = (MySqlTransaction) transaction,
+                    CommandTimeout = Timeout
+                };
             }
 
-            return dbCommand;
+            throw new NotImplementedException(connection.GetType().FullName);
         }
 
         /// <summary>
@@ -309,6 +336,25 @@ namespace BOA.DatabaseAccess
             var sqlConnection = GetConnectionByConnectionName(key);
             sqlConnection.Open();
             return sqlConnection;
+        }
+
+        /// <summary>
+        ///     Gets the transaction.
+        /// </summary>
+        DbTransaction GetTransaction(string key, DbConnection connection)
+        {
+            DbTransaction transaction = null;
+
+            Transactions.TryGetValue(key, out transaction);
+
+            if (StartTransaction && transaction == null)
+            {
+                transaction = connection.BeginTransaction();
+
+                Transactions[key] = transaction;
+            }
+
+            return transaction;
         }
         #endregion
     }
