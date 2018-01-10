@@ -42,7 +42,7 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Gets the transactions.
         /// </summary>
-        Dictionary<string, SqlTransaction> Transactions { get; } = new Dictionary<string, SqlTransaction>();
+        Dictionary<string, DbTransaction> Transactions { get; } = new Dictionary<string, DbTransaction>();
         #endregion
 
         #region Public Methods
@@ -139,7 +139,7 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Executes the reader.
         /// </summary>
-        public SqlDataReader ExecuteReader(SqlCommand command)
+        public DbDataReader ExecuteReader(DbCommand command)
         {
             var reader = command.ExecuteReader();
 
@@ -166,7 +166,7 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Gets the database command.
         /// </summary>
-        public SqlCommand GetDBCommand(Enum connectionName, string commandTextAsStoredProcedureName)
+        public DbCommand GetDBCommand(Enum connectionName, string commandTextAsStoredProcedureName)
         {
             return GetDBCommand(connectionName.ToString(), commandTextAsStoredProcedureName);
         }
@@ -174,7 +174,7 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Gets the database command.
         /// </summary>
-        public SqlCommand GetDBCommand(string connectionName, string commandTextAsStoredProcedureName)
+        public DbCommand GetDBCommand(string connectionName, string commandTextAsStoredProcedureName)
         {
             return CreateDBCommand(connectionName, commandTextAsStoredProcedureName, null, CommandType.StoredProcedure);
         }
@@ -215,7 +215,7 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Creates the database command.
         /// </summary>
-        SqlCommand CreateDBCommand(string key, string commandText, SqlParameter[] sqlParameters, CommandType commandType)
+        DbCommand CreateDBCommand(string key, string commandText, SqlParameter[] sqlParameters, CommandType commandType)
         {
             if (commandText == null)
             {
@@ -224,7 +224,7 @@ namespace BOA.DatabaseAccess
 
             var connection = GetConnection(key, 3);
 
-            SqlTransaction transaction = null;
+            DbTransaction transaction = null;
 
             Transactions.TryGetValue(key, out transaction);
 
@@ -235,12 +235,12 @@ namespace BOA.DatabaseAccess
                 Transactions[key] = transaction;
             }
 
-            var dbCommand = new SqlCommand
+            DbCommand dbCommand = new SqlCommand
             {
                 CommandText    = commandText,
                 CommandType    = commandType,
                 Connection     = connection,
-                Transaction    = transaction,
+                Transaction    = (SqlTransaction)transaction,
                 CommandTimeout = Timeout
             };
 
