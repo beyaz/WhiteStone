@@ -12,10 +12,11 @@ namespace BOA.DatabaseAccess
     public class SqlDatabaseLayer
     {
         #region Public Properties
+
         /// <summary>
-        ///     Gets or sets the name of the get connection string by connection.
+        /// Gets or sets the name of the get connection by connection.
         /// </summary>
-        public Func<string, string> GetConnectionStringByConnectionName { get; set; }
+        public Func<string, DbConnection> GetConnectionByConnectionName { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether [start transaction].
@@ -32,7 +33,7 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Gets the connections.
         /// </summary>
-        Dictionary<string, SqlConnection> Connections { get; } = new Dictionary<string, SqlConnection>();
+        Dictionary<string, DbConnection> Connections { get; } = new Dictionary<string, DbConnection>();
 
         /// <summary>
         ///     Gets the data readers.
@@ -211,6 +212,7 @@ namespace BOA.DatabaseAccess
             param.Precision     = precision;
             param.Scale         = scale;
         }
+      
 
         /// <summary>
         ///     Creates the database command.
@@ -239,7 +241,7 @@ namespace BOA.DatabaseAccess
             {
                 CommandText    = commandText,
                 CommandType    = commandType,
-                Connection     = connection,
+                Connection     = (SqlConnection)connection,
                 Transaction    = (SqlTransaction)transaction,
                 CommandTimeout = Timeout
             };
@@ -255,9 +257,9 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Gets the connection.
         /// </summary>
-        SqlConnection GetConnection(string key, int retryCount = 0)
+        DbConnection GetConnection(string key, int retryCount = 0)
         {
-            SqlConnection connection = null;
+            DbConnection connection = null;
             try
             {
                 if (!Connections.TryGetValue(key, out connection))
@@ -288,9 +290,9 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Gets the database connection.
         /// </summary>
-        SqlConnection GetDBConnection(string key)
+        DbConnection GetDBConnection(string key)
         {
-            var sqlConnection = new SqlConnection(GetConnectionStringByConnectionName(key));
+            var sqlConnection = GetConnectionByConnectionName(key);
             sqlConnection.Open();
             return sqlConnection;
         }

@@ -3,7 +3,7 @@
 ################################################################################
 
 /.vs
-/packages/Newtonsoft.Json.10.0.3
+/packages/
 /Src/WhiteStone/bin/Debug
 /Src/WhiteStone/obj
 /Src/WhiteStone/obj
