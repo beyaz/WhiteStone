@@ -50,46 +50,21 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Adds the in parameter.
         /// </summary>
-        public virtual  void AddInParameter(DbCommand dbCommand, string name, SqlDbType dbType, object value)
+        public virtual void AddInParameter(DbCommand dbCommand, string name, SqlDbType dbType, object value)
         {
-            DbParameter dbParameter = null;
-
-            if (dbCommand is SqlCommand)
+            var success = TryAddInParameterForMsSql(dbCommand, name, dbType, value);
+            if (success)
             {
-                dbParameter = new SqlParameter
-                {
-                    ParameterName = name,
-                    SqlDbType     = dbType,
-                    Size          = 0,
-                    Value         = value ?? DBNull.Value,
-                    Direction     = ParameterDirection.Input,
-                    IsNullable    = false,
-                    SourceColumn  = string.Empty,
-                    Precision     = 0,
-                    Scale         = 0
-                };
-            }
-            else if (dbCommand is MySqlCommand)
-            {
-                dbParameter = new MySqlParameter
-                {
-                    ParameterName = name,
-                    MySqlDbType   = ConvertToMySqlDbType(dbType),
-                    Size          = 0,
-                    Value         = value ?? DBNull.Value,
-                    Direction     = ParameterDirection.Input,
-                    IsNullable    = false,
-                    SourceColumn  = string.Empty,
-                    Precision     = 0,
-                    Scale         = 0
-                };
-            }
-            else
-            {
-                throw new NotImplementedException(dbCommand.GetType().FullName);
+                return;
             }
 
-            dbCommand.Parameters.Add(dbParameter);
+            success = TryAddInParameterForMySql(dbCommand, name, dbType, value);
+            if (success)
+            {
+                return;
+            }
+
+            throw new NotImplementedException(dbCommand.GetType().FullName);
         }
 
         /// <summary>
@@ -225,31 +200,88 @@ namespace BOA.DatabaseAccess
 
         #region Methods
         /// <summary>
-        ///     Converts the type of to my SQL database.
+        ///     Tries the add in parameter for ms SQL.
         /// </summary>
-        static MySqlDbType ConvertToMySqlDbType(SqlDbType sqlDbType)
+        static bool TryAddInParameterForMsSql(DbCommand dbCommand, string name, SqlDbType dbType, object value)
         {
-            if (sqlDbType == SqlDbType.Int)
+            var sqlCommand = dbCommand as SqlCommand;
+            if (sqlCommand == null)
             {
-                return MySqlDbType.Int32;
+                return false;
             }
 
-            if (sqlDbType == SqlDbType.Decimal)
+            var dbParameter = new SqlParameter
             {
-                return MySqlDbType.Decimal;
+                ParameterName = name,
+                SqlDbType     = dbType,
+                Size          = 0,
+                Value         = value ?? DBNull.Value,
+                Direction     = ParameterDirection.Input,
+                IsNullable    = false,
+                SourceColumn  = string.Empty,
+                Precision     = 0,
+                Scale         = 0
+            };
+
+            dbCommand.Parameters.Add(dbParameter);
+
+            return true;
+        }
+
+        /// <summary>
+        ///     Tries the add in parameter for my SQL.
+        /// </summary>
+        static bool TryAddInParameterForMySql(DbCommand dbCommand, string name, SqlDbType dbType, object value)
+        {
+            var mySqlCommand = dbCommand as MySqlCommand;
+            if (mySqlCommand == null)
+            {
+                return false;
             }
 
-            if (sqlDbType == SqlDbType.DateTime)
+            var mySqlDbType = MySqlDbType.VarChar;
+
+            if (dbType == SqlDbType.Int)
             {
-                return MySqlDbType.DateTime;
+                mySqlDbType = MySqlDbType.Int32;
             }
 
-            if (sqlDbType == SqlDbType.NVarChar || sqlDbType == SqlDbType.VarChar)
+            else if (dbType == SqlDbType.Decimal)
             {
-                return MySqlDbType.VarChar;
+                mySqlDbType = MySqlDbType.Decimal;
             }
 
-            throw new NotImplementedException(sqlDbType.ToString());
+            else if (dbType == SqlDbType.DateTime)
+            {
+                mySqlDbType = MySqlDbType.DateTime;
+            }
+
+            else if (dbType == SqlDbType.NVarChar || dbType == SqlDbType.VarChar)
+            {
+                mySqlDbType = MySqlDbType.VarChar;
+            }
+
+            else
+            {
+                throw new NotImplementedException(dbType.ToString());
+            }
+
+            var dbParameter = new MySqlParameter
+            {
+                ParameterName = name,
+                MySqlDbType   = mySqlDbType,
+                Size          = 0,
+                Value         = value ?? DBNull.Value,
+                Direction     = ParameterDirection.Input,
+                IsNullable    = false,
+                SourceColumn  = string.Empty,
+                Precision     = 0,
+                Scale         = 0
+            };
+
+            dbCommand.Parameters.Add(dbParameter);
+
+            return true;
         }
 
         /// <summary>
@@ -266,30 +298,16 @@ namespace BOA.DatabaseAccess
 
             var transaction = GetTransaction(key, connection);
 
-            var sqlConnection = connection as SqlConnection;
-            if (sqlConnection != null)
+            var command = TryCreateDbCommandForMsSql(connection, transaction, commandText, commandType);
+            if (command != null)
             {
-                return new SqlCommand
-                {
-                    CommandText    = commandText,
-                    CommandType    = commandType,
-                    Connection     = sqlConnection,
-                    Transaction    = (SqlTransaction) transaction,
-                    CommandTimeout = Timeout
-                };
+                return command;
             }
 
-            var mySqlConnection = connection as MySqlConnection;
-            if (mySqlConnection != null)
+            command = TryCreateDbCommandForMySql(connection, transaction, commandText, commandType);
+            if (command != null)
             {
-                return new MySqlCommand
-                {
-                    CommandText    = commandText,
-                    CommandType    = commandType,
-                    Connection     = mySqlConnection,
-                    Transaction    = (MySqlTransaction) transaction,
-                    CommandTimeout = Timeout
-                };
+                return command;
             }
 
             throw new NotImplementedException(connection.GetType().FullName);
@@ -355,6 +373,49 @@ namespace BOA.DatabaseAccess
             }
 
             return transaction;
+        }
+
+        /// <summary>
+        ///     Tries the create database command for ms SQL.
+        /// </summary>
+        DbCommand TryCreateDbCommandForMsSql(DbConnection connection, DbTransaction transaction, string commandText, CommandType commandType)
+        {
+            var sqlConnection = connection as SqlConnection;
+
+            if (sqlConnection == null)
+            {
+                return null;
+            }
+
+            return new SqlCommand
+            {
+                CommandText    = commandText,
+                CommandType    = commandType,
+                Connection     = sqlConnection,
+                Transaction    = (SqlTransaction) transaction,
+                CommandTimeout = Timeout
+            };
+        }
+
+        /// <summary>
+        ///     Tries the create database command for my SQL.
+        /// </summary>
+        DbCommand TryCreateDbCommandForMySql(DbConnection connection, DbTransaction transaction, string commandText, CommandType commandType)
+        {
+            var mySqlConnection = connection as MySqlConnection;
+            if (mySqlConnection == null)
+            {
+                return null;
+            }
+
+            return new MySqlCommand
+            {
+                CommandText    = commandText,
+                CommandType    = commandType,
+                Connection     = mySqlConnection,
+                Transaction    = (MySqlTransaction) transaction,
+                CommandTimeout = Timeout
+            };
         }
         #endregion
     }
