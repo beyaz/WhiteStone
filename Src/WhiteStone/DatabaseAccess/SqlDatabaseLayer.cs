@@ -214,14 +214,10 @@ namespace BOA.DatabaseAccess
             {
                 ParameterName = name,
                 SqlDbType     = dbType,
-                Size          = 0,
                 Value         = value ?? DBNull.Value,
                 Direction     = ParameterDirection.Input,
-                IsNullable    = false,
-                SourceColumn  = string.Empty,
-                Precision     = 0,
-                Scale         = 0
             };
+
 
             dbCommand.Parameters.Add(dbParameter);
 
