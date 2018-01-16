@@ -540,54 +540,56 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Gets the list method of collections.
         /// </summary>
-        static object GetListMethodOfCollections(Type propertyType, Type genericType)
+        static object GetListMethodOfCollections(Type type, Type genericArgumentType)
         {
-            var typeOfList = genericType;
-
-            object listMethod = null;
-
-            var type = propertyType;
-
-            if (propertyType.IsArray)
+            if (type.IsArray)
             {
-                listMethod = ArrayMethodCall(propertyType.GetElementType());
+                return ArrayMethodCall(type.GetElementType());
             }
-            else if (type.GetTypeInfo().IsGenericType &&
-                     SupportedCollectionTypesForList.Contains(type.GetGenericTypeDefinition())
+
+            if (type.GetTypeInfo().IsGenericType &&
+                SupportedCollectionTypesForList.Contains(type.GetGenericTypeDefinition())
             )
             {
-                listMethod = ListMethodCall(typeOfList);
-            }
-            else if (type.GetGenericTypeDefinition() == typeof(ObservableCollection<>))
-            {
-                listMethod = InvokeCollectionMethod("ObservableCollection", typeOfList);
-            }
-            else if (type.GetGenericTypeDefinition() == typeof(IList<>))
-            {
-                listMethod = IListMethodCall(typeOfList);
-            }
-            else if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Collection<>))
-            {
-                listMethod = CollectionMethodCall(typeOfList);
-            }
-            else if (type.GetGenericTypeDefinition() == typeof(ICollection<>))
-            {
-                listMethod = ICollectionMethodCall(typeOfList);
-            }
-            else if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
-            {
-                listMethod = DictionaryMethodCall(type.GenericTypeArguments);
-            }
-            else if (type.GetGenericTypeDefinition() == typeof(IDictionary<,>))
-            {
-                listMethod = IDictionaryMethodCall(type.GenericTypeArguments);
-            }
-            else if (type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-            {
-                listMethod = IEnumerableMethodCall(typeOfList);
+                return ListMethodCall(genericArgumentType);
             }
 
-            return listMethod;
+            if (type.GetGenericTypeDefinition() == typeof(ObservableCollection<>))
+            {
+                return InvokeCollectionMethod("ObservableCollection", genericArgumentType);
+            }
+
+            if (type.GetGenericTypeDefinition() == typeof(IList<>))
+            {
+                return IListMethodCall(genericArgumentType);
+            }
+
+            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Collection<>))
+            {
+                return CollectionMethodCall(genericArgumentType);
+            }
+
+            if (type.GetGenericTypeDefinition() == typeof(ICollection<>))
+            {
+                return ICollectionMethodCall(genericArgumentType);
+            }
+
+            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
+            {
+                return DictionaryMethodCall(type.GenericTypeArguments);
+            }
+
+            if (type.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+            {
+                return IDictionaryMethodCall(type.GenericTypeArguments);
+            }
+
+            if (type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                return IEnumerableMethodCall(genericArgumentType);
+            }
+
+            return null;
         }
 
         /// <summary>
