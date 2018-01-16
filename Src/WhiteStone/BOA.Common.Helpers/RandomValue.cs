@@ -7,7 +7,6 @@ using System.Text;
 
 namespace BOA.Common.Helpers
 {
-    //https://github.com/RasicN/random-test-values
     /// <summary>
     ///     Defines the random value.
     /// </summary>
@@ -165,10 +164,10 @@ namespace BOA.Common.Helpers
                 maxDateTime = System.DateTime.Now;
             }
 
-            var timeSinceStartOfDateTime = maxDateTime.Value - minDateTime.Value;
+            var timeSinceStartOfDateTime        = maxDateTime.Value - minDateTime.Value;
             var timeInHoursSinceStartOfDateTime = (int) timeSinceStartOfDateTime.TotalHours;
-            var hoursToSubtract = Int32(timeInHoursSinceStartOfDateTime) * -1;
-            var timeToReturn = maxDateTime.Value.AddHours(hoursToSubtract);
+            var hoursToSubtract                 = Int32(timeInHoursSinceStartOfDateTime) * -1;
+            var timeToReturn                    = maxDateTime.Value.AddHours(hoursToSubtract);
 
             if (timeToReturn > minDateTime.Value && timeToReturn < maxDateTime.Value)
             {
@@ -205,7 +204,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Doubles this instance.
         /// </summary>
-        /// <returns></returns>
         public static double Double()
         {
             return _random.NextDouble();
@@ -363,49 +361,7 @@ namespace BOA.Common.Helpers
 
             foreach (var prop in properties)
             {
-                if (PropertyHasNoSetter(prop))
-                {
-                    // Property doesn't have a public setter so let's ignore it
-                    continue;
-                }
-
-                var countInCreationStack = _objectCreationStack.Count(item => item.GetType() == prop.PropertyType);
-                if (countInCreationStack > 0) // for avoid infinite call
-                {
-                    continue;
-                }
-
-                countInCreationStack = _objectCreationStack.Count(item => prop.PropertyType.Equals(item));
-                if (countInCreationStack > 0) // for avoid infinite call
-                {
-                    continue;
-                }
-
-                var valueInObject = prop.GetValue(genericObject);
-                var isValueType = prop.PropertyType.IsValueType;
-
-                if (isValueType)
-                {
-                    var defaultValue = Activator.CreateInstance(prop.PropertyType);
-
-                    if (valueInObject != defaultValue)
-                    {
-                        continue;
-                    }
-                }
-
-                if (!isValueType && valueInObject != null)
-                {
-                    continue;
-                }
-
-                _objectCreationStack.Push(prop.PropertyType);
-
-                var propertyValue = GetMethodCallAssociatedWithType(prop.PropertyType);
-
-                _objectCreationStack.Pop();
-
-                prop.SetValue(genericObject, propertyValue, null);
+                TryInitProperty(prop, genericObject);
             }
 
             _objectCreationStack.Pop();
@@ -562,8 +518,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Dictionaries the method call.
         /// </summary>
-        /// <param name="genericTypeArguments">The generic type arguments.</param>
-        /// <returns></returns>
         static object DictionaryMethodCall(Type[] genericTypeArguments)
         {
             var method = GetMethod("Dictionary");
@@ -639,8 +593,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Gets the method.
         /// </summary>
-        /// <param name="nameOfMethod">The name of method.</param>
-        /// <returns></returns>
         static MethodInfo GetMethod(string nameOfMethod)
         {
             return typeof(RandomValue).GetRuntimeMethods().First(x => x.Name == nameOfMethod);
@@ -684,18 +636,22 @@ namespace BOA.Common.Helpers
             {
                 return SupportType.Basic;
             }
+
             if (type.GetTypeInfo().IsEnum)
             {
                 return SupportType.Enum;
             }
+
             if (IsSupportedCollection(type))
             {
                 return SupportType.Collection;
             }
+
             if (IsNullableType(type))
             {
                 return SupportType.Nullable;
             }
+
             if (type.GetTypeInfo().IsClass)
             {
                 return SupportType.UserDefined;
@@ -816,6 +772,56 @@ namespace BOA.Common.Helpers
         static bool PropertyHasNoSetter(PropertyInfo prop)
         {
             return prop.SetMethod == null;
+        }
+
+        /// <summary>
+        ///     Tries the initialize property.
+        /// </summary>
+        static void TryInitProperty<T>(PropertyInfo prop, T genericObject) where T : new()
+        {
+            if (PropertyHasNoSetter(prop))
+            {
+                // Property doesn't have a public setter so let's ignore it
+                return;
+            }
+
+            var countInCreationStack = _objectCreationStack.Count(item => item.GetType() == prop.PropertyType);
+            if (countInCreationStack > 0) // for avoid infinite call
+            {
+                return;
+            }
+
+            countInCreationStack = _objectCreationStack.Count(item => prop.PropertyType.Equals(item));
+            if (countInCreationStack > 0) // for avoid infinite call
+            {
+                return;
+            }
+
+            var valueInObject = prop.GetValue(genericObject);
+            var isValueType   = prop.PropertyType.IsValueType;
+
+            if (isValueType)
+            {
+                var defaultValue = Activator.CreateInstance(prop.PropertyType);
+
+                if (valueInObject != defaultValue)
+                {
+                    return;
+                }
+            }
+
+            if (!isValueType && valueInObject != null)
+            {
+                return;
+            }
+
+            _objectCreationStack.Push(prop.PropertyType);
+
+            var propertyValue = GetMethodCallAssociatedWithType(prop.PropertyType);
+
+            _objectCreationStack.Pop();
+
+            prop.SetValue(genericObject, propertyValue, null);
         }
         #endregion
     }
