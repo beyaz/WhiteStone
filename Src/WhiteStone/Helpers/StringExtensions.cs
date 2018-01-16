@@ -107,5 +107,14 @@ namespace WhiteStone.Helpers
         {
             return string.IsNullOrWhiteSpace(value);
         }
+
+
+        /// <summary>
+        /// Determines whether this instance has value.
+        /// </summary>
+        public static bool HasValue(this string value)
+        {
+            return !string.IsNullOrWhiteSpace(value);
+        }
     }
 }

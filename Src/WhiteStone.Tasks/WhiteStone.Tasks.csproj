@@ -49,6 +49,7 @@
     <Compile Include="CombineFilesIntoJsFile.cs" />
     <Compile Include="CopyDirectory.cs" />
     <Compile Include="CopyFile.cs" />
+    <Compile Include="CopyFiles.cs" />
     <Compile Include="CreateDirectory.cs" />
     <Compile Include="GetFileContentFromWebIfNotInTarggetDir.cs" />
     <Compile Include="ITask.cs" />
