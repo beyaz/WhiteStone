@@ -251,7 +251,7 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the collection.
         /// </summary>
-        public static List<object> ICollection(Type type, int? optionalLength = null)
+        static List<object> ICollection(Type type, int? optionalLength = null)
         {
             var numberOfItems = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
 
