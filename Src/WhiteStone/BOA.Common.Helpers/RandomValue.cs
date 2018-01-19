@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Text;
 namespace BOA.Common.Helpers
 {
     /// <summary>
-    ///     Defines the random value.
+    ///     The random value
     /// </summary>
     public static class RandomValue
     {
@@ -19,7 +20,7 @@ namespace BOA.Common.Helpers
         internal static readonly Stack<object> _objectCreationStack = new Stack<object>();
 
         /// <summary>
-        ///     The random.
+        ///     The random
         /// </summary>
         static readonly Random _random = new Random();
 
@@ -61,37 +62,37 @@ namespace BOA.Common.Helpers
 
         #region Enums
         /// <summary>
-        ///     Defines the support type.
+        ///     The support type
         /// </summary>
         internal enum SupportType
         {
             /// <summary>
-            ///     The not supported.
+            ///     The not supported
             /// </summary>
             NotSupported,
 
             /// <summary>
-            ///     The user defined.
+            ///     The user defined
             /// </summary>
             UserDefined,
 
             /// <summary>
-            ///     The basic.
+            ///     The basic
             /// </summary>
             Basic,
 
             /// <summary>
-            ///     The enum.
+            ///     The enum
             /// </summary>
             Enum,
 
             /// <summary>
-            ///     The collection.
+            ///     The collection
             /// </summary>
             Collection,
 
             /// <summary>
-            ///     The nullable.
+            ///     The nullable
             /// </summary>
             Nullable
         }
@@ -122,7 +123,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Use for getting a random Byte for your unit tests.
+        ///     Bytes the specified maximum possible value.
         /// </summary>
         public static byte Byte(byte maxPossibleValue = byte.MaxValue)
         {
@@ -150,7 +151,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Use for getting a random DateTimes for your unit tests. Always returns a date in the past.
+        ///     Dates the time.
         /// </summary>
         public static DateTime DateTime(DateTime? minDateTime = null, DateTime? maxDateTime = null)
         {
@@ -186,7 +187,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Use for getting a random Decimal for your unit test
+        ///     Decimals the specified maximum possible value.
         /// </summary>
         public static decimal Decimal(decimal maxPossibleValue = 1m)
         {
@@ -214,11 +215,19 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static T Enum<T>()
         {
-            var fields = typeof(T).GetRuntimeFields().Where(x => x.IsPublic && x.IsStatic).ToArray();
+            return (T) Enum(typeof(T));
+        }
+
+        /// <summary>
+        ///     Enums the specified enum type.
+        /// </summary>
+        public static object Enum(Type enumType)
+        {
+            var fields = enumType.GetFields().Where(x => x.IsPublic && x.IsStatic).ToArray();
 
             var index = _random.Next(fields.Length);
 
-            return (T) System.Enum.Parse(typeof(T), fields[index].Name, false);
+            return System.Enum.Parse(enumType, fields[index].Name, false);
         }
 
         /// <summary>
@@ -234,13 +243,21 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static ICollection<T> ICollection<T>(int? optionalLength = null)
         {
+            var collection = ICollection(typeof(T), optionalLength);
+
+            return new Collection<T>(collection.ConvertAll(x => (T) x));
+        }
+
+        /// <summary>
+        ///     is the collection.
+        /// </summary>
+        public static List<object> ICollection(Type type, int? optionalLength = null)
+        {
             var numberOfItems = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
 
-            var enumerable = LazyIEnumerable<T>().Take(numberOfItems);
+            var enumerable = LazyIEnumerable(type).Take(numberOfItems);
 
-            var randomList = new Collection<T>(enumerable.ToList());
-
-            return randomList;
+            return enumerable.ToList();
         }
 
         /// <summary>
@@ -248,15 +265,7 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static IDictionary<TKey, TValue> IDictionary<TKey, TValue>(int? optionalLength = null)
         {
-            var length = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
-
-            var keys = LazyIEnumerable<TKey>().Distinct().Take(length);
-
-            var values = ICollection<TValue>(length);
-
-            var keyValuePairs = keys.Zip(values, (key, value) => new KeyValuePair<TKey, TValue>(key, value));
-
-            return keyValuePairs.ToDictionary(key => key.Key, value => value.Value);
+            return (IDictionary<TKey, TValue>) IDictionary(typeof(TKey), typeof(TValue), optionalLength);
         }
 
         /// <summary>
@@ -335,6 +344,22 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Lazies the i enumerable.
+        /// </summary>
+        public static IEnumerable<object> LazyIEnumerable(Type type)
+        {
+            var supportType = GetSupportType(type);
+
+            // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
+            while (supportType != SupportType.NotSupported)
+            {
+                var method = GetMethodCallAssociatedWithType(type);
+
+                yield return method;
+            }
+        }
+
+        /// <summary>
         ///     Lists the specified optional length.
         /// </summary>
         public static List<T> List<T>(int? optionalLength = null)
@@ -347,13 +372,32 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static T Object<T>() where T : new()
         {
-            var genericObject = (T) Activator.CreateInstance(typeof(T));
+            return (T) Object(typeof(T));
+        }
 
-            var properties = typeof(T).GetRuntimeProperties().ToArray();
+        /// <summary>
+        ///     Objects the specified after random object created.
+        /// </summary>
+        public static T Object<T>(Action<T> afterRandomObjectCreated) where T : new()
+        {
+            var randomObject = Object<T>();
+
+            afterRandomObjectCreated(randomObject);
+
+            return randomObject;
+        }
+
+        /// <summary>
+        ///     Objects the specified type.
+        /// </summary>
+        public static object Object(Type type)
+        {
+            var genericObject = Activator.CreateInstance(type);
+
+            var properties = type.GetProperties().ToArray();
 
             if (properties.Length == 0)
             {
-                // Prevent infinite loop when called recursively
                 return genericObject;
             }
 
@@ -370,18 +414,6 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Objects the specified after random object created.
-        /// </summary>
-        public static T Object<T>(Action<T> afterRandomObjectCreated) where T : new()
-        {
-            var randomObject = Object<T>();
-
-            afterRandomObjectCreated(randomObject);
-
-            return randomObject;
-        }
-
-        /// <summary>
         ///     Observables the collection.
         /// </summary>
         public static ObservableCollection<T> ObservableCollection<T>(int? optionalLength = null)
@@ -390,7 +422,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Use for getting a random Signed Byte for your unit tests.
+        ///     ses the byte.
         /// </summary>
         public static sbyte SByte(sbyte maxPossibleValue = sbyte.MaxValue)
         {
@@ -406,8 +438,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Use for getting a random string for your unit tests.  This is basically a Guid.ToString() so it will
-        ///     not have any formatting and it will have "-"
+        ///     Strings this instance.
         /// </summary>
         public static string String()
         {
@@ -415,7 +446,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Use for getting a random string of a specific length for your unit tests.
+        ///     Strings the specified string length.
         /// </summary>
         public static string String(int stringLength)
         {
@@ -445,7 +476,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     UInt16s the specified maximum possible value.
+        ///     us the int16.
         /// </summary>
         public static ushort UInt16(ushort maxPossibleValue = ushort.MaxValue)
         {
@@ -453,7 +484,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     UInt32s the specified maximum possible value.
+        ///     us the int32.
         /// </summary>
         public static uint UInt32(uint maxPossibleValue = uint.MaxValue)
         {
@@ -471,7 +502,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     UInt64s the specified maximum possible value.
+        ///     us the int64.
         /// </summary>
         public static ulong UInt64(ulong maxPossibleValue = ulong.MaxValue)
         {
@@ -492,49 +523,11 @@ namespace BOA.Common.Helpers
 
         #region Methods
         /// <summary>
-        ///     Arrays the method call.
-        /// </summary>
-        static object ArrayMethodCall(Type typeOfList)
-        {
-            return InvokeCollectionMethod("Array", typeOfList);
-        }
-
-        /// <summary>
-        ///     Collections the method call.
-        /// </summary>
-        static object CollectionMethodCall(Type typeOfList)
-        {
-            return InvokeCollectionMethod("Collection", typeOfList);
-        }
-
-        /// <summary>
         ///     Creates the random length if option length is null.
         /// </summary>
         static int CreateRandomLengthIfOptionLengthIsNull(int? optionalLength)
         {
             return optionalLength ?? _random.Next(1, 10);
-        }
-
-        /// <summary>
-        ///     Dictionaries the method call.
-        /// </summary>
-        static object DictionaryMethodCall(Type[] genericTypeArguments)
-        {
-            var method = GetMethod("Dictionary");
-
-            return method
-                   .MakeGenericMethod(genericTypeArguments[0], genericTypeArguments[1])
-                   .Invoke(null, new object[] {null});
-        }
-
-        /// <summary>
-        ///     Enums the method call.
-        /// </summary>
-        static object EnumMethodCall(Type type)
-        {
-            return GetMethod("Enum")
-                   .MakeGenericMethod(type)
-                   .Invoke(null, new object[] { });
         }
 
         /// <summary>
@@ -544,60 +537,61 @@ namespace BOA.Common.Helpers
         {
             if (type.IsArray)
             {
-                return ArrayMethodCall(type.GetElementType());
+                return ICollection(type.GetElementType()).ToArray();
             }
 
-            if (type.GetTypeInfo().IsGenericType &&
+            if (type.IsGenericType &&
                 SupportedCollectionTypesForList.Contains(type.GetGenericTypeDefinition())
             )
             {
-                return ListMethodCall(genericArgumentType);
+                var instance = (IList) Activator.CreateInstance(typeof(List<>).MakeGenericType(genericArgumentType));
+                foreach (var item in ICollection(genericArgumentType))
+                {
+                    instance.Add(item);
+                }
+
+                return instance;
             }
 
             if (type.GetGenericTypeDefinition() == typeof(ObservableCollection<>))
             {
-                return InvokeCollectionMethod("ObservableCollection", genericArgumentType);
+                var instance = (IList) Activator.CreateInstance(typeof(ObservableCollection<>).MakeGenericType(genericArgumentType));
+                foreach (var item in (IEnumerable) IList(genericArgumentType))
+                {
+                    instance.Add(item);
+                }
+
+                return instance;
             }
 
             if (type.GetGenericTypeDefinition() == typeof(IList<>))
             {
-                return IListMethodCall(genericArgumentType);
+                return IList(genericArgumentType);
             }
 
-            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Collection<>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Collection<>))
             {
-                return CollectionMethodCall(genericArgumentType);
+                return ICollection(genericArgumentType).ToList();
             }
 
             if (type.GetGenericTypeDefinition() == typeof(ICollection<>))
             {
-                return ICollectionMethodCall(genericArgumentType);
+                return ICollection(genericArgumentType);
             }
 
-            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
             {
-                return DictionaryMethodCall(type.GenericTypeArguments);
-            }
+                var genericArguments = type.GetGenericArguments();
 
-            if (type.GetGenericTypeDefinition() == typeof(IDictionary<,>))
-            {
-                return IDictionaryMethodCall(type.GenericTypeArguments);
+                return IDictionary(genericArguments[0], genericArguments[1]);
             }
 
             if (type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
-                return IEnumerableMethodCall(genericArgumentType);
+                return IEnumerable(genericArgumentType, null);
             }
 
             return null;
-        }
-
-        /// <summary>
-        ///     Gets the method.
-        /// </summary>
-        static MethodInfo GetMethod(string nameOfMethod)
-        {
-            return typeof(RandomValue).GetRuntimeMethods().First(x => x.Name == nameOfMethod);
         }
 
         /// <summary>
@@ -612,7 +606,7 @@ namespace BOA.Common.Helpers
                 case SupportType.Basic:
                     return SupportedTypes[propertyType].Invoke(propertyType);
                 case SupportType.Enum:
-                    return EnumMethodCall(propertyType);
+                    return Enum(propertyType);
                 case SupportType.Collection:
                 {
                     var collectionType = propertyType.IsArray
@@ -623,7 +617,7 @@ namespace BOA.Common.Helpers
                 case SupportType.Nullable:
                     return NullableMethodCall(propertyType);
                 case SupportType.UserDefined:
-                    return ObjectMethodCall(propertyType);
+                    return Object(propertyType);
                 default:
                     return null;
             }
@@ -639,7 +633,7 @@ namespace BOA.Common.Helpers
                 return SupportType.Basic;
             }
 
-            if (type.GetTypeInfo().IsEnum)
+            if (type.IsEnum)
             {
                 return SupportType.Enum;
             }
@@ -654,7 +648,7 @@ namespace BOA.Common.Helpers
                 return SupportType.Nullable;
             }
 
-            if (type.GetTypeInfo().IsClass)
+            if (type.IsClass)
             {
                 return SupportType.UserDefined;
             }
@@ -663,53 +657,43 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     is the collection method call.
+        ///     is the dictionary.
         /// </summary>
-        static object ICollectionMethodCall(Type typeOfList)
+        static IDictionary IDictionary(Type keyType, Type valueType, int? optionalLength = null)
         {
-            return InvokeCollectionMethod("ICollection", typeOfList);
+            var length = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
+
+            var keys = LazyIEnumerable(keyType).Distinct().Take(length);
+
+            var values = ICollection(valueType, length);
+
+            var dictionaryInstance = (IDictionary) Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(keyType, valueType));
+
+            var i = 0;
+            foreach (var key in keys)
+            {
+                dictionaryInstance.Add(key, values[i++]);
+            }
+
+            return dictionaryInstance;
         }
 
         /// <summary>
-        ///     is the dictionary method call.
+        ///     is the enumerable.
         /// </summary>
-        static object IDictionaryMethodCall(Type[] genericTypeArguments)
+        static object IEnumerable(Type type, int? optionalLength)
         {
-            var method = GetMethod("IDictionary");
+            var numberOfItems = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
 
-            return method
-                   .MakeGenericMethod(genericTypeArguments[0], genericTypeArguments[1])
-                   .Invoke(null, new object[] {null});
+            return LazyIEnumerable(type).Take(numberOfItems);
         }
 
         /// <summary>
-        ///     is the enumerable method call.
+        ///     is the list.
         /// </summary>
-        static object IEnumerableMethodCall(Type type)
+        static object IList(Type typeOfList, int? optionalLength = null)
         {
-            return GetMethod("IEnumerable")
-                   .MakeGenericMethod(type)
-                   .Invoke(null, new object[] { });
-        }
-
-        /// <summary>
-        ///     is the list method call.
-        /// </summary>
-        static object IListMethodCall(Type typeOfList)
-        {
-            return InvokeCollectionMethod("IList", typeOfList);
-        }
-
-        /// <summary>
-        ///     Invokes the collection method.
-        /// </summary>
-        static object InvokeCollectionMethod(string nameOfMethod, Type type)
-        {
-            var method = GetMethod(nameOfMethod);
-
-            return method
-                   .MakeGenericMethod(type)
-                   .Invoke(null, new object[] {null});
+            return ICollection(typeOfList, optionalLength).ToList();
         }
 
         /// <summary>
@@ -717,7 +701,7 @@ namespace BOA.Common.Helpers
         /// </summary>
         static bool IsNullableType(Type propertyType)
         {
-            return propertyType.GetTypeInfo().IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
+            return propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
         /// <summary>
@@ -725,10 +709,10 @@ namespace BOA.Common.Helpers
         /// </summary>
         static bool IsSupportedCollection(Type propertyType)
         {
-            var hasImplementedICollection = propertyType.GetTypeInfo().ImplementedInterfaces.Any(x => x.Name == "ICollection");
+            var hasImplementedICollection = typeof(ICollection).IsAssignableFrom(propertyType);
 
             return hasImplementedICollection
-                   || propertyType.GetTypeInfo().IsGenericType &&
+                   || propertyType.IsGenericType &&
                    (propertyType.IsArray
                     || propertyType.GetGenericTypeDefinition() == typeof(ICollection<>)
                     || propertyType.GetGenericTypeDefinition() == typeof(IList<>)
@@ -739,33 +723,12 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Lists the method call.
-        /// </summary>
-        static object ListMethodCall(Type typeOfList)
-        {
-            return InvokeCollectionMethod("List", typeOfList);
-        }
-
-        /// <summary>
         ///     Nullables the method call.
         /// </summary>
         static object NullableMethodCall(Type propertyType)
         {
             var baseType = propertyType.GetGenericArguments()[0];
             return GetMethodCallAssociatedWithType(baseType);
-        }
-
-        /// <summary>
-        ///     Objects the method call.
-        /// </summary>
-        static object ObjectMethodCall(Type type)
-        {
-            var mi = typeof(RandomValue).GetRuntimeMethods()
-                                        .First(x => x.Name == "Object" && x.GetParameters()
-                                                                           .FirstOrDefault() == null);
-
-            mi = mi.MakeGenericMethod(type);
-            return mi.Invoke(null, new object[] { });
         }
 
         /// <summary>
@@ -783,18 +746,17 @@ namespace BOA.Common.Helpers
         {
             if (PropertyHasNoSetter(prop))
             {
-                // Property doesn't have a public setter so let's ignore it
                 return;
             }
 
             var countInCreationStack = _objectCreationStack.Count(item => item.GetType() == prop.PropertyType);
-            if (countInCreationStack > 0) // for avoid infinite call
+            if (countInCreationStack > 0)
             {
                 return;
             }
 
             countInCreationStack = _objectCreationStack.Count(item => prop.PropertyType.Equals(item));
-            if (countInCreationStack > 0) // for avoid infinite call
+            if (countInCreationStack > 0)
             {
                 return;
             }

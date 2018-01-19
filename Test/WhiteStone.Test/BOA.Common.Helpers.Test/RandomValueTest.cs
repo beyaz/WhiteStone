@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.Common.Helpers.Test
@@ -10,12 +11,13 @@ namespace BOA.Common.Helpers.Test
 
         public A2 A2 { get; set; }
 
+        [SuppressMessage("ReSharper", "CollectionNeverUpdated.Global")]
         public List<A> AList { get; set; }
 
         public IReadOnlyCollection<A> IReadOnlyCollectionProperty { get; set; }
 
         public IReadOnlyList<A> ReadOnlyList { get; set; }
-        public string stringValue { get; set; }
+        public string           stringValue  { get; set; }
         #endregion
     }
 
@@ -29,15 +31,6 @@ namespace BOA.Common.Helpers.Test
     [TestClass]
     public class RandomValueTest
     {
-
-        [TestMethod]
-        public void String_With_Length_Parameter()
-        {
-            var len = 5432;
-            Assert.AreEqual(len, RandomValue.String(len).Length);
-        }
-
-
         #region Public Methods
         [TestMethod]
         public void If_Property_Has_Already_Value_Do_Not_Change_It()
@@ -69,6 +62,7 @@ namespace BOA.Common.Helpers.Test
             {
                 RandomValue.Object<A>();
             }
+
             Assert.AreEqual(0, RandomValue._objectCreationStack.Count);
         }
 
@@ -83,16 +77,23 @@ namespace BOA.Common.Helpers.Test
             Assert.AreNotEqual(0, instance.Int64);
             Assert.AreNotEqual(0, instance.UInt64);
         }
+
+        [TestMethod]
+        public void String_With_Length_Parameter()
+        {
+            var len = 5432;
+            Assert.AreEqual(len, RandomValue.String(len).Length);
+        }
         #endregion
 
         class MyClassHasPrimitiveTypes
         {
             #region Public Properties
-            public short? Int16 { get; set; }
-            public int? Int32 { get; set; }
-            public long? Int64 { get; set; }
+            public short?  Int16  { get; set; }
+            public int?    Int32  { get; set; }
+            public long?   Int64  { get; set; }
             public ushort? UInt16 { get; set; }
-            public ulong? UInt64 { get; set; }
+            public ulong?  UInt64 { get; set; }
             #endregion
         }
     }
@@ -107,7 +108,7 @@ namespace BOA.Common.Helpers.Test
         #endregion
 
         #region Public Properties
-        public string A { get; set; }
+        public string A  { get; set; }
         public string A2 { get; set; }
         #endregion
     }
@@ -117,17 +118,17 @@ namespace BOA.Common.Helpers.Test
         #region Constructors
         public Class_With_Value_Set_In_Constructor()
         {
-            Property_int = 56;
+            Property_int          = 56;
             Property_int_nullable = 78;
-            Labels = new Labels();
+            Labels                = new Labels();
         }
         #endregion
 
         #region Public Properties
-        public Labels Labels { get; set; }
-        public int Property_int { get; set; }
-        public int? Property_int_nullable { get; set; }
-        public int? Property_int_nullable2 { get; set; }
+        public Labels Labels                 { get; set; }
+        public int    Property_int           { get; set; }
+        public int?   Property_int_nullable  { get; set; }
+        public int?   Property_int_nullable2 { get; set; }
         #endregion
     }
 }
