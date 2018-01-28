@@ -47,7 +47,7 @@ namespace WhiteStone.Tasks
         #region Methods
         static string GetDictionaryKey(string relativeDir, string filePath)
         {
-            var folderName = new DirectoryInfo(relativeDir).Name;
+            var folderName = new DirectoryInfo(relativeDir).Name.Replace(".", "/");
 
             filePath = filePath.RemoveFromStart(relativeDir);
 
