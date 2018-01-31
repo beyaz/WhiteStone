@@ -11,17 +11,9 @@ namespace BOA.Common.Helpers
     /// <summary>
     ///     The random value
     /// </summary>
-    public static class RandomValue
+    public class RandomValue
     {
-
-       
-
         #region Static Fields
-        /// <summary>
-        ///     The object creation stack
-        /// </summary>
-        internal static readonly Stack<object> _objectCreationStack = new Stack<object>();
-
         /// <summary>
         ///     The random
         /// </summary>
@@ -61,6 +53,13 @@ namespace BOA.Common.Helpers
             {typeof(TimeSpan), type => TimeSpan()},
             {typeof(DateTimeOffset), type => DateTimeOffset()}
         };
+        #endregion
+
+        #region Fields
+        /// <summary>
+        ///     The object creation stack
+        /// </summary>
+        internal readonly Stack<object> _objectCreationStack = new Stack<object>();
         #endregion
 
         #region Enums
@@ -103,14 +102,6 @@ namespace BOA.Common.Helpers
 
         #region Public Methods
         /// <summary>
-        ///     Arrays the specified optional length.
-        /// </summary>
-        public static T[] Array<T>(int? optionalLength = null)
-        {
-            return Collection<T>(optionalLength).ToArray();
-        }
-
-        /// <summary>
         ///     Booleans this instance.
         /// </summary>
         public static bool Boolean()
@@ -143,14 +134,6 @@ namespace BOA.Common.Helpers
             _random.NextBytes(buffer);
 
             return BitConverter.ToChar(buffer, 0);
-        }
-
-        /// <summary>
-        ///     Collections the specified optional length.
-        /// </summary>
-        public static Collection<T> Collection<T>(int? optionalLength = null)
-        {
-            return (Collection<T>) ICollection<T>(optionalLength);
         }
 
         /// <summary>
@@ -198,14 +181,6 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Dictionaries the specified optional length.
-        /// </summary>
-        public static Dictionary<TKey, TValue> Dictionary<TKey, TValue>(int? optionalLength = null)
-        {
-            return (Dictionary<TKey, TValue>) IDictionary<TKey, TValue>(optionalLength);
-        }
-
-        /// <summary>
         ///     Doubles this instance.
         /// </summary>
         public static double Double()
@@ -242,50 +217,6 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     is the collection.
-        /// </summary>
-        public static ICollection<T> ICollection<T>(int? optionalLength = null)
-        {
-            var collection = ICollection(typeof(T), optionalLength);
-
-            return new Collection<T>(collection.ConvertAll(x => (T) x));
-        }
-
-        /// <summary>
-        ///     is the dictionary.
-        /// </summary>
-        public static IDictionary<TKey, TValue> IDictionary<TKey, TValue>(int? optionalLength = null)
-        {
-            return (IDictionary<TKey, TValue>) IDictionary(typeof(TKey), typeof(TValue), optionalLength);
-        }
-
-        /// <summary>
-        ///     is the enumerable.
-        /// </summary>
-        public static IEnumerable<T> IEnumerable<T>()
-        {
-            return IEnumerable<T>(null);
-        }
-
-        /// <summary>
-        ///     is the enumerable.
-        /// </summary>
-        public static IEnumerable<T> IEnumerable<T>(int? optionalLength)
-        {
-            var numberOfItems = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
-
-            return LazyIEnumerable<T>().Take(numberOfItems);
-        }
-
-        /// <summary>
-        ///     is the list.
-        /// </summary>
-        public static IList<T> IList<T>(int? optionalLength = null)
-        {
-            return ICollection<T>(optionalLength).ToList();
-        }
-
-        /// <summary>
         ///     Int16s the specified maximum possible value.
         /// </summary>
         public static short Int16(short maxPossibleValue = short.MaxValue)
@@ -317,99 +248,13 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Lazies the i enumerable.
-        /// </summary>
-        public static IEnumerable<T> LazyIEnumerable<T>()
-        {
-            var type = typeof(T);
-
-            var supportType = GetSupportType(type);
-
-            // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
-            while (supportType != SupportType.NotSupported)
-            {
-                var method = GetMethodCallAssociatedWithType(type);
-
-                yield return (T) method;
-            }
-        }
-
-        /// <summary>
-        ///     Lazies the i enumerable.
-        /// </summary>
-        public static IEnumerable<object> LazyIEnumerable(Type type)
-        {
-            var supportType = GetSupportType(type);
-
-            // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
-            while (supportType != SupportType.NotSupported)
-            {
-                var method = GetMethodCallAssociatedWithType(type);
-
-                yield return method;
-            }
-        }
-
-        /// <summary>
-        ///     Lists the specified optional length.
-        /// </summary>
-        public static List<T> List<T>(int? optionalLength = null)
-        {
-            return ICollection<T>(optionalLength).ToList();
-        }
-
-        /// <summary>
         ///     Objects this instance.
         /// </summary>
         public static T Object<T>() where T : new()
         {
-            return (T) Object(typeof(T));
-        }
+            var randomValue = new RandomValue();
 
-        /// <summary>
-        ///     Objects the specified after random object created.
-        /// </summary>
-        public static T Object<T>(Action<T> afterRandomObjectCreated) where T : new()
-        {
-            var randomObject = Object<T>();
-
-            afterRandomObjectCreated(randomObject);
-
-            return randomObject;
-        }
-
-        /// <summary>
-        ///     Objects the specified type.
-        /// </summary>
-        public static object Object(Type type)
-        {
-            var genericObject = Activator.CreateInstance(type);
-
-            var properties = type.GetProperties().ToArray();
-
-            if (properties.Length == 0)
-            {
-                return genericObject;
-            }
-
-            _objectCreationStack.Push(genericObject);
-
-            foreach (var prop in properties)
-            {
-                TryInitProperty(prop, genericObject);
-            }
-
-            _objectCreationStack.Pop();
-
-            return genericObject;
-        }
-
-        /// <summary>
-        ///     Observables the collection.
-        /// </summary>
-        public static ObservableCollection<T> ObservableCollection<T>(int? optionalLength = null)
-        {
-            return new ObservableCollection<T>(List<T>(optionalLength));
+            return (T) randomValue.Object(typeof(T));
         }
 
         /// <summary>
@@ -510,6 +355,150 @@ namespace BOA.Common.Helpers
 
             return generatedULongs;
         }
+
+        /// <summary>
+        ///     Arrays the specified optional length.
+        /// </summary>
+        public T[] Array<T>(int? optionalLength = null)
+        {
+            return Collection<T>(optionalLength).ToArray();
+        }
+
+        /// <summary>
+        ///     Collections the specified optional length.
+        /// </summary>
+        public Collection<T> Collection<T>(int? optionalLength = null)
+        {
+            return (Collection<T>) ICollection<T>(optionalLength);
+        }
+
+        /// <summary>
+        ///     Dictionaries the specified optional length.
+        /// </summary>
+        public Dictionary<TKey, TValue> Dictionary<TKey, TValue>(int? optionalLength = null)
+        {
+            return (Dictionary<TKey, TValue>) IDictionary<TKey, TValue>(optionalLength);
+        }
+
+        /// <summary>
+        ///     is the collection.
+        /// </summary>
+        public ICollection<T> ICollection<T>(int? optionalLength = null)
+        {
+            var collection = ICollection(typeof(T), optionalLength);
+
+            return new Collection<T>(collection.ConvertAll(x => (T) x));
+        }
+
+        /// <summary>
+        ///     is the dictionary.
+        /// </summary>
+        public IDictionary<TKey, TValue> IDictionary<TKey, TValue>(int? optionalLength = null)
+        {
+            return (IDictionary<TKey, TValue>) IDictionary(typeof(TKey), typeof(TValue), optionalLength);
+        }
+
+        /// <summary>
+        ///     is the enumerable.
+        /// </summary>
+        public IEnumerable<T> IEnumerable<T>()
+        {
+            return IEnumerable<T>(null);
+        }
+
+        /// <summary>
+        ///     is the enumerable.
+        /// </summary>
+        public IEnumerable<T> IEnumerable<T>(int? optionalLength)
+        {
+            var numberOfItems = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
+
+            return LazyIEnumerable<T>().Take(numberOfItems);
+        }
+
+        /// <summary>
+        ///     is the list.
+        /// </summary>
+        public IList<T> IList<T>(int? optionalLength = null)
+        {
+            return ICollection<T>(optionalLength).ToList();
+        }
+
+        /// <summary>
+        ///     Lazies the i enumerable.
+        /// </summary>
+        public IEnumerable<T> LazyIEnumerable<T>()
+        {
+            var type = typeof(T);
+
+            var supportType = GetSupportType(type);
+
+            // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
+            while (supportType != SupportType.NotSupported)
+            {
+                var method = GetMethodCallAssociatedWithType(type);
+
+                yield return (T) method;
+            }
+        }
+
+        /// <summary>
+        ///     Lazies the i enumerable.
+        /// </summary>
+        public IEnumerable<object> LazyIEnumerable(Type type)
+        {
+            var supportType = GetSupportType(type);
+
+            // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
+            while (supportType != SupportType.NotSupported)
+            {
+                var method = GetMethodCallAssociatedWithType(type);
+
+                yield return method;
+            }
+        }
+
+        /// <summary>
+        ///     Lists the specified optional length.
+        /// </summary>
+        public List<T> List<T>(int? optionalLength = null)
+        {
+            return ICollection<T>(optionalLength).ToList();
+        }
+
+        /// <summary>
+        ///     Objects the specified type.
+        /// </summary>
+        public object Object(Type type)
+        {
+            var genericObject = Activator.CreateInstance(type);
+
+            var properties = type.GetProperties().ToArray();
+
+            if (properties.Length == 0)
+            {
+                return genericObject;
+            }
+
+            _objectCreationStack.Push(genericObject);
+
+            foreach (var prop in properties)
+            {
+                TryInitProperty(prop, genericObject);
+            }
+
+            _objectCreationStack.Pop();
+
+            return genericObject;
+        }
+
+        /// <summary>
+        ///     Observables the collection.
+        /// </summary>
+        public ObservableCollection<T> ObservableCollection<T>(int? optionalLength = null)
+        {
+            return new ObservableCollection<T>(List<T>(optionalLength));
+        }
         #endregion
 
         #region Methods
@@ -522,9 +511,76 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Gets the type of the support.
+        /// </summary>
+        static SupportType GetSupportType(Type type)
+        {
+            if (SupportedTypes.ContainsKey(type))
+            {
+                return SupportType.Basic;
+            }
+
+            if (type.IsEnum)
+            {
+                return SupportType.Enum;
+            }
+
+            if (IsSupportedCollection(type))
+            {
+                return SupportType.Collection;
+            }
+
+            if (IsNullableType(type))
+            {
+                return SupportType.Nullable;
+            }
+
+            if (type.IsClass)
+            {
+                return SupportType.UserDefined;
+            }
+
+            return SupportType.NotSupported;
+        }
+
+        /// <summary>
+        ///     Determines whether [is nullable type] [the specified property type].
+        /// </summary>
+        static bool IsNullableType(Type propertyType)
+        {
+            return propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
+        }
+
+        /// <summary>
+        ///     Determines whether [is supported collection] [the specified property type].
+        /// </summary>
+        static bool IsSupportedCollection(Type propertyType)
+        {
+            var hasImplementedICollection = typeof(ICollection).IsAssignableFrom(propertyType);
+
+            return hasImplementedICollection
+                   || propertyType.IsGenericType &&
+                   (propertyType.IsArray
+                    || propertyType.GetGenericTypeDefinition() == typeof(ICollection<>)
+                    || propertyType.GetGenericTypeDefinition() == typeof(IList<>)
+                    || propertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+                    || propertyType.GetGenericTypeDefinition() == typeof(IDictionary<,>)
+                    || SupportedCollectionTypesForList.Contains(propertyType.GetGenericTypeDefinition())
+                   );
+        }
+
+        /// <summary>
+        ///     Properties the has no setter.
+        /// </summary>
+        static bool PropertyHasNoSetter(PropertyInfo prop)
+        {
+            return prop.SetMethod == null;
+        }
+
+        /// <summary>
         ///     Gets the list method of collections.
         /// </summary>
-        static object GetListMethodOfCollections(Type type, Type genericArgumentType)
+        object GetListMethodOfCollections(Type type, Type genericArgumentType)
         {
             if (type.IsArray)
             {
@@ -588,7 +644,7 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Gets the type of the method call associated with.
         /// </summary>
-        static object GetMethodCallAssociatedWithType(Type propertyType)
+        object GetMethodCallAssociatedWithType(Type propertyType)
         {
             var supportType = GetSupportType(propertyType);
 
@@ -615,42 +671,9 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Gets the type of the support.
-        /// </summary>
-        static SupportType GetSupportType(Type type)
-        {
-            if (SupportedTypes.ContainsKey(type))
-            {
-                return SupportType.Basic;
-            }
-
-            if (type.IsEnum)
-            {
-                return SupportType.Enum;
-            }
-
-            if (IsSupportedCollection(type))
-            {
-                return SupportType.Collection;
-            }
-
-            if (IsNullableType(type))
-            {
-                return SupportType.Nullable;
-            }
-
-            if (type.IsClass)
-            {
-                return SupportType.UserDefined;
-            }
-
-            return SupportType.NotSupported;
-        }
-
-        /// <summary>
         ///     is the collection.
         /// </summary>
-        static List<object> ICollection(Type type, int? optionalLength = null)
+        List<object> ICollection(Type type, int? optionalLength = null)
         {
             var numberOfItems = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
 
@@ -662,7 +685,7 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the dictionary.
         /// </summary>
-        static IDictionary IDictionary(Type keyType, Type valueType, int? optionalLength = null)
+        IDictionary IDictionary(Type keyType, Type valueType, int? optionalLength = null)
         {
             var length = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
 
@@ -684,7 +707,7 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the enumerable.
         /// </summary>
-        static object IEnumerable(Type type, int? optionalLength)
+        object IEnumerable(Type type, int? optionalLength)
         {
             var numberOfItems = CreateRandomLengthIfOptionLengthIsNull(optionalLength);
 
@@ -694,58 +717,24 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     is the list.
         /// </summary>
-        static object IList(Type typeOfList, int? optionalLength = null)
+        object IList(Type typeOfList, int? optionalLength = null)
         {
             return ICollection(typeOfList, optionalLength).ToList();
         }
 
         /// <summary>
-        ///     Determines whether [is nullable type] [the specified property type].
-        /// </summary>
-        static bool IsNullableType(Type propertyType)
-        {
-            return propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
-        }
-
-        /// <summary>
-        ///     Determines whether [is supported collection] [the specified property type].
-        /// </summary>
-        static bool IsSupportedCollection(Type propertyType)
-        {
-            var hasImplementedICollection = typeof(ICollection).IsAssignableFrom(propertyType);
-
-            return hasImplementedICollection
-                   || propertyType.IsGenericType &&
-                   (propertyType.IsArray
-                    || propertyType.GetGenericTypeDefinition() == typeof(ICollection<>)
-                    || propertyType.GetGenericTypeDefinition() == typeof(IList<>)
-                    || propertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>)
-                    || propertyType.GetGenericTypeDefinition() == typeof(IDictionary<,>)
-                    || SupportedCollectionTypesForList.Contains(propertyType.GetGenericTypeDefinition())
-                   );
-        }
-
-        /// <summary>
         ///     Nullables the method call.
         /// </summary>
-        static object NullableMethodCall(Type propertyType)
+        object NullableMethodCall(Type propertyType)
         {
             var baseType = propertyType.GetGenericArguments()[0];
             return GetMethodCallAssociatedWithType(baseType);
         }
 
         /// <summary>
-        ///     Properties the has no setter.
-        /// </summary>
-        static bool PropertyHasNoSetter(PropertyInfo prop)
-        {
-            return prop.SetMethod == null;
-        }
-
-        /// <summary>
         ///     Tries the initialize property.
         /// </summary>
-        static void TryInitProperty<T>(PropertyInfo prop, T genericObject) where T : new()
+        void TryInitProperty<T>(PropertyInfo prop, T genericObject) where T : new()
         {
             if (PropertyHasNoSetter(prop))
             {

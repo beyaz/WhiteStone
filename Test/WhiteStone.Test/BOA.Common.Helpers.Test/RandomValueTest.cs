@@ -48,22 +48,25 @@ namespace BOA.Common.Helpers.Test
         [TestMethod]
         public void Must_Support_Circular_Referenced_Types()
         {
+            var randomValue = new RandomValue();
+
             RandomValue.Object<A>();
+
             var a = RandomValue.Object<A>();
 
-            Assert.IsTrue(a.AList.Count > 1);
+            Assert.IsTrue(a.AList.Count >= 1);
 
-            Assert.IsTrue(a.ReadOnlyList.Count > 1);
-            Assert.IsTrue(a.A2.ReadOnlyList.Count > 1);
+            Assert.IsTrue(a.ReadOnlyList.Count >= 1);
+            Assert.IsTrue(a.A2.ReadOnlyList.Count >= 1);
 
-            Assert.IsTrue(a.IReadOnlyCollectionProperty.Count > 1);
+            Assert.IsTrue(a.IReadOnlyCollectionProperty.Count >= 1);
 
             for (var i = 0; i < 10; i++)
             {
-                RandomValue.Object<A>();
+                randomValue.Object(typeof(A));
             }
 
-            Assert.AreEqual(0, RandomValue._objectCreationStack.Count);
+            Assert.AreEqual(0, randomValue._objectCreationStack.Count);
         }
 
         [TestMethod]
