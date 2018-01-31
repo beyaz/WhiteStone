@@ -13,6 +13,9 @@ namespace BOA.Common.Helpers
     /// </summary>
     public static class RandomValue
     {
+
+       
+
         #region Static Fields
         /// <summary>
         ///     The object creation stack
