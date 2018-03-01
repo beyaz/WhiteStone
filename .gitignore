@@ -2,19 +2,22 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
-/packages/
-/Src/WhiteStone/bin/Debug
-/Src/WhiteStone/obj
-/Src/WhiteStone/obj
 *.user
 *.dgml
-/Src/WhiteStone.Tasks/bin/Debug
-/Src/WhiteStone.Tasks/obj
-/Test/WhiteStone.Test/bin/Debug
-/Test/WhiteStone.Test/obj
+
+/.vs
+/packages/
 /bin
-/Src/bin
-/Src/WhiteStone/bin/
-/Src/WhiteStone.Tasks/bin/
-/Test/WhiteStone.Test/bin/Release
+
+WhiteStone/bin/
+WhiteStone/obj
+
+
+WhiteStone.Tasks/bin
+WhiteStone.Tasks/obj
+
+WhiteStone.Test/bin
+WhiteStone.Test/obj
+
+
+
