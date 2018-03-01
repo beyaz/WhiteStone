@@ -69,11 +69,11 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\WhiteStone.Tasks\WhiteStone.Tasks.csproj">
+    <ProjectReference Include="..\WhiteStone.Tasks\WhiteStone.Tasks.csproj">
       <Project>{2bca3e43-315c-46dc-b362-b4e9a8abf497}</Project>
       <Name>WhiteStone.Tasks</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Src\WhiteStone\WhiteStone.csproj">
+    <ProjectReference Include="..\WhiteStone\WhiteStone.csproj">
       <Project>{d699be0c-9704-4846-83fa-47857cf77034}</Project>
       <Name>WhiteStone</Name>
     </ProjectReference>
