@@ -8,7 +8,7 @@ namespace BOA.Office.Excel
     {
         #region Public Methods
         [TestMethod]
-        public void PrepareForPasteToExcel()
+        public void CopyPasteTest()
         {
             var items = CreateTestContracts();
 
