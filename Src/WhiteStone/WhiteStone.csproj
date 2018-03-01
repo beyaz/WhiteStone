@@ -78,6 +78,7 @@
     <Compile Include="Data\MvcWpf\IModel.cs" />
     <Compile Include="BOA.Common.Helpers\ExpressionUtility.cs" />
     <Compile Include="BOA.Common.Helpers\RandomValue.cs" />
+    <Compile Include="BOA.Office.Excel\CopyPasteStringHelper.cs" />
     <Compile Include="Services\FileLogging\FileLoggerCreator.cs" />
     <Compile Include="Services\ILogger.cs" />
     <Compile Include="Services\Tracer.cs" />
