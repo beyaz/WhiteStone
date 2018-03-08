@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -41,6 +41,11 @@
     <AssemblyOriginatorKeyFile>WhiteStoneKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.10.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)packages\MySql.Data.6.9.10\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
@@ -93,8 +98,8 @@
     <Compile Include="Jaml\All.cs" />
     <Compile Include="Jaml\Extensions.cs" />
     <Compile Include="Mvc\All.cs" />
-    <Compile Include="Office\ExcelReader.cs" />
-    <Compile Include="Office\ExcelWrapper.cs" />
+    <Compile Include="BOA.Office.Excel\Reader.cs" />
+    <Compile Include="BOA.Office.Excel\Wrapper.cs" />
     <Compile Include="Services\DataTableStringifier.cs" />
     <Compile Include="Services\FileLogging\FileLogger.cs" />
     <Compile Include="Services\JsonSerializer.cs" />

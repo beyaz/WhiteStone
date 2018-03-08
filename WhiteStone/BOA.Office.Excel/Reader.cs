@@ -4,37 +4,33 @@ using System.Data.OleDb;
 using System.Globalization;
 using System.IO;
 
-namespace WhiteStone.Office
+namespace BOA.Office.Excel
 {
     /// <summary>
-    ///     Reads excel file
+    ///     The reader
     /// </summary>
-    public static class ExcelReader
+    public static class Reader
     {
+        #region Public Methods
         /// <summary>
         ///     Read excel file by using oledb connection.
-        ///     <exception cref="ArgumentNullException">When fileName or sheetName is empty</exception>
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="sheetName"></param>
-        /// <returns></returns>
         public static DataTable ReadFromFile(string fileName, string sheetName)
         {
             #region Argument validations
-
             if (string.IsNullOrWhiteSpace(fileName))
             {
                 throw new ArgumentNullException("fileName");
             }
+
             if (string.IsNullOrWhiteSpace(sheetName))
             {
                 throw new ArgumentNullException("sheetName");
             }
-
             #endregion
 
             string connectionString;
-            var fileExtension = Path.GetExtension(fileName);
+            var    fileExtension = Path.GetExtension(fileName);
             var dataSet = new DataSet
             {
                 Locale = CultureInfo.InvariantCulture
@@ -62,5 +58,6 @@ namespace WhiteStone.Office
             dataAdapter.Fill(dataSet, "ExcelInfo");
             return dataSet.Tables["ExcelInfo"];
         }
+        #endregion
     }
 }

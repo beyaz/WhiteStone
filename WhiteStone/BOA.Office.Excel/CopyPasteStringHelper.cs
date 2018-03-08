@@ -12,14 +12,27 @@ namespace BOA.Office.Excel
     public class CopyPasteStringHelper
     {
         #region Constants
+        /// <summary>
+        ///     The tab charachter
+        /// </summary>
         const char TabCharachter = '\t';
         #endregion
 
         #region Public Methods
         /// <summary>
-        ///     Prepares for paste to excel.
+        ///     Parses from string.
         /// </summary>
         public static IReadOnlyList<TContract> ParseFromString<TContract>(string copiedExcelData, IReadOnlyList<string> propertyNames) where TContract : new()
+        {
+            var table = ParseFromString(copiedExcelData);
+
+            return table.Select(r => LineToContract<TContract>(r, propertyNames)).ToList();
+        }
+
+        /// <summary>
+        ///     Parses from string.
+        /// </summary>
+        public static IReadOnlyList<IReadOnlyList<string>> ParseFromString(string copiedExcelData)
         {
             if (copiedExcelData == null)
             {
@@ -30,7 +43,7 @@ namespace BOA.Office.Excel
 
             var rows = copiedExcelData.Split(Environment.NewLine.ToCharArray()).Where(x => !string.IsNullOrWhiteSpace(x));
 
-            var table = new List<string[]>();
+            var table = new List<IReadOnlyList<string>>();
 
             foreach (var row in rows)
             {
@@ -38,7 +51,32 @@ namespace BOA.Office.Excel
                 table.Add(cells);
             }
 
-            return table.ConvertAll(r => LineToContract<TContract>(r, propertyNames));
+            return table;
+        }
+
+        /// <summary>
+        ///     Parses from string.
+        /// </summary>
+        public static IReadOnlyList<IDictionary<string, string>> ParseFromStringAsDictionary(string copiedExcelData)
+        {
+            var returnList = new List<IDictionary<string, string>>();
+
+            var table = ParseFromString(copiedExcelData);
+            for (var rowIndex = 1; rowIndex < table.Count; rowIndex++)
+            {
+                var dictionary = new Dictionary<string, string>();
+
+                var columnNames = table[0];
+
+                for (var columnIndex = 0; columnIndex < columnNames.Count; columnIndex++)
+                {
+                    dictionary[columnNames[columnIndex].Trim()] = table[rowIndex][columnIndex];
+                }
+
+                returnList.Add(dictionary);
+            }
+
+            return returnList;
         }
 
         /// <summary>
@@ -82,7 +120,7 @@ namespace BOA.Office.Excel
         /// <summary>
         ///     Lines to contract.
         /// </summary>
-        static TContract LineToContract<TContract>(string[] rowCells, IReadOnlyList<string> propertyNames) where TContract : new()
+        static TContract LineToContract<TContract>(IReadOnlyList<string> rowCells, IReadOnlyList<string> propertyNames) where TContract : new()
         {
             var contract = new TContract();
 
