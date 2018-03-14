@@ -248,6 +248,14 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        /// Lists the of.
+        /// </summary>
+        public static List<T> ListOf<T>(int? optionalLength = null)
+        {
+            return new RandomValue().List<T>(optionalLength);
+        }
+
+        /// <summary>
         ///     Objects this instance.
         /// </summary>
         public static T Object<T>() where T : new()
@@ -471,7 +479,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Lists the specified optional length.
+        /// Lists the specified optional length.
         /// </summary>
         public List<T> List<T>(int? optionalLength = null)
         {

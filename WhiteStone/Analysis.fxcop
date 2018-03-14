@@ -19,9 +19,10 @@
   <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
   <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
   <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
+  <TargetFrameworkVersion>0.0</TargetFrameworkVersion>
  </ProjectOptions>
  <Targets>
-  <Target Name="D:\github\WhiteStone\Src\WhiteStone\bin\Debug\WhiteStone.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
   <RuleFiles>
@@ -168,7 +169,7 @@
    </Namespace>
   </Namespaces>
   <Targets>
-   <Target Name="D:\github\WhiteStone\Src\WhiteStone\bin\Debug\WhiteStone.dll">
+   <Target Name="D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll">
     <Modules>
      <Module Name="whitestone.dll">
       <Namespaces>
@@ -217,6 +218,21 @@
                <Item>'List&lt;T&gt;'</Item>
                <Item>'RandomValue.List&lt;T&gt;(int?)'</Item>
               </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#ListOf`1(System.Nullable`1&lt;System.Int32&gt;)">
+            <Messages>
+             <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Excluded" Created="2018-03-14 07:37:11Z">
+              <Issue>
+               <Item>'List&lt;T&gt;'</Item>
+               <Item>'RandomValue.ListOf&lt;T&gt;(int?)'</Item>
+              </Issue>
+              <Notes>
+               <User Name="beyaztas">
+                <Note Id="2" />
+               </User>
+              </Notes>
              </Message>
             </Messages>
            </Member>
@@ -598,6 +614,7 @@
    <User Name="beyaztas">
     <Note Id="0" Modified="2017-12-30 10:33:34Z">.</Note>
     <Note Id="1" Modified="2018-01-06 17:26:56Z">.</Note>
+    <Note Id="2" Modified="2018-03-14 07:39:24Z">.</Note>
    </User>
   </Notes>
   <Rules>
