@@ -258,6 +258,18 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Objects the specified after random object created.
+        /// </summary>
+        public static T Object<T>(Action<T> afterRandomObjectCreated) where T : new()
+        {
+            var randomObject = Object<T>();
+
+            afterRandomObjectCreated(randomObject);
+
+            return randomObject;
+        }
+
+        /// <summary>
         ///     ses the byte.
         /// </summary>
         public static sbyte SByte(sbyte maxPossibleValue = sbyte.MaxValue)
