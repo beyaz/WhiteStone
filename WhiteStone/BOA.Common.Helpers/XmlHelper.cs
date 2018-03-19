@@ -1,20 +1,43 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
 namespace BOA.Common.Helpers
 {
     /// <summary>
-    /// The XML helper
+    ///     The XML helper
     /// </summary>
     public static class XmlHelper
     {
+        #region Public Methods
         /// <summary>
-        /// Pretties the XML.
+        ///     Clears the XML.
+        /// </summary>
+        public static string ClearXml(string xml)
+        {
+            var stringBuilder = new StringBuilder();
+
+            var element = XElement.Parse(xml);
+
+            var settings = new XmlWriterSettings
+            {
+                OmitXmlDeclaration = true
+                //Indent = false,
+                //NewLineOnAttributes = false
+            };
+
+            using (var xmlWriter = XmlWriter.Create(stringBuilder, settings))
+            {
+                element.Save(xmlWriter);
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        ///     Pretties the XML.
         /// </summary>
         public static string PrettyXml(string xml)
         {
@@ -24,8 +47,8 @@ namespace BOA.Common.Helpers
 
             var settings = new XmlWriterSettings
             {
-                OmitXmlDeclaration = true,
-                Indent = true,
+                OmitXmlDeclaration  = true,
+                Indent              = true,
                 NewLineOnAttributes = true
             };
 
@@ -38,27 +61,19 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        /// Clears the XML.
+        ///     To the list.
         /// </summary>
-        public static string ClearXml(string xml)
+        public static List<XmlNode> ToList(this IEnumerable nodeList)
         {
-            var stringBuilder = new StringBuilder();
+            var xmlNodes = new List<XmlNode>();
 
-            var element = XElement.Parse(xml);
-
-            var settings = new XmlWriterSettings
+            foreach (XmlNode xmlNode in nodeList)
             {
-                OmitXmlDeclaration = true,
-                //Indent = false,
-                //NewLineOnAttributes = false
-            };
-
-            using (var xmlWriter = XmlWriter.Create(stringBuilder, settings))
-            {
-                element.Save(xmlWriter);
+                xmlNodes.Add(xmlNode);
             }
 
-            return stringBuilder.ToString();
+            return xmlNodes;
         }
+        #endregion
     }
 }
