@@ -116,7 +116,7 @@
     <Compile Include="Helpers\ListUtility.cs" />
     <Compile Include="Helpers\NumberUtility.cs" />
     <Compile Include="Helpers\StringBuilderExtensions.cs" />
-    <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="BOA.Common.Helpers\StringHelper.cs" />
     <Compile Include="Helpers\CompilerUtility.cs" />
     <Compile Include="Configuration\AppSettingReader.cs" />
     <Compile Include="Configuration\IConfigReader.cs" />

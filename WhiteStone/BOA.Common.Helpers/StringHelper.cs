@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Globalization;
 
-namespace WhiteStone.Helpers
+namespace BOA.Common.Helpers
 {
     /// <summary>
     ///     Utility methods for string class.
     /// </summary>
-    public static class StringExtensions
+    public static class StringHelper
     {
         /// <summary>
         ///     Compare strings using ordinal sort rules.
