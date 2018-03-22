@@ -10,18 +10,36 @@ namespace BOA.Common.Helpers
     {
         #region Public Methods
         /// <summary>
+        ///     Appends to end of file.
+        /// </summary>
+        public static void AppendToEndOfFile(string filePath, string value)
+        {
+            var fs = new FileStream(filePath, FileMode.Append);
+
+            var sw = new StreamWriter(fs);
+            sw.Write(value);
+            sw.Close();
+            fs.Close();
+        }
+
+        /// <summary>
         ///     Copy the directories
         /// </summary>
+        /// <exception cref="DirectoryNotFoundException">
+        ///     Source directory does not exist or could not be found: "
+        ///     + sourceDirectoryPath
+        /// </exception>
         public static void CopyDirectory(string sourceDirectoryPath, string destinationDirectoryName, bool copySubdirectories)
         {
             // Get the subdirectories for the specified directory.
             var directoryInfo = new DirectoryInfo(sourceDirectoryPath);
-            var directories = directoryInfo.GetDirectories();
+            var directories   = directoryInfo.GetDirectories();
             if (!directoryInfo.Exists)
             {
                 throw new DirectoryNotFoundException("Source directory does not exist or could not be found: "
                                                      + sourceDirectoryPath);
             }
+
             var parentDirectory = Directory.GetParent(directoryInfo.FullName);
             destinationDirectoryName = Path.Combine(parentDirectory.FullName, destinationDirectoryName);
 
@@ -30,6 +48,7 @@ namespace BOA.Common.Helpers
             {
                 Directory.CreateDirectory(destinationDirectoryName);
             }
+
             // Get the files in the directory and copy them to the new location.
             var files = directoryInfo.GetFiles();
 
@@ -39,6 +58,7 @@ namespace BOA.Common.Helpers
 
                 file.CopyTo(tempPath, true);
             }
+
             // If copying subdirectories, copy them and their contents to new location using recursive  function. 
             if (copySubdirectories)
             {
@@ -88,6 +108,7 @@ namespace BOA.Common.Helpers
                     stream.Close();
                 }
             }
+
             return false;
         }
 
