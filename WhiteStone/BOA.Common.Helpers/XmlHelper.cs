@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -79,8 +78,8 @@ namespace BOA.Common.Helpers
 
             var settings = new XmlWriterSettings
             {
-                OmitXmlDeclaration  = true,
-                Indent              = true,
+                OmitXmlDeclaration = true,
+                Indent = true,
                 NewLineOnAttributes = true
             };
 
@@ -95,7 +94,7 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     To the list.
         /// </summary>
-        public static List<XmlNode> ToList(this IEnumerable nodeList)
+        public static List<XmlNode> ToList(this XmlNodeList nodeList)
         {
             var xmlNodes = new List<XmlNode>();
 
