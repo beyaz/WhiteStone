@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -37,6 +38,23 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Fors the own and child nodes.
+        /// </summary>
+        public static void ForOwnAndChildNodes(this XmlNode node, Action<XmlNode> action)
+        {
+            if (!node.HasChildNodes)
+            {
+                action(node);
+                return;
+            }
+
+            foreach (XmlNode xmlNode in node.ChildNodes)
+            {
+                ForOwnAndChildNodes(xmlNode, action);
+            }
+        }
+
+        /// <summary>
         ///     Gets all namespaces.
         /// </summary>
         public static IDictionary<string, string> GetAllNamespaces(XmlDocument xDoc)
@@ -68,6 +86,16 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Gets the root node.
+        /// </summary>
+        public static XmlNode GetRootNode(string xml)
+        {
+            var document = new XmlDocument();
+            document.LoadXml(xml);
+            return document.FirstChild;
+        }
+
+        /// <summary>
         ///     Pretties the XML.
         /// </summary>
         public static string PrettyXml(string xml)
@@ -78,8 +106,8 @@ namespace BOA.Common.Helpers
 
             var settings = new XmlWriterSettings
             {
-                OmitXmlDeclaration = true,
-                Indent = true,
+                OmitXmlDeclaration  = true,
+                Indent              = true,
                 NewLineOnAttributes = true
             };
 
@@ -89,6 +117,19 @@ namespace BOA.Common.Helpers
             }
 
             return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        ///     Removes from parent.
+        /// </summary>
+        public static void RemoveFromParent(this XmlNode node)
+        {
+            if (node.ParentNode == null)
+            {
+                throw new InvalidOperationException(nameof(node.ParentNode) + " is null.");
+            }
+
+            node.ParentNode.RemoveChild(node);
         }
 
         /// <summary>
