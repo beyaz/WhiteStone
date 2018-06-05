@@ -25,10 +25,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Copy the directories
         /// </summary>
-        /// <exception cref="DirectoryNotFoundException">
-        ///     Source directory does not exist or could not be found: "
-        ///     + sourceDirectoryPath
-        /// </exception>
         public static void CopyDirectory(string sourceDirectoryPath, string destinationDirectoryName, bool copySubdirectories)
         {
             // Get the subdirectories for the specified directory.
