@@ -8,9 +8,7 @@ namespace BOA.Common.Helpers
     public class PaddedStringBuilder
     {
         #region Fields
-        /// <summary>
-        ///     The sb
-        /// </summary>
+       
         readonly StringBuilder sb = new StringBuilder();
         #endregion
 
