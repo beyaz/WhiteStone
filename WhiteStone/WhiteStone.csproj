@@ -78,6 +78,7 @@
     <Compile Include="BOA.Common.Helpers\XmlHelper.cs" />
     <Compile Include="BOA.Common\Bag.cs" />
     <Compile Include="BOA.Common\CacheManager.cs" />
+    <Compile Include="LanguageTranslations\SesliSözlük.cs" />
     <Compile Include="BOA.UI.Common\Tracer.cs" />
     <Compile Include="BOA.Common.Helpers\Cast.cs" />
     <Compile Include="Common\ContractBase.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="BOA.Common.Helpers\ExpressionUtility.cs" />
     <Compile Include="BOA.Common.Helpers\RandomValue.cs" />
     <Compile Include="BOA.Office.Excel\CopyPasteStringHelper.cs" />
+    <Compile Include="LanguageTranslations\WordInfo.cs" />
     <Compile Include="Lang\Data\Token.cs" />
     <Compile Include="Lang\Data\TokenType.cs" />
     <Compile Include="Lang\Exceptions\InvalidSyntax.cs" />

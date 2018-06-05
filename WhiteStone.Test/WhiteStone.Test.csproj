@@ -58,6 +58,7 @@
     <Compile Include="Helpers\ReflectionUtilityTest.cs" />
     <Compile Include="BOA.Common.Helpers.Test\IConvertibleUtilityTest.cs" />
     <Compile Include="Jaml\BuilderTest.cs" />
+    <Compile Include="LanguageTranslations\GoogleTest.cs" />
     <Compile Include="Lang\Test.cs" />
     <Compile Include="ListUtilityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
