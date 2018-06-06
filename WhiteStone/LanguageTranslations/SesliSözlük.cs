@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using HtmlAgilityPack;
-using Newtonsoft.Json;
 
 namespace BOA.LanguageTranslations
 {
@@ -74,26 +72,6 @@ namespace BOA.LanguageTranslations
             }
 
             return wordInfos;
-        }
-        #endregion
-
-        #region Methods
-        static void PushToFile(string filePath, object instance)
-        {
-            using (var fileStream = new FileStream(filePath, FileMode.Append))
-            {
-                using (var writer = new StreamWriter(fileStream))
-                using (var jsonWriter = new JsonTextWriter(writer))
-                {
-                    var ser = JsonSerializer.Create(new JsonSerializerSettings
-                    {
-                        Formatting        = Formatting.Indented,
-                        NullValueHandling = NullValueHandling.Ignore
-                    });
-                    ser.Serialize(jsonWriter, instance);
-                    jsonWriter.Flush();
-                }
-            }
         }
         #endregion
     }
