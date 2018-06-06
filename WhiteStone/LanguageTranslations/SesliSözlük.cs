@@ -7,27 +7,6 @@ using Newtonsoft.Json;
 
 namespace BOA.LanguageTranslations
 {
-
-    class Google
-    {
-        public static WordInfo TranslateEnglishToTurkish(string word)
-        {
-
-
-            var url = "https://translate.google.com/#en/tr/mean";
-            var web = new HtmlWeb();
-            var doc = web.Load(url, "10.13.50.100",8080,"beyaztas","hattori_hanzo_41");
-
-            var result = doc.DocumentNode.SelectNodes("//*[@id='result_box']")?.FirstOrDefault();
-
-           
-
-            return new WordInfo
-            {
-                Explanation      = result?.InnerHtml
-            };
-        }
-    }
     class SesliSözlük
     {
         #region Public Methods
@@ -39,19 +18,37 @@ namespace BOA.LanguageTranslations
                 var web = new HtmlWeb();
                 var doc = web.Load(url);
 
-                var turkishPronanciation = doc.DocumentNode.SelectNodes("//*[@id=\"collapseSimilar\"]/div/ul/div[2]/text()")?.FirstOrDefault()?.InnerHtml;
-
-                var items = new List<string>();
-                foreach (var node in doc.DocumentNode.SelectNodes("//*[@id=\"ss-section-left\"]/div[1]/div/div[1]/div[2]/dl/dd/p/q"))
+                var turkishPronanciation = doc.DocumentNode.SelectNodes("//*[@id=\"collapseSimilar\"]/div/ul/div[1]/text()")?.FirstOrDefault()?.InnerHtml;
+                var wordInfo = new WordInfo
                 {
-                    items.Add(node.InnerHtml);
-                }
-
-                return new WordInfo
-                {
-                    SampleSentences      = items,
+                    Word                 = word,
+                    Means                = new List<MeanInfo>(),
                     TurkishPronanciation = turkishPronanciation?.Trim()
                 };
+
+                var meanNodes = doc.DocumentNode.SelectNodes("//*[@id=\"ss-section-left\"]/div[1]/div/div[1]/div[2]/dl/dd");
+
+                foreach (var node in meanNodes)
+                {
+                    var meanInfo = new MeanInfo
+                    {
+                        Definition      = node.SelectNodes("a")?.FirstOrDefault()?.InnerHtml,
+                        SampleSentences = new List<string>()
+                    };
+                    wordInfo.Means.Add(meanInfo);
+
+                    var sampleNodes = node.SelectNodes("p/q");
+
+                    if (sampleNodes != null)
+                    {
+                        foreach (var sampleNode in sampleNodes)
+                        {
+                            meanInfo.SampleSentences.Add(sampleNode.InnerHtml);
+                        }
+                    }
+                }
+
+                return wordInfo;
             }
             catch (Exception)
             {
@@ -61,7 +58,7 @@ namespace BOA.LanguageTranslations
 
         public static IReadOnlyList<WordInfo> GrabAllWords(IEnumerable<string> words)
         {
-            var wordInfos = new List< WordInfo >();
+            var wordInfos = new List<WordInfo>();
 
             foreach (var item in words)
             {

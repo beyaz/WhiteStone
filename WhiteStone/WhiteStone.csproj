@@ -78,6 +78,7 @@
     <Compile Include="BOA.Common.Helpers\XmlHelper.cs" />
     <Compile Include="BOA.Common\Bag.cs" />
     <Compile Include="BOA.Common\CacheManager.cs" />
+    <Compile Include="LanguageTranslations\Google.cs" />
     <Compile Include="LanguageTranslations\SesliSözlük.cs" />
     <Compile Include="BOA.UI.Common\Tracer.cs" />
     <Compile Include="BOA.Common.Helpers\Cast.cs" />
