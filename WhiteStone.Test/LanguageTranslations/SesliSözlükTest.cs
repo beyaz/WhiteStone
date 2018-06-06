@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
+using System.Linq;
+using BOA.Common.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.LanguageTranslations
 {
@@ -6,6 +9,16 @@ namespace BOA.LanguageTranslations
     public class SesliSözlükTest
     {
         #region Public Methods
+        [TestMethod]
+        public void GrabAllWords()
+        {
+            var path = @"D:\github\WhiteStone\WhiteStone.Test\LanguageTranslations\SampleEnglishWords.txt";
+
+            var words=SesliSözlük.GrabAllWords(File.ReadAllLines(path).Where(line => line.HasValue()));
+
+            FileHelper.WriteAllText(path+".output.txt",JsonHelper.Serialize(words));
+        }
+
         [TestMethod]
         public void TranslateEnglishToTurkish()
         {

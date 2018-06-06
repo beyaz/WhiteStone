@@ -88,6 +88,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LanguageTranslations\SampleEnglishWords.txt" />
     <Content Include="Lib\Telerik.JustMock.dll" />
     <Content Include="Lib\Telerik.JustMock.xml" />
   </ItemGroup>

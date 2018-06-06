@@ -30,7 +30,13 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static string Serialize(object value)
         {
-            return JsonConvert.SerializeObject(value);
+            var settings = new JsonSerializerSettings
+            {
+                Formatting        = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
+            return JsonConvert.SerializeObject(value, settings);
         }
         #endregion
     }
