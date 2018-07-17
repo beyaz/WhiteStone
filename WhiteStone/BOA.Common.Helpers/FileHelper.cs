@@ -67,6 +67,45 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Downloads the file.
+        /// </summary>
+        public static void DownloadFile(string address, string saveFilePath)
+        {
+            try
+            {
+                new WebClient().DownloadFile(address, saveFilePath);
+            }
+            catch (WebException e)
+            {
+                e.Data.Add(nameof(address), address);
+                e.Data.Add(nameof(saveFilePath), saveFilePath);
+                throw;
+            }
+        }
+
+        /// <summary>
+        ///     Downloads the file.
+        /// </summary>
+        public static void DownloadFileWithProxy(string address, string saveFilePath, string proxyServerAddress)
+        {
+            try
+            {
+                var webClient = new WebClient
+                {
+                    Proxy = new WebProxy(proxyServerAddress)
+                };
+                webClient.DownloadFile(address, saveFilePath);
+            }
+            catch (WebException e)
+            {
+                e.Data.Add(nameof(address), address);
+                e.Data.Add(nameof(saveFilePath), saveFilePath);
+                e.Data.Add(nameof(proxyServerAddress), proxyServerAddress);
+                throw;
+            }
+        }
+
+        /// <summary>
         ///     Downloads the string.
         /// </summary>
         public static string DownloadString(string address)

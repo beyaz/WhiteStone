@@ -24,7 +24,8 @@ namespace BOA.LanguageTranslations
 
             return new LongmanWordInfo
             {
-                Dictentries = doc.DocumentNode.GetElementbyClass("dictentry").Select(ParseDictentry).ToList()
+                Dictentries = doc.DocumentNode.GetElementbyClass("dictentry").Select(ParseDictentry).ToList(),
+                
             };
         }
         #endregion
@@ -37,10 +38,37 @@ namespace BOA.LanguageTranslations
         {
             var result = new Dictentry
             {
-                Topics = dictentry.GetElementbyClass("topic").Select(e => e.InnerHtml).ToList()
+                Topics = dictentry.GetElementbyClass("topic").Select(e => e.InnerHtml).ToList(),
+                Usages = dictentry.GetElementbyClass("newline Sense").Select(ParseUsageInfo).ToList(),
+               
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Parses the usage information.
+        /// </summary>
+        /// <param name="newline_Sense"></param>
+        /// <returns></returns>
+        static UsageInfo ParseUsageInfo(HtmlNode newline_Sense)
+        {
+            return new UsageInfo
+            {
+                ShortDefinition = newline_Sense.GetElementbyClass("SIGNPOST").FirstOrDefault()?.InnerHtml,
+                FullDefinition= newline_Sense.GetElementbyClass("DEF").FirstOrDefault()?.InnerText,
+                Examples = newline_Sense.GetElementbyClass("EXAMPLE").Select(ParseExample).ToList()
+            };
+            
+        }
+        static Example ParseExample(HtmlNode example)
+        {
+            return new Example
+            {
+                Text = example.InnerText.Trim(),
+                MediaFilePath = example.SelectNodes("span")?.FirstOrDefault()?.GetAttributeValue("data-src-mp3","")?.Trim()
+            };
+
         }
         #endregion
     }
@@ -56,8 +84,38 @@ namespace BOA.LanguageTranslations
         ///     Gets or sets the topics.
         /// </summary>
         public List<string> Topics { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets the usages.
+        /// </summary>
+        public List<UsageInfo> Usages { get; set; }
         #endregion
     }
+
+    /// <summary>
+    /// The usage information
+    /// </summary>
+    [Serializable]
+    public class UsageInfo
+    {
+        #region Public Properties
+        public string ShortDefinition { get; set; }
+        public string FullDefinition { get; set; }
+
+        public List<Example> Examples { get; set; }
+        #endregion
+    }
+
+    [Serializable]
+    public class Example
+    {
+        #region Public Properties
+        public string Text { get; set; }
+        public string MediaFilePath  { get; set; }
+        #endregion
+    }
+
 
     /// <summary>
     ///     The longman word information
@@ -70,6 +128,7 @@ namespace BOA.LanguageTranslations
         ///     Gets or sets the dictentries.
         /// </summary>
         public List<Dictentry> Dictentries { get; set; }
+  
         #endregion
     }
 }
