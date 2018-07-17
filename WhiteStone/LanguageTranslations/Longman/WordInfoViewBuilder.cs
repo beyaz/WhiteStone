@@ -5,22 +5,22 @@ using System.Windows.Media.Imaging;
 namespace BOA.LanguageTranslations.Longman
 {
     /// <summary>
-    ///     The longman word view builder
+    ///     The word information view builder
     /// </summary>
-    public class LongmanWordViewBuilder
+    public class WordInfoViewBuilder
     {
         #region Fields
         /// <summary>
         ///     The word information
         /// </summary>
-        readonly LongmanWordInfo _wordInfo;
+        readonly WordInfo _wordInfo;
         #endregion
 
         #region Constructors
         /// <summary>
-        ///     Initializes a new instance of the <see cref="LongmanWordViewBuilder" /> class.
+        ///     Initializes a new instance of the <see cref="WordInfoViewBuilder" /> class.
         /// </summary>
-        public LongmanWordViewBuilder(LongmanWordInfo wordInfo)
+        public WordInfoViewBuilder(WordInfo wordInfo)
         {
             _wordInfo = wordInfo;
         }
@@ -46,7 +46,7 @@ namespace BOA.LanguageTranslations.Longman
         /// <summary>
         ///     Renders the specified data.
         /// </summary>
-        StackPanel Render(Dictentry data)
+        StackPanel Render(Entry data)
         {
             var sp = new StackPanel();
 

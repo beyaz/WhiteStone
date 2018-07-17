@@ -7,14 +7,16 @@ using HtmlAgilityPack;
 
 namespace BOA.LanguageTranslations.Longman
 {
-   
+    /// <summary>
+    ///     The translator
+    /// </summary>
     public class Translator
     {
         #region Public Methods
         /// <summary>
         ///     Gets the word information.
         /// </summary>
-        public static LongmanWordInfo GetWordInfo(string englishWord)
+        public static WordInfo GetWordInfo(string englishWord)
         {
             if (englishWord.IsNullOrWhiteSpace())
             {
@@ -26,7 +28,7 @@ namespace BOA.LanguageTranslations.Longman
             var web = new HtmlWeb();
             var doc = web.Load(url);
 
-            return new LongmanWordInfo
+            return new WordInfo
             {
                 Dictentries = doc.DocumentNode.GetElementbyClass("dictentry").Select(ParseDictentry).ToList()
             };
@@ -37,9 +39,9 @@ namespace BOA.LanguageTranslations.Longman
         /// <summary>
         ///     Parses the dictentry.
         /// </summary>
-        static Dictentry ParseDictentry(HtmlNode dictentry)
+        static Entry ParseDictentry(HtmlNode dictentry)
         {
-            var result = new Dictentry
+            var result = new Entry
             {
                 Topics = dictentry.GetElementbyClass("topic").Select(e => e.InnerHtml).ToList(),
                 Usages = dictentry.GetElementbyClass("newline Sense").Select(ParseUsageInfo).ToList()
@@ -76,10 +78,10 @@ namespace BOA.LanguageTranslations.Longman
     }
 
     /// <summary>
-    ///     The dictentry
+    ///     The entry
     /// </summary>
     [Serializable]
-    public class Dictentry
+    public class Entry
     {
         #region Public Properties
         /// <summary>
@@ -141,13 +143,13 @@ namespace BOA.LanguageTranslations.Longman
     ///     The longman word information
     /// </summary>
     [Serializable]
-    public class LongmanWordInfo
+    public class WordInfo
     {
         #region Public Properties
         /// <summary>
         ///     Gets or sets the dictentries.
         /// </summary>
-        public List<Dictentry> Dictentries { get; set; }
+        public List<Entry> Dictentries { get; set; }
         #endregion
     }
 }
