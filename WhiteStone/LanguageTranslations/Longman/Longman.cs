@@ -28,10 +28,25 @@ namespace BOA.LanguageTranslations.Longman
             var web = new HtmlWeb();
             var doc = web.Load(url);
 
-            return new WordInfo
+            return InitializeTurkish(new WordInfo
             {
                 Dictentries = doc.DocumentNode.GetElementbyClass("dictentry").Select(ParseDictentry).ToList()
-            };
+            });
+        }
+
+        static WordInfo InitializeTurkish(WordInfo info)
+        {
+            foreach (var entry in info.Dictentries)
+            {
+                var topics = entry.Topics;
+
+                for (var i = 0; i < topics.Count; i++)
+                {
+                    topics[i] += " - "+ Google.EnglishToTurkishTranslator.Translate(topics[i]);
+                }
+            }
+
+            return info;
         }
         #endregion
 

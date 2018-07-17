@@ -9,9 +9,9 @@ namespace BOA.LanguageTranslations.Google
         [TestMethod]
         public void TranslateEnglishToTurkish()
         {
-            var english = TurkishToEnglishTranslator.Translate("araba");
 
-            Assert.AreEqual("car", english);
+            Assert.AreEqual("car", TurkishToEnglishTranslator.Translate("araba"));
+            Assert.AreEqual("Kuşlar", EnglishToTurkishTranslator.Translate("Birds"));
         }
         #endregion
     }

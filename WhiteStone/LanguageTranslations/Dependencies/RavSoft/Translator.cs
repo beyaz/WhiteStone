@@ -157,6 +157,8 @@ namespace RavSoft.GoogleTranslator
                 var substring = this.Content.Substring(indexOf_TRANSLATED_TEXT, indexOf_TRANSLATED_TEXT2 - indexOf_TRANSLATED_TEXT);
 
                 Translation = substring.Replace("\\x26#39;", "'");
+                Translation = substring.Replace("ÅŸ", "þ");
+            
             }
 
         #endregion

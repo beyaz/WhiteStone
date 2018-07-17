@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using BOA.Common.Helpers;
 
 namespace BOA.LanguageTranslations.Longman
 {
@@ -77,25 +80,44 @@ namespace BOA.LanguageTranslations.Longman
         {
             var sp = new StackPanel();
 
-            sp.Children.Add(new StackPanel
+            var definitions = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
-                Children =
+                
+            };
+
+            if (data.ShortDefinition.IsNullOrWhiteSpace() == false)
+            {
+                definitions.Children.Add(new Label
                 {
-                    new Label
-                    {
-                        Content = data.ShortDefinition
-                    },
-                    new Label
-                    {
-                        Content = " : "
-                    },
-                    new Label
-                    {
-                        Content = data.FullDefinition
-                    }
-                }
-            });
+                    Content    = data.ShortDefinition,
+                    FontSize   = 18,
+                    FontFamily = new FontFamily("arial, helvetica, sans-serif"),
+                    Foreground = Brushes.Red
+                });
+            }
+            if (data.FullDefinition.IsNullOrWhiteSpace() == false)
+            {
+                definitions.Children.Add(new Label
+                {
+                    Content = " : ",
+                    FontSize   = 16,
+                    FontFamily = new FontFamily("arial, helvetica, sans-serif"),
+                    Foreground = Brushes.DarkGray
+                });
+                definitions.Children.Add(new Label
+                {
+                    Content    = data.FullDefinition,
+                    FontSize   = 16,
+                    FontFamily = new FontFamily("arial, helvetica, sans-serif"),
+                    Foreground = Brushes.DarkGray
+                });
+            }
+
+
+
+
+            sp.Children.Add(definitions);
 
             foreach (var example in data.Examples)
             {
@@ -110,22 +132,20 @@ namespace BOA.LanguageTranslations.Longman
         /// </summary>
         StackPanel Render(Example data)
         {
-            var imagePath = @"d:\temp\Play.png";
-            var image = new Image
+            var label = new Label
             {
-                Source = new BitmapImage(new Uri(imagePath))
+                Content = data.Text,
+                FontSize = 16,
+                FontFamily = new FontFamily("arial, helvetica, sans-serif"),
+                Foreground = Brushes.Gray
             };
 
             return new StackPanel
             {
-                Orientation = Orientation.Horizontal,
                 Children =
                 {
-                    image,
-                    new Label
-                    {
-                        Content = data.Text
-                    }
+                    label
+                    
                 }
             };
         }
