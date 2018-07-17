@@ -41,8 +41,8 @@
     <AssemblyOriginatorKeyFile>WhiteStoneKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlAgilityPack, Version=1.8.4.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.8.4\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.8.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -81,7 +81,9 @@
     <Compile Include="BOA.Common\CacheManager.cs" />
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\Translator.cs" />
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\WebResourceProvider.cs" />
+    <Compile Include="LanguageTranslations\Extensions.cs" />
     <Compile Include="LanguageTranslations\Google.cs" />
+    <Compile Include="LanguageTranslations\Longman.cs" />
     <Compile Include="LanguageTranslations\SesliSözlük.cs" />
     <Compile Include="BOA.UI.Common\Tracer.cs" />
     <Compile Include="BOA.Common.Helpers\Cast.cs" />
