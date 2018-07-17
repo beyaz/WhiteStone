@@ -11,6 +11,7 @@ namespace BOA.LanguageTranslations.Google
         {
 
             Assert.AreEqual("car", TurkishToEnglishTranslator.Translate("araba"));
+            Assert.AreEqual("Coğrafya", EnglishToTurkishTranslator.Translate("Geography"));
             Assert.AreEqual("Kuşlar", EnglishToTurkishTranslator.Translate("Birds"));
         }
         #endregion

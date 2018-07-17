@@ -6,6 +6,7 @@
 
 using System;
 using System.Net;
+using System.Text;
 using System.Threading;
 
 namespace RavSoft
@@ -173,6 +174,7 @@ namespace RavSoft
 
             using (var wc = new WebClient())
             {
+                wc.Encoding = Encoding.UTF8;
                 wc.Headers.Add("Accept", "application/json");
                 this.m_strContent = wc.DownloadString(url);
                 return;
