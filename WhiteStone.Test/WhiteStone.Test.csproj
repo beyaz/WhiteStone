@@ -59,7 +59,7 @@
     <Compile Include="BOA.Common.Helpers.Test\IConvertibleUtilityTest.cs" />
     <Compile Include="Jaml\BuilderTest.cs" />
     <Compile Include="LanguageTranslations\Google\TurkishToEnglishTranslatorTest.cs" />
-    <Compile Include="LanguageTranslations\LongmanTest.cs" />
+    <Compile Include="LanguageTranslations\Longman\TranslatorTest.cs" />
     <Compile Include="LanguageTranslations\SesliSözlükTest.cs" />
     <Compile Include="Lang\Test.cs" />
     <Compile Include="ListUtilityTests.cs" />

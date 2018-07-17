@@ -3,7 +3,7 @@
 namespace BOA.LanguageTranslations.Longman
 {
     [TestClass]
-    public class LongmanTest
+    public class TranslatorTest
     {
         #region Public Methods
         [TestMethod]
