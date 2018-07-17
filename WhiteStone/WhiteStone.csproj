@@ -84,6 +84,7 @@
     <Compile Include="LanguageTranslations\Extensions.cs" />
     <Compile Include="LanguageTranslations\Google.cs" />
     <Compile Include="LanguageTranslations\Longman.cs" />
+    <Compile Include="LanguageTranslations\LongmanWordViewBuilder.cs" />
     <Compile Include="LanguageTranslations\SesliSözlük.cs" />
     <Compile Include="BOA.UI.Common\Tracer.cs" />
     <Compile Include="BOA.Common.Helpers\Cast.cs" />
