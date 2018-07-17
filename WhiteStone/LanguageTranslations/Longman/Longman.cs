@@ -5,12 +5,10 @@ using System.Net;
 using BOA.Common.Helpers;
 using HtmlAgilityPack;
 
-namespace BOA.LanguageTranslations
+namespace BOA.LanguageTranslations.Longman
 {
-    /// <summary>
-    ///     The longman
-    /// </summary>
-    class Longman
+   
+    public class Translator
     {
         #region Public Methods
         /// <summary>

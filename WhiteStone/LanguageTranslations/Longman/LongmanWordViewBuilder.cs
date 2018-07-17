@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
-namespace BOA.LanguageTranslations
+namespace BOA.LanguageTranslations.Longman
 {
     /// <summary>
     ///     The longman word view builder

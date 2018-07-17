@@ -83,8 +83,8 @@
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\WebResourceProvider.cs" />
     <Compile Include="LanguageTranslations\Extensions.cs" />
     <Compile Include="LanguageTranslations\Google\TurkishToEnglishTranslator.cs" />
-    <Compile Include="LanguageTranslations\Longman.cs" />
-    <Compile Include="LanguageTranslations\LongmanWordViewBuilder.cs" />
+    <Compile Include="LanguageTranslations\Longman\Longman.cs" />
+    <Compile Include="LanguageTranslations\Longman\LongmanWordViewBuilder.cs" />
     <Compile Include="LanguageTranslations\SesliSözlük.cs" />
     <Compile Include="BOA.UI.Common\Tracer.cs" />
     <Compile Include="BOA.Common.Helpers\Cast.cs" />

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.LanguageTranslations
+namespace BOA.LanguageTranslations.Longman
 {
     [TestClass]
     public class LongmanTest
@@ -9,7 +9,7 @@ namespace BOA.LanguageTranslations
         [TestMethod]
         public void GetWordInfo()
         {
-            var info = Longman.GetWordInfo("fly");
+            var info = Translator.GetWordInfo("fly");
 
             Assert.AreEqual("Insects", info.Dictentries[0].Topics[2]);
         }
