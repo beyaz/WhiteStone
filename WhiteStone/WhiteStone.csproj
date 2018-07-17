@@ -79,6 +79,8 @@
     <Compile Include="BOA.Common.Helpers\XmlHelper.cs" />
     <Compile Include="BOA.Common\Bag.cs" />
     <Compile Include="BOA.Common\CacheManager.cs" />
+    <Compile Include="LanguageTranslations\Dependencies\RavSoft\Translator.cs" />
+    <Compile Include="LanguageTranslations\Dependencies\RavSoft\WebResourceProvider.cs" />
     <Compile Include="LanguageTranslations\Google.cs" />
     <Compile Include="LanguageTranslations\SesliSözlük.cs" />
     <Compile Include="BOA.UI.Common\Tracer.cs" />
