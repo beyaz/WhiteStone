@@ -44,6 +44,25 @@ namespace BOA.LanguageTranslations.Longman
                 {
                     topics[i] += " - "+ Google.EnglishToTurkishTranslator.Translate(topics[i]);
                 }
+
+
+                foreach (var usage in entry.Usages)
+                {
+                    if (usage.FullDefinition.HasValue())
+                    {
+                        usage.FullDefinitionTR  = Google.EnglishToTurkishTranslator.Translate(usage.FullDefinition);
+                    }
+
+                    if (usage.ShortDefinition.HasValue())
+                    {
+                        usage.ShortDefinitionTR =  Google.EnglishToTurkishTranslator.Translate(usage.ShortDefinition);
+                    }
+
+                    foreach (var example in usage.Examples)
+                    {
+                        example.TextTR = Google.EnglishToTurkishTranslator.Translate(example.Text); 
+                    }
+                }
             }
 
             return info;
@@ -132,6 +151,18 @@ namespace BOA.LanguageTranslations.Longman
         ///     Gets or sets the short definition.
         /// </summary>
         public string ShortDefinition { get; set; }
+
+
+
+        /// <summary>
+        ///     Gets or sets the full definition.
+        /// </summary>
+        public string FullDefinitionTR { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the short definition.
+        /// </summary>
+        public string ShortDefinitionTR { get; set; }
         #endregion
     }
 
@@ -151,6 +182,11 @@ namespace BOA.LanguageTranslations.Longman
         ///     Gets or sets the text.
         /// </summary>
         public string Text { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the text.
+        /// </summary>
+        public string TextTR { get; set; }
         #endregion
     }
 
