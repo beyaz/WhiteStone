@@ -40,9 +40,29 @@ namespace BOA.LanguageTranslations.Longman
                 sp.Children.Add(Render(entry));
             }
 
-            return sp;
+
+            return RenderInScrollViewer(sp);
+
         }
         #endregion
+
+
+        static StackPanel RenderInScrollViewer(StackPanel sp)
+        {
+            return new StackPanel
+            {
+                Children =
+                {
+                    new ScrollViewer
+                    {
+                        VerticalScrollBarVisibility   = ScrollBarVisibility.Auto,
+                        HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                        Content                       = sp
+                    }
+                }
+            };
+        }
+
 
         #region Methods
         /// <summary>
@@ -66,7 +86,7 @@ namespace BOA.LanguageTranslations.Longman
                 sp.Children.Add(Render(usageInfo));
             }
 
-            return sp;
+            return RenderInScrollViewer(sp); 
         }
 
         /// <summary>
@@ -137,7 +157,7 @@ namespace BOA.LanguageTranslations.Longman
                 sp.Children.Add(Render(example));
             }
 
-            return sp;
+            return RenderInScrollViewer(sp);
         }
 
         /// <summary>
@@ -147,12 +167,12 @@ namespace BOA.LanguageTranslations.Longman
         {
             return new StackPanel
             {
-                Margin = new Thickness(0,10,0,0),
+                Margin = new Thickness(10),
                 Children =
                 {
                     new Border
                     {
-                        BorderBrush     = Brushes.BlanchedAlmond,
+                        BorderBrush     = new SolidColorBrush( (Color)ColorConverter.ConvertFromString("#d9d9d9")),
                         BorderThickness = new Thickness(1),
                         Child = new StackPanel
                         {
