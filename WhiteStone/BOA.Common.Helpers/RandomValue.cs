@@ -62,6 +62,13 @@ namespace BOA.Common.Helpers
         internal readonly Stack<object> _objectCreationStack = new Stack<object>();
         #endregion
 
+        #region Public Events
+        /// <summary>
+        ///     Occurs when [after property value assigned].
+        /// </summary>
+        public event Action<object, PropertyInfo> AfterPropertyValueAssigned;
+        #endregion
+
         #region Enums
         /// <summary>
         ///     The support type
@@ -248,7 +255,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        /// Lists the of.
+        ///     Lists the of.
         /// </summary>
         public static List<T> ListOf<T>(int? optionalLength = null)
         {
@@ -479,7 +486,7 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        /// Lists the specified optional length.
+        ///     Lists the specified optional length.
         /// </summary>
         public List<T> List<T>(int? optionalLength = null)
         {
@@ -493,7 +500,7 @@ namespace BOA.Common.Helpers
         {
             var genericObject = Activator.CreateInstance(type);
 
-            var properties = type.GetProperties().ToArray();
+            var properties = type.GetProperties().Where(p => !p.PropertyType.IsAbstract).ToArray();
 
             if (properties.Length == 0)
             {
@@ -798,6 +805,8 @@ namespace BOA.Common.Helpers
             _objectCreationStack.Pop();
 
             prop.SetValue(genericObject, propertyValue, null);
+
+            AfterPropertyValueAssigned?.Invoke(genericObject, prop);
         }
         #endregion
     }
