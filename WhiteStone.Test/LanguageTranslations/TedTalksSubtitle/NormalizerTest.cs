@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.LanguageTranslations.TedTalksSubtitle
 {
     [TestClass]
-    public  class NormalizerTest
+    public class NormalizerTest
     {
+        #region Public Methods
+        [TestMethod]
+        public void NormalizeFile()
+        {
+            var path = @"D:\English Translate\ElonMusk\tr.en.srt";
+            Normalizer.NormalizeFile(path);
+        }
+
         [TestMethod]
         public void Test()
         {
@@ -48,8 +51,8 @@ Elon Musk: Well, it goes back to when I was in university.
 
 ";
 
-            Assert.AreEqual(expectedResult.Trim(),result.Trim());
-
+            Assert.AreEqual(expectedResult.Trim(), result.Trim());
         }
+        #endregion
     }
 }
