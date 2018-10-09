@@ -78,7 +78,7 @@ namespace BOA.LanguageTranslations.Longman
             var result = new Entry
             {
                 Topics = dictentry.GetElementbyClass("topic").Select(e => e.InnerHtml).ToList(),
-                Usages = dictentry.GetElementbyClass("newline Sense").Select(ParseUsageInfo).ToList()
+                Usages = dictentry.GetElementbyClass("Sense").Select(ParseUsageInfo).ToList()
             };
 
             return result;
