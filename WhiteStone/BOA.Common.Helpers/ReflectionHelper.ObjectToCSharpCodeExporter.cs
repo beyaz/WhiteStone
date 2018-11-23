@@ -114,9 +114,10 @@ namespace BOA.Common.Helpers
                 if (str != null)
                 {
                     const string StringStart = "\"";
+                    const string StringStartWithMultipleLine = "@\"";
                     if (str.Contains(Environment.NewLine) || str.Contains('\\'))
                     {
-                        AppendNoPadding("@\"" + str + StringStart);
+                        AppendNoPadding(StringStartWithMultipleLine + str + StringStart);
                         return;
                     }
 
@@ -140,7 +141,8 @@ namespace BOA.Common.Helpers
 
                 if (obj is decimal)
                 {
-                    AppendNoPadding(obj + "M");
+                    const string DecimalEnd = "M";
+                    AppendNoPadding(obj + DecimalEnd);
                     return;
                 }
 
@@ -152,7 +154,8 @@ namespace BOA.Common.Helpers
 
                 if (obj is float)
                 {
-                    AppendNoPadding(obj + "f");
+                    const string FloatEnd = "f";
+                    AppendNoPadding(obj + FloatEnd);
                     return;
                 }
 
@@ -161,24 +164,28 @@ namespace BOA.Common.Helpers
                     var guid = (Guid) obj;
                     if (guid == Guid.Empty)
                     {
-                        AppendNoPadding("System.Guid.Empty");
+                        const string EmptyGuid = "System.Guid.Empty";
+                        AppendNoPadding(EmptyGuid);
                         return;
                     }
 
-                    AppendNoPadding("new System.Guid(\"" + guid + "\")");
+                    const string GuidCreationFormat = "new System.Guid(\"{0}\")";
+                    AppendNoPadding(string.Format(EnglishCulture, GuidCreationFormat, guid));
                     return;
                 }
 
                 if (obj is DateTime)
                 {
                     var date = (DateTime) obj;
-                    AppendNoPadding(string.Format(EnglishCulture, "new System.DateTime({0},{1},{2},{3},{4},{5},{6})", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond));
+                    const string DateCreationFormat = "new System.DateTime({0},{1},{2},{3},{4},{5},{6})";
+                    AppendNoPadding(string.Format(EnglishCulture, DateCreationFormat, date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond));
                     return;
                 }
 
                 if (obj is Enum)
                 {
-                    AppendNoPadding(obj.GetType().FullName + "." + obj);
+                    const string Dot = ".";
+                    AppendNoPadding(obj.GetType().FullName + Dot + obj);
                     return;
                 }
 
@@ -188,18 +195,21 @@ namespace BOA.Common.Helpers
                 {
                     var fullName = type.ToString().Replace("`2[", "<").Replace("]", ">");
                     AppendNoPadding(fullName);
-                    AppendNoPadding("(");
+                    const string LeftParenthesis = "(";
+                    AppendNoPadding(LeftParenthesis);
 
                     object key   = UnresolvedSymbol;
                     object value = UnresolvedSymbol;
 
-                    var propertyInfoKey = type.GetProperty("Key");
+                    const string NameKey = "Key";
+                    var propertyInfoKey = type.GetProperty(NameKey);
                     if (propertyInfoKey != null)
                     {
                         key = propertyInfoKey.GetValue(obj, null);
                     }
 
-                    var propertyInfoValue = type.GetProperty("Value");
+                    const string NameValue = "Value";
+                    var propertyInfoValue = type.GetProperty(NameValue);
                     if (propertyInfoValue != null)
                     {
                         value = propertyInfoValue.GetValue(obj, null);

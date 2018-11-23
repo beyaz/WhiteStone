@@ -48,6 +48,11 @@ namespace WhiteStone.Test
 
             Assert.AreEqual("\"Aloha\"", ExportObjectToCSharpCode("Aloha"));
 
+            Assert.AreEqual("\"Aloha\"", ExportObjectToCSharpCode("Aloha"));
+
+            Assert.AreEqual("@\"Aloha\"", ExportObjectToCSharpCode(@"A
+loha"));
+
             var instance = new ExportObjectToCSharpCode_Test_Class_1();
 
             Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{}", ExportObjectToCSharpCode(instance));
