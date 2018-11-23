@@ -48,7 +48,7 @@ namespace BOA.Common.Helpers
             /// <summary>
             ///     Return true if given <paramref name="value" /> is instanceOf <paramref name="targetType" />
             /// </summary>
-            static bool IsInstanceofGeneric(Type targetType, object value)
+            static bool IsInstanceOfGeneric(Type targetType, object value)
             {
                 if (value == null)
                 {
@@ -173,14 +173,26 @@ namespace BOA.Common.Helpers
 
                 var type = obj.GetType();
 
-                if (IsInstanceofGeneric(typeof(KeyValuePair<,>), obj))
+                if (IsInstanceOfGeneric(typeof(KeyValuePair<,>), obj))
                 {
                     var fullName = type.ToString().Replace("`2[", "<").Replace("]", ">");
                     AppendNoPadding(fullName);
                     AppendNoPadding("(");
 
-                    var key   = type.GetProperty("Key").GetValue(obj, null);
-                    var value = type.GetProperty("Value").GetValue(obj, null);
+                    object key = "?";
+                    object value = "?";
+
+                    var propertyInfoKey = type.GetProperty("Key");
+                    if (propertyInfoKey != null)
+                    {
+                        key = propertyInfoKey.GetValue(obj, null);
+                    }
+                    var propertyInfoValue = type.GetProperty("Value");
+                    if (propertyInfoValue != null)
+                    {
+                        value = propertyInfoValue.GetValue(obj, null);
+                    }
+                   
                     Write(key);
                     AppendNoPadding(",");
                     Write(value);
@@ -189,11 +201,11 @@ namespace BOA.Common.Helpers
                     return;
                 }
 
-                var isFirstPropertWrite = true;
+                var isFirstPropertyWrite = true;
 
                 AppendNoPadding("new ");
 
-                if (IsInstanceofGeneric(typeof(List<>), obj))
+                if (IsInstanceOfGeneric(typeof(List<>), obj))
                 {
                     var fullName = type.ToString().Replace("`1[", "<").Replace("]", ">");
 
@@ -205,9 +217,9 @@ namespace BOA.Common.Helpers
 
                     foreach (var item in (IList) obj)
                     {
-                        if (isFirstPropertWrite)
+                        if (isFirstPropertyWrite)
                         {
-                            isFirstPropertWrite = false;
+                            isFirstPropertyWrite = false;
                         }
                         else
                         {
@@ -226,7 +238,7 @@ namespace BOA.Common.Helpers
                     return;
                 }
 
-                if (IsInstanceofGeneric(typeof(Dictionary<,>), obj))
+                if (IsInstanceOfGeneric(typeof(Dictionary<,>), obj))
                 {
                     var fullName = type.ToString().Replace("`2[", "<").Replace("]", ">");
 
@@ -238,9 +250,9 @@ namespace BOA.Common.Helpers
 
                     foreach (DictionaryEntry item in (IDictionary) obj)
                     {
-                        if (isFirstPropertWrite)
+                        if (isFirstPropertyWrite)
                         {
-                            isFirstPropertWrite = false;
+                            isFirstPropertyWrite = false;
                         }
                         else
                         {
@@ -274,9 +286,9 @@ namespace BOA.Common.Helpers
                 {
                     foreach (var value in array)
                     {
-                        if (isFirstPropertWrite)
+                        if (isFirstPropertyWrite)
                         {
-                            isFirstPropertWrite = false;
+                            isFirstPropertyWrite = false;
                         }
                         else
                         {
@@ -310,9 +322,9 @@ namespace BOA.Common.Helpers
                             }
                         }
 
-                        if (isFirstPropertWrite)
+                        if (isFirstPropertyWrite)
                         {
-                            isFirstPropertWrite = false;
+                            isFirstPropertyWrite = false;
                         }
                         else
                         {
