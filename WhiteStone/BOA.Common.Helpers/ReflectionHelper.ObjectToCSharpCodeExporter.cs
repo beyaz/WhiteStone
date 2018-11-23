@@ -18,8 +18,9 @@ namespace BOA.Common.Helpers
             const string UnresolvedSymbol = "?";
             #endregion
 
+            const string EnglishCultureName = "en-US";
             #region Static Fields
-            static readonly CultureInfo EnglishCulture = new CultureInfo("en-US");
+            static readonly CultureInfo EnglishCulture = new CultureInfo(EnglishCultureName);
             #endregion
 
             #region Fields
@@ -75,10 +76,14 @@ namespace BOA.Common.Helpers
                 _sb.Append(value);
             }
 
-            void AppendLine(string value = "")
+            void AppendLine(string value)
             {
                 WritePadding();
                 _sb.AppendLine(value);
+            }
+            void AppendLine()
+            {
+                AppendLine(string.Empty);
             }
 
             void AppendNoPadding(string value)
@@ -100,7 +105,8 @@ namespace BOA.Common.Helpers
             {
                 if (obj == null)
                 {
-                    AppendNoPadding("null");
+                    const string NullValue = "null";
+                    AppendNoPadding(NullValue);
                     return;
                 }
 
