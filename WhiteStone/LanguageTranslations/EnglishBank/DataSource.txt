@@ -1,6 +1,6 @@
 ﻿      
 
-1) a					
+1) a;					
 (herhangi) bir				
 a book, a car , a movie (bir kitap, bir araba, bir film)	
 2)abandon ; (fiil)				
@@ -261,7 +261,7 @@ I joined a medical aid programme. (Tıbbi yardım programına katıldım)
 87) aide; (isim)				
 emir kulu, emir yaveri,  yardımcı		
 She worked as nurse’s aid for three years. (3 yıl hemşire yardımcısı olarak çalıştı.)
-88) AIDS (isim)				
+88) AIDS; (isim)				
 aids					
 AIDS research have been done for years in this institute. (Bu enstitüde AIDS araştırması yıllardır yapılıyor.)
 89) aim; (isim, fiil)				
@@ -327,7 +327,7 @@ Although it was raining, the weather was warm. (Yağmur yağmasına rağmen hava
 109) always ; (zarf)				
 her zaman, daima				
 She always listens her mother’s advices. (Her zaman annesinin tavsiyelerini dinler.)
-110) AM   (fiil, isim)				
+110) AM;   (fiil, isim)				
 f.; olmak   i.; öğleden önce			
 It was 10 a.m. When  I woke up. (Uyandığımda saat öğleden önce 10’du.
 111) amazing; (isim, sıfat)			
