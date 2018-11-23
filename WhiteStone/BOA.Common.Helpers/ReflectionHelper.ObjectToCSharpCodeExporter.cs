@@ -113,13 +113,14 @@ namespace BOA.Common.Helpers
                 var str = obj as string;
                 if (str != null)
                 {
+                    const string StringStart = "\"";
                     if (str.Contains(Environment.NewLine) || str.Contains('\\'))
                     {
-                        AppendNoPadding("@\"" + str + "\"");
+                        AppendNoPadding("@\"" + str + StringStart);
                         return;
                     }
 
-                    AppendNoPadding("\"" + str + "\"");
+                    AppendNoPadding(StringStart + str + StringStart);
                     return;
                 }
 
