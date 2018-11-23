@@ -44,6 +44,8 @@ namespace WhiteStone.Test
         [TestMethod]
         public void ExportObjectToCSharpCode_Test()
         {
+            
+
             Assert.AreEqual("null", ExportObjectToCSharpCode(null));
 
             Assert.AreEqual("\"Aloha\"", ExportObjectToCSharpCode("Aloha"));
@@ -55,7 +57,7 @@ loha"));
 
             var instance = new ExportObjectToCSharpCode_Test_Class_1();
 
-            Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{}", ExportObjectToCSharpCode(instance));
+            Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1()", ExportObjectToCSharpCode(instance));
 
             instance.A1 = 6;
 
@@ -71,7 +73,7 @@ loha"));
 
             instance.A4 = new ExportObjectToCSharpCode_Test_Class_1();
 
-            Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{A1=6,A2=79,A78=654.87,A4=newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{}}", ExportObjectToCSharpCode(instance));
+            Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{A1=6,A2=79,A78=654.87,A4=newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1()}", ExportObjectToCSharpCode(instance));
 
 
             instance.A4.A1 = 65;
@@ -157,9 +159,52 @@ loha"));
             };
 
             Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{ArrayProperty_String=newSystem.String[]{\"A\",\"B\"}}", ExportObjectToCSharpCode(instance));
+
+            instance = new ExportObjectToCSharpCode_Test_Class_1
+            {
+                ReadOnlyList1 = new List<string>{ "A", "B" }
+            };
+
+            Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{ReadOnlyList1=newSystem.Collections.Generic.List<System.String>{\"A\",\"B\"}}", ExportObjectToCSharpCode(instance));
+
+
+            instance = new ExportObjectToCSharpCode_Test_Class_1
+            {
+                ReadOnlyList2 = new List<string> { "A", "B" }
+            };
+
+            Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{ReadOnlyList2=newSystem.Collections.Generic.List<System.String>{\"A\",\"B\"}}", ExportObjectToCSharpCode(instance));
+
+
+            instance = new ExportObjectToCSharpCode_Test_Class_1
+            {
+                IList = new[] { "A", "B" }
+            };
+
+            Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{IList=newSystem.String[]{\"A\",\"B\"}}", ExportObjectToCSharpCode(instance));
+
+
+            instance = new ExportObjectToCSharpCode_Test_Class_1
+            {
+                DerivedEnum = new DerivedEnum("A",6)
+            };
+
+            Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{DerivedEnum=newWhiteStone.Test.DerivedEnum(\"A\",6)}", ExportObjectToCSharpCode(instance));
+
+
         }
     }
 
+    public class DerivedEnum
+    {
+        public string Name { get; private set; }
+        public int Value{ get; private set; }
+        public DerivedEnum(string A,int B)
+        {
+            Name = A;
+            Value = B;
+        }
+    }
     public class ExportObjectToCSharpCode_Test_Class_1
     {
         public int A1 { get; set; }
@@ -186,6 +231,12 @@ loha"));
         public Dictionary<string, object> D1Dictionary { get; set; }
 
         public string[] ArrayProperty_String { get; set; }
+
+        public IReadOnlyList<string> ReadOnlyList1 { get; set; }
+        public IReadOnlyCollection<string> ReadOnlyList2 { get; set; }
+        public IList<string> IList { get; set; }
+
+        public DerivedEnum DerivedEnum { get; set; }
     }
 
     public enum ExportObjectToCSharpCode_Test_EnumType

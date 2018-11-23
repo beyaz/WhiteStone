@@ -15,10 +15,15 @@ namespace BOA.Common.Helpers
         class ObjectToCSharpCodeExporter
         {
             #region Constants
-            const string UnresolvedSymbol = "?";
+            const string Comma              = ",";
+            const string EnglishCultureName = "en-US";
+            const string LeftBrace          = "{";
+            const string LeftParenthesis    = "(";
+            const string RightBrace         = "}";
+            const string RightParenthesis   = ")";
+            const string UnresolvedSymbol   = "?";
             #endregion
 
-            const string EnglishCultureName = "en-US";
             #region Static Fields
             static readonly CultureInfo EnglishCulture = new CultureInfo(EnglishCultureName);
             #endregion
@@ -35,6 +40,17 @@ namespace BOA.Common.Helpers
                 Write(obj);
 
                 return _sb.ToString();
+            }
+
+            static string CleanGenericTypeName(string typeName, int genericParameterCount)
+            {
+                const string NewValue = "<";
+
+                const string Format = "`{0}[";
+
+                var OldValue = string.Format(EnglishCulture, Format, genericParameterCount);
+
+                return typeName.Replace(OldValue, NewValue).Replace(']', '>');
             }
 
             /// <summary>
@@ -81,6 +97,7 @@ namespace BOA.Common.Helpers
                 WritePadding();
                 _sb.AppendLine(value);
             }
+
             void AppendLine()
             {
                 AppendLine(string.Empty);
@@ -113,7 +130,7 @@ namespace BOA.Common.Helpers
                 var str = obj as string;
                 if (str != null)
                 {
-                    const string StringStart = "\"";
+                    const string StringStart                 = "\"";
                     const string StringStartWithMultipleLine = "@\"";
                     if (str.Contains(Environment.NewLine) || str.Contains('\\'))
                     {
@@ -176,7 +193,7 @@ namespace BOA.Common.Helpers
 
                 if (obj is DateTime)
                 {
-                    var date = (DateTime) obj;
+                    var          date               = (DateTime) obj;
                     const string DateCreationFormat = "new System.DateTime({0},{1},{2},{3},{4},{5},{6})";
                     AppendNoPadding(string.Format(EnglishCulture, DateCreationFormat, date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond));
                     return;
@@ -193,47 +210,50 @@ namespace BOA.Common.Helpers
 
                 if (IsInstanceOfGeneric(typeof(KeyValuePair<,>), obj))
                 {
-                    var fullName = type.ToString().Replace("`2[", "<").Replace("]", ">");
+                    var fullName = CleanGenericTypeName(type.ToString(), 2);
+
                     AppendNoPadding(fullName);
-                    const string LeftParenthesis = "(";
+
                     AppendNoPadding(LeftParenthesis);
 
                     object key   = UnresolvedSymbol;
                     object value = UnresolvedSymbol;
 
-                    const string NameKey = "Key";
-                    var propertyInfoKey = type.GetProperty(NameKey);
+                    const string NameofKey       = "Key";
+                    var          propertyInfoKey = type.GetProperty(NameofKey);
                     if (propertyInfoKey != null)
                     {
                         key = propertyInfoKey.GetValue(obj, null);
                     }
 
-                    const string NameValue = "Value";
-                    var propertyInfoValue = type.GetProperty(NameValue);
+                    const string NameofValue       = "Value";
+                    var          propertyInfoValue = type.GetProperty(NameofValue);
                     if (propertyInfoValue != null)
                     {
                         value = propertyInfoValue.GetValue(obj, null);
                     }
 
                     Write(key);
-                    AppendNoPadding(",");
+                    AppendNoPadding(Comma);
                     Write(value);
 
-                    AppendNoPadding(")");
+                    AppendNoPadding(RightParenthesis);
                     return;
                 }
 
                 var isFirstPropertyWrite = true;
 
-                AppendNoPadding("new ");
+                const string NewCreation = "new ";
+                AppendNoPadding(NewCreation);
 
                 if (IsInstanceOfGeneric(typeof(List<>), obj))
                 {
-                    var fullName = type.ToString().Replace("`1[", "<").Replace("]", ">");
+                    var fullName = CleanGenericTypeName(type.ToString(), 1);
 
                     AppendNoPadding(fullName);
                     AppendLine();
-                    AppendLine("{");
+
+                    AppendLine(LeftBrace);
 
                     PaddingNext();
 
@@ -245,7 +265,7 @@ namespace BOA.Common.Helpers
                         }
                         else
                         {
-                            AppendNoPadding(",");
+                            AppendNoPadding(Comma);
                             AppendLine();
                         }
 
@@ -255,18 +275,19 @@ namespace BOA.Common.Helpers
 
                     PaddingBack();
                     AppendLine();
-                    Append("}");
+
+                    Append(RightBrace);
 
                     return;
                 }
 
                 if (IsInstanceOfGeneric(typeof(Dictionary<,>), obj))
                 {
-                    var fullName = type.ToString().Replace("`2[", "<").Replace("]", ">");
+                    var fullName = CleanGenericTypeName(type.ToString(), 2);
 
                     AppendNoPadding(fullName);
                     AppendLine();
-                    AppendLine("{");
+                    AppendLine(LeftBrace);
 
                     PaddingNext();
 
@@ -278,34 +299,36 @@ namespace BOA.Common.Helpers
                         }
                         else
                         {
-                            AppendNoPadding(",");
+                            AppendNoPadding(Comma);
                             AppendLine();
                         }
 
                         WritePadding();
-                        AppendNoPadding("{");
+                        AppendNoPadding(LeftBrace);
                         Write(item.Key);
-                        AppendNoPadding(",");
+                        AppendNoPadding(Comma);
                         Write(item.Value);
-                        AppendNoPadding("}");
+                        AppendNoPadding(RightBrace);
                     }
 
                     PaddingBack();
                     AppendLine();
-                    Append("}");
+                    Append(RightBrace);
 
                     return;
                 }
 
                 AppendNoPadding(type.FullName);
-                AppendLine();
-                Append("{");
-
-                PaddingNext();
 
                 var array = obj as Array;
+
                 if (array != null)
                 {
+                    AppendLine();
+                    Append(LeftBrace);
+
+                    PaddingNext();
+
                     foreach (var value in array)
                     {
                         if (isFirstPropertyWrite)
@@ -314,65 +337,135 @@ namespace BOA.Common.Helpers
                         }
                         else
                         {
-                            AppendNoPadding(",");
+                            AppendNoPadding(Comma);
                             AppendLine();
                         }
 
                         Write(value);
                     }
+
+                    PaddingBack();
+
+                    AppendLine();
+                    Append(RightBrace);
+
+                    return;
                 }
-                else
+
+                var constructorParameterValues = new List<object>();
+
+                var constructorInfos = type.GetConstructors(AllBindings);
+                if (constructorInfos.Length == 1)
                 {
-                    foreach (var property in type.GetProperties().Where(p => p.CanRead && p.CanWrite))
+                    var parameterInfos = constructorInfos[0].GetParameters();
+                    if (parameterInfos.Length > 0)
                     {
-                        var value = property.GetValue(obj, null);
-                        if (value == null)
+                        foreach (var parameterInfo in parameterInfos)
                         {
-                            continue;
-                        }
-
-                        if (value.Equals(GetDefaultValueFromType(property.PropertyType)))
-                        {
-                            continue;
-                        }
-
-                        if (property.PropertyType == typeof(DateTime))
-                        {
-                            if (value.Equals(new DateTime()))
+                            var searchPropertyInfo = type.GetProperties().FirstOrDefault(p => p.CanRead && p.SetMethod != null && p.SetMethod.IsPrivate && p.PropertyType == parameterInfo.ParameterType);
+                            if (searchPropertyInfo != null)
                             {
-                                continue;
+                                constructorParameterValues.Add(searchPropertyInfo.GetValue(obj));
+                            }
+                            else
+                            {
+                                constructorParameterValues.Add(GetDefaultValueFromType(parameterInfo.ParameterType));
                             }
                         }
 
-                        if (isFirstPropertyWrite)
+                        Append(LeftParenthesis);
+                        var isFirst = true;
+                        foreach (var parameterValue in constructorParameterValues)
                         {
-                            isFirstPropertyWrite = false;
+                            if (!isFirst)
+                            {
+                                Append(Comma);
+                            }
+
+                            Write(parameterValue);
+                            isFirst = false;
                         }
-                        else
-                        {
-                            AppendNoPadding(",");
-                        }
 
-                        AppendLine();
-
-                        Append(property.Name);
-                        AppendNoPadding(" = ");
-
-                        Write(value);
+                        Append(RightParenthesis);
                     }
+                }
+
+                var propertyValues = new List<KeyValuePair<string, object>>();
+
+                foreach (var property in type.GetProperties().Where(p => p.CanRead && p.SetMethod != null && p.SetMethod.IsPublic))
+                {
+                    var value = property.GetValue(obj, null);
+                    if (value == null)
+                    {
+                        continue;
+                    }
+
+                    if (value.Equals(GetDefaultValueFromType(property.PropertyType)))
+                    {
+                        continue;
+                    }
+
+                    if (property.PropertyType == typeof(DateTime))
+                    {
+                        if (value.Equals(new DateTime()))
+                        {
+                            continue;
+                        }
+                    }
+
+                    propertyValues.Add(new KeyValuePair<string, object>(property.Name, value));
+                }
+
+                if (propertyValues.Count == 0)
+                {
+                    if (constructorParameterValues.Count == 0)
+                    {
+                        Append(LeftParenthesis);
+                        Append(RightParenthesis);
+                    }
+
+                    return;
+                }
+
+                AppendLine();
+                Append(LeftBrace);
+
+                PaddingNext();
+
+                foreach (var pair in propertyValues)
+                {
+                    var propertyName  = pair.Key;
+                    var propertyValue = pair.Value;
+
+                    if (isFirstPropertyWrite)
+                    {
+                        isFirstPropertyWrite = false;
+                    }
+                    else
+                    {
+                        AppendNoPadding(Comma);
+                    }
+
+                    AppendLine();
+
+                    Append(propertyName);
+                    const string Assignment = " = ";
+                    AppendNoPadding(Assignment);
+
+                    Write(propertyValue);
                 }
 
                 PaddingBack();
 
                 AppendLine();
-                Append("}");
+                Append(RightBrace);
             }
 
             void WritePadding()
             {
                 if (_currentPadding > 0)
                 {
-                    _sb.Append("".PadRight(_currentPadding, ' '));
+                    _sb.Append(string.Empty.PadRight(_currentPadding, ' '));
                 }
             }
             #endregion
