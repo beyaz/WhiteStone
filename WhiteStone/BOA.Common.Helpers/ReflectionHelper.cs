@@ -49,7 +49,7 @@ namespace BOA.Common.Helpers
             }
 
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new MemoryStream();
+            Stream     stream    = new MemoryStream();
             using (stream)
             {
                 formatter.Serialize(stream, source);
@@ -109,6 +109,7 @@ namespace BOA.Common.Helpers
             {
                 return Activator.CreateInstance(type);
             }
+
             return null;
         }
 
@@ -255,9 +256,9 @@ namespace BOA.Common.Helpers
             #endregion
 
             #region Fields
-            readonly int _padding = 4;
-            readonly StringBuilder _sb = new StringBuilder();
-            int _currentPadding;
+            readonly int           _padding = 4;
+            readonly StringBuilder _sb      = new StringBuilder();
+            int                    _currentPadding;
             #endregion
 
             #region Methods
@@ -277,6 +278,7 @@ namespace BOA.Common.Helpers
                 {
                     return Activator.CreateInstance(type);
                 }
+
                 return null;
             }
 
@@ -296,6 +298,7 @@ namespace BOA.Common.Helpers
                 {
                     return true;
                 }
+
                 return false;
             }
 
@@ -381,6 +384,7 @@ namespace BOA.Common.Helpers
                         AppendNoPadding("System.Guid.Empty");
                         return;
                     }
+
                     AppendNoPadding("new System.Guid(\"" + guid + "\")");
                     return;
                 }
@@ -406,7 +410,7 @@ namespace BOA.Common.Helpers
                     AppendNoPadding(fullName);
                     AppendNoPadding("(");
 
-                    var key = type.GetProperty("Key").GetValue(obj, null);
+                    var key   = type.GetProperty("Key").GetValue(obj, null);
                     var value = type.GetProperty("Value").GetValue(obj, null);
                     Write(key);
                     AppendNoPadding(",");
@@ -523,6 +527,7 @@ namespace BOA.Common.Helpers
                         {
                             continue;
                         }
+
                         if (value.Equals(GetDefaultValueFromType(property.PropertyType)))
                         {
                             continue;
@@ -535,6 +540,7 @@ namespace BOA.Common.Helpers
                                 continue;
                             }
                         }
+
                         if (isFirstPropertWrite)
                         {
                             isFirstPropertWrite = false;
@@ -552,6 +558,7 @@ namespace BOA.Common.Helpers
                         Write(value);
                     }
                 }
+
                 PaddingBack();
 
                 AppendLine();
