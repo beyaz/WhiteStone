@@ -14,6 +14,10 @@ namespace BOA.Common.Helpers
     {
         class ObjectToCSharpCodeExporter
         {
+            #region Constants
+            const string UnresolvedSymbol = "?";
+            #endregion
+
             #region Static Fields
             static readonly CultureInfo EnglishCulture = new CultureInfo("en-US");
             #endregion
@@ -179,20 +183,21 @@ namespace BOA.Common.Helpers
                     AppendNoPadding(fullName);
                     AppendNoPadding("(");
 
-                    object key = "?";
-                    object value = "?";
+                    object key   = UnresolvedSymbol;
+                    object value = UnresolvedSymbol;
 
                     var propertyInfoKey = type.GetProperty("Key");
                     if (propertyInfoKey != null)
                     {
                         key = propertyInfoKey.GetValue(obj, null);
                     }
+
                     var propertyInfoValue = type.GetProperty("Value");
                     if (propertyInfoValue != null)
                     {
                         value = propertyInfoValue.GetValue(obj, null);
                     }
-                   
+
                     Write(key);
                     AppendNoPadding(",");
                     Write(value);
