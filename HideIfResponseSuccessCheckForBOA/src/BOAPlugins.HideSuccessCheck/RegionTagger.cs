@@ -61,8 +61,15 @@ namespace BOAPlugins.HideSuccessCheck
 
                         var snapshot = new SnapshotSpan(startLine.Start + region.StartOffset, endLine.End);
 
-                        //the region starts at the beginning of the "[", and goes until the *end* of the line that contains the "]".
-                        tags.Add(new TagSpan<IOutliningRegionTag>(snapshot, new OutliningRegionTag(true, true, region.Text, snapshot.GetText())));
+                        const bool isDefaultCollapsed = true;
+                        const bool isImplementation   = true;
+                        var        collapsedForm      = region.Text;
+                        var        collapsedHintForm  = snapshot.GetText();
+                        var        outliningRegionTag = new OutliningRegionTag(isDefaultCollapsed, isImplementation, collapsedForm, collapsedHintForm);
+
+                        var tagSpan = new TagSpan<IOutliningRegionTag>(snapshot, outliningRegionTag);
+
+                        tags.Add(tagSpan);
                     }
                 }
 
