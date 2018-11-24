@@ -30,7 +30,7 @@ namespace BOA.LanguageTranslations.Longman
 
             return InitializeTurkish(new WordInfo
             {
-                Dictentries = doc.DocumentNode.GetElementbyClass("dictentry").Select(ParseDictentry).ToList()
+                Dictentries = doc.DocumentNode.GetElementByClass("dictentry").Select(ParseDictentry).ToList()
             });
         }
 
@@ -77,8 +77,8 @@ namespace BOA.LanguageTranslations.Longman
         {
             var result = new Entry
             {
-                Topics = dictentry.GetElementbyClass("topic").Select(e => e.InnerHtml).ToList(),
-                Usages = dictentry.GetElementbyClass("Sense").Select(ParseUsageInfo).ToList()
+                Topics = dictentry.GetElementByClass("topic").Select(e => e.InnerHtml).ToList(),
+                Usages = dictentry.GetElementByClass("Sense").Select(ParseUsageInfo).ToList()
             };
 
             return result;
@@ -103,9 +103,9 @@ namespace BOA.LanguageTranslations.Longman
         {
             return new UsageInfo
             {
-                ShortDefinition = newline_Sense.GetElementbyClass("SIGNPOST").FirstOrDefault()?.InnerHtml,
-                FullDefinition  = newline_Sense.GetElementbyClass("DEF").FirstOrDefault()?.InnerText,
-                Examples        = newline_Sense.GetElementbyClass("EXAMPLE").Select(ParseExample).ToList()
+                ShortDefinition = newline_Sense.GetElementByClass("SIGNPOST").FirstOrDefault()?.InnerHtml,
+                FullDefinition  = newline_Sense.GetElementByClass("DEF").FirstOrDefault()?.InnerText,
+                Examples        = newline_Sense.GetElementByClass("EXAMPLE").Select(ParseExample).ToList()
             };
         }
         #endregion

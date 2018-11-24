@@ -8,7 +8,7 @@ namespace BOA.LanguageTranslations
     static class Extensions
     {
         #region Public Methods
-        public static IEnumerable<HtmlNode> GetElementbyClass(this HtmlNode node, string className)
+        public static IEnumerable<HtmlNode> GetElementByClass(this HtmlNode node, string className)
         {
             return node.Descendants().Where(x => x.IsClassNameMatch(className.Split(' ').Trim()));
         }
@@ -26,7 +26,7 @@ namespace BOA.LanguageTranslations
 
             foreach (var className in searchClassName)
             {
-                if (classNames?.Contains(className) == false)
+                if (classNames.Contains(className) == false)
                 {
                     return false;
                 }
