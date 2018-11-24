@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 
-namespace JavaScriptRegions
+namespace BOAPlugins.HideSuccessCheck
 {
     internal sealed class RegionTagger : ITagger<IOutliningRegionTag>
     {

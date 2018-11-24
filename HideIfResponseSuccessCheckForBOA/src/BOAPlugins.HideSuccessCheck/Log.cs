@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace JavaScriptRegions
+namespace BOAPlugins.HideSuccessCheck
 {
     public static class Log
     {

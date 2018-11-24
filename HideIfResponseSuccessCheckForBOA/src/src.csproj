@@ -48,19 +48,19 @@
   <ItemGroup>
     <Compile Include="Classifier\RegionClassifier.cs" />
     <Compile Include="Classifier\RegionClassifierProvider.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Log.cs" />
+    <Compile Include="BOAPlugins.HideSuccessCheck\Extensions.cs" />
+    <Compile Include="BOAPlugins.HideSuccessCheck\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegionParser.cs" />
-    <Compile Include="RegionParserData.cs" />
+    <Compile Include="BOAPlugins.HideSuccessCheck\RegionParser.cs" />
+    <Compile Include="BOAPlugins.HideSuccessCheck\RegionParserData.cs" />
     <Compile Include="RegionsPackage.cs" />
-    <Compile Include="Tagger\Region.cs" />
-    <Compile Include="Tagger\RegionTaggerProvider.cs" />
-    <Compile Include="Tagger\RegionTagger.cs" />
+    <Compile Include="BOAPlugins.HideSuccessCheck\Region.cs" />
+    <Compile Include="BOAPlugins.HideSuccessCheck\RegionTaggerProvider.cs" />
+    <Compile Include="BOAPlugins.HideSuccessCheck\RegionTagger.cs" />
     <Compile Include="source.extension.cs">
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
-    <Compile Include="Tagger\VariableAssignmentLine.cs" />
+    <Compile Include="BOAPlugins.HideSuccessCheck\VariableAssignmentLine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\LICENSE">

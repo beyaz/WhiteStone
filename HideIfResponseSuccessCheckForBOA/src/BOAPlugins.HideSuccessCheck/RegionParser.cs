@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 
-namespace JavaScriptRegions
+namespace BOAPlugins.HideSuccessCheck
 {
     public static class RegionParser
     {

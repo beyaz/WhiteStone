@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScriptRegions", "HideIfResponseSuccessCheckForBOA\src\JavaScriptRegions.csproj", "{C52F5128-55C6-45B4-BF1B-A5376CF7C95F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src", "HideIfResponseSuccessCheckForBOA\src\src.csproj", "{C52F5128-55C6-45B4-BF1B-A5376CF7C95F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "HideIfResponseSuccessCheckForBOA\UnitTestProject1\UnitTestProject1.csproj", "{6217E048-3491-4811-AAA5-AEBE21C4DD90}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "HideIfResponseSuccessCheckForBOA\UnitTestProject1\test.csproj", "{6217E048-3491-4811-AAA5-AEBE21C4DD90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

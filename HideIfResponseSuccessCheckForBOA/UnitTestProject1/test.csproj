@@ -58,9 +58,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\JavaScriptRegions.csproj">
+    <ProjectReference Include="..\src\src.csproj">
       <Project>{c52f5128-55c6-45b4-bf1b-a5376cf7c95f}</Project>
-      <Name>JavaScriptRegions</Name>
+      <Name>src</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

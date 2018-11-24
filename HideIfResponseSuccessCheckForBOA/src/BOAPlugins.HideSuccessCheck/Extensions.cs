@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JavaScriptRegions
+namespace BOAPlugins.HideSuccessCheck
 {
     static class Extensions
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.Text;
 
-namespace JavaScriptRegions
+namespace BOAPlugins.HideSuccessCheck
 {
     public class RegionParserData
     {

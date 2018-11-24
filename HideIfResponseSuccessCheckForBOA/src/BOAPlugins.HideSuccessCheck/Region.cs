@@ -1,4 +1,4 @@
-﻿namespace JavaScriptRegions
+﻿namespace BOAPlugins.HideSuccessCheck
 {
     public class Region
     {

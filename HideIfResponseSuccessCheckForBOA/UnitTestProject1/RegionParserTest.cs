@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using JavaScriptRegions;
+using BOAPlugins.HideSuccessCheck;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProject1
