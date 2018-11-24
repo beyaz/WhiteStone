@@ -11,9 +11,10 @@ namespace BOAPlugins.HideSuccessCheck
     internal sealed class RegionTagger : ITagger<IOutliningRegionTag>
     {
         #region Fields
-        readonly ITextBuffer _buffer;
-        List<Region>         _regions;
-        ITextSnapshot        _snapshot;
+        readonly ITextBuffer                         _buffer;
+        readonly List<ITagSpan<IOutliningRegionTag>> EmptyTagList = new List<ITagSpan<IOutliningRegionTag>>();
+        List<Region>                                 _regions;
+        ITextSnapshot                                _snapshot;
         #endregion
 
         #region Constructors
@@ -41,7 +42,7 @@ namespace BOAPlugins.HideSuccessCheck
             {
                 if (spans.Count == 0)
                 {
-                    return Enumerable.Empty<ITagSpan<IOutliningRegionTag>>();
+                    return EmptyTagList;
                 }
 
                 var currentRegions  = _regions;
@@ -61,8 +62,7 @@ namespace BOAPlugins.HideSuccessCheck
                         var snapshot = new SnapshotSpan(startLine.Start + region.StartOffset, endLine.End);
 
                         //the region starts at the beginning of the "[", and goes until the *end* of the line that contains the "]".
-                        tags.Add(new TagSpan<IOutliningRegionTag>(snapshot,
-                                                                  new OutliningRegionTag(true, true, region.Text, snapshot.GetText())));
+                        tags.Add(new TagSpan<IOutliningRegionTag>(snapshot, new OutliningRegionTag(true, true, region.Text, snapshot.GetText())));
                     }
                 }
 
@@ -71,7 +71,7 @@ namespace BOAPlugins.HideSuccessCheck
             catch (Exception e)
             {
                 Log.Push(e);
-                return Enumerable.Empty<ITagSpan<IOutliningRegionTag>>();
+                return EmptyTagList;
             }
         }
         #endregion
@@ -115,8 +115,6 @@ namespace BOAPlugins.HideSuccessCheck
                 RegionParser.Parse(data);
 
                 var newRegions = data.Regions;
-
-
 
                 //determine the changed span, and send a changed event with the new spans
                 var oldSpans = new List<Span>(_regions.Select(r => AsSnapshotSpan(r, _snapshot)
