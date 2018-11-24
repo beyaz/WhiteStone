@@ -23,3 +23,7 @@ WhiteStone.Test/obj
 
 *.userprefs
 /_ReSharper.Caches
+/HideIfResponseSuccessCheckForBOA/src/obj/Debug
+/HideIfResponseSuccessCheckForBOA/src/bin/Debug
+/HideIfResponseSuccessCheckForBOA/UnitTestProject1/obj/Debug
+/HideIfResponseSuccessCheckForBOA/UnitTestProject1/bin/Debug
