@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace BOA.Common.Helpers
@@ -12,6 +13,9 @@ namespace BOA.Common.Helpers
     /// </summary>
     public static partial class ReflectionHelper
     {
+        /// <summary>
+        /// The object to c sharp code exporter
+        /// </summary>
         class ObjectToCSharpCodeExporter
         {
             #region Constants
@@ -118,6 +122,26 @@ namespace BOA.Common.Helpers
                 _currentPadding += _padding;
             }
 
+            static bool IsNumericType(Type type)
+            {
+                if (type ==typeof(sbyte) ||
+                    type ==typeof(byte) ||
+                    type ==typeof(short) ||
+                    type ==typeof(ushort) ||
+                    type ==typeof(int) ||
+                    type ==typeof(double) ||
+                    type ==typeof(uint) ||
+                    type ==typeof(long) ||
+                    type == typeof(float) || 
+                    type == typeof(decimal) ||
+                    type ==typeof(ulong))
+                {
+
+                    return true;
+                }
+
+                return false;
+            }
             void Write(object obj)
             {
                 if (obj == null)
@@ -141,31 +165,10 @@ namespace BOA.Common.Helpers
                     AppendNoPadding(StringStart + str + StringStart);
                     return;
                 }
-
-                if (obj is sbyte ||
-                    obj is byte ||
-                    obj is short ||
-                    obj is ushort ||
-                    obj is int ||
-                    obj is double ||
-                    obj is uint ||
-                    obj is long ||
-                    obj is ulong)
-                {
-                    AppendNoPadding(obj.ToString());
-                    return;
-                }
-
                 if (obj is decimal)
                 {
                     const string DecimalEnd = "M";
                     AppendNoPadding(obj + DecimalEnd);
-                    return;
-                }
-
-                if (obj is bool)
-                {
-                    AppendNoPadding(obj.ToString().ToLower(EnglishCulture));
                     return;
                 }
 
@@ -175,6 +178,21 @@ namespace BOA.Common.Helpers
                     AppendNoPadding(obj + FloatEnd);
                     return;
                 }
+
+                if (IsNumericType(obj.GetType()))
+                {
+                    AppendNoPadding(obj.ToString());
+                    return;
+                }
+                
+
+                if (obj is bool)
+                {
+                    AppendNoPadding(obj.ToString().ToLower(EnglishCulture));
+                    return;
+                }
+
+              
 
                 if (obj is Guid)
                 {
@@ -324,6 +342,27 @@ namespace BOA.Common.Helpers
 
                 if (array != null)
                 {
+                    if (IsNumericType(array.GetType().GetElementType()))
+                    {
+                        AppendNoPadding(LeftBrace);
+                        foreach (var value in array)
+                        {
+                            if (isFirstPropertyWrite)
+                            {
+                                isFirstPropertyWrite = false;
+                            }
+                            else
+                            {
+                                AppendNoPadding(Comma);
+                            }
+
+                            Write(value);
+                        }
+                        AppendNoPadding(RightBrace);
+                        return;
+
+                    }
+
                     AppendLine();
                     Append(LeftBrace);
 
@@ -354,7 +393,7 @@ namespace BOA.Common.Helpers
 
                 var constructorParameterValues = new List<object>();
 
-                var constructorInfos = type.GetConstructors(AllBindings);
+                 var constructorInfos = type.GetConstructors(BindingFlags.Public|BindingFlags.Instance);
                 if (constructorInfos.Length == 1)
                 {
                     var parameterInfos = constructorInfos[0].GetParameters();
@@ -362,7 +401,7 @@ namespace BOA.Common.Helpers
                     {
                         foreach (var parameterInfo in parameterInfos)
                         {
-                            var searchPropertyInfo = type.GetProperties().FirstOrDefault(p => p.CanRead && p.SetMethod != null && p.SetMethod.IsPrivate && p.PropertyType == parameterInfo.ParameterType);
+                            var searchPropertyInfo = type.GetProperties().FirstOrDefault(p => p.CanRead && ((p.SetMethod == null) || (p.SetMethod != null && p.SetMethod.IsPrivate)) && p.PropertyType == parameterInfo.ParameterType);
                             if (searchPropertyInfo != null)
                             {
                                 constructorParameterValues.Add(searchPropertyInfo.GetValue(obj));
@@ -373,20 +412,20 @@ namespace BOA.Common.Helpers
                             }
                         }
 
-                        Append(LeftParenthesis);
+                        AppendNoPadding(LeftParenthesis);
                         var isFirst = true;
                         foreach (var parameterValue in constructorParameterValues)
                         {
                             if (!isFirst)
                             {
-                                Append(Comma);
+                                AppendNoPadding(Comma);
                             }
 
                             Write(parameterValue);
                             isFirst = false;
                         }
 
-                        Append(RightParenthesis);
+                        AppendNoPadding(RightParenthesis);
                     }
                 }
 
@@ -420,8 +459,8 @@ namespace BOA.Common.Helpers
                 {
                     if (constructorParameterValues.Count == 0)
                     {
-                        Append(LeftParenthesis);
-                        Append(RightParenthesis);
+                        AppendNoPadding(LeftParenthesis);
+                        AppendNoPadding(RightParenthesis);
                     }
 
                     return;

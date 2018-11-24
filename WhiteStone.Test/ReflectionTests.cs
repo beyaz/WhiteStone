@@ -191,7 +191,15 @@ loha"));
 
             Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{DerivedEnum=newWhiteStone.Test.DerivedEnum(\"A\",6)}", ExportObjectToCSharpCode(instance));
 
+            instance = new ExportObjectToCSharpCode_Test_Class_1
+            {
+                intArray = new []{5,7}
+            };
 
+            Assert.AreEqual("newWhiteStone.Test.ExportObjectToCSharpCode_Test_Class_1{intArray=newSystem.Int32[]{5,7}}", ExportObjectToCSharpCode(instance));
+
+
+            
         }
     }
 
@@ -237,6 +245,8 @@ loha"));
         public IList<string> IList { get; set; }
 
         public DerivedEnum DerivedEnum { get; set; }
+
+        public int[] intArray { get; set; }
     }
 
     public enum ExportObjectToCSharpCode_Test_EnumType
