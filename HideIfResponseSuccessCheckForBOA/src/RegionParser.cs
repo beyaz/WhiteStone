@@ -118,7 +118,6 @@ namespace JavaScriptRegions
 
                         data.Regions.Add(new Region
                         {
-                            Level       = 1,
                             StartLine   = LineNumber,
                             StartOffset = firstCharIndex,
                             EndLine     = data.GetLineNumber(i + endOfEmptyLinesOffset),
@@ -131,7 +130,6 @@ namespace JavaScriptRegions
 
                     data.Regions.Add(new Region
                     {
-                        Level       = 1,
                         StartLine   = LineNumber,
                         StartOffset = firstCharIndex,
                         EndLine     = data.GetLineNumber(i + rightBracketOffset),
