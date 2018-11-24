@@ -23,7 +23,7 @@ namespace UnitTestProject1
             var x = checkResponse.Value.GetValueOrDefault();
 
 ";
-            var data = new RegionParserData
+            var data = new RegionParserTestData
             {
                 SourceText = sourceText
             };
@@ -47,7 +47,7 @@ namespace UnitTestProject1
             }
 
 ";
-            var data = new RegionParserData
+            var data = new RegionParserTestData
             {
                 SourceText = sourceText
             };
@@ -70,7 +70,7 @@ namespace UnitTestProject1
             }
 
 ";
-            var data = new RegionParserData
+            var data = new RegionParserTestData
             {
                 SourceText = sourceText
             };
@@ -85,7 +85,7 @@ namespace UnitTestProject1
         {
             const string FilePath = @"D:\Work\BOA.Kernel\Dev\BOA.Kernel.CardGeneral\DebitCard\BOA.Engine.DebitCard\Utility\Validation.cs";
 
-            var data = new RegionParserData
+            var data = new RegionParserTestData
             {
                 SourceText = File.ReadAllText(FilePath)
             };
@@ -100,7 +100,7 @@ namespace UnitTestProject1
         {
             const string FilePath = @"D:\Work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\BOA.Orchestration.CardGeneral.DebitCard\CardTransactionListForm.cs";
 
-            var data = new RegionParserData
+            var data = new RegionParserTestData
             {
                 SourceText = File.ReadAllText(FilePath)
             };

@@ -12,17 +12,35 @@ namespace JavaScriptRegions
         #endregion
 
         #region Public Properties
-        public int LineCount
+        public virtual int LineCount
         {
-            get
-            {
-                if (SourceTextLines != null)
-                {
-                    return SourceTextLines.Count;
-                }
+            get { return TextSnapshotLines.Count; }
+        }
 
-                return TextSnapshotLines.Count;
-            }
+        public IReadOnlyList<ITextSnapshotLine> TextSnapshotLines { get; set; }
+        #endregion
+
+        #region Public Indexers
+        public virtual string this[int lineIndex]
+        {
+            get { return TextSnapshotLines[lineIndex].GetText(); }
+        }
+        #endregion
+
+        #region Public Methods
+        public virtual int GetLineNumber(int lineIndex)
+        {
+            return TextSnapshotLines[lineIndex].LineNumber;
+        }
+        #endregion
+    }
+
+    public class RegionParserTestData : RegionParserData
+    {
+        #region Public Properties
+        public override int LineCount
+        {
+            get { return SourceTextLines.Count; }
         }
 
         public string SourceText
@@ -31,34 +49,19 @@ namespace JavaScriptRegions
         }
 
         public IReadOnlyList<string> SourceTextLines { get; set; }
-
-        public IReadOnlyList<ITextSnapshotLine> TextSnapshotLines { get; set; }
         #endregion
 
         #region Public Indexers
-        public string this[int lineIndex]
+        public override string this[int lineIndex]
         {
-            get
-            {
-                if (SourceTextLines != null)
-                {
-                    return SourceTextLines[lineIndex];
-                }
-
-                return TextSnapshotLines[lineIndex].GetText();
-            }
+            get { return SourceTextLines[lineIndex]; }
         }
         #endregion
 
         #region Public Methods
-        public int GetLineNumber(int lineIndex)
+        public override int GetLineNumber(int lineIndex)
         {
-            if (SourceTextLines != null)
-            {
-                return 0;
-            }
-
-            return TextSnapshotLines[lineIndex].LineNumber;
+            return 0;
         }
         #endregion
     }
