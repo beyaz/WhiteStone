@@ -5,8 +5,6 @@ namespace JavaScriptRegions
 {
     public class VariableAssignmentLine
     {
-        
-
         #region Public Properties
         public string AssignedValue    { get; set; }
         public string VariableName     { get; set; }
@@ -22,7 +20,7 @@ namespace JavaScriptRegions
                 return true;
             }
 
-            if (responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName+"."))
+            if (responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName + "."))
             {
                 var extraExtension = responseValueAssignmentToAnotherVariable.AssignedValue.RemoveFromStart(variableName);
 
@@ -33,7 +31,6 @@ namespace JavaScriptRegions
 
                 return true;
             }
-            
 
             return false;
         }

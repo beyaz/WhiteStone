@@ -1,22 +1,14 @@
 ﻿namespace JavaScriptRegions
 {
-    public class PartialRegion
+    public class Region
     {
         #region Public Properties
-        public int           Level         { get; set; }
-        public PartialRegion PartialParent { get; set; }
-        public int           StartLine     { get; set; }
-        public int           StartOffset   { get; set; }
+        public int    EndLine       { get; set; }
+        public int    Level         { get; set; }
+        public Region PartialParent { get; set; }
+        public int    StartLine     { get; set; }
+        public int    StartOffset   { get; set; }
+        public string Text          { get; set; }
         #endregion
     }
-
-    public class Region : PartialRegion
-    {
-        #region Public Properties
-        public int EndLine { get; set; }
-
-        public string Text { get; set; }
-        #endregion
-    }
-
 }
