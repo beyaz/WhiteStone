@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using BOA.Common.Helpers;
 using WhiteStone;
 using WhiteStone.Services;
@@ -16,8 +17,8 @@ namespace BOAPlugins.VSIntegration
         #region Properties
         internal static Configuration Configuration => SM.Get<Configuration>();
 
-        internal static string WhiteStoneBinDirectory => AssemlyUpdater.PluginDirectory + "bin" + Path.DirectorySeparatorChar;
-        static ISerializer Serializer => SM.Get<ISerializer>() ?? SM.Set<ISerializer>(new JsonSerializer());
+        internal static string      WhiteStoneBinDirectory => Configuration.PluginDirectory + "bin" + Path.DirectorySeparatorChar;
+        static          ISerializer Serializer             => SM.Get<ISerializer>() ?? SM.Set<ISerializer>(new JsonSerializer());
         #endregion
 
         #region Public Methods
@@ -32,6 +33,7 @@ namespace BOAPlugins.VSIntegration
             {
                 return;
             }
+
             _isInitialized = true;
 
             if (Debugger.IsAttached)
@@ -40,19 +42,14 @@ namespace BOAPlugins.VSIntegration
             }
             else
             {
-                AppDomain.CurrentDomain.AddAssemblySearchDirectory(AssemlyUpdater.PluginDirectory);
+                AppDomain.CurrentDomain.AddAssemblySearchDirectory(Configuration.PluginDirectory);
                 AppDomain.CurrentDomain.AddAssemblySearchDirectory(WhiteStoneBinDirectory);
             }
 
             Configuration.LoadFromFile();
 
-
+            Task.Run(() => Configuration.CheckDeepEndsDownloaded());
         }
-        #endregion
-
-        #region Methods
-
-        
         #endregion
     }
 }

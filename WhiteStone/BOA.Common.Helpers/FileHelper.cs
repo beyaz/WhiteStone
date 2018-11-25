@@ -67,10 +67,29 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Creates the directory if not exists.
+        /// </summary>
+        public static void CreateDirectoryIfNotExists(string path)
+        {
+            var directoryInfo = new FileInfo(path).Directory;
+            if (directoryInfo != null)
+            {
+                directoryInfo.Create();
+            }
+        }
+
+        /// <summary>
         ///     Downloads the file.
         /// </summary>
-        public static void DownloadFile(string address, string saveFilePath)
+        public static void DownloadFile(string address, string saveFilePath, bool useSsl)
         {
+            if (useSsl)
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            }
+
+            CreateDirectoryIfNotExists(saveFilePath);
+
             try
             {
                 new WebClient().DownloadFile(address, saveFilePath);
@@ -152,11 +171,7 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static void WriteAllText(string path, string data)
         {
-            var directoryInfo = new FileInfo(path).Directory;
-            if (directoryInfo != null)
-            {
-                directoryInfo.Create();
-            }
+            CreateDirectoryIfNotExists(path);
 
             File.Delete(path);
 

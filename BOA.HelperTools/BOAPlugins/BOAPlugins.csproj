@@ -79,7 +79,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemlyUpdater.cs" />
     <Compile Include="BOA.Tools.Translator\Dependencies\RavSoft\Translator.cs" />
     <Compile Include="BOA.Tools.Translator\Dependencies\RavSoft\WebResourceProvider.cs" />
     <Compile Include="BOA.Tools.Translator\GoogleTranslator.cs" />
