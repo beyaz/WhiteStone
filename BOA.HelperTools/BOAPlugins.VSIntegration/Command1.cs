@@ -6,14 +6,12 @@ using System.Threading;
 using System.Windows;
 using BOA.CodeGeneration.Util;
 using BOAPlugins;
-using BOAPlugins.ExportingModel;
-using BOAPlugins.GenerateCSharpCode;
+using BOAPlugins.SearchProcedure;
 using BOAPlugins.ViewClassDependency;
 using BOAPlugins.VSIntegration;
 using Microsoft.VisualStudio.Shell;
 using WhiteStone;
 using WhiteStone.IO;
-using Handler = BOAPlugins.ExportingModel.Handler;
 
 namespace BOASpSearch
 {
@@ -94,7 +92,7 @@ namespace BOASpSearch
 
         #region Properties
         static Configuration Configuration => SM.Get<Configuration>();
-        ICommunication Communication => Factory.GetCommunication(VisualStudio);
+        ICommunication       Communication => Factory.GetCommunication(VisualStudio);
 
         /// <summary>
         ///     Gets the service provider from the owner package.
@@ -118,16 +116,6 @@ namespace BOASpSearch
         #endregion
 
         #region Methods
-        void OpenMainForm(object sender, EventArgs e)
-        {
-            var mainForm = new BOAPlugins.VSIntegration.MainForm
-            {
-                VisualStudio =  VisualStudio
-            };
-
-            mainForm.ShowDialog();
-        }
-
         void CheckInSolution(object sender, EventArgs e)
         {
             new Thread(CheckInSolution).Start();
@@ -139,7 +127,7 @@ namespace BOASpSearch
             var data = new CheckinSolutionInput
             {
                 SolutionFilePath = VisualStudio.GetSolutionFilePath(),
-                Comment = Configuration.CheckInCommentDefaultValue
+                Comment          = Configuration.CheckInCommentDefaultValue
             };
 
             try
@@ -153,7 +141,17 @@ namespace BOASpSearch
             }
         }
 
-        void GenerateCSharpCodeCallback(object sender, EventArgs e)
+        void OpenMainForm(object sender, EventArgs e)
+        {
+            var mainForm = new MainForm
+            {
+                VisualStudio = VisualStudio
+            };
+
+            mainForm.ShowDialog();
+        }
+
+        void SearchProcedure(object sender, EventArgs e)
         {
             var selectedText = VisualStudio.CursorSelectedText;
             if (selectedText == null)
@@ -169,106 +167,6 @@ namespace BOASpSearch
             Communication.Send(input);
         }
 
-        void GenerateEntityContract(object sender, EventArgs e)
-        {
-            var input = new BOAPlugins.GenerateEntityContract.Input
-            {
-                SelectedText = VisualStudio.CursorSelectedText
-            };
-
-            Communication.Send(input);
-        }
-
-        void GenerateInsertSql(object sender, EventArgs e)
-        {
-            var selectedText = VisualStudio.CursorSelectedText;
-            if (selectedText == null)
-            {
-                return;
-            }
-
-            var input = new BOAPlugins.GenerateInsertSql.Input
-            {
-                TableName = selectedText
-            };
-
-            Communication.Send(input);
-        }
-
-        void GenerateSelectByKeySql(object sender, EventArgs e)
-        {
-            var selectedText = VisualStudio.CursorSelectedText;
-            if (selectedText == null)
-            {
-                return;
-            }
-
-            var input = new BOAPlugins.GenerateSelectByKeySql.Input
-            {
-                TableName = selectedText
-            };
-
-            Communication.GenerateSelectByKeySql(input);
-        }
-
-        void GenerateUpdateSql(object sender, EventArgs e)
-        {
-            var selectedText = VisualStudio.CursorSelectedText;
-            if (selectedText == null)
-            {
-                return;
-            }
-
-            var input = new BOAPlugins.GenerateUpdateSql.Input
-            {
-                TableName = selectedText
-            };
-
-            Communication.GenerateUpdateSql(input);
-        }
-
-        /// <summary>
-        ///     This function is the callback used to execute the command when the menu item is clicked.
-        ///     See the constructor to see how the menu item is associated with this function using
-        ///     OleMenuCommandService service and MenuCommand class.
-        /// </summary>
-        /// <param name="sender">Event sender.</param>
-        /// <param name="e">Event args.</param>
-        void SearchProcedure(object sender, EventArgs e)
-        {
-            var selectedText = VisualStudio.CursorSelectedText;
-            if (selectedText == null)
-            {
-                return;
-            }
-
-            var input = new BOAPlugins.SearchProcedure.Input
-            {
-                ProcedureName = selectedText
-            };
-
-            Communication.Send(input);
-        }
-
-        void ShowPropertyGenerator(object sender, EventArgs e)
-        {
-            Communication.ShowPropertyGenerator();
-        }
-
-        
-
-        void ViewMethodCallGraph(object sender, EventArgs e)
-        {
-            var input = new Data
-            {
-                AssemblySearchDirectoryPath = VisualStudio.GetBinFolderPathOfActiveProject(),
-                SelectedText = VisualStudio.CursorSelectedText,
-                ActiveProjectName = VisualStudio.ActiveProjectName
-            };
-
-            Communication.Send(input);
-        }
-
         void ViewTypeDependency(object sender, EventArgs e)
         {
             var filePath = VisualStudio.ActiveProjectCsprojFilePath;
@@ -277,29 +175,29 @@ namespace BOASpSearch
                 return;
             }
 
-            var dgmlFilePath = filePath + ".dgml";
+            var graphFilePath = filePath + ".dgml";
 
             var FS = new FileService();
-            FS.TryDelete(dgmlFilePath);
+            FS.TryDelete(graphFilePath);
 
-            var arguments = string.Format(@"graph={1} source={0} {0}", filePath, dgmlFilePath);
+            var arguments = string.Format(@"graph={1} source={0} {0}", filePath, graphFilePath);
             Process.Start(Configuration.PluginDirectory + "DeepEnds\\DeepEnds.Console.exe", arguments);
 
             var count = 0;
             // wait for process finih
             while (true)
             {
-                if (!FS.Exists(dgmlFilePath))
+                if (!FS.Exists(graphFilePath))
                 {
                     Thread.Sleep(300);
                     continue;
                 }
 
-                var fi = new FileInfo(dgmlFilePath);
+                var fi = new FileInfo(graphFilePath);
                 if (fi.Length > 0)
                 {
-                    DgmlHelper.SetDirectionLeftToRight(dgmlFilePath);
-                    VisualStudio.OpenFile(dgmlFilePath);
+                    DgmlHelper.SetDirectionLeftToRight(graphFilePath);
+                    VisualStudio.OpenFile(graphFilePath);
                     return;
                 }
 
@@ -311,8 +209,6 @@ namespace BOASpSearch
                 }
             }
         }
-
-        
         #endregion
     }
 }
