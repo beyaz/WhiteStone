@@ -69,12 +69,6 @@
     <Compile Include="VisualStudioLayer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DeepEnds\DeepEnds.Console.exe.config">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Microsoft.VisualStudio.Diagnostics.PerformanceProvider.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="Resources\Document.png" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -230,81 +224,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DeepEnds\ClangSharp.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\DeepEnds.Console.exe">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\DeepEnds.Core.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\DeepEnds.Cpp.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\DeepEnds.CSharp.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\DeepEnds.Decompile.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\DeepEnds.DGML.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\DeepEnds.DoxygenXml.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\DeepEnds.Reporting.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\DeepEnds.VBasic.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\libclang.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Microsoft.CodeAnalysis.CSharp.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Microsoft.CodeAnalysis.CSharp.xml">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Microsoft.CodeAnalysis.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Microsoft.CodeAnalysis.VisualBasic.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Microsoft.CodeAnalysis.VisualBasic.xml">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Microsoft.CodeAnalysis.xml">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Microsoft.VisualStudio.GraphModel.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Microsoft.VisualStudio.OLE.Interop.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Microsoft.VisualStudio.OLE.Interop.xml">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\Mono.Cecil.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\System.Collections.Immutable.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\System.Collections.Immutable.xml">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\System.Reflection.Metadata.dll">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="DeepEnds\System.Reflection.Metadata.xml">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="Resources\Command1.png" />
     <Content Include="Resources\Command1Package.ico" />
   </ItemGroup>
@@ -316,10 +235,6 @@
     <ProjectReference Include="..\BOA.CodeGeneration\BOA.CodeGeneration.csproj">
       <Project>{A51D1954-365F-4F98-8492-F8841FBAD5BE}</Project>
       <Name>BoaCodeGenerator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UI.ContainerHelper\UI.ContainerHelper.csproj">
-      <Project>{0484970c-e3a4-4ce0-8bbe-28f31114df98}</Project>
-      <Name>UI.ContainerHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
