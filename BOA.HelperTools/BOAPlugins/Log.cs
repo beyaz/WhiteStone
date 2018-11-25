@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using BOA.Common.Helpers;
 
@@ -8,7 +9,11 @@ namespace BOAPlugins
         #region Public Methods
         public static void Push(string message, [CallerMemberName] string callerMemberName = null)
         {
-            FileHelper.WriteAllText(Configuration.PluginDirectory + "Log.txt", callerMemberName + " -> " + message);
+            var filePath = Configuration.PluginDirectory + "Log.txt";
+
+            var value = Environment.NewLine + $"{callerMemberName} -> {message}";
+
+            FileHelper.AppendToEndOfFile(filePath, value);
         }
         #endregion
     }
