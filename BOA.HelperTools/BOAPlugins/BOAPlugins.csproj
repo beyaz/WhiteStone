@@ -119,6 +119,7 @@
     <Compile Include="ExportingModel\MessagingExporterInputLineParser.cs" />
     <Compile Include="ExportingModel\MessagingExporterResult.cs" />
     <Compile Include="ExportingModel\Types.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Models\BinFolderPaths.cs" />
     <Compile Include="Models\DatabaseConnectionInfo.cs" />
     <Compile Include="GenerateCSharpCode\Input.cs" />

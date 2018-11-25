@@ -63,16 +63,22 @@ namespace BOASpSearch
             this.package = package;
 
             var commandService = ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null)
+            if (commandService == null)
             {
-                commandService.AddCommand(new MenuCommand(SearchProcedure, new CommandID(CommandSet, CommandId)));
-                commandService.AddCommand(new MenuCommand(ViewTypeDependency, new CommandID(CommandSet, CommandId9)));
-                commandService.AddCommand(new MenuCommand(DocumentFile, new CommandID(CommandSet, CommandId12)));
-                commandService.AddCommand(new MenuCommand(OpenMainForm, new CommandID(CommandSet, CommandId13)));
-                commandService.AddCommand(new MenuCommand(CheckInSolution, new CommandID(CommandSet, CommandId11)));
+                Log.Push("commandService is null.");
+                return;
 
-                Factory.InitializeApplicationServices();
             }
+
+            Log.Push("commandService is not null.");
+
+            commandService.AddCommand(new MenuCommand(SearchProcedure, new CommandID(CommandSet, CommandId)));
+            commandService.AddCommand(new MenuCommand(ViewTypeDependency, new CommandID(CommandSet, CommandId9)));
+            commandService.AddCommand(new MenuCommand(DocumentFile, new CommandID(CommandSet, CommandId12)));
+            commandService.AddCommand(new MenuCommand(OpenMainForm, new CommandID(CommandSet, CommandId13)));
+            commandService.AddCommand(new MenuCommand(CheckInSolution, new CommandID(CommandSet, CommandId11)));
+
+            Factory.InitializeApplicationServices();
         }
         #endregion
 

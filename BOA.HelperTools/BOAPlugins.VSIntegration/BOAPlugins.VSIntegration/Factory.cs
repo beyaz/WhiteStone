@@ -31,8 +31,11 @@ namespace BOAPlugins.VSIntegration
         {
             if (_isInitialized)
             {
+                Log.Push("Already initialized.");
                 return;
             }
+
+            Log.Push("Started to initialize.");
 
             _isInitialized = true;
 

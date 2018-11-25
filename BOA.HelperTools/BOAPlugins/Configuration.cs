@@ -78,14 +78,4 @@ namespace BOAPlugins
         }
         #endregion
     }
-
-    class Log
-    {
-        #region Public Methods
-        public static void Push(string message)
-        {
-            FileHelper.WriteAllText(Configuration.PluginDirectory + "Log.txt", message);
-        }
-        #endregion
-    }
 }
