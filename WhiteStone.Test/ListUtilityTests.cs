@@ -7,10 +7,11 @@ namespace WhiteStone.Test
     [TestClass]
     public class LıstUtilityTests
     {
+        #region Public Methods
         [TestMethod]
         public void Split()
         {
-            var list = new List<string> {"0", "1", "2"};
+            var list   = new List<string> {"0", "1", "2"};
             var result = list.Split(1);
             Assert.IsTrue(result.Length == 3);
 
@@ -26,7 +27,7 @@ namespace WhiteStone.Test
         [TestMethod]
         public void SplitArray()
         {
-            var list = new[] {"0", "1", "2"};
+            var list   = new[] {"0", "1", "2"};
             var result = list.Split(1);
             Assert.IsTrue(result.Length == 3);
 
@@ -38,5 +39,6 @@ namespace WhiteStone.Test
 
             Assert.IsTrue(result[1][0] == "2");
         }
+        #endregion
     }
 }
