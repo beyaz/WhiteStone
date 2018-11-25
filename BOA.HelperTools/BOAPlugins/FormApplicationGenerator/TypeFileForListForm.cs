@@ -18,13 +18,6 @@ using BOA.Common.Types;
 
 namespace " + Model.NamespaceNameForType + @"
 {
-    
-    [Serializable]
-    public class " + Model.FormName + @"ListFormState : FormStateBase
-    {
-
-    }
-    
     [Serializable]
     public class " + Model.FormName + @"ListFormData
     {
@@ -33,13 +26,20 @@ namespace " + Model.NamespaceNameForType + @"
 
     
     [Serializable]
-    public class " + Model.FormName + @"ListFormDataSource : ListFormDataSourceBase
+    public class " + Model.FormName + @"ListFormDataSource
     {
         #region Public Properties
         /// <summary>
+        ///     Gets or sets the data grid information.
+        /// </summary>
+        public DataGridInfo DataGridInfo { get; set; }
+
+
+        /// <summary>
         ///     Gets or sets the records.
         /// </summary>
-        public IReadOnlyCollection<" + Model.DefinitionFormDataClassName + @"> Records { get; set; }
+        public IReadOnlyCollection<" + Model.DefinitionFormDataClassName + @"> DataGridRecords { get; set; }
+
         #endregion
     }
    
@@ -58,9 +58,9 @@ namespace " + Model.NamespaceNameForType + @"
         public " + Model.FormName + @"ListFormDataSource DataSource { get; set; }
 
         /// <summary>
-        ///     Gets or sets the state.
+        ///     Gets or sets the status message.
         /// </summary>
-        public " + Model.FormName + @"ListFormState State { get; set; }
+        public string StatusMessage { get; set; }
         #endregion
     }
 }

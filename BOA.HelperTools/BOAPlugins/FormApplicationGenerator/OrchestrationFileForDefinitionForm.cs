@@ -30,16 +30,13 @@ namespace " + Model.NamespaceNameForOrchestration + @"
         }
 
         /// <summary>
-        ///     Evaluates the initial state.
+        ///     Loads the data.
         /// </summary>
-        public WorkflowResponse<" + Model.RequestNameForDefinition + @"> EvaluateInitialState(" + Model.RequestNameForDefinition + @" request, ObjectHelper objectHelper)
+        public WorkflowResponse<" + Model.RequestNameForDefinition + @"> LoadData(" + Model.RequestNameForDefinition + @" request, ObjectHelper objectHelper)
         {
             var returnObject = objectHelper.InitializeWorkflowResponse(request);
-            var data       = request.Data;
-            var dataSource = request.DataSource;
-            var state      = request.State;
                  
-            if (state.IsOpenByWorkflow)
+            if (request.WorkFlowInternalData.InstanceId > 0)
             {
                 return returnObject;
             }
@@ -65,15 +62,11 @@ namespace " + Model.NamespaceNameForOrchestration + @"
         {
             var returnObject = objectHelper.InitializeWorkflowResponse(request);
 
-            var data       = request.Data;
-            var dataSource = request.DataSource;
-            var state      = request.State;
-
             #region TODO: Expects code
             // ?
             #endregion
 
-            state.StatusMessage = Message.TransactionSaved;
+            request.StatusMessage = Message.TransactionSaved;
 
             return returnObject;
         }

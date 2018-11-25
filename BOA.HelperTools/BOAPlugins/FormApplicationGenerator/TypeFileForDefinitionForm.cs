@@ -25,12 +25,6 @@ namespace " + Model.NamespaceNameForType + @"
     }
 
     [Serializable]
-    public class " + Model.FormName + @"FormState : FormStateBase
-    {
-
-    }
-   
-    [Serializable]
     public class " + Model.FormName + @"FormDataSource
     {
 
@@ -59,12 +53,7 @@ namespace " + Model.NamespaceNameForType + @"
         /// <summary>
         ///     Gets or sets the data source.
         /// </summary>
-        public " + Model.FormName + @"FormDataSource DataSource { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the state.
-        /// </summary>
-        public " + Model.FormName + @"FormState State { get; set; }
+        public " + Model.FormName + @"FormDataSource DataSource { get; set; }        
 
         /// <summary>
         ///     Gets or sets the work flow data.
@@ -75,6 +64,11 @@ namespace " + Model.NamespaceNameForType + @"
         ///     Gets or sets the work flow internal data.
         /// </summary>
         public WorkFlowRequestInternalData WorkFlowInternalData { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the status message.
+        /// </summary>
+        public string StatusMessage { get; set; }
         #endregion
     }
 }

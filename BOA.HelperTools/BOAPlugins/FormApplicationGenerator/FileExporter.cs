@@ -81,11 +81,9 @@ namespace BOAPlugins.FormApplicationGenerator
             var ExportClassNames = exportInfo.ExportClassNames;
 
             TryAddIfNotExists(ExportClassNames, ns + "." + Model.DefinitionFormDataClassName);
-            TryAddIfNotExists(ExportClassNames, ns + "." + Model.FormName + "FormState");
             TryAddIfNotExists(ExportClassNames, ns + "." + Model.FormName + "FormDataSource");
             TryAddIfNotExists(ExportClassNames, ns + "." + Model.FormName + "FormRequest");
 
-            TryAddIfNotExists(ExportClassNames, ns + "." + Model.FormName + "ListFormState");
             TryAddIfNotExists(ExportClassNames, ns + "." + Model.FormName + "ListFormDataSource");
             TryAddIfNotExists(ExportClassNames, ns + "." + Model.FormName + "ListFormRequest");
             TryAddIfNotExists(ExportClassNames, ns + "." + Model.FormName + "ListFormData");

@@ -22,14 +22,12 @@ namespace " + Model.NamespaceNameForOrchestration + @"
     public class " + Model.FormName + @"ListForm
     {
         /// <summary>
-        ///     Evaluates the initial state.
+        ///     Loads the data.
         /// </summary>
-        public GenericResponse<" + Model.RequestNameForList + @"> EvaluateInitialState(" + Model.RequestNameForList + @" request, ObjectHelper objectHelper)
+        public GenericResponse<" + Model.RequestNameForList + @"> LoadData(" + Model.RequestNameForList + @" request, ObjectHelper objectHelper)
         {
             var returnObject = objectHelper.InitializeResponse(request);
-            var data         = request.Data;
             var dataSource   = request.DataSource;
-            var state        = request.State;
 
 
             dataSource.DataGridInfo = GetDataGridInfo();
@@ -46,13 +44,13 @@ namespace " + Model.NamespaceNameForOrchestration + @"
             var returnObject = objectHelper.InitializeResponse(request);
             var data         = request.Data;
             var dataSource   = request.DataSource;
-            var state        = request.State;
+           
 
             #region TODO: Expects code
             dataSource.Records = RandomValue.ListOf<" + Model.DefinitionFormDataClassName + @">();
             #endregion
 
-            state.StatusMessage = dataSource.Records.Count + Message.RecordsWereBrought;
+            request.StatusMessage = dataSource.Records.Count + Message.RecordsWereBrought;
 
             return returnObject;
         }
