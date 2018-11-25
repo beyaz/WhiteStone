@@ -66,13 +66,6 @@ namespace BOASpSearch
             if (commandService != null)
             {
                 commandService.AddCommand(new MenuCommand(SearchProcedure, new CommandID(CommandSet, CommandId)));
-                // commandService.AddCommand(new MenuCommand(GenerateCSharpCodeCallback, new CommandID(CommandSet, CommandId2)));
-                // commandService.AddCommand(new MenuCommand(ShowPropertyGenerator, new CommandID(CommandSet, CommandId3)));
-                // commandService.AddCommand(new MenuCommand(GenerateInsertSql, new CommandID(CommandSet, CommandId4)));
-                // commandService.AddCommand(new MenuCommand(GenerateEntityContract, new CommandID(CommandSet, CommandId5)));
-                // commandService.AddCommand(new MenuCommand(ViewMethodCallGraph, new CommandID(CommandSet, CommandId6)));
-                // commandService.AddCommand(new MenuCommand(GenerateUpdateSql, new CommandID(CommandSet, CommandId7)));
-                // commandService.AddCommand(new MenuCommand(GenerateSelectByKeySql, new CommandID(CommandSet, CommandId8)));
                 commandService.AddCommand(new MenuCommand(ViewTypeDependency, new CommandID(CommandSet, CommandId9)));
                 commandService.AddCommand(new MenuCommand(DocumentFile, new CommandID(CommandSet, CommandId12)));
                 commandService.AddCommand(new MenuCommand(OpenMainForm, new CommandID(CommandSet, CommandId13)));
