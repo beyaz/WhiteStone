@@ -73,6 +73,11 @@ namespace BOAPlugins
                 var url          = targetDir + fileName + "?raw=true";
                 var saveFilePath = PluginDirectory + "DeepEnds" + Path.DirectorySeparatorChar + fileName;
 
+                if (File.Exists(saveFilePath))
+                {
+                    continue;
+                }
+
                 FileHelper.DownloadFile(url, saveFilePath, true);
             }
         }
