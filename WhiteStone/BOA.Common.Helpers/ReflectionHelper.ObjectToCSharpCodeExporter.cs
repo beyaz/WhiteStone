@@ -9,7 +9,7 @@ using System.Text;
 namespace BOA.Common.Helpers
 {
     /// <summary>
-    ///     Utility methods for reflection operations.
+    ///     The reflection helper
     /// </summary>
     public static partial class ReflectionHelper
     {
@@ -19,29 +19,85 @@ namespace BOA.Common.Helpers
         internal class ObjectToCSharpCodeExporter
         {
             #region Constants
-            const string Comma              = ",";
-            const string Dot                = ".";
+            /// <summary>
+            ///     The comma
+            /// </summary>
+            const string Comma = ",";
+
+            /// <summary>
+            ///     The dot
+            /// </summary>
+            const string Dot = ".";
+
+            /// <summary>
+            ///     The english culture name
+            /// </summary>
             const string EnglishCultureName = "en-US";
-            const string LeftBrace          = "{";
-            const string LeftParenthesis    = "(";
-            const int    Padding            = 4;
-            const string RightBrace         = "}";
-            const string RightParenthesis   = ")";
-            const string UnresolvedSymbol   = "?";
+
+            /// <summary>
+            ///     The left brace
+            /// </summary>
+            const string LeftBrace = "{";
+
+            /// <summary>
+            ///     The left parenthesis
+            /// </summary>
+            const string LeftParenthesis = "(";
+
+            /// <summary>
+            ///     The padding
+            /// </summary>
+            const int Padding = 4;
+
+            /// <summary>
+            ///     The right brace
+            /// </summary>
+            const string RightBrace = "}";
+
+            /// <summary>
+            ///     The right parenthesis
+            /// </summary>
+            const string RightParenthesis = ")";
+
+            /// <summary>
+            ///     The unresolved symbol
+            /// </summary>
+            const string UnresolvedSymbol = "?";
             #endregion
 
             #region Static Fields
+            /// <summary>
+            ///     The english culture
+            /// </summary>
             static readonly CultureInfo EnglishCulture = new CultureInfo(EnglishCultureName);
             #endregion
 
             #region Fields
+            /// <summary>
+            ///     The object creation stack
+            /// </summary>
             internal readonly Stack<object> _objectCreationStack = new Stack<object>();
-            internal          List<string>  UsingList            = new List<string>();
-            readonly          StringBuilder _sb                  = new StringBuilder();
-            int                             _currentPadding;
+
+            /// <summary>
+            ///     The using list
+            /// </summary>
+            internal List<string> UsingList = new List<string>();
+
+            /// <summary>
+            ///     The sb
+            /// </summary>
+            readonly StringBuilder _sb = new StringBuilder();
+
+            /// <summary>
+            ///     The current padding
+            /// </summary>
+            int _currentPadding;
             #endregion
 
             #region Public Methods
+            /// <summary>
+            ///     Exports the specified object.
+            /// </summary>
             public string Export(object obj)
             {
                 Write(obj);
@@ -51,6 +107,9 @@ namespace BOA.Common.Helpers
             #endregion
 
             #region Methods
+            /// <summary>
+            ///     Cleans the name of the generic type.
+            /// </summary>
             static string CleanGenericTypeName(string typeName, int genericParameterCount)
             {
                 const string NewValue = "<";
@@ -63,7 +122,7 @@ namespace BOA.Common.Helpers
             }
 
             /// <summary>
-            ///     Gets default value of <paramref name="type" />
+            ///     Gets the default type of the value from.
             /// </summary>
             static object GetDefaultValueFromType(Type type)
             {
@@ -76,7 +135,7 @@ namespace BOA.Common.Helpers
             }
 
             /// <summary>
-            ///     Return true if given <paramref name="value" /> is instanceOf <paramref name="targetType" />
+            ///     Determines whether [is instance of generic] [the specified target type].
             /// </summary>
             static bool IsInstanceOfGeneric(Type targetType, object value)
             {
@@ -95,6 +154,9 @@ namespace BOA.Common.Helpers
                 return false;
             }
 
+            /// <summary>
+            ///     Determines whether [is numeric type] [the specified type].
+            /// </summary>
             static bool IsNumericType(Type type)
             {
                 if (type == typeof(sbyte) ||
@@ -115,33 +177,51 @@ namespace BOA.Common.Helpers
                 return false;
             }
 
+            /// <summary>
+            ///     Appends the specified value.
+            /// </summary>
             void Append(string value)
             {
                 WritePadding();
                 _sb.Append(value);
             }
 
+            /// <summary>
+            ///     Appends the line.
+            /// </summary>
             void AppendLine(string value)
             {
                 WritePadding();
                 _sb.AppendLine(value);
             }
 
+            /// <summary>
+            ///     Appends the line.
+            /// </summary>
             void AppendLine()
             {
                 AppendLine(string.Empty);
             }
 
+            /// <summary>
+            ///     Appends the no padding.
+            /// </summary>
             void AppendNoPadding(string value)
             {
                 _sb.Append(value);
             }
 
+            /// <summary>
+            ///     Gets the name of the type.
+            /// </summary>
             string GetTypeName(Type type)
             {
                 return GetTypeName(type.FullName);
             }
 
+            /// <summary>
+            ///     Gets the name of the type.
+            /// </summary>
             string GetTypeName(string typeFullName)
             {
                 if (UsingList == null)
@@ -162,16 +242,25 @@ namespace BOA.Common.Helpers
                 return typeFullName;
             }
 
+            /// <summary>
+            ///     Paddings the back.
+            /// </summary>
             void PaddingBack()
             {
                 _currentPadding -= Padding;
             }
 
+            /// <summary>
+            ///     Paddings the next.
+            /// </summary>
             void PaddingNext()
             {
                 _currentPadding += Padding;
             }
 
+            /// <summary>
+            ///     Writes the specified object.
+            /// </summary>
             void Write(object obj)
             {
                 if (obj == null)
@@ -538,6 +627,9 @@ namespace BOA.Common.Helpers
                 _objectCreationStack.Pop();
             }
 
+            /// <summary>
+            ///     Writes the padding.
+            /// </summary>
             void WritePadding()
             {
                 if (_currentPadding > 0)
