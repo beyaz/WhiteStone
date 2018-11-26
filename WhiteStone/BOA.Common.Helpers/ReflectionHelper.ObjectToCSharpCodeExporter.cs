@@ -20,6 +20,7 @@ namespace BOA.Common.Helpers
         {
             #region Constants
             const string Comma              = ",";
+            const string Dot                = ".";
             const string EnglishCultureName = "en-US";
             const string LeftBrace          = "{";
             const string LeftParenthesis    = "(";
@@ -148,8 +149,6 @@ namespace BOA.Common.Helpers
                     return typeFullName;
                 }
 
-                const string Dot = ".";
-
                 foreach (var usingName in UsingList)
                 {
                     var prefix = usingName + Dot;
@@ -248,8 +247,6 @@ namespace BOA.Common.Helpers
 
                 if (obj is Enum)
                 {
-                    const string Dot = ".";
-
                     AppendNoPadding(GetTypeName(obj.GetType().FullName) + Dot + obj);
                     return;
                 }
@@ -329,7 +326,7 @@ namespace BOA.Common.Helpers
                     return;
                 }
 
-                if (IsInstanceOfGeneric(typeof(Dictionary<,>), obj))
+                if (IsInstanceOfGeneric(typeof(IDictionary<,>), obj))
                 {
                     var fullName = CleanGenericTypeName(type.ToString(), 2);
 
