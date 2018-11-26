@@ -5,6 +5,7 @@ using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Services;
 using BOA.CodeGeneration.SQLParser;
 using BOA.CodeGeneration.Util;
+using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhiteStone.Helpers;
@@ -54,7 +55,7 @@ namespace BOACodeGeneratorTest.Generators
 
             var cs = instance.Generate();
 
-            Assert.IsTrue(SpaceCaseInsensitiveComparator.Compare(ExpectedOutputForExecuteReader, cs, GlobalizationUtility.EnglishCulture));
+            Assert.IsTrue(StringHelper.IsEqualAsData(ExpectedOutputForExecuteReader, cs, GlobalizationUtility.EnglishCulture));
         }
 
         [TestMethod]
@@ -79,7 +80,7 @@ namespace BOACodeGeneratorTest.Generators
 
             var cs = instance.Generate();
 
-            Assert.IsTrue(SpaceCaseInsensitiveComparator.Compare(ExpectedOutputForExecuteScalar, cs, GlobalizationUtility.EnglishCulture));
+            Assert.IsTrue(StringHelper.IsEqualAsData(ExpectedOutputForExecuteScalar, cs, GlobalizationUtility.EnglishCulture));
         }
 
         IBOAProcedureCommentParser BOAProcedureCommentParser => new BOAProcedureCommentParser();

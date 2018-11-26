@@ -3,22 +3,41 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace BOAPlugins.SearchProcedure
+namespace BOA.Common.Helpers
 {
+    /// <summary>
+    ///     The space case insensitive comparator
+    /// </summary>
     public sealed class SpaceCaseInsensitiveComparator
     {
+        #region Static Fields
+        internal static readonly char[] ExceptCharacters = {' ', '\t', '\n', '\r'};
+        #endregion
+
         #region Fields
+        /// <summary>
+        ///     The culture
+        /// </summary>
         readonly CultureInfo _culture;
 
+        /// <summary>
+        ///     The ignore lines
+        /// </summary>
         Func<string, bool> _ignoreLines;
         #endregion
 
         #region Constructors
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="SpaceCaseInsensitiveComparator" /> class.
+        /// </summary>
         public SpaceCaseInsensitiveComparator(CultureInfo cultureInfo)
         {
             _culture = cultureInfo;
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="SpaceCaseInsensitiveComparator" /> class.
+        /// </summary>
         public SpaceCaseInsensitiveComparator()
         {
             _culture = CultureInfo.CurrentCulture;
@@ -26,6 +45,9 @@ namespace BOAPlugins.SearchProcedure
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Compares the specified left.
+        /// </summary>
         public bool Compare(string left, string right)
         {
             if (left == null)
@@ -34,6 +56,7 @@ namespace BOAPlugins.SearchProcedure
                 {
                     return true;
                 }
+
                 return false;
             }
 
@@ -45,12 +68,15 @@ namespace BOAPlugins.SearchProcedure
             if (_ignoreLines != null)
             {
                 right = string.Join(string.Empty, right.Split(Environment.NewLine.ToCharArray()).Where(line => !_ignoreLines(line)));
-                left = string.Join(string.Empty, left.Split(Environment.NewLine.ToCharArray()).Where(line => !_ignoreLines(line)));
+                left  = string.Join(string.Empty, left.Split(Environment.NewLine.ToCharArray()).Where(line => !_ignoreLines(line)));
             }
 
-            return ExceptChars(left.ToLower(_culture), new[] {' ', '\t', '\n', '\r'}).Equals(ExceptChars(right.ToLower(_culture), new[] {' ', '\t', '\n', '\r'}));
+            return ExceptChars(left.ToLower(_culture), ExceptCharacters).Equals(ExceptChars(right.ToLower(_culture), ExceptCharacters));
         }
 
+        /// <summary>
+        ///     Ignores the lines.
+        /// </summary>
         public SpaceCaseInsensitiveComparator IgnoreLines(Func<string, bool> func)
         {
             _ignoreLines = func;
@@ -59,7 +85,10 @@ namespace BOAPlugins.SearchProcedure
         #endregion
 
         #region Methods
-        static string ExceptChars(string str, char[] toExclude)
+        /// <summary>
+        ///     Excepts the chars.
+        /// </summary>
+        internal static string ExceptChars(string str, char[] toExclude)
         {
             var sb = new StringBuilder();
             foreach (var c in str)
@@ -69,6 +98,7 @@ namespace BOAPlugins.SearchProcedure
                     sb.Append(c);
                 }
             }
+
             return sb.ToString();
         }
         #endregion

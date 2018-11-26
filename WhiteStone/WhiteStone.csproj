@@ -75,6 +75,7 @@
     <Compile Include="BOA.Common.Helpers\JsonHelper.cs" />
     <Compile Include="BOA.Common.Helpers\PaddedStringBuilder.cs" />
     <Compile Include="BOA.Common.Helpers\ReflectionHelper.ObjectToCSharpCodeExporter.cs" />
+    <Compile Include="BOA.Common.Helpers\SpaceCaseInsensitiveComparator.cs" />
     <Compile Include="BOA.Common.Helpers\SqlCommandDumper.cs" />
     <Compile Include="BOA.Common.Helpers\TraceFileHelper.cs" />
     <Compile Include="BOA.Common.Helpers\XmlHelper.cs" />

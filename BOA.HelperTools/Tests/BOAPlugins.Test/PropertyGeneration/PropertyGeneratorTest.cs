@@ -1,4 +1,5 @@
 ﻿using System;
+using BOA.Common.Helpers;
 using BOAPlugins.PropertyGeneration;
 using BOAPlugins.SearchProcedure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,7 +10,7 @@ namespace BOAPlugins.Test.PropertyGeneration
     public class PropertyGeneratorTest
     {
         #region Properties
-        static Func<string, string, bool> Compare => new SpaceCaseInsensitiveComparator().Compare;
+        static Func<string, string, bool> Compare => StringHelper.IsEqualAsData;
         #endregion
 
         #region Public Methods

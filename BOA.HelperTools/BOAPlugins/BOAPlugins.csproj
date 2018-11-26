@@ -154,7 +154,6 @@
     <Compile Include="SearchProcedure\DatabaseConnectionInfo.cs" />
     <Compile Include="SearchProcedure\Handler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchProcedure\SpaceCaseInsensitiveComparator.cs" />
     <Compile Include="UserControlBase.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="ViewClassDependency\Data.cs" />

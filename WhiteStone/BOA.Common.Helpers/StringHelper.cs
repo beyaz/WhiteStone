@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace BOA.Common.Helpers
 {
@@ -24,7 +22,15 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static bool IsEqualAsData(string left, string right)
         {
-            return SpaceCaseInsensitiveComparator.Compare(left, right);
+            return new SpaceCaseInsensitiveComparator().Compare(left, right);
+        }
+
+        /// <summary>
+        ///     Determines whether [is equal as data] [the specified left].
+        /// </summary>
+        public static bool IsEqualAsData(string left, string right, CultureInfo cultureInfo)
+        {
+            return new SpaceCaseInsensitiveComparator(cultureInfo).Compare(left, right);
         }
 
         /// <summary>
@@ -101,6 +107,19 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     To the lower and clear spaces.
+        /// </summary>
+        public static string ToLowerAndClearSpaces(this string value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            return SpaceCaseInsensitiveComparator.ExceptChars(value.ToLower(), SpaceCaseInsensitiveComparator.ExceptCharacters);
+        }
+
+        /// <summary>
         ///     Returns a copy of this string converted to lowercase, using the casing rules of 'English' culture
         /// </summary>
         /// <param name="value"></param>
@@ -140,55 +159,5 @@ namespace BOA.Common.Helpers
             return value.ToUpper(new CultureInfo("tr-TR"));
         }
         #endregion
-
-        static class SpaceCaseInsensitiveComparator
-        {
-            #region Static Fields
-            static readonly char[] ExceptCharacters = {' ', '\t', '\n', '\r'};
-            #endregion
-
-            #region Public Methods
-            public static bool Compare(string left, string right)
-            {
-                return Compare(left, right, CultureInfo.CurrentCulture);
-            }
-
-            public static bool Compare(string left, string right, CultureInfo cultureInfo)
-            {
-                if (left == null)
-                {
-                    if (right == null)
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }
-
-                if (right == null)
-                {
-                    throw new ArgumentNullException(nameof(right));
-                }
-
-                return ExceptChars(left.ToLower(cultureInfo), ExceptCharacters).Equals(ExceptChars(right.ToLower(cultureInfo), ExceptCharacters));
-            }
-            #endregion
-
-            #region Methods
-            static string ExceptChars(string str, char[] toExclude)
-            {
-                var sb = new StringBuilder();
-                foreach (var c in str)
-                {
-                    if (!toExclude.Contains(c))
-                    {
-                        sb.Append(c);
-                    }
-                }
-
-                return sb.ToString();
-            }
-            #endregion
-        }
     }
 }

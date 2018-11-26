@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using BOA.CodeGeneration.Services;
+using BOA.Common.Helpers;
 using BOAPlugins.GenerateCSharpCode;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -305,7 +306,7 @@ namespace BOAPlugins.Test.GenerateCSharpCode
         /// <returns></returns>
         static bool Compare(string left, string right)
         {
-            return SpaceCaseInsensitiveComparator.Compare(left, right, GlobalizationUtility.EnglishCulture);
+            return StringHelper.IsEqualAsData(left, right, GlobalizationUtility.EnglishCulture);
         }
 
         /// <summary>

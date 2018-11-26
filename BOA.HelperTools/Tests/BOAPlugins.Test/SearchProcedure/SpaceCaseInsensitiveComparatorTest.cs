@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using BOA.Common.Helpers;
 using BOAPlugins.SearchProcedure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

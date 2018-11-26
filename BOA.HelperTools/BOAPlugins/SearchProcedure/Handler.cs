@@ -3,6 +3,7 @@ using System.Data;
 using System.Globalization;
 using System.Text;
 using BOA.CodeGeneration.Common;
+using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using WhiteStone.Services;
 

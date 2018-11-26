@@ -226,7 +226,7 @@ namespace BOAPlugins.DocumentFile
         {
             line = line.ToLowerAndClearSpaces();
 
-            if (SpaceCaseInsensitiveComparator.Compare("/// <returns> </returns>", line))
+            if (StringHelper.IsEqualAsData("/// <returns> </returns>", line))
             {
                 return true;
             }

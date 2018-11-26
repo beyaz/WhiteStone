@@ -2,6 +2,7 @@
 using System.IO;
 using BOA.CodeGeneration.Services;
 using BOA.CodeGeneration.Util;
+using BOA.Common.Helpers;
 
 namespace BOAPlugins
 {
@@ -18,7 +19,7 @@ namespace BOAPlugins
 
             var existingData = File.ReadAllText(path);
 
-            var isEqual = SpaceCaseInsensitiveComparator.Compare(existingData, content);
+            var isEqual = StringHelper.IsEqualAsData(existingData, content);
 
             if (!isEqual)
             {

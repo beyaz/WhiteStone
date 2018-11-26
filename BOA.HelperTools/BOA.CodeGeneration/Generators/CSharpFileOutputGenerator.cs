@@ -2,8 +2,8 @@
 using System.Globalization;
 using System.Linq;
 using BOA.CodeGeneration.Model;
-using BOA.CodeGeneration.Services;
 using BOA.CodeGeneration.Util;
+using BOA.Common.Helpers;
 using WhiteStone.IO;
 
 namespace BOA.CodeGeneration.Generators
@@ -177,7 +177,7 @@ namespace BOA.CodeGeneration.Generators
 
             var existingData = _fs.Read(path);
 
-            var isEqual = SpaceCaseInsensitiveComparator.Compare(existingData, content);
+            var isEqual = StringHelper.IsEqualAsData(existingData, content);
 
             if (!isEqual)
             {
