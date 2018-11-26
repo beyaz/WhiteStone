@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
+using System.Text;
 
 namespace BOA.Common.Helpers
 {
@@ -15,6 +17,14 @@ namespace BOA.Common.Helpers
         public static bool HasValue(this string value)
         {
             return !string.IsNullOrWhiteSpace(value);
+        }
+
+        /// <summary>
+        ///     Determines whether [is equal as data] [the specified left].
+        /// </summary>
+        public static bool IsEqualAsData(string left, string right)
+        {
+            return SpaceCaseInsensitiveComparator.Compare(left, right);
         }
 
         /// <summary>
@@ -130,5 +140,55 @@ namespace BOA.Common.Helpers
             return value.ToUpper(new CultureInfo("tr-TR"));
         }
         #endregion
+
+        static class SpaceCaseInsensitiveComparator
+        {
+            #region Static Fields
+            static readonly char[] ExceptCharacters = {' ', '\t', '\n', '\r'};
+            #endregion
+
+            #region Public Methods
+            public static bool Compare(string left, string right)
+            {
+                return Compare(left, right, CultureInfo.CurrentCulture);
+            }
+
+            public static bool Compare(string left, string right, CultureInfo cultureInfo)
+            {
+                if (left == null)
+                {
+                    if (right == null)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                if (right == null)
+                {
+                    throw new ArgumentNullException(nameof(right));
+                }
+
+                return ExceptChars(left.ToLower(cultureInfo), ExceptCharacters).Equals(ExceptChars(right.ToLower(cultureInfo), ExceptCharacters));
+            }
+            #endregion
+
+            #region Methods
+            static string ExceptChars(string str, char[] toExclude)
+            {
+                var sb = new StringBuilder();
+                foreach (var c in str)
+                {
+                    if (!toExclude.Contains(c))
+                    {
+                        sb.Append(c);
+                    }
+                }
+
+                return sb.ToString();
+            }
+            #endregion
+        }
     }
 }

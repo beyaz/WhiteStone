@@ -14,15 +14,16 @@ namespace BOA.Common.Helpers
     public static partial class ReflectionHelper
     {
         /// <summary>
-        /// The object to c sharp code exporter
+        ///     The object to c sharp code exporter
         /// </summary>
-        class ObjectToCSharpCodeExporter
+        internal class ObjectToCSharpCodeExporter
         {
             #region Constants
             const string Comma              = ",";
             const string EnglishCultureName = "en-US";
             const string LeftBrace          = "{";
             const string LeftParenthesis    = "(";
+            const int    Padding            = 4;
             const string RightBrace         = "}";
             const string RightParenthesis   = ")";
             const string UnresolvedSymbol   = "?";
@@ -33,19 +34,22 @@ namespace BOA.Common.Helpers
             #endregion
 
             #region Fields
-            readonly int           _padding = 4;
-            readonly StringBuilder _sb      = new StringBuilder();
-            int                    _currentPadding;
+            internal readonly Stack<object> _objectCreationStack = new Stack<object>();
+            internal          List<string>  UsingList            = new List<string>();
+            readonly          StringBuilder _sb                  = new StringBuilder();
+            int                             _currentPadding;
             #endregion
 
-            #region Methods
-            internal string Export(object obj)
+            #region Public Methods
+            public string Export(object obj)
             {
                 Write(obj);
 
                 return _sb.ToString();
             }
+            #endregion
 
+            #region Methods
             static string CleanGenericTypeName(string typeName, int genericParameterCount)
             {
                 const string NewValue = "<";
@@ -90,6 +94,26 @@ namespace BOA.Common.Helpers
                 return false;
             }
 
+            static bool IsNumericType(Type type)
+            {
+                if (type == typeof(sbyte) ||
+                    type == typeof(byte) ||
+                    type == typeof(short) ||
+                    type == typeof(ushort) ||
+                    type == typeof(int) ||
+                    type == typeof(double) ||
+                    type == typeof(uint) ||
+                    type == typeof(long) ||
+                    type == typeof(float) ||
+                    type == typeof(decimal) ||
+                    type == typeof(ulong))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
             void Append(string value)
             {
                 WritePadding();
@@ -112,36 +136,43 @@ namespace BOA.Common.Helpers
                 _sb.Append(value);
             }
 
+            string GetTypeName(Type type)
+            {
+                return GetTypeName(type.FullName);
+            }
+
+            string GetTypeName(string typeFullName)
+            {
+                if (UsingList == null)
+                {
+                    return typeFullName;
+                }
+
+                const string Dot = ".";
+
+                foreach (var usingName in UsingList)
+                {
+                    var prefix = usingName + Dot;
+
+                    if (typeFullName.Trim().StartsWith(prefix))
+                    {
+                        return typeFullName.Replace(prefix, string.Empty);
+                    }
+                }
+
+                return typeFullName;
+            }
+
             void PaddingBack()
             {
-                _currentPadding -= _padding;
+                _currentPadding -= Padding;
             }
 
             void PaddingNext()
             {
-                _currentPadding += _padding;
+                _currentPadding += Padding;
             }
 
-            static bool IsNumericType(Type type)
-            {
-                if (type ==typeof(sbyte) ||
-                    type ==typeof(byte) ||
-                    type ==typeof(short) ||
-                    type ==typeof(ushort) ||
-                    type ==typeof(int) ||
-                    type ==typeof(double) ||
-                    type ==typeof(uint) ||
-                    type ==typeof(long) ||
-                    type == typeof(float) || 
-                    type == typeof(decimal) ||
-                    type ==typeof(ulong))
-                {
-
-                    return true;
-                }
-
-                return false;
-            }
             void Write(object obj)
             {
                 if (obj == null)
@@ -165,6 +196,7 @@ namespace BOA.Common.Helpers
                     AppendNoPadding(StringStart + str + StringStart);
                     return;
                 }
+
                 if (obj is decimal)
                 {
                     const string DecimalEnd = "M";
@@ -184,7 +216,6 @@ namespace BOA.Common.Helpers
                     AppendNoPadding(obj.ToString());
                     return;
                 }
-                
 
                 if (obj is bool)
                 {
@@ -192,35 +223,34 @@ namespace BOA.Common.Helpers
                     return;
                 }
 
-              
-
                 if (obj is Guid)
                 {
                     var guid = (Guid) obj;
                     if (guid == Guid.Empty)
                     {
                         const string EmptyGuid = "System.Guid.Empty";
-                        AppendNoPadding(EmptyGuid);
+                        AppendNoPadding(GetTypeName(EmptyGuid));
                         return;
                     }
 
-                    const string GuidCreationFormat = "new System.Guid(\"{0}\")";
-                    AppendNoPadding(string.Format(EnglishCulture, GuidCreationFormat, guid));
+                    const string GuidCreationFormat = "new {0}(\"{1}\")";
+                    AppendNoPadding(string.Format(EnglishCulture, GuidCreationFormat, GetTypeName(typeof(Guid)), guid));
                     return;
                 }
 
                 if (obj is DateTime)
                 {
                     var          date               = (DateTime) obj;
-                    const string DateCreationFormat = "new System.DateTime({0},{1},{2},{3},{4},{5},{6})";
-                    AppendNoPadding(string.Format(EnglishCulture, DateCreationFormat, date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond));
+                    const string DateCreationFormat = "new {0}({1},{2},{3},{4},{5},{6},{7})";
+                    AppendNoPadding(string.Format(EnglishCulture, DateCreationFormat, GetTypeName(typeof(DateTime)), date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond));
                     return;
                 }
 
                 if (obj is Enum)
                 {
                     const string Dot = ".";
-                    AppendNoPadding(obj.GetType().FullName + Dot + obj);
+
+                    AppendNoPadding(GetTypeName(obj.GetType().FullName) + Dot + obj);
                     return;
                 }
 
@@ -230,7 +260,7 @@ namespace BOA.Common.Helpers
                 {
                     var fullName = CleanGenericTypeName(type.ToString(), 2);
 
-                    AppendNoPadding(fullName);
+                    AppendNoPadding(GetTypeName(fullName));
 
                     AppendNoPadding(LeftParenthesis);
 
@@ -268,7 +298,7 @@ namespace BOA.Common.Helpers
                 {
                     var fullName = CleanGenericTypeName(type.ToString(), 1);
 
-                    AppendNoPadding(fullName);
+                    AppendNoPadding(GetTypeName(fullName));
                     AppendLine();
 
                     AppendLine(LeftBrace);
@@ -303,7 +333,7 @@ namespace BOA.Common.Helpers
                 {
                     var fullName = CleanGenericTypeName(type.ToString(), 2);
 
-                    AppendNoPadding(fullName);
+                    AppendNoPadding(GetTypeName(fullName));
                     AppendLine();
                     AppendLine(LeftBrace);
 
@@ -336,7 +366,7 @@ namespace BOA.Common.Helpers
                     return;
                 }
 
-                AppendNoPadding(type.FullName);
+                AppendNoPadding(GetTypeName(type.FullName));
 
                 var array = obj as Array;
 
@@ -358,9 +388,9 @@ namespace BOA.Common.Helpers
 
                             Write(value);
                         }
+
                         AppendNoPadding(RightBrace);
                         return;
-
                     }
 
                     AppendLine();
@@ -391,9 +421,11 @@ namespace BOA.Common.Helpers
                     return;
                 }
 
+                _objectCreationStack.Push(obj);
+
                 var constructorParameterValues = new List<object>();
 
-                 var constructorInfos = type.GetConstructors(BindingFlags.Public|BindingFlags.Instance);
+                var constructorInfos = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
                 if (constructorInfos.Length == 1)
                 {
                     var parameterInfos = constructorInfos[0].GetParameters();
@@ -401,7 +433,7 @@ namespace BOA.Common.Helpers
                     {
                         foreach (var parameterInfo in parameterInfos)
                         {
-                            var searchPropertyInfo = type.GetProperties().FirstOrDefault(p => p.CanRead && ((p.SetMethod == null) || (p.SetMethod != null && p.SetMethod.IsPrivate)) && p.PropertyType == parameterInfo.ParameterType);
+                            var searchPropertyInfo = type.GetProperties().FirstOrDefault(p => p.CanRead && (p.SetMethod == null || p.SetMethod != null && p.SetMethod.IsPrivate) && p.PropertyType == parameterInfo.ParameterType);
                             if (searchPropertyInfo != null)
                             {
                                 constructorParameterValues.Add(searchPropertyInfo.GetValue(obj));
@@ -439,6 +471,12 @@ namespace BOA.Common.Helpers
                         continue;
                     }
 
+                    var hasCircularReference = _objectCreationStack.Contains(value);
+                    if (hasCircularReference)
+                    {
+                        continue;
+                    }
+
                     if (value.Equals(GetDefaultValueFromType(property.PropertyType)))
                     {
                         continue;
@@ -463,6 +501,7 @@ namespace BOA.Common.Helpers
                         AppendNoPadding(RightParenthesis);
                     }
 
+                    _objectCreationStack.Pop();
                     return;
                 }
 
@@ -498,6 +537,8 @@ namespace BOA.Common.Helpers
 
                 AppendLine();
                 Append(RightBrace);
+
+                _objectCreationStack.Pop();
             }
 
             void WritePadding()
