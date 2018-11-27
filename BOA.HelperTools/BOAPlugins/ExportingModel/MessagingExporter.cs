@@ -9,19 +9,23 @@ namespace BOAPlugins.ExportingModel
 {
     public class ExportAsCSharpCodeData
     {
-        public string solutionFilePath;
+        #region Fields
+        public string                      solutionFilePath;
         public IDictionary<string, string> usedPropertyNames;
-        public bool RemoveUnusedProperties { get; set; }
+        #endregion
 
+        #region Public Properties
+        public bool RemoveUnusedProperties { get; set; }
+        #endregion
     }
+
     public class MessagingExporter
     {
         #region Public Methods
-        public static MessagingExporterResult ExportAsCSharpCode( ExportAsCSharpCodeData data)
+        public static MessagingExporterResult ExportAsCSharpCode(ExportAsCSharpCodeData data)
         {
             var solutionFilePath = data.solutionFilePath;
-            var directory = Path.GetDirectoryName(solutionFilePath);
-
+            var directory        = Path.GetDirectoryName(solutionFilePath);
 
             if (directory == null)
             {
@@ -42,19 +46,12 @@ namespace BOAPlugins.ExportingModel
                 };
             }
 
-
             if (data.RemoveUnusedProperties)
             {
-               
-
                 data.usedPropertyNames = new Dictionary<string, string>();
 
-                BOAPlugins.RemoveUnusedMessagesInTypescriptCodes.Handler.HandleForCs(directory, data.usedPropertyNames, messageFilePath);
-
-
+                RemoveUnusedMessagesInTypescriptCodes.Handler.HandleForCs(directory, data.usedPropertyNames, messageFilePath);
             }
-          
-
 
             var firstLine = File.ReadAllLines(messageFilePath).FirstOrDefault(line => string.IsNullOrWhiteSpace(line) == false);
 
@@ -96,7 +93,7 @@ namespace BOAPlugins.ExportingModel
 
             return new MessagingExporterResult
             {
-                GeneratedCode  = ExportGroupAsTypeScriptCode(config.GroupName,usedPropertyNames),
+                GeneratedCode  = ExportGroupAsTypeScriptCode(config.GroupName, usedPropertyNames),
                 TargetFilePath = messageFilePath
             };
         }
@@ -187,7 +184,6 @@ namespace BOAPlugins.ExportingModel
 
                 propertyNames = usedPropertyInfos;
             }
-
 
             builder.AppendLine($"// GroupName: {groupName} , NamespaceName: {namespaceFullName}");
             builder.AppendLine("");
