@@ -14,18 +14,22 @@ namespace BOAPlugins.ExportingModel
 
             Assert.IsNull(result.ErrorMessage);
 
-
-            var result2 = MessagingExporter.ExportAsTypeScriptCode(path);
-            Assert.IsNull(result2.ErrorMessage);
-
             var data = new ExportAsCSharpCodeData
+            {
+                solutionFilePath = path
+            };
+
+            MessagingExporter.ExportAsTypeScriptCode(data);
+            Assert.IsNull(data.ErrorMessage);
+
+            data = new ExportAsCSharpCodeData
             {
                 solutionFilePath       = path,
                 RemoveUnusedProperties = true
             };
 
-            result2 = MessagingExporter.ExportAsCSharpCode(data);
-            Assert.IsNull(result2.ErrorMessage);
+            MessagingExporter.ExportAsCSharpCode(data);
+            Assert.IsNull(data.ErrorMessage);
         }
         #endregion
     }

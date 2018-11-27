@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using BOAPlugins.ExportingModel;
+using Handler = BOAPlugins.RemoveUnusedMessagesInTypescriptCodes.Handler;
 
 namespace BOAPlugins.VSIntegration
 {
@@ -11,58 +12,25 @@ namespace BOAPlugins.VSIntegration
         #endregion
 
         #region Public Methods
-        public void UpdateMessageCs()
-        {
-            var data = new ExportAsCSharpCodeData
-            {
-                solutionFilePath = VisualStudio.GetSolutionFilePath()
-            };
-
-            var result = MessagingExporter.ExportAsCSharpCode(data);
-            if (result.ErrorMessage != null)
-            {
-                VisualStudio.UpdateStatusbarText(result.ErrorMessage);
-                return;
-            }
-
-            Util.WriteFileIfContentNotEqual(result.TargetFilePath, result.GeneratedCode);
-            VisualStudio.UpdateStatusbarText(Path.GetFileName(result.TargetFilePath)+ " successfully updated.");
-        }
-
         public void RemoveUnusedMessagesInCsCodes()
         {
             var data = new ExportAsCSharpCodeData
             {
-                solutionFilePath = VisualStudio.GetSolutionFilePath(),
+                solutionFilePath       = VisualStudio.GetSolutionFilePath(),
                 RemoveUnusedProperties = true
             };
 
-            var result = MessagingExporter.ExportAsCSharpCode(data);
-            if (result.ErrorMessage != null)
+            MessagingExporter.ExportAsCSharpCode(data);
+            if (data.ErrorMessage != null)
             {
-                VisualStudio.UpdateStatusbarText(result.ErrorMessage);
+                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
                 return;
             }
 
-            Util.WriteFileIfContentNotEqual(result.TargetFilePath, result.GeneratedCode);
-            VisualStudio.UpdateStatusbarText(Path.GetFileName(result.TargetFilePath) + " successfully updated.");
+            Util.WriteFileIfContentNotEqual(data.TargetFilePath, data.GeneratedCode);
+            VisualStudio.UpdateStatusbarText(Path.GetFileName(data.TargetFilePath) + " successfully updated.");
         }
 
-
-        public void UpdateMessageTsx()
-        {
-            var solutionFilePath = VisualStudio.GetSolutionFilePath();
-
-            var result = MessagingExporter.ExportAsTypeScriptCode(solutionFilePath);
-            if (result.ErrorMessage != null)
-            {
-                VisualStudio.UpdateStatusbarText(result.ErrorMessage);
-                return;
-            }
-
-            Util.WriteFileIfContentNotEqual(result.TargetFilePath, result.GeneratedCode);
-            VisualStudio.UpdateStatusbarText("Messages.tsx successfully updated.");
-        }
         public void RemoveUnusedMessagesInTypescriptCodes()
         {
             var solutionFilePath = VisualStudio.GetSolutionFilePath();
@@ -71,26 +39,65 @@ namespace BOAPlugins.VSIntegration
 
             var propertyNames = new Dictionary<string, string>();
 
-            BOAPlugins.RemoveUnusedMessagesInTypescriptCodes.Handler.Handle(directory,propertyNames);
+            Handler.Handle(directory, propertyNames);
 
-
-            var result = MessagingExporter.ExportAsTypeScriptCode(solutionFilePath, propertyNames);
-            if (result.ErrorMessage != null)
+            var data = new ExportAsCSharpCodeData
             {
-                VisualStudio.UpdateStatusbarText(result.ErrorMessage);
+                solutionFilePath  = solutionFilePath,
+                usedPropertyNames = propertyNames
+            };
+            MessagingExporter.ExportAsTypeScriptCode(data);
+            if (data.ErrorMessage != null)
+            {
+                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
                 return;
             }
 
-            Util.WriteFileIfContentNotEqual(result.TargetFilePath, result.GeneratedCode);
+            Util.WriteFileIfContentNotEqual(data.TargetFilePath, data.GeneratedCode);
             VisualStudio.UpdateStatusbarText("Messages.tsx successfully updated.");
         }
-        
+
+        public void UpdateMessageCs()
+        {
+            var data = new ExportAsCSharpCodeData
+            {
+                solutionFilePath = VisualStudio.GetSolutionFilePath()
+            };
+
+            MessagingExporter.ExportAsCSharpCode(data);
+            if (data.ErrorMessage != null)
+            {
+                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
+                return;
+            }
+
+            Util.WriteFileIfContentNotEqual(data.TargetFilePath, data.GeneratedCode);
+            VisualStudio.UpdateStatusbarText(Path.GetFileName(data.TargetFilePath) + " successfully updated.");
+        }
+
+        public void UpdateMessageTsx()
+        {
+            var data = new ExportAsCSharpCodeData
+            {
+                solutionFilePath = VisualStudio.GetSolutionFilePath()
+            };
+
+            MessagingExporter.ExportAsTypeScriptCode(data);
+            if (data.ErrorMessage != null)
+            {
+                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
+                return;
+            }
+
+            Util.WriteFileIfContentNotEqual(data.TargetFilePath, data.GeneratedCode);
+            VisualStudio.UpdateStatusbarText("Messages.tsx successfully updated.");
+        }
 
         public void UpdateTypeScriptModels()
         {
             var solutionFilePath = VisualStudio.GetSolutionFilePath();
 
-            var data = Handler.Handle(solutionFilePath);
+            var data = ExportingModel.Handler.Handle(solutionFilePath);
 
             if (data.ErrorMessage != null)
             {

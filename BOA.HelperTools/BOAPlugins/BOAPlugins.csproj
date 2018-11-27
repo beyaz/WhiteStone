@@ -115,9 +115,6 @@
     <Compile Include="DocumentFile\Result.cs" />
     <Compile Include="ExportingModel\Handler.cs" />
     <Compile Include="ExportingModel\MessagingExporter.cs" />
-    <Compile Include="ExportingModel\MessagingExporterInput.cs" />
-    <Compile Include="ExportingModel\MessagingExporterInputLineParser.cs" />
-    <Compile Include="ExportingModel\MessagingExporterResult.cs" />
     <Compile Include="ExportingModel\Types.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Models\BinFolderPaths.cs" />

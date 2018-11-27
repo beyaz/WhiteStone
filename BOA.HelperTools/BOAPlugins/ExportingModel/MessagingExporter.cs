@@ -15,24 +15,26 @@ namespace BOAPlugins.ExportingModel
         #endregion
 
         #region Public Properties
-        public bool RemoveUnusedProperties { get; set; }
+        public string ErrorMessage           { get; set; }
+        public string GeneratedCode          { get; set; }
+        public bool   RemoveUnusedProperties { get; set; }
+        public string TargetFilePath         { get; set; }
         #endregion
     }
 
     public class MessagingExporter
     {
         #region Public Methods
-        public static MessagingExporterResult ExportAsCSharpCode(ExportAsCSharpCodeData data)
+        public static void ExportAsCSharpCode(ExportAsCSharpCodeData data)
         {
             var solutionFilePath = data.solutionFilePath;
             var directory        = Path.GetDirectoryName(solutionFilePath);
 
             if (directory == null)
             {
-                return new MessagingExporterResult
-                {
-                    ErrorMessage = "directory is null.@solutionFilePath:" + solutionFilePath
-                };
+                data.ErrorMessage = "directory is null.@solutionFilePath:" + solutionFilePath;
+
+                return;
             }
 
             var messageFileName = "Message.designer.cs";
@@ -40,10 +42,8 @@ namespace BOAPlugins.ExportingModel
 
             if (messageFilePath == null)
             {
-                return new MessagingExporterResult
-                {
-                    ErrorMessage = $"messageFilePath not found.You must specify named file like:{messageFileName}"
-                };
+                data.ErrorMessage = $"messageFilePath not found.You must specify named file like:{messageFileName}";
+                return;
             }
 
             if (data.RemoveUnusedProperties)
@@ -57,23 +57,21 @@ namespace BOAPlugins.ExportingModel
 
             var config = MessagingExporterInputLineParser.Parse(firstLine);
 
-            return new MessagingExporterResult
-            {
-                GeneratedCode  = ExportAsCSharpCode(config.GroupName, config.NamespaceName, data.usedPropertyNames),
-                TargetFilePath = messageFilePath
-            };
+            data.GeneratedCode  = ExportAsCSharpCode(config.GroupName, config.NamespaceName, data.usedPropertyNames);
+            data.TargetFilePath = messageFilePath;
         }
 
-        public static MessagingExporterResult ExportAsTypeScriptCode(string solutionFilePath, IDictionary<string, string> usedPropertyNames = null)
+        public static void ExportAsTypeScriptCode(ExportAsCSharpCodeData data)
         {
+            var solutionFilePath  = data.solutionFilePath;
+            var usedPropertyNames = data.usedPropertyNames;
+
             var directory = Path.GetDirectoryName(solutionFilePath);
 
             if (directory == null)
             {
-                return new MessagingExporterResult
-                {
-                    ErrorMessage = "directory is null.@solutionFilePath:" + solutionFilePath
-                };
+                data.ErrorMessage = "directory is null.@solutionFilePath:" + solutionFilePath;
+                return;
             }
 
             var messageFileName = "Message.tsx";
@@ -81,21 +79,16 @@ namespace BOAPlugins.ExportingModel
 
             if (messageFilePath == null)
             {
-                return new MessagingExporterResult
-                {
-                    ErrorMessage = $"messageFilePath not found.You must specify named file like:{messageFileName}"
-                };
+                data.ErrorMessage = $"messageFilePath not found.You must specify named file like:{messageFileName}";
+                return;
             }
 
             var firstLine = File.ReadAllLines(messageFilePath).FirstOrDefault(line => string.IsNullOrWhiteSpace(line) == false);
 
             var config = MessagingExporterInputLineParser.Parse(firstLine);
 
-            return new MessagingExporterResult
-            {
-                GeneratedCode  = ExportGroupAsTypeScriptCode(config.GroupName, usedPropertyNames),
-                TargetFilePath = messageFilePath
-            };
+            data.GeneratedCode  = ExportGroupAsTypeScriptCode(config.GroupName, usedPropertyNames);
+            data.TargetFilePath = messageFilePath;
         }
 
         public static string ExportGroupAsTypeScriptCode(string groupName, IDictionary<string, string> usedPropertyNames = null)
@@ -255,5 +248,50 @@ namespace BOAPlugins.ExportingModel
             return null;
         }
         #endregion
+
+        class MessagingExporterInputLineParser
+        {
+            #region Methods
+            internal static MessagingExporterInput Parse(string line)
+            {
+                var config = new MessagingExporterInput();
+
+                if (line == null)
+                {
+                    throw new ArgumentNullException(nameof(line));
+                }
+
+                var arr = line.Trim().RemoveFromStart("//").Trim().Split(',');
+
+                foreach (var param in arr)
+                {
+                    if (param.Trim().StartsWith(nameof(MessagingExporterInput.GroupName)))
+                    {
+                        config.GroupName = param.Trim().RemoveFromStart(nameof(MessagingExporterInput.GroupName)).Trim().RemoveFromStart(":").Trim();
+                    }
+
+                    if (param.Trim().StartsWith(nameof(MessagingExporterInput.NamespaceName)))
+                    {
+                        config.NamespaceName = param.Trim().RemoveFromStart(nameof(MessagingExporterInput.NamespaceName)).Trim().RemoveFromStart(":").Trim();
+                    }
+                }
+
+                if (config.GroupName == null)
+                {
+                    throw new ArgumentException(nameof(MessagingExporterInput.GroupName));
+                }
+
+                return config;
+            }
+            #endregion
+
+            internal class MessagingExporterInput
+            {
+                #region Public Properties
+                public string GroupName     { get; set; }
+                public string NamespaceName { get; set; }
+                #endregion
+            }
+        }
     }
 }
