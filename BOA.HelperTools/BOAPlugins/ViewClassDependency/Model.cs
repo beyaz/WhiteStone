@@ -294,33 +294,8 @@ namespace BOAPlugins.ViewClassDependency
 
         static void SetDirectionLeftToRight(this XElement xElement)
         {
-            var xName      = xElement.Name.Namespace + "Properties";
-            var properties = xElement.Descendants(xName).FirstOrDefault();
-            if (properties == null)
-            {
-                properties = new XElement(XName.Get("Properties", ns));
-                xElement.Add(properties);
-            }
-
-            xName = xElement.Name.Namespace + "Property";
-            var graphDirectionProperty = xElement.Descendants(xName).FirstOrDefault(x => x.Attribute("Id")?.Value == "GraphDirection");
-            if (graphDirectionProperty == null)
-            {
-                graphDirectionProperty = new XElement(XName.Get("Property", ns));
-                graphDirectionProperty.SetAttributeValue("Id", "GraphDirection");
-                graphDirectionProperty.SetAttributeValue("DataType", "Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation");
-
-                properties.Add(graphDirectionProperty);
-            }
-
-            var layoutProperty = xElement.Descendants(xName).FirstOrDefault(x => x.Attribute("Id")?.Value == "Layout");
-            if (layoutProperty == null)
-            {
-                layoutProperty = new XElement(XName.Get("Property", ns));
-                layoutProperty.SetAttributeValue("Id", "Layout");
-                layoutProperty.SetAttributeValue("DataType", "System.String");
-                properties.Add(layoutProperty);
-            }
+            XmlHelper.AddAttribute(xElement, "Properties/Property[Id]=GraphDirection", "DataType", "Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation");
+            XmlHelper.AddAttribute(xElement, "Properties/Property[Id]=Layout", "DataType", "System.String");
         }
         #endregion
     }

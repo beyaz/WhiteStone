@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -13,6 +14,64 @@ namespace BOA.Common.Helpers
     public static class XmlHelper
     {
         #region Public Methods
+        /// <summary>
+        ///     Adds the attribute.
+        /// </summary>
+        public static void AddAttribute(XElement xElement, string search, string name, string value)
+        {
+            var tags = search.Split('/').Where(x => string.IsNullOrWhiteSpace(x) == false).ToList();
+
+            var len = tags.Count;
+
+            for (var i = 0; i < len; i++)
+            {
+                var isLast = i == len - 1;
+
+                var tag               = tags[i];
+                var indexOfAssignment = tag.IndexOf('=');
+
+                string filterAttributeName  = null;
+                string filterAttributeValue = null;
+
+                if (indexOfAssignment > 0)
+                {
+                    var start = tag.IndexOf('[');
+                    var end   = tag.IndexOf(']');
+
+                    filterAttributeName  = tag.Substring(start + 1, end - start - 1).Trim();
+                    filterAttributeValue = tag.Substring(indexOfAssignment + 1, tag.Length - indexOfAssignment - 1).Trim();
+                    tag                  = tag.Substring(0, start).Trim();
+                }
+
+                var xName = xElement.Name.Namespace + tag;
+
+                if (IsMatch(xElement, tag, filterAttributeName, filterAttributeValue))
+                {
+                    continue;
+                }
+
+                var element = xElement.Descendants(xName).FirstOrDefault();
+                if (element == null)
+                {
+                    element = new XElement(XName.Get(tag));
+                    xElement.Add(element);
+                    if (filterAttributeName != null)
+                    {
+                        element.SetAttributeValue(filterAttributeName, filterAttributeValue);
+                    }
+                }
+
+                if (!isLast)
+                {
+                    xElement = element;
+                    continue;
+                }
+
+                var nnn = XName.Get(name);
+                element.SetAttributeValue(nnn, value);
+            }
+        }
+
         /// <summary>
         ///     Clears the XML.
         /// </summary>
@@ -145,6 +204,24 @@ namespace BOA.Common.Helpers
             }
 
             return xmlNodes;
+        }
+        #endregion
+
+        #region Methods
+        static bool IsMatch(XElement element, string tag, string hasAttributeName, string hasAttributeValue)
+        {
+            if (element.Name.LocalName != tag)
+            {
+                return false;
+            }
+
+            if (hasAttributeName == null)
+            {
+                return true;
+            }
+
+            var attributeName = XName.Get(hasAttributeName);
+            return element.Attribute(attributeName)?.Value == hasAttributeValue;
         }
         #endregion
     }
