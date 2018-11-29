@@ -47,6 +47,10 @@ namespace BOA.Common.Helpers
 
                 if (IsMatch(xElement, tag, filterAttributeName, filterAttributeValue))
                 {
+                    if (isLast)
+                    {
+                        xElement.SetAttributeValue(XName.Get(name), value);
+                    }
                     continue;
                 }
 
@@ -67,8 +71,7 @@ namespace BOA.Common.Helpers
                     continue;
                 }
 
-                var nnn = XName.Get(name);
-                element.SetAttributeValue(nnn, value);
+                element.SetAttributeValue(XName.Get(name), value);
             }
         }
 

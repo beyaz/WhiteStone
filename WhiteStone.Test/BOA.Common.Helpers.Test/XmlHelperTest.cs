@@ -20,6 +20,20 @@ namespace BOA.Common.Helpers
 
             Assert.AreEqual(expected, XmlHelper.ClearXml(xDocument.ToString()));
         }
+        [TestMethod]
+        public void AddAttribute1()
+        {
+            const string xmlString = @"<a><b></b></a>";
+
+            var xDocument = XDocument.Parse(xmlString);
+
+            XmlHelper.AddAttribute(xDocument.Root, "a", "x", "1");
+
+            const string expected = @"<a x=""1""><b></b></a>";
+
+            Assert.AreEqual(expected, XmlHelper.ClearXml(xDocument.ToString()));
+        }
+
 
         [TestMethod]
         public void AddAttribute2()

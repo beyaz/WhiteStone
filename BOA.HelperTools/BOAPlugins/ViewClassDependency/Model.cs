@@ -294,6 +294,9 @@ namespace BOAPlugins.ViewClassDependency
 
         static void SetDirectionLeftToRight(this XElement xElement)
         {
+            XmlHelper.AddAttribute(xElement, "DirectedGraph", "Layout", "Sugiyama");
+            XmlHelper.AddAttribute(xElement, "DirectedGraph", "GraphDirection", "LeftToRight");
+
             XmlHelper.AddAttribute(xElement, "Properties/Property[Id]=GraphDirection", "DataType", "Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation");
             XmlHelper.AddAttribute(xElement, "Properties/Property[Id]=Layout", "DataType", "System.String");
         }
