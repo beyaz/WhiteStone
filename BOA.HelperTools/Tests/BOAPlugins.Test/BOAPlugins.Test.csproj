@@ -88,6 +88,7 @@
     <Compile Include="ConfigurationTest.cs" />
     <Compile Include="ExportingModel\ExporterTest.cs" />
     <Compile Include="ExportingModel\HandlerTest.cs" />
+    <Compile Include="FormApplicationGenerator\Test1.cs" />
     <Compile Include="GenerateCSharpCode\BOATypeDataProviderTest.cs" />
     <Compile Include="GenerateCSharpCode\HandlerTest.cs" />
     <Compile Include="GenerateEntityContract\HandlerTest.cs" />

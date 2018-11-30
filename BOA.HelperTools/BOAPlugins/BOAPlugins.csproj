@@ -98,6 +98,11 @@
     <Compile Include="FormApplicationGenerator\Extensions.cs" />
     <Compile Include="FormApplicationGenerator\DefinitionFormTsxFile.cs" />
     <Compile Include="FormApplicationGenerator\FormAssistantProjectInitializer.cs" />
+    <Compile Include="FormApplicationGenerator\OrchestrationFile.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrchestrationFile.tt</DependentUpon>
+    </Compile>
     <Compile Include="FormApplicationGenerator\OrchestrationFileForDefinitionForm.cs" />
     <Compile Include="FormApplicationGenerator\TsxCodeGeneration.cs" />
     <Compile Include="FormApplicationGenerator\TypeFileForDefinitionForm.cs" />
@@ -199,7 +204,15 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="FormApplicationGenerator\OrchestrationFile.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>OrchestrationFile.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
