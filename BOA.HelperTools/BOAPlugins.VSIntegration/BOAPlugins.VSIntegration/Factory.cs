@@ -17,7 +17,7 @@ namespace BOAPlugins.VSIntegration
         #region Properties
         internal static Configuration Configuration => SM.Get<Configuration>();
 
-        internal static string      WhiteStoneBinDirectory => Configuration.PluginDirectory + "bin" + Path.DirectorySeparatorChar;
+        internal static string      WhiteStoneBinDirectory => ConstConfiguration.PluginDirectory + "bin" + Path.DirectorySeparatorChar;
         static          ISerializer Serializer             => SM.Get<ISerializer>() ?? SM.Set<ISerializer>(new JsonSerializer());
         #endregion
 
@@ -45,13 +45,15 @@ namespace BOAPlugins.VSIntegration
             }
             else
             {
-                AppDomain.CurrentDomain.AddAssemblySearchDirectory(Configuration.PluginDirectory);
+                AppDomain.CurrentDomain.AddAssemblySearchDirectory(ConstConfiguration.PluginDirectory);
                 AppDomain.CurrentDomain.AddAssemblySearchDirectory(WhiteStoneBinDirectory);
             }
 
+            DownloadHelper.EnsureNewtonsoftJson();
+
             Configuration.LoadFromFile();
 
-            Task.Run(() => Configuration.CheckDeepEndsDownloaded());
+            Task.Run(() => DownloadHelper.CheckDeepEndsDownloaded());
         }
         #endregion
     }

@@ -1,3 +1,27 @@
 {
-  "CheckInCommentDefaultValue": "583# -  refactor"
+  "CheckInCommentDefaultValue": "583# -  refactor",
+  "ServerFiles": [
+    "Newtonsoft.Json.dll",
+    "ClangSharp.dll",
+    "DeepEnds.Console.exe",
+    "DeepEnds.Console.exe.config",
+    "DeepEnds.Core.dll",
+    "DeepEnds.Cpp.dll",
+    "DeepEnds.CSharp.dll",
+    "DeepEnds.Decompile.dll",
+    "DeepEnds.DGML.dll",
+    "DeepEnds.DoxygenXml.dll",
+    "DeepEnds.Reporting.dll",
+    "DeepEnds.VBasic.dll",
+    "libclang.dll",
+    "Microsoft.CodeAnalysis.CSharp.dll",
+    "Microsoft.CodeAnalysis.dll",
+    "Microsoft.CodeAnalysis.VisualBasic.dll",
+    "Microsoft.VisualStudio.Diagnostics.PerformanceProvider.dll",
+    "Microsoft.VisualStudio.GraphModel.dll",
+    "Microsoft.VisualStudio.OLE.Interop.dll",
+    "Mono.Cecil.dll",
+    "System.Collections.Immutable.dll",
+    "System.Reflection.Metadata.dll"
+  ] 
 }

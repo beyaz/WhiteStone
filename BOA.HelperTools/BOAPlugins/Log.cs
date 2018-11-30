@@ -9,7 +9,7 @@ namespace BOAPlugins
         #region Public Methods
         public static void Push(string message, [CallerMemberName] string callerMemberName = null)
         {
-            var filePath = Configuration.PluginDirectory + "Log.txt";
+            var filePath = ConstConfiguration.PluginDirectory + "Log.txt";
 
             var value = Environment.NewLine + $"{callerMemberName} -> {message}";
 

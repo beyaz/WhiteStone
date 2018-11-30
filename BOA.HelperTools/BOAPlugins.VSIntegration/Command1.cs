@@ -180,7 +180,7 @@ namespace BOASpSearch
             FS.TryDelete(graphFilePath);
 
             var arguments = string.Format(@"graph={1} source={0} {0}", filePath, graphFilePath);
-            Process.Start(Configuration.PluginDirectory + "DeepEnds\\DeepEnds.Console.exe", arguments);
+            Process.Start(ConstConfiguration.PluginDirectory + "DeepEnds\\DeepEnds.Console.exe", arguments);
 
             var count = 0;
             // wait for process finih

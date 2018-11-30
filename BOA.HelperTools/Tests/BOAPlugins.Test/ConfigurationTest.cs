@@ -13,7 +13,8 @@ namespace BOAPlugins.Test
         [TestMethod]
         public void DownloadDeepEnds()
         {
-            Configuration.DownloadDeepEnds();
+
+            DownloadHelper.EnsureNewtonsoftJson();
         }
     }
 }
