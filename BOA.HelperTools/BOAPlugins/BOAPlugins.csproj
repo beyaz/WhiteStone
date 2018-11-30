@@ -94,6 +94,12 @@
     </Compile>
     <Compile Include="ConstConfiguration.cs" />
     <Compile Include="DownloadHelper.cs" />
+    <Compile Include="FormApplicationGenerator\BoaJsxComponentRenderTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BoaJsxComponentRenderTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\BoaJsxComponentRenderTemplate.Extra.cs" />
     <Compile Include="FormApplicationGenerator\FileExporter.cs" />
     <Compile Include="FormApplicationGenerator\Extensions.cs" />
     <Compile Include="FormApplicationGenerator\DefinitionFormTsxFile.cs" />
@@ -205,6 +211,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BoaJsxComponentRenderTemplate.cs</LastGenOutput>
+    </Content>
     <Content Include="FormApplicationGenerator\OrchestrationFileForListForm.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>OrchestrationFileForListForm.cs</LastGenOutput>

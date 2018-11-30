@@ -46,6 +46,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOA.Common.Helpers.Test\PaddedStringBuilderTest.cs" />
     <Compile Include="BOA.Common.Helpers.Test\TraceFileHelperTest.cs" />
     <Compile Include="BagTest.cs" />
     <Compile Include="BOA.Common.Helpers.Test\XmlHelperTest.cs" />

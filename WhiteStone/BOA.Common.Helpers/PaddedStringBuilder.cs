@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 
 namespace BOA.Common.Helpers
 {
@@ -8,7 +9,6 @@ namespace BOA.Common.Helpers
     public class PaddedStringBuilder
     {
         #region Fields
-       
         readonly StringBuilder sb = new StringBuilder();
         #endregion
 
@@ -41,6 +41,21 @@ namespace BOA.Common.Helpers
         public void Append(string value)
         {
             sb.Append(value);
+        }
+
+        /// <summary>
+        ///     Appends all.
+        /// </summary>
+        public void AppendAll(string multipleLines)
+        {
+            var strings = multipleLines.SplitToLines().ToArray();
+
+            var length = strings.Length-1;
+            for (var i = 0; i < length; i++)
+            {
+                AppendLine(strings[i]);
+            }
+            AppendWithPadding(strings[length]);
         }
 
         /// <summary>

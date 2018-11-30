@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 
 namespace BOA.Common.Helpers
 {
@@ -104,6 +106,26 @@ namespace BOA.Common.Helpers
             }
 
             return data;
+        }
+
+        /// <summary>
+        ///     Splits to lines.
+        /// </summary>
+        public static IEnumerable<string> SplitToLines(this string input)
+        {
+            if (input == null)
+            {
+                yield break;
+            }
+
+            using (var reader = new StringReader(input))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    yield return line;
+                }
+            }
         }
 
         /// <summary>
