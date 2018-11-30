@@ -69,6 +69,7 @@
     <Compile Include="VisualStudioLayer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DeepEnds\Newtonsoft.Json.dll" />
     <Content Include="Resources\Document.png" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
