@@ -5,6 +5,16 @@ namespace BOAPlugins.FormApplicationGenerator
 {
     partial class OrchestrationFileForListForm
     {
+        #region Public Properties
+        public string                ClassName                   { get; set; }
+        public string                DefinitionFormDataClassName { get; set; }
+        public IReadOnlyList<string> GridColumnFields            { get; set; }
+        public string                NamespaceName               { get; set; }
+        public string                NamespaceNameForType        { get; set; }
+        public string                RequestName                 { get; set; }
+        #endregion
+
+        #region Public Methods
         public static string GenerateCode(Model Model)
         {
             var orchestrationFileTemplate = new OrchestrationFileForListForm
@@ -18,14 +28,6 @@ namespace BOAPlugins.FormApplicationGenerator
             };
             return orchestrationFileTemplate.TransformText();
         }
-
-        #region Public Properties
-        public string                ClassName                   { get; set; }
-        public string                DefinitionFormDataClassName { get; set; }
-        public IReadOnlyList<string> GridColumnFields            { get; set; }
-        public string                NamespaceName               { get; set; }
-        public string                NamespaceNameForType        { get; set; }
-        public string                RequestName                 { get; set; }
         #endregion
     }
 }
