@@ -98,10 +98,10 @@
     <Compile Include="FormApplicationGenerator\Extensions.cs" />
     <Compile Include="FormApplicationGenerator\DefinitionFormTsxFile.cs" />
     <Compile Include="FormApplicationGenerator\FormAssistantProjectInitializer.cs" />
-    <Compile Include="FormApplicationGenerator\OrchestrationFile.cs">
+    <Compile Include="FormApplicationGenerator\OrchestrationFileForListForm.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OrchestrationFile.tt</DependentUpon>
+      <DependentUpon>OrchestrationFileForListForm.tt</DependentUpon>
     </Compile>
     <Compile Include="FormApplicationGenerator\OrchestrationFileForDefinitionForm.cs" />
     <Compile Include="FormApplicationGenerator\TsxCodeGeneration.cs" />
@@ -205,9 +205,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FormApplicationGenerator\OrchestrationFile.tt">
+    <Content Include="FormApplicationGenerator\OrchestrationFileForListForm.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>OrchestrationFile.cs</LastGenOutput>
+      <LastGenOutput>OrchestrationFileForListForm.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -29,7 +29,7 @@ namespace BOAPlugins.FormApplicationGenerator
             Util.WriteFileIfContentNotEqual(typesFolder + Model.FormName + "ListForm.cs", TypeFileForListForm.GenerateCode(Model));
             Util.WriteFileIfContentNotEqual(typesFolder + Model.FormName + "Form.cs", TypeFileForDefinitionForm.GenerateCode(Model));
 
-            Util.WriteFileIfContentNotEqual(Model.OrchestrationProjectFolder + Model.FormName + "ListForm.cs", OrchestrationFileForListForm___.GenerateCode(Model));
+            Util.WriteFileIfContentNotEqual(Model.OrchestrationProjectFolder + Model.FormName + "ListForm.cs", OrchestrationFileForListForm.GenerateCode(Model));
             Util.WriteFileIfContentNotEqual(Model.OrchestrationProjectFolder + Model.FormName + "Form.cs", OrchestrationFileForDefinitionForm.GenerateCode(Model));
 
             FormAssistantProjectInitializer.Initialize(Model);
