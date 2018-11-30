@@ -20,7 +20,7 @@ namespace BOAPlugins.FormApplicationGenerator
     
     #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFile.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class OrchestrationFile : OrchestrationFileBase
+    public partial class OrchestrationFileForListForm : OrchestrationFileBase
     {
 #line hidden
         /// <summary>

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace BOAPlugins.FormApplicationGenerator
 {
-    partial class OrchestrationFile
+    partial class OrchestrationFileForListForm
     {
         #region Public Properties
         public string                ClassName                   { get; set; }
@@ -15,12 +15,12 @@ namespace BOAPlugins.FormApplicationGenerator
         #endregion
     }
 
-    static class OrchestrationFileForListForm
+    static class OrchestrationFileForListForm___
     {
         #region Public Methods
         public static string GenerateCode(Model Model)
         {
-            var orchestrationFileTemplate = new OrchestrationFile
+            var orchestrationFileTemplate = new OrchestrationFileForListForm
             {
                 NamespaceNameForType        = Model.NamespaceNameForType,
                 NamespaceName               = Model.NamespaceNameForOrchestration,

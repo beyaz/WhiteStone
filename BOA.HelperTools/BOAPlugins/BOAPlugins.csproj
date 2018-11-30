@@ -108,7 +108,7 @@
     <Compile Include="FormApplicationGenerator\TypeFileForDefinitionForm.cs" />
     <Compile Include="FormApplicationGenerator\ListFormTsxFile.cs" />
     <Compile Include="FormApplicationGenerator\TypeFileForListForm.cs" />
-    <Compile Include="FormApplicationGenerator\OrchestrationFileForListForm.cs" />
+    <Compile Include="FormApplicationGenerator\OrchestrationFileForListForm__.cs" />
     <Compile Include="FormApplicationGenerator\Model.cs" />
     <Compile Include="BOAPlugins.VSIntegration\Command.cs" />
     <Compile Include="BOAPlugins.VSIntegration\MainForm.xaml.cs">

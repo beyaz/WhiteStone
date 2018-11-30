@@ -14,7 +14,7 @@ namespace BOAPlugins.FormApplicationGenerator
         [TestMethod]
         public void A()
         {
-            var a = new OrchestrationFile
+            var a = new OrchestrationFileForListForm
             {
                 GridColumnFields = new []{"A","B"},
                 NamespaceNameForType = "f",
