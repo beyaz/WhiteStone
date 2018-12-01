@@ -12,11 +12,7 @@ namespace BOAPlugins.VSIntegration
         /// <param name="input">The input.</param>
         void Send(SearchProcedure.Input input);
 
-        /// <summary>
-        ///     Sends the specified input.
-        /// </summary>
-        /// <param name="input">The input.</param>
-        void Send(GenerateCSharpCode.Input input);
+    
 
 
         void Send(GenerateEntityContract.Input input);

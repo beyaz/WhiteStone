@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BOA.CodeGeneration.Services;
 using BOA.Common.Helpers;
 
 namespace BOAPlugins.DocumentFile
@@ -100,11 +99,11 @@ namespace BOAPlugins.DocumentFile
         /// <summary>
         ///     Handles this instance.
         /// </summary>
-        public Result Handle(Input input)
+        public Result Handle(Data data)
         {
             var Result = new Result();
 
-            var code = input.CSharpCode;
+            var code = data.CSharpCode;
 
             if (code == null)
             {

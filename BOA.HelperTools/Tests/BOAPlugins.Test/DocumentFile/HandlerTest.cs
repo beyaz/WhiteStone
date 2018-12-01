@@ -17,7 +17,7 @@ namespace BOAPlugins.DocumentFile
         {
             var handler = new Handler();
 
-            var input = new Input
+            var input = new Data
             {
                 CSharpCode =
                     @"
@@ -61,7 +61,7 @@ F
         {
             var handler = new Handler();
 
-            var input = new Input
+            var input = new Data
             {
                 CSharpCode =
                     @"

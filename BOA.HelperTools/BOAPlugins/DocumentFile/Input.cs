@@ -3,8 +3,8 @@
     /// <summary>
     ///     The input
     /// </summary>
-    public class Input
-    {
+    public class Data
+    { public string ErrorMessage { get; set; }
         #region Public Properties
         /// <summary>
         ///     Gets or sets the c sharp code.

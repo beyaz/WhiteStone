@@ -18,7 +18,7 @@ namespace BOASpSearch
 
             var handler = new Handler();
 
-            var input = new Input
+            var input = new Data
             {
                 CSharpCode = selectedText
             };

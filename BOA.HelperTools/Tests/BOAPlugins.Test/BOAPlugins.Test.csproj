@@ -89,11 +89,8 @@
     <Compile Include="ExportingModel\ExporterTest.cs" />
     <Compile Include="ExportingModel\HandlerTest.cs" />
     <Compile Include="FormApplicationGenerator\Test1.cs" />
-    <Compile Include="GenerateCSharpCode\BOATypeDataProviderTest.cs" />
-    <Compile Include="GenerateCSharpCode\HandlerTest.cs" />
     <Compile Include="DocumentFile\HandlerTest.cs" />
     <Compile Include="Generators\CustomExecutionCsTest.cs" />
-    <Compile Include="PropertyGeneration\PropertyGeneratorTest.cs" />
     <Compile Include="RemoveUnusedMessagesInTypescriptCodes\HandlerTest.cs" />
     <Compile Include="SearchProcedure\DatabaseConnectionInfoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -113,39 +110,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GenerateCSharpCode\DBT.del_CardAccountByCardNumber.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GenerateCSharpCode\InsertBkm3DSecureNotifyRecord.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GenerateCSharpCode\DBT.sel_DebitTransactionTrace.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GenerateCSharpCode\SelectDebitCardApplicationCustomerDefaultAddressId.cs.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GenerateCSharpCode\InsertCustomerMemo.cs.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GenerateCSharpCode\SelectBkm3DSecureNotifyById.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GenerateCSharpCode\SelectCardInfoCardNumberListByAccountNumber.cs.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GenerateCSharpCode\UpdateCardInUsePin.cs.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GenerateCSharpCode\UpdateDebitCardApplicationKMHInformations.cs.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GenerateCSharpCode\SelectZoneKeyByZoneCode.cs.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GenerateCSharpCode\DBT.sel_KMHLimitByDebitCard.cs.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Generators\DBT.sel_DebitTransactionTotalUsedAmountOfAccount.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

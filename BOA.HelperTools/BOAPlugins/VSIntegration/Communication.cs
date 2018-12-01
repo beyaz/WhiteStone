@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using BOAPlugins.ViewClassDependency;
-using Result = BOAPlugins.GenerateCSharpCode.Result;
-using View = BOAPlugins.PropertyGeneration.View;
 
 namespace BOAPlugins.VSIntegration
 {
@@ -35,19 +33,6 @@ namespace BOAPlugins.VSIntegration
         public void Send(SearchProcedure.Input input)
         {
             var handler = new SearchProcedure.Handler(input);
-
-            handler.Handle();
-
-            Process(handler.Result);
-        }
-
-        /// <summary>
-        ///     Sends the specified input.
-        /// </summary>
-        /// <param name="input">The input.</param>
-        public void Send(GenerateCSharpCode.Input input)
-        {
-            var handler = new GenerateCSharpCode.Handler(input);
 
             handler.Handle();
 
@@ -93,21 +78,6 @@ namespace BOAPlugins.VSIntegration
 
         #region Methods
 
-        /// <summary>
-        ///     Processes the specified result.
-        /// </summary>
-        /// <param name="result">The result.</param>
-        void Process(Result result)
-        {
-            if (result.ErrorMessage != null)
-            {
-                MessageBox.Show(result.ErrorMessage);
-                return;
-            }
-
-            Clipboard.SetText(result.GeneratedCsCode);
-            _visualStudioLayer.UpdateStatusbarText("C# wrapper code successfully copied to clipboard.");
-        }
 
         /// <summary>
         ///     Processes the specified result.
