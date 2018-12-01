@@ -500,7 +500,7 @@ namespace BOA.Common.Helpers
         {
             var genericObject = Activator.CreateInstance(type);
 
-            var properties = type.GetProperties().Where(p => !p.PropertyType.IsAbstract).ToArray();
+            var properties = type.GetProperties();
 
             if (properties.Length == 0)
             {
@@ -764,6 +764,30 @@ namespace BOA.Common.Helpers
         void TryInitProperty<T>(PropertyInfo prop, T genericObject) where T : new()
         {
             if (PropertyHasNoSetter(prop))
+            {
+                return;
+            }
+
+            var isAbstract = false;
+
+            if (prop.PropertyType.IsAbstract)
+            {
+                isAbstract = true;
+                if (prop.PropertyType.IsGenericType)
+                {
+                    var genericTypeDefinition = prop.PropertyType.GetGenericTypeDefinition();
+
+                    if (genericTypeDefinition != null)
+                    {
+                        if (IsSupportedCollection(genericTypeDefinition))
+                        {
+                            isAbstract = false;
+                        }
+                    }
+                }
+            }
+
+            if (isAbstract)
             {
                 return;
             }

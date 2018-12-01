@@ -61,7 +61,7 @@ namespace BOAPlugins.FormApplicationGenerator
                 HasSnap          = hasSnap,
                 SnapDeclaration  = snapDeclaration,
                 SnapDefinition   = snapDefinition.ToString(),
-                RenderCodeForJsx = GetJSXElementForRenderBrowsePage(fields,model.UserRawStringForMessaging)
+                RenderCodeForJsx = GetJSXElementForRenderBrowsePage(fields, model.UserRawStringForMessaging)
             };
         }
         #endregion
@@ -69,31 +69,12 @@ namespace BOAPlugins.FormApplicationGenerator
         #region Methods
         static string GetJSXElementForRenderBrowsePage(IReadOnlyCollection<BField> fields, bool userRawStringForMessaging)
         {
-            var renderCodes = new PaddedStringBuilder
+            var template = new JSXElementForRenderBrowsePage
             {
-                PaddingLength = 4,
-                PaddingCount  = 3
+                Components = fields.Select(dataField=> GetRenderComponent(dataField, userRawStringForMessaging)).ToList()
             };
-
-            renderCodes.AppendLine("<BGridSection context={context}>");
-            renderCodes.PaddingCount++;
-            foreach (var dataField in fields)
-            {
-                renderCodes.AppendLine("<BGridRow context={context}>");
-
-                renderCodes.PaddingCount++;
-
-                RenderComponent(renderCodes, dataField, userRawStringForMessaging);
-
-                renderCodes.PaddingCount--;
-
-                renderCodes.AppendLine("</BGridRow>");
-            }
-
-            renderCodes.PaddingCount--;
-            renderCodes.AppendLine("</BGridSection>");
-
-            return renderCodes.ToString();
+            template.PushIndent("            ");
+            return template.TransformText();
         }
 
         static string GetJSXElementForRenderDefinitionPage(Model model)
@@ -125,7 +106,7 @@ namespace BOAPlugins.FormApplicationGenerator
                     renderCodes.AppendWithPadding("content:");
 
                     renderCodes.PaddingCount++;
-                    RenderCards(renderCodes, tab.Cards,model.UserRawStringForMessaging);
+                    RenderCards(renderCodes, tab.Cards, model.UserRawStringForMessaging);
                     renderCodes.PaddingCount--;
 
                     renderCodes.PaddingCount--;
@@ -136,7 +117,7 @@ namespace BOAPlugins.FormApplicationGenerator
             else
             {
                 renderCodes.AppendWithPadding("");
-                RenderCards(renderCodes, model.Cards,model.UserRawStringForMessaging);
+                RenderCards(renderCodes, model.Cards, model.UserRawStringForMessaging);
             }
 
             return renderCodes.ToString();
@@ -156,7 +137,7 @@ namespace BOAPlugins.FormApplicationGenerator
 
                 renderCodes.AppendLine("");
 
-                RenderComponent(renderCodes, dataField,userRawStringForMessaging);
+                RenderComponent(renderCodes, dataField, userRawStringForMessaging);
 
                 renderCodes.PaddingCount--;
             }
@@ -191,7 +172,7 @@ namespace BOAPlugins.FormApplicationGenerator
                     columnIndex = null;
                 }
 
-                RenderCard(renderCodes, card, columnIndex,userRawStringForMessaging);
+                RenderCard(renderCodes, card, columnIndex, userRawStringForMessaging);
 
                 columnIndex++;
             }
@@ -200,39 +181,41 @@ namespace BOAPlugins.FormApplicationGenerator
             renderCodes.AppendLine("</BCardSection>");
         }
 
-        static void RenderComponent(PaddedStringBuilder output, BField dataBField,bool userRawStringForMessaging)
+        static void RenderComponent(PaddedStringBuilder output, BField dataBField, bool userRawStringForMessaging)
+        {
+            var template = GetRenderComponent(dataBField, userRawStringForMessaging);
+
+            output.AppendAll(template.TransformText());
+        }
+
+        static BoaJsxComponentRenderTemplate GetRenderComponent( BField dataBField, bool userRawStringForMessaging)
         {
             var valueAccessPath = Exporter.GetResolvedPropertyName(dataBField.Name);
 
-            var label = "Message." + dataBField.Name;
+            var componentLabel = "Message." + dataBField.Name;
             if (userRawStringForMessaging)
             {
-                label = '"'+dataBField.Name+ '"';
+                componentLabel = '"' + dataBField.Name + '"';
             }
 
-            var template = new BoaJsxComponentRenderTemplate
+            return new BoaJsxComponentRenderTemplate
             {
-                Label = label,
-                IsBDateTimePicker = dataBField.ComponentType == ComponentType.BDateTimePicker,
-                IsBInput = dataBField.ComponentType == ComponentType.BInput,
+
+                Label                  = componentLabel,
+                IsBDateTimePicker      = dataBField.ComponentType == ComponentType.BDateTimePicker,
+                IsBInput               = dataBField.ComponentType == ComponentType.BInput,
                 IsBInputNumericDecimal = dataBField.ComponentType == ComponentType.BInputNumeric && dataBField.DotNetType == DotNetType.Decimal,
-                IsBInputNumeric = dataBField.ComponentType == ComponentType.BInputNumeric,
-                IsBAccountComponent = dataBField.ComponentType == ComponentType.BAccountComponent,
-                SnapName = dataBField.GetSnapName(),
-                IsBCheckBox = dataBField.ComponentType == ComponentType.BCheckBox,
-                IsBParameterComponent = dataBField.ComponentType == ComponentType.BParameterComponent,
-                ValueTypeIsInt32 = dataBField.DotNetType == DotNetType.Int32,
-                ParamType = dataBField.ParamType ?? "GENDER",
-                IsBBranchComponent = dataBField.ComponentType == ComponentType.BBranchComponent,
-                ValueAccessPath = valueAccessPath
-
+                IsBInputNumeric        = dataBField.ComponentType == ComponentType.BInputNumeric,
+                IsBAccountComponent    = dataBField.ComponentType == ComponentType.BAccountComponent,
+                SnapName               = dataBField.GetSnapName(),
+                IsBCheckBox            = dataBField.ComponentType == ComponentType.BCheckBox,
+                IsBParameterComponent  = dataBField.ComponentType == ComponentType.BParameterComponent,
+                ValueTypeIsInt32       = dataBField.DotNetType == DotNetType.Int32,
+                ParamType              = dataBField.ParamType ?? "GENDER",
+                IsBBranchComponent     = dataBField.ComponentType == ComponentType.BBranchComponent,
+                ValueAccessPath        = valueAccessPath
             };
-
-            output.AppendAll(template.TransformText());
-
-
-
-
+            
         }
         #endregion
     }

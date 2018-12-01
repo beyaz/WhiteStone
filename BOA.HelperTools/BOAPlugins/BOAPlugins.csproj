@@ -104,6 +104,11 @@
     <Compile Include="FormApplicationGenerator\Extensions.cs" />
     <Compile Include="FormApplicationGenerator\DefinitionFormTsxFile.cs" />
     <Compile Include="FormApplicationGenerator\FormAssistantProjectInitializer.cs" />
+    <Compile Include="FormApplicationGenerator\JSXElementForRenderBrowsePage.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JSXElementForRenderBrowsePage.tt</DependentUpon>
+    </Compile>
     <Compile Include="FormApplicationGenerator\OrchestrationFileForListForm.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -129,6 +134,7 @@
     <Compile Include="ExportingModel\Handler.cs" />
     <Compile Include="ExportingModel\MessagingExporter.cs" />
     <Compile Include="ExportingModel\Types.cs" />
+    <Compile Include="FormApplicationGenerator\JSXElementForRenderBrowsePage.Extra.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Models\BinFolderPaths.cs" />
     <Compile Include="Models\DatabaseConnectionInfo.cs" />
@@ -214,6 +220,10 @@
     <Content Include="FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BoaJsxComponentRenderTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\JSXElementForRenderBrowsePage.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JSXElementForRenderBrowsePage.cs</LastGenOutput>
     </Content>
     <Content Include="FormApplicationGenerator\OrchestrationFileForListForm.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

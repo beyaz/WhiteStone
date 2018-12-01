@@ -14,15 +14,15 @@ namespace BOAPlugins.FormApplicationGenerator
         [TestMethod]
         public void A()
         {
-            var a = new OrchestrationFileForListForm
-            {
-                GridColumnFields = new []{"A","B"},
-                NamespaceNameForType = "f",
-                ClassName = "u",
-                DefinitionFormDataClassName = "yy",
-                NamespaceName = "hh",
-                RequestName = "Req"
-            }.TransformText();
+            var template = RandomValue.Object<OrchestrationFileForListForm>();
+            template.PushIndent("-------");
+            template.PushIndent("___");
+
+            var a = template.TransformText();
+            template.PopIndent();
+
+            a = template.TransformText();
+
             a.ToString();
 
         }
