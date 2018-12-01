@@ -21,7 +21,6 @@ namespace BOAPlugins.VSIntegration
         /// <param name="input">The input.</param>
         void Send(GenerateCSharpCode.Input input);
 
-        void Send(GenerateInsertSql.Input input);
 
         void Send(GenerateEntityContract.Input input);
         void Send(Data input);

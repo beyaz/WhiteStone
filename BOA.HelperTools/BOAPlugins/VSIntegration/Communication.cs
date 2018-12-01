@@ -88,22 +88,6 @@ namespace BOAPlugins.VSIntegration
             Process(handler.Result);
         }
 
-        public void Send(GenerateInsertSql.Input input)
-        {
-            try
-            {
-                var handler = new GenerateInsertSql.Handler();
-
-                var result = handler.Handle(input);
-
-                Process(result);
-            }
-            catch (Exception e)
-            {
-                Process(new GenerateInsertSql.Result {ErrorMessage = e.ToString()});
-            }
-        }
-
         public void Send(GenerateEntityContract.Input input)
         {
             var result = new GenerateEntityContract.Handler().Handle(input);
@@ -175,18 +159,6 @@ namespace BOAPlugins.VSIntegration
             {
                 _visualStudioLayer.CreateNewSQLFile(sqlFileInfo.Content, sqlFileInfo.FileName);
             }
-        }
-
-        void Process(GenerateInsertSql.Result result)
-        {
-            if (result.ErrorMessage != null)
-            {
-                MessageBox.Show(result.ErrorMessage);
-                return;
-            }
-
-            Clipboard.SetText(result.GeneratedSQLCode);
-            _visualStudioLayer.UpdateStatusbarText("Generated SQL code successfully copied to clipboard.");
         }
 
         void Process(GenerateUpdateSql.Result result)
