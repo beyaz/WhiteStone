@@ -92,6 +92,11 @@
     <Compile Include="BOA.Tools.Translator\UI.TranslateHelper\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FormApplicationGenerator\BTabControlTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BTabControlTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConstConfiguration.cs" />
     <Compile Include="DownloadHelper.cs" />
     <Compile Include="FormApplicationGenerator\BCardSectionTemplate.cs">
@@ -115,10 +120,14 @@
       <DependentUpon>BrowsePageTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="FormApplicationGenerator\Map.cs" />
+    <Compile Include="FormApplicationGenerator\TabPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TabPageTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="FormApplicationGenerator\Templates.Extensions.cs" />
     <Compile Include="FormApplicationGenerator\FileExporter.cs" />
     <Compile Include="FormApplicationGenerator\Extensions.cs" />
-    <Compile Include="FormApplicationGenerator\DefinitionFormTsxFile.cs" />
     <Compile Include="FormApplicationGenerator\FormAssistantProjectInitializer.cs" />
     <Compile Include="FormApplicationGenerator\OrchestrationFileForListForm.cs">
       <AutoGen>True</AutoGen>
@@ -131,9 +140,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TransactionPageTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="FormApplicationGenerator\TsxCodeGeneration.cs" />
     <Compile Include="FormApplicationGenerator\TypeFileForDefinitionForm.cs" />
-    <Compile Include="FormApplicationGenerator\ListFormTsxFile.cs" />
     <Compile Include="FormApplicationGenerator\TypeFileForListForm.cs" />
     <Compile Include="FormApplicationGenerator\Model.cs" />
     <Compile Include="BOAPlugins.VSIntegration\Command.cs" />
@@ -231,6 +238,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FormApplicationGenerator\BTabControlTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BTabControlTemplate.cs</LastGenOutput>
+    </Content>
     <Content Include="FormApplicationGenerator\BCardSectionTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BCardSectionTemplate.cs</LastGenOutput>
@@ -250,6 +261,10 @@
     <Content Include="FormApplicationGenerator\OrchestrationFileForListForm.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>OrchestrationFileForListForm.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\TabPageTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>TabPageTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="FormApplicationGenerator\TransactionPageTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

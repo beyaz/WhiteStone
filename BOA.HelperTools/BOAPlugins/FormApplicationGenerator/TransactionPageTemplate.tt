@@ -118,7 +118,8 @@ class <#=ClassName#> extends BrowsePage
         const dataSource = windowRequest.dataSource;
 
         return [
-            
+<#ContentAsTabControl.PushIndent("            ");#>
+<#=ContentAsTabControl.TransformText()#>
         ];
     }
 <#} else#>
@@ -140,7 +141,8 @@ class <#=ClassName#> extends BrowsePage
         const dataSource = windowRequest.dataSource;
 
         return (
-            
+<#ContentAsBCardSection.PushIndent("            ");#>
+<#=ContentAsBCardSection.TransformText()#>            
         );
     }
 <#    }#>

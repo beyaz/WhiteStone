@@ -2,7 +2,15 @@
 using System.Linq;
 
 namespace BOAPlugins.FormApplicationGenerator
-{
+{partial class TabPageTemplate
+    {
+        public BCardSectionTemplate content { get; set; }
+        public string text { get; set; }
+    }
+    partial class BTabControlTemplate
+    {
+        public IReadOnlyList<TabPageTemplate> TabPages{ get; set; }
+    }
     partial class TransactionPageTemplate
     {
         public bool HasWorkFlow { get; set; }
@@ -12,7 +20,9 @@ namespace BOAPlugins.FormApplicationGenerator
         public string                        ClassName            { get; set; }
         public string                        DetailFormClassName  { get; set; }
         public IReadOnlyList<SnapInfo>       Snaps                { get; set; }
-        public IReadOnlyList<BFieldTemplate> Components { get; set; }
+     
+        public BCardSectionTemplate ContentAsBCardSection { get; set; }
+        public BTabControlTemplate ContentAsTabControl { get; set; }
     }
     partial class BrowsePageTemplate
     {

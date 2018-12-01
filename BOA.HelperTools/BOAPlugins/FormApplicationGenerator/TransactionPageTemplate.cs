@@ -290,15 +290,28 @@ if(IsTabForm)
             #line hidden
             this.Write(" = FormAssistant.getWindowRequest(this);\r\n\r\n        const data       = windowRequ" +
                     "est.data;\r\n        const dataSource = windowRequest.dataSource;\r\n\r\n        retur" +
-                    "n [\r\n            \r\n        ];\r\n    }\r\n");
+                    "n [\r\n");
             
-            #line 124 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
+            #line 121 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
+ContentAsTabControl.PushIndent("            ");
+            
+            #line default
+            #line hidden
+            
+            #line 122 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ContentAsTabControl.TransformText()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n        ];\r\n    }\r\n");
+            
+            #line 125 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
 } else
             
             #line default
             #line hidden
             
-            #line 125 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
+            #line 126 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
     {
             
             #line default
@@ -316,23 +329,36 @@ if(IsTabForm)
         
         const windowRequest: ");
             
-            #line 137 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
+            #line 138 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(RequestName));
             
             #line default
             #line hidden
             this.Write(" = FormAssistant.getWindowRequest(this);\r\n\r\n        const data       = windowRequ" +
                     "est.data;\r\n        const dataSource = windowRequest.dataSource;\r\n\r\n        retur" +
-                    "n (\r\n            \r\n        );\r\n    }\r\n");
+                    "n (\r\n");
             
-            #line 146 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
+            #line 144 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
+ContentAsBCardSection.PushIndent("            ");
+            
+            #line default
+            #line hidden
+            
+            #line 145 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ContentAsBCardSection.TransformText()));
+            
+            #line default
+            #line hidden
+            this.Write("            \r\n        );\r\n    }\r\n");
+            
+            #line 148 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
     }
             
             #line default
             #line hidden
             this.Write("    \r\n    \r\n\r\n       \r\n}\r\n\r\nexport default TransactionPageComposer(");
             
-            #line 153 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
+            #line 155 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\TransactionPageTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default

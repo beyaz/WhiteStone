@@ -1,0 +1,16 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+{
+<#int i=0,end = TabPages.Count - 1;#>
+<#for(i=0; i < end;i++)#>
+<#{#>
+<#TabPages[i].PushIndent(CurrentIndent + "    ");#>
+<#=TabPages[i].TransformText()#>,
+<#}#>
+<#TabPages[end].PushIndent(CurrentIndent + "    ");#>
+<#=TabPages[end].TransformText()#>
+}
+

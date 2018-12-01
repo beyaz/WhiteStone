@@ -10,6 +10,81 @@ namespace BOAPlugins.FormApplicationGenerator
 {
     public static class Map
     {
+
+        public static TransactionPageTemplate ToTransactionPageTemplate(this Model model)
+        {
+            var template= new TransactionPageTemplate
+            {
+                NamespaceNameForType = model.NamespaceNameForType,
+                RequestName          = model.RequestNameForList,
+                ClassName            = model.FormName + @"Form",
+                Snaps                = model.FormDataClassFields.GetSnaps(),
+                IsTabForm = model.IsTabForm,
+            };
+
+            if (model.IsTabForm)
+            {
+                template.IsTabForm = true;
+                template.ContentAsTabControl = new BTabControlTemplate
+                {
+                    TabPages = new List<TabPageTemplate>
+                    {
+                        new TabPageTemplate
+                        {
+                            content = new BCardSectionTemplate
+                            {
+                                Cards = new List<BCardTemplate>
+                                {
+                                    new BCardTemplate
+                                    {
+                                        Components = model.FormDataClassFields.Select(Map.GetRenderComponent).ToList()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+            }
+            else
+            {
+                template.ContentAsBCardSection = new BCardSectionTemplate
+                {
+                    Cards = new List<BCardTemplate>
+                    {
+                        new BCardTemplate
+                        {
+                            Components = model.FormDataClassFields.Select(Map.GetRenderComponent).ToList()
+                        }
+                    }
+                };
+            }
+
+            return template;
+
+        }
+        public static BrowsePageTemplate ToBrowsePageTemplate(this Model model)
+        {
+            return new BrowsePageTemplate
+            {
+                NamespaceNameForType = model.NamespaceNameForType,
+                RequestName          = model.RequestNameForList,
+                ClassName            = model.FormName + @"ListForm",
+                DetailFormClassName  = model.FormName + @"Form",
+                Snaps                = model.ListFormSearchFields.GetSnaps(),
+                Components           = model.ListFormSearchFields.Select(Map.GetRenderComponent).ToList()
+            };
+            
+        }
+
+        public static IReadOnlyList<SnapInfo> GetSnaps(this IReadOnlyCollection<BField> fields)
+        {
+            return fields.Where(x => x.HasSnapName()).Select(dataField => new SnapInfo
+            {
+                Name              = dataField.GetSnapName(),
+                ComponentTypeName = dataField.ComponentType.GetValueOrDefault().ToString()
+            }).ToList();
+        }
+
         public static BFieldTemplate GetRenderComponent(BField dataBField)
         {
             return new BFieldTemplate
