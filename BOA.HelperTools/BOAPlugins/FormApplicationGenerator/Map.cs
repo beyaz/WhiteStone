@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BOA.Common.Helpers;
 using BOAPlugins.ExportingModel;
+using BOAPlugins.FormApplicationGenerator.Types;
 
 namespace BOAPlugins.FormApplicationGenerator
 {

@@ -2,14 +2,132 @@
 using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
+using BOAPlugins.FormApplicationGenerator.Types;
 
-namespace BOAPlugins.FormApplicationGenerator
+namespace BOAPlugins.FormApplicationGenerator.Types
 {
+    [Serializable]
+    public enum DotNetType
+    {
+        Int32,
+        String,
+        Decimal,
+        DateTime,
+        Boolean
+    }
+
     public class SnapInfo
     {
         public string Name              { get; set; }
         public string ComponentTypeName { get; set; }
     }
+
+    [Serializable]
+    public enum ComponentType
+    {
+        BAccountComponent,
+        BDateTimePicker,
+        BInput,
+        BInputNumeric,
+        BParameterComponent,
+        BBranchComponent,
+        BCheckBox
+    }
+
+    [Serializable]
+    public class BField
+    {
+        #region Constructors
+        public BField(DotNetType dotNetType, Enum name)
+        {
+            Name       = name.ToString();
+            DotNetType = dotNetType;
+
+            if (dotNetType == DotNetType.Int32 ||
+                dotNetType == DotNetType.Decimal)
+            {
+                ComponentType = Types.ComponentType.BInputNumeric;
+            }
+
+            else if (dotNetType == DotNetType.DateTime)
+            {
+                ComponentType = Types.ComponentType.BDateTimePicker;
+            }
+
+            else if (dotNetType == DotNetType.Boolean)
+            {
+                ComponentType = Types.ComponentType.BCheckBox;
+            }
+            else
+            {
+                ComponentType = Types.ComponentType.BInput;
+            }
+        }
+        #endregion
+
+        #region Public Properties
+        public ComponentType? ComponentType { get; set; }
+        public DotNetType     DotNetType    { get; }
+        public string         Name          { get; }
+        public string         ParamType     { get; set; }
+        public string         Label         { get; set; }
+        #endregion
+    }
+
+    [Serializable]
+    public class BTab
+    {
+        #region Constructors
+        public BTab(string title, IReadOnlyCollection<BCard> cards)
+        {
+            Cards = cards;
+            Title = title;
+        }
+
+        public BTab(string title, IReadOnlyCollection<BField> fields)
+        {
+            Cards = new[]
+            {
+                new BCard("", fields)
+            };
+            Title = title;
+        }
+
+        public BTab(Enum title, IReadOnlyCollection<BField> fields) : this(title.ToString(), fields)
+        {
+        }
+        #endregion
+
+        #region Public Properties
+        public IReadOnlyCollection<BCard> Cards { get; }
+        public string                     Title { get; }
+        #endregion
+    }
+
+    [Serializable]
+    public class BCard
+    {
+        #region Constructors
+        public BCard(string title, IReadOnlyCollection<BField> fields)
+        {
+            Fields = fields;
+            Title  = title;
+        }
+
+        public BCard(Enum title, IReadOnlyCollection<BField> fields) : this(title.ToString(), fields)
+        {
+        }
+        #endregion
+
+        #region Public Properties
+        public IReadOnlyCollection<BField> Fields { get; }
+        public string                      Title  { get; }
+        #endregion
+    }
+}
+
+namespace BOAPlugins.FormApplicationGenerator
+{
     [Serializable]
     public class Model
     {
@@ -89,118 +207,5 @@ namespace BOAPlugins.FormApplicationGenerator
             throw new InvalidOperationException("One project folder not found." + string.Join(Environment.NewLine, paths));
         }
         #endregion
-    }
-
-    [Serializable]
-    public class BCard
-    {
-        #region Constructors
-        public BCard(string title, IReadOnlyCollection<BField> fields)
-        {
-            Fields = fields;
-            Title  = title;
-        }
-
-        public BCard(Enum title, IReadOnlyCollection<BField> fields) : this(title.ToString(), fields)
-        {
-        }
-        #endregion
-
-        #region Public Properties
-        public IReadOnlyCollection<BField> Fields { get; }
-        public string                      Title  { get; }
-        #endregion
-    }
-
-    [Serializable]
-    public class BTab
-    {
-        #region Constructors
-        public BTab(string title, IReadOnlyCollection<BCard> cards)
-        {
-            Cards = cards;
-            Title = title;
-        }
-
-        public BTab(string title, IReadOnlyCollection<BField> fields)
-        {
-            Cards = new[]
-            {
-                new BCard("", fields)
-            };
-            Title = title;
-        }
-
-        public BTab(Enum title, IReadOnlyCollection<BField> fields) : this(title.ToString(), fields)
-        {
-        }
-        #endregion
-
-        #region Public Properties
-        public IReadOnlyCollection<BCard> Cards { get; }
-        public string                     Title { get; }
-        #endregion
-    }
-
-    [Serializable]
-    public class BField
-    {
-        #region Constructors
-        public BField(DotNetType dotNetType, Enum name)
-        {
-            Name       = name.ToString();
-            DotNetType = dotNetType;
-
-            if (dotNetType == DotNetType.Int32 ||
-                dotNetType == DotNetType.Decimal)
-            {
-                ComponentType = FormApplicationGenerator.ComponentType.BInputNumeric;
-            }
-
-            else if (dotNetType == DotNetType.DateTime)
-            {
-                ComponentType = FormApplicationGenerator.ComponentType.BDateTimePicker;
-            }
-
-            else if (dotNetType == DotNetType.Boolean)
-            {
-                ComponentType = FormApplicationGenerator.ComponentType.BCheckBox;
-            }
-            else
-            {
-                ComponentType = FormApplicationGenerator.ComponentType.BInput;
-            }
-        }
-        #endregion
-
-        #region Public Properties
-        public ComponentType? ComponentType { get; set; }
-        public DotNetType     DotNetType    { get; }
-        public string         Name          { get; }
-        public string         ParamType     { get; set; }
-        public string Label { get; set; }
-        #endregion
-    }
-
-    [Serializable]
-    public enum ComponentType
-    {
-        BAccountComponent,
-        BDateTimePicker,
-        BInput,
-        BInputNumeric,
-        BParameterComponent,
-        BBranchComponent,
-        BCheckBox
-    }
-
-    [Serializable]
-    public enum DotNetType
-    {
-        Int32,
-        String,
-        Decimal,
-        DateTime,
-        Boolean
     }
 }

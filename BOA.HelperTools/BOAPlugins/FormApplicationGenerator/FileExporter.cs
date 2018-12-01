@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOAPlugins.ExportingModel;
+using BOAPlugins.FormApplicationGenerator.Types;
 
 namespace BOAPlugins.FormApplicationGenerator
 {

@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using BOA.CodeGeneration.Generators;
 using BOA.Common.Helpers;
+using BOAPlugins.FormApplicationGenerator.Types;
 
 namespace BOAPlugins.FormApplicationGenerator
 {
