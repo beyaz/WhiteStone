@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOAPlugins.FormApplicationGenerator
+namespace BOAPlugins.FormApplicationGenerator.Templates
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOAPlugins.FormApplicationGenerator
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BCardTemplate : BCardTemplateBase
+    public partial class BTabControlTemplate : BTabControlTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,100 +28,57 @@ namespace BOAPlugins.FormApplicationGenerator
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(" <BCard context={context} ");
+            this.Write("{\r\n");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-    if(HasTitle)
-            
-            #line default
-            #line hidden
-            
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-    {
-            
-            #line default
-            #line hidden
-            this.Write("Title={Message.");
-            
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Title));
-            
-            #line default
-            #line hidden
-            this.Write("}");
-            
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-    }
+            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+int i=0,end = TabPages.Count - 1;
             
             #line default
             #line hidden
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-    if(HasColumnIndex)
+            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+for(i=0; i < end;i++)
             
             #line default
             #line hidden
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-    {
-            
-            #line default
-            #line hidden
-            this.Write("column={");
-            
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ColumnIndex));
-            
-            #line default
-            #line hidden
-            this.Write("}");
-            
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-    }
-            
-            #line default
-            #line hidden
-            this.Write(">\r\n");
-            
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-foreach (var component in Components)
-            
-            #line default
-            #line hidden
-            
-            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
+            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
 {
             
             #line default
             #line hidden
-            this.Write("    ");
             
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-component.PushIndent("    ");
-            
-            #line default
-            #line hidden
-            this.Write("    ");
-            
-            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-component.TransformText();
-            
-            #line default
-            #line hidden
-            this.Write("    ");
-            
-            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
-component.PopIndent();
+            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+TabPages[i].PushIndent(CurrentIndent + "    ");
             
             #line default
             #line hidden
             
-            #line 12 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
+            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TabPages[i].TransformText()));
+            
+            #line default
+            #line hidden
+            this.Write(",\r\n");
+            
+            #line 12 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("           \r\n</BCard>");
+            
+            #line 13 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+TabPages[end].PushIndent(CurrentIndent + "    ");
+            
+            #line default
+            #line hidden
+            
+            #line 14 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TabPages[end].TransformText()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n}\r\n\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -133,7 +90,7 @@ component.PopIndent();
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BCardTemplateBase
+    public class BTabControlTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

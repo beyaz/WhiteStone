@@ -7,10 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-
-using System.CodeDom.Compiler;
-
-namespace BOAPlugins.FormApplicationGenerator
+namespace BOAPlugins.FormApplicationGenerator.Templates
 {
     using System.Linq;
     using System.Text;
@@ -21,9 +18,9 @@ namespace BOAPlugins.FormApplicationGenerator
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-    [GeneratedCode("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class OrchestrationFileForListForm : OrchestrationFileForListFormBase
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\TabPageTemplate.tt"
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
+    public partial class TabPageTemplate : TabPageTemplateBase
     {
 #line hidden
         /// <summary>
@@ -31,159 +28,27 @@ namespace BOAPlugins.FormApplicationGenerator
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System.Collections.Generic;\r\nusing BOA.Base;\r\nusing BOA.Common.Types;\r\nusin" +
-                    "g BOA.Common.Helpers;\r\nusing ");
+            this.Write("{\r\n    text:");
             
-            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.NamespaceNameForType));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n\r\nnamespace ");
-            
-            #line 12 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.NamespaceName));
+            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\TabPageTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(text));
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n    public class ");
+            this.Write(",\r\n    content:");
             
-            #line 14 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.ClassName));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n    {\r\n        /// <summary>\r\n        ///     Loads the data.\r\n        /// </su" +
-                    "mmary>\r\n        public GenericResponse<");
-            
-            #line 19 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.RequestName));
-            
-            #line default
-            #line hidden
-            this.Write("> LoadData(");
-            
-            #line 19 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.RequestName));
-            
-            #line default
-            #line hidden
-            this.Write(" request, ObjectHelper objectHelper)\r\n        {\r\n            var returnObject = o" +
-                    "bjectHelper.InitializeResponse(request);\r\n\r\n            request = new ");
-            
-            #line 23 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.RequestName));
-            
-            #line default
-            #line hidden
-            this.Write("();\r\n\r\n            request.DataSource.DataGridInfo = GetDataGridInfo();\r\n        " +
-                    "    request.DataSource.Records      = new List<");
-            
-            #line 26 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.DefinitionFormDataClassName));
-            
-            #line default
-            #line hidden
-            this.Write(">();\r\n\r\n            returnObject.Value = request;\r\n\r\n            return returnObj" +
-                    "ect;\r\n        }\r\n\r\n        /// <summary>\r\n        ///     Gets the information.\r" +
-                    "\n        /// </summary>\r\n        public GenericResponse<");
-            
-            #line 36 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.RequestName));
-            
-            #line default
-            #line hidden
-            this.Write("> GetInfo(");
-            
-            #line 36 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.RequestName));
-            
-            #line default
-            #line hidden
-            this.Write(@" request, ObjectHelper objectHelper)
-        {
-            var returnObject = objectHelper.InitializeResponse(request);
-            var data         = request.Data;
-            var dataSource   = request.DataSource;
-           
-
-            #region TODO: Expects code
-            dataSource.Records = RandomValue.ListOf<");
-            
-            #line 44 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.DefinitionFormDataClassName));
-            
-            #line default
-            #line hidden
-            this.Write(@">();
-            #endregion
-
-            request.StatusMessage = dataSource.Records.Count + Message.RecordsWereBrought;
-
-            return returnObject;
-        }
-
-        /// <summary>
-        ///     Gets the data grid information.
-        /// </summary>
-        static DataGridInfo GetDataGridInfo()
-        {
-            return DataGridInfo.Create(typeof(");
-            
-            #line 57 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.DefinitionFormDataClassName));
-            
-            #line default
-            #line hidden
-            this.Write("), new[]\r\n            {\r\n");
-            
-            #line 59 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-for(int i = 0; i < GridColumnFields.Count - 1; i++)
+            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\TabPageTemplate.tt"
+content.PushIndent(CurrentIndent+"    ");
             
             #line default
             #line hidden
             
-            #line 60 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-{
+            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\TabPageTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(content.TransformText()));
             
             #line default
             #line hidden
-            this.Write("                nameof(");
-            
-            #line 61 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.DefinitionFormDataClassName));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 61 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GridColumnFields[i]));
-            
-            #line default
-            #line hidden
-            this.Write("),\r\n");
-            
-            #line 62 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write("                nameof(");
-            
-            #line 63 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.DefinitionFormDataClassName));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 63 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\OrchestrationFileForListForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GridColumnFields[GridColumnFields.Count - 1]));
-            
-            #line default
-            #line hidden
-            this.Write(")\r\n            });\r\n        }        \r\n    }\r\n}");
+            this.Write("\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -195,7 +60,7 @@ for(int i = 0; i < GridColumnFields.Count - 1; i++)
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class OrchestrationFileForListFormBase
+    public class TabPageTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOAPlugins.ExportingModel;
+using BOAPlugins.FormApplicationGenerator.Logic;
+using BOAPlugins.FormApplicationGenerator.Templates;
 using BOAPlugins.FormApplicationGenerator.Types;
 
 namespace BOAPlugins.FormApplicationGenerator
@@ -57,7 +59,7 @@ namespace BOAPlugins.FormApplicationGenerator
             Util.WriteFileIfContentNotEqual(typesFolder + Model.FormName + "ListForm.cs", TypeFileForListForm.GenerateCode(Model));
             Util.WriteFileIfContentNotEqual(typesFolder + Model.FormName + "Form.cs", TypeFileForDefinitionForm.GenerateCode(Model));
 
-            Util.WriteFileIfContentNotEqual(Model.OrchestrationProjectFolder + Model.FormName + "ListForm.cs", OrchestrationFileForListForm.GenerateCode(Model));
+            Util.WriteFileIfContentNotEqual(Model.OrchestrationProjectFolder + Model.FormName + "ListForm.cs", Model.ToOrchestrationFileForListForm().TransformText());
             Util.WriteFileIfContentNotEqual(Model.OrchestrationProjectFolder + Model.FormName + "Form.cs", OrchestrationFileForDefinitionForm.GenerateCode(Model));
 
             FormAssistantProjectInitializer.Initialize(Model);

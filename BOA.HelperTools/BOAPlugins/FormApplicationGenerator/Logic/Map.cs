@@ -1,17 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BOA.Common.Helpers;
 using BOAPlugins.ExportingModel;
+using BOAPlugins.FormApplicationGenerator.Templates;
 using BOAPlugins.FormApplicationGenerator.Types;
 
-namespace BOAPlugins.FormApplicationGenerator
+namespace BOAPlugins.FormApplicationGenerator.Logic
 {
     public static class Map
     {
-
+        public static OrchestrationFileForListForm ToOrchestrationFileForListForm(this Model Model)
+        {
+            return  new OrchestrationFileForListForm
+            {
+                NamespaceNameForType        = Model.NamespaceNameForType,
+                NamespaceName               = Model.NamespaceNameForOrchestration,
+                ClassName                   = Model.FormName + "ListForm",
+                RequestName                 = Model.RequestNameForList,
+                DefinitionFormDataClassName = Model.DefinitionFormDataClassName,
+                GridColumnFields            = Model.FormDataClassFields.Select(fieldInfo => fieldInfo.Name).ToArray()
+            };
+        }
         public static TransactionPageTemplate ToTransactionPageTemplate(this Model model)
         {
             var template= new TransactionPageTemplate

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BOA.Common.Helpers;
+using BOAPlugins.FormApplicationGenerator.Templates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOAPlugins.FormApplicationGenerator

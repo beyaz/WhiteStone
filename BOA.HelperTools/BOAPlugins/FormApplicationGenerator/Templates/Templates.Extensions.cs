@@ -2,7 +2,7 @@
 using System.Linq;
 using BOAPlugins.FormApplicationGenerator.Types;
 
-namespace BOAPlugins.FormApplicationGenerator
+namespace BOAPlugins.FormApplicationGenerator.Templates
 {partial class TabPageTemplate
     {
         public BCardSectionTemplate content { get; set; }
@@ -45,21 +45,7 @@ namespace BOAPlugins.FormApplicationGenerator
         public string                RequestName                 { get; set; }
         #endregion
 
-        #region Public Methods
-        public static string GenerateCode(Model Model)
-        {
-            var orchestrationFileTemplate = new OrchestrationFileForListForm
-            {
-                NamespaceNameForType        = Model.NamespaceNameForType,
-                NamespaceName               = Model.NamespaceNameForOrchestration,
-                ClassName                   = Model.FormName + "ListForm",
-                RequestName                 = Model.RequestNameForList,
-                DefinitionFormDataClassName = Model.DefinitionFormDataClassName,
-                GridColumnFields            = Model.FormDataClassFields.Select(fieldInfo => fieldInfo.Name).ToArray()
-            };
-            return orchestrationFileTemplate.TransformText();
-        }
-        #endregion
+       
     }
 
     partial class BFieldTemplate
