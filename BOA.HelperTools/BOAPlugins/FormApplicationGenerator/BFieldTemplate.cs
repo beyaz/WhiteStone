@@ -18,9 +18,9 @@ namespace BOAPlugins.FormApplicationGenerator
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BoaJsxComponentRenderTemplate : BoaJsxComponentRenderTemplateBase
+    public partial class BFieldTemplate : BFieldTemplateBase
     {
 #line hidden
         /// <summary>
@@ -29,41 +29,41 @@ namespace BOAPlugins.FormApplicationGenerator
         public virtual string TransformText()
         {
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 if(IsBDateTimePicker)
             
             #line default
             #line hidden
             
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 {
             
             #line default
             #line hidden
             this.Write("<BDateTimePicker format = \"DDMMYYYY\")\r\n                 value  = {data.");
             
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write("}\r\n                 dateOnChange = {(e: any, value: Date) => data.");
             
-            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write(" = value}\r\n                 floatingLabelTextDate = {");
             
-            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Label));
             
             #line default
             #line hidden
             this.Write("}\r\n                 context = {context}/>\r\n");
             
-            #line 13 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 13 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 }
 else if(IsBDateTimePicker)
 {
@@ -72,28 +72,28 @@ else if(IsBDateTimePicker)
             #line hidden
             this.Write("<BInput value    = {data.");
             
-            #line 16 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 16 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write("}\r\n        onChange = {(e: any, value: string) => data.");
             
-            #line 17 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 17 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write(" = value}\r\n        floatingLabelTextDate = {");
             
-            #line 18 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 18 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Label));
             
             #line default
             #line hidden
             this.Write("}\r\n        context = {context}/>\r\n");
             
-            #line 20 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 20 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 }
 else if(IsBInputNumericDecimal)
 {
@@ -102,21 +102,21 @@ else if(IsBInputNumericDecimal)
             #line hidden
             this.Write("<BInputNumeric value = {data.");
             
-            #line 23 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 23 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write("}\r\n               onChange = {(e: any, value: any) => data.");
             
-            #line 24 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 24 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write(" = value}\r\n               floatingLabelTextDate = {");
             
-            #line 25 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 25 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Label));
             
             #line default
@@ -124,7 +124,7 @@ else if(IsBInputNumericDecimal)
             this.Write("}\r\n               format = {\"D\"}\r\n               maxLength = {22}\r\n              " +
                     " context = {context}/>\r\n");
             
-            #line 29 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 29 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 }
 else if(IsBInputNumeric)
 {
@@ -133,28 +133,28 @@ else if(IsBInputNumeric)
             #line hidden
             this.Write("<BInputNumeric value = {data.");
             
-            #line 32 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 32 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write("}\r\n               onChange = {(e: any, value: any) => data.");
             
-            #line 33 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 33 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write(" = value}\r\n               floatingLabelTextDate = {");
             
-            #line 34 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 34 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Label));
             
             #line default
             #line hidden
             this.Write("}\r\n               maxLength = {10}\r\n               context = {context}/>\r\n");
             
-            #line 37 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 37 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 }
 else if(IsBAccountComponent)
 {
@@ -163,14 +163,14 @@ else if(IsBAccountComponent)
             #line hidden
             this.Write("<BAccountComponent accountNumber = {data.");
             
-            #line 40 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 40 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write("}\r\n                   onAccountSelect = {(selectedAccount: any) => data.");
             
-            #line 41 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 41 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
@@ -184,7 +184,7 @@ else if(IsBAccountComponent)
                    context = {context}/>
 ");
             
-            #line 48 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 48 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 }
 else if(IsBCheckBox)
 {
@@ -193,28 +193,28 @@ else if(IsBCheckBox)
             #line hidden
             this.Write("<BCheckBox checked = {data.");
             
-            #line 51 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 51 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write("}\r\n           onCheck = {(e: Object, isChecked: boolean) => data.");
             
-            #line 52 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 52 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
             #line hidden
             this.Write(" = isChecked}\r\n           label = {");
             
-            #line 53 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 53 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Label));
             
             #line default
             #line hidden
             this.Write("}\r\n           context = {context}/>\r\n");
             
-            #line 55 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 55 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 }
 else if(IsBParameterComponent && ValueTypeIsInt32)
 {
@@ -223,7 +223,7 @@ else if(IsBParameterComponent && ValueTypeIsInt32)
             #line hidden
             this.Write(" <BParameterComponent selectedParamCode = {Helper.numberToString(data.");
             
-            #line 58 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 58 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
@@ -231,7 +231,7 @@ else if(IsBParameterComponent && ValueTypeIsInt32)
             this.Write(")}\r\n                      onParameterSelect = {(selectedParameter: BOA.Types.Kern" +
                     "el.General.ParameterContract) => data.");
             
-            #line 59 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 59 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
@@ -239,21 +239,21 @@ else if(IsBParameterComponent && ValueTypeIsInt32)
             this.Write(" = selectedParameter ? Helper.stringToNumber(selectedParameter.paramCode) : null}" +
                     "\r\n                      paramType =\"");
             
-            #line 60 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 60 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ParamType));
             
             #line default
             #line hidden
             this.Write("\"\r\n                      hintText  = {");
             
-            #line 61 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 61 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Label));
             
             #line default
             #line hidden
             this.Write("}\r\n                      labelText = {");
             
-            #line 62 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 62 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Label));
             
             #line default
@@ -266,14 +266,14 @@ else if(IsBParameterComponent && ValueTypeIsInt32)
                       ]}
                       ref = {(r: any) => this.snaps.");
             
-            #line 68 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 68 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SnapName));
             
             #line default
             #line hidden
             this.Write(" = r}\r\n                      context = {context}/>\r\n\r\n");
             
-            #line 71 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 71 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 }
 else if(IsBParameterComponent)
 {
@@ -282,7 +282,7 @@ else if(IsBParameterComponent)
             #line hidden
             this.Write(" <BParameterComponent selectedParamCode = {data.");
             
-            #line 74 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 74 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
@@ -290,7 +290,7 @@ else if(IsBParameterComponent)
             this.Write("}\r\n                      onParameterSelect = {(selectedParameter: BOA.Types.Kerne" +
                     "l.General.ParameterContract) => data.");
             
-            #line 75 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 75 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
@@ -298,21 +298,21 @@ else if(IsBParameterComponent)
             this.Write(" = selectedParameter ? selectedParameter.paramCode : null}\r\n                     " +
                     " paramType =\"");
             
-            #line 76 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 76 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ParamType));
             
             #line default
             #line hidden
             this.Write("\"\r\n                      hintText  = {");
             
-            #line 77 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 77 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Label));
             
             #line default
             #line hidden
             this.Write("}\r\n                      labelText = {");
             
-            #line 78 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 78 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Label));
             
             #line default
@@ -325,14 +325,14 @@ else if(IsBParameterComponent)
                       ]}
                       ref = {(r: any) => this.snaps.");
             
-            #line 84 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 84 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SnapName));
             
             #line default
             #line hidden
             this.Write(" = r}\r\n                      context = {context}/>\r\n\r\n");
             
-            #line 87 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 87 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 }
 else if(IsBBranchComponent)
 {
@@ -341,7 +341,7 @@ else if(IsBBranchComponent)
             #line hidden
             this.Write("<BBranchComponent selectedBranchId = {data.");
             
-            #line 90 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 90 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
@@ -349,7 +349,7 @@ else if(IsBBranchComponent)
             this.Write("}\r\n                  onBranchSelect   = {(selectedBranch: BOA.Common.Types.Branch" +
                     "Contract) => data.");
             
-            #line 91 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 91 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValueAccessPath));
             
             #line default
@@ -357,7 +357,7 @@ else if(IsBBranchComponent)
             this.Write(" = selectedBranch ? selectedBranch.branchId : null}\r\n                  mode      " +
                     " = {\"horizontal\"}\r\n                  labelText  = {");
             
-            #line 93 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 93 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Label));
             
             #line default
@@ -365,7 +365,7 @@ else if(IsBBranchComponent)
             this.Write("}\r\n                  sortOption = {BBranchComponent.name}                      \r\n" +
                     "                  context    = {context}/>\r\n\r\n");
             
-            #line 97 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt"
+            #line 97 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BFieldTemplate.tt"
 }
             
             #line default
@@ -382,7 +382,7 @@ else if(IsBBranchComponent)
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BoaJsxComponentRenderTemplateBase
+    public class BFieldTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

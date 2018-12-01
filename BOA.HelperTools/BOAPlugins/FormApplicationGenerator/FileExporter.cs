@@ -20,9 +20,36 @@ namespace BOAPlugins.FormApplicationGenerator
         #endregion
 
         #region Public Methods
+
+        static void FixData(Model model)
+        {
+            if (model.ListFormSearchFields == null)
+            {
+                model.ListFormSearchFields = new List<BField>();
+            }
+
+            foreach (var bField in model.ListFormSearchFields)
+            {
+                if (bField.Label == null)
+                {
+                    if (model.UserRawStringForMessaging)
+                    {
+                        bField.Label = '"' + bField.Name + '"';
+                    }
+                    else
+                    {
+                        bField.Label = "Message." + bField.Name;
+                    }
+                }
+            }
+        }
+
+
         public void ExportFiles()
         {
             var typesFolder = Model.TypesProjectFolder;
+
+            FixData(Model);
 
             var oneProjectFolder = Model.OneProjectFolder;
 

@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
- <BCard context={context} <#    if(HasTitle)#><#    {#>Title={<#=Title#>}<#    }#><#    if(HasColumnIndex)#><#    {#>column={<#=ColumnIndex#>}<#    }#>>
+ <BCard context={context} <#    if(HasTitle)#><#    {#>Title={Message.<#=Title#>}<#    }#><#    if(HasColumnIndex)#><#    {#>column={<#=ColumnIndex#>}<#    }#>>
 <#foreach (var component in Components)#>
 <#{#>
     <#component.PushIndent("    ");#>

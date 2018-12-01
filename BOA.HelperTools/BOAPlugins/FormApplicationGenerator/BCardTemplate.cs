@@ -41,7 +41,7 @@ namespace BOAPlugins.FormApplicationGenerator
             
             #line default
             #line hidden
-            this.Write("Title={");
+            this.Write("Title={Message.");
             
             #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BCardTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Title));

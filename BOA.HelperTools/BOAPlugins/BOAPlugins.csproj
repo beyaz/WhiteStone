@@ -104,32 +104,33 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BCardTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="FormApplicationGenerator\BoaJsxComponentRenderTemplate.cs">
+    <Compile Include="FormApplicationGenerator\BFieldTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BoaJsxComponentRenderTemplate.tt</DependentUpon>
+      <DependentUpon>BFieldTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="FormApplicationGenerator\BrowsePageTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BrowsePageTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="FormApplicationGenerator\Map.cs" />
     <Compile Include="FormApplicationGenerator\Templates.Extensions.cs" />
     <Compile Include="FormApplicationGenerator\FileExporter.cs" />
     <Compile Include="FormApplicationGenerator\Extensions.cs" />
     <Compile Include="FormApplicationGenerator\DefinitionFormTsxFile.cs" />
     <Compile Include="FormApplicationGenerator\FormAssistantProjectInitializer.cs" />
-    <Compile Include="FormApplicationGenerator\JSXElementForRenderBrowsePage.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JSXElementForRenderBrowsePage.tt</DependentUpon>
-    </Compile>
     <Compile Include="FormApplicationGenerator\OrchestrationFileForListForm.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OrchestrationFileForListForm.tt</DependentUpon>
     </Compile>
     <Compile Include="FormApplicationGenerator\OrchestrationFileForDefinitionForm.cs" />
+    <Compile Include="FormApplicationGenerator\TransactionPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransactionPageTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="FormApplicationGenerator\TsxCodeGeneration.cs" />
     <Compile Include="FormApplicationGenerator\TypeFileForDefinitionForm.cs" />
     <Compile Include="FormApplicationGenerator\ListFormTsxFile.cs" />
@@ -238,21 +239,21 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BCardTemplate.cs</LastGenOutput>
     </Content>
-    <Content Include="FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt">
+    <Content Include="FormApplicationGenerator\BFieldTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BoaJsxComponentRenderTemplate.cs</LastGenOutput>
+      <LastGenOutput>BFieldTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="FormApplicationGenerator\BrowsePageTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BrowsePageTemplate.cs</LastGenOutput>
     </Content>
-    <Content Include="FormApplicationGenerator\JSXElementForRenderBrowsePage.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JSXElementForRenderBrowsePage.cs</LastGenOutput>
-    </Content>
     <Content Include="FormApplicationGenerator\OrchestrationFileForListForm.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>OrchestrationFileForListForm.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\TransactionPageTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>TransactionPageTemplate.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

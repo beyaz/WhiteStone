@@ -4,7 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 import * as React from "react"
-import { BrowsePage, BrowsePageComposer } from "b-framework"
+import { TransactionPage, TransactionPageComposer } from "b-framework"
 import { BAccountComponent } from "b-account-component"
 import { BInput } from "b-input"
 import { BComboBox } from "b-combo-box"
@@ -57,50 +57,37 @@ class <#=ClassName#> extends BrowsePage
         this.connect(this);
 
         FormAssistant.initialize(this,RequestName.<#=RequestName#>);
-    }
-
-    onRowSelectionChanged()
-    {
-        this.evaluateActionStates();
+<#if(IsTabForm)#>
+<#{#>
+        this.tabEnabled = true;
+<#}#>
     }
 
     evaluateActionStates()
     {
-        if (Helper.isOnlyOneRecordSelected(this))
+        if (this.state.pageParams.data)
         {
-            this.enableAction(CommandName.Open);
-        }
-        else
-        {
-            this.disableAction(CommandName.Open);
+            this.disableAction(CommandName.New);
         }
     }
-
-    onActionClick(command: Common.ResourceActionContract)
+<#if(HasWorkFlow)#>
+<#{#>
+    onActionClick(command: Common.ResourceActionContract, executeWorkFlow: () => void)
     {
-        switch (command.commandName)
-        {
-            case CommandName.Open:
-            {
-                if (!Helper.isOnlyOneRecordSelected(this))
-                {
-                    this.showStatusMessage(Message.RecordChoosing);
-                    return;
-                }
-
-                const data = this.getSelectedRows()[0];
-
-                BFormManager.show(ResourceCode.<#=DetailFormClassName#>, data, /*showAsNewPage*/true);
-
-                return;
-            }
-
-
-        }
+        this.executeWorkFlow = executeWorkFlow;
 
         FormAssistant.executeWindowRequest(this,command.commandName);
-    }
 
+        return /*isCompleted*/false;
+    }
+<#}else {#>
+    onActionClick(command: Common.ResourceActionContract)
+    {
+        FormAssistant.executeWindowRequest(this,command.commandName);
+
+        return /*isCompleted*/true;
+    }
+<#}#>
     componentDidMount()
     {
         super.componentDidMount();
@@ -112,7 +99,30 @@ class <#=ClassName#> extends BrowsePage
     {
         return FormAssistant.receiveResponse(this,proxyResponse);
     }
+<#if(IsTabForm)#>
+<#{#>
+    renderTab()
+    {
+        if (!FormAssistant.isReadyToRender(this))
+        {
+            return [];
+        }
+        
+        const context    = this.state.context;
 
+        const windowRequest = this.assistant.getWindowRequest();
+        
+        const windowRequest: <#=RequestName#> = FormAssistant.getWindowRequest(this);
+
+        const data       = windowRequest.data;
+        const dataSource = windowRequest.dataSource;
+
+        return [
+            
+        ];
+    }
+<#} else#>
+<#    {#>
     render()
     {
         if (!FormAssistant.isReadyToRender(this))
@@ -120,7 +130,7 @@ class <#=ClassName#> extends BrowsePage
             return <div/>;
         }
 
-        const context = this.state.context;
+        const context    = this.state.context;
 
         const windowRequest = this.assistant.getWindowRequest();
         
@@ -130,18 +140,14 @@ class <#=ClassName#> extends BrowsePage
         const dataSource = windowRequest.dataSource;
 
         return (
-            <BGridSection context={context}>
-<#foreach (var component in Components)#>
-<#{#>
-                <BGridRow context={context}>
-    <#component.PushIndent("                    ");#>
-    <#component.TransformText();#>
-    <#component.PopIndent();#>
-                </BGridRow>
-<#}#>           
-</BGridSection>
+            
         );
     }
+<#    }#>
+    
+    
+
+       
 }
 
-export default BrowsePageComposer(<#=ClassName#>);
+export default TransactionPageComposer(<#=ClassName#>);

@@ -3,6 +3,17 @@ using System.Linq;
 
 namespace BOAPlugins.FormApplicationGenerator
 {
+    partial class TransactionPageTemplate
+    {
+        public bool HasWorkFlow { get; set; }
+        public bool IsTabForm { get; set; }
+        public string                        NamespaceNameForType { get; set; }
+        public string                        RequestName          { get; set; }
+        public string                        ClassName            { get; set; }
+        public string                        DetailFormClassName  { get; set; }
+        public IReadOnlyList<SnapInfo>       Snaps                { get; set; }
+        public IReadOnlyList<BFieldTemplate> Components { get; set; }
+    }
     partial class BrowsePageTemplate
     {
         public string NamespaceNameForType { get; set; }
@@ -10,6 +21,7 @@ namespace BOAPlugins.FormApplicationGenerator
         public string ClassName { get; set; }
         public string DetailFormClassName { get; set; }
         public IReadOnlyList<SnapInfo> Snaps { get; set; }
+        public IReadOnlyList<BFieldTemplate> Components { get; set; }
     }
     partial class OrchestrationFileForListForm
     {
@@ -39,7 +51,7 @@ namespace BOAPlugins.FormApplicationGenerator
         #endregion
     }
 
-    partial class BoaJsxComponentRenderTemplate
+    partial class BFieldTemplate
     {
         #region Public Properties
         public bool   IsBAccountComponent    { get; set; }
@@ -58,18 +70,13 @@ namespace BOAPlugins.FormApplicationGenerator
         #endregion
     }
 
-    partial class JSXElementForRenderBrowsePage
-    {
-        #region Public Properties
-        public IReadOnlyList<BoaJsxComponentRenderTemplate> Components { get; set; }
-        #endregion
-    }
+    
 
     partial class BCardTemplate
     {
         #region Public Properties
         public int?                                         ColumnIndex { get; set; }
-        public IReadOnlyList<BoaJsxComponentRenderTemplate> Components  { get; set; }
+        public IReadOnlyList<BFieldTemplate> Components  { get; set; }
         public string                                       Title       { get; set; }
         #endregion
 

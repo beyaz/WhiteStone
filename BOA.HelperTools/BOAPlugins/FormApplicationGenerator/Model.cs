@@ -5,6 +5,11 @@ using BOA.Common.Helpers;
 
 namespace BOAPlugins.FormApplicationGenerator
 {
+    public class SnapInfo
+    {
+        public string Name              { get; set; }
+        public string ComponentTypeName { get; set; }
+    }
     [Serializable]
     public class Model
     {
@@ -173,6 +178,7 @@ namespace BOAPlugins.FormApplicationGenerator
         public DotNetType     DotNetType    { get; }
         public string         Name          { get; }
         public string         ParamType     { get; set; }
+        public string Label { get; set; }
         #endregion
     }
 
