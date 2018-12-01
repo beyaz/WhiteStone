@@ -99,16 +99,14 @@ namespace BOAPlugins.DocumentFile
         /// <summary>
         ///     Handles this instance.
         /// </summary>
-        public Result Handle(Data data)
+        public void Handle(Data data)
         {
-            var Result = new Result();
-
             var code = data.CSharpCode;
 
             if (code == null)
             {
-                Result.ErrorMessage = "There is no available code.";
-                return Result;
+                data.ErrorMessage = "There is no available code.";
+                return;
             }
 
             var lines = code.Split('\n');
@@ -177,9 +175,7 @@ namespace BOAPlugins.DocumentFile
 
             IndentSummary(returnList);
 
-            Result.CSharpCode = string.Join('\n'.ToString(), returnList);
-
-            return Result;
+            data.CSharpCode = string.Join('\n'.ToString(), returnList);
         }
         #endregion
 
@@ -206,7 +202,7 @@ namespace BOAPlugins.DocumentFile
                 if (line.TrimStart().StartsWith("///") && inSummary)
                 {
                     var firstCharIndex = line.IndexOf("///", StringComparison.Ordinal);
-                    
+
                     lines[i] = " ".PadRight(firstCharIndex) + "///     " + line.TrimStart().RemoveFromStart("///").TrimStart();
                     continue;
                 }

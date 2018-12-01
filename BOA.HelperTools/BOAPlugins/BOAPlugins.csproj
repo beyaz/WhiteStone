@@ -155,7 +155,6 @@
     <Compile Include="ExportingModel\Exporter.cs" />
     <Compile Include="DocumentFile\Handler.cs" />
     <Compile Include="DocumentFile\Input.cs" />
-    <Compile Include="DocumentFile\Result.cs" />
     <Compile Include="ExportingModel\Handler.cs" />
     <Compile Include="Messaging\MessagingExporter.cs" />
     <Compile Include="ExportingModel\Types.cs" />
