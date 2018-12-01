@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using BOA.DatabaseAccess;
 using WhiteStone.Helpers;
 
-namespace BOAPlugins.ExportingModel
+namespace BOAPlugins.Messaging
 {
     class PropertyInfo
     {

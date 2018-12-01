@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using BOAPlugins.ExportingModel;
+using BOAPlugins.Messaging;
 
 namespace BOAPlugins.VSIntegration
 {
@@ -12,9 +13,9 @@ namespace BOAPlugins.VSIntegration
         #region Public Methods
         public void RemoveUnusedMessagesInCsCodes()
         {
-            var data = new ExportAsCSharpCodeData
+            var data = new MessagingExporterData
             {
-                solutionFilePath       = VisualStudio.GetSolutionFilePath(),
+                SolutionFilePath       = VisualStudio.GetSolutionFilePath(),
                 RemoveUnusedProperties = true
             };
 
@@ -33,9 +34,9 @@ namespace BOAPlugins.VSIntegration
         {
             var solutionFilePath = VisualStudio.GetSolutionFilePath();
 
-            var data = new ExportAsCSharpCodeData
+            var data = new MessagingExporterData
             {
-                solutionFilePath       = solutionFilePath,
+                SolutionFilePath       = solutionFilePath,
                 RemoveUnusedProperties = true
             };
             MessagingExporter.ExportAsTypeScriptCode(data);
@@ -51,9 +52,9 @@ namespace BOAPlugins.VSIntegration
 
         public void UpdateMessageCs()
         {
-            var data = new ExportAsCSharpCodeData
+            var data = new MessagingExporterData
             {
-                solutionFilePath = VisualStudio.GetSolutionFilePath()
+                SolutionFilePath = VisualStudio.GetSolutionFilePath()
             };
 
             MessagingExporter.ExportAsCSharpCode(data);
@@ -69,9 +70,9 @@ namespace BOAPlugins.VSIntegration
 
         public void UpdateMessageTsx()
         {
-            var data = new ExportAsCSharpCodeData
+            var data = new MessagingExporterData
             {
-                solutionFilePath = VisualStudio.GetSolutionFilePath()
+                SolutionFilePath = VisualStudio.GetSolutionFilePath()
             };
 
             MessagingExporter.ExportAsTypeScriptCode(data);

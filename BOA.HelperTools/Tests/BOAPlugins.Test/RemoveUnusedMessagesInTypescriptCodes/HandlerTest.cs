@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BOAPlugins.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOAPlugins.RemoveUnusedMessagesInTypescriptCodes
@@ -28,7 +29,7 @@ Message.ABCD,
 
 ";
 
-            Handler.PickupMessage(tsxCode, dictionary);
+            MessagesCleaner.PickupMessage(tsxCode, dictionary);
 
             Assert.AreEqual(4, dictionary.Count);
         }

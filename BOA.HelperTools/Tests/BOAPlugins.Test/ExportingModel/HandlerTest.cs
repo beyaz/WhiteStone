@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using BOAPlugins.Messaging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOAPlugins.ExportingModel
 {
@@ -14,17 +15,17 @@ namespace BOAPlugins.ExportingModel
 
             Assert.IsNull(result.ErrorMessage);
 
-            var data = new ExportAsCSharpCodeData
+            var data = new MessagingExporterData
             {
-                solutionFilePath = path
+                SolutionFilePath = path
             };
 
             MessagingExporter.ExportAsTypeScriptCode(data);
             Assert.IsNull(data.ErrorMessage);
 
-            data = new ExportAsCSharpCodeData
+            data = new MessagingExporterData
             {
-                solutionFilePath       = path,
+                SolutionFilePath       = path,
                 RemoveUnusedProperties = true
             };
 

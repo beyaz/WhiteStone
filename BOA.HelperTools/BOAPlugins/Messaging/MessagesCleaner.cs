@@ -3,26 +3,12 @@ using System.IO;
 using System.Text.RegularExpressions;
 using BOA.Common.Helpers;
 
-namespace BOAPlugins.RemoveUnusedMessagesInTypescriptCodes
+namespace BOAPlugins.Messaging
 {
-    class Handler
+    class MessagesCleaner
     {
         #region Public Methods
-        public static void Handle(string directoryPath, IDictionary<string, string> propertyNames, string excludedFile)
-        {
-            var files = Directory.GetFiles(directoryPath, "*.tsx", SearchOption.AllDirectories);
-            foreach (var file in files)
-            {
-                if (file == excludedFile)
-                {
-                    continue;
-                }
-
-                PickupMessage(File.ReadAllText(file), propertyNames);
-            }
-        }
-
-        public static void HandleForCs(string directoryPath, IDictionary<string, string> propertyNames, string excludedFile)
+        public static void SearchPropertyNamesForCs(string directoryPath, IDictionary<string, string> usedPropertyNames, string excludedFile)
         {
             var files = Directory.GetFiles(directoryPath, "*.cs", SearchOption.AllDirectories);
             foreach (var file in files)
@@ -32,7 +18,7 @@ namespace BOAPlugins.RemoveUnusedMessagesInTypescriptCodes
                     continue;
                 }
 
-                PickupMessage(File.ReadAllText(file), propertyNames);
+                PickupMessage(File.ReadAllText(file), usedPropertyNames);
             }
 
             files = Directory.GetFiles(directoryPath, "*.xaml", SearchOption.AllDirectories);
@@ -43,13 +29,27 @@ namespace BOAPlugins.RemoveUnusedMessagesInTypescriptCodes
                     continue;
                 }
 
-                PickupMessage(File.ReadAllText(file), propertyNames);
+                PickupMessage(File.ReadAllText(file), usedPropertyNames);
+            }
+        }
+
+        public static void SearchPropertyNamesForTsx(string directoryPath, IDictionary<string, string> usedPropertyNames, string excludedFile)
+        {
+            var files = Directory.GetFiles(directoryPath, "*.tsx", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                if (file == excludedFile)
+                {
+                    continue;
+                }
+
+                PickupMessage(File.ReadAllText(file), usedPropertyNames);
             }
         }
         #endregion
 
         #region Methods
-        internal static void PickupMessage(string tsxCode, IDictionary<string, string> propertyNames)
+        internal static void PickupMessage(string tsxCode, IDictionary<string, string> usedPropertyNames)
         {
             const string Prefix = "Message.";
 
@@ -60,7 +60,7 @@ namespace BOAPlugins.RemoveUnusedMessagesInTypescriptCodes
             {
                 var propertyName = match.Value.RemoveFromStart(Prefix).Trim();
 
-                propertyNames.SetValue(propertyName, propertyName);
+                usedPropertyNames.SetValue(propertyName, propertyName);
 
                 match = match.NextMatch();
             }

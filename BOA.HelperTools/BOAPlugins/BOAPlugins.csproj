@@ -151,13 +151,13 @@
       <DependentUpon>MainForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Configuration.cs" />
-    <Compile Include="ExportingModel\DataSource.cs" />
+    <Compile Include="Messaging\DataSource.cs" />
     <Compile Include="ExportingModel\Exporter.cs" />
     <Compile Include="DocumentFile\Handler.cs" />
     <Compile Include="DocumentFile\Input.cs" />
     <Compile Include="DocumentFile\Result.cs" />
     <Compile Include="ExportingModel\Handler.cs" />
-    <Compile Include="ExportingModel\MessagingExporter.cs" />
+    <Compile Include="Messaging\MessagingExporter.cs" />
     <Compile Include="ExportingModel\Types.cs" />
     <Compile Include="FormApplicationGenerator\Types\BCard.cs" />
     <Compile Include="FormApplicationGenerator\Types\BField.cs" />
@@ -177,7 +177,7 @@
     <Compile Include="PropertyGeneration\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RemoveUnusedMessagesInTypescriptCodes\Handler.cs" />
+    <Compile Include="Messaging\MessagesCleaner.cs" />
     <Compile Include="SearchProcedure\Input.cs" />
     <Compile Include="SearchProcedure\Result.cs" />
     <Compile Include="SearchProcedure\SqlFileInfo.cs" />

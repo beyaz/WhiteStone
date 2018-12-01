@@ -4,30 +4,28 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BOA.Common.Helpers;
+using BOAPlugins.ExportingModel;
 
-namespace BOAPlugins.ExportingModel
+namespace BOAPlugins.Messaging
 {
-    public class ExportAsCSharpCodeData
+    public class MessagingExporterData
     {
-        #region Fields
-        public string                      solutionFilePath;
-        public IDictionary<string, string> usedPropertyNames;
-        #endregion
-
         #region Public Properties
-        public string ErrorMessage           { get; set; }
-        public string GeneratedCode          { get; set; }
-        public bool   RemoveUnusedProperties { get; set; }
-        public string TargetFilePath         { get; set; }
+        public string                      ErrorMessage           { get; set; }
+        public string                      GeneratedCode          { get; set; }
+        public bool                        RemoveUnusedProperties { get; set; }
+        public string                      SolutionFilePath       { get; set; }
+        public string                      TargetFilePath         { get; set; }
+        public IDictionary<string, string> UsedPropertyNames      { get; set; }
         #endregion
     }
 
     public class MessagingExporter
     {
         #region Public Methods
-        public static void ExportAsCSharpCode(ExportAsCSharpCodeData data)
+        public static void ExportAsCSharpCode(MessagingExporterData data)
         {
-            var solutionFilePath = data.solutionFilePath;
+            var solutionFilePath = data.SolutionFilePath;
             var directory        = Path.GetDirectoryName(solutionFilePath);
 
             if (directory == null)
@@ -48,26 +46,26 @@ namespace BOAPlugins.ExportingModel
 
             if (data.RemoveUnusedProperties)
             {
-                data.usedPropertyNames = new Dictionary<string, string>();
+                data.UsedPropertyNames = new Dictionary<string, string>();
 
-                RemoveUnusedMessagesInTypescriptCodes.Handler.HandleForCs(directory, data.usedPropertyNames, messageFilePath);
+                MessagesCleaner.SearchPropertyNamesForCs(directory, data.UsedPropertyNames, messageFilePath);
             }
 
             var firstLine = File.ReadAllLines(messageFilePath).FirstOrDefault(line => string.IsNullOrWhiteSpace(line) == false);
 
             var config = MessagingExporterInputLineParser.Parse(firstLine);
 
-            data.GeneratedCode  = ExportAsCSharpCode(config.GroupName, config.NamespaceName, data.usedPropertyNames);
+            data.GeneratedCode  = ExportAsCSharpCode(config.GroupName, config.NamespaceName, data.UsedPropertyNames);
             data.TargetFilePath = messageFilePath;
         }
 
-        public static void ExportAsTypeScriptCode(ExportAsCSharpCodeData data)
+        public static void ExportAsTypeScriptCode(MessagingExporterData data)
         {
-            var directory = Path.GetDirectoryName(data.solutionFilePath);
+            var directory = Path.GetDirectoryName(data.SolutionFilePath);
 
             if (directory == null)
             {
-                data.ErrorMessage = "directory is null.@solutionFilePath:" + data.solutionFilePath;
+                data.ErrorMessage = "directory is null.@solutionFilePath:" + data.SolutionFilePath;
                 return;
             }
 
@@ -86,12 +84,12 @@ namespace BOAPlugins.ExportingModel
 
             if (data.RemoveUnusedProperties)
             {
-                data.usedPropertyNames = new Dictionary<string, string>();
+                data.UsedPropertyNames = new Dictionary<string, string>();
 
-                RemoveUnusedMessagesInTypescriptCodes.Handler.Handle(directory, data.usedPropertyNames, messageFilePath);
+                MessagesCleaner.SearchPropertyNamesForTsx(directory, data.UsedPropertyNames, messageFilePath);
             }
 
-            data.GeneratedCode  = ExportGroupAsTypeScriptCode(config.GroupName, data.usedPropertyNames);
+            data.GeneratedCode  = ExportGroupAsTypeScriptCode(config.GroupName, data.UsedPropertyNames);
             data.TargetFilePath = messageFilePath;
         }
 
