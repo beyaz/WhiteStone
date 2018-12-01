@@ -181,8 +181,6 @@
     <Compile Include="SearchProcedure\SqlFileInfo.cs" />
     <Compile Include="SearchProcedure\DirectoryHelper.cs" />
     <Compile Include="SearchProcedure\Extensions.cs" />
-    <Compile Include="GenerateSelectByKeySql\Handler.cs" />
-    <Compile Include="GenerateUpdateSql\Handler.cs" />
     <Compile Include="TypeSearchView\BOATypeDataProvider.cs" />
     <Compile Include="GenerateCSharpCode\Handler.cs" />
     <Compile Include="TypeSearchView\View.xaml.cs">

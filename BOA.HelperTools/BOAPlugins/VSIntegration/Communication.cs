@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using BOAPlugins.GenerateSelectByKeySql;
 using BOAPlugins.ViewClassDependency;
-using Handler = BOAPlugins.GenerateSelectByKeySql.Handler;
 using Result = BOAPlugins.GenerateCSharpCode.Result;
 using View = BOAPlugins.PropertyGeneration.View;
 
@@ -11,7 +9,6 @@ namespace BOAPlugins.VSIntegration
     /// <summary>
     ///     .
     /// </summary>
-    /// <seealso cref="ICommunication" />
     public class Communication : ICommunication
     {
         #region Fields
@@ -30,37 +27,6 @@ namespace BOAPlugins.VSIntegration
         #endregion
 
         #region Public Methods
-        public void GenerateSelectByKeySql(Input input)
-        {
-            try
-            {
-                var handler = new Handler();
-
-                var result = handler.Handle(input);
-
-                Process(result);
-            }
-            catch (Exception e)
-            {
-                Process(new GenerateSelectByKeySql.Result {ErrorMessage = e.ToString()});
-            }
-        }
-
-        public void GenerateUpdateSql(GenerateUpdateSql.Input input)
-        {
-            try
-            {
-                var handler = new GenerateUpdateSql.Handler();
-
-                var result = handler.Handle(input);
-
-                Process(result);
-            }
-            catch (Exception e)
-            {
-                Process(new GenerateUpdateSql.Result {ErrorMessage = e.ToString()});
-            }
-        }
 
         /// <summary>
         ///     Sends the specified input.
@@ -159,30 +125,6 @@ namespace BOAPlugins.VSIntegration
             {
                 _visualStudioLayer.CreateNewSQLFile(sqlFileInfo.Content, sqlFileInfo.FileName);
             }
-        }
-
-        void Process(GenerateUpdateSql.Result result)
-        {
-            if (result.ErrorMessage != null)
-            {
-                MessageBox.Show(result.ErrorMessage);
-                return;
-            }
-
-            Clipboard.SetText(result.GeneratedSQLCode);
-            _visualStudioLayer.UpdateStatusbarText("Generated SQL code successfully copied to clipboard.");
-        }
-
-        void Process(GenerateSelectByKeySql.Result result)
-        {
-            if (result.ErrorMessage != null)
-            {
-                MessageBox.Show(result.ErrorMessage);
-                return;
-            }
-
-            Clipboard.SetText(result.GeneratedSQLCode);
-            _visualStudioLayer.UpdateStatusbarText("Generated SQL code successfully copied to clipboard.");
         }
         #endregion
 

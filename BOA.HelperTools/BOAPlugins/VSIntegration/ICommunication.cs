@@ -1,4 +1,3 @@
-using BOAPlugins.GenerateSelectByKeySql;
 using BOAPlugins.ViewClassDependency;
 
 namespace BOAPlugins.VSIntegration
@@ -6,8 +5,6 @@ namespace BOAPlugins.VSIntegration
     public interface ICommunication
     {
         #region Public Methods
-        void GenerateSelectByKeySql(Input input);
-        void GenerateUpdateSql(GenerateUpdateSql.Input input);
 
         /// <summary>
         ///     Sends the specified input.

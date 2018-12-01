@@ -91,11 +91,7 @@
     <Compile Include="FormApplicationGenerator\Test1.cs" />
     <Compile Include="GenerateCSharpCode\BOATypeDataProviderTest.cs" />
     <Compile Include="GenerateCSharpCode\HandlerTest.cs" />
-    <Compile Include="GenerateEntityContract\HandlerTest.cs" />
     <Compile Include="DocumentFile\HandlerTest.cs" />
-    <Compile Include="GenerateSelectByKeySql\HandlerTest.cs" />
-    <Compile Include="GenerateUpdateSql\HandlerTest.cs" />
-    <Compile Include="GenerateInsertSql\HandlerTest.cs" />
     <Compile Include="Generators\CustomExecutionCsTest.cs" />
     <Compile Include="PropertyGeneration\PropertyGeneratorTest.cs" />
     <Compile Include="RemoveUnusedMessagesInTypescriptCodes\HandlerTest.cs" />
