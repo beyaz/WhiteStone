@@ -109,7 +109,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BoaJsxComponentRenderTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="FormApplicationGenerator\BoaJsxComponentRenderTemplate.Extra.cs" />
+    <Compile Include="FormApplicationGenerator\Templates.Extensions.cs" />
     <Compile Include="FormApplicationGenerator\FileExporter.cs" />
     <Compile Include="FormApplicationGenerator\Extensions.cs" />
     <Compile Include="FormApplicationGenerator\DefinitionFormTsxFile.cs" />
@@ -129,7 +129,6 @@
     <Compile Include="FormApplicationGenerator\TypeFileForDefinitionForm.cs" />
     <Compile Include="FormApplicationGenerator\ListFormTsxFile.cs" />
     <Compile Include="FormApplicationGenerator\TypeFileForListForm.cs" />
-    <Compile Include="FormApplicationGenerator\OrchestrationFileForListForm.Extra.cs" />
     <Compile Include="FormApplicationGenerator\Model.cs" />
     <Compile Include="BOAPlugins.VSIntegration\Command.cs" />
     <Compile Include="BOAPlugins.VSIntegration\MainForm.xaml.cs">
@@ -144,7 +143,6 @@
     <Compile Include="ExportingModel\Handler.cs" />
     <Compile Include="ExportingModel\MessagingExporter.cs" />
     <Compile Include="ExportingModel\Types.cs" />
-    <Compile Include="FormApplicationGenerator\JSXElementForRenderBrowsePage.Extra.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Models\BinFolderPaths.cs" />
     <Compile Include="Models\DatabaseConnectionInfo.cs" />
