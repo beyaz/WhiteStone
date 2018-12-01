@@ -109,6 +109,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BoaJsxComponentRenderTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="FormApplicationGenerator\BrowsePageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrowsePageTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="FormApplicationGenerator\Templates.Extensions.cs" />
     <Compile Include="FormApplicationGenerator\FileExporter.cs" />
     <Compile Include="FormApplicationGenerator\Extensions.cs" />
@@ -236,6 +241,10 @@
     <Content Include="FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BoaJsxComponentRenderTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\BrowsePageTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BrowsePageTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="FormApplicationGenerator\JSXElementForRenderBrowsePage.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

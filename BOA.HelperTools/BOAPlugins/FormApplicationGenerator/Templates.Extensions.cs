@@ -3,6 +3,14 @@ using System.Linq;
 
 namespace BOAPlugins.FormApplicationGenerator
 {
+    partial class BrowsePageTemplate
+    {
+        public string NamespaceNameForType { get; set; }
+        public string RequestName { get; set; }
+        public string ClassName { get; set; }
+        public string DetailFormClassName { get; set; }
+        public IReadOnlyList<SnapInfo> Snaps { get; set; }
+    }
     partial class OrchestrationFileForListForm
     {
         #region Public Properties

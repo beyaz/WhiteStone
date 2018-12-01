@@ -5,6 +5,16 @@
         #region Public Methods
         public static string GenerateCode(Model Model)
         {
+            var template = new BrowsePageTemplate
+            {
+                NamespaceNameForType = Model.NamespaceNameForType,
+                RequestName= Model.RequestNameForList,
+                ClassName = Model.FormName + @"ListForm",
+                DetailFormClassName = Model.FormName + @"Form"
+            };
+
+
+
             var tsxCode = TsxCodeGeneration.EvaluateTSCodeInfo(Model, false);
 
             return @"

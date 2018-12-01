@@ -12,9 +12,15 @@ namespace BOAPlugins.FormApplicationGenerator
         public string RenderCodeForJsx { get; set; }
         public string SnapDeclaration  { get; set; }
         public string SnapDefinition   { get; set; }
+        public IReadOnlyList<SnapInfo> Snaps { get; set; }
         #endregion
     }
 
+    public class SnapInfo
+    {
+        public string Name { get; set; }
+        public string ComponentTypeName { get; set; }
+    }
     static class TsxCodeGeneration
     {
         #region Public Methods
@@ -38,6 +44,9 @@ namespace BOAPlugins.FormApplicationGenerator
                     snapDefinition.AppendLine($"{dataField.GetSnapName()}: {dataField.ComponentType};");
                 }
 
+              
+
+
                 snapDefinition.PaddingCount--;
                 snapDefinition.AppendLine("}");
 
@@ -48,6 +57,11 @@ namespace BOAPlugins.FormApplicationGenerator
             {
                 return new TsxCodeInfo
                 {
+                    Snaps = fields.Where(x => x.HasSnapName()).Select(dataField => new SnapInfo
+                    {
+                        Name              = dataField.GetSnapName(),
+                        ComponentTypeName = dataField.ComponentType.GetValueOrDefault().ToString()
+                    }).ToList(),
                     HasSnap          = hasSnap,
                     SnapDeclaration  = snapDeclaration,
                     SnapDefinition   = snapDefinition.ToString(),
