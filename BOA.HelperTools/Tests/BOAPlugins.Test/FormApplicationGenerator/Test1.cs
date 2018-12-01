@@ -12,16 +12,13 @@ namespace BOAPlugins.FormApplicationGenerator
     public  class Test1
     {
         [TestMethod]
-        public void A()
+        public void TemplateDebug()
         {
-            var template = RandomValue.Object<OrchestrationFileForListForm>();
-            template.PushIndent("-------");
-            template.PushIndent("___");
+            var template = RandomValue.Object<BCardSectionTemplate>();
+
 
             var a = template.TransformText();
-            template.PopIndent();
 
-            a = template.TransformText();
 
             a.ToString();
 

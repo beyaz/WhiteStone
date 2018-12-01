@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOAPlugins.ExportingModel;
@@ -123,69 +122,21 @@ namespace BOAPlugins.FormApplicationGenerator
             return renderCodes.ToString();
         }
 
-        static void RenderCard(PaddedStringBuilder renderCodes, BCard card, int? columnIndex, bool userRawStringForMessaging)
-        {
-            var titleAttribute       = card.Title.HasValue() ? " title={Message." + card.Title + "}" : "";
-            var columnIndexAttribute = columnIndex.HasValue ? " column={" + columnIndex + "}" : "";
-
-            renderCodes.AppendLine("<BCard context={context}" + titleAttribute + columnIndexAttribute + ">");
-
-            renderCodes.PaddingCount++;
-            foreach (var dataField in card.Fields)
-            {
-                renderCodes.PaddingCount++;
-
-                renderCodes.AppendLine("");
-
-                RenderComponent(renderCodes, dataField, userRawStringForMessaging);
-
-                renderCodes.PaddingCount--;
-            }
-
-            renderCodes.PaddingCount--;
-
-            renderCodes.AppendLine("</BCard>");
-        }
+        
 
         static void RenderCards(PaddedStringBuilder renderCodes, IReadOnlyCollection<BCard> cards, bool userRawStringForMessaging)
         {
-            var thresholdColumnCount = "";
-            if (cards.Count > 1)
+            var cardSectionTemplate = new BCardSectionTemplate
             {
-                thresholdColumnCount = " thresholdColumnCount={3}";
-            }
-
-            renderCodes.Append("<BCardSection context={context}" + thresholdColumnCount + ">" + Environment.NewLine);
-            renderCodes.PaddingCount++;
-
-            int? columnIndex = 0;
-
-            foreach (var card in cards)
-            {
-                if (columnIndex == 3)
+                Cards = cards.Select(card=> new BCardTemplate
                 {
-                    columnIndex = 0;
-                }
+                    Title      = card.Title.HasValue() ? "Message." + card.Title : null,
+                    Components = card.Fields.Select(dataBField => GetRenderComponent(dataBField, userRawStringForMessaging)).ToList()
+                }).ToList()
+            };
+            renderCodes.AppendAll(cardSectionTemplate.TransformText());
 
-                if (cards.Count == 1)
-                {
-                    columnIndex = null;
-                }
-
-                RenderCard(renderCodes, card, columnIndex, userRawStringForMessaging);
-
-                columnIndex++;
-            }
-
-            renderCodes.PaddingCount--;
-            renderCodes.AppendLine("</BCardSection>");
-        }
-
-        static void RenderComponent(PaddedStringBuilder output, BField dataBField, bool userRawStringForMessaging)
-        {
-            var template = GetRenderComponent(dataBField, userRawStringForMessaging);
-
-            output.AppendAll(template.TransformText());
+            
         }
 
         static BoaJsxComponentRenderTemplate GetRenderComponent( BField dataBField, bool userRawStringForMessaging)

@@ -94,6 +94,16 @@
     </Compile>
     <Compile Include="ConstConfiguration.cs" />
     <Compile Include="DownloadHelper.cs" />
+    <Compile Include="FormApplicationGenerator\BCardSectionTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BCardSectionTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\BCardTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BCardTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="FormApplicationGenerator\BoaJsxComponentRenderTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -217,6 +227,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FormApplicationGenerator\BCardSectionTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BCardSectionTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\BCardTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BCardTemplate.cs</LastGenOutput>
+    </Content>
     <Content Include="FormApplicationGenerator\BoaJsxComponentRenderTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BoaJsxComponentRenderTemplate.cs</LastGenOutput>
