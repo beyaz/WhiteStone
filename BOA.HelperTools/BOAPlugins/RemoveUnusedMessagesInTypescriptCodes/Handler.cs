@@ -8,16 +8,21 @@ namespace BOAPlugins.RemoveUnusedMessagesInTypescriptCodes
     class Handler
     {
         #region Public Methods
-        public static void Handle(string directoryPath, IDictionary<string, string> propertyNames)
+        public static void Handle(string directoryPath, IDictionary<string, string> propertyNames, string excludedFile)
         {
             var files = Directory.GetFiles(directoryPath, "*.tsx", SearchOption.AllDirectories);
             foreach (var file in files)
             {
+                if (file == excludedFile)
+                {
+                    continue;
+                }
+
                 PickupMessage(File.ReadAllText(file), propertyNames);
             }
         }
 
-        public static void HandleForCs(string directoryPath, IDictionary<string, string> propertyNames,string excludedFile)
+        public static void HandleForCs(string directoryPath, IDictionary<string, string> propertyNames, string excludedFile)
         {
             var files = Directory.GetFiles(directoryPath, "*.cs", SearchOption.AllDirectories);
             foreach (var file in files)
@@ -26,6 +31,7 @@ namespace BOAPlugins.RemoveUnusedMessagesInTypescriptCodes
                 {
                     continue;
                 }
+
                 PickupMessage(File.ReadAllText(file), propertyNames);
             }
 
@@ -36,10 +42,10 @@ namespace BOAPlugins.RemoveUnusedMessagesInTypescriptCodes
                 {
                     continue;
                 }
+
                 PickupMessage(File.ReadAllText(file), propertyNames);
             }
         }
-
         #endregion
 
         #region Methods

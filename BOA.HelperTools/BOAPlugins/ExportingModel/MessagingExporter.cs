@@ -63,19 +63,16 @@ namespace BOAPlugins.ExportingModel
 
         public static void ExportAsTypeScriptCode(ExportAsCSharpCodeData data)
         {
-            var solutionFilePath  = data.solutionFilePath;
-            var usedPropertyNames = data.usedPropertyNames;
-
-            var directory = Path.GetDirectoryName(solutionFilePath);
+            var directory = Path.GetDirectoryName(data.solutionFilePath);
 
             if (directory == null)
             {
-                data.ErrorMessage = "directory is null.@solutionFilePath:" + solutionFilePath;
+                data.ErrorMessage = "directory is null.@solutionFilePath:" + data.solutionFilePath;
                 return;
             }
 
-            var messageFileName = "Message.tsx";
-            var messageFilePath = Directory.GetFiles(directory, "*.tsx", SearchOption.AllDirectories).LastOrDefault(f => f.EndsWith(messageFileName));
+            const string messageFileName = "Message.tsx";
+            var          messageFilePath = Directory.GetFiles(directory, "*.tsx", SearchOption.AllDirectories).LastOrDefault(f => f.EndsWith(messageFileName));
 
             if (messageFilePath == null)
             {
@@ -87,7 +84,14 @@ namespace BOAPlugins.ExportingModel
 
             var config = MessagingExporterInputLineParser.Parse(firstLine);
 
-            data.GeneratedCode  = ExportGroupAsTypeScriptCode(config.GroupName, usedPropertyNames);
+            if (data.RemoveUnusedProperties)
+            {
+                data.usedPropertyNames = new Dictionary<string, string>();
+
+                RemoveUnusedMessagesInTypescriptCodes.Handler.Handle(directory, data.usedPropertyNames, messageFilePath);
+            }
+
+            data.GeneratedCode  = ExportGroupAsTypeScriptCode(config.GroupName, data.usedPropertyNames);
             data.TargetFilePath = messageFilePath;
         }
 

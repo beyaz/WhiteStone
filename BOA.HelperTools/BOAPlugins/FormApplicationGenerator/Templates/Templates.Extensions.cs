@@ -3,7 +3,13 @@ using System.Linq;
 using BOAPlugins.FormApplicationGenerator.Types;
 
 namespace BOAPlugins.FormApplicationGenerator.Templates
-{partial class TabPageTemplate
+{
+
+    partial class OrchestrationFileForDetailForm
+    {
+        public string ClassName { get; set; }
+    }
+    partial class TabPageTemplate
     {
         public BCardSectionTemplate content { get; set; }
         public string text { get; set; }

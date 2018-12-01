@@ -3,11 +3,19 @@ using System.Linq;
 using BOAPlugins.ExportingModel;
 using BOAPlugins.FormApplicationGenerator.Templates;
 using BOAPlugins.FormApplicationGenerator.Types;
+using BOAPlugins.FormApplicationGenerator.UI;
 
 namespace BOAPlugins.FormApplicationGenerator.Logic
 {
     public static class Map
     {
+        public static OrchestrationFileForDetailForm ToOrchestrationFileForDefinitionForm(this Model Model)
+        {
+            return  new OrchestrationFileForDetailForm
+            {
+                //TODO:
+            };
+        }
         public static OrchestrationFileForListForm ToOrchestrationFileForListForm(this Model Model)
         {
             return  new OrchestrationFileForListForm

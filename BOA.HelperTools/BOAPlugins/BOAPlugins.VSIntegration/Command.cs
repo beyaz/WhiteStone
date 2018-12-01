@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using BOAPlugins.ExportingModel;
-using Handler = BOAPlugins.RemoveUnusedMessagesInTypescriptCodes.Handler;
 
 namespace BOAPlugins.VSIntegration
 {
@@ -35,16 +33,10 @@ namespace BOAPlugins.VSIntegration
         {
             var solutionFilePath = VisualStudio.GetSolutionFilePath();
 
-            var directory = Path.GetDirectoryName(solutionFilePath);
-
-            var propertyNames = new Dictionary<string, string>();
-
-            Handler.Handle(directory, propertyNames);
-
             var data = new ExportAsCSharpCodeData
             {
-                solutionFilePath  = solutionFilePath,
-                usedPropertyNames = propertyNames
+                solutionFilePath       = solutionFilePath,
+                RemoveUnusedProperties = true
             };
             MessagingExporter.ExportAsTypeScriptCode(data);
             if (data.ErrorMessage != null)
@@ -97,7 +89,7 @@ namespace BOAPlugins.VSIntegration
         {
             var solutionFilePath = VisualStudio.GetSolutionFilePath();
 
-            var data = ExportingModel.Handler.Handle(solutionFilePath);
+            var data = Handler.Handle(solutionFilePath);
 
             if (data.ErrorMessage != null)
             {

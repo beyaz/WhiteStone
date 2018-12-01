@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using BOA.CodeGeneration.Generators;
 using BOA.Common.Helpers;
-using BOAPlugins.FormApplicationGenerator.Types;
 
-namespace BOAPlugins.FormApplicationGenerator
+namespace BOAPlugins.FormApplicationGenerator.Types
 {
-    public static class Extensions
+        public static class Extensions
     {
         #region Public Methods
-        public static void AutoGenerateCodesAndExportFiles(this Model model)
-        {
-            new FileExporter(model).ExportFiles();
-        }
+        
 
         public static IReadOnlyCollection<BField> GetAllFields(this IReadOnlyCollection<BCard> cards)
         {
@@ -47,11 +41,7 @@ namespace BOAPlugins.FormApplicationGenerator
             return $"{dataBField.ComponentType.ToString().RemoveFromStart("B").MakeLowerCaseFirstChar()}{dataBField.Name}";
         }
 
-        internal static string GetText(this RichTextBox richTextBox)
-        {
-            return new TextRange(richTextBox.Document.ContentStart,
-                                 richTextBox.Document.ContentEnd).Text;
-        }
+       
 
         internal static bool HasSnapName(this BField dataBField)
         {
@@ -59,11 +49,6 @@ namespace BOAPlugins.FormApplicationGenerator
                    dataBField.ComponentType == ComponentType.BParameterComponent;
         }
 
-        internal static void SetText(this RichTextBox richTextBox, string text)
-        {
-            richTextBox.Document.Blocks.Clear();
-            richTextBox.Document.Blocks.Add(new Paragraph(new Run(text)));
-        }
 
         internal static string ToCSharp(this DotNetType name)
         {
@@ -106,4 +91,5 @@ namespace BOAPlugins.FormApplicationGenerator
         }
         #endregion
     }
+
 }

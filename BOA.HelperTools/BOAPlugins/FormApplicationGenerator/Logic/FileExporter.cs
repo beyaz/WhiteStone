@@ -3,11 +3,10 @@ using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOAPlugins.ExportingModel;
-using BOAPlugins.FormApplicationGenerator.Logic;
-using BOAPlugins.FormApplicationGenerator.Templates;
 using BOAPlugins.FormApplicationGenerator.Types;
+using BOAPlugins.FormApplicationGenerator.UI;
 
-namespace BOAPlugins.FormApplicationGenerator
+namespace BOAPlugins.FormApplicationGenerator.Logic
 {
     class FileExporter
     {
@@ -56,11 +55,11 @@ namespace BOAPlugins.FormApplicationGenerator
 
             var oneProjectFolder = Model.OneProjectFolder;
 
-            Util.WriteFileIfContentNotEqual(typesFolder + Model.FormName + "ListForm.cs", TypeFileForListForm.GenerateCode(Model));
-            Util.WriteFileIfContentNotEqual(typesFolder + Model.FormName + "Form.cs", TypeFileForDefinitionForm.GenerateCode(Model));
+            //Util.WriteFileIfContentNotEqual(typesFolder + Model.FormName + "ListForm.cs", TypeFileForListForm.GenerateCode(Model));
+            //Util.WriteFileIfContentNotEqual(typesFolder + Model.FormName + "Form.cs", TypeFileForDefinitionForm.GenerateCode(Model));
 
             Util.WriteFileIfContentNotEqual(Model.OrchestrationProjectFolder + Model.FormName + "ListForm.cs", Model.ToOrchestrationFileForListForm().TransformText());
-            Util.WriteFileIfContentNotEqual(Model.OrchestrationProjectFolder + Model.FormName + "Form.cs", OrchestrationFileForDefinitionForm.GenerateCode(Model));
+            Util.WriteFileIfContentNotEqual(Model.OrchestrationProjectFolder + Model.FormName + "Form.cs", Model.ToOrchestrationFileForDefinitionForm().TransformText());
 
             FormAssistantProjectInitializer.Initialize(Model);
 

@@ -158,6 +158,7 @@
     <Compile Include="Data\MvcWpf\ModelBase.cs" />
     <Compile Include="System.Collections.Generic\Extensions.cs" />
     <Compile Include="System.Web\WhiteStoneExtensions.cs" />
+    <Compile Include="System.Windows.Controls\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.fxcop" />
@@ -165,9 +166,7 @@
     <None Include="packages.config" />
     <None Include="WhiteStoneKey.pfx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Collections\Generic\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="LanguageTranslations\EnglishBank\DataSource.txt" />
   </ItemGroup>

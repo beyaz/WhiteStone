@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using BOAPlugins.FormApplicationGenerator;
+using BOAPlugins.FormApplicationGenerator.Logic;
+using BOAPlugins.FormApplicationGenerator.UI;
 using BOAPlugins.ViewClassDependency;
 using WhiteStone;
 
