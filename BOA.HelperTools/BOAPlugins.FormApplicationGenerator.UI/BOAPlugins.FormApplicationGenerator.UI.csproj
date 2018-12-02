@@ -72,8 +72,11 @@
     <Compile Include="Logic\FileExporter.cs" />
     <Compile Include="Logic\FormAssistantProjectInitializer.cs" />
     <Compile Include="Logic\Map.cs" />
-    <Compile Include="SlnFileSelection.xaml.cs">
+    <Compile Include="UI\SlnFileSelection.xaml.cs">
       <DependentUpon>SlnFileSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TableSelection.xaml.cs">
+      <DependentUpon>TableSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Templates\BCardSectionTemplate.cs">
       <DependentUpon>BCardSectionTemplate.tt</DependentUpon>
@@ -128,7 +131,7 @@
     <Compile Include="Types\DotNetType.cs" />
     <Compile Include="Types\Extensions.cs" />
     <Compile Include="Types\SnapInfo.cs" />
-    <Compile Include="UI\Model.cs" />
+    <Compile Include="MainWindowModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -141,7 +144,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SlnFileSelection.xaml">
+    <Page Include="UI\SlnFileSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TableSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

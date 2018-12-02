@@ -6,6 +6,7 @@ using BOAPlugins.FormApplicationGenerator;
 using BOAPlugins.FormApplicationGenerator.Logic;
 using BOAPlugins.FormApplicationGenerator.UI;
 using BOAPlugins.Utility;
+using BOAPlugins.Utility.TypescriptModelGeneration;
 using BOAPlugins.ViewClassDependency;
 using WhiteStone;
 
@@ -78,7 +79,8 @@ namespace BOAPlugins.VSIntegration
         {
             SafeScope(() =>
             {
-                BOAPlugins.FormApplicationGenerator.Logic.FormAssistantProjectInitializer.Initialize(new BOAPlugins.FormApplicationGenerator.UI.MainWindowModel(VisualStudio.GetSolutionFilePath(), "xxx"));
+                var solutionInfo = SolutionInfo.CreateFrom(VisualStudio.GetSolutionFilePath());
+                BOAPlugins.FormApplicationGenerator.Logic.FormAssistantProjectInitializer.Initialize(solutionInfo);
 
                 Close();
 

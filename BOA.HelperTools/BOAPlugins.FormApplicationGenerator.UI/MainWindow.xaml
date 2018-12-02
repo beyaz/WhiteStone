@@ -12,8 +12,12 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
+        <Grid >
+            <local:SlnFileSelection x:Name="SlnFileSelection" Visibility="Collapsed"></local:SlnFileSelection>
+            <local:TableSelection x:Name="TableSelection"></local:TableSelection>
+        </Grid>
         <Grid Grid.Row="1">
-            <Button HorizontalAlignment="Right"   >İleri</Button>
+            <Button HorizontalAlignment="Right" Click="OnNextButtonClick"   >İleri</Button>
         </Grid>
         <Grid Grid.Row="2">
             <Label   />

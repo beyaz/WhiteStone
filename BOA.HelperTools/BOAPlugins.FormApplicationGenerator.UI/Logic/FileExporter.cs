@@ -56,7 +56,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
             Util.WriteFileIfContentNotEqual(MainWindowModel.SolutionInfo.OrchestrationProjectFolder + MainWindowModel.NamingInfo.OrchestrationFileNameForListForm, MainWindowModel.ToOrchestrationFileForListForm().TransformText());
             Util.WriteFileIfContentNotEqual(MainWindowModel.SolutionInfo.OrchestrationProjectFolder + MainWindowModel.NamingInfo.OrchestrationFileNameForDetailForm, MainWindowModel.ToOrchestrationFileForDefinitionForm().TransformText());
 
-            FormAssistantProjectInitializer.Initialize(MainWindowModel);
+            FormAssistantProjectInitializer.Initialize(MainWindowModel.SolutionInfo);
 
             Util.WriteFileIfContentNotEqual(MainWindowModel.TsxFilePathOfListForm, MainWindowModel.ToBrowsePageTemplate().TransformText());
             Util.WriteFileIfContentNotEqual(MainWindowModel.TsxFilePathOfDetailForm, MainWindowModel.ToTransactionPageTemplate().TransformText());

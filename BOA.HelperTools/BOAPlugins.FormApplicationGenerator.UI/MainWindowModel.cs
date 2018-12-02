@@ -9,16 +9,7 @@ namespace BOAPlugins.FormApplicationGenerator.UI
     [Serializable]
     public class MainWindowModel
     {
-        #region Constructors
-        public MainWindowModel(string solutionFilePath, string tableNameIndDatabase)
-        {
-            SolutionInfo = SolutionInfo.CreateFrom(solutionFilePath);
-
-            NamingInfo = NamingInfo.Create(solutionFilePath, tableNameIndDatabase);
-
-            TableNameInDatabase = tableNameIndDatabase;
-        }
-        #endregion
+       
 
         #region Public Properties
         public IReadOnlyCollection<BField> FormDataClassFields
