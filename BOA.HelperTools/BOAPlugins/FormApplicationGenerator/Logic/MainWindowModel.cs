@@ -12,7 +12,7 @@ namespace BOAPlugins.FormApplicationGenerator.UI
        
 
         #region Public Properties
-        public IReadOnlyCollection<BField> FormDataClassFields
+        public IReadOnlyCollection<BField_Kaldırılacak> FormDataClassFields
         {
             get
             {
@@ -28,7 +28,7 @@ namespace BOAPlugins.FormApplicationGenerator.UI
 
         public bool IsTabForm { get; set; }
 
-        public IReadOnlyCollection<BField> ListFormSearchFields { get; set; } = new List<BField>();
+        public IReadOnlyCollection<BField_Kaldırılacak> ListFormSearchFields { get; set; } = new List<BField_Kaldırılacak>();
 
         public NamingInfo   NamingInfo   { get; set; }
         public SolutionInfo SolutionInfo { get; set; }

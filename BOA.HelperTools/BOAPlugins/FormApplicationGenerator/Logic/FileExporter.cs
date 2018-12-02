@@ -28,7 +28,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
         {
             if (mainWindowModel.ListFormSearchFields == null)
             {
-                mainWindowModel.ListFormSearchFields = new List<BField>();
+                mainWindowModel.ListFormSearchFields = new List<BField_Kaldırılacak>();
             }
 
             foreach (var bField in mainWindowModel.ListFormSearchFields)

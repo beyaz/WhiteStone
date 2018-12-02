@@ -10,9 +10,9 @@ namespace BOAPlugins.FormApplicationGenerator.Types
         #region Public Methods
         
 
-        public static IReadOnlyCollection<BField> GetAllFields(this IReadOnlyCollection<BCard> cards)
+        public static IReadOnlyCollection<BField_Kaldırılacak> GetAllFields(this IReadOnlyCollection<BCard> cards)
         {
-            var allFields = new List<BField>();
+            var allFields = new List<BField_Kaldırılacak>();
 
             foreach (var card in cards)
             {
@@ -22,9 +22,9 @@ namespace BOAPlugins.FormApplicationGenerator.Types
             return allFields;
         }
 
-        public static IReadOnlyCollection<BField> GetAllFields(this IReadOnlyCollection<TabPage> tabs)
+        public static IReadOnlyCollection<BField_Kaldırılacak> GetAllFields(this IReadOnlyCollection<TabPage> tabs)
         {
-            var allFields = new List<BField>();
+            var allFields = new List<BField_Kaldırılacak>();
 
             foreach (var tab in tabs)
             {
@@ -36,17 +36,17 @@ namespace BOAPlugins.FormApplicationGenerator.Types
         #endregion
 
         #region Methods
-        internal static string GetSnapName(this BField dataBField)
+        internal static string GetSnapName(this BField_Kaldırılacak dataBFieldKaldırılacak)
         {
-            return $"{dataBField.ComponentType.ToString().RemoveFromStart("B").MakeLowerCaseFirstChar()}{dataBField.Name}";
+            return $"{dataBFieldKaldırılacak.ComponentType.ToString().RemoveFromStart("B").MakeLowerCaseFirstChar()}{dataBFieldKaldırılacak.Name}";
         }
 
        
 
-        internal static bool HasSnapName(this BField dataBField)
+        internal static bool HasSnapName(this BField_Kaldırılacak dataBFieldKaldırılacak)
         {
-            return dataBField.ComponentType == ComponentType.BAccountComponent ||
-                   dataBField.ComponentType == ComponentType.BParameterComponent;
+            return dataBFieldKaldırılacak.ComponentType == ComponentType.BAccountComponent ||
+                   dataBFieldKaldırılacak.ComponentType == ComponentType.BParameterComponent;
         }
 
 

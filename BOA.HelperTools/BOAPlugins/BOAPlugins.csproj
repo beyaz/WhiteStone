@@ -94,6 +94,7 @@
     <Compile Include="BOAPlugins.VSIntegration\MainForm.xaml.cs">
       <DependentUpon>MainForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FormApplicationGenerator\ListFormTsxCodeGenerator.cs" />
     <Compile Include="FormApplicationGenerator\Logic\Extensions.cs" />
     <Compile Include="FormApplicationGenerator\Logic\FileExporter.cs" />
     <Compile Include="FormApplicationGenerator\Logic\FormAssistantProjectInitializer.cs" />
@@ -146,6 +147,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="FormApplicationGenerator\Types\BCard.cs" />
+    <Compile Include="FormApplicationGenerator\Types\BDateTimePicker.cs" />
     <Compile Include="FormApplicationGenerator\Types\BField.cs" />
     <Compile Include="FormApplicationGenerator\Types\BTab.cs" />
     <Compile Include="FormApplicationGenerator\Types\ComponentType.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Utility\Configuration.cs" />
     <Compile Include="Utility\ConstConfiguration.cs" />
     <Compile Include="Utility\DownloadHelper.cs" />
+    <Compile Include="Utility\Extensions.cs" />
     <Compile Include="Utility\Log.cs" />
     <Compile Include="Utility\NamingInfo.cs" />
     <Compile Include="Utility\TypescriptNaming.cs" />

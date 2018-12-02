@@ -3,10 +3,38 @@
 namespace BOAPlugins.FormApplicationGenerator.Types
 {
     [Serializable]
-    public class BField
+    public abstract class BField
+    {
+        public abstract string ToJsx(string indent);
+
+        #region Public Properties
+        public string BindingPath { get;  set; }
+        public string Label { get; set; }
+        #endregion
+    }
+
+   
+
+    [Serializable]
+    public class BInputMask : BField
     {
         #region Constructors
-        public BField(DotNetType dotNetType, Enum name)
+        public BInputMask(string bindingPath)
+        {
+            BindingPath = bindingPath;
+        }
+        #endregion
+
+        #region Public Properties
+        public bool   IsCreditCard { get; set; }
+        #endregion
+    }
+
+    [Serializable]
+    public class BField_Kaldırılacak : BField
+    {
+        #region Constructors
+        public BField_Kaldırılacak(DotNetType dotNetType, Enum name)
         {
             Name       = name.ToString();
             DotNetType = dotNetType;
@@ -36,9 +64,9 @@ namespace BOAPlugins.FormApplicationGenerator.Types
         #region Public Properties
         public ComponentType? ComponentType { get; set; }
         public DotNetType     DotNetType    { get; }
+        public string         Label         { get; set; }
         public string         Name          { get; }
         public string         ParamType     { get; set; }
-        public string         Label         { get; set; }
         #endregion
     }
 }

@@ -21,7 +21,7 @@ namespace BOAPlugins.FormApplicationGenerator.Types
             Title = title;
         }
 
-        public TabPage(string title, IReadOnlyList<BField> fields)
+        public TabPage(string title, IReadOnlyList<BField_Kaldırılacak> fields)
         {
             Title = title;
 
@@ -34,7 +34,7 @@ namespace BOAPlugins.FormApplicationGenerator.Types
             };
         }
 
-        public TabPage(Enum title, IReadOnlyList<BField> fields)
+        public TabPage(Enum title, IReadOnlyList<BField_Kaldırılacak> fields)
         {
             Title = title.ToString();
 

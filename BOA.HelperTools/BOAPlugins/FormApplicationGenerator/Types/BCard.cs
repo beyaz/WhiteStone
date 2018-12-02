@@ -19,19 +19,19 @@ namespace BOAPlugins.FormApplicationGenerator.Types
         {
         }
 
-        public BCard(string title, IReadOnlyList<BField> fields)
+        public BCard(string title, IReadOnlyList<BField_Kaldırılacak> fields)
         {
             Fields = fields;
             Title  = title;
         }
 
-        public BCard(Enum title, IReadOnlyList<BField> fields) : this(title.ToString(), fields)
+        public BCard(Enum title, IReadOnlyList<BField_Kaldırılacak> fields) : this(title.ToString(), fields)
         {
         }
         #endregion
 
         #region Public Properties
-        public IReadOnlyList<BField> Fields { get; set; }
+        public IReadOnlyList<BField_Kaldırılacak> Fields { get; set; }
         public string                Title  { get; set; }
         #endregion
     }

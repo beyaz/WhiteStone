@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace BOA.Common.Helpers
 {
@@ -106,6 +107,19 @@ namespace BOA.Common.Helpers
             }
 
             return data;
+        }
+
+        /// <summary>
+        ///     Splits the and clear.
+        /// </summary>
+        public static IReadOnlyList<string> SplitAndClear(this string input, string splitter)
+        {
+            if (input == null)
+            {
+                return new string[0];
+            }
+
+            return input.Split(splitter.ToCharArray()).Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToList();
         }
 
         /// <summary>

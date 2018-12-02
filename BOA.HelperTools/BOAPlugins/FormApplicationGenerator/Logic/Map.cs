@@ -93,7 +93,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
             
         }
 
-        public static IReadOnlyList<SnapInfo> GetSnaps(this IReadOnlyCollection<BField> fields)
+        public static IReadOnlyList<SnapInfo> GetSnaps(this IReadOnlyCollection<BField_Kaldırılacak> fields)
         {
             return fields.Where(x => x.HasSnapName()).Select(dataField => new SnapInfo
             {
@@ -102,24 +102,24 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
             }).ToList();
         }
 
-        public static BFieldTemplate GetRenderComponent(BField dataBField)
+        public static BFieldTemplate GetRenderComponent(BField_Kaldırılacak dataBFieldKaldırılacak)
         {
             return new BFieldTemplate
             {
 
-                Label                  = dataBField.Label,
-                IsBDateTimePicker      = dataBField.ComponentType == ComponentType.BDateTimePicker,
-                IsBInput               = dataBField.ComponentType == ComponentType.BInput,
-                IsBInputNumericDecimal = dataBField.ComponentType == ComponentType.BInputNumeric && dataBField.DotNetType == DotNetType.Decimal,
-                IsBInputNumeric        = dataBField.ComponentType == ComponentType.BInputNumeric,
-                IsBAccountComponent    = dataBField.ComponentType == ComponentType.BAccountComponent,
-                SnapName               = dataBField.GetSnapName(),
-                IsBCheckBox            = dataBField.ComponentType == ComponentType.BCheckBox,
-                IsBParameterComponent  = dataBField.ComponentType == ComponentType.BParameterComponent,
-                ValueTypeIsInt32       = dataBField.DotNetType == DotNetType.Int32,
-                ParamType              = dataBField.ParamType ?? "GENDER",
-                IsBBranchComponent     = dataBField.ComponentType == ComponentType.BBranchComponent,
-                ValueAccessPath        = TypescriptNaming.GetResolvedPropertyName(dataBField.Name)
+                Label                  = dataBFieldKaldırılacak.Label,
+                IsBDateTimePicker      = dataBFieldKaldırılacak.ComponentType == ComponentType.BDateTimePicker,
+                IsBInput               = dataBFieldKaldırılacak.ComponentType == ComponentType.BInput,
+                IsBInputNumericDecimal = dataBFieldKaldırılacak.ComponentType == ComponentType.BInputNumeric && dataBFieldKaldırılacak.DotNetType == DotNetType.Decimal,
+                IsBInputNumeric        = dataBFieldKaldırılacak.ComponentType == ComponentType.BInputNumeric,
+                IsBAccountComponent    = dataBFieldKaldırılacak.ComponentType == ComponentType.BAccountComponent,
+                SnapName               = dataBFieldKaldırılacak.GetSnapName(),
+                IsBCheckBox            = dataBFieldKaldırılacak.ComponentType == ComponentType.BCheckBox,
+                IsBParameterComponent  = dataBFieldKaldırılacak.ComponentType == ComponentType.BParameterComponent,
+                ValueTypeIsInt32       = dataBFieldKaldırılacak.DotNetType == DotNetType.Int32,
+                ParamType              = dataBFieldKaldırılacak.ParamType ?? "GENDER",
+                IsBBranchComponent     = dataBFieldKaldırılacak.ComponentType == ComponentType.BBranchComponent,
+                ValueAccessPath        = TypescriptNaming.GetResolvedPropertyName(dataBFieldKaldırılacak.Name)
             };
 
         }

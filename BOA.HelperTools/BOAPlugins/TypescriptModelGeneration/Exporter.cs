@@ -71,7 +71,7 @@ namespace BOAPlugins.Utility.TypescriptModelGeneration
 
                 foreach (var className in info.ExportClassNames)
                 {
-                    var typeDefinition = FindType(assemblyDefinition, className);
+                    var typeDefinition = assemblyDefinition.FindType( className);
 
                     if (typeDefinition == null)
                     {
@@ -111,20 +111,7 @@ namespace BOAPlugins.Utility.TypescriptModelGeneration
 
         }
 
-        static TypeDefinition FindType(AssemblyDefinition definition, string classFullName)
-        {
-            foreach (var module in definition.Modules)
-            {
-                var typeDefinition = module.GetType(classFullName);
-
-                if (typeDefinition != null)
-                {
-                    return typeDefinition;
-                }
-            }
-
-            return null;
-        }
+        
 
         static void GenerateType(TypeDefinition typeDefinition, PaddedStringBuilder sb, List<string> fieldNames)
         {
@@ -277,7 +264,7 @@ namespace BOAPlugins.Utility.TypescriptModelGeneration
 
                 var orchestrationClassFullName = requestTypeFullName.RemoveFromEnd("Request").Replace(".Types.", ".Orchestration.");
 
-                var orchestrationDefinition = FindType(assemblyDefinition, orchestrationClassFullName);
+                var orchestrationDefinition = assemblyDefinition.FindType(orchestrationClassFullName);
                 if (orchestrationDefinition == null)
                 {
                     continue;
