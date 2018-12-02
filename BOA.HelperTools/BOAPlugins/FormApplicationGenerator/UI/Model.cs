@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
 using BOAPlugins.FormApplicationGenerator.Types;
+using BOAPlugins.TypescriptModelGeneration;
 
 namespace BOAPlugins.FormApplicationGenerator.UI
 {
     [Serializable]
     public class NamingInfo
     {
+        public static string GetSolutionNamespaceName(string solutionFilePath)
+        {
+            if (solutionFilePath == null)
+            {
+                throw new ArgumentNullException(nameof(solutionFilePath));
+            }
+
+            return Path.GetFileName(solutionFilePath).RemoveFromStart("BOA.").RemoveFromEnd(".sln");
+        }
         #region Public Properties
         public string DefinitionFormDataClassName   { get; private set; }
         public string NamespaceName                 { get; private set; }
@@ -33,7 +43,7 @@ namespace BOAPlugins.FormApplicationGenerator.UI
                 throw new ArgumentNullException(nameof(tableNameIndDatabase));
             }
 
-            var namespaceName = Path.GetFileName(solutionFilePath).RemoveFromStart("BOA.").RemoveFromEnd(".sln");
+            var namespaceName = GetSolutionNamespaceName(solutionFilePath);
 
             var info = new NamingInfo
             {
@@ -56,30 +66,26 @@ namespace BOAPlugins.FormApplicationGenerator.UI
     public class Model
     {
         public NamingInfo NamingInfo { get; set; }
+        public SolutionInfo SolutionInfo { get; set; }
+
 
         #region Constructors
         public Model(string solutionFilePath, string tableNameIndDatabase)
         {
 
             NamingInfo = NamingInfo.Create(solutionFilePath,tableNameIndDatabase);
+            SolutionInfo = SolutionInfo.CreateFrom(solutionFilePath);
+
+            SolutionFilePath = solutionFilePath;
+
+            TableNameInDatabase = tableNameIndDatabase;
 
 
-            SolutionFilePath    = solutionFilePath ?? throw new ArgumentNullException(nameof(solutionFilePath));
-            TableNameInDatabase = tableNameIndDatabase ?? throw new ArgumentNullException(nameof(tableNameIndDatabase));
+            TypesProjectFolder            = Path.GetDirectoryName(solutionFilePath) + Path.DirectorySeparatorChar + NamingInfo.NamespaceNameForType + Path.DirectorySeparatorChar;
 
-            var solutionFileName = Path.GetFileName(solutionFilePath);
-            var namespaceName    = solutionFileName.RemoveFromStart("BOA.").RemoveFromEnd(".sln");
+            OrchestrationProjectFolder = Path.GetDirectoryName(SolutionFilePath) + Path.DirectorySeparatorChar + NamingInfo.NamespaceNameForOrchestration + Path.DirectorySeparatorChar;
 
-            NamespaceName                 = namespaceName;
-            RequestNameForList            = tableNameIndDatabase + "ListFormRequest";
-            NamespaceNameForType          = $"BOA.Types.{namespaceName}";
-            TypeAssemblyName              = $"BOA.Types.{namespaceName}.dll";
-            NamespaceNameForOrchestration = "BOA.Orchestration." + namespaceName;
-            TypesProjectFolder            = Path.GetDirectoryName(solutionFilePath) + Path.DirectorySeparatorChar + NamespaceNameForType + Path.DirectorySeparatorChar;
-
-            OrchestrationProjectFolder = Path.GetDirectoryName(SolutionFilePath) + Path.DirectorySeparatorChar + NamespaceNameForOrchestration + Path.DirectorySeparatorChar;
-
-            OneProjectFolder = GetOneProjectFolder(SolutionFilePath, NamespaceName);
+            
         }
         #endregion
 
@@ -101,41 +107,17 @@ namespace BOAPlugins.FormApplicationGenerator.UI
 
         public bool                        IsTabForm                     { get; set; }
         public IReadOnlyCollection<BField> ListFormSearchFields          { get; set; } = new List<BField>();
-        public string                      NamespaceName                 { get; }
-        public string                      NamespaceNameForOrchestration { get; }
-        public string                      NamespaceNameForType          { get; }
-        public string                      OneProjectFolder              { get; }
         public string                      OrchestrationProjectFolder    { get; }
-        public string                      RequestNameForList            { get; }
         public string                      SolutionFilePath              { get; }
 
         public string                    TableNameInDatabase { get; }
         public IReadOnlyCollection<BTab> Tabs                { get; set; } = new List<BTab>();
-        public string                    TypeAssemblyName    { get; set; }
         public string                    TypesProjectFolder  { get; }
 
         public bool UserRawStringForMessaging { get; set; }
         #endregion
 
         #region Methods
-        static string GetOneProjectFolder(string solutionFilePath, string namespaceName)
-        {
-            var paths = new[]
-            {
-                Path.GetDirectoryName(solutionFilePath) + Path.DirectorySeparatorChar + @"One\BOA.One.Office." + namespaceName + Path.DirectorySeparatorChar,
-                Path.GetDirectoryName(solutionFilePath) + Path.DirectorySeparatorChar + @"One\BOA.One." + namespaceName + Path.DirectorySeparatorChar
-            };
-
-            foreach (var path in paths)
-            {
-                if (Directory.Exists(path))
-                {
-                    return path;
-                }
-            }
-
-            throw new InvalidOperationException("One project folder not found." + string.Join(Environment.NewLine, paths));
-        }
         #endregion
     }
 }

@@ -21,10 +21,10 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
         {
             return  new OrchestrationFileForListForm
             {
-                NamespaceNameForType        = Model.NamespaceNameForType,
-                NamespaceName               = Model.NamespaceNameForOrchestration,
+                NamespaceNameForType        = Model.NamingInfo.NamespaceNameForType,
+                NamespaceName               = Model.NamingInfo.NamespaceNameForOrchestration,
                 ClassName                   = Model.TableNameInDatabase + "ListForm",
-                RequestName                 = Model.RequestNameForList,
+                RequestName                 = Model.NamingInfo.RequestNameForList,
                 DefinitionFormDataClassName = Model.NamingInfo.DefinitionFormDataClassName,
                 GridColumnFields            = Model.FormDataClassFields.Select(fieldInfo => fieldInfo.Name).ToArray()
             };
@@ -33,8 +33,8 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
         {
             var template= new TransactionPageTemplate
             {
-                NamespaceNameForType = model.NamespaceNameForType,
-                RequestName          = model.RequestNameForList,
+                NamespaceNameForType = model.NamingInfo.NamespaceNameForType,
+                RequestName          = model.NamingInfo.RequestNameForList,
                 ClassName            = model.TableNameInDatabase + @"Form",
                 Snaps                = model.FormDataClassFields.GetSnaps(),
                 IsTabForm = model.IsTabForm,
@@ -84,8 +84,8 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
         {
             return new BrowsePageTemplate
             {
-                NamespaceNameForType = model.NamespaceNameForType,
-                RequestName          = model.RequestNameForList,
+                NamespaceNameForType = model.NamingInfo.NamespaceNameForType,
+                RequestName          = model.NamingInfo.RequestNameForList,
                 ClassName            = model.TableNameInDatabase + @"ListForm",
                 DetailFormClassName  = model.TableNameInDatabase + @"Form",
                 Snaps                = model.ListFormSearchFields.GetSnaps(),

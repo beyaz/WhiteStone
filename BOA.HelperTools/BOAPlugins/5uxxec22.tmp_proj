@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{92502F72-D2A3-4B2F-AA82-3E4F286599AA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BOAPlugins</RootNamespace>
+    <AssemblyName>BOAPlugins</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BOA.Tools.Translator\Dependencies\RavSoft\Translator.cs" />
+    <Compile Include="BOA.Tools.Translator\Dependencies\RavSoft\WebResourceProvider.cs" />
+    <Compile Include="BOA.Tools.Translator\GoogleTranslator.cs" />
+    <Compile Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\Controller.cs" />
+    <Compile Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\Model.cs" />
+    <Compile Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\View.xaml.cs">
+      <DependentUpon>View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BOA.Tools.Translator\UI.TranslateHelper\Controller.cs" />
+    <Compile Include="BOA.Tools.Translator\UI.TranslateHelper\Model.cs" />
+    <Compile Include="BOA.Tools.Translator\UI.TranslateHelper\View.xaml.cs">
+      <DependentUpon>View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\BTabControlTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BTabControlTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\TypescriptNaming.cs" />
+    <Compile Include="Utility\ConstConfiguration.cs" />
+    <Compile Include="Utility\DownloadHelper.cs" />
+    <Compile Include="FormApplicationGenerator\Templates\BCardSectionTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BCardSectionTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\BCardTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BCardTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\BFieldTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BFieldTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\BrowsePageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrowsePageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Logic\Map.cs" />
+    <Compile Include="FormApplicationGenerator\Templates\OrchestrationFileForDetailForm.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrchestrationFileForDetailForm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\TabPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TabPageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\Templates.Extensions.cs" />
+    <Compile Include="FormApplicationGenerator\Logic\FileExporter.cs" />
+    <Compile Include="FormApplicationGenerator\Logic\Extensions.cs" />
+    <Compile Include="FormApplicationGenerator\Logic\FormAssistantProjectInitializer.cs" />
+    <Compile Include="FormApplicationGenerator\Templates\OrchestrationFileForListForm.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrchestrationFileForListForm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\TransactionPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransactionPageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Types\Extensions.cs" />
+    <Compile Include="FormApplicationGenerator\UI\Model.cs" />
+    <Compile Include="BOAPlugins.VSIntegration\Command.cs" />
+    <Compile Include="BOAPlugins.VSIntegration\MainForm.xaml.cs">
+      <DependentUpon>MainForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\Configuration.cs" />
+    <Compile Include="Messaging\DataSource.cs" />
+    <Compile Include="TypescriptModelGeneration\SolutionInfo.cs" />
+    <Compile Include="TypescriptModelGeneration\Exporter.cs" />
+    <Compile Include="DocumentFile\Handler.cs" />
+    <Compile Include="DocumentFile\Input.cs" />
+    <Compile Include="TypescriptModelGeneration\Handler.cs" />
+    <Compile Include="Messaging\MessagingExporter.cs" />
+    <Compile Include="TypescriptModelGeneration\Types.cs" />
+    <Compile Include="FormApplicationGenerator\Types\BCard.cs" />
+    <Compile Include="FormApplicationGenerator\Types\BField.cs" />
+    <Compile Include="FormApplicationGenerator\Types\BTab.cs" />
+    <Compile Include="FormApplicationGenerator\Types\ComponentType.cs" />
+    <Compile Include="FormApplicationGenerator\Types\DotNetType.cs" />
+    <Compile Include="FormApplicationGenerator\Types\SnapInfo.cs" />
+    <Compile Include="Utility\Log.cs" />
+    <Compile Include="Messaging\MessagesCleaner.cs" />
+    <Compile Include="SearchProcedure\Input.cs" />
+    <Compile Include="SearchProcedure\Result.cs" />
+    <Compile Include="SearchProcedure\SqlFileInfo.cs" />
+    <Compile Include="SearchProcedure\Extensions.cs" />
+    <Compile Include="TypeSearchView\BOATypeDataProvider.cs" />
+    <Compile Include="TypeSearchView\View.xaml.cs">
+      <DependentUpon>View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeSearchView\Utility.cs" />
+    <Compile Include="SearchProcedure\DatabaseConnectionInfo.cs" />
+    <Compile Include="SearchProcedure\Handler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\UserControlBase.cs" />
+    <Compile Include="Utility\Util.cs" />
+    <Compile Include="ViewClassDependency\Data.cs" />
+    <Compile Include="ViewClassDependency\GraphCreator.cs" />
+    <Compile Include="ViewClassDependency\Handler.cs" />
+    <Compile Include="ViewClassDependency\Model.cs" />
+    <Compile Include="VSIntegration\Communication.cs" />
+    <Compile Include="VSIntegration\ICommunication.cs" />
+    <Compile Include="VSIntegration\IVisualStudioLayer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BOA.CodeGeneration\BOA.CodeGeneration.csproj">
+      <Project>{a51d1954-365f-4f98-8492-f8841fbad5be}</Project>
+      <Name>BoaCodeGenerator</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SearchProcedure\DatabaseConnectionStrings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FormApplicationGenerator\Templates\BTabControlTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BTabControlTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\BCardSectionTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BCardSectionTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\BCardTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BCardTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\BFieldTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BFieldTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\BrowsePageTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BrowsePageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\OrchestrationFileForDetailForm.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>OrchestrationFileForDetailForm.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\OrchestrationFileForListForm.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>OrchestrationFileForListForm.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\TabPageTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>TabPageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\TransactionPageTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>TransactionPageTemplate.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <ReferencePath Include="D:\github\WhiteStone\BOA.HelperTools\BOA.CodeGeneration\bin\Debug\BOA.CodeGeneration.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\BOA.HelperTools\Lib\Intellibox\Intellibox.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Mdb.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Pdb.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Rocks.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\mscorlib.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Web.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Windows.Forms.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Xml.Linq.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\bin\WhiteStone.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\WindowsBase.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\obj\Debug\BOA.Tools.Translator\UI.MessagesExcelResultUpdate\View.g.cs" />
+    <Compile Include="D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\obj\Debug\BOA.Tools.Translator\UI.TranslateHelper\View.g.cs" />
+    <Compile Include="D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\obj\Debug\BOAPlugins.VSIntegration\MainForm.g.cs" />
+    <Compile Include="D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\obj\Debug\TypeSearchView\View.g.cs" />
+    <Compile Include="D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\obj\Debug\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+</Project>
