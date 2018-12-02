@@ -228,6 +228,10 @@
     <Content Include="Resources\Command1Package.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BOAPlugins.FormApplicationGenerator.UI\BOAPlugins.FormApplicationGenerator.UI.csproj">
+      <Project>{6eb40f66-3395-4e91-bb60-7212f903c490}</Project>
+      <Name>BOAPlugins.FormApplicationGenerator.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BOAPlugins\BOAPlugins.csproj">
       <Project>{92502f72-d2a3-4b2f-aa82-3e4f286599aa}</Project>
       <Name>BOAPlugins</Name>

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.Test", "BOA.Help
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.FormApplicationGenerator.UI", "BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\BOAPlugins.FormApplicationGenerator.UI.csproj", "{6EB40F66-3395-4E91-BB60-7212F903C490}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.Utility", "BOA.HelperTools\BOAPlugins.Utility\BOAPlugins.Utility.csproj", "{37DB86A9-72CC-46AF-B2B1-CFEAF98AA1D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{6EB40F66-3395-4E91-BB60-7212F903C490}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EB40F66-3395-4E91-BB60-7212F903C490}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EB40F66-3395-4E91-BB60-7212F903C490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37DB86A9-72CC-46AF-B2B1-CFEAF98AA1D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37DB86A9-72CC-46AF-B2B1-CFEAF98AA1D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37DB86A9-72CC-46AF-B2B1-CFEAF98AA1D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37DB86A9-72CC-46AF-B2B1-CFEAF98AA1D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
