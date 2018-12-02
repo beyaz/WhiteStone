@@ -100,6 +100,10 @@
     <Compile Include="ViewClassDependency\HandlerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BOAPlugins.FormApplicationGenerator.UI\BOAPlugins.FormApplicationGenerator.UI.csproj">
+      <Project>{6eb40f66-3395-4e91-bb60-7212f903c490}</Project>
+      <Name>BOAPlugins.FormApplicationGenerator.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BOAPlugins.Utility\BOAPlugins.Utility.csproj">
       <Project>{37db86a9-72cc-46af-b2b1-cfeaf98aa1d3}</Project>
       <Name>BOAPlugins.Utility</Name>

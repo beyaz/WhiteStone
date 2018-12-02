@@ -18,7 +18,7 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BCardSectionTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     public partial class BCardSectionTemplate : BCardSectionTemplateBase
     {
@@ -30,27 +30,27 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
         {
             this.Write("<BCardSection context={context} ");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BCardSectionTemplate.tt"
     if(Cards.Count > 1)
             
             #line default
             #line hidden
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BCardSectionTemplate.tt"
     {
             
             #line default
             #line hidden
             this.Write("thresholdColumnCount={3}");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BCardSectionTemplate.tt"
     }
             
             #line default
             #line hidden
             this.Write(">\r\n");
             
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BCardSectionTemplate.tt"
 
 int? columnIndex = 0;
 foreach (var card in Cards)
@@ -58,7 +58,7 @@ foreach (var card in Cards)
             #line default
             #line hidden
             
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BCardSectionTemplate.tt"
 {
 if (columnIndex == 3)
 {
@@ -76,27 +76,27 @@ card.ColumnIndex = columnIndex;
             #line hidden
             this.Write("\r\n    ");
             
-            #line 22 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 22 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BCardSectionTemplate.tt"
 card.PushIndent("    ");
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 23 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 23 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BCardSectionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(card.TransformText()));
             
             #line default
             #line hidden
             this.Write("\r\n    ");
             
-            #line 24 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 24 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BCardSectionTemplate.tt"
 card.PopIndent();
             
             #line default
             #line hidden
             
-            #line 25 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 25 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BCardSectionTemplate.tt"
 }
             
             #line default

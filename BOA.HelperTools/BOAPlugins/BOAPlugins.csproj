@@ -79,8 +79,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BOA.Tools.Translator\Dependencies\RavSoft\Translator.cs" />
-    <Compile Include="BOA.Tools.Translator\Dependencies\RavSoft\WebResourceProvider.cs" />
     <Compile Include="BOA.Tools.Translator\GoogleTranslator.cs" />
     <Compile Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\Controller.cs" />
     <Compile Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\Model.cs" />
@@ -92,58 +90,6 @@
     <Compile Include="BOA.Tools.Translator\UI.TranslateHelper\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\BTabControlTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BTabControlTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\BCardSectionTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BCardSectionTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\BCardTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BCardTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\BFieldTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BFieldTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\BrowsePageTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BrowsePageTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Logic\Map.cs" />
-    <Compile Include="FormApplicationGenerator\Templates\OrchestrationFileForDetailForm.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OrchestrationFileForDetailForm.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\TabPageTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TabPageTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\Templates.Extensions.cs" />
-    <Compile Include="FormApplicationGenerator\Logic\FileExporter.cs" />
-    <Compile Include="FormApplicationGenerator\Logic\Extensions.cs" />
-    <Compile Include="FormApplicationGenerator\Logic\FormAssistantProjectInitializer.cs" />
-    <Compile Include="FormApplicationGenerator\Templates\OrchestrationFileForListForm.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OrchestrationFileForListForm.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\TransactionPageTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TransactionPageTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Types\Extensions.cs" />
-    <Compile Include="FormApplicationGenerator\UI\Model.cs" />
     <Compile Include="BOAPlugins.VSIntegration\Command.cs" />
     <Compile Include="BOAPlugins.VSIntegration\MainForm.xaml.cs">
       <DependentUpon>MainForm.xaml</DependentUpon>
@@ -152,12 +98,6 @@
     <Compile Include="DocumentFile\Handler.cs" />
     <Compile Include="DocumentFile\Input.cs" />
     <Compile Include="Messaging\MessagingExporter.cs" />
-    <Compile Include="FormApplicationGenerator\Types\BCard.cs" />
-    <Compile Include="FormApplicationGenerator\Types\BField.cs" />
-    <Compile Include="FormApplicationGenerator\Types\BTab.cs" />
-    <Compile Include="FormApplicationGenerator\Types\ComponentType.cs" />
-    <Compile Include="FormApplicationGenerator\Types\DotNetType.cs" />
-    <Compile Include="FormApplicationGenerator\Types\SnapInfo.cs" />
     <Compile Include="Messaging\MessagesCleaner.cs" />
     <Compile Include="SearchProcedure\Input.cs" />
     <Compile Include="SearchProcedure\Result.cs" />
@@ -219,44 +159,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="FormApplicationGenerator\Templates\BTabControlTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BTabControlTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\BCardSectionTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BCardSectionTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\BCardTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BCardTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\BFieldTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BFieldTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\BrowsePageTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BrowsePageTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\OrchestrationFileForDetailForm.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>OrchestrationFileForDetailForm.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\OrchestrationFileForListForm.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>OrchestrationFileForListForm.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\TabPageTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>TabPageTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\TransactionPageTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>TransactionPageTemplate.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

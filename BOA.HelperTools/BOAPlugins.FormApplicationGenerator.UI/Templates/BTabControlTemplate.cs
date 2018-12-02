@@ -18,7 +18,7 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BTabControlTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     public partial class BTabControlTemplate : BTabControlTemplateBase
     {
@@ -30,50 +30,50 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
         {
             this.Write("{\r\n");
             
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BTabControlTemplate.tt"
 int i=0,end = TabPages.Count - 1;
             
             #line default
             #line hidden
             
-            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BTabControlTemplate.tt"
 for(i=0; i < end;i++)
             
             #line default
             #line hidden
             
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BTabControlTemplate.tt"
 {
             
             #line default
             #line hidden
             
-            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BTabControlTemplate.tt"
 TabPages[i].PushIndent(CurrentIndent + "    ");
             
             #line default
             #line hidden
             
-            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BTabControlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TabPages[i].TransformText()));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 12 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+            #line 12 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BTabControlTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 13 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+            #line 13 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BTabControlTemplate.tt"
 TabPages[end].PushIndent(CurrentIndent + "    ");
             
             #line default
             #line hidden
             
-            #line 14 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BTabControlTemplate.tt"
+            #line 14 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\BTabControlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TabPages[end].TransformText()));
             
             #line default

@@ -5,7 +5,7 @@ using BOAPlugins.Utility;
 
 namespace BOAPlugins.FormApplicationGenerator.Logic
 {
-    static class FormAssistantProjectInitializer
+    public static class FormAssistantProjectInitializer
     {
         #region Properties
         static TFSAccessForBOA Tfs => new TFSAccessForBOA();
