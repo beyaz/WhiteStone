@@ -100,6 +100,10 @@
     <Compile Include="ViewClassDependency\HandlerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BOAPlugins.Utility\BOAPlugins.Utility.csproj">
+      <Project>{37db86a9-72cc-46af-b2b1-cfeaf98aa1d3}</Project>
+      <Name>BOAPlugins.Utility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BOAPlugins\BOAPlugins.csproj">
       <Project>{92502f72-d2a3-4b2f-aa82-3e4f286599aa}</Project>
       <Name>BOAPlugins</Name>
