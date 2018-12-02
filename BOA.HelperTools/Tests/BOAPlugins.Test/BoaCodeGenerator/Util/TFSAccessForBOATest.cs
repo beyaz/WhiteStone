@@ -19,19 +19,19 @@ namespace BOA.CodeGeneration.Util
             Api.CheckoutFile(path);
 
             // ACT  + ASSERT
-            Api.CheckinFile(path, "INC292087# auto check in.");
+            Api.CheckInFile(path, "INC292087# auto check in.");
         }
 
         [TestMethod]
         public void CheckinSolution()
         {
-            var input = new CheckinSolutionInput
+            var input = new CheckInSolutionInput
             {
                 Comment          = "INC292087# -",
                 SolutionFilePath = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.Kernel.DataAccess.sln"
             };
 
-            Api.CheckinSolution(input);
+            Api.CheckInSolution(input);
         }
 
         [TestMethod]

@@ -123,7 +123,7 @@ namespace BOASpSearch
         void CheckInSolution()
         {
             VisualStudio.UpdateStatusbarText("Check-in started...");
-            var data = new CheckinSolutionInput
+            var data = new CheckInSolutionInput
             {
                 SolutionFilePath = VisualStudio.GetSolutionFilePath(),
                 Comment          = Configuration.CheckInCommentDefaultValue
@@ -131,7 +131,7 @@ namespace BOASpSearch
 
             try
             {
-                TFSAccessForBOA.CheckinSolution(data);
+                TFSAccessForBOA.CheckInSolution(data);
                 VisualStudio.UpdateStatusbarText(data.ResultMessage);
             }
             catch (Exception exception)

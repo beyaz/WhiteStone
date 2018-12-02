@@ -7,7 +7,7 @@ using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace BOA.CodeGeneration.Util
 {
-    public class CheckinSolutionInput
+    public class CheckInSolutionInput
     {
         #region Public Properties
         public string Comment          { get; set; }
@@ -19,7 +19,7 @@ namespace BOA.CodeGeneration.Util
     public class TFSAccessForBOA
     {
         #region Public Methods
-        public void CheckinFile(string path, string comment)
+        public void CheckInFile(string path, string comment)
         {
             var tfsServerUri = GetTfsServerPath(path);
 
@@ -35,7 +35,7 @@ namespace BOA.CodeGeneration.Util
             }
         }
 
-        public void CheckinSolution(CheckinSolutionInput input)
+        public void CheckInSolution(CheckInSolutionInput input)
         {
             var solutionFilePath = input.SolutionFilePath;
             var comment          = input.Comment;
@@ -116,6 +116,11 @@ namespace BOA.CodeGeneration.Util
             if (path.IndexOf("WORKDE", StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 return "http://srvtfs:8080/tfs/DE";
+            }
+
+            if (path.IndexOf("WORKEMLAK", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return "http://srvtfs:8080/tfs/EMLAK";
             }
 
             return "http://srvtfs:8080/tfs/KT";

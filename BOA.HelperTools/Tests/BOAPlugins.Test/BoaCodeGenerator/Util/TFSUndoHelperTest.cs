@@ -16,7 +16,7 @@ namespace BOA.CodeGeneration.Util
             Api.CheckoutFile(path);
 
             // ACT  + ASSERT
-            Api.CheckinFile(path, "INC292087# auto check in.");
+            Api.CheckInFile(path, "INC292087# auto check in.");
         }
     }
 }
