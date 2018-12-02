@@ -15,7 +15,6 @@ namespace BOAPlugins.VSIntegration
     
 
 
-        void Send(GenerateEntityContract.Input input);
         void Send(Data input);
 
         /// <summary>

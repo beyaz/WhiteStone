@@ -166,7 +166,6 @@
     <Compile Include="FormApplicationGenerator\Types\SnapInfo.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Models\DatabaseConnectionInfo.cs" />
-    <Compile Include="GenerateEntityContract\Input.cs" />
     <Compile Include="Messaging\MessagesCleaner.cs" />
     <Compile Include="SearchProcedure\Input.cs" />
     <Compile Include="SearchProcedure\Result.cs" />
@@ -177,7 +176,6 @@
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
     <Compile Include="TypeSearchView\Utility.cs" />
-    <Compile Include="GenerateEntityContract\Handler.cs" />
     <Compile Include="SearchProcedure\DatabaseConnectionInfo.cs" />
     <Compile Include="SearchProcedure\Handler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

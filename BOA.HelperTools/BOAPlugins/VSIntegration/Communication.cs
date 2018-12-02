@@ -39,19 +39,6 @@ namespace BOAPlugins.VSIntegration
             Process(handler.Result);
         }
 
-        public void Send(GenerateEntityContract.Input input)
-        {
-            var result = new GenerateEntityContract.Handler().Handle(input);
-
-            if (result.ErrorMessage != null)
-            {
-                MessageBox.Show(result.ErrorMessage);
-            }
-
-            Clipboard.SetText(result.ContractClassBody);
-            _visualStudioLayer.UpdateStatusbarText("Generated c# code successfully copied to clipboard.");
-        }
-
         public void Send(Data input)
         {
             var result = new ViewClassDependency.Handler().Handle(input);
