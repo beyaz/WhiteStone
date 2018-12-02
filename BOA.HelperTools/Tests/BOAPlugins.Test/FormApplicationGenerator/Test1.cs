@@ -10,11 +10,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BOAPlugins.FormApplicationGenerator
 {
     [TestClass]
-    public  class Test1
+    public  class ListFormOrchestrationFileTest
     {
         [TestMethod]
         public void TemplateDebug()
         {
+
+
+
+
+
             var template = RandomValue.Object<BCardSectionTemplate>();
 
 
