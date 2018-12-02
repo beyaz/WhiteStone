@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using BOAPlugins.Messaging;
-using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
+using BOAPlugins.Utility.TypescriptModelGeneration;
 
 namespace BOAPlugins.VSIntegration
 {

@@ -4,8 +4,8 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOAPlugins.FormApplicationGenerator.Types;
 using BOAPlugins.FormApplicationGenerator.UI;
-using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
+using BOAPlugins.Utility.TypescriptModelGeneration;
 
 namespace BOAPlugins.FormApplicationGenerator.Logic
 {

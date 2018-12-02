@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using BOAPlugins.FormApplicationGenerator.Types;
-using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
+using BOAPlugins.Utility.TypescriptModelGeneration;
 
 namespace BOAPlugins.FormApplicationGenerator.UI
 {

@@ -3,7 +3,6 @@ using System.Linq;
 using BOAPlugins.FormApplicationGenerator.Templates;
 using BOAPlugins.FormApplicationGenerator.Types;
 using BOAPlugins.FormApplicationGenerator.UI;
- using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 
 namespace BOAPlugins.FormApplicationGenerator.Logic

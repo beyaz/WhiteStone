@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using BOAPlugins.Utility;
 
-namespace BOAPlugins.TypescriptModelGeneration
+namespace BOAPlugins.Utility.TypescriptModelGeneration
 {
     [Serializable]
     public class SolutionInfo
