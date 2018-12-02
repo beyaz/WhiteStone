@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace BOA.System.Windows.Controls
+namespace System.Windows.Controls
 {
     /// <summary>
     ///     The extensions

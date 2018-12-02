@@ -18,9 +18,9 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\OrchestrationFileForDetailForm.tt"
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class OrchestrationFileForDetailForm : OrchestrationFileForDetailFormBase
+    public partial class BCardTemplate : BCardTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,14 +28,100 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("// TODO:orch");
+            this.Write(" <BCard context={context} ");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins.FormApplicationGenerator.UI\Templates\OrchestrationFileForDetailForm.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+    if(HasTitle)
             
             #line default
             #line hidden
-            this.Write("\r\n");
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+    {
+            
+            #line default
+            #line hidden
+            this.Write("Title={Message.");
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Title));
+            
+            #line default
+            #line hidden
+            this.Write("}");
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+    }
+            
+            #line default
+            #line hidden
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+    if(HasColumnIndex)
+            
+            #line default
+            #line hidden
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+    {
+            
+            #line default
+            #line hidden
+            this.Write("column={");
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ColumnIndex));
+            
+            #line default
+            #line hidden
+            this.Write("}");
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+    }
+            
+            #line default
+            #line hidden
+            this.Write(">\r\n");
+            
+            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+foreach (var component in Components)
+            
+            #line default
+            #line hidden
+            
+            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+{
+            
+            #line default
+            #line hidden
+            this.Write("    ");
+            
+            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+component.PushIndent("    ");
+            
+            #line default
+            #line hidden
+            this.Write("    ");
+            
+            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+component.TransformText();
+            
+            #line default
+            #line hidden
+            this.Write("    ");
+            
+            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+component.PopIndent();
+            
+            #line default
+            #line hidden
+            
+            #line 12 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("           \r\n</BCard>");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -47,7 +133,7 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class OrchestrationFileForDetailFormBase
+    public class BCardTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

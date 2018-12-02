@@ -68,69 +68,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Logic\Extensions.cs" />
-    <Compile Include="Logic\FileExporter.cs" />
-    <Compile Include="Logic\FormAssistantProjectInitializer.cs" />
-    <Compile Include="Logic\Map.cs" />
     <Compile Include="UI\SlnFileSelection.xaml.cs">
       <DependentUpon>SlnFileSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TableSelection.xaml.cs">
       <DependentUpon>TableSelection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Templates\BCardSectionTemplate.cs">
-      <DependentUpon>BCardSectionTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\BCardTemplate.cs">
-      <DependentUpon>BCardTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\BFieldTemplate.cs">
-      <DependentUpon>BFieldTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\BrowsePageTemplate.cs">
-      <DependentUpon>BrowsePageTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\BTabControlTemplate.cs">
-      <DependentUpon>BTabControlTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\OrchestrationFileForDetailForm.cs">
-      <DependentUpon>OrchestrationFileForDetailForm.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\OrchestrationFileForListForm.cs">
-      <DependentUpon>OrchestrationFileForListForm.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\TabPageTemplate.cs">
-      <DependentUpon>TabPageTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Templates\Templates.Extensions.cs" />
-    <Compile Include="Templates\TransactionPageTemplate.cs">
-      <DependentUpon>TransactionPageTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Types\BCard.cs" />
-    <Compile Include="Types\BField.cs" />
-    <Compile Include="Types\BTab.cs" />
-    <Compile Include="Types\ComponentType.cs" />
-    <Compile Include="Types\DotNetType.cs" />
-    <Compile Include="Types\Extensions.cs" />
-    <Compile Include="Types\SnapInfo.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -211,48 +154,6 @@
       <Project>{a51d1954-365f-4f98-8492-f8841fbad5be}</Project>
       <Name>BOA.CodeGeneration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BOAPlugins.Utility\BOAPlugins.Utility.csproj">
-      <Project>{37db86a9-72cc-46af-b2b1-cfeaf98aa1d3}</Project>
-      <Name>BOAPlugins.Utility</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Templates\BCardSectionTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BCardSectionTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="Templates\BCardTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BCardTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="Templates\BFieldTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BFieldTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="Templates\BrowsePageTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BrowsePageTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="Templates\BTabControlTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BTabControlTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="Templates\OrchestrationFileForDetailForm.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>OrchestrationFileForDetailForm.cs</LastGenOutput>
-    </Content>
-    <Content Include="Templates\OrchestrationFileForListForm.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>OrchestrationFileForListForm.cs</LastGenOutput>
-    </Content>
-    <Content Include="Templates\TabPageTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>TabPageTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="Templates\TransactionPageTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>TransactionPageTemplate.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
