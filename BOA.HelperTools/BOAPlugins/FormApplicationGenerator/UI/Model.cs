@@ -4,38 +4,48 @@ using System.IO;
 using BOA.Common.Helpers;
 using BOAPlugins.FormApplicationGenerator.Types;
 using BOAPlugins.TypescriptModelGeneration;
+using BOAPlugins.Utility;
 
 namespace BOAPlugins.FormApplicationGenerator.UI
 {
     [Serializable]
     public class NamingInfo
     {
-        public static string GetSolutionNamespaceName(string solutionFilePath)
+        public static string GetNamespaceNameForType(string slnFilePath)
         {
-            if (solutionFilePath == null)
+            return $"BOA.Types.{GetSolutionNamespaceName(slnFilePath)}";
+        }
+        public static string GetNamespaceNameForOrchestration(string slnFilePath)
+        {
+            return $"BOA.Orchestration.{GetSolutionNamespaceName(slnFilePath)}";
+        }
+        
+        public static string GetSolutionNamespaceName(string slnFilePath)
+        {
+            if (slnFilePath == null)
             {
-                throw new ArgumentNullException(nameof(solutionFilePath));
+                throw new ArgumentNullException(nameof(slnFilePath));
             }
 
-            return Path.GetFileName(solutionFilePath).RemoveFromStart("BOA.").RemoveFromEnd(".sln");
+            return Path.GetFileName(slnFilePath).RemoveFromStart("BOA.").RemoveFromEnd(".sln");
         }
         #region Public Properties
         public string DefinitionFormDataClassName   { get; private set; }
-        public string NamespaceName                 { get; private set; }
         public string NamespaceNameForOrchestration { get; private set; }
         public string NamespaceNameForType          { get; private set; }
         public string RequestNameForDefinition      { get; private set; }
         public string RequestNameForList            { get; private set; }
         public string TableNameInDatabase           { get; private set; }
         public string TypeAssemblyName              { get; private set; }
+
         #endregion
 
         #region Public Methods
-        public static NamingInfo Create(string solutionFilePath, string tableNameIndDatabase)
+        public static NamingInfo Create(string slnFilePath, string tableNameIndDatabase)
         {
-            if (solutionFilePath == null)
+            if (slnFilePath == null)
             {
-                throw new ArgumentNullException(nameof(solutionFilePath));
+                throw new ArgumentNullException(nameof(slnFilePath));
             }
 
             if (tableNameIndDatabase == null)
@@ -43,28 +53,43 @@ namespace BOAPlugins.FormApplicationGenerator.UI
                 throw new ArgumentNullException(nameof(tableNameIndDatabase));
             }
 
-            var namespaceName = GetSolutionNamespaceName(solutionFilePath);
-
             var info = new NamingInfo
             {
                 TableNameInDatabase           = tableNameIndDatabase,
-                NamespaceName                 = namespaceName,
                 RequestNameForDefinition      = tableNameIndDatabase + "FormRequest",
                 RequestNameForList            = tableNameIndDatabase + "ListFormRequest",
-                NamespaceNameForType          = $"BOA.Types.{namespaceName}",
-                TypeAssemblyName              = $"BOA.Types.{namespaceName}.dll",
-                NamespaceNameForOrchestration = "BOA.Orchestration." + namespaceName,
-                DefinitionFormDataClassName   = tableNameIndDatabase + "FormData"
+                NamespaceNameForType          = GetNamespaceNameForType(slnFilePath),
+                TypeAssemblyName              = $"{GetNamespaceNameForType(slnFilePath)}.dll",
+                NamespaceNameForOrchestration = GetNamespaceNameForOrchestration(slnFilePath),
+                DefinitionFormDataClassName   = tableNameIndDatabase + "FormData",
+                OrchestrationFileNameForListForm = tableNameIndDatabase + "ListForm.cs",
+                OrchestrationFileNameForDetailForm = tableNameIndDatabase + "Form.cs",
+
+                TsxFileNameForListForm   = tableNameIndDatabase + "ListForm.tsx",
+                TsxFileNameForDetailForm = tableNameIndDatabase + "Form.tsx"
+                
             };
 
             return info;
         }
+        public string TsxFileNameForListForm { get; private set; }
+        public string TsxFileNameForDetailForm { get; private set; }
+
+        public string OrchestrationFileNameForListForm { get; private set; }
+        public string OrchestrationFileNameForDetailForm { get; private set; }
         #endregion
     }
 
     [Serializable]
     public class Model
     {
+
+
+
+        public string ListFormTsxFilePath => SolutionInfo.OneProjectFolder + @"ClientApp\pages\" + NamingInfo.TsxFileNameForListForm;
+        public string DetailFormTsxFilePath => SolutionInfo.OneProjectFolder + @"ClientApp\pages\" + NamingInfo.TsxFileNameForDetailForm;
+
+
         public NamingInfo NamingInfo { get; set; }
         public SolutionInfo SolutionInfo { get; set; }
 
@@ -76,14 +101,13 @@ namespace BOAPlugins.FormApplicationGenerator.UI
             NamingInfo = NamingInfo.Create(solutionFilePath,tableNameIndDatabase);
             SolutionInfo = SolutionInfo.CreateFrom(solutionFilePath);
 
-            SolutionFilePath = solutionFilePath;
 
             TableNameInDatabase = tableNameIndDatabase;
 
 
-            TypesProjectFolder            = Path.GetDirectoryName(solutionFilePath) + Path.DirectorySeparatorChar + NamingInfo.NamespaceNameForType + Path.DirectorySeparatorChar;
+            
 
-            OrchestrationProjectFolder = Path.GetDirectoryName(SolutionFilePath) + Path.DirectorySeparatorChar + NamingInfo.NamespaceNameForOrchestration + Path.DirectorySeparatorChar;
+            
 
             
         }
@@ -107,12 +131,9 @@ namespace BOAPlugins.FormApplicationGenerator.UI
 
         public bool                        IsTabForm                     { get; set; }
         public IReadOnlyCollection<BField> ListFormSearchFields          { get; set; } = new List<BField>();
-        public string                      OrchestrationProjectFolder    { get; }
-        public string                      SolutionFilePath              { get; }
 
         public string                    TableNameInDatabase { get; }
         public IReadOnlyCollection<BTab> Tabs                { get; set; } = new List<BTab>();
-        public string                    TypesProjectFolder  { get; }
 
         public bool UserRawStringForMessaging { get; set; }
         #endregion

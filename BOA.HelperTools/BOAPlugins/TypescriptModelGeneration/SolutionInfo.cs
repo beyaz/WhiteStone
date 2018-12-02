@@ -17,6 +17,11 @@ namespace BOAPlugins.TypescriptModelGeneration
         public string OneProjectFolder { get; private set; }
         public string FormAssistant_tsx_FilePath { get; private set; }
         #endregion
+        public string FilePathOf_FormAssistant_cs_In_Types { get; private set; }
+        public string OrchestrationProjectFolder { get; private set; }
+
+
+        public string TypesProjectFolder { get; private set; }
 
         #region Public Methods
         public static SolutionInfo CreateFrom(string slnFilePath)
@@ -51,10 +56,21 @@ namespace BOAPlugins.TypescriptModelGeneration
 
             data.FormAssistant_tsx_FilePath = data.OneProjectFolder + @"ClientApp\utils\FormAssistant.tsx";
 
+            data.TypesProjectFolder = Path.GetDirectoryName(slnFilePath) + Path.DirectorySeparatorChar + NamingInfo.GetNamespaceNameForType(slnFilePath) + Path.DirectorySeparatorChar;
+        
+
+            data.FilePathOf_FormAssistant_cs_In_Types = data.TypesProjectFolder + "FormAssistant.cs";
+
+
+            data.OrchestrationProjectFolder = Path.GetDirectoryName(slnFilePath) + Path.DirectorySeparatorChar + NamingInfo.GetNamespaceNameForOrchestration(slnFilePath) + Path.DirectorySeparatorChar;
+
+
             data.IsValid = true;
 
             return data;
         }
+
+        
 
         static string GetOneProjectFolder(string solutionFilePath)
         {

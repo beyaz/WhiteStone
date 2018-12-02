@@ -28,7 +28,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
 
             var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardPaymentSystem.Clearing", model.NamingInfo.NamespaceNameForType);
 
-            var targetFilePath = model.TypesProjectFolder + "FormAssistant.cs";
+            var targetFilePath = model.SolutionInfo.FilePathOf_FormAssistant_cs_In_Types;
 
             Util.WriteFileIfContentNotEqual(targetFilePath, fileContent);
         }
@@ -51,11 +51,11 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
             const string tfsPath     = @"$/BOA.BusinessModules/Dev/BOA.CardPaymentSystem.Clearing/BOA.Orchestration.CardPaymentSystem.Clearing/Extensions.designer.cs";
             var          fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Orchestration.CardPaymentSystem.Clearing", model.NamingInfo.NamespaceNameForOrchestration);
 
-            var targetFilePath = model.OrchestrationProjectFolder + "Extensions.designer.cs";
+            var targetFilePath = model.SolutionInfo.OrchestrationProjectFolder + "Extensions.designer.cs";
 
             Util.WriteFileIfContentNotEqual(targetFilePath, fileContent);
 
-            targetFilePath = model.OrchestrationProjectFolder + "Extensions.cs";
+            targetFilePath = model.SolutionInfo.OrchestrationProjectFolder + "Extensions.cs";
             if (File.Exists(targetFilePath) == false)
             {
                 Util.WriteFileIfContentNotEqual(targetFilePath,
