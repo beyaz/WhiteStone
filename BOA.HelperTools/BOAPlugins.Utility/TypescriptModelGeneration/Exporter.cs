@@ -7,7 +7,7 @@ using Mono.Cecil;
 
 namespace BOAPlugins.TypescriptModelGeneration
 {
-    class Exporter
+    public class Exporter
     {
         #region Static Fields
         
@@ -25,7 +25,7 @@ namespace BOAPlugins.TypescriptModelGeneration
         #endregion
 
         #region Methods
-        internal static string GetTypeNameInContainerNamespace(string typeFullName, string containerNamespace)
+        public static string GetTypeNameInContainerNamespace(string typeFullName, string containerNamespace)
         {
             while (true)
             {
