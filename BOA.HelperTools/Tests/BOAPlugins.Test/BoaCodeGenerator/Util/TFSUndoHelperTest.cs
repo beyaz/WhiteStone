@@ -13,10 +13,10 @@ namespace BOA.CodeGeneration.Util
             // ARRANGE
             var path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";
 
-            Api.CheckoutFile(path);
+            TFSAccessForBOA.CheckoutFile(path);
 
             // ACT  + ASSERT
-            Api.CheckInFile(path, "INC292087# auto check in.");
+            TFSAccessForBOA.CheckInFile(path, "INC292087# auto check in.");
         }
     }
 }

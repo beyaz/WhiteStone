@@ -16,10 +16,10 @@ namespace BOA.CodeGeneration.Util
             // ARRANGE
             var path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";
 
-            Api.CheckoutFile(path);
+            TFSAccessForBOA.CheckoutFile(path);
 
             // ACT  + ASSERT
-            Api.CheckInFile(path, "INC292087# auto check in.");
+            TFSAccessForBOA.CheckInFile(path, "INC292087# auto check in.");
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace BOA.CodeGeneration.Util
                 SolutionFilePath = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.Kernel.DataAccess.sln"
             };
 
-            Api.CheckInSolution(input);
+            TFSAccessForBOA.CheckInSolution(input);
         }
 
         [TestMethod]
@@ -42,7 +42,7 @@ namespace BOA.CodeGeneration.Util
             // path = @"D:\workde\BOA.BusinessModules\Dev\BOA.Card.CreditCardOperation\BOA.Business.Card.CreditCardOperation\BOA.Business.Kernel.CreditCard\CreditCardInstallmentTransaction.designer.cs";
 
             // ACT
-            var isSuccess = Api.CheckoutFile(path);
+            var isSuccess = TFSAccessForBOA.CheckoutFile(path);
 
             // ASSERT
             Assert.IsTrue(isSuccess);
@@ -55,7 +55,7 @@ namespace BOA.CodeGeneration.Util
             var path = @"$/BOA.BusinessModules/Dev/BOA.CardPaymentSystem.Clearing/BOA.Types.CardPaymentSystem.Clearing/FormAssistant.cs";
 
             // ACT
-            var content = Api.GetFileContent(path);
+            var content = TFSAccessForBOA.GetFileContent(path);
 
             // ASSERT
             Assert.IsNotNull(content);

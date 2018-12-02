@@ -181,7 +181,7 @@ namespace BOA.CodeGeneration.Generators
 
             if (!isEqual)
             {
-                new TFSAccessForBOA().CheckoutFile(path);
+                TFSAccessForBOA.CheckoutFile(path);
                 _fs.Write(path, content);
             }
 

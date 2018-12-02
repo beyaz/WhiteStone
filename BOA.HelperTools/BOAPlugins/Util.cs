@@ -23,7 +23,7 @@ namespace BOAPlugins
 
             if (!isEqual)
             {
-                new TFSAccessForBOA().CheckoutFile(path);
+                TFSAccessForBOA.CheckoutFile(path);
                 File.WriteAllText(path, content);
             }
         }

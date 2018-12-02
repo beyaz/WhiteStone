@@ -25,7 +25,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
             // FormAssistant.cs 
             const string tfsPath = @"$/BOA.BusinessModules/Dev/BOA.CardPaymentSystem.Clearing/BOA.Types.CardPaymentSystem.Clearing/FormAssistant.cs";
 
-            var fileContent = Tfs.GetFileContent(tfsPath).Replace("BOA.Types.CardPaymentSystem.Clearing", model.NamespaceNameForType);
+            var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardPaymentSystem.Clearing", model.NamespaceNameForType);
 
             var targetFilePath = model.TypesProjectFolder + "FormAssistant.cs";
 
@@ -37,7 +37,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
             // FormAssistant.tsx
             const string tfsPath = @"$/BOA.BusinessModules/Dev/BOA.CardPaymentSystem.Clearing/One/BOA.One.Office.CardPaymentSystem.Clearing/ClientApp/utils/FormAssistant.tsx";
 
-            var fileContent = Tfs.GetFileContent(tfsPath).Replace("BOA.Types.CardPaymentSystem.Clearing", model.NamespaceNameForType);
+            var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardPaymentSystem.Clearing", model.NamespaceNameForType);
 
             var targetFilePath = model.OneProjectFolder + @"ClientApp\utils\FormAssistant.tsx";
 
@@ -48,7 +48,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
         {
             // Extensions.designer.cs
             const string tfsPath     = @"$/BOA.BusinessModules/Dev/BOA.CardPaymentSystem.Clearing/BOA.Orchestration.CardPaymentSystem.Clearing/Extensions.designer.cs";
-            var          fileContent = Tfs.GetFileContent(tfsPath).Replace("BOA.Orchestration.CardPaymentSystem.Clearing", model.NamespaceNameForOrchestration);
+            var          fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Orchestration.CardPaymentSystem.Clearing", model.NamespaceNameForOrchestration);
 
             var targetFilePath = model.OrchestrationProjectFolder + "Extensions.designer.cs";
 

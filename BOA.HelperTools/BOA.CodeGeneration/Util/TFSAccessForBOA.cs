@@ -19,7 +19,7 @@ namespace BOA.CodeGeneration.Util
     public class TFSAccessForBOA
     {
         #region Public Methods
-        public void CheckInFile(string path, string comment)
+        public static void CheckInFile(string path, string comment)
         {
             var tfsServerUri = GetTfsServerPath(path);
 
@@ -35,7 +35,7 @@ namespace BOA.CodeGeneration.Util
             }
         }
 
-        public void CheckInSolution(CheckInSolutionInput input)
+        public static void CheckInSolution(CheckInSolutionInput input)
         {
             var solutionFilePath = input.SolutionFilePath;
             var comment          = input.Comment;
@@ -69,7 +69,7 @@ namespace BOA.CodeGeneration.Util
             }
         }
 
-        public bool CheckoutFile(string path)
+        public static bool CheckoutFile(string path)
         {
             var ConstTfsServerUri = GetTfsServerPath(path);
 
@@ -86,7 +86,7 @@ namespace BOA.CodeGeneration.Util
             }
         }
 
-        public string GetFileContent(string path)
+        public static string GetFileContent(string path)
         {
             var ConstTfsServerUri = GetTfsServerPath(path);
 
