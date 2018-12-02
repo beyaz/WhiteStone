@@ -3,7 +3,8 @@ using System.Linq;
 using BOAPlugins.FormApplicationGenerator.Templates;
 using BOAPlugins.FormApplicationGenerator.Types;
 using BOAPlugins.FormApplicationGenerator.UI;
-using BOAPlugins.TypescriptModelGeneration;
+ using BOAPlugins.TypescriptModelGeneration;
+using BOAPlugins.Utility;
 
 namespace BOAPlugins.FormApplicationGenerator.Logic
 {
@@ -22,9 +23,9 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
             {
                 NamespaceNameForType        = Model.NamespaceNameForType,
                 NamespaceName               = Model.NamespaceNameForOrchestration,
-                ClassName                   = Model.FormName + "ListForm",
+                ClassName                   = Model.TableNameInDatabase + "ListForm",
                 RequestName                 = Model.RequestNameForList,
-                DefinitionFormDataClassName = Model.DefinitionFormDataClassName,
+                DefinitionFormDataClassName = Model.NamingInfo.DefinitionFormDataClassName,
                 GridColumnFields            = Model.FormDataClassFields.Select(fieldInfo => fieldInfo.Name).ToArray()
             };
         }
@@ -34,7 +35,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
             {
                 NamespaceNameForType = model.NamespaceNameForType,
                 RequestName          = model.RequestNameForList,
-                ClassName            = model.FormName + @"Form",
+                ClassName            = model.TableNameInDatabase + @"Form",
                 Snaps                = model.FormDataClassFields.GetSnaps(),
                 IsTabForm = model.IsTabForm,
             };
@@ -85,8 +86,8 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
             {
                 NamespaceNameForType = model.NamespaceNameForType,
                 RequestName          = model.RequestNameForList,
-                ClassName            = model.FormName + @"ListForm",
-                DetailFormClassName  = model.FormName + @"Form",
+                ClassName            = model.TableNameInDatabase + @"ListForm",
+                DetailFormClassName  = model.TableNameInDatabase + @"Form",
                 Snaps                = model.ListFormSearchFields.GetSnaps(),
                 Components           = model.ListFormSearchFields.Select(Map.GetRenderComponent).ToList()
             };
@@ -119,7 +120,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
                 ValueTypeIsInt32       = dataBField.DotNetType == DotNetType.Int32,
                 ParamType              = dataBField.ParamType ?? "GENDER",
                 IsBBranchComponent     = dataBField.ComponentType == ComponentType.BBranchComponent,
-                ValueAccessPath        = Exporter.GetResolvedPropertyName(dataBField.Name)
+                ValueAccessPath        = TypescriptNaming.GetResolvedPropertyName(dataBField.Name)
             };
 
         }

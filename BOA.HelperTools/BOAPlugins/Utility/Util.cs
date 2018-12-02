@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using BOA.CodeGeneration.Services;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 
-namespace BOAPlugins
+namespace BOAPlugins.Utility
 {
     public static class Util
     {

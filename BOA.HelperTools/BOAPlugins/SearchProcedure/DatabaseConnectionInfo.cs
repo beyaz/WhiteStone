@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Util;
+using BOAPlugins.Utility;
 using WhiteStone.Services;
 
 namespace BOAPlugins.SearchProcedure

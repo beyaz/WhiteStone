@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using BOA.Common.Helpers;
+using BOAPlugins.Utility;
 
 namespace BOAPlugins.Messaging
 {
@@ -60,7 +61,7 @@ namespace BOAPlugins.Messaging
             {
                 var propertyName = match.Value.RemoveFromStart(Prefix).Trim();
 
-                usedPropertyNames.SetValue(propertyName, propertyName);
+                Util.SetValue(usedPropertyNames, propertyName, propertyName);
 
                 match = match.NextMatch();
             }

@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using BOA.Common.Helpers;
 
-namespace BOAPlugins
+namespace BOAPlugins.Utility
 {
     public class Log
     {

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using BOAPlugins.FormApplicationGenerator;
 using BOAPlugins.FormApplicationGenerator.Logic;
 using BOAPlugins.FormApplicationGenerator.UI;
+using BOAPlugins.Utility;
 using BOAPlugins.ViewClassDependency;
 using WhiteStone;
 

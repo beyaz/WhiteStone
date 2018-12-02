@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using BOA.CodeGeneration.Util;
 using BOAPlugins.FormApplicationGenerator.UI;
+using BOAPlugins.Utility;
 
 namespace BOAPlugins.FormApplicationGenerator.Logic
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using BOAPlugins.Utility;
 using BOAPlugins.ViewClassDependency;
 
 namespace BOAPlugins.VSIntegration

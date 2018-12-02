@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace BOAPlugins
+namespace BOAPlugins.Utility
 {
     public class ConstConfiguration
     {

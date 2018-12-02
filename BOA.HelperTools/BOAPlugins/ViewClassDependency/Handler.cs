@@ -6,6 +6,7 @@ using BOA.CodeGeneration.Util;
 using BOAPlugins.TypeSearchView;
 using Mono.Cecil;
 using BOA.Common.Helpers;
+using BOAPlugins.Utility;
 using WhiteStone.IO;
 
 namespace BOAPlugins.ViewClassDependency

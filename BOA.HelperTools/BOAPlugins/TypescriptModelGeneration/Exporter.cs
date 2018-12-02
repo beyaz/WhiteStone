@@ -2,15 +2,15 @@
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOAPlugins.Utility;
 using Mono.Cecil;
-using Newtonsoft.Json.Serialization;
 
 namespace BOAPlugins.TypescriptModelGeneration
 {
     class Exporter
     {
         #region Static Fields
-        static readonly CamelCasePropertyNamesContractResolver CamelCasePropertyNamesContractResolver = new CamelCasePropertyNamesContractResolver();
+        
         #endregion
 
         #region Public Methods
@@ -21,10 +21,7 @@ namespace BOAPlugins.TypescriptModelGeneration
             return data;
         }
 
-        public static string GetResolvedPropertyName(string propertyName)
-        {
-            return CamelCasePropertyNamesContractResolver.GetResolvedPropertyName(propertyName);
-        }
+        
         #endregion
 
         #region Methods
@@ -182,7 +179,7 @@ namespace BOAPlugins.TypescriptModelGeneration
                 {
                     var typeName = GetTSTypeName(propertyDefinition.PropertyType, typeDefinition.Namespace);
 
-                    var name = GetResolvedPropertyName(propertyDefinition.Name);
+                    var name = TypescriptNaming.GetResolvedPropertyName(propertyDefinition.Name);
                     fieldNames.Add(name);
 
                     // if (IsNullableType(propertyDefinition.DeclaringType))

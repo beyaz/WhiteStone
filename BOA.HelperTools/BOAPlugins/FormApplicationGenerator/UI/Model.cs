@@ -7,23 +7,74 @@ using BOAPlugins.FormApplicationGenerator.Types;
 namespace BOAPlugins.FormApplicationGenerator.UI
 {
     [Serializable]
+    public class NamingInfo
+    {
+        #region Public Properties
+        public string DefinitionFormDataClassName   { get; private set; }
+        public string NamespaceName                 { get; private set; }
+        public string NamespaceNameForOrchestration { get; private set; }
+        public string NamespaceNameForType          { get; private set; }
+        public string RequestNameForDefinition      { get; private set; }
+        public string RequestNameForList            { get; private set; }
+        public string TableNameInDatabase           { get; private set; }
+        public string TypeAssemblyName              { get; private set; }
+        #endregion
+
+        #region Public Methods
+        public static NamingInfo Create(string solutionFilePath, string tableNameIndDatabase)
+        {
+            if (solutionFilePath == null)
+            {
+                throw new ArgumentNullException(nameof(solutionFilePath));
+            }
+
+            if (tableNameIndDatabase == null)
+            {
+                throw new ArgumentNullException(nameof(tableNameIndDatabase));
+            }
+
+            var namespaceName = Path.GetFileName(solutionFilePath).RemoveFromStart("BOA.").RemoveFromEnd(".sln");
+
+            var info = new NamingInfo
+            {
+                TableNameInDatabase           = tableNameIndDatabase,
+                NamespaceName                 = namespaceName,
+                RequestNameForDefinition      = tableNameIndDatabase + "FormRequest",
+                RequestNameForList            = tableNameIndDatabase + "ListFormRequest",
+                NamespaceNameForType          = $"BOA.Types.{namespaceName}",
+                TypeAssemblyName              = $"BOA.Types.{namespaceName}.dll",
+                NamespaceNameForOrchestration = "BOA.Orchestration." + namespaceName,
+                DefinitionFormDataClassName   = tableNameIndDatabase + "FormData"
+            };
+
+            return info;
+        }
+        #endregion
+    }
+
+    [Serializable]
     public class Model
     {
+        public NamingInfo NamingInfo { get; set; }
+
         #region Constructors
-        public Model(string solutionFilePath, string formName)
+        public Model(string solutionFilePath, string tableNameIndDatabase)
         {
-            SolutionFilePath = solutionFilePath ?? throw new ArgumentNullException(nameof(solutionFilePath));
-            FormName         = formName ?? throw new ArgumentNullException(nameof(formName));
+
+            NamingInfo = NamingInfo.Create(solutionFilePath,tableNameIndDatabase);
+
+
+            SolutionFilePath    = solutionFilePath ?? throw new ArgumentNullException(nameof(solutionFilePath));
+            TableNameInDatabase = tableNameIndDatabase ?? throw new ArgumentNullException(nameof(tableNameIndDatabase));
 
             var solutionFileName = Path.GetFileName(solutionFilePath);
             var namespaceName    = solutionFileName.RemoveFromStart("BOA.").RemoveFromEnd(".sln");
 
             NamespaceName                 = namespaceName;
-            RequestNameForDefinition      = formName + "FormRequest";
-            RequestNameForList            = formName + "ListFormRequest";
-            NamespaceNameForType          = "BOA.Types." + namespaceName;
+            RequestNameForList            = tableNameIndDatabase + "ListFormRequest";
+            NamespaceNameForType          = $"BOA.Types.{namespaceName}";
+            TypeAssemblyName              = $"BOA.Types.{namespaceName}.dll";
             NamespaceNameForOrchestration = "BOA.Orchestration." + namespaceName;
-            DefinitionFormDataClassName   = formName + "FormData";
             TypesProjectFolder            = Path.GetDirectoryName(solutionFilePath) + Path.DirectorySeparatorChar + NamespaceNameForType + Path.DirectorySeparatorChar;
 
             OrchestrationProjectFolder = Path.GetDirectoryName(SolutionFilePath) + Path.DirectorySeparatorChar + NamespaceNameForOrchestration + Path.DirectorySeparatorChar;
@@ -34,7 +85,6 @@ namespace BOAPlugins.FormApplicationGenerator.UI
 
         #region Public Properties
         public IReadOnlyCollection<BCard> Cards                       { get; set; } = new List<BCard>();
-        public string                     DefinitionFormDataClassName { get; }
 
         public IReadOnlyCollection<BField> FormDataClassFields
         {
@@ -49,8 +99,6 @@ namespace BOAPlugins.FormApplicationGenerator.UI
             }
         }
 
-        public bool UserRawStringForMessaging { get; set; }
-        public string                      FormName                      { get; }
         public bool                        IsTabForm                     { get; set; }
         public IReadOnlyCollection<BField> ListFormSearchFields          { get; set; } = new List<BField>();
         public string                      NamespaceName                 { get; }
@@ -58,11 +106,15 @@ namespace BOAPlugins.FormApplicationGenerator.UI
         public string                      NamespaceNameForType          { get; }
         public string                      OneProjectFolder              { get; }
         public string                      OrchestrationProjectFolder    { get; }
-        public string                      RequestNameForDefinition      { get; }
         public string                      RequestNameForList            { get; }
         public string                      SolutionFilePath              { get; }
-        public IReadOnlyCollection<BTab>   Tabs                          { get; set; } = new List<BTab>();
-        public string                      TypesProjectFolder            { get; }
+
+        public string                    TableNameInDatabase { get; }
+        public IReadOnlyCollection<BTab> Tabs                { get; set; } = new List<BTab>();
+        public string                    TypeAssemblyName    { get; set; }
+        public string                    TypesProjectFolder  { get; }
+
+        public bool UserRawStringForMessaging { get; set; }
         #endregion
 
         #region Methods

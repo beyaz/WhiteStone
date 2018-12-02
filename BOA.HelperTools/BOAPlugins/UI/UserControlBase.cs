@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace BOAPlugins
+namespace BOAPlugins.UI
 {
     public class UserControlBase : UserControl, INotifyPropertyChanged
     {

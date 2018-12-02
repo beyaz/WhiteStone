@@ -4,7 +4,7 @@ using System.IO;
 using BOA.Common.Helpers;
 using WhiteStone;
 
-namespace BOAPlugins
+namespace BOAPlugins.Utility
 {
     [Serializable]
     public class Configuration

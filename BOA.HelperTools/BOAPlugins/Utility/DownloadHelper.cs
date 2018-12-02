@@ -3,7 +3,7 @@ using System.IO;
 using BOA.Common.Helpers;
 using WhiteStone;
 
-namespace BOAPlugins
+namespace BOAPlugins.Utility
 {
     public class DownloadHelper
     {

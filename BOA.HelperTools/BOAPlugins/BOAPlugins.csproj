@@ -97,8 +97,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BTabControlTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="ConstConfiguration.cs" />
-    <Compile Include="DownloadHelper.cs" />
+    <Compile Include="Utility\TypescriptNaming.cs" />
+    <Compile Include="Utility\ConstConfiguration.cs" />
+    <Compile Include="Utility\DownloadHelper.cs" />
     <Compile Include="FormApplicationGenerator\Templates\BCardSectionTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -150,7 +151,7 @@
     <Compile Include="BOAPlugins.VSIntegration\MainForm.xaml.cs">
       <DependentUpon>MainForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configuration.cs" />
+    <Compile Include="Utility\Configuration.cs" />
     <Compile Include="Messaging\DataSource.cs" />
     <Compile Include="TypescriptModelGeneration\SolutionInfo.cs" />
     <Compile Include="TypescriptModelGeneration\Exporter.cs" />
@@ -165,7 +166,7 @@
     <Compile Include="FormApplicationGenerator\Types\ComponentType.cs" />
     <Compile Include="FormApplicationGenerator\Types\DotNetType.cs" />
     <Compile Include="FormApplicationGenerator\Types\SnapInfo.cs" />
-    <Compile Include="Log.cs" />
+    <Compile Include="Utility\Log.cs" />
     <Compile Include="Messaging\MessagesCleaner.cs" />
     <Compile Include="SearchProcedure\Input.cs" />
     <Compile Include="SearchProcedure\Result.cs" />
@@ -179,8 +180,8 @@
     <Compile Include="SearchProcedure\DatabaseConnectionInfo.cs" />
     <Compile Include="SearchProcedure\Handler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserControlBase.cs" />
-    <Compile Include="Util.cs" />
+    <Compile Include="UI\UserControlBase.cs" />
+    <Compile Include="Utility\Util.cs" />
     <Compile Include="ViewClassDependency\Data.cs" />
     <Compile Include="ViewClassDependency\GraphCreator.cs" />
     <Compile Include="ViewClassDependency\Handler.cs" />
