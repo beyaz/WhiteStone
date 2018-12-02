@@ -196,6 +196,10 @@
       <Project>{a51d1954-365f-4f98-8492-f8841fbad5be}</Project>
       <Name>BoaCodeGenerator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BOAPlugins.FormApplicationGenerator.UI\BOAPlugins.FormApplicationGenerator.UI.csproj">
+      <Project>{6eb40f66-3395-4e91-bb60-7212f903c490}</Project>
+      <Name>BOAPlugins.FormApplicationGenerator.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
