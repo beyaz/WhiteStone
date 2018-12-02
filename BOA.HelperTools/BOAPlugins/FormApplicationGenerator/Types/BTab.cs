@@ -4,32 +4,53 @@ using System.Collections.Generic;
 namespace BOAPlugins.FormApplicationGenerator.Types
 {
     [Serializable]
-    public class BTab
+    public class TabControl
+    {
+        #region Public Properties
+        public IReadOnlyList<TabPage> TabPages { get; set; }
+        #endregion
+    }
+
+    [Serializable]
+    public class TabPage
     {
         #region Constructors
-        public BTab(string title, IReadOnlyCollection<BCard> cards)
+        public TabPage(string title, IReadOnlyList<BCard> cards)
         {
             Cards = cards;
             Title = title;
         }
 
-        public BTab(string title, IReadOnlyCollection<BField> fields)
+        public TabPage(string title, IReadOnlyList<BField> fields)
         {
+            Title = title;
+
             Cards = new[]
             {
-                new BCard("", fields)
+                new BCard
+                {
+                    Fields = fields
+                }
             };
-            Title = title;
         }
 
-        public BTab(Enum title, IReadOnlyCollection<BField> fields) : this(title.ToString(), fields)
+        public TabPage(Enum title, IReadOnlyList<BField> fields)
         {
+            Title = title.ToString();
+
+            Cards = new[]
+            {
+                new BCard
+                {
+                    Fields = fields
+                }
+            };
         }
         #endregion
 
         #region Public Properties
-        public IReadOnlyCollection<BCard> Cards { get; }
-        public string                     Title { get; }
+        public IReadOnlyList<BCard> Cards { get; set; }
+        public string               Title { get; set; }
         #endregion
     }
 }

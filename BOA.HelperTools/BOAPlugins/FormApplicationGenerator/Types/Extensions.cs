@@ -22,7 +22,7 @@ namespace BOAPlugins.FormApplicationGenerator.Types
             return allFields;
         }
 
-        public static IReadOnlyCollection<BField> GetAllFields(this IReadOnlyCollection<BTab> tabs)
+        public static IReadOnlyCollection<BField> GetAllFields(this IReadOnlyCollection<TabPage> tabs)
         {
             var allFields = new List<BField>();
 

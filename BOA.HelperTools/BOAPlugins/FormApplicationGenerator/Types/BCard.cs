@@ -4,23 +4,35 @@ using System.Collections.Generic;
 namespace BOAPlugins.FormApplicationGenerator.Types
 {
     [Serializable]
+    public class BCardSection
+    {
+        #region Public Properties
+        public IReadOnlyList<BCard> Cards { get; set; }
+        #endregion
+    }
+
+    [Serializable]
     public class BCard
     {
         #region Constructors
-        public BCard(string title, IReadOnlyCollection<BField> fields)
+        public BCard()
+        {
+        }
+
+        public BCard(string title, IReadOnlyList<BField> fields)
         {
             Fields = fields;
             Title  = title;
         }
 
-        public BCard(Enum title, IReadOnlyCollection<BField> fields) : this(title.ToString(), fields)
+        public BCard(Enum title, IReadOnlyList<BField> fields) : this(title.ToString(), fields)
         {
         }
         #endregion
 
         #region Public Properties
-        public IReadOnlyCollection<BField> Fields { get; }
-        public string                      Title  { get; }
+        public IReadOnlyList<BField> Fields { get; set; }
+        public string                Title  { get; set; }
         #endregion
     }
 }

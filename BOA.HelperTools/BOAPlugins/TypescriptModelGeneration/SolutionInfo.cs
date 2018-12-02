@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using BOAPlugins.FormApplicationGenerator.UI;
+using BOAPlugins.Utility;
 
 namespace BOAPlugins.TypescriptModelGeneration
 {

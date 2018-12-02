@@ -97,6 +97,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BTabControlTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utility\NamingInfo.cs" />
     <Compile Include="Utility\TypescriptNaming.cs" />
     <Compile Include="Utility\ConstConfiguration.cs" />
     <Compile Include="Utility\DownloadHelper.cs" />
