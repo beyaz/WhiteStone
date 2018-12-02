@@ -1,6 +1,4 @@
-﻿using BOAPlugins.Models;
-
-namespace BOAPlugins.GenerateEntityContract
+﻿namespace BOAPlugins.GenerateEntityContract
 {
     public class Input
     {
@@ -9,10 +7,11 @@ namespace BOAPlugins.GenerateEntityContract
         #endregion
     }
 
-    public class Result : ResultBase
+    public class Result
     {
         #region Public Properties
         public string ContractClassBody { get; set; }
+        public string ErrorMessage      { get; set; }
         #endregion
     }
 }

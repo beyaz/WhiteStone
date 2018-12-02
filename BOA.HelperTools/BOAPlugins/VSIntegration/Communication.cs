@@ -99,7 +99,7 @@ namespace BOAPlugins.VSIntegration
         #endregion
 
         #region ShowTranslateHelperForLabels
-        static string ContainerHelper => DirectoryHelper.PluginDirectory + "UI.ContainerHelper.exe";
+        static string ContainerHelper => ConstConfiguration.PluginDirectory + "UI.ContainerHelper.exe";
 
         public void ShowTranslateHelperForLabels()
         {

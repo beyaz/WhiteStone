@@ -5,6 +5,16 @@ namespace BOAPlugins
     public class ConstConfiguration
     {
         #region Constants
+        /// <summary>
+        ///     Gets the client bin.
+        /// </summary>
+        public const string BoaClientBin = @"d:\boa\client\bin\";
+
+        /// <summary>
+        ///     Gets the server bin.
+        /// </summary>
+        public const string BoaServerBin = @"d:\boa\server\bin\";
+
         public const string DllDataSourceDirectory = "https://github.com/beyaz/WhiteStone/blob/master/BOA.HelperTools/BOAPlugins.VSIntegration/DeepEnds/";
         #endregion
 

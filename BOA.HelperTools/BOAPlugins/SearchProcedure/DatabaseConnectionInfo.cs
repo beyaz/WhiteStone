@@ -30,7 +30,7 @@ namespace BOAPlugins.SearchProcedure
             {
                 if (_connections == null)
                 {
-                    var path = DirectoryHelper.PluginDirectory + "SearchProcedure\\DatabaseConnectionStrings.json";
+                    var path = ConstConfiguration.PluginDirectory + "SearchProcedure\\DatabaseConnectionStrings.json";
                     _connections = new JsonSerializer().Deserialize<List<DatabaseConnectionInfo>>(File.ReadAllText(path));
 
                     if (Local.IsBOAGermany)

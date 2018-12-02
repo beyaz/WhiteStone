@@ -56,7 +56,7 @@ namespace BOAPlugins.ViewClassDependency
 
             data.OutputFileFullPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "ClassDependencyView.dgml";
 
-            var assemblySearchDirectoryPath = data.AssemblySearchDirectoryPath ?? BinFolderPaths.ServerBin + "," + BinFolderPaths.ClientBin;
+            var assemblySearchDirectoryPath = data.AssemblySearchDirectoryPath ?? ConstConfiguration.BoaServerBin + "," + ConstConfiguration.BoaClientBin;
 
             var typeDefinition = TryToFindDefinitionAutomaticly(data);
             if (typeDefinition == null)

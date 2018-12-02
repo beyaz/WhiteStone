@@ -47,7 +47,7 @@ namespace BOAPlugins.GenerateEntityContract
         #endregion
 
         #region Methods
-        static DatabaseConnectionInfo FindDbItemContainerDatabaseConnectionInfo(Input input, ResultBase result)
+        static DatabaseConnectionInfo FindDbItemContainerDatabaseConnectionInfo(Input input, Result result)
         {
             var procedureName = input.SelectedText;
             var handler = new SearchProcedure.Handler(new SearchProcedure.Input {ProcedureName = procedureName});

@@ -18,16 +18,14 @@ namespace BOASpSearch
 
             var handler = new Handler();
 
-            var input = new Data
+            var data = new Data
             {
                 CSharpCode = selectedText
             };
 
-            Result result = null;
-
             try
             {
-                result = handler.Handle(input);
+                handler.Handle(data);
             }
             catch (Exception exception)
             {
@@ -35,13 +33,13 @@ namespace BOASpSearch
                 return;
             }
 
-            if (result.ErrorMessage != null)
+            if (data.ErrorMessage != null)
             {
-                VisualStudio.UpdateStatusbarText(result.ErrorMessage);
+                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
                 return;
             }
 
-            VisualStudio.ActiveDocument_ReplaceText(selectedText, result.CSharpCode);
+            VisualStudio.ActiveDocument_ReplaceText(selectedText, data.CSharpCode);
 
             VisualStudio.ActiveDocument_Save();
 

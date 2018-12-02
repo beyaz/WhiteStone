@@ -105,7 +105,7 @@ namespace BOAPlugins.VSIntegration
         {
             Close();
 
-            Process.Start(DirectoryHelper.PluginDirectory);
+            Process.Start(ConstConfiguration.PluginDirectory);
         }
 
         

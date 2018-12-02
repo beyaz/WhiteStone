@@ -17,7 +17,7 @@ namespace BOAPlugins.DocumentFile
         {
             var handler = new Handler();
 
-            var input = new Data
+            var data = new Data
             {
                 CSharpCode =
                     @"
@@ -35,9 +35,9 @@ E
 F
 "
             };
-            var result = handler.Handle(input);
+            handler.Handle(data);
 
-            Assert.IsNull(result.ErrorMessage);
+            Assert.IsNull(data.ErrorMessage);
 
             Assert.AreEqual(
                 @"
@@ -49,7 +49,7 @@ D
 E
 F
 "
-                , result.CSharpCode);
+                , data.CSharpCode);
         }
         #endregion
 
@@ -61,7 +61,7 @@ F
         {
             var handler = new Handler();
 
-            var input = new Data
+            var data = new Data
             {
                 CSharpCode =
                     @"
@@ -72,9 +72,9 @@ A
 B
 "
             };
-            var result = handler.Handle(input);
+            handler.Handle(data);
 
-            Assert.IsNull(result.ErrorMessage);
+            Assert.IsNull(data.ErrorMessage);
 
             Assert.AreEqual(
                             @"
@@ -84,7 +84,7 @@ A
 /// </summary>
 B
 "
-                          , result.CSharpCode);
+                          , data.CSharpCode);
         }
     }
 }

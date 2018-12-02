@@ -3,11 +3,12 @@ using BOAPlugins.Models;
 
 namespace BOAPlugins.SearchProcedure
 {
-    /// <summary>
-    ///     .
-    /// </summary>
-    public class Result : ResultBase
+    public class Result
     {
+        #region Public Properties
+        public string ErrorMessage { get; set; }
+        #endregion
+
         #region Public Methods
         /// <summary>
         ///     Adds the SQL file.

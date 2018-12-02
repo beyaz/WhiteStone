@@ -72,8 +72,8 @@ namespace BOAPlugins.TypeSearchView
                 try
                 {
                     var resolver = new DefaultAssemblyResolver();
-                    resolver.AddSearchDirectory(BinFolderPaths.ServerBin);
-                    resolver.AddSearchDirectory(BinFolderPaths.ClientBin);
+                    resolver.AddSearchDirectory(ConstConfiguration.BoaServerBin);
+                    resolver.AddSearchDirectory(ConstConfiguration.BoaClientBin);
 
                     assembly = AssemblyDefinition.ReadAssembly(fullName, new ReaderParameters {AssemblyResolver = resolver});
                 }
