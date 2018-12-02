@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.Common.Helpers.Test
+namespace BOA.Common.Helpers
 {
     public class A
     {

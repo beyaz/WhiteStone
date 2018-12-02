@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.Common.Helpers.Test
+namespace BOA.Common.Helpers
 {
     [TestClass]
     public class IConvertibleUtilityTest

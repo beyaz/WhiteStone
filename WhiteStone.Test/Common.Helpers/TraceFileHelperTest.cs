@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.Common.Helpers.Test
+namespace BOA.Common.Helpers
 {
     public class TraceFileHelperTestContract
     {
