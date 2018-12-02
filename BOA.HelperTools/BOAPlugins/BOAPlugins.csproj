@@ -152,12 +152,13 @@
     </Compile>
     <Compile Include="Configuration.cs" />
     <Compile Include="Messaging\DataSource.cs" />
-    <Compile Include="ExportingModel\Exporter.cs" />
+    <Compile Include="TypescriptModelGeneration\SolutionInfo.cs" />
+    <Compile Include="TypescriptModelGeneration\Exporter.cs" />
     <Compile Include="DocumentFile\Handler.cs" />
     <Compile Include="DocumentFile\Input.cs" />
-    <Compile Include="ExportingModel\Handler.cs" />
+    <Compile Include="TypescriptModelGeneration\Handler.cs" />
     <Compile Include="Messaging\MessagingExporter.cs" />
-    <Compile Include="ExportingModel\Types.cs" />
+    <Compile Include="TypescriptModelGeneration\Types.cs" />
     <Compile Include="FormApplicationGenerator\Types\BCard.cs" />
     <Compile Include="FormApplicationGenerator\Types\BField.cs" />
     <Compile Include="FormApplicationGenerator\Types\BTab.cs" />

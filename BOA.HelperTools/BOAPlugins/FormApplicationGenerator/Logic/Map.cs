@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BOAPlugins.ExportingModel;
 using BOAPlugins.FormApplicationGenerator.Templates;
 using BOAPlugins.FormApplicationGenerator.Types;
 using BOAPlugins.FormApplicationGenerator.UI;
+using BOAPlugins.TypescriptModelGeneration;
 
 namespace BOAPlugins.FormApplicationGenerator.Logic
 {

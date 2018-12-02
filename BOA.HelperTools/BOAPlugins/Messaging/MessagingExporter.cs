@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BOA.Common.Helpers;
-using BOAPlugins.ExportingModel;
 
 namespace BOAPlugins.Messaging
 {
