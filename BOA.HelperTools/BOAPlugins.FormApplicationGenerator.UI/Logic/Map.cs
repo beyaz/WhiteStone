@@ -9,37 +9,37 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
 {
     public static class Map
     {
-        public static OrchestrationFileForDetailForm ToOrchestrationFileForDefinitionForm(this Model Model)
+        public static OrchestrationFileForDetailForm ToOrchestrationFileForDefinitionForm(this MainWindowModel mainWindowModel)
         {
             return  new OrchestrationFileForDetailForm
             {
                 //TODO:
             };
         }
-        public static OrchestrationFileForListForm ToOrchestrationFileForListForm(this Model Model)
+        public static OrchestrationFileForListForm ToOrchestrationFileForListForm(this MainWindowModel mainWindowModel)
         {
             return  new OrchestrationFileForListForm
             {
-                NamespaceNameForType        = Model.NamingInfo.NamespaceNameForType,
-                NamespaceName               = Model.NamingInfo.NamespaceNameForOrchestration,
-                ClassName                   = Model.TableNameInDatabase + "ListForm",
-                RequestName                 = Model.NamingInfo.RequestNameForList,
-                DefinitionFormDataClassName = Model.NamingInfo.DefinitionFormDataClassName,
-                GridColumnFields            = Model.FormDataClassFields.Select(fieldInfo => fieldInfo.Name).ToArray()
+                NamespaceNameForType        = mainWindowModel.NamingInfo.NamespaceNameForType,
+                NamespaceName               = mainWindowModel.NamingInfo.NamespaceNameForOrchestration,
+                ClassName                   = mainWindowModel.TableNameInDatabase + "ListForm",
+                RequestName                 = mainWindowModel.NamingInfo.RequestNameForList,
+                DefinitionFormDataClassName = mainWindowModel.NamingInfo.DefinitionFormDataClassName,
+                GridColumnFields            = mainWindowModel.FormDataClassFields.Select(fieldInfo => fieldInfo.Name).ToArray()
             };
         }
-        public static TransactionPageTemplate ToTransactionPageTemplate(this Model model)
+        public static TransactionPageTemplate ToTransactionPageTemplate(this MainWindowModel mainWindowModel)
         {
             var template= new TransactionPageTemplate
             {
-                NamespaceNameForType = model.NamingInfo.NamespaceNameForType,
-                RequestName          = model.NamingInfo.RequestNameForList,
-                ClassName            = model.TableNameInDatabase + @"Form",
-                Snaps                = model.FormDataClassFields.GetSnaps(),
-                IsTabForm = model.IsTabForm,
+                NamespaceNameForType = mainWindowModel.NamingInfo.NamespaceNameForType,
+                RequestName          = mainWindowModel.NamingInfo.RequestNameForList,
+                ClassName            = mainWindowModel.TableNameInDatabase + @"Form",
+                Snaps                = mainWindowModel.FormDataClassFields.GetSnaps(),
+                IsTabForm = mainWindowModel.IsTabForm,
             };
 
-            if (model.IsTabForm)
+            if (mainWindowModel.IsTabForm)
             {
                 template.IsTabForm = true;
                 template.ContentAsTabControl = new BTabControlTemplate
@@ -54,7 +54,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
                                 {
                                     new BCardTemplate
                                     {
-                                        Components = model.FormDataClassFields.Select(Map.GetRenderComponent).ToList()
+                                        Components = mainWindowModel.FormDataClassFields.Select(Map.GetRenderComponent).ToList()
                                     }
                                 }
                             }
@@ -70,7 +70,7 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
                     {
                         new BCardTemplate
                         {
-                            Components = model.FormDataClassFields.Select(Map.GetRenderComponent).ToList()
+                            Components = mainWindowModel.FormDataClassFields.Select(Map.GetRenderComponent).ToList()
                         }
                     }
                 };
@@ -79,16 +79,16 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
             return template;
 
         }
-        public static BrowsePageTemplate ToBrowsePageTemplate(this Model model)
+        public static BrowsePageTemplate ToBrowsePageTemplate(this MainWindowModel mainWindowModel)
         {
             return new BrowsePageTemplate
             {
-                NamespaceNameForType = model.NamingInfo.NamespaceNameForType,
-                RequestName          = model.NamingInfo.RequestNameForList,
-                ClassName            = model.TableNameInDatabase + @"ListForm",
-                DetailFormClassName  = model.TableNameInDatabase + @"Form",
-                Snaps                = model.ListFormSearchFields.GetSnaps(),
-                Components           = model.ListFormSearchFields.Select(Map.GetRenderComponent).ToList()
+                NamespaceNameForType = mainWindowModel.NamingInfo.NamespaceNameForType,
+                RequestName          = mainWindowModel.NamingInfo.RequestNameForList,
+                ClassName            = mainWindowModel.TableNameInDatabase + @"ListForm",
+                DetailFormClassName  = mainWindowModel.TableNameInDatabase + @"Form",
+                Snaps                = mainWindowModel.ListFormSearchFields.GetSnaps(),
+                Components           = mainWindowModel.ListFormSearchFields.Select(Map.GetRenderComponent).ToList()
             };
             
         }

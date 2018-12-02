@@ -78,7 +78,7 @@ namespace BOAPlugins.VSIntegration
         {
             SafeScope(() =>
             {
-                BOAPlugins.FormApplicationGenerator.Logic.FormAssistantProjectInitializer.Initialize(new BOAPlugins.FormApplicationGenerator.UI.Model(VisualStudio.GetSolutionFilePath(), "xxx"));
+                BOAPlugins.FormApplicationGenerator.Logic.FormAssistantProjectInitializer.Initialize(new BOAPlugins.FormApplicationGenerator.UI.MainWindowModel(VisualStudio.GetSolutionFilePath(), "xxx"));
 
                 Close();
 

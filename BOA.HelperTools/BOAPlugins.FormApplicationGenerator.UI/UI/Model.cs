@@ -7,10 +7,10 @@ using BOAPlugins.Utility.TypescriptModelGeneration;
 namespace BOAPlugins.FormApplicationGenerator.UI
 {
     [Serializable]
-    public class Model
+    public class MainWindowModel
     {
         #region Constructors
-        public Model(string solutionFilePath, string tableNameIndDatabase)
+        public MainWindowModel(string solutionFilePath, string tableNameIndDatabase)
         {
             SolutionInfo = SolutionInfo.CreateFrom(solutionFilePath);
 

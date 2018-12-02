@@ -5,9 +5,9 @@ namespace BOAPlugins.FormApplicationGenerator.Logic
     public static class Extensions
     {
         #region Public Methods
-        public static void AutoGenerateCodesAndExportFiles(this Model model)
+        public static void AutoGenerateCodesAndExportFiles(this MainWindowModel mainWindowModel)
         {
-            new FileExporter(model).ExportFiles();
+            new FileExporter(mainWindowModel).ExportFiles();
         }
         #endregion
     }
