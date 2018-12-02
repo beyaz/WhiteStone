@@ -16,13 +16,11 @@ using System.Windows.Shapes;
 namespace BOAPlugins.FormApplicationGenerator.UI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SlnFileSelection.xaml
     /// </summary>
-    public partial class MainWindow 
+    public partial class SlnFileSelection : UserControl
     {
-        
-
-        public MainWindow()
+        public SlnFileSelection()
         {
             InitializeComponent();
         }
