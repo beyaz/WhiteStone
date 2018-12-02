@@ -165,7 +165,6 @@
     <Compile Include="FormApplicationGenerator\Types\DotNetType.cs" />
     <Compile Include="FormApplicationGenerator\Types\SnapInfo.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="Models\DatabaseConnectionInfo.cs" />
     <Compile Include="Messaging\MessagesCleaner.cs" />
     <Compile Include="SearchProcedure\Input.cs" />
     <Compile Include="SearchProcedure\Result.cs" />

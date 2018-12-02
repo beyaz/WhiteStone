@@ -15,8 +15,8 @@ namespace BOAPlugins
             {
                 return;
             }
-
-            DownloadDeepEnds(ConstConfiguration.DeepEndsDirectory, configuration.ServerFiles);
+          string DeepEndsDirectory = ConstConfiguration.PluginDirectory + "DeepEnds" + Path.DirectorySeparatorChar;
+            DownloadDeepEnds(DeepEndsDirectory, configuration.ServerFiles);
 
             configuration.DeepEndsAssembliesDownloaded = true;
 
@@ -51,7 +51,9 @@ namespace BOAPlugins
                 return;
             }
 
-            var url = ConstConfiguration.DllDataSourceDirectory + fileName + "?raw=true";
+         const string DllDataSourceDirectory = "https://github.com/beyaz/WhiteStone/blob/master/BOA.HelperTools/BOAPlugins.VSIntegration/DeepEnds/";
+
+            var url = DllDataSourceDirectory + fileName + "?raw=true";
 
             FileHelper.DownloadFile(url, saveFilePath, true);
         }

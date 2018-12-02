@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
-using BOAPlugins.Models;
 using Mono.Cecil;
 
 namespace BOAPlugins.TypeSearchView

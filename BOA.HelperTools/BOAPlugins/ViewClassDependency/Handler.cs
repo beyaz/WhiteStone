@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.CodeGeneration.Util;
-using BOAPlugins.Models;
 using BOAPlugins.TypeSearchView;
 using Mono.Cecil;
 using BOA.Common.Helpers;

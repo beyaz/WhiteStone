@@ -3,11 +3,19 @@ using System.IO;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Util;
-using BOAPlugins.Models;
 using WhiteStone.Services;
 
 namespace BOAPlugins.SearchProcedure
 {
+    public class DatabaseConnectionInfo
+    {
+        #region Public Properties
+        public string ConnectionStringDev  { get; set; }
+        public string ConnectionStringPrep { get; set; }
+        public string DatabaseName         { get; set; }
+        #endregion
+    }
+
     /// <summary>
     ///     The database connection strings
     /// </summary>

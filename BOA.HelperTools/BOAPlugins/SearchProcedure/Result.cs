@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BOAPlugins.Models;
 
 namespace BOAPlugins.SearchProcedure
 {
