@@ -85,11 +85,6 @@
     <Compile Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BOA.Tools.Translator\UI.TranslateHelper\Controller.cs" />
-    <Compile Include="BOA.Tools.Translator\UI.TranslateHelper\Model.cs" />
-    <Compile Include="BOA.Tools.Translator\UI.TranslateHelper\View.xaml.cs">
-      <DependentUpon>View.xaml</DependentUpon>
-    </Compile>
     <Compile Include="VSIntegration\Command.cs" />
     <Compile Include="VSIntegration\MainForm.xaml.cs">
       <DependentUpon>MainForm.xaml</DependentUpon>
@@ -205,10 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\View.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="BOA.Tools.Translator\UI.TranslateHelper\View.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
