@@ -3,8 +3,8 @@
 namespace BOA.CodeGeneration.JsxElementRender
 {
     [Serializable]
-    public class BDateTimePicker : BField
+    public class BAccountComponent : BField
     {
-        
+       
     }
 }

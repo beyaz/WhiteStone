@@ -280,17 +280,20 @@
   <ItemGroup>
     <Compile Include="Generators\InsertStructuredCs.cs" />
     <Compile Include="Generators\InsertStructuredSql.cs" />
+    <Compile Include="JsxElementRender\BAccountComponent.cs" />
     <Compile Include="JsxElementRender\BAccountComponentTemplate.cs">
       <DependentUpon>BAccountComponentTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="JsxElementRender\BBranchComponent.cs" />
     <Compile Include="JsxElementRender\BBranchComponentTemplate.cs">
       <DependentUpon>BBranchComponentTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="JsxElementRender\BCard.cs" />
+    <Compile Include="JsxElementRender\BCardSection.cs" />
     <Compile Include="JsxElementRender\BCardSectionTemplate.cs">
       <DependentUpon>BCardSectionTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -301,6 +304,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="JsxElementRender\BCheckBox.cs" />
     <Compile Include="JsxElementRender\BCheckBoxTemplate.cs">
       <DependentUpon>BCheckBoxTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -313,11 +317,14 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="JsxElementRender\BField.cs" />
+    <Compile Include="JsxElementRender\BInput.cs" />
+    <Compile Include="JsxElementRender\BInputMask.cs" />
     <Compile Include="JsxElementRender\BInputMaskTemplate.cs">
       <DependentUpon>BInputMaskTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="JsxElementRender\BInputNumeric.cs" />
     <Compile Include="JsxElementRender\BInputNumericTemplate.cs">
       <DependentUpon>BInputNumericTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -328,6 +335,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="JsxElementRender\BParameterComponent.cs" />
     <Compile Include="JsxElementRender\BParameterComponentTemplate.cs">
       <DependentUpon>BParameterComponentTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>

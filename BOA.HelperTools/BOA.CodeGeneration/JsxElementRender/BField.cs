@@ -21,12 +21,4 @@ namespace BOA.CodeGeneration.JsxElementRender
         }
         #endregion
     }
-
-    [Serializable]
-    public class BInputMask : BField
-    {
-        #region Public Properties
-        public bool IsCreditCard { get; set; }
-        #endregion
-    }
 }
