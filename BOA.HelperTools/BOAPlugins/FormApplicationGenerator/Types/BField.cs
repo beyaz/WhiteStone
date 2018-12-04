@@ -5,11 +5,10 @@ namespace BOAPlugins.FormApplicationGenerator.Types
     [Serializable]
     public abstract class BField
     {
-        public abstract string ToJsx(string indent);
-
         #region Public Properties
         public string BindingPath { get;  set; }
         public string Label { get; set; }
+        public string SnapName { get; set; }
         #endregion
     }
 

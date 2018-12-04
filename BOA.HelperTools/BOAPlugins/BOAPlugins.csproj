@@ -100,6 +100,16 @@
     <Compile Include="FormApplicationGenerator\Logic\FormAssistantProjectInitializer.cs" />
     <Compile Include="FormApplicationGenerator\Logic\MainWindowModel.cs" />
     <Compile Include="FormApplicationGenerator\Logic\Map.cs" />
+    <Compile Include="FormApplicationGenerator\Templates\BAccountComponentTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BAccountComponentTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\BBranchComponentTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BBranchComponentTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="FormApplicationGenerator\Templates\BCardSectionTemplate.cs">
       <DependentUpon>BCardSectionTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -110,10 +120,30 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\BFieldTemplate.cs">
-      <DependentUpon>BFieldTemplate.tt</DependentUpon>
+    <Compile Include="FormApplicationGenerator\Templates\BCheckBoxTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>BCheckBoxTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\BDateTimePickerTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BDateTimePickerTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\BInputNumericTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BInputNumericTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\BInputTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BInputTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\BParameterComponentTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BParameterComponentTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="FormApplicationGenerator\Templates\BrowsePageTemplate.cs">
       <DependentUpon>BrowsePageTemplate.tt</DependentUpon>
@@ -228,6 +258,14 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FormApplicationGenerator\Templates\BAccountComponentTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BAccountComponentTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\BBranchComponentTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BBranchComponentTemplate.cs</LastGenOutput>
+    </Content>
     <Content Include="FormApplicationGenerator\Templates\BCardSectionTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BCardSectionTemplate.cs</LastGenOutput>
@@ -236,9 +274,25 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BCardTemplate.cs</LastGenOutput>
     </Content>
-    <Content Include="FormApplicationGenerator\Templates\BFieldTemplate.tt">
+    <Content Include="FormApplicationGenerator\Templates\BCheckBoxTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BFieldTemplate.cs</LastGenOutput>
+      <LastGenOutput>BCheckBoxTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\BDateTimePickerTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BDateTimePickerTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\BInputNumericTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BInputNumericTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\BInputTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BInputTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="FormApplicationGenerator\Templates\BParameterComponentTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BParameterComponentTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="FormApplicationGenerator\Templates\BrowsePageTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

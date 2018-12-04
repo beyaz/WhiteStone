@@ -1,0 +1,13 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<BAccountComponent accountNumber = {<#=Data.BindingPath#>}
+                 onAccountSelect = {(selectedAccount: any) => <#=Data.BindingPath#> = selectedAccount ? selectedAccount.accountNumber : null}
+                isVisibleBalance = {false}
+          isVisibleAccountSuffix = {false}
+enableShowDialogMessagesInCallback = {false}
+                   isVisibleIBAN = {false}
+                             ref = {(r: any) => this.snaps.SnapName = r}
+                         context = {context}/>
