@@ -6,6 +6,7 @@ namespace BOA.CodeGeneration.JsxElementRender
     [Serializable]
     public abstract class BField
     {
+        public string Indent { get; set; }
         #region Public Properties
         public string BindingPath { get; set; }
         public string Label       { get; set; }
