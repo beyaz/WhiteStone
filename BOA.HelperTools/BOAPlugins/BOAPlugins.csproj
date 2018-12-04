@@ -145,8 +145,6 @@
     <Compile Include="FormApplicationGenerator\Types\BDateTimePicker.cs" />
     <Compile Include="FormApplicationGenerator\Types\BField.cs" />
     <Compile Include="FormApplicationGenerator\Types\BTab.cs" />
-    <Compile Include="FormApplicationGenerator\Types\Extensions.cs" />
-    <Compile Include="FormApplicationGenerator\Types\SnapInfo.cs" />
     <Compile Include="Messaging\DataSource.cs" />
     <Compile Include="DocumentFile\Handler.cs" />
     <Compile Include="DocumentFile\Input.cs" />
