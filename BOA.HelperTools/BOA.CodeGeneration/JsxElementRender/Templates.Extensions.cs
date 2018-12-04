@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using BOAPlugins.FormApplicationGenerator.Types;
 
-namespace BOAPlugins.FormApplicationGenerator.Templates
+
+
+namespace BOA.CodeGeneration.JsxElementRender
 { partial class  BCheckBoxTemplate
     {
         public BCheckBox Data { get; set; }

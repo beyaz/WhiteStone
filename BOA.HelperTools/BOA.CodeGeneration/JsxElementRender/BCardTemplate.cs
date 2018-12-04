@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOAPlugins.FormApplicationGenerator.Templates
+namespace BOA.CodeGeneration.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BCardSectionTemplate : BCardSectionTemplateBase
+    public partial class BCardTemplate : BCardTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,80 +28,81 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<BCardSection context={context} ");
+            this.Write(" <BCard context={context} ");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
-    if(Cards.Count > 1)
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
+    if(HasTitle)
             
             #line default
             #line hidden
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
     {
             
             #line default
             #line hidden
-            this.Write("thresholdColumnCount={3}");
+            this.Write("Title={Message.");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Title));
+            
+            #line default
+            #line hidden
+            this.Write("}");
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
+    }
+            
+            #line default
+            #line hidden
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
+    if(HasColumnIndex)
+            
+            #line default
+            #line hidden
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
+    {
+            
+            #line default
+            #line hidden
+            this.Write("column={");
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ColumnIndex));
+            
+            #line default
+            #line hidden
+            this.Write("}");
+            
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
     }
             
             #line default
             #line hidden
             this.Write(">\r\n");
             
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
-
-int? columnIndex = 0;
-foreach (var card in Cards)
+            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
+foreach (var component in Components)
             
             #line default
             #line hidden
             
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
 {
-if (columnIndex == 3)
-{
-    columnIndex = 0;
-}
-
-if (Cards.Count == 1)
-{
-    columnIndex = null;
-}
-card.ColumnIndex = columnIndex;
-
             
             #line default
             #line hidden
-            this.Write("\r\n    ");
+            this.Write("    component.PushIndent(\"    \");\r\n    component.TransformText();\r\n    component." +
+                    "PopIndent();\r\n");
             
-            #line 22 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
-card.PushIndent("    ");
-            
-            #line default
-            #line hidden
-            this.Write("    ");
-            
-            #line 23 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(card.TransformText()));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n    ");
-            
-            #line 24 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
-card.PopIndent();
-            
-            #line default
-            #line hidden
-            
-            #line 25 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardSectionTemplate.tt"
+            #line 12 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("           \r\n</BCardSection>");
+            this.Write("           \r\n</BCard>");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -113,7 +114,7 @@ card.PopIndent();
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BCardSectionTemplateBase
+    public class BCardTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOAPlugins.FormApplicationGenerator.Templates
+namespace BOA.CodeGeneration.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,7 +18,7 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputMaskTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputMaskTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     public partial class BInputMaskTemplate : BInputMaskTemplateBase
     {
@@ -30,7 +30,7 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
         {
             this.Write("<BInputMask value    = {");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputMaskTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputMaskTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
@@ -38,21 +38,21 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
             this.Write("}\r\ntype=\"Custom\"\r\n                                mask=\"nn:nn\"\r\n        onChange " +
                     "= {(e: any, value: string) => ");
             
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputMaskTemplate.tt"
+            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputMaskTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
             this.Write(" = value}\r\n        floatingLabelTextDate = {");
             
-            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputMaskTemplate.tt"
+            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputMaskTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
             
             #line default
             #line hidden
             this.Write("}\r\n        hintText={");
             
-            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputMaskTemplate.tt"
+            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputMaskTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
             
             #line default

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BOAPlugins.FormApplicationGenerator.Types
+namespace BOA.CodeGeneration.JsxElementRender
 {
     [Serializable]
     public class BCardSection

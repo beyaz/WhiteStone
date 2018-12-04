@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOAPlugins.FormApplicationGenerator.Templates
+namespace BOA.CodeGeneration.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BDateTimePickerTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BAccountComponentTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BDateTimePickerTemplate : BDateTimePickerTemplateBase
+    public partial class BAccountComponentTemplate : BAccountComponentTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,28 +28,28 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<BDateTimePicker format = \"DDMMYYYY\")\r\n                 value  = {");
+            this.Write("<BAccountComponent accountNumber = {");
             
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BDateTimePickerTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BAccountComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write("}\r\n           dateOnChange = {(e: any, value: Date) => ");
+            this.Write("}\r\n                 onAccountSelect = {(selectedAccount: any) => ");
             
-            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BDateTimePickerTemplate.tt"
+            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BAccountComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write(" = value}\r\n  floatingLabelTextDate = {");
-            
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BDateTimePickerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
-            
-            #line default
-            #line hidden
-            this.Write("}\r\n                context = {context}/>");
+            this.Write(@" = selectedAccount ? selectedAccount.accountNumber : null}
+                isVisibleBalance = {false}
+          isVisibleAccountSuffix = {false}
+enableShowDialogMessagesInCallback = {false}
+                   isVisibleIBAN = {false}
+                             ref = {(r: any) => this.snaps.SnapName = r}
+                         context = {context}/>
+");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -61,7 +61,7 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BDateTimePickerTemplateBase
+    public class BAccountComponentTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

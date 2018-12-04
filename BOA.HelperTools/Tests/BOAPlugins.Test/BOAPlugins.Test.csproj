@@ -88,7 +88,6 @@
     <Compile Include="ConfigurationTest.cs" />
     <Compile Include="ExportingModel\ExporterTest.cs" />
     <Compile Include="ExportingModel\HandlerTest.cs" />
-    <Compile Include="FormApplicationGenerator\Test1.cs" />
     <Compile Include="DocumentFile\HandlerTest.cs" />
     <Compile Include="Generators\CustomExecutionCsTest.cs" />
     <Compile Include="RemoveUnusedMessagesInTypescriptCodes\HandlerTest.cs" />

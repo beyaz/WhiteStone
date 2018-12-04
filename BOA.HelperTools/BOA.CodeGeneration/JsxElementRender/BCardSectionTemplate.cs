@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOAPlugins.FormApplicationGenerator.Templates
+namespace BOA.CodeGeneration.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputNumericTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BInputNumericTemplate : BInputNumericTemplateBase
+    public partial class BCardSectionTemplate : BCardSectionTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,49 +28,80 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<BInputNumeric value = {");
+            this.Write("<BCardSection context={context} ");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputNumericTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
-            
-            #line default
-            #line hidden
-            this.Write("}\r\n               onChange = {(e: any, value: any) => ");
-            
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputNumericTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
+    if(Cards.Count > 1)
             
             #line default
             #line hidden
-            this.Write(" = value}\r\n               floatingLabelTextDate = {");
             
-            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputNumericTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
-            
-            #line default
-            #line hidden
-            this.Write("}\r\n");
-            
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputNumericTemplate.tt"
-if(Data.IsDecimal){
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
+    {
             
             #line default
             #line hidden
-            this.Write("               format = {\"D\"}\r\n");
+            this.Write("thresholdColumnCount={3}");
             
-            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputNumericTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
+    }
+            
+            #line default
+            #line hidden
+            this.Write(">\r\n");
+            
+            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
+
+int? columnIndex = 0;
+foreach (var card in Cards)
+            
+            #line default
+            #line hidden
+            
+            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
+{
+if (columnIndex == 3)
+{
+    columnIndex = 0;
+}
+
+if (Cards.Count == 1)
+{
+    columnIndex = null;
+}
+card.ColumnIndex = columnIndex;
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    ");
+            
+            #line 22 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
+card.PushIndent("    ");
+            
+            #line default
+            #line hidden
+            this.Write("    ");
+            
+            #line 23 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(card.TransformText()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    ");
+            
+            #line 24 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
+card.PopIndent();
+            
+            #line default
+            #line hidden
+            
+            #line 25 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("               maxLength = {");
-            
-            #line 12 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputNumericTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.MaxLength));
-            
-            #line default
-            #line hidden
-            this.Write("}\r\n               context = {context}/>\r\n");
+            this.Write("           \r\n</BCardSection>");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -82,7 +113,7 @@ if(Data.IsDecimal){
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BInputNumericTemplateBase
+    public class BCardSectionTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

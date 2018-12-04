@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOAPlugins.FormApplicationGenerator.Templates
+namespace BOA.CodeGeneration.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BAccountComponentTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputNumericTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BAccountComponentTemplate : BAccountComponentTemplateBase
+    public partial class BInputNumericTemplate : BInputNumericTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,28 +28,49 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<BAccountComponent accountNumber = {");
+            this.Write("<BInputNumeric value = {");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BAccountComponentTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputNumericTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write("}\r\n                 onAccountSelect = {(selectedAccount: any) => ");
+            this.Write("}\r\n               onChange = {(e: any, value: any) => ");
             
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BAccountComponentTemplate.tt"
+            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputNumericTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write(@" = selectedAccount ? selectedAccount.accountNumber : null}
-                isVisibleBalance = {false}
-          isVisibleAccountSuffix = {false}
-enableShowDialogMessagesInCallback = {false}
-                   isVisibleIBAN = {false}
-                             ref = {(r: any) => this.snaps.SnapName = r}
-                         context = {context}/>
-");
+            this.Write(" = value}\r\n               floatingLabelTextDate = {");
+            
+            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputNumericTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n");
+            
+            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputNumericTemplate.tt"
+if(Data.IsDecimal){
+            
+            #line default
+            #line hidden
+            this.Write("               format = {\"D\"}\r\n");
+            
+            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputNumericTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("               maxLength = {");
+            
+            #line 12 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputNumericTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.MaxLength));
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n               context = {context}/>\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -61,7 +82,7 @@ enableShowDialogMessagesInCallback = {false}
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BAccountComponentTemplateBase
+    public class BInputNumericTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

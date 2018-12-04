@@ -1,7 +1,7 @@
 ﻿using System;
 using BOA.Common.Helpers;
 
-namespace BOAPlugins.FormApplicationGenerator.Types
+namespace BOA.CodeGeneration.JsxElementRender
 {
     [Serializable]
     public abstract class BField
