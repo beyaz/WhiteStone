@@ -3,7 +3,10 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<BInput value    = {<#=Data.BindingPath#>}
+<BInputMask value    = {<#=Data.BindingPath#>}
+type="Custom"
+                                mask="nn:nn"
         onChange = {(e: any, value: string) => <#=Data.BindingPath#> = value}
         floatingLabelTextDate = {<#=Data.Label#>}
+        hintText={<#=Data.Label#>}
         context = {context}/>

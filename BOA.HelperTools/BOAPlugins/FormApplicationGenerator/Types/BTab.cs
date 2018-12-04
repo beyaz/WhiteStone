@@ -14,39 +14,7 @@ namespace BOAPlugins.FormApplicationGenerator.Types
     [Serializable]
     public class TabPage
     {
-        #region Constructors
-        public TabPage(string title, IReadOnlyList<BCard> cards)
-        {
-            Cards = cards;
-            Title = title;
-        }
-
-        public TabPage(string title, IReadOnlyList<BField_Kaldırılacak> fields)
-        {
-            Title = title;
-
-            Cards = new[]
-            {
-                new BCard
-                {
-                    Fields = fields
-                }
-            };
-        }
-
-        public TabPage(Enum title, IReadOnlyList<BField_Kaldırılacak> fields)
-        {
-            Title = title.ToString();
-
-            Cards = new[]
-            {
-                new BCard
-                {
-                    Fields = fields
-                }
-            };
-        }
-        #endregion
+       
 
         #region Public Properties
         public IReadOnlyList<BCard> Cards { get; set; }

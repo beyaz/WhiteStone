@@ -2,15 +2,13 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
-using BOAPlugins.FormApplicationGenerator;
-using BOAPlugins.FormApplicationGenerator.Logic;
-using BOAPlugins.FormApplicationGenerator.UI;
 using BOAPlugins.Utility;
 using BOAPlugins.Utility.TypescriptModelGeneration;
 using BOAPlugins.ViewClassDependency;
+using BOAPlugins.VSIntegration;
 using WhiteStone;
 
-namespace BOAPlugins.VSIntegration
+namespace BOAPlugins.BOAPlugins.VSIntegration
 {
     /// <summary>
     ///     Interaction logic for MainForm.xaml
@@ -80,11 +78,11 @@ namespace BOAPlugins.VSIntegration
             SafeScope(() =>
             {
                 var solutionInfo = SolutionInfo.CreateFrom(VisualStudio.GetSolutionFilePath());
-                BOAPlugins.FormApplicationGenerator.Logic.FormAssistantProjectInitializer.Initialize(solutionInfo);
+                global::BOAPlugins.BOAPlugins.VSIntegration.FormAssistantProjectInitializer.Initialize(solutionInfo);
 
                 Close();
 
-                VisualStudio.UpdateStatusbarText("Files are exported.");
+                VisualStudio.UpdateStatusBarText("Files are exported.");
             });
         }
 
@@ -112,13 +110,7 @@ namespace BOAPlugins.VSIntegration
         }
 
         
-
-        // TODO: remove with sub tree
-        void ShowPropertyGenerator(object sender, RoutedEventArgs e)
-        {
-            Communication.ShowPropertyGenerator();
-            Close();
-        }
+        
 
         void UpdateMessageCs(object sender, RoutedEventArgs e)
         {

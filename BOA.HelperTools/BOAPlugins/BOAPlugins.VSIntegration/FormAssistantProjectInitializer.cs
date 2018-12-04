@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using BOA.CodeGeneration.Util;
-using BOAPlugins.FormApplicationGenerator.UI;
 using BOAPlugins.Utility;
 using BOAPlugins.Utility.TypescriptModelGeneration;
 
-namespace BOAPlugins.FormApplicationGenerator.Logic
+namespace BOAPlugins.BOAPlugins.VSIntegration
 {
     public static class FormAssistantProjectInitializer
     {

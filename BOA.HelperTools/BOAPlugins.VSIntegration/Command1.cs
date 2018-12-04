@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows;
 using BOA.CodeGeneration.Util;
 using BOAPlugins;
+using BOAPlugins.BOAPlugins.VSIntegration;
 using BOAPlugins.SearchProcedure;
 using BOAPlugins.Utility;
 using BOAPlugins.ViewClassDependency;
@@ -92,7 +93,7 @@ namespace BOASpSearch
 
         #region Properties
         static Configuration Configuration => SM.Get<Configuration>();
-        ICommunication       Communication => Factory.GetCommunication(VisualStudio);
+        Communication       Communication => Factory.GetCommunication(VisualStudio);
 
         /// <summary>
         ///     Gets the service provider from the owner package.
@@ -123,7 +124,7 @@ namespace BOASpSearch
 
         void CheckInSolution()
         {
-            VisualStudio.UpdateStatusbarText("Check-in started...");
+            VisualStudio.UpdateStatusBarText("Check-in started...");
             var data = new CheckInSolutionInput
             {
                 SolutionFilePath = VisualStudio.GetSolutionFilePath(),
@@ -133,7 +134,7 @@ namespace BOASpSearch
             try
             {
                 TFSAccessForBOA.CheckInSolution(data);
-                VisualStudio.UpdateStatusbarText(data.ResultMessage);
+                VisualStudio.UpdateStatusBarText(data.ResultMessage);
             }
             catch (Exception exception)
             {

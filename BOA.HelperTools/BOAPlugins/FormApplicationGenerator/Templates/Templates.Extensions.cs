@@ -1,89 +1,56 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using BOAPlugins.FormApplicationGenerator.Types;
 
 namespace BOAPlugins.FormApplicationGenerator.Templates
-{
+{ partial class  BCheckBoxTemplate
+    {
+        public BCheckBox Data { get; set; }
+    }
+    partial class  BBranchComponentTemplate
+    {
+        public BBranchComponent Data { get; set; }
+    }
     partial class BParameterComponentTemplate
     {
+        #region Public Properties
         public BParameterComponent Data { get; set; }
+        #endregion
     }
-    
+
     partial class BInputNumericTemplate
     {
+        #region Public Properties
         public BInputNumeric Data { get; set; }
+        #endregion
     }
+
     partial class BDateTimePickerTemplate
     {
+        #region Public Properties
         public BDateTimePicker Data { get; set; }
+        #endregion
     }
+
     partial class BAccountComponentTemplate
     {
+        #region Public Properties
         public BAccountComponent Data { get; set; }
+        #endregion
     }
-    
+
     partial class BInputTemplate
     {
-        public BInput Data { get; set; }
-    }
-
-    partial class OrchestrationFileForDetailForm
-    {
-        public string ClassName { get; set; }
-    }
-    partial class TabPageTemplate
-    {
-        public BCardSectionTemplate content { get; set; }
-        public string text { get; set; }
-    }
-    partial class BTabControlTemplate
-    {
-        public IReadOnlyList<TabPageTemplate> TabPages{ get; set; }
-    }
-    partial class TransactionPageTemplate
-    {
-        public bool HasWorkFlow { get; set; }
-        public bool IsTabForm { get; set; }
-        public string                        NamespaceNameForType { get; set; }
-        public string                        RequestName          { get; set; }
-        public string                        ClassName            { get; set; }
-        public string                        DetailFormClassName  { get; set; }
-        public IReadOnlyList<SnapInfo>       Snaps                { get; set; }
-     
-        public BCardSectionTemplate ContentAsBCardSection { get; set; }
-        public BTabControlTemplate ContentAsTabControl { get; set; }
-    }
-    partial class BrowsePageTemplate
-    {
-        public string NamespaceNameForType { get; set; }
-        public string RequestName { get; set; }
-        public string ClassName { get; set; }
-        public string DetailFormClassName { get; set; }
-        public IReadOnlyList<SnapInfo> Snaps { get; set; }
-        public IReadOnlyList<BFieldTemplate> Components { get; set; }
-    }
-    partial class OrchestrationFileForListForm
-    {
         #region Public Properties
-        public string                ClassName                   { get; set; }
-        public string                DefinitionFormDataClassName { get; set; }
-        public IReadOnlyList<string> GridColumnFields            { get; set; }
-        public string                NamespaceName               { get; set; }
-        public string                NamespaceNameForType        { get; set; }
-        public string                RequestName                 { get; set; }
+        public BInput Data { get; set; }
         #endregion
-
-       
     }
-
-    
 
     partial class BCardTemplate
     {
         #region Public Properties
-        public int?                                         ColumnIndex { get; set; }
-        public IReadOnlyList<BFieldTemplate> Components  { get; set; }
-        public string                                       Title       { get; set; }
+        public int?                  ColumnIndex { get; set; }
+        public IReadOnlyList<BField> Components  { get; set; }
+        public string                Title       { get; set; }
         #endregion
 
         #region Properties
@@ -97,5 +64,10 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
         #region Public Properties
         public IReadOnlyList<BCardTemplate> Cards { get; set; }
         #endregion
+    }
+
+    partial class BInputMaskTemplate
+    {
+        public BInputMask Data { get; set; }
     }
 }

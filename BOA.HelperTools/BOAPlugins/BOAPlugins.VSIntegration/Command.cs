@@ -2,8 +2,9 @@
 using BOAPlugins.Messaging;
 using BOAPlugins.Utility;
 using BOAPlugins.Utility.TypescriptModelGeneration;
+using BOAPlugins.VSIntegration;
 
-namespace BOAPlugins.VSIntegration
+namespace BOAPlugins.BOAPlugins.VSIntegration
 {
     class Command
     {
@@ -23,12 +24,12 @@ namespace BOAPlugins.VSIntegration
             MessagingExporter.ExportAsCSharpCode(data);
             if (data.ErrorMessage != null)
             {
-                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
+                VisualStudio.UpdateStatusBarText(data.ErrorMessage);
                 return;
             }
 
             Util.WriteFileIfContentNotEqual(data.TargetFilePath, data.GeneratedCode);
-            VisualStudio.UpdateStatusbarText(Path.GetFileName(data.TargetFilePath) + " successfully updated.");
+            VisualStudio.UpdateStatusBarText(Path.GetFileName(data.TargetFilePath) + " successfully updated.");
         }
 
         public void RemoveUnusedMessagesInTypescriptCodes()
@@ -43,12 +44,12 @@ namespace BOAPlugins.VSIntegration
             MessagingExporter.ExportAsTypeScriptCode(data);
             if (data.ErrorMessage != null)
             {
-                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
+                VisualStudio.UpdateStatusBarText(data.ErrorMessage);
                 return;
             }
 
             Util.WriteFileIfContentNotEqual(data.TargetFilePath, data.GeneratedCode);
-            VisualStudio.UpdateStatusbarText("Messages.tsx successfully updated.");
+            VisualStudio.UpdateStatusBarText("Messages.tsx successfully updated.");
         }
 
         public void UpdateMessageCs()
@@ -61,12 +62,12 @@ namespace BOAPlugins.VSIntegration
             MessagingExporter.ExportAsCSharpCode(data);
             if (data.ErrorMessage != null)
             {
-                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
+                VisualStudio.UpdateStatusBarText(data.ErrorMessage);
                 return;
             }
 
             Util.WriteFileIfContentNotEqual(data.TargetFilePath, data.GeneratedCode);
-            VisualStudio.UpdateStatusbarText(Path.GetFileName(data.TargetFilePath) + " successfully updated.");
+            VisualStudio.UpdateStatusBarText(Path.GetFileName(data.TargetFilePath) + " successfully updated.");
         }
 
         public void UpdateMessageTsx()
@@ -79,12 +80,12 @@ namespace BOAPlugins.VSIntegration
             MessagingExporter.ExportAsTypeScriptCode(data);
             if (data.ErrorMessage != null)
             {
-                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
+                VisualStudio.UpdateStatusBarText(data.ErrorMessage);
                 return;
             }
 
             Util.WriteFileIfContentNotEqual(data.TargetFilePath, data.GeneratedCode);
-            VisualStudio.UpdateStatusbarText("Messages.tsx successfully updated.");
+            VisualStudio.UpdateStatusBarText("Messages.tsx successfully updated.");
         }
 
         public void UpdateTypeScriptModels()
@@ -95,11 +96,11 @@ namespace BOAPlugins.VSIntegration
 
             if (data.ErrorMessage != null)
             {
-                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
+                VisualStudio.UpdateStatusBarText(data.ErrorMessage);
                 return;
             }
 
-            VisualStudio.UpdateStatusbarText(data.InfoMessage);
+            VisualStudio.UpdateStatusBarText(data.InfoMessage);
         }
         #endregion
     }

@@ -28,14 +28,14 @@ namespace BOAPlugins.FormApplicationGenerator.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<BInput value    = {data.");
+            this.Write("<BInput value    = {");
             
             #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write("}\r\n        onChange = {(e: any, value: string) => data.");
+            this.Write("}\r\n        onChange = {(e: any, value: string) => ");
             
             #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BInputTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));

@@ -94,12 +94,7 @@
     <Compile Include="BOAPlugins.VSIntegration\MainForm.xaml.cs">
       <DependentUpon>MainForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FormApplicationGenerator\ListFormTsxCodeGenerator.cs" />
-    <Compile Include="FormApplicationGenerator\Logic\Extensions.cs" />
-    <Compile Include="FormApplicationGenerator\Logic\FileExporter.cs" />
-    <Compile Include="FormApplicationGenerator\Logic\FormAssistantProjectInitializer.cs" />
-    <Compile Include="FormApplicationGenerator\Logic\MainWindowModel.cs" />
-    <Compile Include="FormApplicationGenerator\Logic\Map.cs" />
+    <Compile Include="BOAPlugins.VSIntegration\FormAssistantProjectInitializer.cs" />
     <Compile Include="FormApplicationGenerator\Templates\BAccountComponentTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -130,6 +125,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BDateTimePickerTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="FormApplicationGenerator\Templates\BInputMaskTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BInputMaskTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="FormApplicationGenerator\Templates\BInputNumericTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -145,43 +145,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BParameterComponentTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\BrowsePageTemplate.cs">
-      <DependentUpon>BrowsePageTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\BTabControlTemplate.cs">
-      <DependentUpon>BTabControlTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\OrchestrationFileForDetailForm.cs">
-      <DependentUpon>OrchestrationFileForDetailForm.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\OrchestrationFileForListForm.cs">
-      <DependentUpon>OrchestrationFileForListForm.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="FormApplicationGenerator\Templates\TabPageTemplate.cs">
-      <DependentUpon>TabPageTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="FormApplicationGenerator\Templates\Templates.Extensions.cs" />
-    <Compile Include="FormApplicationGenerator\Templates\TransactionPageTemplate.cs">
-      <DependentUpon>TransactionPageTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="FormApplicationGenerator\Types\BCard.cs" />
     <Compile Include="FormApplicationGenerator\Types\BDateTimePicker.cs" />
     <Compile Include="FormApplicationGenerator\Types\BField.cs" />
     <Compile Include="FormApplicationGenerator\Types\BTab.cs" />
-    <Compile Include="FormApplicationGenerator\Types\ComponentType.cs" />
-    <Compile Include="FormApplicationGenerator\Types\DotNetType.cs" />
     <Compile Include="FormApplicationGenerator\Types\Extensions.cs" />
     <Compile Include="FormApplicationGenerator\Types\SnapInfo.cs" />
     <Compile Include="Messaging\DataSource.cs" />
@@ -219,7 +187,6 @@
     <Compile Include="ViewClassDependency\Handler.cs" />
     <Compile Include="ViewClassDependency\Model.cs" />
     <Compile Include="VSIntegration\Communication.cs" />
-    <Compile Include="VSIntegration\ICommunication.cs" />
     <Compile Include="VSIntegration\IVisualStudioLayer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +249,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BDateTimePickerTemplate.cs</LastGenOutput>
     </Content>
+    <Content Include="FormApplicationGenerator\Templates\BInputMaskTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BInputMaskTemplate.cs</LastGenOutput>
+    </Content>
     <Content Include="FormApplicationGenerator\Templates\BInputNumericTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BInputNumericTemplate.cs</LastGenOutput>
@@ -293,30 +264,6 @@
     <Content Include="FormApplicationGenerator\Templates\BParameterComponentTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BParameterComponentTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\BrowsePageTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BrowsePageTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\BTabControlTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BTabControlTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\OrchestrationFileForDetailForm.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>OrchestrationFileForDetailForm.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\OrchestrationFileForListForm.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>OrchestrationFileForListForm.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\TabPageTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>TabPageTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="FormApplicationGenerator\Templates\TransactionPageTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>TransactionPageTemplate.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

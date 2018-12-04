@@ -17,17 +17,17 @@ namespace BOAPlugins.FormApplicationGenerator
         public void TemplateDebug()
         {
             
-            var data = new ListFormTsxCodeGeneratorData
-            {
-                RequestClassLocation  = "BOA.Types.CardGeneral.DebitCard.dll -> BOA.Types.CardGeneral.DebitCard.CourierIncomingFileListFormRequest",
-                SearchFields = new List<BField>
-                {
-                    new BAccountComponent("Data.AccountNumber"),
-                    new BInputMask("Data.CardNumber"){ IsCreditCard = true}
-                }
-            };
+            //var data = new ListFormTsxCodeGeneratorData
+            //{
+            //    RequestClassLocation  = "BOA.Types.CardGeneral.DebitCard.dll -> BOA.Types.CardGeneral.DebitCard.CourierIncomingFileListFormRequest",
+            //    SearchFields = new List<BField>
+            //    {
+            //        new BAccountComponent("Data.AccountNumber"),
+            //        new BInputMask("Data.CardNumber"){ IsCreditCard = true}
+            //    }
+            //};
 
-            ListFormTsxCodeGenerator.Generate(data);
+            // ListFormTsxCodeGenerator.Generate(data);
 
             
 

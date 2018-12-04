@@ -29,13 +29,13 @@ namespace BOASpSearch
             }
             catch (Exception exception)
             {
-                VisualStudio.UpdateStatusbarText(exception.Message);
+                VisualStudio.UpdateStatusBarText(exception.Message);
                 return;
             }
 
             if (data.ErrorMessage != null)
             {
-                VisualStudio.UpdateStatusbarText(data.ErrorMessage);
+                VisualStudio.UpdateStatusBarText(data.ErrorMessage);
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace BOASpSearch
 
             VisualStudio.ActiveDocument_Save();
 
-            VisualStudio.UpdateStatusbarText("Successfully documented.");
+            VisualStudio.UpdateStatusBarText("Successfully documented.");
         }
         #endregion
     }

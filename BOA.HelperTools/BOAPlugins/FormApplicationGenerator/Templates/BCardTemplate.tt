@@ -6,8 +6,8 @@
  <BCard context={context} <#    if(HasTitle)#><#    {#>Title={Message.<#=Title#>}<#    }#><#    if(HasColumnIndex)#><#    {#>column={<#=ColumnIndex#>}<#    }#>>
 <#foreach (var component in Components)#>
 <#{#>
-    <#component.PushIndent("    ");#>
-    <#component.TransformText();#>
-    <#component.PopIndent();#>
+    component.PushIndent("    ");
+    component.TransformText();
+    component.PopIndent();
 <#}#>           
 </BCard>

@@ -175,7 +175,7 @@ namespace BOASpSearch
         /// <summary>
         ///     Traces the specified message.
         /// </summary>
-        public void UpdateStatusbarText(string message)
+        public void UpdateStatusBarText(string message)
         {
             var statusBar = Package.GetGlobalService(typeof(IVsStatusbar)) as IVsStatusbar;
             statusBar?.SetText(message);

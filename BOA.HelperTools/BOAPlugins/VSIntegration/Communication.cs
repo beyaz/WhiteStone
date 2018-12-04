@@ -1,45 +1,48 @@
-﻿using System;
-using System.Windows.Forms;
-using BOAPlugins.Utility;
+﻿using System.Windows.Forms;
+using BOAPlugins.SearchProcedure;
 using BOAPlugins.ViewClassDependency;
+using Handler = BOAPlugins.SearchProcedure.Handler;
 
 namespace BOAPlugins.VSIntegration
 {
     /// <summary>
-    ///     .
+    ///     The communication
     /// </summary>
-    public class Communication : ICommunication
+    public class Communication
     {
         #region Fields
-        #region Field
+        /// <summary>
+        ///     The visual studio layer
+        /// </summary>
         readonly IVisualStudioLayer _visualStudioLayer;
-        #endregion
         #endregion
 
         #region Constructors
-        #region Constructor
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Communication" /> class.
+        /// </summary>
         public Communication(IVisualStudioLayer visualStudioLayer)
         {
             _visualStudioLayer = visualStudioLayer;
         }
         #endregion
-        #endregion
 
         #region Public Methods
-
         /// <summary>
         ///     Sends the specified input.
         /// </summary>
-        /// <param name="input">The input.</param>
-        public void Send(SearchProcedure.Input input)
+        public void Send(Input input)
         {
-            var handler = new SearchProcedure.Handler(input);
+            var handler = new Handler(input);
 
             handler.Handle();
 
             Process(handler.Result);
         }
 
+        /// <summary>
+        ///     Sends the specified input.
+        /// </summary>
         public void Send(Data input)
         {
             var result = new ViewClassDependency.Handler().Handle(input);
@@ -52,26 +55,13 @@ namespace BOAPlugins.VSIntegration
 
             _visualStudioLayer.OpenFile(input.OutputFileFullPath);
         }
-
-        #region ShowPropertyGenerator
-        /// <summary>
-        ///     Shows the property generator.
-        /// </summary>
-        public void ShowPropertyGenerator()
-        {
-            System.Diagnostics.Process.Start(ContainerHelper, typeof(View).FullName);
-        }
-        #endregion
         #endregion
 
         #region Methods
-
-
         /// <summary>
         ///     Processes the specified result.
         /// </summary>
-        /// <param name="result">The result.</param>
-        void Process(SearchProcedure.Result result)
+        void Process(Result result)
         {
             if (result.ErrorMessage != null)
             {
@@ -83,15 +73,6 @@ namespace BOAPlugins.VSIntegration
             {
                 _visualStudioLayer.CreateNewSQLFile(sqlFileInfo.Content, sqlFileInfo.FileName);
             }
-        }
-        #endregion
-
-        #region ShowTranslateHelperForLabels
-        static string ContainerHelper => ConstConfiguration.PluginDirectory + "UI.ContainerHelper.exe";
-
-        public void ShowTranslateHelperForLabels()
-        {
-            System.Diagnostics.Process.Start(ContainerHelper, typeof(BOA.Tools.Translator.UI.TranslateHelper.View).FullName);
         }
         #endregion
     }

@@ -94,27 +94,8 @@ foreach (var component in Components)
             
             #line default
             #line hidden
-            this.Write("    ");
-            
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
-component.PushIndent("    ");
-            
-            #line default
-            #line hidden
-            this.Write("    ");
-            
-            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
-component.TransformText();
-            
-            #line default
-            #line hidden
-            this.Write("    ");
-            
-            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
-component.PopIndent();
-            
-            #line default
-            #line hidden
+            this.Write("    component.PushIndent(\"    \");\r\n    component.TransformText();\r\n    component." +
+                    "PopIndent();\r\n");
             
             #line 12 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\Templates\BCardTemplate.tt"
 }

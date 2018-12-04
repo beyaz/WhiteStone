@@ -23,7 +23,7 @@ namespace BOAPlugins.VSIntegration
         #endregion
 
         #region Public Methods
-        public static ICommunication GetCommunication(IVisualStudioLayer vs)
+        public static Communication GetCommunication(IVisualStudioLayer vs)
         {
             return new Communication(vs);
         }
