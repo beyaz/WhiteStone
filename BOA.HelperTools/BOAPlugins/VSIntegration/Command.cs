@@ -2,9 +2,8 @@
 using BOAPlugins.Messaging;
 using BOAPlugins.Utility;
 using BOAPlugins.Utility.TypescriptModelGeneration;
-using BOAPlugins.VSIntegration;
 
-namespace BOAPlugins.BOAPlugins.VSIntegration
+namespace BOAPlugins.VSIntegration
 {
     class Command
     {

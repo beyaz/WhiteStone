@@ -5,10 +5,9 @@ using System.Windows.Input;
 using BOAPlugins.Utility;
 using BOAPlugins.Utility.TypescriptModelGeneration;
 using BOAPlugins.ViewClassDependency;
-using BOAPlugins.VSIntegration;
 using WhiteStone;
 
-namespace BOAPlugins.BOAPlugins.VSIntegration
+namespace BOAPlugins.VSIntegration
 {
     /// <summary>
     ///     Interaction logic for MainForm.xaml
@@ -78,7 +77,7 @@ namespace BOAPlugins.BOAPlugins.VSIntegration
             SafeScope(() =>
             {
                 var solutionInfo = SolutionInfo.CreateFrom(VisualStudio.GetSolutionFilePath());
-                global::BOAPlugins.BOAPlugins.VSIntegration.FormAssistantProjectInitializer.Initialize(solutionInfo);
+                global::BOAPlugins.VSIntegration.FormAssistantProjectInitializer.Initialize(solutionInfo);
 
                 Close();
 

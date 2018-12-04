@@ -90,11 +90,11 @@
     <Compile Include="BOA.Tools.Translator\UI.TranslateHelper\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BOAPlugins.VSIntegration\Command.cs" />
-    <Compile Include="BOAPlugins.VSIntegration\MainForm.xaml.cs">
+    <Compile Include="VSIntegration\Command.cs" />
+    <Compile Include="VSIntegration\MainForm.xaml.cs">
       <DependentUpon>MainForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BOAPlugins.VSIntegration\FormAssistantProjectInitializer.cs" />
+    <Compile Include="VSIntegration\FormAssistantProjectInitializer.cs" />
     <Compile Include="FormApplicationGenerator\Templates\BAccountComponentTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -212,7 +212,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="BOAPlugins.VSIntegration\MainForm.xaml">
+    <Page Include="VSIntegration\MainForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -266,6 +266,7 @@
       <LastGenOutput>BParameterComponentTemplate.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

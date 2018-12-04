@@ -3,7 +3,7 @@ using BOA.CodeGeneration.Util;
 using BOAPlugins.Utility;
 using BOAPlugins.Utility.TypescriptModelGeneration;
 
-namespace BOAPlugins.BOAPlugins.VSIntegration
+namespace BOAPlugins.VSIntegration
 {
     public static class FormAssistantProjectInitializer
     {

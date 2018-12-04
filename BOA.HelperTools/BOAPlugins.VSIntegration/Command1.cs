@@ -6,7 +6,6 @@ using System.Threading;
 using System.Windows;
 using BOA.CodeGeneration.Util;
 using BOAPlugins;
-using BOAPlugins.BOAPlugins.VSIntegration;
 using BOAPlugins.SearchProcedure;
 using BOAPlugins.Utility;
 using BOAPlugins.ViewClassDependency;
