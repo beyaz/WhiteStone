@@ -9,6 +9,8 @@ namespace WpfApp2
         [TestMethod]
         public void TestMethod1()
         {
+            var script = LongManScriptHelper.GetScript("Society");
+
             var words=new string[]{"Table","Card"};
             EnToTrCache.StartToInitializeCache(words);
         }

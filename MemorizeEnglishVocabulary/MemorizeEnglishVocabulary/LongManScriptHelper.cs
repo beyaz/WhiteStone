@@ -127,14 +127,7 @@ var tryPlay = function(index)
 
     if(trValue)
     {
-        var html = exampleElement.html();
-
-        alert(html);
-        
-        var newValue = enKey + '<br/><span>' + trValue + '</span>';
-        // html = html.replace(enKey,newValue);
-        alert(newValue);
-        exampleElement.html( newValue );
+        exampleElement.append('<br>').append(document.createTextNode('*'+trValue+'*'));
     }
 
 
