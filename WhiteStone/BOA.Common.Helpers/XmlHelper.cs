@@ -9,7 +9,7 @@ using System.Xml.XPath;
 namespace BOA.Common.Helpers
 {
     /// <summary>
-    ///     The XML helper
+    ///     The XML helper.
     /// </summary>
     public static class XmlHelper
     {
