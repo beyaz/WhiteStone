@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemorizeEnglishVocabulary", "Vocabulary\MemorizeEnglishVocabulary.csproj", "{E7929ADD-4C57-455C-9DDA-4F36923CC7E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemorizeEnglishVocabulary", "MemorizeEnglishVocabulary\MemorizeEnglishVocabulary\MemorizeEnglishVocabulary.csproj", "{E7929ADD-4C57-455C-9DDA-4F36923CC7E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemorizeEnglishVocabularyTest", "VocabularyTest\MemorizeEnglishVocabularyTest.csproj", "{D8F3F74C-858D-4A48-AC07-0EB723D806B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemorizeEnglishVocabularyTest", "MemorizeEnglishVocabulary\MemorizeEnglishVocabularyTest\MemorizeEnglishVocabularyTest.csproj", "{D8F3F74C-858D-4A48-AC07-0EB723D806B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

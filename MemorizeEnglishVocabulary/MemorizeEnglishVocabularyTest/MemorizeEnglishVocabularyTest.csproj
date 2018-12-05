@@ -66,7 +66,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vocabulary\MemorizeEnglishVocabulary.csproj">
+    <ProjectReference Include="..\MemorizeEnglishVocabulary\MemorizeEnglishVocabulary.csproj">
       <Project>{e7929add-4c57-455c-9dda-4f36923cc7e4}</Project>
       <Name>MemorizeEnglishVocabulary</Name>
     </ProjectReference>
