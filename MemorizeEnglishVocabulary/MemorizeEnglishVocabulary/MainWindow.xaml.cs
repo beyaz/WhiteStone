@@ -147,7 +147,7 @@ namespace WpfApp2
             var renderer = _longManWebBrowser.RenderProcessMessageHandler  as  RenderProcessMessageHandler_For_Longman;
             if (renderer != null)
             {
-                renderer.EnToTrMap = Model.SelectedWordEnToTrCache;
+                renderer.InitialJsScript  = Model.LongManInitialJsScript;
             }
         }
 

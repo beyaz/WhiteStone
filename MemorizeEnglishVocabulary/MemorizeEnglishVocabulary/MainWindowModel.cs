@@ -18,7 +18,7 @@ namespace WpfApp2
         public string AudioDictionaryAddress { get; set; }
         public string LongManWebBrowserAddress { get; set; }
         public string ImageBrowserAddress { get; set; }
-        public IDictionary<string, string> SelectedWordEnToTrCache { get; set; }
+        public string LongManInitialJsScript { get; set; }
 
         public string Sample1En { get; set; }
         public string Sample2En { get; set; }

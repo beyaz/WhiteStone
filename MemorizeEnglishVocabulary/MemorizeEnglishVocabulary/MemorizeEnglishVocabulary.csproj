@@ -94,6 +94,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Extensions.cs" />
+    <Compile Include="LongManScriptHelper.cs" />
     <Compile Include="MainWindowController.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Compile Include="RenderProcessMessageHandler_For_Google_Image.cs" />

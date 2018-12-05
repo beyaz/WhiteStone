@@ -142,7 +142,7 @@ namespace WpfApp2
             Model.ImageBrowserAddress = "www.google.com.tr/search?q=" + Model.SelectedWord + "&safe=off&source=lnms&tbm=isch";
 
 
-            Model.SelectedWordEnToTrCache = EnToTrCache.TryGetForWord(Model.SelectedWord);
+            Model.LongManInitialJsScript = LongManScriptHelper.GetScript(Model.SelectedWord);
 
             //if (Model.SelectedWordEnToTrCache != null)
             //{
@@ -152,7 +152,7 @@ namespace WpfApp2
             //        Model.Sample1Tr = Model.SelectedWordEnToTrCache[key];
             //    }
             //}
-            
+
         }
         #endregion
 
