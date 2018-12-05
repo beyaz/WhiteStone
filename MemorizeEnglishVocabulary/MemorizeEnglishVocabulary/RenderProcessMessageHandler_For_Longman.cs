@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using CefSharp;
@@ -127,17 +125,22 @@ var tryPlay = function(index)
 	exampleElement = $(exampleElement);
 
 
-    var enKey = exampleElement.text().trim();
-   // alert(enKey);
-// alert(EnToTrMap[enKey]);
+    var enKey   = exampleElement.text().trim();
+    var trValue = EnToTrMap[enKey];
 
-    if(EnToTrMap[enKey])
+    // alert(enKey);
+    // alert(EnToTrMap[enKey]);
+
+    if(trValue)
     {
         var html = exampleElement.html();
+
+        alert(html);
         
-        var newValue = enKey + '<br/><span>' + EnToTrMap[enKey] + '</span>';
-        html = html.replace(enKey,newValue);
-        exampleElement.html( html );
+        var newValue = enKey + '<br/><span>' + trValue + '</span>';
+        // html = html.replace(enKey,newValue);
+        alert(newValue);
+        exampleElement.html( newValue );
     }
 
 
