@@ -14,6 +14,10 @@ namespace BOA.CodeGeneration.Generators
     {
         static void WriteLinesWithComma(Action<string> writeLine, IReadOnlyList<string> lines)
         {
+            if (lines.Count == 0)
+            {
+                return;
+            }
             const string Comma = ",";
 
             var end = lines.Count - 1;

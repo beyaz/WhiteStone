@@ -8,16 +8,14 @@ namespace BOA.CodeGeneration.Generators
     public class UpdateSql : WriterBase
     {
         #region Constructors
-        #region Constructor
         public UpdateSql(WriterContext context)
             : base(context)
         {
         }
         #endregion
-        #endregion
 
         #region Properties
-        protected virtual string Comment => string.Format(CultureInfo, "Updates only one record of '{0}'", DatabaseTableFullPath);
+        protected virtual string Comment => $"Updates only one record of '{DatabaseTableFullPath}'";
 
         protected virtual string NameOfSqlProcedureUpdate => Context.Naming.NameOfSqlProcedureUpdate;
 
@@ -64,16 +62,15 @@ namespace BOA.CodeGeneration.Generators
         #region Public Methods
         public string Generate()
         {
-            WriteLine("USE {0}", NameOfSqlProceduresWillBeRunCatalogName);
+            WriteLine($"USE {NameOfSqlProceduresWillBeRunCatalogName}");
             WriteLine("GO");
             WriteLine("");
 
-            WriteLine("IF EXISTS (SELECT TOP 1 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[{0}].[{1}]') AND type in (N'P', N'PC'))",
-                      DatabaseTargetSchemaForProcedureNames, NameOfSqlProcedureUpdate);
+            WriteLine($"IF EXISTS (SELECT TOP 1 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[{DatabaseTargetSchemaForProcedureNames}].[{NameOfSqlProcedureUpdate}]') AND type in (N'P', N'PC'))");
 
             Padding++;
 
-            WriteLine("DROP PROCEDURE {0}", DatabaseTargetSchemaForProcedureNames + "." + NameOfSqlProcedureUpdate);
+            WriteLine($"DROP PROCEDURE {DatabaseTargetSchemaForProcedureNames}.{NameOfSqlProcedureUpdate}");
 
             Padding--;
 
@@ -85,33 +82,31 @@ namespace BOA.CodeGeneration.Generators
                 Comment
             });
 
-            WriteLine("CREATE PROCEDURE " + DatabaseTargetSchemaForProcedureNames + "." + NameOfSqlProcedureUpdate);
+            WriteLine($"CREATE PROCEDURE {DatabaseTargetSchemaForProcedureNames}.{NameOfSqlProcedureUpdate}");
             WriteLine("(");
 
             Padding++;
 
-            var lastColumn = ProcedureParameters.Last();
+            var inputParameterLines = new List<string>();
+
             foreach (var c in ProcedureParameters)
             {
-                var format = "@{0} {1}";
-                if (c.IsNullable)
-                {
-                    format += " = NULL";
-                }
-
-                if (c != lastColumn)
-                {
-                    format += ",";
-                }
-
                 var dataType = c.DataType;
                 if (dataType == SqlDataType.VarBinary)
                 {
                     dataType = dataType + "(MAX)";
                 }
 
-                WriteLine(format, c.ColumnName, dataType);
+                if (c.IsNullable)
+                {
+                    inputParameterLines.Add($"@{c.ColumnName} {dataType} = NULL");
+                    continue;
+                }
+
+                inputParameterLines.Add($"@{c.ColumnName} {dataType}");
             }
+
+            WriteLinesWithComma(inputParameterLines);
 
             Padding--;
 
@@ -129,25 +124,19 @@ namespace BOA.CodeGeneration.Generators
             WriteLine("UPDATE T SET");
 
             Padding++;
-            lastColumn = GetUpdateColumns().Last();
-            foreach (var c in GetUpdateColumns())
-            {
-                var format = "T.{0} = @{0}";
 
-                if (c != lastColumn)
-                {
-                    format += ",";
-                }
+            var updateColumns = GetUpdateColumns().Select(c => c.ColumnName.NormalizeColumnNameForReversedKeywords()).ToList();
 
-                WriteLine(format, c.ColumnName.NormalizeColumnNameForReversedKeywords());
-            }
+            var updateLines = updateColumns.Select(columnName => $"T.{columnName} = @{columnName}").ToList();
+
+            WriteLinesWithComma(updateLines);
 
             Padding--;
 
             WriteLine();
             Padding++;
-            var whereParameters = string.Join(" AND ", from c in WhereColumns select "T." + c.ColumnName + " = @" + c.ColumnName);
-            WriteLine("FROM {0} AS T WHERE {1}", Context.Config.TablePathForSqlScript, whereParameters);
+            var whereParameters = string.Join(" AND ", from c in WhereColumns select $"T.{c.ColumnName} = @{c.ColumnName}");
+            WriteLine($"FROM {Context.Config.TablePathForSqlScript} AS T WHERE {whereParameters}");
             Padding--;
 
             WriteLine("");

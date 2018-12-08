@@ -7,11 +7,17 @@ namespace BOA.CodeGeneration.Generators
 {
     public class ContractBodyGenerator : WriterBaseBase
     {
+        #region Fields
         readonly bool simplePropertyDeclaration;
+        #endregion
+
+        #region Constructors
         public ContractBodyGenerator(bool simplePropertyDeclaration = false)
         {
             this.simplePropertyDeclaration = simplePropertyDeclaration;
         }
+        #endregion
+
         #region Public Properties
         public IReadOnlyList<ColumnInfo> Columns                         { get; set; }
         public string                    PrefixOfFieldOfContractProperty { get; set; }
@@ -23,6 +29,24 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Public Methods
+        public static string GetPropertyFieldName(string PrefixOfFieldOfContractProperty, string propertyName)
+        {
+            var prefix = PrefixOfFieldOfContractProperty ?? "";
+
+            var firstChar = propertyName[0];
+
+            if (firstChar == 'I')
+            {
+                firstChar = 'i';
+            }
+            else
+            {
+                firstChar = firstChar.ToString().ToLowerTR().First();
+            }
+
+            return prefix + firstChar + propertyName.Substring(1);
+        }
+
         public void GenerateDatabaseColumns()
         {
             WriteLine();
@@ -50,24 +74,6 @@ namespace BOA.CodeGeneration.Generators
         string GetPropertyFieldName(string propertyName)
         {
             return GetPropertyFieldName(PrefixOfFieldOfContractProperty ?? "", propertyName);
-        }
-
-        public static string GetPropertyFieldName(string PrefixOfFieldOfContractProperty, string propertyName)
-        {
-            var prefix = PrefixOfFieldOfContractProperty ?? "";
-
-            var firstChar = propertyName[0];
-
-            if (firstChar == 'I')
-            {
-                firstChar = 'i';
-            }
-            else
-            {
-                firstChar = firstChar.ToString().ToLowerTR().First();
-            }
-
-            return prefix + firstChar + propertyName.Substring(1);
         }
         #endregion
     }
@@ -113,8 +119,8 @@ namespace BOA.CodeGeneration.Generators
 
             var bodyGenerator = new ContractBodyGenerator(Context.Config.PropertyDeclarationIsSimple)
             {
-                Columns = Context.Table.Columns,
-                Padding = Padding,
+                Columns                         = Context.Table.Columns,
+                Padding                         = Padding,
                 PrefixOfFieldOfContractProperty = Context.Config.PrefixOfFieldOfContractProperty
             };
             bodyGenerator.GenerateDatabaseColumns();
