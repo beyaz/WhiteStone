@@ -29,8 +29,9 @@ namespace BOA.CodeGeneration.Generators
             }
         }
 
-        IReadOnlyList<ColumnInfo> Columns               => Context.Table.Columns;
-        string                    DatabaseTableFullPath => Context.Config.DatabaseTableFullPath;
+        IReadOnlyList<ColumnInfo> Columns => Context.Table.Columns;
+
+        string DatabaseTableFullPath => Context.Config.DatabaseTableFullPath;
 
         string DatabaseTargetSchemaForProcedureNames => Context.Naming.SchemaName;
 
@@ -40,6 +41,33 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Public Methods
+        public static List<ColumnInfo> GetProcedureParameterColumns(IReadOnlyList<ColumnInfo> columns)
+        {
+            var returnList = new List<ColumnInfo>();
+
+            foreach (var columnInfo in columns)
+            {
+                if (Names.GenericUpdateInformationColumns.Contains(columnInfo.ColumnName))
+                {
+                    continue;
+                }
+
+                if (columnInfo.IsIdentity)
+                {
+                    continue;
+                }
+
+                if (columnInfo.DataType == SqlDataType.Timestamp)
+                {
+                    continue;
+                }
+
+                returnList.Add(columnInfo);
+            }
+
+            return returnList;
+        }
+
         public string Generate()
         {
             WriteLine("USE {0}", NameOfSqlProceduresWillBeRunCatalogName);
@@ -113,49 +141,23 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        internal List<ColumnInfo> GetProcedureParameterColumns(TableInfo table, IReadOnlyList<ColumnInfo> columns)
-        {
-            columns = columns ?? Columns;
-
-            return columns.Where(c => !(Names.GenericUpdateInformationColumns.Contains(c.ColumnName) ||
-                                        c.IsIdentity ||
-                                        c.DataType == SqlDataType.Timestamp))
-                          .Select(y => y)
-                          .ToList();
-        }
-
-        List<ColumnInfo> GetInsertValuesColumns()
-        {
-            return Columns.Where(c => !(Names.GenericUpdateInformationColumns.Contains(c.ColumnName) ||
-                                        c.IsIdentity ||
-                                        c.DataType == SqlDataType.Timestamp))
-                          .Select(y => y)
-                          .ToList();
-        }
-
         void WriteInputParameters()
         {
-            var columns = GetInsertValuesColumns();
+            var columns = GetProcedureParameterColumns(Columns);
 
-            var len = columns.Count;
-            for (var i = 0; i < len; i++)
+            var end = columns.Count - 1;
+
+            for (var i = 0; i < end; i++)
             {
-                var row = columns[i];
-
-                if (i < len - 1)
-                {
-                    WriteLine("{0},", row.ColumnName.NormalizeColumnNameForReversedKeywords());
-                }
-                else
-                {
-                    WriteLine("{0}", row.ColumnName.NormalizeColumnNameForReversedKeywords());
-                }
+                WriteLine("{0},", columns[i].ColumnName.NormalizeColumnNameForReversedKeywords());
             }
+
+            WriteLine("{0}", columns[end].ColumnName.NormalizeColumnNameForReversedKeywords());
         }
 
         void WriteInsertParameters()
         {
-            var columns = GetProcedureParameterColumns(Context.Table, Columns);
+            var columns = GetProcedureParameterColumns(Columns);
 
             var lastColumn = columns.Last();
             foreach (var c in columns)
@@ -183,7 +185,7 @@ namespace BOA.CodeGeneration.Generators
 
         void WriteValues()
         {
-            var columns = GetInsertValuesColumns();
+            var columns = GetProcedureParameterColumns(Columns);
 
             var lastRow = columns.Last();
             foreach (var row in columns)

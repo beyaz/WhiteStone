@@ -161,7 +161,7 @@ namespace BOA.CodeGeneration.Generators
         #region Methods
         List<ColumnInfo> GetProcedureParameterColumns()
         {
-            return new InsertSql(Context).GetProcedureParameterColumns(Context.Table, Columns);
+            return InsertSql.GetProcedureParameterColumns(Columns);
         }
         #endregion
 

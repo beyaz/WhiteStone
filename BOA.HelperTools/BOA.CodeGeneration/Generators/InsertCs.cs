@@ -160,7 +160,7 @@ namespace BOA.CodeGeneration.Generators
 
         List<ColumnInfo> GetProcedureParameterColumns()
         {
-            return new InsertSql(Context).GetProcedureParameterColumns(Context.Table, Columns);
+            return InsertSql.GetProcedureParameterColumns(Columns);
         }
         #endregion
 
