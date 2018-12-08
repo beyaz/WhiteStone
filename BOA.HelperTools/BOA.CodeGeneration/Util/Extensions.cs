@@ -10,24 +10,14 @@ using Mono.Cecil;
 namespace BOA.CodeGeneration.Util
 {
     /// <summary>
-    ///     .
+    ///     The extensions
     /// </summary>
     public static class Extensions
     {
-
-
-        public static T GetService<T>(this IServiceProvider serviceProvider) where T : class
-        {
-            return serviceProvider.GetService(typeof(T)) as T;
-        }
-
-        public static TInterface GetService<TType, TInterface>(this IServiceProvider serviceProvider)
-            where TInterface : class
-        {
-            return serviceProvider.GetService(typeof(TType)) as TInterface;
-        }
-
         #region Static Fields
+        /// <summary>
+        ///     The culture information
+        /// </summary>
         static readonly CultureInfo CultureInfo = new CultureInfo("en-US");
         #endregion
 
@@ -35,9 +25,6 @@ namespace BOA.CodeGeneration.Util
         /// <summary>
         ///     Ases the method parameter.
         /// </summary>
-        /// <param name="columnName">Name of the column.</param>
-        /// <returns></returns>
-        /// <exception cref="System.ArgumentNullException">columnName</exception>
         public static string AsMethodParameter(this string columnName)
         {
             if (columnName == null)
@@ -58,11 +45,11 @@ namespace BOA.CodeGeneration.Util
         /// <summary>
         ///     Finds the colum.
         /// </summary>
-        /// <param name="where">The where.</param>
-        /// <param name="columns">The columns.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Column</exception>
-        public static ColumnInfo FindColum(this Where where, IReadOnlyList<ColumnInfo> columns)
+        /// <exception cref="Exception">
+        ///     Where column not processed.@SearchValue" + ReflectionHelper.ExportObjectToCSharpCode(where) + Environment.NewLine +
+        ///     "DataSource:" + ReflectionHelper.ExportObjectToCSharpCode(columns)
+        /// </exception>
+        public static ColumnInfo FindColumn(this Where where, IReadOnlyList<ColumnInfo> columns)
         {
             var c = columns.FirstOrDefault(x => x.ColumnName == where.Equal);
 
@@ -132,9 +119,6 @@ namespace BOA.CodeGeneration.Util
         /// <summary>
         ///     Formats the code.
         /// </summary>
-        /// <param name="format">The format.</param>
-        /// <param name="args">The arguments.</param>
-        /// <returns></returns>
         public static string FormatCode(this string format, params object[] args)
         {
             return string.Format(CultureInfo, format, args);
@@ -143,10 +127,6 @@ namespace BOA.CodeGeneration.Util
         /// <summary>
         ///     Gets the name of the property.
         /// </summary>
-        /// <param name="where">The where.</param>
-        /// <param name="columns">The columns.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Column</exception>
         public static string GetPropertyName(this Where where, IReadOnlyList<ColumnInfo> columns)
         {
             var c = columns.FirstOrDefault(x => x.ColumnName == where.Equal);
@@ -214,11 +194,25 @@ namespace BOA.CodeGeneration.Util
         }
 
         /// <summary>
+        ///     Gets the service.
+        /// </summary>
+        public static T GetService<T>(this IServiceProvider serviceProvider) where T : class
+        {
+            return serviceProvider.GetService(typeof(T)) as T;
+        }
+
+        /// <summary>
+        ///     Gets the service.
+        /// </summary>
+        public static TInterface GetService<TType, TInterface>(this IServiceProvider serviceProvider)
+            where TInterface : class
+        {
+            return serviceProvider.GetService(typeof(TType)) as TInterface;
+        }
+
+        /// <summary>
         ///     Loads the type of the boa.
         /// </summary>
-        /// <param name="classFullName">Full name of the class.</param>
-        /// <returns></returns>
-        /// <exception cref="System.MissingMemberException"></exception>
         public static ITypeDefinition LoadBOAType(this string classFullName)
         {
             if (classFullName == null)
@@ -253,8 +247,6 @@ namespace BOA.CodeGeneration.Util
         /// <summary>
         ///     To the i type definition.
         /// </summary>
-        /// <param name="definition">The definition.</param>
-        /// <returns></returns>
         public static ITypeDefinition ToITypeDefinition(this TypeDefinition definition)
         {
             return new InternalTypeDefinition(definition);
@@ -265,8 +257,6 @@ namespace BOA.CodeGeneration.Util
         /// <summary>
         ///     Gets all properties.
         /// </summary>
-        /// <param name="typeDefinition">The type definition.</param>
-        /// <returns></returns>
         static List<PropertyDefinition> GetAllProperties(this TypeDefinition typeDefinition)
         {
             var properties = new List<PropertyDefinition>(
@@ -295,11 +285,11 @@ namespace BOA.CodeGeneration.Util
         /// <summary>
         ///     .
         /// </summary>
-        /// <seealso cref="IPropertyDefinition" />
         class InternalPropertyInfo : IPropertyDefinition
         {
             #region Fields
             /// <summary>
+            ///     The definition
             /// </summary>
             readonly PropertyDefinition _definition;
             #endregion
@@ -308,8 +298,6 @@ namespace BOA.CodeGeneration.Util
             /// <summary>
             ///     Initializes a new instance of the <see cref="InternalPropertyInfo" /> class.
             /// </summary>
-            /// <param name="definition">The definition.</param>
-            /// <exception cref="System.ArgumentNullException">definition</exception>
             public InternalPropertyInfo(PropertyDefinition definition)
             {
                 if (definition == null)
@@ -330,9 +318,6 @@ namespace BOA.CodeGeneration.Util
             /// <summary>
             ///     Gets the type of the property.
             /// </summary>
-            /// <value>
-            ///     The type of the property.
-            /// </value>
             public Type PropertyType
             {
                 get
@@ -354,15 +339,16 @@ namespace BOA.CodeGeneration.Util
         /// <summary>
         ///     .
         /// </summary>
-        /// <seealso cref="ITypeDefinition" />
         class InternalTypeDefinition : ITypeDefinition
         {
             #region Fields
             /// <summary>
+            ///     The definition
             /// </summary>
             readonly TypeDefinition _definition;
 
             /// <summary>
+            ///     The properties
             /// </summary>
             IReadOnlyList<IPropertyDefinition> _properties;
             #endregion
@@ -371,8 +357,6 @@ namespace BOA.CodeGeneration.Util
             /// <summary>
             ///     Initializes a new instance of the <see cref="InternalTypeDefinition" /> class.
             /// </summary>
-            /// <param name="definition">The definition.</param>
-            /// <exception cref="System.ArgumentNullException">definition</exception>
             public InternalTypeDefinition(TypeDefinition definition)
             {
                 if (definition == null)
@@ -386,7 +370,6 @@ namespace BOA.CodeGeneration.Util
             /// <summary>
             ///     Initializes a new instance of the <see cref="InternalTypeDefinition" /> class.
             /// </summary>
-            /// <param name="classFullName">Full name of the class.</param>
             public InternalTypeDefinition(string classFullName)
             {
                 PrimitiveTypeFullName = classFullName;
@@ -394,6 +377,9 @@ namespace BOA.CodeGeneration.Util
             #endregion
 
             #region Public Properties
+            /// <summary>
+            ///     Gets the definition.
+            /// </summary>
             public TypeDefinition Definition => _definition;
 
             /// <summary>
@@ -450,9 +436,6 @@ namespace BOA.CodeGeneration.Util
             /// <summary>
             ///     Gets the full name of the primitive type.
             /// </summary>
-            /// <value>
-            ///     The full name of the primitive type.
-            /// </value>
             string PrimitiveTypeFullName { get; }
             #endregion
 
@@ -460,9 +443,6 @@ namespace BOA.CodeGeneration.Util
             /// <summary>
             ///     Returns a <see cref="System.String" /> that represents this instance.
             /// </summary>
-            /// <returns>
-            ///     A <see cref="System.String" /> that represents this instance.
-            /// </returns>
             public override string ToString()
             {
                 return FullName;

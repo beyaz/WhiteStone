@@ -121,9 +121,6 @@ namespace BOA.CodeGeneration.Generators
         /// <summary>
         ///     Generates this instance.
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.MissingMemberException">PropertyNotFound: " + ci.ColumnName</exception>
-        /// <exception cref="System.NotImplementedException"></exception>
         public string Generate()
         {
             Padding = PaddingForMethodDeclaration;

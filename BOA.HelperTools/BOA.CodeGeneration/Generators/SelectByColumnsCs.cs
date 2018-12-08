@@ -109,7 +109,7 @@ namespace BOA.CodeGeneration.Generators
             {
                 foreach (var p in Parameters)
                 {
-                    var column       = p.FindColum(Columns);
+                    var column       = p.FindColumn(Columns);
                     var propertyName = p.GetPropertyName(Columns);
 
                     if (propertyName == null)
@@ -191,7 +191,7 @@ namespace BOA.CodeGeneration.Generators
                 var last = Parameters.Last();
                 foreach (var p in Parameters)
                 {
-                    var column             = p.FindColum(Columns);
+                    var column             = p.FindColumn(Columns);
                     var propertyName       = p.GetPropertyName(Columns);
                     var propertyNameIsNull = propertyName == Names.IsNull;
 
@@ -239,7 +239,7 @@ namespace BOA.CodeGeneration.Generators
 
                 foreach (var p in Parameters)
                 {
-                    var column       = p.FindColum(Columns);
+                    var column       = p.FindColumn(Columns);
                     var propertyName = p.GetPropertyName(Columns);
 
                     var parameterName = column.ColumnName.AsMethodParameter() + propertyName;

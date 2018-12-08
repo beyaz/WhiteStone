@@ -2,84 +2,76 @@
 {
     public static class Names
     {
+        #region Constants
+        public const string BiggerThan         = "BiggerThan";
+        public const string BiggerThanOrEquals = "BiggerThanOrEqual";
+        public const string ChannelId          = "ChannelId";
+        public const string ChannelIdValue     = "Context.ApplicationContext.Authentication.Channel";
+
+        public const string Contains              = "Contains";
+        public const string DotNetBool            = "bool";
+        public const string DotNetByte            = "byte";
+        public const string DotNetByteArray       = "byte[]";
+        public const string DotNetDateTime        = "DateTime";
+        public const string DotNetDecimal         = "decimal";
+        public const string DotNetDouble          = "double";
+        public const string DotNetGuid            = "Guid";
+        public const string DotNetInt16           = "short";
+        public const string DotNetInt32           = "int";
+        public const string DotNetInt64           = "long";
+        public const string DotNetNullableDecimal = "decimal?";
+        public const string DotNetObject          = "object";
+        public const string DotNetStringName      = "string";
+        public const string DotNetTimeSpan        = "TimeSpan";
+        public const string EndsWith              = "EndsWith";
+
+        public const string HostIP        = "HostIP";
+        public const string HostIPValue   = "Context.ApplicationContext.Authentication.IPAddress";
+        public const string HostName      = "HostName";
+        public const string HostNameValue = "Context.ApplicationContext.Authentication.MachineName";
+
+        public const string IsNull           = "IsNull";
+        public const string LessThan         = "LessThan";
+        public const string LessThanOrEquals = "LessThanOrEqual";
+        public const string NotEqual         = "NotEqual";
+
+        public const string StartsWith            = "StartsWith";
+        public const string SystemDate            = "SystemDate";
+        public const string SystemDateValue       = "DateTime.Now";
+        public const string UpdateHostIP          = "UpdateHostIP";
+        public const string UpdateHostIPValue     = "Context.ApplicationContext.Authentication.IPAddress";
+        public const string UpdateHostName        = "UpdateHostName";
+        public const string UpdateHostNameValue   = "Context.ApplicationContext.Authentication.MachineName";
+        public const string UpdateSystemDate      = "UpdateSystemDate";
+        public const string UpdateSystemDateValue = "DateTime.Now";
+
+        public const string UpdateUserName      = "UpdateUserName";
+        public const string UpdateUserNameValue = "Context.ApplicationContext.Authentication.UserName";
+        public const string UserName            = "UserName";
+        public const string UserNameValue       = "Context.ApplicationContext.Authentication.UserName";
+        #endregion
+
         #region Static Fields
-        internal static readonly string[] GenericUpdateInformationColumns = {UpdateUserName, UpdateHostName, UpdateHostIP, UpdateSystemDate};
+        internal static readonly string[] GenericUpdateInformationColumns =
+        {
+            UpdateUserName,
+            UpdateHostName,
+            UpdateHostIP,
+            UpdateSystemDate
+        };
 
         internal static readonly string[] GenericColumns =
         {
-            UserName, HostName, HostIP, SystemDate,
-            UpdateUserName, UpdateHostName, UpdateHostIP, UpdateSystemDate,
+            UserName,
+            HostName,
+            HostIP,
+            SystemDate,
+            UpdateUserName,
+            UpdateHostName,
+            UpdateHostIP,
+            UpdateSystemDate,
             ChannelId
         };
-        #endregion
-
-        #region Public Properties
-        public static string BiggerThan => "BiggerThan";
-
-        public static string BiggerThanOrEquals => "BiggerThanOrEqual";
-        public static string ChannelId          => "ChannelId";
-        public static string ChannelIdValue     => "Context.ApplicationContext.Authentication.Channel";
-
-        public static string Contains => "Contains";
-
-        public static string DotNetBool => "bool";
-
-        public static string DotNetByte => "byte";
-
-        public static string DotNetByteArray => "byte[]";
-
-        public static string DotNetDateTime => "DateTime";
-
-        public static string DotNetDecimal => "decimal";
-
-        public static string DotNetDouble => "double";
-
-        public static string DotNetGuid => "Guid";
-
-        public static string DotNetInt16 => "short";
-
-        public static string DotNetInt32 => "int";
-
-        public static string DotNetInt64 => "long";
-
-        public static string DotNetNullableDecimal => "decimal?";
-
-        public static string DotNetObject => "object";
-
-        public static string DotNetStringName => "string";
-
-        public static string DotNetTimeSpan => "TimeSpan";
-
-        public static string EndsWith      => "EndsWith";
-        public static string HostIP        => "HostIP";
-        public static string HostIPValue   => "Context.ApplicationContext.Authentication.IPAddress";
-        public static string HostName      => "HostName";
-        public static string HostNameValue => "Context.ApplicationContext.Authentication.MachineName";
-
-        public static string IsNull => "IsNull";
-
-        public static string LessThan => "LessThan";
-
-        public static string LessThanOrEquals => "LessThanOrEqual";
-
-        public static string NotEqual => "NotEqual";
-
-        public static string StartsWith            => "StartsWith";
-        public static string SystemDate            => "SystemDate";
-        public static string SystemDateValue       => "DateTime.Now";
-        public static string UpdateHostIP          => "UpdateHostIP";
-        public static string UpdateHostIPValue     => "Context.ApplicationContext.Authentication.IPAddress";
-        public static string UpdateHostName        => "UpdateHostName";
-        public static string UpdateHostNameValue   => "Context.ApplicationContext.Authentication.MachineName";
-        public static string UpdateSystemDate      => "UpdateSystemDate";
-        public static string UpdateSystemDateValue => "DateTime.Now";
-
-        public static string UpdateUserName => "UpdateUserName";
-
-        public static string UpdateUserNameValue => "Context.ApplicationContext.Authentication.UserName";
-        public static string UserName            => "UserName";
-
-        public static string UserNameValue => "Context.ApplicationContext.Authentication.UserName";
         #endregion
 
         #region Methods

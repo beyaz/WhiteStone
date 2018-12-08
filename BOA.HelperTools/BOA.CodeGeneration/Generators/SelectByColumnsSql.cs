@@ -94,7 +94,7 @@ namespace BOA.CodeGeneration.Generators
                 var last = Parameters.Last();
                 foreach (var p in Parameters)
                 {
-                    var column       = p.FindColum(Columns);
+                    var column       = p.FindColumn(Columns);
                     var propertyName = p.GetPropertyName(Columns);
 
                     WritePadding();
@@ -203,7 +203,7 @@ namespace BOA.CodeGeneration.Generators
                 var first = Parameters.First();
                 foreach (var p in Parameters)
                 {
-                    var column       = p.FindColum(Columns);
+                    var column       = p.FindColumn(Columns);
                     var propertyName = p.GetPropertyName(Columns);
 
                     if (p != first)
