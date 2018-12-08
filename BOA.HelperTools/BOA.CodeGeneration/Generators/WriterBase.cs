@@ -12,6 +12,25 @@ namespace BOA.CodeGeneration.Generators
 {
     public class WriterBaseBase : ContractBase
     {
+        static void WriteLinesWithComma(Action<string> writeLine, IReadOnlyList<string> lines)
+        {
+            const string Comma = ",";
+
+            var end = lines.Count - 1;
+
+            for (var i = 0; i < end; i++)
+            {
+                writeLine(lines[i] + Comma);
+            }
+
+            writeLine(lines[end]);
+        }
+
+        protected void WriteLinesWithComma( IReadOnlyList<string> lines)
+        {
+            WriteLinesWithComma(WriteLine,lines);
+        }
+
         #region Constants
         protected const int PaddingLength = 4;
         #endregion

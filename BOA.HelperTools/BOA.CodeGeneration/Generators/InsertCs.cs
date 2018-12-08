@@ -34,25 +34,24 @@ namespace BOA.CodeGeneration.Generators
                 methodAccess = "";
             }
 
-            WriteLine("{2}GenericResponse<int> {0}({1} contract)", NameOfCsMethodInsert, ContractName, methodAccess);
+            WriteLine($"{methodAccess}GenericResponse<int> {NameOfCsMethodInsert}({ContractName} contract)");
 
             WriteLine("{");
 
             Padding++;
 
-            WriteLine("var returnObject = CreateResponse<int>();", NameOfCsMethodInsert);
+            WriteLine("var returnObject = CreateResponse<int>();");
             WriteLine();
             WriteLine("if (contract == null)");
             WriteLine("{");
             Padding++;
-            WriteLine("return returnObject.AddError({0});", MethodParameterCannotBeNullMessage);
+            WriteLine($"return returnObject.AddError({MethodParameterCannotBeNullMessage});");
             Padding--;
             WriteLine("}");
 
             WriteLine();
 
-            WriteLine("var command = DBLayer.GetDBCommand(Databases.{0}, \"{1}\");",
-                      DatabaseEnumName, DatabaseTargetSchemaForProcedureNames + "." + NameOfSqlProcedureInsert);
+            WriteLine($"var command = DBLayer.GetDBCommand(Databases.{DatabaseEnumName}, \"{DatabaseTargetSchemaForProcedureNames}.{NameOfSqlProcedureInsert}\");");
 
             WriteLine("");
 
@@ -95,15 +94,15 @@ namespace BOA.CodeGeneration.Generators
             {
                 var dbLayerMethod = GetDbLayerMethod(c);
 
-                var inputValue = "contract." + c.ColumnName;
+                var inputValue = $"contract.{c.ColumnName}";
 
                 if (c.DataType == SqlDataType.VarBinary &&
                     DoCompressionForVarBinaryColumns)
                 {
-                    inputValue = "CompressionHelper.CompressBuffer(" + inputValue + ")";
+                    inputValue = $"CompressionHelper.CompressBuffer({inputValue})";
                 }
 
-                WriteLine("DBLayer." + dbLayerMethod + "(command, " + "\"{0}\", SqlDbType.{1}, " + inputValue + ");", c.ColumnName, c.SqlDatabaseTypeName);
+                WriteLine($"DBLayer.{dbLayerMethod}(command, \"{c.ColumnName}\", SqlDbType.{c.SqlDatabaseTypeName}, {inputValue});");
             }
 
             WriteLine("#endregion");
@@ -135,7 +134,7 @@ namespace BOA.CodeGeneration.Generators
 
             if (Context.Table.HasIdentityColumn)
             {
-                WriteLine("contract.{0} = returnObject.Value;", Context.Table.IdentityColumn.ColumnName);
+                WriteLine($"contract.{Context.Table.IdentityColumn.ColumnName} = returnObject.Value;");
                 WriteLine();
             }
 

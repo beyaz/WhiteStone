@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
@@ -67,20 +66,6 @@ namespace BOA.CodeGeneration.Generators
             }
 
             return returnList;
-        }
-
-        public static void WriteLinesWithComma(Action<string> writeLine, IReadOnlyList<string> lines)
-        {
-            const string Comma = ",";
-
-            var end = lines.Count - 1;
-
-            for (var i = 0; i < end; i++)
-            {
-                writeLine(lines[i] + Comma);
-            }
-
-            writeLine(lines[end]);
         }
 
         public string Generate()
@@ -160,7 +145,7 @@ namespace BOA.CodeGeneration.Generators
         {
             var lines = GetProcedureParameterColumns(Columns).Select(c => c.ColumnName.NormalizeColumnNameForReversedKeywords()).ToList();
 
-            WriteLinesWithComma(WriteLine, lines);
+            WriteLinesWithComma(lines);
         }
 
         void WriteInsertParameters()
@@ -185,24 +170,12 @@ namespace BOA.CodeGeneration.Generators
                 lines.Add($"@{column.ColumnName} {dataType}");
             }
 
-            WriteLinesWithComma(WriteLine, lines);
+            WriteLinesWithComma(lines);
         }
 
         void WriteValues()
         {
-            var columns = GetProcedureParameterColumns(Columns);
-
-            var lastRow = columns.Last();
-            foreach (var row in columns)
-            {
-                var format = "@{0}";
-                if (row != lastRow)
-                {
-                    format += ",";
-                }
-
-                WriteLine(format, row.ColumnName);
-            }
+            WriteLinesWithComma(GetProcedureParameterColumns(Columns).Select(c => "@" + c.ColumnName).ToList());
         }
         #endregion
     }
