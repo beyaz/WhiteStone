@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
@@ -66,6 +67,20 @@ namespace BOA.CodeGeneration.Generators
             }
 
             return returnList;
+        }
+
+        public static void WriteLinesWithComma(Action<string> writeLine, IReadOnlyList<string> lines)
+        {
+            const string Comma = ",";
+
+            var end = lines.Count - 1;
+
+            for (var i = 0; i < end; i++)
+            {
+                writeLine(lines[i] + Comma);
+            }
+
+            writeLine(lines[end]);
         }
 
         public string Generate()
@@ -143,44 +158,34 @@ namespace BOA.CodeGeneration.Generators
         #region Methods
         void WriteInputParameters()
         {
-            var columns = GetProcedureParameterColumns(Columns);
+            var lines = GetProcedureParameterColumns(Columns).Select(c => c.ColumnName.NormalizeColumnNameForReversedKeywords()).ToList();
 
-            var end = columns.Count - 1;
-
-            for (var i = 0; i < end; i++)
-            {
-                WriteLine("{0},", columns[i].ColumnName.NormalizeColumnNameForReversedKeywords());
-            }
-
-            WriteLine("{0}", columns[end].ColumnName.NormalizeColumnNameForReversedKeywords());
+            WriteLinesWithComma(WriteLine, lines);
         }
 
         void WriteInsertParameters()
         {
-            var columns = GetProcedureParameterColumns(Columns);
+            var lines = new List<string>();
 
-            var lastColumn = columns.Last();
-            foreach (var c in columns)
+            foreach (var column in GetProcedureParameterColumns(Columns))
             {
-                var format = "@{0} {1}";
-                if (c.IsNullable)
-                {
-                    format += " = NULL";
-                }
+                var dataType = column.DataType;
 
-                if (c != lastColumn)
-                {
-                    format += ",";
-                }
-
-                var dataType = c.DataType;
                 if (dataType == SqlDataType.VarBinary)
                 {
                     dataType = dataType + "(MAX)";
                 }
 
-                WriteLine(format, c.ColumnName, dataType);
+                if (column.IsNullable)
+                {
+                    lines.Add($"@{column.ColumnName} {dataType} = NULL");
+                    continue;
+                }
+
+                lines.Add($"@{column.ColumnName} {dataType}");
             }
+
+            WriteLinesWithComma(WriteLine, lines);
         }
 
         void WriteValues()
