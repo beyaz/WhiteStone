@@ -186,6 +186,9 @@ namespace BOAPlugins.Messaging
             builder.AppendLine("{");
             builder.PaddingCount++;
 
+            builder.AppendLine("/// <summary>");
+            builder.AppendLine("     The message");
+            builder.AppendLine("/// </summary>");
             builder.AppendLine("public static partial class Message");
             builder.AppendLine("{");
             builder.PaddingCount++;
