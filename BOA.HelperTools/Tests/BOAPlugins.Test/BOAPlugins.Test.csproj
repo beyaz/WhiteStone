@@ -95,6 +95,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchProcedure\HandlerTest.cs" />
     <Compile Include="SearchProcedure\SpaceCaseInsensitiveComparatorTest.cs" />
+    <Compile Include="TypescriptModelGeneration\SolutionInfoTest.cs" />
     <Compile Include="ViewClassDependency\GraphCreatorTest.cs" />
     <Compile Include="ViewClassDependency\HandlerTest.cs" />
   </ItemGroup>

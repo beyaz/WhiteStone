@@ -29,12 +29,6 @@ namespace BOAPlugins.VSIntegration
             };
             Closed += MainForm_Closed;
         }
-
-        void MainForm_Closed(object sender, EventArgs e)
-        {
-            SM.Get<Configuration>().CheckInCommentDefaultValue = cmpCheckInComment.Text;
-            Configuration.SaveToFile();
-        }
         #endregion
 
         #region Public Properties
@@ -77,12 +71,18 @@ namespace BOAPlugins.VSIntegration
             SafeScope(() =>
             {
                 var solutionInfo = SolutionInfo.CreateFrom(VisualStudio.GetSolutionFilePath());
-                global::BOAPlugins.VSIntegration.FormAssistantProjectInitializer.Initialize(solutionInfo);
+                FormAssistantProjectInitializer.Initialize(solutionInfo);
 
                 Close();
 
                 VisualStudio.UpdateStatusBarText("Files are exported.");
             });
+        }
+
+        void MainForm_Closed(object sender, EventArgs e)
+        {
+            SM.Get<Configuration>().CheckInCommentDefaultValue = cmpCheckInComment.Text;
+            Configuration.SaveToFile();
         }
 
         void OnLoadCompleted(object sender, RoutedEventArgs e)
@@ -108,8 +108,23 @@ namespace BOAPlugins.VSIntegration
             Process.Start(ConstConfiguration.PluginDirectory);
         }
 
-        
-        
+        void RemoveUnusedMessagesInCsCodes(object sender, RoutedEventArgs e)
+        {
+            SafeScope(() =>
+            {
+                Command.RemoveUnusedMessagesInCsCodes();
+                Close();
+            });
+        }
+
+        void RemoveUnusedMessagesInTypescriptCodes(object sender, RoutedEventArgs e)
+        {
+            SafeScope(() =>
+            {
+                Command.RemoveUnusedMessagesInTypescriptCodes();
+                Close();
+            });
+        }
 
         void UpdateMessageCs(object sender, RoutedEventArgs e)
         {
@@ -128,24 +143,6 @@ namespace BOAPlugins.VSIntegration
                 Close();
             });
         }
-        void RemoveUnusedMessagesInTypescriptCodes(object sender, RoutedEventArgs e)
-        {
-            SafeScope(() =>
-            {
-                Command.RemoveUnusedMessagesInTypescriptCodes();
-                Close();
-            });
-        }
-        void RemoveUnusedMessagesInCsCodes(object sender, RoutedEventArgs e)
-        {
-            SafeScope(() =>
-            {
-                Command.RemoveUnusedMessagesInCsCodes();
-                Close();
-            });
-        }
-        
-
 
         void UpdateTypeScriptModels(object sender, RoutedEventArgs e)
         {
@@ -173,7 +170,5 @@ namespace BOAPlugins.VSIntegration
             });
         }
         #endregion
-
-        
     }
 }
