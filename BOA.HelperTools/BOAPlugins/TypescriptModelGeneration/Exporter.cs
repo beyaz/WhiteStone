@@ -2,9 +2,10 @@
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOAPlugins.Utility;
 using Mono.Cecil;
 
-namespace BOAPlugins.Utility.TypescriptModelGeneration
+namespace BOAPlugins.TypescriptModelGeneration
 {
     public class Exporter
     {

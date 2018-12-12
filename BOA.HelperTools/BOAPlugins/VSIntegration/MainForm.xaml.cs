@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
+using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
-using BOAPlugins.Utility.TypescriptModelGeneration;
 using BOAPlugins.ViewClassDependency;
 using WhiteStone;
 

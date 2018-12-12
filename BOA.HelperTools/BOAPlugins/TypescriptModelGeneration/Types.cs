@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BOAPlugins.Utility.TypescriptModelGeneration
+namespace BOAPlugins.TypescriptModelGeneration
 {
     [Serializable]
     public class ExportInfo

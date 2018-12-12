@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using BOAPlugins.Utility;
 
-namespace BOAPlugins.Utility.TypescriptModelGeneration
+namespace BOAPlugins.TypescriptModelGeneration
 {
     [Serializable]
     public class SolutionInfo
@@ -24,6 +25,8 @@ namespace BOAPlugins.Utility.TypescriptModelGeneration
         #region Public Methods
         public static SolutionInfo CreateFrom(string slnFilePath)
         {
+            Log.Push(slnFilePath);
+
             if (slnFilePath == null)
             {
                 throw new ArgumentNullException(nameof(slnFilePath));

@@ -1,4 +1,6 @@
-﻿namespace BOAPlugins.Utility.TypescriptModelGeneration
+﻿using BOAPlugins.Utility;
+
+namespace BOAPlugins.TypescriptModelGeneration
 {
     public static class Handler
     {
