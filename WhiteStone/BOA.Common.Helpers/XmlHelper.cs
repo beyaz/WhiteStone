@@ -17,7 +17,7 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Adds the attribute.
         /// </summary>
-        public static void AddAttribute(XElement xElement, string search, string name, string value)
+        public static void AddAttribute(XElement element, string search, string name, string value)
         {
             var tags = search.Split('/').Where(x => string.IsNullOrWhiteSpace(x) == false).ToList();
 
@@ -43,35 +43,35 @@ namespace BOA.Common.Helpers
                     tag                  = tag.Substring(0, start).Trim();
                 }
 
-                var xName = xElement.Name.Namespace + tag;
+                var xName = element.Name.Namespace + tag;
 
-                if (IsMatch(xElement, tag, filterAttributeName, filterAttributeValue))
+                if (IsMatch(element, tag, filterAttributeName, filterAttributeValue))
                 {
                     if (isLast)
                     {
-                        xElement.SetAttributeValue(XName.Get(name), value);
+                        element.SetAttributeValue(XName.Get(name), value);
                     }
                     continue;
                 }
 
-                var element = xElement.Descendants(xName).FirstOrDefault();
-                if (element == null)
+                var xElement = element.Descendants(xName).FirstOrDefault();
+                if (xElement == null)
                 {
-                    element = new XElement(XName.Get(tag));
-                    xElement.Add(element);
+                    xElement = new XElement(XName.Get(tag));
+                    element.Add(xElement);
                     if (filterAttributeName != null)
                     {
-                        element.SetAttributeValue(filterAttributeName, filterAttributeValue);
+                        xElement.SetAttributeValue(filterAttributeName, filterAttributeValue);
                     }
                 }
 
                 if (!isLast)
                 {
-                    xElement = element;
+                    element = xElement;
                     continue;
                 }
 
-                element.SetAttributeValue(XName.Get(name), value);
+                xElement.SetAttributeValue(XName.Get(name), value);
             }
         }
 
