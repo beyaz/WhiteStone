@@ -1,4 +1,5 @@
 ﻿using BOAPlugins.TypescriptModelGeneration;
+using BOAPlugins.VSIntegration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOAPlugins.Utility.TypescriptModelGeneration
@@ -14,6 +15,8 @@ namespace BOAPlugins.Utility.TypescriptModelGeneration
             var          solutionInfo = SolutionInfo.CreateFrom(SlnFilePath);
 
             Assert.IsNotNull(solutionInfo.FilePathOf_FormAssistant_cs_In_Types);
+
+            FormAssistantProjectInitializer.Initialize(solutionInfo);
         }
         #endregion
     }
