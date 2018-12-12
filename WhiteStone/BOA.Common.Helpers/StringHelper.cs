@@ -25,7 +25,7 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static bool IsEqualAsData(string left, string right)
         {
-            return new SpaceCaseInsensitiveComparator().Compare(left, right);
+            return IsEqualAsData(left, right, CultureInfo.CurrentCulture);
         }
 
         /// <summary>
@@ -147,12 +147,20 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static string ToLowerAndClearSpaces(this string value)
         {
+            return ToLowerAndClearSpaces(value, CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        ///     To the lower and clear spaces.
+        /// </summary>
+        public static string ToLowerAndClearSpaces(this string value, CultureInfo cultureInfo)
+        {
             if (value == null)
             {
                 return null;
             }
 
-            return SpaceCaseInsensitiveComparator.ExceptChars(value.ToLower(), SpaceCaseInsensitiveComparator.ExceptCharacters);
+            return SpaceCaseInsensitiveComparator.ExceptChars(value.ToLower(cultureInfo), SpaceCaseInsensitiveComparator.ExceptCharacters);
         }
 
         /// <summary>

@@ -64,9 +64,9 @@ namespace BOA.Common.Helpers
 
         #region Public Events
         /// <summary>
-        ///     Occurs when [after property value assigned].
+        ///     Occurs when [property value assigned].
         /// </summary>
-        public event Action<object, PropertyInfo> AfterPropertyValueAssigned;
+        public event EventHandler<PropertyValueAssignedEventArgs> PropertyValueAssigned;
         #endregion
 
         #region Enums
@@ -830,8 +830,32 @@ namespace BOA.Common.Helpers
 
             prop.SetValue(genericObject, propertyValue, null);
 
-            AfterPropertyValueAssigned?.Invoke(genericObject, prop);
+            PropertyValueAssigned?.Invoke(genericObject, new PropertyValueAssignedEventArgs(prop));
         }
+        #endregion
+    }
+
+    /// <summary>
+    ///     The property value assigned event arguments
+    /// </summary>
+    [Serializable]
+    public class PropertyValueAssignedEventArgs : EventArgs
+    {
+        #region Constructors
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PropertyValueAssignedEventArgs" /> class.
+        /// </summary>
+        public PropertyValueAssignedEventArgs(PropertyInfo propertyInfo)
+        {
+            PropertyInfo = propertyInfo;
+        }
+        #endregion
+
+        #region Public Properties
+        /// <summary>
+        ///     Gets the property information.
+        /// </summary>
+        public PropertyInfo PropertyInfo { get; private set; }
         #endregion
     }
 }

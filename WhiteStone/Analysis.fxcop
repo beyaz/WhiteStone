@@ -19,10 +19,70 @@
   <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
   <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
   <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
-  <TargetFrameworkVersion>0.0</TargetFrameworkVersion>
  </ProjectOptions>
  <Targets>
-  <Target Name="D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll" Analyze="True" AnalyzeAllChildren="False">
+   <Modules AnalyzeAllChildren="False">
+    <Module Name="whitestone.dll" Analyze="True" AnalyzeAllChildren="False">
+     <Namespaces AnalyzeAllChildren="False">
+      <Namespace Name="" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="BOA.Common" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="BOA.Common.Helpers" Analyze="True" AnalyzeAllChildren="False">
+       <Types AnalyzeAllChildren="False">
+        <Type Name="Cast" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="DateTimeExtensions" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="ExceptionHelper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="ExpressionUtility" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="FileHelper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="IConvertibleHelper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="JsonHelper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="PaddedStringBuilder" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="PropertyValueAssignedEventArgs" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="RandomValue" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="RandomValue+&lt;&gt;c" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="RandomValue+&lt;&gt;c__35`1" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="RandomValue+&lt;&gt;c__DisplayClass57_0`1" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="RandomValue+&lt;LazyIEnumerable&gt;d__40`1" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="RandomValue+&lt;LazyIEnumerable&gt;d__41" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="RandomValue+SupportType" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="ReflectionHelper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="ReflectionHelper+&lt;&gt;c__DisplayClass10_0" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="ReflectionHelper+AssemblyResolver" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="SpaceCaseInsensitiveComparator" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="SqlCommandDumper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="SqlCommandDumper+&lt;&gt;c" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="StringHelper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="StringHelper+&lt;&gt;c" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="StringHelper+&lt;SplitToLines&gt;d__10" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="TraceFileHelper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="TraceFileHelper+&lt;Read&gt;d__1`1" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="XmlHelper+&lt;&gt;c" Analyze="True" AnalyzeAllChildren="True" />
+       </Types>
+      </Namespace>
+      <Namespace Name="BOA.Data.MvcWpf" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="BOA.DatabaseAccess" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="BOA.UI.Common" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="Microsoft.Office.Interop.Excel" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="System" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="System.Collections.Generic" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="System.ComponentModel" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="System.Web" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="System.Windows.Controls" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="WhiteStone" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="WhiteStone.Common" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="WhiteStone.Communication" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="WhiteStone.Configuration" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="WhiteStone.Helpers" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="WhiteStone.IO" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="WhiteStone.Jaml" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="WhiteStone.Mvc" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="WhiteStone.Services" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="WhiteStone.Services.FileLogging" Analyze="True" AnalyzeAllChildren="True" />
+     </Namespaces>
+     <Resources AnalyzeAllChildren="True" />
+    </Module>
+   </Modules>
+  </Target>
  </Targets>
  <Rules>
   <RuleFiles>
@@ -233,6 +293,30 @@
                 <Note Id="2" />
                </User>
               </Notes>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="XmlHelper">
+          <Members>
+           <Member Name="#GetRootNode(System.String)">
+            <Messages>
+             <Message Id="System.Xml.XmlNode" TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059" Status="Excluded" Created="2018-12-12 08:21:30Z">
+              <Issue Name="Xml">
+               <Item>'XmlHelper.GetRootNode(string)'</Item>
+               <Item>'XmlNode'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#ToList(System.Xml.XmlNodeList)">
+            <Messages>
+             <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Excluded" Created="2018-12-12 08:21:30Z">
+              <Issue>
+               <Item>'List&lt;XmlNode&gt;'</Item>
+               <Item>'XmlHelper.ToList(this XmlNodeList)'</Item>
+              </Issue>
              </Message>
             </Messages>
            </Member>
@@ -639,6 +723,7 @@
    <Rule TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822">
     <Resolution Name="Default">The 'this' parameter (or 'Me' in Visual Basic) of {0} is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Resolution>
    </Rule>
+   <Rule TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059" />
    <Rule TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814">
     <Resolution Name="Body">{0} uses a multidimensional array of {1}. Replace it with a jagged array if possible.</Resolution>
    </Rule>
