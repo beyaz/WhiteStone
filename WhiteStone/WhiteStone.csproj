@@ -159,6 +159,7 @@
     <Compile Include="System.Collections.Generic\Extensions.cs" />
     <Compile Include="System.Web\WhiteStoneExtensions.cs" />
     <Compile Include="System.Windows.Controls\Extensions.cs" />
+    <Compile Include="UI.Types\FormAssistant.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.fxcop" />

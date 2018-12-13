@@ -19,6 +19,7 @@
   <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
   <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
   <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
+  <TargetFrameworkVersion>0.0</TargetFrameworkVersion>
  </ProjectOptions>
  <Targets>
   <Target Name="D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll" Analyze="True" AnalyzeAllChildren="False">
@@ -62,6 +63,34 @@
       <Namespace Name="BOA.Data.MvcWpf" Analyze="True" AnalyzeAllChildren="True" />
       <Namespace Name="BOA.DatabaseAccess" Analyze="True" AnalyzeAllChildren="True" />
       <Namespace Name="BOA.UI.Common" Analyze="True" AnalyzeAllChildren="True" />
+      <Namespace Name="BOA.UI.Types" Analyze="True" AnalyzeAllChildren="False">
+       <Types AnalyzeAllChildren="False">
+        <Type Name="BindingPathExpressionHelper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="DataGridColumnInfo" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="DataGridInfo" Analyze="True" AnalyzeAllChildren="False">
+         <Members AnalyzeAllChildren="False">
+          <Member Name="#.ctor()" Analyze="True" />
+          <Member Name="#&lt;Columns&gt;k__BackingField" Analyze="True" />
+          <Member Name="#&lt;RecordType&gt;k__BackingField" Analyze="True" />
+          <Member Name="#&lt;RowBackgrounds&gt;k__BackingField" Analyze="True" />
+          <Member Name="#AddColumn`1(System.Linq.Expressions.Expression`1&lt;System.Func`1&lt;!!0&gt;&gt;)" Analyze="True" />
+          <Member Name="#Columns" Analyze="True" AnalyzeAllChildren="True" />
+          <Member Name="#Create(System.Type)" Analyze="True" />
+          <Member Name="#recordType" Analyze="True" />
+          <Member Name="#RecordType" Analyze="True" AnalyzeAllChildren="True" />
+          <Member Name="#RowBackgrounds" Analyze="True" AnalyzeAllChildren="True" />
+         </Members>
+        </Type>
+        <Type Name="DataGridInfoHelper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="DataGridInfoHelper+&lt;&gt;c__DisplayClass0_0" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="DataGridRowBackgroundInfo" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="NamingHelper" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="NamingHelper+&lt;&gt;c" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="Pair" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="PropertyPathResolver" Analyze="True" AnalyzeAllChildren="True" />
+        <Type Name="PropertyPathResolver+&lt;&gt;c" Analyze="True" AnalyzeAllChildren="True" />
+       </Types>
+      </Namespace>
       <Namespace Name="Microsoft.Office.Interop.Excel" Analyze="True" AnalyzeAllChildren="True" />
       <Namespace Name="System" Analyze="True" AnalyzeAllChildren="True" />
       <Namespace Name="System.Collections.Generic" Analyze="True" AnalyzeAllChildren="True" />
@@ -612,6 +641,24 @@
          </Type>
         </Types>
        </Namespace>
+       <Namespace Name="BOA.UI.Types">
+        <Types>
+         <Type Name="DataGridInfo">
+          <Members>
+           <Member Name="#AddColumn`1(System.Linq.Expressions.Expression`1&lt;System.Func`1&lt;!!0&gt;&gt;)">
+            <Messages>
+             <Message TypeName="DoNotNestGenericTypesInMemberSignatures" Category="Microsoft.Design" CheckId="CA1006" Status="Excluded" Created="2018-12-12 10:06:07Z">
+              <Issue>
+               <Item>'DataGridInfo.AddColumn&lt;T&gt;(Expression&lt;Func&lt;T&gt;&gt;)'</Item>
+               <Item>'Expression&lt;Func&lt;T&gt;&gt;'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
        <Namespace Name="WhiteStone.IO">
         <Types>
          <Type Name="FileService">
@@ -723,7 +770,9 @@
    <Rule TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822">
     <Resolution Name="Default">The 'this' parameter (or 'Me' in Visual Basic) of {0} is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Resolution>
    </Rule>
-   <Rule TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059" />
+   <Rule TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059">
+    <Resolution Name="Xml" />
+   </Rule>
    <Rule TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814">
     <Resolution Name="Body">{0} uses a multidimensional array of {1}. Replace it with a jagged array if possible.</Resolution>
    </Rule>

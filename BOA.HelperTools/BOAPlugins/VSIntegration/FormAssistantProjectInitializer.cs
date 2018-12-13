@@ -27,9 +27,9 @@ namespace BOAPlugins.VSIntegration
             
 
             // FormAssistant.cs 
-            const string tfsPath = @"$/BOA.BusinessModules/Dev/BOA.CardPaymentSystem.Clearing/BOA.Types.CardPaymentSystem.Clearing/FormAssistant.cs";
+            const string tfsPath = @"$/BOA.BusinessModules/Dev/BOA.CardGeneral.DebitCard/BOA.Types.CardGeneral.DebitCard/FormAssistant.cs";
 
-            var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardPaymentSystem.Clearing", NamingInfo.GetNamespaceNameForType(solutionInfo.SlnFilePath));
+            var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardGeneral.DebitCard", NamingInfo.GetNamespaceNameForType(solutionInfo.SlnFilePath));
 
             
             var targetFilePath = solutionInfo.FilePathOf_FormAssistant_cs_In_Types;
@@ -40,9 +40,9 @@ namespace BOAPlugins.VSIntegration
         static void Export_FormAssistant_tsx(SolutionInfo solutionInfo)
         {
             // FormAssistant.tsx
-            const string tfsPath = @"$/BOA.BusinessModules/Dev/BOA.CardPaymentSystem.Clearing/One/BOA.One.Office.CardPaymentSystem.Clearing/ClientApp/utils/FormAssistant.tsx";
+            const string tfsPath = @"$/BOA.BusinessModules/Dev/BOA.CardGeneral.DebitCard/One/BOA.One.CardGeneral.DebitCard/ClientApp/utils/FormAssistant.tsx";
 
-            var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardPaymentSystem.Clearing", NamingInfo.GetNamespaceNameForType(solutionInfo.SlnFilePath));
+            var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardGeneral.DebitCard", NamingInfo.GetNamespaceNameForType(solutionInfo.SlnFilePath));
 
             var targetFilePath = solutionInfo.FormAssistant_tsx_FilePath;
 
@@ -52,8 +52,8 @@ namespace BOAPlugins.VSIntegration
         static void Export_Orchestration_Extension_Class(SolutionInfo solutionInfo)
         {
             // Extensions.designer.cs
-            const string tfsPath     = @"$/BOA.BusinessModules/Dev/BOA.CardPaymentSystem.Clearing/BOA.Orchestration.CardPaymentSystem.Clearing/Extensions.designer.cs";
-            var          fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Orchestration.CardPaymentSystem.Clearing", NamingInfo.GetNamespaceNameForOrchestration(solutionInfo.SlnFilePath));
+            const string tfsPath     = @"$/BOA.BusinessModules/Dev/BOA.CardGeneral.DebitCard/BOA.Orchestration.CardGeneral.DebitCard/Extensions.designer.cs";
+            var          fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Orchestration", NamingInfo.GetNamespaceNameForOrchestration(solutionInfo.SlnFilePath));
 
             var targetFilePath = solutionInfo.OrchestrationProjectFolder + "Extensions.designer.cs";
 
