@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace BOA.Jaml
 {
@@ -10,7 +11,17 @@ namespace BOA.Jaml
     {
         readonly List<Func<Assignment, bool>> _customPropertyHandlers    = new List<Func<Assignment, bool>>();
         readonly List<Action<Builder>>        _creationCompletedHandlers = new List<Action<Builder>>();
-        readonly List<Action<Builder>>        _tryToCreateElement        = new List<Action<Builder>>();
+
+        readonly List<Action<Builder>> _tryToCreateElement = new List<Action<Builder>>
+        {
+            (builder) =>
+            {
+                if (builder.ViewName == "TEXTAREA")
+                {
+                    builder.View = new RichTextBox();
+                }
+            }
+        };
 
         /// <summary>
         ///     Called when [custom property].

@@ -166,6 +166,8 @@ namespace BOA.Jaml
                     foreach (var gridChild in grid.Children)
                     {
                         var gridChildAsDpObject = (DependencyObject) gridChild;
+                        var splitter       = gridChild as GridSplitter;
+                        var isGridSplitter = splitter != null;
 
                         RowDefinition rowDefinition = null;
 
@@ -185,7 +187,7 @@ namespace BOA.Jaml
                             else
                             {
                                 var heightIsAuto = gridChildAsDpObject.GetValue(HeightIsAutoProperty) as bool?;
-                                if (heightIsAuto == true)
+                                if (heightIsAuto == true|| isGridSplitter)
                                 {
                                     rowDefinition = new RowDefinition {Height = new GridLength(0, GridUnitType.Auto)};
                                 }
@@ -200,9 +202,12 @@ namespace BOA.Jaml
 
                         gridChildAsDpObject.SetValue(Grid.RowProperty, rowIndex);
 
-                        var splitter = gridChild as GridSplitter;
-                        if (splitter != null)
+                        if (isGridSplitter)
                         {
+                            if (double.IsNaN(splitter.Height))
+                            {
+                                splitter.Height = 5;    
+                            }
                             splitter.SetValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
                         }
 
@@ -216,6 +221,8 @@ namespace BOA.Jaml
                     foreach (var gridChild in grid.Children)
                     {
                         var gridChildAsDpObject = (DependencyObject) gridChild;
+                        var splitter = gridChild as GridSplitter;
+                        var isGridSplitter = splitter != null;
 
                         var width = (double) gridChildAsDpObject.GetValue(FrameworkElement.WidthProperty);
 
@@ -235,7 +242,7 @@ namespace BOA.Jaml
                             else
                             {
                                 var widthIsAuto = gridChildAsDpObject.GetValue(WidthIsAutoProperty) as bool?;
-                                if (widthIsAuto == true)
+                                if (widthIsAuto == true || isGridSplitter)
                                 {
                                     columnDefinition = new ColumnDefinition {Width = new GridLength(0, GridUnitType.Auto)};
                                 }
@@ -250,9 +257,14 @@ namespace BOA.Jaml
 
                         gridChildAsDpObject.SetValue(Grid.ColumnProperty, columnIndex);
 
-                        var splitter = gridChild as GridSplitter;
-                        if (splitter != null)
+                        
+                        if (isGridSplitter)
                         {
+                            if (double.IsNaN(splitter.Width))
+                            {
+                                splitter.Width = 5;    
+                            }
+                            
                             splitter.SetValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
                         }
 

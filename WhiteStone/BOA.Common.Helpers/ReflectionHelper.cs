@@ -248,5 +248,37 @@ namespace BOA.Common.Helpers
             return true;
         }
         #endregion
+
+        /// <summary>
+        /// Gets the method.
+        /// </summary>
+        public static MethodInfo GetMethod(string methodAsSerializedString)
+        {
+            const string Message = "Format must be 'Type::methodName,assemblyName'";
+
+            var startMethod = methodAsSerializedString.IndexOf("::", StringComparison.Ordinal);
+            if (startMethod <0)
+            {
+                throw new ArgumentException(Message);
+            }
+            var endMethod = methodAsSerializedString.IndexOf(",", startMethod, StringComparison.Ordinal);
+            if (endMethod <0)
+            {
+                
+                throw new ArgumentException(Message);
+            }
+
+            var methodName = methodAsSerializedString.Substring(startMethod + 2, endMethod - startMethod - 2);
+
+            var typeName = methodAsSerializedString.Replace("::" + methodName,string.Empty);
+
+            var type = Type.GetType(typeName);
+            if (type == null)
+            {
+                throw new ArgumentException(Message+" type not found.");
+            }
+
+            return type.GetMethod( methodName,AllBindings);
+        }
     }
 }

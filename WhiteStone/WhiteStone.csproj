@@ -73,6 +73,7 @@
     <Compile Include="BOA.Common.Helpers\ExceptionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\FileHelper.cs" />
     <Compile Include="BOA.Common.Helpers\JsonHelper.cs" />
+    <Compile Include="BOA.Common.Helpers\Log.cs" />
     <Compile Include="BOA.Common.Helpers\PaddedStringBuilder.cs" />
     <Compile Include="BOA.Common.Helpers\ReflectionHelper.ObjectToCSharpCodeExporter.cs" />
     <Compile Include="BOA.Common.Helpers\SpaceCaseInsensitiveComparator.cs" />
