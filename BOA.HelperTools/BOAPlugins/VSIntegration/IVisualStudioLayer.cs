@@ -74,6 +74,11 @@ namespace BOAPlugins.VSIntegration
         ///     Updates the status bar text.
         /// </summary>
         void UpdateStatusBarText(string message);
+
+        /// <summary>
+        ///     Updates the status bar text.
+        /// </summary>
+        void UpdateStatusBarText(string message, int timeout);
         #endregion
     }
 }

@@ -1,12 +1,15 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Windows.Threading;
 using BOA.Common.Helpers;
 using BOAPlugins.VSIntegration;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Thread = System.Threading.Thread;
 using Window = System.Windows.Window;
 
 namespace BOASpSearch
@@ -178,7 +181,23 @@ namespace BOASpSearch
         public void UpdateStatusBarText(string message)
         {
             var statusBar = Package.GetGlobalService(typeof(IVsStatusbar)) as IVsStatusbar;
-            statusBar?.SetText(message);
+            if (statusBar == null)
+            {
+                return;
+            }
+
+            statusBar.SetText(message);   
+            
+        }
+
+        public void UpdateStatusBarText(string message, int sleep )
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(() =>
+            {
+                Thread.Sleep(sleep);
+                UpdateStatusBarText(message);
+            }));
+            
         }
         #endregion
     }

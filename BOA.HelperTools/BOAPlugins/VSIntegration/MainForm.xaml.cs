@@ -148,9 +148,28 @@ namespace BOAPlugins.VSIntegration
         {
             SafeScope(() =>
             {
-                Command.UpdateTypeScriptModels();
+
+                var solutionFilePath = VisualStudio.GetSolutionFilePath();
+
+                var data = TypescriptModelGeneration.Handler.Handle(solutionFilePath);
+
+                if (data.ErrorMessage != null)
+                {
+                    ShowError(data.ErrorMessage);
+                    return;
+                }
+
+                VisualStudio.UpdateStatusBarText(data.InfoMessage,1000);
+
                 Close();
             });
+        }
+
+
+
+        void ShowError(string message)
+        {
+            MessageBox.Show(message);
         }
 
         void ViewMethodCallGraph(object sender, RoutedEventArgs e)

@@ -4,7 +4,7 @@
         WindowStartupLocation = "CenterScreen"
         Width = "450"
         Title = "Close - ESC"
-        Height = "400" >
+        Height = "440" >
     <StackPanel>
         <Button x:Name = "buttonUpdateMessageCs" Margin = "10" Click = "UpdateMessageCs" >Update Message.cs (in type project)</Button>
         <Button  Margin = "10" Click = "RemoveUnusedMessagesInCsCodes" >Remove Unused Messages In Message.cs (in type project)</Button>

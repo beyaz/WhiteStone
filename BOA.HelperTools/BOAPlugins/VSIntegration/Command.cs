@@ -87,20 +87,7 @@ namespace BOAPlugins.VSIntegration
             VisualStudio.UpdateStatusBarText("Messages.tsx successfully updated.");
         }
 
-        public void UpdateTypeScriptModels()
-        {
-            var solutionFilePath = VisualStudio.GetSolutionFilePath();
-
-            var data = Handler.Handle(solutionFilePath);
-
-            if (data.ErrorMessage != null)
-            {
-                VisualStudio.UpdateStatusBarText(data.ErrorMessage);
-                return;
-            }
-
-            VisualStudio.UpdateStatusBarText(data.InfoMessage);
-        }
+        
         #endregion
     }
 }
