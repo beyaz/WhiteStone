@@ -1,4 +1,4 @@
-﻿namespace Lang.Data
+﻿namespace BOA.Lang.Data
 {
     /// <summary>
     ///     The token type

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Lang.Lexers
+namespace BOA.Lang.Lexers
 {
     /// <summary>
     ///     The tokenizable stream base

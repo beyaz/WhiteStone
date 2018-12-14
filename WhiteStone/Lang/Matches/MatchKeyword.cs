@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Lang.Data;
-using Lang.Lexers;
+using BOA.Lang.Data;
+using BOA.Lang.Lexers;
 
-namespace Lang.Matches
+namespace BOA.Lang.Matches
 {
     /// <summary>
     ///     The match keyword

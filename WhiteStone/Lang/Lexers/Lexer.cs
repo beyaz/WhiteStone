@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Lang.Data;
-using Lang.Matches;
+using BOA.Lang.Data;
+using BOA.Lang.Matches;
 
-namespace Lang.Lexers
+namespace BOA.Lang.Lexers
 {
     /// <summary>
     ///     The lexer

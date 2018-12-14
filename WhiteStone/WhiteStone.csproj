@@ -82,6 +82,11 @@
     <Compile Include="BOA.Common\Bag.cs" />
     <Compile Include="BOA.Common\CacheManager.cs" />
     <Compile Include="BOA.Common\Proxy.cs" />
+    <Compile Include="Jaml\Assignment.cs" />
+    <Compile Include="Jaml\BuilderConfig.cs" />
+    <Compile Include="Jaml\BuilderUtility.cs" />
+    <Compile Include="Jaml\Errors.cs" />
+    <Compile Include="Jaml\TypeFinder.cs" />
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\Translator.cs" />
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\WebResourceProvider.cs" />
     <Compile Include="LanguageTranslations\EnglishBank\Parser.cs" />
@@ -127,7 +132,7 @@
     <Compile Include="Helpers\IEnumerableExtension.cs" />
     <Compile Include="Helpers\INotifyPropertyChangedHelper.cs" />
     <Compile Include="BOA.Common.Helpers\ReflectionUtility.AssemblyResolver.cs" />
-    <Compile Include="Jaml\All.cs" />
+    <Compile Include="Jaml\Builder.cs" />
     <Compile Include="Jaml\Extensions.cs" />
     <Compile Include="Mvc\All.cs" />
     <Compile Include="BOA.Office.Excel\Reader.cs" />

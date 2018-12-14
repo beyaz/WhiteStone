@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lang.Exceptions
+namespace BOA.Lang.Exceptions
 {
     /// <summary>
     ///     The invalid syntax

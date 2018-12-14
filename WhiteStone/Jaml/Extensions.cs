@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Globalization;
 
-namespace WhiteStone
+namespace BOA.Jaml
 {
-    namespace Jaml
-    {
         static class Extensions
         {
+            public static Type GetType(this ITypeFinder finder, string fullTypeName)
+            {
+                var type = finder.Find(fullTypeName);
+                if (type == null)
+                {
+                    throw Errors.TypeNotFound(fullTypeName);
+                }
+                return type;
+            }
+
             /// <summary>
             ///     Removes value from start of str
             /// </summary>
@@ -59,4 +67,3 @@ namespace WhiteStone
             }
         }
     }
-}

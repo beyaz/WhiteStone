@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Linq;
 
-namespace Lang.Lexers
+namespace BOA.Lang.Lexers
 {
     /// <summary>
     ///     The tokenizer

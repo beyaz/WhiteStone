@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Lang.Lexers;
+using BOA.Lang.Lexers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lang
