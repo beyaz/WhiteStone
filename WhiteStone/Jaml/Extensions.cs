@@ -65,5 +65,8 @@ namespace BOA.Jaml
 
                 return double.Parse(value.ToString(), CultureInfo.InvariantCulture);
             }
+
+
+
         }
     }

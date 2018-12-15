@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -8,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 
 namespace BOA.Common.Helpers
 {
@@ -32,9 +30,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Perform a deep Copy of the object.
         /// </summary>
-        /// <typeparam name="T">The type of object being copied.</typeparam>
-        /// <param name="source">The object instance to copy.</param>
-        /// <returns>The copied object.</returns>
         public static T Clone<T>(this T source)
         {
             if (!typeof(T).IsSerializable)
@@ -61,10 +56,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Copies all properties to <paramref name="destination" /> instance.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dataRow"></param>
-        /// <param name="destination"></param>
-        /// <returns></returns>
         public static T CopyProperties<T>(this DataRow dataRow, T destination) where T : class
         {
             if (dataRow == null)
@@ -111,6 +102,80 @@ namespace BOA.Common.Helpers
             }
 
             return null;
+        }
+
+        /// <summary>
+        ///     Gets the method.
+        /// </summary>
+        public static MethodInfo GetMethod(string methodAsSerializedString)
+        {
+            const string Message = "Format must be 'Type::methodName,assemblyName'";
+
+            var startMethod = methodAsSerializedString.IndexOf("::", StringComparison.Ordinal);
+            if (startMethod < 0)
+            {
+                throw new ArgumentException(Message);
+            }
+
+            var endMethod = methodAsSerializedString.IndexOf(",", startMethod, StringComparison.Ordinal);
+            if (endMethod < 0)
+            {
+                throw new ArgumentException(Message);
+            }
+
+            var methodName = methodAsSerializedString.Substring(startMethod + 2, endMethod - startMethod - 2);
+
+            var typeName = methodAsSerializedString.Replace("::" + methodName, string.Empty);
+
+            var type = Type.GetType(typeName);
+            if (type == null)
+            {
+                throw new ArgumentException(Message + " type not found.");
+            }
+
+            return type.GetMethod(methodName, AllBindings);
+        }
+
+        /// <summary>
+        ///     Gets the public non static field.
+        /// </summary>
+        public static FieldInfo GetPublicNonStaticField(this Type type, string fieldName)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            if (fieldName == null)
+            {
+                throw new ArgumentNullException(nameof(fieldName));
+            }
+
+            return type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance);
+        }
+
+        /// <summary>
+        ///     Gets the public non static property.
+        /// </summary>
+        public static PropertyInfo GetPublicNonStaticProperty(this Type type, string propertyName,bool throwExceptionOnNotFound = false)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            if (propertyName == null)
+            {
+                throw new ArgumentNullException(nameof(propertyName));
+            }
+
+            var property =  type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+            if (property == null && throwExceptionOnNotFound)
+            {
+                throw  new MissingMemberException(type.FullName + propertyName);
+            }
+
+            return property;
         }
 
         /// <summary>
@@ -180,10 +245,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Returns true if operations is successfull else is value type is not suitable for property then returns false
         /// </summary>
-        /// <param name="targetProperty">Not null</param>
-        /// <param name="instance"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static bool TrySetPropertyValue(PropertyInfo targetProperty, object instance, object value)
         {
             if (instance == null)
@@ -248,37 +309,5 @@ namespace BOA.Common.Helpers
             return true;
         }
         #endregion
-
-        /// <summary>
-        /// Gets the method.
-        /// </summary>
-        public static MethodInfo GetMethod(string methodAsSerializedString)
-        {
-            const string Message = "Format must be 'Type::methodName,assemblyName'";
-
-            var startMethod = methodAsSerializedString.IndexOf("::", StringComparison.Ordinal);
-            if (startMethod <0)
-            {
-                throw new ArgumentException(Message);
-            }
-            var endMethod = methodAsSerializedString.IndexOf(",", startMethod, StringComparison.Ordinal);
-            if (endMethod <0)
-            {
-                
-                throw new ArgumentException(Message);
-            }
-
-            var methodName = methodAsSerializedString.Substring(startMethod + 2, endMethod - startMethod - 2);
-
-            var typeName = methodAsSerializedString.Replace("::" + methodName,string.Empty);
-
-            var type = Type.GetType(typeName);
-            if (type == null)
-            {
-                throw new ArgumentException(Message+" type not found.");
-            }
-
-            return type.GetMethod( methodName,AllBindings);
-        }
     }
 }

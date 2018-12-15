@@ -19,6 +19,14 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Pushes the specified exception.
+        /// </summary>
+        public static void Push(Exception exception, [CallerMemberName] string callerMemberName = null)
+        {
+            PushInternal(exception.ToString(), callerMemberName);
+        }
+
+        /// <summary>
         ///     Pushes the specified message.
         /// </summary>
         public static void Push(string message, [CallerMemberName] string callerMemberName = null)

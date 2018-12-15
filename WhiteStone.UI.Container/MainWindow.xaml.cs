@@ -1,5 +1,4 @@
 ﻿using System.Configuration;
-using System.Diagnostics;
 using System.Windows;
 using BOA.Common.Helpers;
 
@@ -11,6 +10,9 @@ namespace WhiteStone.UI.Container
     public partial class MainWindow
     {
         #region Constructors
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="MainWindow" /> class.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -18,29 +20,10 @@ namespace WhiteStone.UI.Container
         }
         #endregion
 
-        #region Public Methods
-        public static void EmptyStart()
-        {
-            var builder = new BOA.Jaml.Builder();
-
-            var ui = @"
-{
-    view:'Grid',
-	cols:
-    [
-		{view:'TextArea', Gravity:2 },
-        {view:'GridSplitter'},
-        {view:'TextBox', Gravity:4 }
-	]
-}
-";
-            Debug.Assert(Application.Current.MainWindow != null, "Application.Current.MainWindow != null");
-
-            Application.Current.MainWindow.Content = builder.SetJson(ui).Build().View;
-        }
-        #endregion
-
         #region Methods
+        /// <summary>
+        ///     Called when [main window loaded].
+        /// </summary>
         void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
             var startMethod = ConfigurationManager.AppSettings[nameof(OnMainWindowLoaded)];

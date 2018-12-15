@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using BOA.Common.Helpers;
 
 namespace BOA.Jaml
 {
@@ -9,19 +10,29 @@ namespace BOA.Jaml
     /// </summary>
     public class BuilderConfig
     {
-        readonly List<Func<Assignment, bool>> _customPropertyHandlers    = new List<Func<Assignment, bool>>();
-        readonly List<Action<Builder>>        _creationCompletedHandlers = new List<Action<Builder>>();
+        #region Fields
+        readonly List<Action<Builder>> _creationCompletedHandlers = new List<Action<Builder>>();
+
+        readonly List<Func<Assignment, bool>> _customPropertyHandlers = new List<Func<Assignment, bool>>
+        {
+            RichTextBox_Text
+        };
 
         readonly List<Action<Builder>> _tryToCreateElement = new List<Action<Builder>>
         {
-            (builder) =>
-            {
-                if (builder.ViewName == "TEXTAREA")
-                {
-                    builder.View = new RichTextBox();
-                }
-            }
+            RichTextBox_Create
         };
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        ///     Called when [creation completed].
+        /// </summary>
+        public BuilderConfig OnCreationCompleted(Action<Builder> action)
+        {
+            _creationCompletedHandlers.Add(action);
+            return this;
+        }
 
         /// <summary>
         ///     Called when [custom property].
@@ -33,21 +44,34 @@ namespace BOA.Jaml
         }
 
         /// <summary>
-        ///     Called when [creation completed].
-        /// </summary>
-        public BuilderConfig OnCreationCompleted(Action<Builder> action)
-        {
-            _creationCompletedHandlers.Add(action);
-            return this;
-        }
-
-        /// <summary>
         ///     Tries to create element.
         /// </summary>
         public BuilderConfig TryToCreateElement(Action<Builder> action)
         {
             _tryToCreateElement.Add(action);
             return this;
+        }
+        #endregion
+
+        #region Methods
+        internal void TryToCreateElement(Builder builder)
+        {
+            foreach (var fn in _tryToCreateElement)
+            {
+                fn(builder);
+                if (builder.View != null)
+                {
+                    return;
+                }
+            }
+        }
+
+        internal void TryToFireCreationCompletedHandlers(Builder builder)
+        {
+            foreach (var fn in _creationCompletedHandlers)
+            {
+                fn(builder);
+            }
         }
 
         internal bool TryToInvokeCustomProperty(Assignment input)
@@ -64,24 +88,45 @@ namespace BOA.Jaml
             return false;
         }
 
-        internal void TryToFireCreationCompletedHandlers(Builder builder)
+        static void RichTextBox_Create(Builder builder)
         {
-            foreach (var fn in _creationCompletedHandlers)
+            if (builder.ViewName == "TEXTAREA")
             {
-                fn(builder);
+                builder.View = new RichTextBox
+                {
+                    AcceptsTab = true
+                };
             }
         }
 
-        internal void TryToCreateElement(Builder builder)
+        static bool RichTextBox_Text(Assignment assignment)
         {
-            foreach (var fn in _tryToCreateElement)
+            var richTextBox = assignment.Builder.View as RichTextBox;
+            if (richTextBox == null)
             {
-                fn(builder);
-                if (builder.View != null)
-                {
-                    return;
-                }
+                return false;
             }
+
+
+            if (assignment.Name == "Text")
+            {
+                richTextBox.TextChanged += (s, e) =>
+                {
+                    var text = richTextBox.GetText();
+
+
+                    var propertyInfo = assignment.Builder.DataContext.GetType().GetPublicNonStaticProperty(assignment.ValueAsString,true);
+                    
+                    propertyInfo.SetValue(assignment.Builder.DataContext,text);
+
+                    
+                };
+
+                return true;
+            }
+
+            return false;
         }
+        #endregion
     }
 }
