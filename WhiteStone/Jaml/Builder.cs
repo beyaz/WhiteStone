@@ -102,7 +102,15 @@ namespace BOA.Jaml
         /// </summary>
         public Builder SetJson(string value)
         {
-            _jObject = (JObject) JsonConvert.DeserializeObject(value);
+            try
+            {
+                _jObject = (JObject) JsonConvert.DeserializeObject(value);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("json parse error.");
+            }
+
             return this;
         }
         #endregion

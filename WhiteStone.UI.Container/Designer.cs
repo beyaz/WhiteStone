@@ -63,7 +63,7 @@ namespace WhiteStone.UI.Container
             }
             catch (Exception e)
             {
-                Log.Push(e);
+                App.ShowErrorNotification(e.ToString());
             }
         }
         #endregion
