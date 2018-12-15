@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using BOA.Common.Helpers;
 using BOA.Jaml;
 
@@ -20,22 +22,51 @@ namespace WhiteStone.UI.Container
             const string ui = @"
 {
     view:'Grid',
-    cols:[
-		{view:'TextArea', Gravity:2, Text:'SourceText', KeyUp:'TextArea_OnKeyUp' },
-        {view:'GridSplitter'},
-        {view:'Grid', Name:'ContentGrid', Gravity:4 }
+    Margin:7,
+    rows:[
+		{view:'LabeledTextBox',Text:'{Binding SourceJsonFilePath}', Label:'Source Json File Path',  Height:'auto'},
+        {view:'Grid', Name:'ContentGrid', Gravity:1 }
 	]
 	
 }
 ";
+            
             var builder = new Builder
             {
                 View        = this,
                 DataContext = this
             };
 
+            builder.Config.TryToCreateElement(LabeledTextBox.On);
+
             builder.SetJson(ui).Build();
+
+
+            SourceJsonFilePath = Path.GetDirectoryName(this.GetType().Assembly.Location) + Path.DirectorySeparatorChar + "Designer.json";
+
+            FileHelper.WriteAllText(SourceJsonFilePath,"{view:'Button',Content:'Success'}");
+
+            var fileSystemWatcher = new FileSystemWatcher
+            {
+                Path = Path.GetDirectoryName( SourceJsonFilePath)+Path.DirectorySeparatorChar,
+                NotifyFilter = NotifyFilters.LastAccess | 
+                                         NotifyFilters.LastWrite | 
+                                         NotifyFilters.FileName | 
+                                         NotifyFilters.DirectoryName,
+
+                EnableRaisingEvents = true
+            };
+
+            fileSystemWatcher.Changed += (s, e) =>
+            {
+                Action action = UpdateResult;
+                Dispatcher?.BeginInvoke(DispatcherPriority.Normal, action);
+            };
+
+            Process.Start(SourceJsonFilePath);
+
         }
+        
         #endregion
 
         #region Public Methods
@@ -44,9 +75,13 @@ namespace WhiteStone.UI.Container
             Debug.Assert(Application.Current.MainWindow != null, "Application.Current.MainWindow != null");
 
             Application.Current.MainWindow.Content = new Designer();
+
+           
         }
 
-        public void TextArea_OnKeyUp(object sender, InputEventArgs args)
+        DateTime LastBuildTime = DateTime.Now;
+
+         void UpdateResult()
         {
             try
             {
@@ -55,7 +90,23 @@ namespace WhiteStone.UI.Container
                     DataContext = this
                 };
 
-                var ui = builder.SetJson(SourceText).Build().View;
+                builder.Config.TryToCreateElement(LabeledTextBox.On);
+
+                if (TimeSpan.FromMilliseconds(300) > DateTime.Now -LastBuildTime)
+                {
+                    return;
+                }
+
+                LastBuildTime = DateTime.Now;
+
+                if (FileHelper.IsFileLocked(SourceJsonFilePath))
+                {
+                    return;
+                }
+
+                var json = FileHelper.ReadFile(SourceJsonFilePath);
+
+                var ui = builder.SetJson(json).Build().View;
 
                 ContentGrid.Children.Clear();
 
@@ -63,18 +114,19 @@ namespace WhiteStone.UI.Container
             }
             catch (Exception e)
             {
+                Log.Push(e);
                 App.ShowErrorNotification(e.ToString());
             }
         }
         #endregion
 
-        #region SourceText
-        public static readonly DependencyProperty SourceTextProperty = DependencyProperty.Register("SourceText", typeof(string), typeof(Designer), new PropertyMetadata(default(string)));
+        #region SourceJsonFilePath
+        public static readonly DependencyProperty SourceJsonFilePathProperty = DependencyProperty.Register("SourceJsonFilePath", typeof(string), typeof(Designer), new PropertyMetadata(default(string)));
 
-        public string SourceText
+        public string SourceJsonFilePath
         {
-            get { return (string) GetValue(SourceTextProperty); }
-            set { SetValue(SourceTextProperty, value); }
+            get { return (string) GetValue(SourceJsonFilePathProperty); }
+            set { SetValue(SourceJsonFilePathProperty, value); }
         }
         #endregion
     }

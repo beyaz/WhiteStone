@@ -24,10 +24,17 @@ namespace BOA.Jaml
         /// <summary>
         ///     Gets the value as string.
         /// </summary>
-        public string ValueAsString
-        {
-            get { return Value as string; }
-        }
+        public string ValueAsString => Value as string;
+
+        /// <summary>
+        /// Gets the value as boolean.
+        /// </summary>
+        public bool? ValueAsBoolean => Value as bool?;
+
+        /// <summary>
+        /// Gets the value as string to upper in english.
+        /// </summary>
+        public string ValueAsStringToUpperInEnglish => ValueAsString?.ToUpperEN();
 
         /// <summary>
         ///     Gets the value to double.

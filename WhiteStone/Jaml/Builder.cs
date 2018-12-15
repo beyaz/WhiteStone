@@ -26,7 +26,6 @@ namespace BOA.Jaml
         #endregion
 
         #region Constructors
-        #region Constructor
         /// <summary>
         ///     Initializes a new instance of the <see cref="Builder" /> class.
         /// </summary>
@@ -35,7 +34,6 @@ namespace BOA.Jaml
             TypeFinder = new TypeFinder();
             Config     = new BuilderConfig();
         }
-        #endregion
         #endregion
 
         #region Public Properties
@@ -130,7 +128,8 @@ namespace BOA.Jaml
 
         void Build(JObject jObject)
         {
-            foreach (var property in jObject.Properties())
+            foreach (var property 
+                in jObject.Properties())
             {
                 object value  = property.Value;
                 var    jValue = property.Value as JValue;

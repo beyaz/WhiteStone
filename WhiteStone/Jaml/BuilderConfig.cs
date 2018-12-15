@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
 
@@ -15,7 +16,8 @@ namespace BOA.Jaml
 
         readonly List<Func<Assignment, bool>> _customPropertyHandlers = new List<Func<Assignment, bool>>
         {
-            RichTextBox_Text
+            RichTextBox_Text,
+            PredefinedConfigs.TextBlock_IsBold
         };
 
         readonly List<Action<Builder>> _tryToCreateElement = new List<Action<Builder>>
@@ -128,5 +130,31 @@ namespace BOA.Jaml
             return false;
         }
         #endregion
+    }
+
+    static class PredefinedConfigs
+    {
+        public static bool TextBlock_IsBold(Assignment assignment)
+        {
+            var textBlock = assignment.Builder.View as TextBlock;
+            if (textBlock == null)
+            {
+                return false;
+            }
+
+
+            if (assignment.NameToUpperInEnglish == "ISBOLD")
+            {
+                if (assignment.ValueAsBoolean == true)
+                {
+                    textBlock.FontWeight = FontWeights.Bold;
+                    return true;
+                }
+
+                throw new ArgumentException(assignment.ValueAsString);
+            }
+
+            return false;
+        }
     }
 }

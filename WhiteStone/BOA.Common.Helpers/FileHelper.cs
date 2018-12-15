@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Net;
+using WhiteStone.Helpers;
 
 namespace BOA.Common.Helpers
 {
@@ -164,6 +165,18 @@ namespace BOA.Common.Helpers
             }
 
             return false;
+        }
+
+        /// <summary>
+        ///     Reads the file.
+        /// </summary>
+        public static string ReadFile(string path)
+        {
+            var file = new FileInfo(path);
+            using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+                return stream.ReadToEndAsString();
+            }
         }
 
         /// <summary>
