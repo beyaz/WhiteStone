@@ -393,7 +393,10 @@ namespace BOA.Jaml
         bool TryToBindingExpression(Assignment context)
         {
             var attributeValueAsString = context.Value as string;
-            if (attributeValueAsString.IsBindingExpression())
+
+            var bindingInfoContract = BindingExpressionParser.TryParse(attributeValueAsString);
+
+            if (bindingInfoContract != null)
             {
                 var dp = SearchDependencyPropertyInView(context.Name);
                 if (dp == null)
@@ -401,7 +404,7 @@ namespace BOA.Jaml
                     throw Errors.DependencyPropertyNotFound(context.Name);
                 }
 
-                var binding = attributeValueAsString.ConvertToBinding(TypeFinder);
+                var binding = bindingInfoContract.ConvertToBinding(TypeFinder);
                 binding.Source = DataContext;
 
                 BindingOperations.SetBinding(View, dp, binding);

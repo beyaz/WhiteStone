@@ -12,78 +12,30 @@ namespace BOA.Jaml
     /// </summary>
     public static class BuilderUtility
     {
-        /// <summary>
-        ///     Determines whether value is BindingExpression.
-        /// </summary>
-        public static bool IsBindingExpression(this string value)
+      
+        public static Binding ConvertToBinding(this BindingInfoContract bindingInfoContract, ITypeFinder typeFinder)
         {
-            if (value == null)
-            {
-                return false;
-            }
-            if (value.Replace(" ", "").StartsWith("{Binding", StringComparison.Ordinal))
-            {
-                return true;
-            }
-            value = value.Trim();
 
-            if (value.StartsWith("{", StringComparison.OrdinalIgnoreCase) && value.EndsWith("}", StringComparison.OrdinalIgnoreCase))
+            var binding = new Binding
             {
-                return true;
+                Mode = bindingInfoContract.BindingMode,
+                Path = new PropertyPath(bindingInfoContract.SourcePath)
+            };
+
+            if (bindingInfoContract.ConverterTypeFullName != null)
+            {
+                var converterType = typeFinder.GetType(bindingInfoContract.ConverterTypeFullName);
+                binding.Converter = (IValueConverter)Activator.CreateInstance(converterType);
             }
 
-            return false;
+            return binding;
         }
-
         /// <summary>
         ///     Gets the binding.
         /// </summary>
         public static Binding ConvertToBinding(this string bindingExpressionAsText, ITypeFinder typeFinder)
         {
-            var binding = new Binding
-            {
-                Mode = BindingMode.TwoWay
-            };
-            var list = bindingExpressionAsText.Split('{', '}', '=', ',', ' ').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToList();
-
-            var pathIndex = list.FindIndex(x => x.Contains("Binding")) + 1;
-            if (list[pathIndex] == "Path")
-            {
-                pathIndex += 1;
-            }
-
-            binding.Path = new PropertyPath(list[pathIndex]);
-
-            var modeIndex = list.FindIndex(x => x == "Mode");
-            if (modeIndex > 0)
-            {
-                var mode = BindingMode.Default;
-
-                var isParsed = Enum.TryParse(list[modeIndex + 1], true, out mode);
-                if (!isParsed)
-                {
-                    throw Errors.ParsingError(list[modeIndex + 1]);
-                }
-                binding.Mode = mode;
-            }
-
-            var converterIndex = list.FindIndex(x => x == "Converter");
-            if (converterIndex > 0)
-            {
-                var converterTypeName = list[converterIndex + 1];
-                var converterType     = typeFinder.GetType(converterTypeName);
-                binding.Converter = (IValueConverter)Activator.CreateInstance(converterType);
-            }
-
-            var updateSourceTriggerIndex = list.FindIndex(x => x == "UpdateSourceTrigger");
-            if (updateSourceTriggerIndex > 0)
-            {
-                var updateSourceTriggerValue = list[updateSourceTriggerIndex + 1];
-
-                binding.UpdateSourceTrigger = (UpdateSourceTrigger)Enum.Parse(typeof(UpdateSourceTrigger), updateSourceTriggerValue, true);
-            }
-
-            return binding;
+            return BindingExpressionParser.TryParse(bindingExpressionAsText).ConvertToBinding(typeFinder);
         }
 
         /// <summary>

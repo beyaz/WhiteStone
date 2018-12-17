@@ -44,7 +44,19 @@ namespace WhiteStone.UI.Container
 
             SourceJsonFilePath = Path.GetDirectoryName(this.GetType().Assembly.Location) + Path.DirectorySeparatorChar + "Designer.json";
 
-            FileHelper.WriteAllText(SourceJsonFilePath,"{view:'Button',Content:'Success'}");
+            FileHelper.WriteAllText(SourceJsonFilePath,@"{
+
+
+	view:'grid',
+	cols:[
+		{view:'Textbox',Text:'Success',gravity:1},
+		{view:'GridSplitter'},
+        {view:'Textbox',Text:'Success2',gravity:1}
+	]	
+	
+
+
+}");
 
             var fileSystemWatcher = new FileSystemWatcher
             {

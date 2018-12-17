@@ -103,7 +103,7 @@ namespace BOA.Jaml
         public void GetBinding()
         {
             var typeFinder = new TypeFinder();
-            var expression = "{Binding Path=Model.Customers, Mode=OneWay,Converter =" + typeof(ConverterClass).FullName + "}";
+            var expression = "{Binding Model.Customers, Mode=OneWay,Converter =" + typeof(ConverterClass).FullName + "}";
             var binding    = expression.ConvertToBinding(typeFinder);
             Assert.IsTrue(binding.Mode == BindingMode.OneWay);
             Assert.IsTrue(binding.Path.Path == "Model.Customers");
@@ -119,9 +119,7 @@ namespace BOA.Jaml
             binding = text.ConvertToBinding(typeFinder);
             Assert.IsTrue(binding.Path.Path == "Model.Contract.SaleAmount");
 
-            text    = " { Model.Contract.SaleAmount, UpdateSourceTrigger=PropertyChanged } ";
-            binding = text.ConvertToBinding(typeFinder);
-            Assert.IsTrue(binding.UpdateSourceTrigger == UpdateSourceTrigger.PropertyChanged);
+           
         }
 
         [TestMethod]
