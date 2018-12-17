@@ -84,9 +84,14 @@
     <Compile Include="BOA.Common\CacheManager.cs" />
     <Compile Include="BOA.Common\Proxy.cs" />
     <Compile Include="Jaml\Assignment.cs" />
+    <Compile Include="Jaml\BindingExpressionParser.cs" />
+    <Compile Include="Jaml\BindingExpressionTokenDefinitions.cs" />
+    <Compile Include="Jaml\BindingInfoContract.cs" />
     <Compile Include="Jaml\BuilderConfig.cs" />
     <Compile Include="Jaml\BuilderUtility.cs" />
     <Compile Include="Jaml\Errors.cs" />
+    <Compile Include="Jaml\ITypeFinder.cs" />
+    <Compile Include="Jaml\PredefinedConfigs.cs" />
     <Compile Include="Jaml\TypeFinder.cs" />
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\Translator.cs" />
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\WebResourceProvider.cs" />
@@ -165,6 +170,11 @@
     <Compile Include="System.Collections.Generic\Extensions.cs" />
     <Compile Include="System.Web\WhiteStoneExtensions.cs" />
     <Compile Include="System.Windows.Controls\Extensions.cs" />
+    <Compile Include="TextTokenizer\TokenDefinition.cs" />
+    <Compile Include="TextTokenizer\Token.cs" />
+    <Compile Include="TextTokenizer\Tokenizer.cs" />
+    <Compile Include="TextTokenizer\TokenMatch.cs" />
+    <Compile Include="TextTokenizer\TokenType.cs" />
     <Compile Include="UI.Types\FormAssistant.cs" />
   </ItemGroup>
   <ItemGroup>

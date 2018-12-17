@@ -20,6 +20,9 @@ namespace BOA.Jaml
     /// </summary>
     public class Builder
     {
+
+       
+
         #region Fields
         Dictionary<string, object> _data;
         JObject                    _jObject;
