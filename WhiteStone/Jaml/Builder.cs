@@ -20,9 +20,6 @@ namespace BOA.Jaml
     /// </summary>
     public class Builder
     {
-
-       
-
         #region Fields
         Dictionary<string, object> _data;
         JObject                    _jObject;
@@ -131,7 +128,7 @@ namespace BOA.Jaml
 
         void Build(JObject jObject)
         {
-            foreach (var property 
+            foreach (var property
                 in jObject.Properties())
             {
                 object value  = property.Value;
@@ -338,7 +335,7 @@ namespace BOA.Jaml
                 var fieldInfo = fe.GetType().GetPublicNonStaticField(context.ValueAsString);
                 if (fieldInfo != null)
                 {
-                    fieldInfo.SetValue(fe,View);
+                    fieldInfo.SetValue(fe, View);
                     return true;
                 }
 
