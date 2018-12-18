@@ -8,22 +8,6 @@ namespace BOA.Jaml
     [TestClass]
     public class BuilderTest : DependencyObject
     {
-
-        [TestMethod]
-        public void Test1()
-        {
-            const string ui = "{view:'TextBox', Text:'A'}";
-            var builder = new Builder();
-            builder.SetJson(ui);
-            var uiElement = builder.Build().View;
-
-            var textBox = uiElement as TextBox;
-
-            Assert.IsNotNull(textBox);
-            Assert.AreEqual("A",textBox.Text);
-        }
-
-
         #region Static Fields
         public static readonly DependencyProperty TestPropertyNullableInt32Property = DependencyProperty.Register("TestPropertyNullableInt32", typeof(int?), typeof(BuilderTest), new PropertyMetadata(default(int?)));
         #endregion
@@ -51,9 +35,35 @@ namespace BOA.Jaml
         }
 
         [TestMethod]
-        public void Grid_Cols()
+        public void SearchDependencyProperty()
         {
-            var view = new Builder().SetJson(@"
+            Assert.IsNotNull(BuilderUtility.SearchDependencyProperty("System.Windows.FrameworkElement.WidthProperty", new TypeFinder()));
+            Assert.IsNotNull(BuilderUtility.SearchDependencyProperty(GetType().FullName + ".TestPropertyNullableInt32Property", new TypeFinder()));
+        }
+
+        [TestMethod]
+        public void Test1()
+        {
+            var textBox = new TextBox();
+
+            const string ui = "{Text:'A'}";
+
+            var builder = new Builder
+            {
+                Caller = textBox
+            };
+
+            builder.Build(ui);
+
+            Assert.AreEqual("A", textBox.Text);
+        }
+
+        [TestMethod]
+        public void Test2_GridCols()
+        {
+            var view = new Grid();
+
+            const string ui = @"
 {
     view:'Grid',
 	cols:
@@ -63,17 +73,23 @@ namespace BOA.Jaml
         {view:'TextBox', Gravity:4 }
 	]
 }
-").Build().View;
+";
+            var builder = new Builder
+            {
+                Caller = view
+            };
+            builder.Build(ui);
 
-            Assert.IsTrue(view is Grid);
-            Assert.IsTrue(((Grid) view).ColumnDefinitions.Count == 3);
-            Assert.IsTrue(((Grid) view).ColumnDefinitions[2].Width.Value + "" == "4");
+            Assert.IsTrue(view.ColumnDefinitions.Count == 3);
+            Assert.IsTrue(view.ColumnDefinitions[2].Width.Value + "" == "4");
         }
 
         [TestMethod]
-        public void Grid_Rows()
+        public void Test3_GridCols()
         {
-            var view = new Builder().SetJson(@"
+            var view = new Grid();
+
+            const string ui = @"
 {
     view:'Grid',
 	rows:
@@ -83,21 +99,18 @@ namespace BOA.Jaml
         {view:'TextBox'}
 	]
 }
-").Build().View;
+";
+            var builder = new Builder
+            {
+                Caller = view
+            };
+            builder.Build(ui);
 
-            Assert.IsTrue(view is Grid);
-            Assert.IsTrue(((Grid) view).RowDefinitions.Count == 3);
+            Assert.IsTrue(view.RowDefinitions.Count == 3);
         }
 
         [TestMethod]
-        public void SearchDependencyProperty()
-        {
-            Assert.IsNotNull(BuilderUtility.SearchDependencyProperty("System.Windows.FrameworkElement.WidthProperty", new TypeFinder()));
-            Assert.IsNotNull(BuilderUtility.SearchDependencyProperty(GetType().FullName + ".TestPropertyNullableInt32Property", new TypeFinder()));
-        }
-
-        [TestMethod]
-        public void StackPanel()
+        public void Test4_StackPanel_With_Binding()
         {
             var user = new UserModel
             {
@@ -109,10 +122,9 @@ namespace BOA.Jaml
                 User = user
             };
 
-            var view = new Builder
-            {
-                DataContext = model
-            }.SetJson(@"
+            var view = new StackPanel();
+
+            const string ui = @"
 {
     view:'StackPanel',
 	Children:[
@@ -123,13 +135,17 @@ namespace BOA.Jaml
 
 	]
 }
-").Build().View;
+";
+            var builder = new Builder
+            {
+                Caller      = view,
+                DataContext = model
+            };
+            builder.Build(ui);
 
-            Assert.IsTrue(view is StackPanel);
+            Assert.AreEqual(4, view.Children.Count);
 
-            Assert.AreEqual(4, ((StackPanel) view).Children.Count);
-
-            var userNameTextBox = (TextBox) ((StackPanel) view).Children[0];
+            var userNameTextBox = (TextBox) view.Children[0];
 
             Assert.IsTrue(user.UserName == userNameTextBox.Text);
 

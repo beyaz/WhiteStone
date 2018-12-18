@@ -86,7 +86,7 @@
     <Compile Include="Jaml\Markup\BindingExpressionParser.cs" />
     <Compile Include="Jaml\Markup\BindingExpressionTokenDefinitions.cs" />
     <Compile Include="Jaml\Markup\BindingInfoContract.cs" />
-    <Compile Include="Jaml\BuilderConfig.cs" />
+    <Compile Include="Jaml\WpfExtra.cs" />
     <Compile Include="Jaml\BuilderUtility.cs" />
     <Compile Include="Jaml\Errors.cs" />
     <Compile Include="Jaml\ITypeFinder.cs" />

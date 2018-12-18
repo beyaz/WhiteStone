@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -13,12 +14,37 @@ namespace BOA.Jaml
 {
     #region Builder    
     /// <summary>
-    ///     Json based xaml loder
+    ///     The builder
     /// </summary>
     public class Builder
     {
+        #region Static Fields
+        /// <summary>
+        ///     The custom property handlers
+        /// </summary>
+        static readonly List<Func<Builder, UIElement, Node, bool>> _customPropertyHandlers = new List<Func<Builder, UIElement, Node, bool>>
+        {
+            WpfExtra.TextBlock_IsBold,
+            WpfExtra.RichTextBox_Text
+        };
+
+        /// <summary>
+        ///     The try to create element
+        /// </summary>
+        static readonly List<Func<Builder, Node, UIElement>> _tryToCreateElement = new List<Func<Builder, Node, UIElement>>
+        {
+            WpfExtra.RichTextBox_Create
+        };
+        #endregion
+
         #region Fields
-        Node _node;
+        /// <summary>
+        ///     The creation completed handlers
+        /// </summary>
+        readonly List<Action<Builder, UIElement, Node>> _creationCompletedHandlers = new List<Action<Builder, UIElement, Node>>
+        {
+            ProcessGridRowsAndColumns
+        };
         #endregion
 
         #region Constructors
@@ -28,18 +54,19 @@ namespace BOA.Jaml
         public Builder()
         {
             TypeFinder = new TypeFinder();
-            Config     = new BuilderConfig();
         }
         #endregion
 
         #region Public Properties
         /// <summary>
-        ///     Gets or sets the configuration.
+        ///     Gets or sets the caller.
         /// </summary>
-        public BuilderConfig Config { get; set; }
+        public UIElement Caller { get; set; }
+
+    
 
         /// <summary>
-        ///     Data context value of Element
+        ///     Gets or sets the data context.
         /// </summary>
         public object DataContext { get; set; }
 
@@ -47,69 +74,56 @@ namespace BOA.Jaml
         ///     Gets or sets the type finder.
         /// </summary>
         public ITypeFinder TypeFinder { get; set; }
-
-        /// <summary>
-        ///     Created element after build
-        /// </summary>
-        public UIElement View { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the name of the view.
-        /// </summary>
-        public string ViewName { get; private set; }
-        #endregion
-
-        #region Properties
-        IAddChild ViewAsIAddChild
-        {
-            get { return View as IAddChild; }
-        }
         #endregion
 
         #region Public Methods
         /// <summary>
-        ///     Builds this instance.
+        ///     Registers the custom property.
         /// </summary>
-        public Builder Build()
+        public static void RegisterCustomProperty(Func<Builder, UIElement, Node, bool> execute)
         {
-            Build(_node);
-
-            TryToFireCreationCompletedHandler();
-
-            return this;
+            _customPropertyHandlers.Insert(0, execute);
         }
 
         /// <summary>
-        ///     Clones this instance.
+        ///     Registers the element creation.
         /// </summary>
-        public Builder Clone()
+        public static void RegisterElementCreation(Func<Builder, Node, UIElement> func)
         {
-            return new Builder
-            {
-                DataContext = DataContext,
-                Config      = Config
-            };
+            _tryToCreateElement.Add(func);
         }
 
         /// <summary>
-        ///     Sets the json.
+        ///     Builds the specified json string.
         /// </summary>
-        public Builder SetJson(string jsonString)
+        public void Build(string jsonString)
         {
+            Node node = null;
             try
             {
-                _node = TransformHelper.Transform(jsonString);
+                node = TransformHelper.Transform(jsonString);
             }
             catch (Exception e)
             {
                 throw new ArgumentException("json parse error.", e);
             }
 
-            return this;
+            Build(Caller, node);
+        }
+
+        /// <summary>
+        ///     Registers the on creation completed.
+        /// </summary>
+        public void RegisterOnCreationCompleted(Action<Builder, UIElement, Node> action)
+        {
+            _creationCompletedHandlers.Add(action);
         }
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Creates the default WPF element.
+        /// </summary>
         static UIElement CreateDefaultWpfElement(string wpfElementName)
         {
             var className   = "System.Windows.Controls." + wpfElementName;
@@ -122,32 +136,18 @@ namespace BOA.Jaml
             throw Errors.TypeNotFound(wpfElementName);
         }
 
-        static bool TryToInvokeCustomProperty(Builder builder, Node node)
+        /// <summary>
+        ///     Processes the grid rows and columns.
+        /// </summary>
+        static void ProcessGridRowsAndColumns(Builder builder, UIElement element, Node node)
         {
-            return builder.Config.TryToInvokeCustomProperty(builder, node);
-        }
-
-        void Build(Node node)
-        {
-            foreach (var property in node.Properties)
+            var grid = element as Grid;
+            if (grid == null)
             {
-                Assign(property);
+                return;
             }
-        }
 
-        Builder Clone(Node node)
-        {
-            var builder = (Builder) Activator.CreateInstance(GetType());
-            builder._node       = node;
-            builder.DataContext = DataContext;
-            builder.Config      = Config;
-
-            return builder;
-        }
-
-        void ProcessGridRowsAndColumns(Grid grid)
-        {
-            if (_node.Properties.Any(p => p.NameToUpperInEnglish == "ROWS"))
+            if (node.Properties.Any(p => p.NameToUpperInEnglish == "ROWS"))
             {
                 var rowIndex = 0;
                 foreach (var gridChild in grid.Children)
@@ -203,7 +203,7 @@ namespace BOA.Jaml
                 }
             }
 
-            if (_node.Properties.Any(p => p.NameToUpperInEnglish == "COLUMNS" || p.NameToUpperInEnglish == "COLS"))
+            if (node.Properties.Any(p => p.NameToUpperInEnglish == "COLUMNS" || p.NameToUpperInEnglish == "COLS"))
             {
                 var columnIndex = 0;
                 foreach (var gridChild in grid.Children)
@@ -260,9 +260,48 @@ namespace BOA.Jaml
             }
         }
 
-        DependencyProperty SearchDependencyPropertyInView(string name)
+        /// <summary>
+        ///     Tries to invoke custom property.
+        /// </summary>
+        static bool TryToInvokeCustomProperty(Builder builder, UIElement element, Node node)
         {
-            var descriptor = DependencyPropertyDescriptor.FromName(name, View.GetType(), View.GetType());
+            foreach (var fn in _customPropertyHandlers)
+            {
+                var isHandled = fn(builder, element, node);
+                if (isHandled)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///     Builds the specified element.
+        /// </summary>
+        void Build(UIElement element, Node node)
+        {
+            foreach (var property in node.Properties)
+            {
+                if (property.NameToUpperInEnglish == "VIEW" ||
+                    property.NameToUpperInEnglish == "ui")
+                {
+                    continue;
+                }
+
+                Assign(element, property);
+            }
+
+            TryToFireCreationCompletedHandler(element, node);
+        }
+
+        /// <summary>
+        ///     Searches the dependency property in view.
+        /// </summary>
+        DependencyProperty SearchDependencyPropertyInView(string name, UIElement element)
+        {
+            var descriptor = DependencyPropertyDescriptor.FromName(name, element.GetType(), element.GetType());
             if (descriptor == null)
             {
                 return null;
@@ -271,37 +310,48 @@ namespace BOA.Jaml
             return descriptor.DependencyProperty;
         }
 
-        void TryToFireCreationCompletedHandler()
+        /// <summary>
+        ///     Tries to fire creation completed handler.
+        /// </summary>
+        void TryToFireCreationCompletedHandler(UIElement element, Node node)
         {
-            var grid = View as Grid;
-            if (grid != null)
+            foreach (var fn in _creationCompletedHandlers)
             {
-                ProcessGridRowsAndColumns(grid);
+                fn(this, element, node);
             }
-
-            Config.TryToFireCreationCompletedHandlers(this);
         }
         #endregion
 
         #region Assignment
-        bool TryToSetView(Builder builder, Node node)
+        /// <summary>
+        ///     Creates the instance.
+        /// </summary>
+        UIElement CreateInstance(Node node)
         {
-            if (node.NameToUpperInEnglish == "VIEW")
+            UIElement element = null;
+            foreach (var fn in _tryToCreateElement)
             {
-                ViewName = node.ValueAsString.ToUpperEN();
-                Config.TryToCreateElement(this);
-                if (View == null)
+                element = fn(this, node);
+                if (element != null)
                 {
-                    View = CreateDefaultWpfElement(node.ValueAsString);
+                    return element;
                 }
-
-                return true;
             }
 
-            return false;
+            element = CreateDefaultWpfElement(node.Properties["view"].ValueAsString);
+
+            if (element == null)
+            {
+                throw new ArgumentException(node.ToString());
+            }
+
+            return element;
         }
 
-        bool TryToSetName(Builder builder, Node node)
+        /// <summary>
+        ///     Tries the name of to set.
+        /// </summary>
+        bool TryToSetName(Builder builder, UIElement element, Node node)
         {
             var fe = DataContext as FrameworkElement;
             if (node.NameToUpperInEnglish == "NAME" && fe != null)
@@ -309,62 +359,82 @@ namespace BOA.Jaml
                 var fieldInfo = fe.GetType().GetPublicNonStaticField(node.ValueAsString);
                 if (fieldInfo != null)
                 {
-                    fieldInfo.SetValue(fe, View);
+                    fieldInfo.SetValue(fe, element);
                     return true;
                 }
 
-                fe.RegisterName(node.ValueAsString, View);
+                fe.RegisterName(node.ValueAsString, element);
                 return true;
             }
 
             return false;
         }
 
-        bool TryToHandleStackPanelTitle(Builder builder, Node node)
+        /// <summary>
+        ///     Tries to handle stack panel title.
+        /// </summary>
+        bool TryToHandleStackPanelTitle(Builder builder, UIElement element, Node node)
         {
-            if (node.NameToUpperInEnglish == "TITLE" && View is StackPanel)
+            if (node.NameToUpperInEnglish == "TITLE" && element is StackPanel)
             {
-                View.SetValue(HeaderedContentControl.HeaderProperty, node.ValueAsString);
+                element.SetValue(HeaderedContentControl.HeaderProperty, node.ValueAsString);
                 return true;
             }
 
             return false;
         }
 
+        /// <summary>
+        ///     The gravity property
+        /// </summary>
         static readonly DependencyProperty GravityProperty = DependencyProperty.Register("Gravity", typeof(double?), typeof(Builder));
 
-        bool TryToHandleGravity(Builder builder, Node node)
+        /// <summary>
+        ///     Tries to handle gravity.
+        /// </summary>
+        bool TryToHandleGravity(Builder builder, UIElement element, Node node)
         {
             if (node.NameToUpperInEnglish == "GRAVITY")
             {
-                View.SetValue(GravityProperty, node.ValueAsNumber.ToDouble());
+                element.SetValue(GravityProperty, node.ValueAsNumber.ToDouble());
                 return true;
             }
 
             return false;
         }
 
-        bool TryToHandleArrayValues(Builder builder, Node node)
+        /// <summary>
+        ///     Tries to handle array values.
+        /// </summary>
+        bool TryToHandleArrayValues(Builder builder, UIElement element, Node node)
         {
             if (!node.ValueIsArray)
             {
                 return false;
             }
 
-            if (ViewAsIAddChild == null)
+            var addChild = element as IAddChild;
+            if (addChild == null)
             {
-                throw new ArgumentException(nameof(ViewAsIAddChild));
+                throw new ArgumentException(nameof(addChild));
             }
 
             foreach (var item in node.ValueAsArray)
             {
-                ViewAsIAddChild.AddChild(Clone(item).Build().View);
+                var uiElement = CreateInstance(item);
+
+                Build(uiElement, item);
+
+                addChild.AddChild(uiElement);
             }
 
             return true;
         }
 
-        bool TryToBindingExpression(Builder builder, Node node)
+        /// <summary>
+        ///     Tries to binding expression.
+        /// </summary>
+        bool TryToBindingExpression(Builder builder, UIElement element, Node node)
         {
             if (!node.ValueIsBindingExpression)
             {
@@ -375,7 +445,7 @@ namespace BOA.Jaml
 
             if (bindingInfoContract != null)
             {
-                var dp = SearchDependencyPropertyInView(node.Name);
+                var dp = SearchDependencyPropertyInView(node.Name, element);
                 if (dp == null)
                 {
                     throw Errors.DependencyPropertyNotFound(node.Name);
@@ -384,14 +454,17 @@ namespace BOA.Jaml
                 var binding = bindingInfoContract.ConvertToBinding(TypeFinder);
                 binding.Source = DataContext;
 
-                BindingOperations.SetBinding(View, dp, binding);
+                BindingOperations.SetBinding(element, dp, binding);
                 return true;
             }
 
             return false;
         }
 
-        bool TryToHandleDProperty(Builder builder, Node node)
+        /// <summary>
+        ///     Tries to handle d property.
+        /// </summary>
+        bool TryToHandleDProperty(Builder builder, UIElement element, Node node)
         {
             var attributeName = node.Name;
 
@@ -420,7 +493,7 @@ namespace BOA.Jaml
                     attributeValue = BuilderUtility.NormalizeValueForType(node.ValueAsNumber, dp.PropertyType);
                 }
 
-                View.SetValue(dp, attributeValue);
+                element.SetValue(dp, attributeValue);
 
                 return true;
             }
@@ -428,7 +501,10 @@ namespace BOA.Jaml
             return false;
         }
 
-        bool TryToInvokeDefaultProperty(Builder builder, Node node)
+        /// <summary>
+        ///     Tries to invoke default property.
+        /// </summary>
+        bool TryToInvokeDefaultProperty(Builder builder, UIElement element, Node node)
         {
             var    attributeName  = node.Name;
             object attributeValue = null;
@@ -453,13 +529,13 @@ namespace BOA.Jaml
                 throw new ArgumentException(node.ToString());
             }
 
-            var property = View.GetType().GetProperty(attributeName);
+            var property = element.GetType().GetProperty(attributeName);
             if (property == null)
             {
-                var eventInfo = View.GetType().GetEvent(attributeName);
+                var eventInfo = element.GetType().GetEvent(attributeName);
                 if (eventInfo == null)
                 {
-                    throw Errors.PropertyNotFound(attributeName, View.GetType());
+                    throw Errors.PropertyNotFound(attributeName, element.GetType());
                 }
 
                 var handlerMethod = DataContext.GetType().GetMethod(attributeValue.ToString());
@@ -479,7 +555,7 @@ namespace BOA.Jaml
                         {
                             var             dataContext = DataContext;
                             KeyEventHandler handler     = (s, e) => { handlerMethod.Invoke(dataContext, null); };
-                            eventInfo.AddEventHandler(View, handler);
+                            eventInfo.AddEventHandler(element, handler);
                             return true;
                         }
 
@@ -487,7 +563,7 @@ namespace BOA.Jaml
                     }
                 }
 
-                eventInfo.AddEventHandler(View, handlerMethod.CreateDelegate(eventInfo.EventHandlerType, DataContext));
+                eventInfo.AddEventHandler(element, handlerMethod.CreateDelegate(eventInfo.EventHandlerType, DataContext));
                 return true;
             }
 
@@ -498,45 +574,61 @@ namespace BOA.Jaml
                 attributeValue = converter.ConvertFrom(attributeValue);
             }
 
-            property.SetValue(View, attributeValue);
+            property.SetValue(element, attributeValue);
 
             return true;
         }
 
+        /// <summary>
+        ///     The height is automatic property
+        /// </summary>
         static readonly DependencyProperty HeightIsAutoProperty = DependencyProperty.Register("HeightIsAuto", typeof(bool?), typeof(Builder));
-        static readonly DependencyProperty WidthIsAutoProperty  = DependencyProperty.Register("WidthIsAuto", typeof(bool?), typeof(Builder));
 
-        bool TryToHandleHeightPropertyAutoValue(Builder builder, Node node)
+        /// <summary>
+        ///     The width is automatic property
+        /// </summary>
+        static readonly DependencyProperty WidthIsAutoProperty = DependencyProperty.Register("WidthIsAuto", typeof(bool?), typeof(Builder));
+
+        /// <summary>
+        ///     Tries to handle height property automatic value.
+        /// </summary>
+        bool TryToHandleHeightPropertyAutoValue(Builder builder, UIElement element, Node node)
         {
             if (node.NameToUpperInEnglish == "HEIGHT" && node.ValueAsStringToUpperInEnglish == "AUTO")
             {
-                View.SetValue(FrameworkElement.HeightProperty, double.NaN);
-                View.SetValue(HeightIsAutoProperty, true);
+                element.SetValue(FrameworkElement.HeightProperty, double.NaN);
+                element.SetValue(HeightIsAutoProperty, true);
                 return true;
             }
 
             return false;
         }
 
-        bool TryToHandleWidthPropertyAutoValue(Builder builder, Node node)
+        /// <summary>
+        ///     Tries to handle width property automatic value.
+        /// </summary>
+        bool TryToHandleWidthPropertyAutoValue(Builder builder, UIElement element, Node node)
         {
             if (node.NameToUpperInEnglish == "WIDTH" && node.ValueAsStringToUpperInEnglish == "AUTO")
             {
-                View.SetValue(FrameworkElement.WidthProperty, double.NaN);
-                View.SetValue(WidthIsAutoProperty, true);
+                element.SetValue(FrameworkElement.WidthProperty, double.NaN);
+                element.SetValue(WidthIsAutoProperty, true);
                 return true;
             }
 
             return false;
         }
 
-        bool TryToHandleMarginValues(Builder builder, Node node)
+        /// <summary>
+        ///     Tries to handle margin values.
+        /// </summary>
+        bool TryToHandleMarginValues(Builder builder, UIElement element, Node node)
         {
             var name = node.NameToUpperInEnglish;
 
             if (name == "MARGINLEFT" || name == "LEFTMARGIN")
             {
-                var fe = (FrameworkElement) View;
+                var fe = (FrameworkElement) element;
 
                 fe.Margin = new Thickness(node.ValueAsNumberAsDouble, fe.Margin.Top, fe.Margin.Right, fe.Margin.Bottom);
                 return true;
@@ -544,7 +636,7 @@ namespace BOA.Jaml
 
             if (name == "MARGINTOP" || name == "TOPMARGIN")
             {
-                var fe = (FrameworkElement) View;
+                var fe = (FrameworkElement) element;
 
                 fe.Margin = new Thickness(fe.Margin.Left, node.ValueAsNumberAsDouble, fe.Margin.Right, fe.Margin.Bottom);
                 return true;
@@ -552,7 +644,7 @@ namespace BOA.Jaml
 
             if (name == "MARGINRIGHT" || name == "RIGHTMARGIN")
             {
-                var fe = (FrameworkElement) View;
+                var fe = (FrameworkElement) element;
 
                 fe.Margin = new Thickness(fe.Margin.Left, fe.Margin.Top, node.ValueAsNumberAsDouble, fe.Margin.Bottom);
                 return true;
@@ -560,7 +652,7 @@ namespace BOA.Jaml
 
             if (name == "MARGINBOTTOM" || name == "BOTTOMMARGIN")
             {
-                var fe = (FrameworkElement) View;
+                var fe = (FrameworkElement) element;
 
                 fe.Margin = new Thickness(fe.Margin.Left, fe.Margin.Top, fe.Margin.Right, node.ValueAsNumberAsDouble);
                 return true;
@@ -569,11 +661,13 @@ namespace BOA.Jaml
             return false;
         }
 
-        void Assign(Node node)
+        /// <summary>
+        ///     Assigns the specified element.
+        /// </summary>
+        void Assign(UIElement element, Node node)
         {
-            var tuple = new Func<Builder, Node, bool>[]
+            var tuple = new Func<Builder, UIElement, Node, bool>[]
             {
-                TryToSetView,
                 TryToSetName,
                 TryToHandleGravity,
                 TryToHandleStackPanelTitle,
@@ -589,7 +683,7 @@ namespace BOA.Jaml
 
             foreach (var func in tuple)
             {
-                if (func(this, node))
+                if (func(this, element, node))
                 {
                     return;
                 }

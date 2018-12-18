@@ -2,23 +2,25 @@
 using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.Jaml;
+using BOA.Jaml.Markup;
 
 namespace WhiteStone.UI.Container
 {
-    public class LabeledTextBox : UserControl
+    public class LabeledTextBox : Grid
     {
-        public static void On(Builder builder)
+        public static UIElement On(BOA.Jaml.Builder builder,Node node)
         {
-            if (builder.ViewName.ToUpperEN()== nameof(LabeledTextBox).ToUpperEN())
+            if (node.Properties["view"].ValueAsStringToUpperInEnglish == nameof(LabeledTextBox).ToUpperEN())
             {
-                builder.View = new LabeledTextBox();
+                return new LabeledTextBox();
             }
+
+            return null;
         }
 
         #region Constants
         const string UITemplate = @"
 {
-    view:'Grid',
 	rows:
 	[
 		{view:'TextBlock', Height:'auto', Text:'{Binding Label}', MarginBottom:5, IsBold:true},
@@ -39,12 +41,12 @@ namespace WhiteStone.UI.Container
         {
             var builder = new Builder
             {
-                DataContext = this
+                DataContext = this,
+                Caller = this,
+                
             };
 
-            builder.SetJson(UITemplate).Build();
-
-            Content = builder.View;
+            builder.Build(UITemplate);
         }
         #endregion
 
