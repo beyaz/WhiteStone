@@ -59,7 +59,10 @@
     <Compile Include="Helpers\ReflectionUtilityTest.cs" />
     <Compile Include="Common.Helpers\IConvertibleUtilityTest.cs" />
     <Compile Include="Jaml\BuilderTest.cs" />
+    <Compile Include="Jaml\ConverterClass.cs" />
     <Compile Include="Jaml\Markup\ParsingTest.cs" />
+    <Compile Include="Jaml\TestModel.cs" />
+    <Compile Include="Jaml\UserModel.cs" />
     <Compile Include="LanguageTranslations\EnglishBank\ParserTest.cs" />
     <Compile Include="LanguageTranslations\Google\TurkishToEnglishTranslatorTest.cs" />
     <Compile Include="LanguageTranslations\Longman\TranslatorTest.cs" />

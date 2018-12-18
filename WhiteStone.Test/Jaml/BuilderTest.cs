@@ -1,101 +1,15 @@
-﻿using System;
-using System.ComponentModel;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.Jaml
 {
-    [Serializable]
-    public class UserModel : INotifyPropertyChanged
-    {
-        #region Public Events
-        public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
-
-        #region Methods
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
-        #region string UserName
-        string _userName;
-
-        public string UserName
-        {
-            get { return _userName; }
-            set
-            {
-                if (_userName != value)
-                {
-                    _userName = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        #endregion
-
-        #region string Password
-        string _password;
-
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                if (_password != value)
-                {
-                    _password = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        #endregion
-    }
-
-    [Serializable]
-    public class TestModel : INotifyPropertyChanged
-    {
-        #region Public Events
-        public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
-
-        #region Methods
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
-        #region UserModel User
-        UserModel _user;
-
-        public UserModel User
-        {
-            get { return _user; }
-            set
-            {
-                if (_user != value)
-                {
-                    _user = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        #endregion
-    }
-
     [TestClass]
     public class BuilderTest : DependencyObject
     {
         #region Static Fields
-        public static readonly DependencyProperty TestPropertyNullableInt32Property = DependencyProperty.Register(
-                                                                                                                  "TestPropertyNullableInt32", typeof(int?), typeof(BuilderTest), new PropertyMetadata(default(int?)));
+        public static readonly DependencyProperty TestPropertyNullableInt32Property = DependencyProperty.Register("TestPropertyNullableInt32", typeof(int?), typeof(BuilderTest), new PropertyMetadata(default(int?)));
         #endregion
 
         #region Public Methods
@@ -118,8 +32,6 @@ namespace BOA.Jaml
 
             binding = text.ConvertToBinding(typeFinder);
             Assert.IsTrue(binding.Path.Path == "Model.Contract.SaleAmount");
-
-           
         }
 
         [TestMethod]
@@ -171,9 +83,6 @@ namespace BOA.Jaml
         [TestMethod]
         public void StackPanel()
         {
-            
-
-
             var user = new UserModel
             {
                 UserName = "Aloha"
@@ -210,21 +119,6 @@ namespace BOA.Jaml
 
             user.UserName = "yyy";
             Assert.IsTrue(user.UserName == userNameTextBox.Text);
-        }
-        #endregion
-    }
-
-    public class ConverterClass : IValueConverter
-    {
-        #region Public Methods
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
         #endregion
     }
