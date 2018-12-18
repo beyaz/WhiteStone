@@ -13,10 +13,7 @@ namespace BOA.Jaml.Markup
     public class Node
     {
         #region Public Properties
-        /// <summary>
-        ///     Gets or sets the children.
-        /// </summary>
-        public NodeCollection Children { get; set; }
+     
 
         /// <summary>
         ///     Gets or sets the name.
@@ -31,7 +28,7 @@ namespace BOA.Jaml.Markup
         /// <summary>
         ///     Gets or sets the value as array.
         /// </summary>
-        public List<Node> ValueAsArray { get; set; }
+        public NodeCollection ValueAsArray { get; set; }
 
         /// <summary>
         ///     Gets or sets the value as binding information.
@@ -80,18 +77,7 @@ namespace BOA.Jaml.Markup
         #endregion
 
         #region Public Methods
-        /// <summary>
-        ///     Adds the child.
-        /// </summary>
-        public void AddChild(Node info)
-        {
-            if (Children == null)
-            {
-                Children = new NodeCollection();
-            }
-
-            Children.Items.Add(info);
-        }
+       
 
         /// <summary>
         ///     Adds the property.
@@ -104,6 +90,52 @@ namespace BOA.Jaml.Markup
             }
 
             Properties.Items.Add(info);
+        }
+
+        /// <summary>
+        ///     Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        public override string ToString()
+        {
+            const string Comma = ",";
+
+            if (ValueIsString)
+            {
+                return $"{{{Name}:'{ValueAsString}'}}";
+            }
+
+            if (ValueAsBoolean || ValueIsNumber || ValueIsBindingExpression)
+            {
+                return $"{{{Name}:{ValueAsBoolean}}}";
+            }
+
+            if (Properties?.Items?.Count > 0)
+            {
+                var list = new List<string>();
+                foreach (var node in Properties.Items)
+                {
+                    list.Add(node.ToString());
+                }
+
+                var value = string.Join(" , ", list);
+
+                return "{" + value + "}";
+            }
+
+            if (ValueIsArray)
+            {
+                var list = new List<string>();
+                foreach (var node in ValueAsArray)
+                {
+                    list.Add(node.ToString());
+                }
+
+                var value = string.Join(Environment.NewLine + Comma, list);
+
+                return $"{{{Name}:{value}}}";
+            }
+
+            throw new NotImplementedException(Name);
         }
         #endregion
     }
@@ -168,58 +200,60 @@ namespace BOA.Jaml.Markup
         /// <summary>
         ///     Transforms the specified node.
         /// </summary>
-        public static void Transform(Node node, JObject jObject)
+        public static Node Transform(JObject jObject)
         {
+            var node = new Node();
+
             foreach (var jProperty in jObject.Properties())
             {
-                var attribute = new Node
+                var propertyNode = new Node
                 {
                     Name = jProperty.Name
                 };
 
                 if (jProperty.Value.Type == JTokenType.String)
                 {
-                    attribute.ValueAsString = (string) ((JValue) jProperty.Value).Value;
+                    propertyNode.ValueAsString = (string) ((JValue) jProperty.Value).Value;
 
-                    attribute.ValueIsString = true;
+                    propertyNode.ValueIsString = true;
 
-                    node.AddProperty(attribute);
+                    node.AddProperty(propertyNode);
                     continue;
                 }
 
                 if (jProperty.Value.Type == JTokenType.Boolean)
                 {
-                    attribute.ValueAsBoolean = (bool) ((JValue) jProperty.Value).Value;
+                    propertyNode.ValueAsBoolean = (bool) ((JValue) jProperty.Value).Value;
 
-                    attribute.ValueIsBoolean = true;
+                    propertyNode.ValueIsBoolean = true;
 
-                    node.AddProperty(attribute);
+                    node.AddProperty(propertyNode);
                     continue;
                 }
 
                 if (jProperty.Value.Type == JTokenType.Float)
                 {
-                    attribute.ValueAsNumber = (decimal) (float) ((JValue) jProperty.Value).Value;
+                    propertyNode.ValueAsNumber = (decimal) (double) ((JValue) jProperty.Value).Value;
 
-                    attribute.ValueIsNumber = true;
+                    propertyNode.ValueIsNumber = true;
 
-                    node.AddProperty(attribute);
+                    node.AddProperty(propertyNode);
                     continue;
                 }
 
                 if (jProperty.Value.Type == JTokenType.Integer)
                 {
-                    attribute.ValueAsNumber = (int) ((JValue) jProperty.Value).Value;
+                    propertyNode.ValueAsNumber = (int) ((JValue) jProperty.Value).Value;
 
-                    attribute.ValueIsNumber = true;
+                    propertyNode.ValueIsNumber = true;
 
-                    node.AddProperty(attribute);
+                    node.AddProperty(propertyNode);
                     continue;
                 }
 
                 if (jProperty.Value.Type == JTokenType.Array)
                 {
-                    var items = new List<Node>();
+                    var nodeCollection = new NodeCollection();
 
                     foreach (var jToken in jProperty.Value.ToArray())
                     {
@@ -229,22 +263,23 @@ namespace BOA.Jaml.Markup
                             throw new ArgumentException(jToken.ToString());
                         }
 
-                        var attributeInfo = new Node();
-
-                        Transform(attributeInfo, jObj);
-
-                        items.Add(attributeInfo);
+                        nodeCollection.Items.Add(Transform(jObj));
                     }
 
-                    attribute.ValueAsArray = items;
+                    
+                    propertyNode.ValueAsArray = nodeCollection;
 
-                    attribute.ValueIsArray = true;
+                    propertyNode.ValueIsArray = true;
+
+                    node.AddProperty(propertyNode);
 
                     continue;
                 }
 
                 throw new ArgumentException();
             }
+
+            return node;
         }
 
         /// <summary>
@@ -262,11 +297,7 @@ namespace BOA.Jaml.Markup
                 throw new ArgumentException("json parse error.");
             }
 
-            var node = new Node();
-
-            Transform(node, jObject);
-
-            return node;
+            return Transform(jObject);
         }
 
         /// <summary>
