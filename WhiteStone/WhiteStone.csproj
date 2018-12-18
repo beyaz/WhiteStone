@@ -169,11 +169,6 @@
     <Compile Include="System.Collections.Generic\Extensions.cs" />
     <Compile Include="System.Web\WhiteStoneExtensions.cs" />
     <Compile Include="System.Windows.Controls\Extensions.cs" />
-    <Compile Include="TextTokenizer\TokenDefinition.cs" />
-    <Compile Include="TextTokenizer\Token.cs" />
-    <Compile Include="TextTokenizer\Tokenizer.cs" />
-    <Compile Include="TextTokenizer\TokenMatch.cs" />
-    <Compile Include="TextTokenizer\TokenType.cs" />
     <Compile Include="UI.Types\FormAssistant.cs" />
   </ItemGroup>
   <ItemGroup>
