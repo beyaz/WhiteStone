@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,17 +8,9 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using BOA.Common.Helpers;
 using BOA.Jaml.Markup;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace BOA.Jaml
 {
-
-  
-
-
-
-
     #region Builder    
     /// <summary>
     ///     Json based xaml loder
@@ -28,8 +18,7 @@ namespace BOA.Jaml
     public class Builder
     {
         #region Fields
-        Dictionary<string, object> _data;
-        JObject                    _jObject;
+        Node _node;
         #endregion
 
         #region Constructors
@@ -83,7 +72,7 @@ namespace BOA.Jaml
         /// </summary>
         public Builder Build()
         {
-            Build(_jObject);
+            Build(_node);
 
             TryToFireCreationCompletedHandler();
 
@@ -105,15 +94,15 @@ namespace BOA.Jaml
         /// <summary>
         ///     Sets the json.
         /// </summary>
-        public Builder SetJson(string value)
+        public Builder SetJson(string jsonString)
         {
             try
             {
-                _jObject = (JObject) JsonConvert.DeserializeObject(value);
+                _node = TransformHelper.Transform(jsonString);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new ArgumentException("json parse error.");
+                throw new ArgumentException("json parse error.", e);
             }
 
             return this;
@@ -133,40 +122,23 @@ namespace BOA.Jaml
             throw Errors.TypeNotFound(wpfElementName);
         }
 
-        void Build(JObject jObject)
+        static bool TryToInvokeCustomProperty(Builder builder, Node node)
         {
-            foreach (var property
-                in jObject.Properties())
+            return builder.Config.TryToInvokeCustomProperty(builder, node);
+        }
+
+        void Build(Node node)
+        {
+            foreach (var property in node.Properties)
             {
-                object value  = property.Value;
-                var    jValue = property.Value as JValue;
-
-                var propertyValueAsJObject = property.Value as JObject;
-                if (jValue != null)
-                {
-                    value = jValue.Value;
-                }
-                else if (propertyValueAsJObject != null)
-                {
-                    value = Clone(propertyValueAsJObject).Build().View;
-                }
-                else
-                {
-                    var jArray = property.Value as JArray;
-                    if (jArray != null)
-                    {
-                        value = jArray.ToArray();
-                    }
-                }
-
-                Assign(property.Name, value);
+                Assign(property);
             }
         }
 
-        Builder Clone(JObject jObject)
+        Builder Clone(Node node)
         {
             var builder = (Builder) Activator.CreateInstance(GetType());
-            builder._jObject    = jObject;
+            builder._node       = node;
             builder.DataContext = DataContext;
             builder.Config      = Config;
 
@@ -175,7 +147,7 @@ namespace BOA.Jaml
 
         void ProcessGridRowsAndColumns(Grid grid)
         {
-            if (_jObject.Properties().Any(p => p.Name.ToUpperEN() == "ROWS"))
+            if (_node.Properties.Any(p => p.Name.ToUpperEN() == "ROWS"))
             {
                 var rowIndex = 0;
                 foreach (var gridChild in grid.Children)
@@ -231,7 +203,7 @@ namespace BOA.Jaml
                 }
             }
 
-            if (_jObject.Properties().Any(p => p.Name.ToUpperEN() == "COLUMNS" || p.Name.ToUpperEN() == "COLS"))
+            if (_node.Properties.Any(p => p.Name.ToUpperEN() == "COLUMNS" || p.Name.ToUpperEN() == "COLS"))
             {
                 var columnIndex = 0;
                 foreach (var gridChild in grid.Children)
@@ -309,23 +281,18 @@ namespace BOA.Jaml
 
             Config.TryToFireCreationCompletedHandlers(this);
         }
-
-        bool TryToInvokeCustomProperty(Assignment context)
-        {
-            return Config.TryToInvokeCustomProperty(context);
-        }
         #endregion
 
         #region Assignment
-        bool TryToSetView(Assignment context)
+        bool TryToSetView(Builder builder, Node node)
         {
-            if (context.Name.ToUpper(new CultureInfo("EN-us")) == "VIEW")
+            if (node.NameToUpperInEnglish == "VIEW")
             {
-                ViewName = context.ValueAsString.ToUpperEN();
+                ViewName = node.ValueAsString.ToUpperEN();
                 Config.TryToCreateElement(this);
                 if (View == null)
                 {
-                    View = CreateDefaultWpfElement(context.ValueAsString);
+                    View = CreateDefaultWpfElement(node.ValueAsString);
                 }
 
                 return true;
@@ -334,30 +301,30 @@ namespace BOA.Jaml
             return false;
         }
 
-        bool TryToSetName(Assignment context)
+        bool TryToSetName(Builder builder, Node node)
         {
             var fe = DataContext as FrameworkElement;
-            if (context.Name.ToUpperEN() == "NAME" && fe != null)
+            if (node.NameToUpperInEnglish == "NAME" && fe != null)
             {
-                var fieldInfo = fe.GetType().GetPublicNonStaticField(context.ValueAsString);
+                var fieldInfo = fe.GetType().GetPublicNonStaticField(node.ValueAsString);
                 if (fieldInfo != null)
                 {
                     fieldInfo.SetValue(fe, View);
                     return true;
                 }
 
-                fe.RegisterName(context.ValueAsString, View);
+                fe.RegisterName(node.ValueAsString, View);
                 return true;
             }
 
             return false;
         }
 
-        bool TryToHandleStackPanelTitle(Assignment context)
+        bool TryToHandleStackPanelTitle(Builder builder, Node node)
         {
-            if (context.Name.ToUpperEN() == "TITLE" && View is StackPanel)
+            if (node.NameToUpperInEnglish == "TITLE" && View is StackPanel)
             {
-                View.SetValue(HeaderedContentControl.HeaderProperty, context.Value);
+                View.SetValue(HeaderedContentControl.HeaderProperty, node.ValueAsString);
                 return true;
             }
 
@@ -366,46 +333,52 @@ namespace BOA.Jaml
 
         static readonly DependencyProperty GravityProperty = DependencyProperty.Register("Gravity", typeof(double?), typeof(Builder));
 
-        bool TryToHandleGravity(Assignment context)
+        bool TryToHandleGravity(Builder builder, Node node)
         {
-            if (context.Name.ToUpperEN() == "GRAVITY")
+            if (node.NameToUpperInEnglish == "GRAVITY")
             {
-                View.SetValue(GravityProperty, context.Value.ToDouble());
+                View.SetValue(GravityProperty, node.ValueAsNumber.ToDouble());
                 return true;
             }
 
             return false;
         }
 
-        bool TryToHandleArrayValues(Assignment context)
+        bool TryToHandleArrayValues(Builder builder, Node node)
         {
-            var attributeValueAsConfigArray = context.Value as Array;
-
-            if (ViewAsIAddChild != null && attributeValueAsConfigArray != null)
+            if (!node.ValueIsArray)
             {
-                foreach (var item in attributeValueAsConfigArray)
-                {
-                    ViewAsIAddChild.AddChild(Clone((JObject) item).Build().View);
-                }
-
-                return true;
+                return false;
             }
 
-            return false;
+            if (ViewAsIAddChild == null)
+            {
+                throw new ArgumentException(nameof(ViewAsIAddChild));
+            }
+
+            foreach (var item in node.ValueAsArray)
+            {
+                ViewAsIAddChild.AddChild(Clone(item).Build().View);
+            }
+
+            return true;
         }
 
-        bool TryToBindingExpression(Assignment context)
+        bool TryToBindingExpression(Builder builder, Node node)
         {
-            var attributeValueAsString = context.Value as string;
+            if (!node.ValueIsBindingExpression)
+            {
+                return false;
+            }
 
-            var bindingInfoContract = BindingExpressionParser.TryParse(attributeValueAsString);
+            var bindingInfoContract = node.ValueAsBindingInfo;
 
             if (bindingInfoContract != null)
             {
-                var dp = SearchDependencyPropertyInView(context.Name);
+                var dp = SearchDependencyPropertyInView(node.Name);
                 if (dp == null)
                 {
-                    throw Errors.DependencyPropertyNotFound(context.Name);
+                    throw Errors.DependencyPropertyNotFound(node.Name);
                 }
 
                 var binding = bindingInfoContract.ConvertToBinding(TypeFinder);
@@ -418,10 +391,9 @@ namespace BOA.Jaml
             return false;
         }
 
-        bool TryToHandleDProperty(Assignment context)
+        bool TryToHandleDProperty(Builder builder, Node node)
         {
-            var attributeName  = context.Name;
-            var attributeValue = context.Value;
+            var attributeName = node.Name;
 
             // BOA.UI.EditorBase.LabelWidthProperty
             if (attributeName.Contains('.')) // dependency property
@@ -432,7 +404,21 @@ namespace BOA.Jaml
                     throw Errors.DependencyPropertyNotFound(attributeName);
                 }
 
-                attributeValue = BuilderUtility.NormalizeValueForType(attributeValue, dp.PropertyType);
+                object attributeValue = null;
+                if (node.ValueIsString)
+                {
+                    attributeValue = BuilderUtility.NormalizeValueForType(node.ValueAsString, dp.PropertyType);
+                }
+
+                if (node.ValueIsBoolean)
+                {
+                    attributeValue = BuilderUtility.NormalizeValueForType(node.ValueAsBoolean, dp.PropertyType);
+                }
+
+                if (node.ValueIsNumber)
+                {
+                    attributeValue = BuilderUtility.NormalizeValueForType(node.ValueAsNumber, dp.PropertyType);
+                }
 
                 View.SetValue(dp, attributeValue);
 
@@ -442,10 +428,30 @@ namespace BOA.Jaml
             return false;
         }
 
-        bool TryToInvokeDefaultProperty(Assignment context)
+        bool TryToInvokeDefaultProperty(Builder builder, Node node)
         {
-            var attributeName  = context.Name;
-            var attributeValue = context.Value;
+            var    attributeName  = node.Name;
+            object attributeValue = null;
+
+            if (node.ValueIsString)
+            {
+                attributeValue = node.ValueAsString;
+            }
+
+            if (node.ValueIsBoolean)
+            {
+                attributeValue = node.ValueAsBoolean;
+            }
+
+            if (node.ValueIsNumber)
+            {
+                attributeValue = node.ValueAsNumber;
+            }
+
+            if (attributeValue == null)
+            {
+                throw new ArgumentException(node.ToString());
+            }
 
             var property = View.GetType().GetProperty(attributeName);
             if (property == null)
@@ -500,9 +506,9 @@ namespace BOA.Jaml
         static readonly DependencyProperty HeightIsAutoProperty = DependencyProperty.Register("HeightIsAuto", typeof(bool?), typeof(Builder));
         static readonly DependencyProperty WidthIsAutoProperty  = DependencyProperty.Register("WidthIsAuto", typeof(bool?), typeof(Builder));
 
-        bool TryToHandleHeightPropertyAutoValue(Assignment context)
+        bool TryToHandleHeightPropertyAutoValue(Builder builder, Node node)
         {
-            if (context.Name.ToUpperEN() == "HEIGHT" && context.Value.ToString().ToUpperEN() == "AUTO")
+            if (node.NameToUpperInEnglish == "HEIGHT" && node.ValueAsStringToUpperInEnglish == "AUTO")
             {
                 View.SetValue(FrameworkElement.HeightProperty, double.NaN);
                 View.SetValue(HeightIsAutoProperty, true);
@@ -512,9 +518,9 @@ namespace BOA.Jaml
             return false;
         }
 
-        bool TryToHandleWidthPropertyAutoValue(Assignment context)
+        bool TryToHandleWidthPropertyAutoValue(Builder builder, Node node)
         {
-            if (context.Name.ToUpperEN() == "WIDTH" && context.Value.ToString().ToUpperEN() == "AUTO")
+            if (node.NameToUpperInEnglish == "WIDTH" && node.ValueAsStringToUpperInEnglish == "AUTO")
             {
                 View.SetValue(FrameworkElement.WidthProperty, double.NaN);
                 View.SetValue(WidthIsAutoProperty, true);
@@ -524,15 +530,15 @@ namespace BOA.Jaml
             return false;
         }
 
-        bool TryToHandleMarginValues(Assignment input)
+        bool TryToHandleMarginValues(Builder builder, Node node)
         {
-            var name = input.Name.ToUpperEN();
+            var name = node.NameToUpperInEnglish;
 
             if (name == "MARGINLEFT" || name == "LEFTMARGIN")
             {
                 var fe = (FrameworkElement) View;
 
-                fe.Margin = new Thickness(input.ValueToDouble, fe.Margin.Top, fe.Margin.Right, fe.Margin.Bottom);
+                fe.Margin = new Thickness(node.ValueAsNumberAsDouble, fe.Margin.Top, fe.Margin.Right, fe.Margin.Bottom);
                 return true;
             }
 
@@ -540,7 +546,7 @@ namespace BOA.Jaml
             {
                 var fe = (FrameworkElement) View;
 
-                fe.Margin = new Thickness(fe.Margin.Left, input.ValueToDouble, fe.Margin.Right, fe.Margin.Bottom);
+                fe.Margin = new Thickness(fe.Margin.Left, node.ValueAsNumberAsDouble, fe.Margin.Right, fe.Margin.Bottom);
                 return true;
             }
 
@@ -548,7 +554,7 @@ namespace BOA.Jaml
             {
                 var fe = (FrameworkElement) View;
 
-                fe.Margin = new Thickness(fe.Margin.Left, fe.Margin.Top, input.ValueToDouble, fe.Margin.Bottom);
+                fe.Margin = new Thickness(fe.Margin.Left, fe.Margin.Top, node.ValueAsNumberAsDouble, fe.Margin.Bottom);
                 return true;
             }
 
@@ -556,17 +562,16 @@ namespace BOA.Jaml
             {
                 var fe = (FrameworkElement) View;
 
-                fe.Margin = new Thickness(fe.Margin.Left, fe.Margin.Top, fe.Margin.Right, input.ValueToDouble);
+                fe.Margin = new Thickness(fe.Margin.Left, fe.Margin.Top, fe.Margin.Right, node.ValueAsNumberAsDouble);
                 return true;
             }
 
             return false;
         }
 
-        void Assign(string attributeName, object attributeValue)
+        void Assign(Node node)
         {
-            var context = new Assignment {Builder = this, Name = attributeName, Value = attributeValue};
-            var tuple = new Func<Assignment, bool>[]
+            var tuple = new Func<Builder, Node, bool>[]
             {
                 TryToSetView,
                 TryToSetName,
@@ -584,50 +589,13 @@ namespace BOA.Jaml
 
             foreach (var func in tuple)
             {
-                if (func(context))
+                if (func(this, node))
                 {
                     return;
                 }
             }
         }
         #endregion
-
-        #region Data
-        /// <summary>
-        ///     Sets the data.
-        /// </summary>
-        public TValue SetData<TValue>(string key, TValue value)
-        {
-            if (_data == null)
-            {
-                _data = new Dictionary<string, object>();
-            }
-
-            _data[key] = value;
-
-            return value;
-        }
-
-        /// <summary>
-        ///     Gets the data.
-        /// </summary>
-        public TValueType GetData<TValueType>(string key)
-        {
-            if (_data == null)
-            {
-                return default(TValueType);
-            }
-
-            object value = null;
-
-            _data.TryGetValue(key, out value);
-
-            return (TValueType) value;
-        }
-        #endregion
     }
-    #endregion
-
-    #region BuilderUtility
     #endregion
 }

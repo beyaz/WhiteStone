@@ -8,6 +8,22 @@ namespace BOA.Jaml
     [TestClass]
     public class BuilderTest : DependencyObject
     {
+
+        [TestMethod]
+        public void Test1()
+        {
+            const string ui = "{view:'TextBox', Text:'A'}";
+            var builder = new Builder();
+            builder.SetJson(ui);
+            var uiElement = builder.Build().View;
+
+            var textBox = uiElement as TextBox;
+
+            Assert.IsNotNull(textBox);
+            Assert.AreEqual("A",textBox.Text);
+        }
+
+
         #region Static Fields
         public static readonly DependencyProperty TestPropertyNullableInt32Property = DependencyProperty.Register("TestPropertyNullableInt32", typeof(int?), typeof(BuilderTest), new PropertyMetadata(default(int?)));
         #endregion

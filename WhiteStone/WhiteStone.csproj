@@ -83,7 +83,6 @@
     <Compile Include="BOA.Common\Bag.cs" />
     <Compile Include="BOA.Common\CacheManager.cs" />
     <Compile Include="BOA.Common\Proxy.cs" />
-    <Compile Include="Jaml\Assignment.cs" />
     <Compile Include="Jaml\Markup\BindingExpressionParser.cs" />
     <Compile Include="Jaml\Markup\BindingExpressionTokenDefinitions.cs" />
     <Compile Include="Jaml\Markup\BindingInfoContract.cs" />

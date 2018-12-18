@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BOA.Common.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -13,7 +14,10 @@ namespace BOA.Jaml.Markup
     public class Node
     {
         #region Public Properties
-     
+       
+        public string NameToUpperInEnglish { get; set; }
+
+        
 
         /// <summary>
         ///     Gets or sets the name.
@@ -45,10 +49,17 @@ namespace BOA.Jaml.Markup
         /// </summary>
         public decimal ValueAsNumber { get; set; }
 
+
+        public double ValueAsNumberAsDouble => ValueAsNumber.ToDouble();
+        
+
         /// <summary>
         ///     Gets or sets the value as string.
         /// </summary>
         public string ValueAsString { get; set; }
+
+
+        public string ValueAsStringToUpperInEnglish { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether [value is array].
@@ -200,7 +211,7 @@ namespace BOA.Jaml.Markup
         /// <summary>
         ///     Transforms the specified node.
         /// </summary>
-        public static Node Transform(JObject jObject)
+        public static Node Parse(JObject jObject)
         {
             var node = new Node();
 
@@ -208,12 +219,15 @@ namespace BOA.Jaml.Markup
             {
                 var propertyNode = new Node
                 {
-                    Name = jProperty.Name
+                    Name = jProperty.Name,
+                    NameToUpperInEnglish = jProperty.Name.ToUpperEN()
                 };
 
                 if (jProperty.Value.Type == JTokenType.String)
                 {
                     propertyNode.ValueAsString = (string) ((JValue) jProperty.Value).Value;
+
+                    propertyNode.ValueAsStringToUpperInEnglish = propertyNode.ValueAsString.ToUpperEN();
 
                     propertyNode.ValueIsString = true;
 
@@ -243,7 +257,7 @@ namespace BOA.Jaml.Markup
 
                 if (jProperty.Value.Type == JTokenType.Integer)
                 {
-                    propertyNode.ValueAsNumber = (int) ((JValue) jProperty.Value).Value;
+                    propertyNode.ValueAsNumber = Convert.ToDecimal( ((JValue) jProperty.Value).Value);
 
                     propertyNode.ValueIsNumber = true;
 
@@ -263,7 +277,7 @@ namespace BOA.Jaml.Markup
                             throw new ArgumentException(jToken.ToString());
                         }
 
-                        nodeCollection.Items.Add(Transform(jObj));
+                        nodeCollection.Items.Add(Parse(jObj));
                     }
 
                     
@@ -297,13 +311,13 @@ namespace BOA.Jaml.Markup
                 throw new ArgumentException("json parse error.");
             }
 
-            return Transform(jObject);
+            return TransformBindingInformation(Parse(jObject));
         }
 
         /// <summary>
         ///     Transforms the binding information.
         /// </summary>
-        public static void TransformBindingInformation(Node node)
+        public static Node TransformBindingInformation(Node node)
         {
             foreach (var item in node.Properties.Items)
             {
@@ -328,6 +342,8 @@ namespace BOA.Jaml.Markup
                     }
                 }
             }
+
+            return node;
         }
         #endregion
     }

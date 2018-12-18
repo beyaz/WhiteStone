@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
+using BOA.Jaml.Markup;
 
 namespace BOA.Jaml
 {
@@ -20,7 +21,7 @@ namespace BOA.Jaml
         /// <summary>
         ///     The custom property handlers
         /// </summary>
-        readonly List<Func<Assignment, bool>> _customPropertyHandlers = new List<Func<Assignment, bool>>
+        readonly List<Func<Builder, Node, bool>> _customPropertyHandlers = new List<Func<Builder, Node, bool>>
         {
             RichTextBox_Text,
             TextBlock_IsBold
@@ -53,23 +54,23 @@ namespace BOA.Jaml
         /// <summary>
         ///     Riches the text box text.
         /// </summary>
-        public static bool RichTextBox_Text(Assignment assignment)
+        public static bool RichTextBox_Text(Builder builder, Node node)
         {
-            var richTextBox = assignment.Builder.View as RichTextBox;
+            var richTextBox = builder.View as RichTextBox;
             if (richTextBox == null)
             {
                 return false;
             }
 
-            if (assignment.Name == "Text")
+            if (node.Name == "Text")
             {
                 richTextBox.TextChanged += (s, e) =>
                 {
                     var text = richTextBox.GetText();
 
-                    var propertyInfo = assignment.Builder.DataContext.GetType().GetPublicNonStaticProperty(assignment.ValueAsString, true);
+                    var propertyInfo = builder.DataContext.GetType().GetPublicNonStaticProperty(node.ValueAsString, true);
 
-                    propertyInfo.SetValue(assignment.Builder.DataContext, text);
+                    propertyInfo.SetValue(builder.DataContext, text);
                 };
 
                 return true;
@@ -81,23 +82,23 @@ namespace BOA.Jaml
         /// <summary>
         ///     Texts the block is bold.
         /// </summary>
-        public static bool TextBlock_IsBold(Assignment assignment)
+        public static bool TextBlock_IsBold(Builder builder, Node node)
         {
-            var textBlock = assignment.Builder.View as TextBlock;
+            var textBlock = builder.View as TextBlock;
             if (textBlock == null)
             {
                 return false;
             }
 
-            if (assignment.NameToUpperInEnglish == "ISBOLD")
+            if (node.NameToUpperInEnglish == "ISBOLD")
             {
-                if (assignment.ValueAsBoolean == true)
+                if (node.ValueAsBoolean)
                 {
                     textBlock.FontWeight = FontWeights.Bold;
                     return true;
                 }
 
-                throw new ArgumentException(assignment.ValueAsString);
+                throw new ArgumentException(node.ToString());
             }
 
             return false;
@@ -115,7 +116,7 @@ namespace BOA.Jaml
         /// <summary>
         ///     Called when [custom property].
         /// </summary>
-        public BuilderConfig OnCustomProperty(Func<Assignment, bool> execute)
+        public BuilderConfig OnCustomProperty(Func<Builder, Node, bool> execute)
         {
             _customPropertyHandlers.Add(execute);
             return this;
@@ -161,11 +162,11 @@ namespace BOA.Jaml
         /// <summary>
         ///     Tries to invoke custom property.
         /// </summary>
-        internal bool TryToInvokeCustomProperty(Assignment input)
+        internal bool TryToInvokeCustomProperty(Builder builder, Node node)
         {
             foreach (var fn in _customPropertyHandlers)
             {
-                var isHandled = fn(input);
+                var isHandled = fn(builder, node);
                 if (isHandled)
                 {
                     return true;
