@@ -64,6 +64,12 @@ namespace BOA.Jaml
 
             if (node.Name == "Text")
             {
+                if (node.ValueIsString)
+                {
+                    richTextBox.SetText(node.ValueAsString);
+                    return true;
+                }
+
                 richTextBox.TextChanged += (s, e) =>
                 {
                     var text = richTextBox.GetText();

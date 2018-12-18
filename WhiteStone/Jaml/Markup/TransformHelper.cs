@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BOA.Common.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -14,15 +13,12 @@ namespace BOA.Jaml.Markup
     public class Node
     {
         #region Public Properties
-       
-        public string NameToUpperInEnglish { get; set; }
-
-        
-
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>
         public string Name { get; set; }
+
+        public string NameToUpperInEnglish { get; set; }
 
         /// <summary>
         ///     Gets or sets the properties.
@@ -49,15 +45,12 @@ namespace BOA.Jaml.Markup
         /// </summary>
         public decimal ValueAsNumber { get; set; }
 
-
         public double ValueAsNumberAsDouble => ValueAsNumber.ToDouble();
-        
 
         /// <summary>
         ///     Gets or sets the value as string.
         /// </summary>
         public string ValueAsString { get; set; }
-
 
         public string ValueAsStringToUpperInEnglish { get; set; }
 
@@ -88,8 +81,6 @@ namespace BOA.Jaml.Markup
         #endregion
 
         #region Public Methods
-       
-
         /// <summary>
         ///     Adds the property.
         /// </summary>
@@ -219,7 +210,7 @@ namespace BOA.Jaml.Markup
             {
                 var propertyNode = new Node
                 {
-                    Name = jProperty.Name,
+                    Name                 = jProperty.Name,
                     NameToUpperInEnglish = jProperty.Name.ToUpperEN()
                 };
 
@@ -257,7 +248,7 @@ namespace BOA.Jaml.Markup
 
                 if (jProperty.Value.Type == JTokenType.Integer)
                 {
-                    propertyNode.ValueAsNumber = Convert.ToDecimal( ((JValue) jProperty.Value).Value);
+                    propertyNode.ValueAsNumber = Convert.ToDecimal(((JValue) jProperty.Value).Value);
 
                     propertyNode.ValueIsNumber = true;
 
@@ -280,7 +271,6 @@ namespace BOA.Jaml.Markup
                         nodeCollection.Items.Add(Parse(jObj));
                     }
 
-                    
                     propertyNode.ValueAsArray = nodeCollection;
 
                     propertyNode.ValueIsArray = true;
@@ -328,6 +318,9 @@ namespace BOA.Jaml.Markup
                     {
                         continue;
                     }
+
+                    item.ValueIsString = false;
+                    item.ValueAsString = null;
 
                     item.ValueIsBindingExpression = true;
                     item.ValueAsBindingInfo       = bindingInfoContract;

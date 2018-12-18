@@ -147,7 +147,7 @@ namespace BOA.Jaml
 
         void ProcessGridRowsAndColumns(Grid grid)
         {
-            if (_node.Properties.Any(p => p.Name.ToUpperEN() == "ROWS"))
+            if (_node.Properties.Any(p => p.NameToUpperInEnglish == "ROWS"))
             {
                 var rowIndex = 0;
                 foreach (var gridChild in grid.Children)
@@ -180,7 +180,7 @@ namespace BOA.Jaml
                             }
                             else
                             {
-                                rowDefinition = new RowDefinition {Height = new GridLength(1, GridUnitType.Pixel)};
+                                rowDefinition = new RowDefinition {Height = new GridLength(1, GridUnitType.Star)};
                             }
                         }
                     }
@@ -203,7 +203,7 @@ namespace BOA.Jaml
                 }
             }
 
-            if (_node.Properties.Any(p => p.Name.ToUpperEN() == "COLUMNS" || p.Name.ToUpperEN() == "COLS"))
+            if (_node.Properties.Any(p => p.NameToUpperInEnglish == "COLUMNS" || p.NameToUpperInEnglish == "COLS"))
             {
                 var columnIndex = 0;
                 foreach (var gridChild in grid.Children)
