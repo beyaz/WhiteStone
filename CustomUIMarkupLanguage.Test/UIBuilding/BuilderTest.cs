@@ -4,7 +4,7 @@ using System.Windows.Data;
 using CustomUIMarkupLanguage.UIBuilding;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.Jaml
+namespace CustomUIMarkupLanguage.Test.UIBuilding
 {
     [TestClass]
     public class BuilderTest : DependencyObject

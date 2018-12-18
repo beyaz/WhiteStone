@@ -295,8 +295,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         {
             foreach (var property in node.Properties)
             {
-                if (property.NameToUpperInEnglish == "VIEW" ||
-                    property.NameToUpperInEnglish == "ui")
+                if (property.NameToUpperInEnglish == "VIEW")
                 {
                     continue;
                 }

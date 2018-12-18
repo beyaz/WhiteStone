@@ -1,7 +1,7 @@
 ﻿using CustomUIMarkupLanguage.Markup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.Jaml.Markup
+namespace CustomUIMarkupLanguage.Test.Markup
 {
     [TestClass]
     public class ParsingTest

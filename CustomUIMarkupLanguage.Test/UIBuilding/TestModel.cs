@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BOA.Jaml
+namespace CustomUIMarkupLanguage.Test.UIBuilding
 {
     [Serializable]
     public class TestModel : INotifyPropertyChanged

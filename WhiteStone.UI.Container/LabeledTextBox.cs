@@ -22,8 +22,8 @@ namespace WhiteStone.UI.Container
 {
 	rows:
 	[
-		{view:'TextBlock', Height:'auto', Text:'{Binding Label}', MarginBottom:5, IsBold:true},
-        {view:'TextBox',   Height:'auto', Text:'{Binding Text}'}        
+		{view:'TextBlock', Text:'{Binding Label}', MarginBottom:5, IsBold:true},
+        {view:'TextBox',   Text:'{Binding Text}'}        
 	]
 	
 }";

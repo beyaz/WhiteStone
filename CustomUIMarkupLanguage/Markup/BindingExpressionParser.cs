@@ -44,7 +44,7 @@ namespace CustomUIMarkupLanguage.Markup
             {
                 var token = tokens[i];
 
-                if (token.Value.ToUpper() == "BINDING" || token.Value == " ")
+                if (token.Value.ToUpperEN() == "BINDING" || token.Value == " ")
                 {
                     continue;
                 }
@@ -56,7 +56,7 @@ namespace CustomUIMarkupLanguage.Markup
                     continue;
                 }
 
-                if (token.Value.ToUpper() == "MODE")
+                if (token.Value.ToUpperEN() == "MODE")
                 {
                     i++; // skip mode
 
@@ -66,7 +66,7 @@ namespace CustomUIMarkupLanguage.Markup
                     continue;
                 }
 
-                if (token.Value.ToUpper() == "CONVERTERPARAMETER")
+                if (token.Value.ToUpperEN() == "CONVERTERPARAMETER")
                 {
                     i++; // skip converterparameter
                     SkipAssignmentAndSpace(tokens, ref i);
@@ -83,7 +83,7 @@ namespace CustomUIMarkupLanguage.Markup
                     continue;
                 }
 
-                if (token.Value.ToUpper() == "CONVERTER")
+                if (token.Value.ToUpperEN() == "CONVERTER")
                 {
                     i++; // skip converter
 
