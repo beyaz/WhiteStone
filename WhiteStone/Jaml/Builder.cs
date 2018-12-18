@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using BOA.Common.Helpers;
+using BOA.Jaml.Markup;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

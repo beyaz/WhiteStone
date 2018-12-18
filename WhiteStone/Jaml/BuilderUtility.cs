@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
+using BOA.Jaml.Markup;
 
 namespace BOA.Jaml
 {

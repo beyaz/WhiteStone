@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BOA.TextTokenizer;
 
-namespace BOA.Jaml
+namespace BOA.Jaml.Markup
 {
     /// <summary>
     ///     The binding expression token definitions

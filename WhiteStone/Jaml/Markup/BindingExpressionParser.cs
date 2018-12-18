@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Data;
 using BOA.TextTokenizer;
 
-namespace BOA.Jaml
+namespace BOA.Jaml.Markup
 {
     /// <summary>
     ///     The binding expression parser

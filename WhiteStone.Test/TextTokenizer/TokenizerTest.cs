@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows.Data;
 using BOA.Jaml;
+using BOA.Jaml.Markup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.TextTokenizer
