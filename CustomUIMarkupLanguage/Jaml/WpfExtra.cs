@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using BOA.Jaml.Markup;
-using CustomUIMarkupLanguage;
+using CustomUIMarkupLanguage.Markup;
 
-namespace BOA.Jaml
+namespace CustomUIMarkupLanguage.Jaml
 {
     /// <summary>
     ///     The WPF extra

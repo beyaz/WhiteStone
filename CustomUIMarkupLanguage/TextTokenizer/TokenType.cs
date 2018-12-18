@@ -1,4 +1,4 @@
-﻿namespace BOA.TextTokenizer
+﻿namespace CustomUIMarkupLanguage.TextTokenizer
 {
     /// <summary>
     ///     The token type

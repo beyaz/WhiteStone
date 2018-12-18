@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace BOA.TextTokenizer
+namespace CustomUIMarkupLanguage.TextTokenizer
 {
     /// <summary>
     ///     The token definition

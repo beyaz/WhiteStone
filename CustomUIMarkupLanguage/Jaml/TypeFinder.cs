@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace BOA.Jaml
+namespace CustomUIMarkupLanguage.Jaml
 {
     /// <summary>
     ///     Defines the type finder.

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
-using BOA.Jaml.Markup;
+using CustomUIMarkupLanguage.Markup;
 
-namespace BOA.Jaml
+namespace CustomUIMarkupLanguage.Jaml
 {
     /// <summary>
     ///     Defines the builder utility.

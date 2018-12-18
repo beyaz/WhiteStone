@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BOA.TextTokenizer;
+using CustomUIMarkupLanguage.TextTokenizer;
 
-namespace BOA.Jaml.Markup
+namespace CustomUIMarkupLanguage.Markup
 {
     /// <summary>
     ///     The binding expression token definitions

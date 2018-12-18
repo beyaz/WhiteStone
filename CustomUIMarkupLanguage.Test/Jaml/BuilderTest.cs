@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using CustomUIMarkupLanguage.Jaml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.Jaml

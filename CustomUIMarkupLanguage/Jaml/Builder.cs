@@ -7,10 +7,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
-using BOA.Jaml.Markup;
-using CustomUIMarkupLanguage;
+using CustomUIMarkupLanguage.Markup;
 
-namespace BOA.Jaml
+namespace CustomUIMarkupLanguage.Jaml
 {
     #region Builder    
     /// <summary>
@@ -396,7 +395,7 @@ namespace BOA.Jaml
         {
             if (node.NameToUpperInEnglish == "GRAVITY")
             {
-                element.SetValue(GravityProperty, node.ValueAsNumber.ToDouble());
+                element.SetValue(GravityProperty, node.ValueAsNumberAsDouble);
                 return true;
             }
 

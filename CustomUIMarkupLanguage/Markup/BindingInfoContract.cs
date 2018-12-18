@@ -1,6 +1,6 @@
 ﻿using System.Windows.Data;
 
-namespace BOA.Jaml.Markup
+namespace CustomUIMarkupLanguage.Markup
 {
     /// <summary>
     ///     The binding information contract

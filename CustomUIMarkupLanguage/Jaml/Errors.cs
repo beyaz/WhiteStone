@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.Jaml
+namespace CustomUIMarkupLanguage.Jaml
 {
     /// <summary>
     ///     Error codes in this type

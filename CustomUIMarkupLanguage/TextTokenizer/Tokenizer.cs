@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BOA.TextTokenizer
+namespace CustomUIMarkupLanguage.TextTokenizer
 {
     /// <summary>
     ///     The tokenizer

@@ -8,7 +8,7 @@ using BOA.Common.Helpers;
 
 namespace WhiteStone.UI.Container
 {
-    public class Builder : BOA.Jaml.Builder
+    public class Builder : CustomUIMarkupLanguage.Jaml.Builder
     {
         #region Constructors
         static Builder()

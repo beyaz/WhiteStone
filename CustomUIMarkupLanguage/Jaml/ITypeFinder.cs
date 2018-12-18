@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.Jaml
+namespace CustomUIMarkupLanguage.Jaml
 {
     /// <summary>
     ///     Defines the i type finder.

@@ -1,14 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
-using BOA.Jaml;
-using BOA.Jaml.Markup;
+using CustomUIMarkupLanguage.Markup;
 
 namespace WhiteStone.UI.Container
 {
     public class LabeledTextBox : Grid
     {
-        public static UIElement On(BOA.Jaml.Builder builder,Node node)
+        public static UIElement On(CustomUIMarkupLanguage.Jaml.Builder builder,Node node)
         {
             if (node.Properties["view"].ValueAsStringToUpperInEnglish == nameof(LabeledTextBox).ToUpperEN())
             {

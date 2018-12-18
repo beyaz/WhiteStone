@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Data;
-using BOA.TextTokenizer;
-using CustomUIMarkupLanguage;
+using CustomUIMarkupLanguage.TextTokenizer;
 
-namespace BOA.Jaml.Markup
+namespace CustomUIMarkupLanguage.Markup
 {
     /// <summary>
     ///     The binding expression parser
@@ -45,7 +44,7 @@ namespace BOA.Jaml.Markup
             {
                 var token = tokens[i];
 
-                if (token.Value.ToUpperEN() == "BINDING" || token.Value == " ")
+                if (token.Value.ToUpper() == "BINDING" || token.Value == " ")
                 {
                     continue;
                 }
@@ -57,7 +56,7 @@ namespace BOA.Jaml.Markup
                     continue;
                 }
 
-                if (token.Value.ToUpperEN() == "MODE")
+                if (token.Value.ToUpper() == "MODE")
                 {
                     i++; // skip mode
 
@@ -67,7 +66,7 @@ namespace BOA.Jaml.Markup
                     continue;
                 }
 
-                if (token.Value.ToUpperEN() == "CONVERTERPARAMETER")
+                if (token.Value.ToUpper() == "CONVERTERPARAMETER")
                 {
                     i++; // skip converterparameter
                     SkipAssignmentAndSpace(tokens, ref i);
@@ -84,7 +83,7 @@ namespace BOA.Jaml.Markup
                     continue;
                 }
 
-                if (token.Value.ToUpperEN() == "CONVERTER")
+                if (token.Value.ToUpper() == "CONVERTER")
                 {
                     i++; // skip converter
 
