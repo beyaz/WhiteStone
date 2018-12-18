@@ -111,6 +111,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CustomUIMarkupLanguage\CustomUIMarkupLanguage.csproj">
+      <Project>{36620a93-c165-4fc0-8df8-7bd784f4abde}</Project>
+      <Name>CustomUIMarkupLanguage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WhiteStone\WhiteStone.csproj">
       <Project>{d699be0c-9704-4846-83fa-47857cf77034}</Project>
       <Name>WhiteStone</Name>
