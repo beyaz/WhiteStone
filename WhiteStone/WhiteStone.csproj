@@ -91,7 +91,6 @@
     <Compile Include="Jaml\Errors.cs" />
     <Compile Include="Jaml\ITypeFinder.cs" />
     <Compile Include="Jaml\Markup\TransformHelper.cs" />
-    <Compile Include="Jaml\PredefinedConfigs.cs" />
     <Compile Include="Jaml\TypeFinder.cs" />
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\Translator.cs" />
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\WebResourceProvider.cs" />

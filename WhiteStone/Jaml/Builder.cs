@@ -299,7 +299,7 @@ namespace BOA.Jaml
         /// <summary>
         ///     Searches the dependency property in view.
         /// </summary>
-        DependencyProperty SearchDependencyPropertyInView(string name, UIElement element)
+        static DependencyProperty SearchDependencyPropertyInView(string name, UIElement element)
         {
             var descriptor = DependencyPropertyDescriptor.FromName(name, element.GetType(), element.GetType());
             if (descriptor == null)

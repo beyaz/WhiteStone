@@ -18,6 +18,9 @@ namespace BOA.Jaml.Markup
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the name to upper in english.
+        /// </summary>
         public string NameToUpperInEnglish { get; set; }
 
         /// <summary>
@@ -45,6 +48,9 @@ namespace BOA.Jaml.Markup
         /// </summary>
         public decimal ValueAsNumber { get; set; }
 
+        /// <summary>
+        ///     Gets the value as number as double.
+        /// </summary>
         public double ValueAsNumberAsDouble => ValueAsNumber.ToDouble();
 
         /// <summary>
@@ -52,6 +58,9 @@ namespace BOA.Jaml.Markup
         /// </summary>
         public string ValueAsString { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the value as string to upper in english.
+        /// </summary>
         public string ValueAsStringToUpperInEnglish { get; set; }
 
         /// <summary>
@@ -160,7 +169,11 @@ namespace BOA.Jaml.Markup
         /// </summary>
         public Node this[string name]
         {
-            get { return Items.FirstOrDefault(x => x.Name == name); }
+            get
+            {
+                name = name.ToUpperEN();
+                return Items.FirstOrDefault(x => x.NameToUpperInEnglish == name);
+            }
         }
 
         /// <summary>
@@ -301,7 +314,7 @@ namespace BOA.Jaml.Markup
                 throw new ArgumentException("json parse error.");
             }
 
-            return TransformBindingInformation(Parse(jObject));
+            return TransformViewName(TransformBindingInformation(Parse(jObject)));
         }
 
         /// <summary>
@@ -332,6 +345,37 @@ namespace BOA.Jaml.Markup
                     foreach (var info in item.ValueAsArray)
                     {
                         TransformBindingInformation(info);
+                    }
+                }
+            }
+
+            return node;
+        }
+
+        /// <summary>
+        ///     Transforms the name of the view.
+        /// </summary>
+        public static Node TransformViewName(Node node)
+        {
+            if (node.Properties == null)
+            {
+                return node;
+            }
+
+            var ui = node.Properties["UI"];
+            if (ui != null)
+            {
+                ui.NameToUpperInEnglish = "VIEW";
+                ui.Name                 = "view";
+            }
+
+            foreach (var item in node.Properties)
+            {
+                if (item.ValueIsArray)
+                {
+                    foreach (var info in item.ValueAsArray)
+                    {
+                        TransformViewName(info);
                     }
                 }
             }

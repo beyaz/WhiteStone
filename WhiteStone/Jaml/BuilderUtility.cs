@@ -13,10 +13,12 @@ namespace BOA.Jaml
     /// </summary>
     public static class BuilderUtility
     {
-      
+        #region Public Methods
+        /// <summary>
+        ///     Converts to binding.
+        /// </summary>
         public static Binding ConvertToBinding(this BindingInfoContract bindingInfoContract, ITypeFinder typeFinder)
         {
-
             var binding = new Binding
             {
                 Mode = bindingInfoContract.BindingMode,
@@ -26,38 +28,18 @@ namespace BOA.Jaml
             if (bindingInfoContract.ConverterTypeFullName != null)
             {
                 var converterType = typeFinder.GetType(bindingInfoContract.ConverterTypeFullName);
-                binding.Converter = (IValueConverter)Activator.CreateInstance(converterType);
+                binding.Converter = (IValueConverter) Activator.CreateInstance(converterType);
             }
 
             return binding;
         }
+
         /// <summary>
         ///     Gets the binding.
         /// </summary>
         public static Binding ConvertToBinding(this string bindingExpressionAsText, ITypeFinder typeFinder)
         {
             return BindingExpressionParser.TryParse(bindingExpressionAsText).ConvertToBinding(typeFinder);
-        }
-
-        /// <summary>
-        ///     Searches the dependency property in view.
-        /// </summary>
-        public static DependencyProperty SearchDependencyProperty(string dpFullName, ITypeFinder typeFinder)
-        {
-            var lastDotIndex = dpFullName.LastIndexOf('.');
-            var propertyName = dpFullName.Substring(lastDotIndex + 1);
-
-            var fieldInfo = typeFinder.GetType(dpFullName.Substring(0, lastDotIndex))
-                                      .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-                                      .FirstOrDefault(p => p.FieldType == typeof(DependencyProperty) &&
-                                                           p.Name == propertyName);
-
-            if (fieldInfo == null)
-            {
-                return null;
-            }
-
-            return (DependencyProperty)fieldInfo.GetValue(null);
         }
 
         /// <summary>
@@ -93,5 +75,27 @@ namespace BOA.Jaml
 
             return value;
         }
+
+        /// <summary>
+        ///     Searches the dependency property in view.
+        /// </summary>
+        public static DependencyProperty SearchDependencyProperty(string dpFullName, ITypeFinder typeFinder)
+        {
+            var lastDotIndex = dpFullName.LastIndexOf('.');
+            var propertyName = dpFullName.Substring(lastDotIndex + 1);
+
+            var fieldInfo = typeFinder.GetType(dpFullName.Substring(0, lastDotIndex))
+                                      .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                                      .FirstOrDefault(p => p.FieldType == typeof(DependencyProperty) &&
+                                                           p.Name == propertyName);
+
+            if (fieldInfo == null)
+            {
+                return null;
+            }
+
+            return (DependencyProperty) fieldInfo.GetValue(null);
+        }
+        #endregion
     }
 }

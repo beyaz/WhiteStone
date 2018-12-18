@@ -17,7 +17,9 @@ namespace BOA.Jaml
         /// </summary>
         public static UIElement RichTextBox_Create(Builder builder, Node node)
         {
-            if (node.Properties["view"].ValueAsStringToUpperInEnglish == "TEXTAREA")
+            var viewNode = node.Properties["view"];
+            
+            if (viewNode.ValueAsStringToUpperInEnglish == "TEXTAREA")
             {
                 return new RichTextBox
                 {

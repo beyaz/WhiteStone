@@ -69,7 +69,7 @@ namespace WhiteStone.UI.Container
 			cols:[
 				{view:'Textbox',Text:'Success',gravity:1},
 				{view:'GridSplitter'},
-				{view:'TextArea',Text:'Success2',gravity:2}
+				{ui:'TextArea',Text:'Success2',gravity:2}
 			]
 		}
 	]
