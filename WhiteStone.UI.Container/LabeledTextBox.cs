@@ -7,7 +7,7 @@ namespace WhiteStone.UI.Container
 {
     public class LabeledTextBox : Grid
     {
-        public static UIElement On(CustomUIMarkupLanguage.Jaml.Builder builder,Node node)
+        public static UIElement On(CustomUIMarkupLanguage.UIBuilding.Builder builder,Node node)
         {
             if (node.Properties["view"].ValueAsStringToUpperInEnglish == nameof(LabeledTextBox).ToUpperEN())
             {
@@ -45,7 +45,7 @@ namespace WhiteStone.UI.Container
                 
             };
 
-            builder.Build(UITemplate);
+            builder.Load(UITemplate);
         }
         #endregion
 

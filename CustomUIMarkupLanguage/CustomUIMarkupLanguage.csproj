@@ -44,20 +44,20 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xaml"/>
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
-    <Compile Include="Jaml\Builder.cs" />
-    <Compile Include="Jaml\BuilderUtility.cs" />
-    <Compile Include="Jaml\Errors.cs" />
-    <Compile Include="Jaml\Extensions.cs" />
-    <Compile Include="Jaml\ITypeFinder.cs" />
-    <Compile Include="Jaml\TypeFinder.cs" />
-    <Compile Include="Jaml\WpfExtra.cs" />
+    <Compile Include="Markup\Node.cs" />
+    <Compile Include="Markup\NodeCollection.cs" />
+    <Compile Include="UIBuilding\Builder.cs" />
+    <Compile Include="UIBuilding\BuilderUtility.cs" />
+    <Compile Include="UIBuilding\Errors.cs" />
+    <Compile Include="UIBuilding\TypeFinder.cs" />
+    <Compile Include="UIBuilding\WpfExtra.cs" />
     <Compile Include="Markup\BindingExpressionParser.cs" />
     <Compile Include="Markup\BindingExpressionTokenDefinitions.cs" />
     <Compile Include="Markup\BindingInfoContract.cs" />

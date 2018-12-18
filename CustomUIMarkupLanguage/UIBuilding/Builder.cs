@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using CustomUIMarkupLanguage.Markup;
 
-namespace CustomUIMarkupLanguage.Jaml
+namespace CustomUIMarkupLanguage.UIBuilding
 {
     #region Builder    
     /// <summary>
@@ -62,8 +62,6 @@ namespace CustomUIMarkupLanguage.Jaml
         /// </summary>
         public UIElement Caller { get; set; }
 
-    
-
         /// <summary>
         ///     Gets or sets the data context.
         /// </summary>
@@ -72,7 +70,7 @@ namespace CustomUIMarkupLanguage.Jaml
         /// <summary>
         ///     Gets or sets the type finder.
         /// </summary>
-        public ITypeFinder TypeFinder { get; set; }
+        public TypeFinder TypeFinder { get; set; }
         #endregion
 
         #region Public Methods
@@ -93,9 +91,9 @@ namespace CustomUIMarkupLanguage.Jaml
         }
 
         /// <summary>
-        ///     Builds the specified json string.
+        ///     Loads the specified json string.
         /// </summary>
-        public void Build(string jsonString)
+        public void Load(string jsonString)
         {
             Node node = null;
             try
@@ -104,7 +102,7 @@ namespace CustomUIMarkupLanguage.Jaml
             }
             catch (Exception e)
             {
-                throw new ArgumentException("json parse error.", e);
+                throw Errors.JsonParsingError(e);
             }
 
             Build(Caller, node);
@@ -260,6 +258,20 @@ namespace CustomUIMarkupLanguage.Jaml
         }
 
         /// <summary>
+        ///     Searches the dependency property in view.
+        /// </summary>
+        static DependencyProperty SearchDependencyPropertyInView(string name, UIElement element)
+        {
+            var descriptor = DependencyPropertyDescriptor.FromName(name, element.GetType(), element.GetType());
+            if (descriptor == null)
+            {
+                return null;
+            }
+
+            return descriptor.DependencyProperty;
+        }
+
+        /// <summary>
         ///     Tries to invoke custom property.
         /// </summary>
         static bool TryToInvokeCustomProperty(Builder builder, UIElement element, Node node)
@@ -296,20 +308,6 @@ namespace CustomUIMarkupLanguage.Jaml
         }
 
         /// <summary>
-        ///     Searches the dependency property in view.
-        /// </summary>
-        static DependencyProperty SearchDependencyPropertyInView(string name, UIElement element)
-        {
-            var descriptor = DependencyPropertyDescriptor.FromName(name, element.GetType(), element.GetType());
-            if (descriptor == null)
-            {
-                return null;
-            }
-
-            return descriptor.DependencyProperty;
-        }
-
-        /// <summary>
         ///     Tries to fire creation completed handler.
         /// </summary>
         void TryToFireCreationCompletedHandler(UIElement element, Node node)
@@ -341,7 +339,7 @@ namespace CustomUIMarkupLanguage.Jaml
 
             if (element == null)
             {
-                throw new ArgumentException(node.ToString());
+                throw Errors.ElementCreationFailedException(node);
             }
 
             return element;
@@ -415,7 +413,7 @@ namespace CustomUIMarkupLanguage.Jaml
             var addChild = element as IAddChild;
             if (addChild == null)
             {
-                throw new ArgumentException(nameof(addChild));
+                throw Errors.ElementMustBeInheritFromIAddChild(element);
             }
 
             foreach (var item in node.ValueAsArray)
@@ -525,7 +523,7 @@ namespace CustomUIMarkupLanguage.Jaml
 
             if (attributeValue == null)
             {
-                throw new ArgumentException(node.ToString());
+                throw Errors.AttributeValueIsInvalid(node);
             }
 
             var property = element.GetType().GetProperty(attributeName);

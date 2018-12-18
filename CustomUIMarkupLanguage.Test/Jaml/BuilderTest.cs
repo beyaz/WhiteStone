@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using CustomUIMarkupLanguage.Jaml;
+using CustomUIMarkupLanguage.UIBuilding;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.Jaml
@@ -54,7 +54,7 @@ namespace BOA.Jaml
                 Caller = textBox
             };
 
-            builder.Build(ui);
+            builder.Load(ui);
 
             Assert.AreEqual("A", textBox.Text);
         }
@@ -79,7 +79,7 @@ namespace BOA.Jaml
             {
                 Caller = view
             };
-            builder.Build(ui);
+            builder.Load(ui);
 
             Assert.IsTrue(view.ColumnDefinitions.Count == 3);
             Assert.IsTrue(view.ColumnDefinitions[2].Width.Value + "" == "4");
@@ -105,7 +105,7 @@ namespace BOA.Jaml
             {
                 Caller = view
             };
-            builder.Build(ui);
+            builder.Load(ui);
 
             Assert.IsTrue(view.RowDefinitions.Count == 3);
         }
@@ -142,7 +142,7 @@ namespace BOA.Jaml
                 Caller      = view,
                 DataContext = model
             };
-            builder.Build(ui);
+            builder.Load(ui);
 
             Assert.AreEqual(4, view.Children.Count);
 

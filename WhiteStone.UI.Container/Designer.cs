@@ -8,7 +8,7 @@ using BOA.Common.Helpers;
 
 namespace WhiteStone.UI.Container
 {
-    public class Builder : CustomUIMarkupLanguage.Jaml.Builder
+    public class Builder : CustomUIMarkupLanguage.UIBuilding.Builder
     {
         #region Constructors
         static Builder()
@@ -46,7 +46,7 @@ namespace WhiteStone.UI.Container
                 DataContext = this
             };
 
-            builder.Build(ui);
+            builder.Load(ui);
 
             SourceJsonFilePath = Path.GetDirectoryName(GetType().Assembly.Location) + Path.DirectorySeparatorChar + "Designer.json";
 
@@ -137,7 +137,7 @@ namespace WhiteStone.UI.Container
                     Caller      = ContentGrid
                 };
 
-                builder.Build(FileHelper.ReadFile(SourceJsonFilePath));
+                builder.Load(FileHelper.ReadFile(SourceJsonFilePath));
             }
             catch (Exception e)
             {

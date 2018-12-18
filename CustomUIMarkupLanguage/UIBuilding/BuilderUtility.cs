@@ -6,18 +6,18 @@ using System.Windows;
 using System.Windows.Data;
 using CustomUIMarkupLanguage.Markup;
 
-namespace CustomUIMarkupLanguage.Jaml
+namespace CustomUIMarkupLanguage.UIBuilding
 {
     /// <summary>
     ///     Defines the builder utility.
     /// </summary>
-    public static class BuilderUtility
+    static class BuilderUtility
     {
         #region Public Methods
         /// <summary>
         ///     Converts to binding.
         /// </summary>
-        public static Binding ConvertToBinding(this BindingInfoContract bindingInfoContract, ITypeFinder typeFinder)
+        public static Binding ConvertToBinding(this BindingInfoContract bindingInfoContract, TypeFinder typeFinder)
         {
             var binding = new Binding
             {
@@ -37,7 +37,7 @@ namespace CustomUIMarkupLanguage.Jaml
         /// <summary>
         ///     Gets the binding.
         /// </summary>
-        public static Binding ConvertToBinding(this string bindingExpressionAsText, ITypeFinder typeFinder)
+        public static Binding ConvertToBinding(this string bindingExpressionAsText, TypeFinder typeFinder)
         {
             return BindingExpressionParser.TryParse(bindingExpressionAsText).ConvertToBinding(typeFinder);
         }
@@ -79,7 +79,7 @@ namespace CustomUIMarkupLanguage.Jaml
         /// <summary>
         ///     Searches the dependency property in view.
         /// </summary>
-        public static DependencyProperty SearchDependencyProperty(string dpFullName, ITypeFinder typeFinder)
+        public static DependencyProperty SearchDependencyProperty(string dpFullName, TypeFinder typeFinder)
         {
             var lastDotIndex = dpFullName.LastIndexOf('.');
             var propertyName = dpFullName.Substring(lastDotIndex + 1);

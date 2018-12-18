@@ -3,12 +3,12 @@ using System.Windows;
 using System.Windows.Controls;
 using CustomUIMarkupLanguage.Markup;
 
-namespace CustomUIMarkupLanguage.Jaml
+namespace CustomUIMarkupLanguage.UIBuilding
 {
     /// <summary>
     ///     The WPF extra
     /// </summary>
-    public class WpfExtra
+    class WpfExtra
     {
         #region Public Methods
         /// <summary>
