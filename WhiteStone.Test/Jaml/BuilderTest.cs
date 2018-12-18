@@ -171,6 +171,9 @@ namespace BOA.Jaml
         [TestMethod]
         public void StackPanel()
         {
+            
+
+
             var user = new UserModel
             {
                 UserName = "Aloha"
