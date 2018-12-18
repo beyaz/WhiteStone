@@ -42,18 +42,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HtmlAgilityPack, Version=1.8.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.8.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\HtmlAgilityPack.1.8.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MySql.Data, Version=6.9.10.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)packages\MySql.Data.6.9.10\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -83,15 +83,6 @@
     <Compile Include="BOA.Common\Bag.cs" />
     <Compile Include="BOA.Common\CacheManager.cs" />
     <Compile Include="BOA.Common\Proxy.cs" />
-    <Compile Include="Jaml\Markup\BindingExpressionParser.cs" />
-    <Compile Include="Jaml\Markup\BindingExpressionTokenDefinitions.cs" />
-    <Compile Include="Jaml\Markup\BindingInfoContract.cs" />
-    <Compile Include="Jaml\WpfExtra.cs" />
-    <Compile Include="Jaml\BuilderUtility.cs" />
-    <Compile Include="Jaml\Errors.cs" />
-    <Compile Include="Jaml\ITypeFinder.cs" />
-    <Compile Include="Jaml\Markup\TransformHelper.cs" />
-    <Compile Include="Jaml\TypeFinder.cs" />
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\Translator.cs" />
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\WebResourceProvider.cs" />
     <Compile Include="LanguageTranslations\EnglishBank\Parser.cs" />
@@ -137,8 +128,6 @@
     <Compile Include="Helpers\IEnumerableExtension.cs" />
     <Compile Include="Helpers\INotifyPropertyChangedHelper.cs" />
     <Compile Include="BOA.Common.Helpers\ReflectionUtility.AssemblyResolver.cs" />
-    <Compile Include="Jaml\Builder.cs" />
-    <Compile Include="Jaml\Extensions.cs" />
     <Compile Include="Mvc\All.cs" />
     <Compile Include="BOA.Office.Excel\Reader.cs" />
     <Compile Include="BOA.Office.Excel\Wrapper.cs" />

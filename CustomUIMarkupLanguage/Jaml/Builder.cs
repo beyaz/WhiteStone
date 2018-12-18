@@ -7,8 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
-using BOA.Common.Helpers;
 using BOA.Jaml.Markup;
+using CustomUIMarkupLanguage;
 
 namespace BOA.Jaml
 {

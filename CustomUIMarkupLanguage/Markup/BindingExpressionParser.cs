@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Data;
 using BOA.TextTokenizer;
+using CustomUIMarkupLanguage;
 
 namespace BOA.Jaml.Markup
 {

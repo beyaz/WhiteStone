@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CustomUIMarkupLanguage;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -51,7 +52,7 @@ namespace BOA.Jaml.Markup
         /// <summary>
         ///     Gets the value as number as double.
         /// </summary>
-        public double ValueAsNumberAsDouble => ValueAsNumber.ToDouble();
+        public double ValueAsNumberAsDouble => Convert.ToDouble(ValueAsNumber);
 
         /// <summary>
         ///     Gets or sets the value as string.

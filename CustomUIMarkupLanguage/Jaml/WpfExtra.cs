@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using BOA.Common.Helpers;
 using BOA.Jaml.Markup;
+using CustomUIMarkupLanguage;
 
 namespace BOA.Jaml
 {
