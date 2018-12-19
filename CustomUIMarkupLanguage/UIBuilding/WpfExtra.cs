@@ -10,46 +10,27 @@ namespace CustomUIMarkupLanguage.UIBuilding
     /// </summary>
     class WpfExtra
     {
-        /// <summary>
-        ///     Transforms the name of the view.
-        /// </summary>
-        public static void TransformViewName(Node root)
-        {
-            root.Visit(node =>
-            {
-                var ui = node.Properties?["UI"];
-                if (ui != null)
-                {
-                    ui.Name = "view";
-                }
-            });
-        }
-
-        public static void Button_Text(Node root)
-        {
-            root.Visit(node =>
-            {
-                var isButton = node.UI  == "BUTTON";
-                if (isButton)
-                {
-                    if (node.HasProperty("Text"))
-                    {
-                        node.Properties["Text"].Name = "Content";
-                    }
-                }
-            });
-        }
-
-
-
         #region Public Methods
+        public static bool Button_Text(Builder builder, UIElement element, Node node)
+        {
+            if (element is Button)
+            {
+                if (node.Name == "Text")
+                {
+                    node.Name = "Content";
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         ///     Riches the text box create.
         /// </summary>
         public static UIElement RichTextBox_Create(Builder builder, Node node)
         {
             var viewNode = node.Properties["view"];
-            
+
             if (viewNode.ValueAsStringToUpperInEnglish == "TEXTAREA")
             {
                 return new RichTextBox
@@ -120,8 +101,20 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return false;
         }
 
-
-        
+        /// <summary>
+        ///     Transforms the name of the view.
+        /// </summary>
+        public static void TransformViewName(Node root)
+        {
+            root.Visit(node =>
+            {
+                var ui = node.Properties?["UI"];
+                if (ui != null)
+                {
+                    ui.Name = "view";
+                }
+            });
+        }
         #endregion
     }
 }

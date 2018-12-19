@@ -23,8 +23,8 @@ namespace WhiteStone.UI.Container
 {
     Margin:7,
     rows:[
-		{view:'TextBox',Text:'{Binding SourceJsonFilePath}', Label:'Source Json File Path',  Height:'auto'},
-        {view:'Grid', Name:'ContentGrid', Gravity:1 }
+		{ui:'TextBox',Text:'{Binding SourceJsonFilePath}', Label:'Source Json File Path',  Height:'auto'},
+        {ui:'Grid', Name:'ContentGrid', Gravity:1 }
 	]
 	
 }

@@ -24,7 +24,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
         static readonly List<Func<Builder, UIElement, Node, bool>> _customPropertyHandlers = new List<Func<Builder, UIElement, Node, bool>>
         {
             WpfExtra.TextBlock_IsBold,
-            WpfExtra.RichTextBox_Text
+            WpfExtra.RichTextBox_Text,
+            WpfExtra.Button_Text
         };
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         static readonly List<Action<Node>> Transforms = new List<Action<Node>>
         {
             WpfExtra.TransformViewName,
-            WpfExtra.Button_Text
+            
         };
         #endregion
 
@@ -120,6 +121,11 @@ namespace CustomUIMarkupLanguage.UIBuilding
             catch (Exception e)
             {
                 throw Errors.JsonParsingError(e);
+            }
+
+            if (node.UI == null)
+            {
+                node.Properties.Items.Insert(0,new Node{Name = "view",ValueAsString = Caller.GetType().Name});
             }
 
             foreach (var transform in Transforms)
@@ -556,7 +562,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     throw Errors.PropertyNotFound(attributeName, element.GetType());
                 }
 
-                var handlerMethod = DataContext.GetType().GetMethod(attributeValue.ToString());
+                var handlerMethod = Caller.GetType().GetMethod(attributeValue.ToString());
                 if (handlerMethod == null)
                 {
                     throw Errors.MethodNotFound(attributeValue.ToString(), DataContext.GetType());
@@ -581,7 +587,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     }
                 }
 
-                eventInfo.AddEventHandler(element, handlerMethod.CreateDelegate(eventInfo.EventHandlerType, DataContext));
+                eventInfo.AddEventHandler(element, handlerMethod.CreateDelegate(eventInfo.EventHandlerType, Caller));
                 return true;
             }
 

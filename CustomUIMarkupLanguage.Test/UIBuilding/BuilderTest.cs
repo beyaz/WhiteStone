@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using CustomUIMarkupLanguage.UIBuilding;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -160,18 +162,44 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
         [TestMethod]
         public void OnClick()
         {
-            var button = new Button();
+            var button = new ExtendedButton();
 
-            const string ui = "{Text:'A'}";
-
-            var builder = new Builder
-            {
-                Caller = button
-            };
-
-            builder.Load(ui);
+           
+            button.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            
 
             Assert.AreEqual("A", (string)button.Content);
+
+            Assert.IsTrue(button.IsClicked);
         }
+
+
+        class ExtendedButton:Button
+        {
+            public ExtendedButton()
+            {
+                const string ui = "{Text:'A', Click:'Click1'}";
+
+                var builder = new Builder
+                {
+                    Caller = this
+                };
+
+                builder.Load(ui);
+            }
+
+            public bool IsClicked { get; set; }
+
+            public  void Click1(object sender, RoutedEventArgs e)
+            {
+                if (!Equals(sender, this))
+                {
+                    throw new ArgumentException();
+                }
+                IsClicked = true;
+            }
+        }
+
+        
     }
 }
