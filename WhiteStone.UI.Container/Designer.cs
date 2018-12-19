@@ -8,16 +8,6 @@ using BOA.Common.Helpers;
 
 namespace WhiteStone.UI.Container
 {
-    public class Builder : CustomUIMarkupLanguage.UIBuilding.Builder
-    {
-        #region Constructors
-        static Builder()
-        {
-            RegisterElementCreation(LabeledTextBox.On);
-        }
-        #endregion
-    }
-
     public class Designer : Grid
     {
         #region Fields
@@ -33,7 +23,7 @@ namespace WhiteStone.UI.Container
 {
     Margin:7,
     rows:[
-		{view:'LabeledTextBox',Text:'{Binding SourceJsonFilePath}', Label:'Source Json File Path',  Height:'auto'},
+		{view:'TextBox',Text:'{Binding SourceJsonFilePath}', Label:'Source Json File Path',  Height:'auto'},
         {view:'Grid', Name:'ContentGrid', Gravity:1 }
 	]
 	

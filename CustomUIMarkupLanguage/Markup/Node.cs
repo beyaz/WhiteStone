@@ -145,5 +145,11 @@ namespace CustomUIMarkupLanguage.Markup
             throw new NotImplementedException(Name);
         }
         #endregion
+
+        public bool HasProperty(string name)
+        {
+
+            return Properties?[name] != null;
+        }
     }
 }

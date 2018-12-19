@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using BOA.Common.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WhiteStone.Helpers;
+
 
 namespace WhiteStone.Test
 {
