@@ -10,6 +10,38 @@ namespace CustomUIMarkupLanguage.UIBuilding
     /// </summary>
     class WpfExtra
     {
+        /// <summary>
+        ///     Transforms the name of the view.
+        /// </summary>
+        public static void TransformViewName(Node root)
+        {
+            root.Visit(node =>
+            {
+                var ui = node.Properties?["UI"];
+                if (ui != null)
+                {
+                    ui.Name = "view";
+                }
+            });
+        }
+
+        public static void Button_Text(Node root)
+        {
+            root.Visit(node =>
+            {
+                var isButton = node.UI  == "BUTTON";
+                if (isButton)
+                {
+                    if (node.HasProperty("Text"))
+                    {
+                        node.Properties["Text"].Name = "Content";
+                    }
+                }
+            });
+        }
+
+
+
         #region Public Methods
         /// <summary>
         ///     Riches the text box create.
@@ -87,6 +119,9 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
             return false;
         }
+
+
+        
         #endregion
     }
 }

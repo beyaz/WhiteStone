@@ -8,7 +8,7 @@ namespace CustomUIMarkupLanguage.Markup
     /// <summary>
     ///     The transform helper
     /// </summary>
-    public class TransformHelper
+    public static class TransformHelper
     {
         #region Public Methods
         /// <summary>
@@ -22,15 +22,12 @@ namespace CustomUIMarkupLanguage.Markup
             {
                 var propertyNode = new Node
                 {
-                    Name                 = jProperty.Name,
-                    NameToUpperInEnglish = jProperty.Name.ToUpperEN()
+                    Name = jProperty.Name
                 };
 
                 if (jProperty.Value.Type == JTokenType.String)
                 {
                     propertyNode.ValueAsString = (string) ((JValue) jProperty.Value).Value;
-
-                    propertyNode.ValueAsStringToUpperInEnglish = propertyNode.ValueAsString.ToUpperEN();
 
                     propertyNode.ValueIsString = true;
 
@@ -113,73 +110,56 @@ namespace CustomUIMarkupLanguage.Markup
                 throw new ArgumentException("json parse error.");
             }
 
-            return TransformViewName(TransformBindingInformation(Parse(jObject)));
+            var rootNode = Parse(jObject);
+
+            TransformBindingInformation(rootNode);
+
+            return rootNode;
         }
 
         /// <summary>
         ///     Transforms the binding information.
         /// </summary>
-        public static Node TransformBindingInformation(Node node)
+        public static void TransformBindingInformation(Node root)
         {
-            foreach (var item in node.Properties.Items)
+            root.Visit(node =>
             {
-                if (item.ValueIsString)
+                if (node.ValueIsString)
                 {
-                    var bindingInfoContract = BindingExpressionParser.TryParse(item.ValueAsString);
+                    var bindingInfoContract = BindingExpressionParser.TryParse(node.ValueAsString);
                     if (bindingInfoContract == null)
                     {
-                        continue;
+                        return;
                     }
 
-                    item.ValueIsString = false;
-                    item.ValueAsString = null;
+                    node.ValueIsString = false;
+                    node.ValueAsString = null;
 
-                    item.ValueIsBindingExpression = true;
-                    item.ValueAsBindingInfo       = bindingInfoContract;
-                    continue;
+                    node.ValueIsBindingExpression = true;
+                    node.ValueAsBindingInfo       = bindingInfoContract;
                 }
-
-                if (item.ValueIsArray)
-                {
-                    foreach (var info in item.ValueAsArray)
-                    {
-                        TransformBindingInformation(info);
-                    }
-                }
-            }
-
-            return node;
+            });
         }
 
-        /// <summary>
-        ///     Transforms the name of the view.
-        /// </summary>
-        public static Node TransformViewName(Node node)
+        public static void Visit(this Node root, Action<Node> onVisit)
         {
-            if (node.Properties == null)
+            if (root.Properties != null)
             {
-                return node;
-            }
-
-            var ui = node.Properties["UI"];
-            if (ui != null)
-            {
-                ui.NameToUpperInEnglish = "VIEW";
-                ui.Name                 = "view";
-            }
-
-            foreach (var item in node.Properties)
-            {
-                if (item.ValueIsArray)
+                foreach (var item in root.Properties)
                 {
-                    foreach (var info in item.ValueAsArray)
-                    {
-                        TransformViewName(info);
-                    }
+                    Visit(item, onVisit);
                 }
             }
 
-            return node;
+            if (root.ValueIsArray)
+            {
+                foreach (var item in root.ValueAsArray)
+                {
+                    Visit(item, onVisit);
+                }
+            }
+
+            onVisit(root);
         }
         #endregion
     }

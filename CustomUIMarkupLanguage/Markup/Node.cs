@@ -8,6 +8,11 @@ namespace CustomUIMarkupLanguage.Markup
     /// </summary>
     public class Node
     {
+        /// <summary>
+        /// Gets the UI.
+        /// </summary>
+        public string UI => Properties?["view"]?.ValueAsStringToUpperInEnglish;
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets the name.
@@ -17,7 +22,7 @@ namespace CustomUIMarkupLanguage.Markup
         /// <summary>
         ///     Gets or sets the name to upper in english.
         /// </summary>
-        public string NameToUpperInEnglish { get; set; }
+        public string NameToUpperInEnglish => Name.ToUpperEN();
 
         /// <summary>
         ///     Gets or sets the properties.
@@ -57,7 +62,7 @@ namespace CustomUIMarkupLanguage.Markup
         /// <summary>
         ///     Gets or sets the value as string to upper in english.
         /// </summary>
-        public string ValueAsStringToUpperInEnglish { get; set; }
+        public string ValueAsStringToUpperInEnglish => ValueAsString?.ToUpperEN();
 
         /// <summary>
         ///     Gets or sets a value indicating whether [value is array].
@@ -108,12 +113,19 @@ namespace CustomUIMarkupLanguage.Markup
 
             if (ValueIsString)
             {
-                return $"{{{Name}:'{ValueAsString}'}}";
+                return $"{Name}:'{ValueAsString}'";
             }
-
-            if (ValueAsBoolean || ValueIsNumber || ValueIsBindingExpression)
+            if (ValueAsBoolean )
             {
-                return $"{{{Name}:{ValueAsBoolean}}}";
+                return $"{Name}:{ValueAsBoolean}";
+            }
+            if ( ValueIsNumber )
+            {
+                return $"{Name}:{ValueAsNumber}";
+            }
+            if ( ValueIsBindingExpression)
+            {
+                return $"{Name}:{ValueAsBindingInfo}";
             }
 
             if (Properties?.Items?.Count > 0)
@@ -139,7 +151,7 @@ namespace CustomUIMarkupLanguage.Markup
 
                 var value = string.Join(Environment.NewLine + Comma, list);
 
-                return $"{{{Name}:{value}}}";
+                return $"{Name}:{value}";
             }
 
             throw new NotImplementedException(Name);

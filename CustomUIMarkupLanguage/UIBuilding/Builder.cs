@@ -34,6 +34,15 @@ namespace CustomUIMarkupLanguage.UIBuilding
         {
             WpfExtra.RichTextBox_Create
         };
+
+        /// <summary>
+        ///     The transforms
+        /// </summary>
+        static readonly List<Action<Node>> Transforms = new List<Action<Node>>
+        {
+            WpfExtra.TransformViewName,
+            WpfExtra.Button_Text
+        };
         #endregion
 
         #region Fields
@@ -75,6 +84,14 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
         #region Public Methods
         /// <summary>
+        ///     Adds the transform.
+        /// </summary>
+        public static void AddTransform(Action<Node> action)
+        {
+            Transforms.Add(action);
+        }
+
+        /// <summary>
         ///     Registers the custom property.
         /// </summary>
         public static void RegisterCustomProperty(Func<Builder, UIElement, Node, bool> execute)
@@ -103,6 +120,11 @@ namespace CustomUIMarkupLanguage.UIBuilding
             catch (Exception e)
             {
                 throw Errors.JsonParsingError(e);
+            }
+
+            foreach (var transform in Transforms)
+            {
+                transform(node);
             }
 
             Build(Caller, node);

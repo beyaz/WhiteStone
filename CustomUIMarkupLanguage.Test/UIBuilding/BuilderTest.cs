@@ -154,5 +154,24 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
             Assert.IsTrue(user.UserName == userNameTextBox.Text);
         }
         #endregion
+
+
+
+        [TestMethod]
+        public void OnClick()
+        {
+            var button = new Button();
+
+            const string ui = "{Text:'A'}";
+
+            var builder = new Builder
+            {
+                Caller = button
+            };
+
+            builder.Load(ui);
+
+            Assert.AreEqual("A", (string)button.Content);
+        }
     }
 }
