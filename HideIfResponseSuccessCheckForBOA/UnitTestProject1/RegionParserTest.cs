@@ -43,7 +43,11 @@ namespace UnitTestProject1
             var checkResponse = new CardStatusChecker {Context = objectHelper.Context}.CheckCardStatus(data);
             if (!checkResponse.Success)
             {
+            
+                // test
+                
                 returnObject.Results.AddRange(checkResponse.Results);
+                // any comment
                 return returnObject;
             }
 

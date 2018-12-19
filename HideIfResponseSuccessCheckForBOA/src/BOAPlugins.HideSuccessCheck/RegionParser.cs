@@ -5,6 +5,43 @@ namespace BOAPlugins.HideSuccessCheck
 {
     public static class RegionParser
     {
+
+        class LineInfo
+        {
+            public string Text { get; set; }
+            public int Index { get; set; }
+        }
+
+        static LineInfo CleanRead(RegionParserData data, int index)
+        {
+            var lineCount = data.LineCount;
+            
+            while (index<lineCount)
+            {
+                var line = data[index]?.Trim();
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    index++;
+                    continue;
+                }
+
+                if (line.StartsWith("//"))
+                {
+                    index++;
+                    continue;
+                }
+
+                return new LineInfo
+                {
+                    Text = line,
+                    Index = index
+                };
+            }
+
+            return null;
+        }
+            
+
         #region Public Methods
         public static void Parse(RegionParserData data)
         {
@@ -24,14 +61,14 @@ namespace BOAPlugins.HideSuccessCheck
 
                 if (isResponseCheck)
                 {
-                    //var response = bo.call();                    
-                    //if (!response.Success)
-                    //{
+                    //var response = bo.call();   i                 
+                    //if (!response.Success)      i+1
+                    //{                           i+2
                     //    return returnObject.Add(response);       -> var x = bo.call();
                     //}
                     // var x = response.Value;
 
-                    var leftBracketOffset = 2;
+                    const int leftBracketOffset = 2;
                     if (data[i + leftBracketOffset]?.Trim() != "{")
                     {
                         continue;
@@ -39,23 +76,41 @@ namespace BOAPlugins.HideSuccessCheck
 
                     var rightBracketOffset = 4;
 
+                    LineInfo lineInfo1 = null;
+                    LineInfo lineInfo2 = null;
+                    LineInfo lineInfo3 = null;
+                    
+
+
+                    lineInfo1 = CleanRead(data,i + leftBracketOffset + 1);
+                    if (lineInfo1 != null)
+                    {
+                        lineInfo2 = CleanRead(data,lineInfo1.Index+1);
+
+                        if (lineInfo2 != null)
+                        {
+                            lineInfo3 = CleanRead(data,lineInfo2.Index+1);
+                        }
+                    }
+                    
+
                     // returnObject.Results.AddRange(responseAcc.Results);
-                    if (IsAddingResultToReturnObject(data[i + leftBracketOffset + 1]) &&
-                        data[i + leftBracketOffset + 2]?.Trim() == "return returnObject;" &&
-                        data[i + leftBracketOffset + 3]?.Trim() == "}")
+                    if (IsAddingResultToReturnObject(lineInfo1?.Text) &&
+                        lineInfo2?.Text == "return returnObject;" &&
+                        lineInfo3?.Text == "}")
                     {
-                        rightBracketOffset = leftBracketOffset + 3;
+                        rightBracketOffset = lineInfo3.Index - i;
                     }
-                    else if (data[i + leftBracketOffset + 1]?.Trim().StartsWith("return returnObject") == true &&
-                             data[i + leftBracketOffset + 2]?.Trim() == "}")
+                    else if (lineInfo1?.Text?.StartsWith("return returnObject") == true &&
+                             lineInfo2?.Text?.Trim() == "}")
                     {
-                        rightBracketOffset = leftBracketOffset + 2;
+                        rightBracketOffset = lineInfo2.Index - i;
                     }
-                    else if (data[i + leftBracketOffset + 1]?.Trim().StartsWith("Context.AddResult(") == true &&
-                             data[i + leftBracketOffset + 2]?.Trim() == "return;" &&
-                             data[i + leftBracketOffset + 3]?.Trim() == "}")
+                    else if (lineInfo1?.Text?.StartsWith("Context.AddResult(") == true &&
+                             lineInfo2?.Text == "return;" &&
+                             lineInfo3?.Text  == "}")
                     {
-                        rightBracketOffset = leftBracketOffset + 3;
+                        rightBracketOffset = lineInfo3.Index - i;
                     }
 
                     else
@@ -77,26 +132,20 @@ namespace BOAPlugins.HideSuccessCheck
 
                     VariableAssignmentLine responseValueAssignmentToAnotherVariable = null;
 
+
+                    LineInfo lineInfo = null;
+
                     // walk empty lines
-                    var endOfEmptyLinesOffset = rightBracketOffset + 1;
                     if (rightBracketOffset < lineCount - 1)
                     {
-                        while (true)
-                        {
-                            if (i + endOfEmptyLinesOffset >= lineCount)
-                            {
-                                break;
-                            }
 
-                            if (!string.IsNullOrEmpty(data[i + endOfEmptyLinesOffset]))
-                            {
-                                break;
-                            }
+                        lineInfo = CleanRead(data,i + rightBracketOffset + 1);
 
-                            endOfEmptyLinesOffset++;
-                        }
+                        
 
-                        responseValueAssignmentToAnotherVariable = VariableAssignmentLine.Parse(data[i + endOfEmptyLinesOffset]);
+                        
+
+                        responseValueAssignmentToAnotherVariable = VariableAssignmentLine.Parse(data[lineInfo.Index]);
                     }
 
                     
@@ -120,11 +169,11 @@ namespace BOAPlugins.HideSuccessCheck
                         {
                             StartLine   = LineNumber,
                             StartOffset = firstCharIndex,
-                            EndLine     = data.GetLineNumber(i + endOfEmptyLinesOffset),
+                            EndLine     = data.GetLineNumber(lineInfo.Index),
                             Text        = sb.ToString()
                         });
 
-                        i = i + endOfEmptyLinesOffset;
+                        i = lineInfo.Index;
                         continue;
                     }
 

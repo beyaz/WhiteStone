@@ -78,10 +78,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CustomUIMarkupLanguage\CustomUIMarkupLanguage.csproj">
-      <Project>{36620a93-c165-4fc0-8df8-7bd784f4abde}</Project>
-      <Name>CustomUIMarkupLanguage</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WhiteStone.Tasks\WhiteStone.Tasks.csproj">
       <Project>{2bca3e43-315c-46dc-b362-b4e9a8abf497}</Project>
       <Name>WhiteStone.Tasks</Name>

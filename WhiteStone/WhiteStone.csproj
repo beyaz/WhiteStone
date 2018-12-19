@@ -167,12 +167,6 @@
     <None Include="WhiteStoneKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CustomUIMarkupLanguage\CustomUIMarkupLanguage.csproj">
-      <Project>{36620a93-c165-4fc0-8df8-7bd784f4abde}</Project>
-      <Name>CustomUIMarkupLanguage</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="LanguageTranslations\EnglishBank\DataSource.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
