@@ -62,6 +62,24 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
         }
 
         [TestMethod]
+        public void ShouldSupportLowerCaseProperties()
+        {
+            var textBox = new TextBox();
+
+            const string ui = "{text:'A'}";
+
+            var builder = new Builder
+            {
+                Caller = textBox
+            };
+
+            builder.Load(ui);
+
+            Assert.AreEqual("A", textBox.Text);
+        }
+
+
+        [TestMethod]
         public void Test2_GridCols()
         {
             var view = new Grid();

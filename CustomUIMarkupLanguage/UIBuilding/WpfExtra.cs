@@ -65,7 +65,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 {
                     var text = richTextBox.GetText();
 
-                    var propertyInfo = builder.DataContext.GetType().GetPublicNonStaticProperty(node.ValueAsString, true);
+                    var propertyInfo = builder.Caller.GetType().GetProperty(node.ValueAsString,  isPublic: true,isStatic: false,ignoreCase: true,throwExceptionOnNotFound: true);
 
                     propertyInfo.SetValue(builder.DataContext, text);
                 };

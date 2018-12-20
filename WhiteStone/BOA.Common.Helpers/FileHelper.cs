@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
+using System.Windows.Threading;
 using WhiteStone.Helpers;
 
 namespace BOA.Common.Helpers
@@ -165,6 +167,32 @@ namespace BOA.Common.Helpers
             }
 
             return false;
+        }
+
+        /// <summary>
+        ///     Listens for save.
+        /// </summary>
+        public static void ListenForSave(Dispatcher dispatcher, string filePath, Action onFileSave)
+        {
+            if (dispatcher == null)
+            {
+                throw new ArgumentNullException(nameof(dispatcher));
+            }
+
+            if (onFileSave == null)
+            {
+                throw new ArgumentNullException(nameof(onFileSave));
+            }
+
+            var fileSystemWatcher = new FileSystemWatcher
+            {
+                Path         = Path.GetDirectoryName(filePath) + Path.DirectorySeparatorChar,
+                NotifyFilter = NotifyFilters.LastWrite,
+
+                EnableRaisingEvents = true
+            };
+
+            fileSystemWatcher.Changed += (s, e) => { dispatcher.BeginInvoke(DispatcherPriority.Normal, onFileSave); };
         }
 
         /// <summary>

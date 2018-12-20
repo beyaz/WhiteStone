@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Builder.cs" />
     <Compile Include="Designer.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="LabeledTextBox.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

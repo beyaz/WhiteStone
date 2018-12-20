@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using BOA.Common.Helpers;
 
 namespace WhiteStone.UI.Container
@@ -59,7 +58,14 @@ namespace WhiteStone.UI.Container
 			cols:[
 				{view:'Textbox',Text:'Success',gravity:1},
 				{view:'GridSplitter'},
-				{ui:'TextArea',Text:'Success2',gravity:2}
+				{ui:'TextArea',Text:'Success2',gravity:1},
+                {
+                    ui:'WrapPanel',gravity:2,
+                    childs:[
+                        {ui:'Tile',Count:'A'},
+                        {ui:'Tile',count:'B'}
+                    ]
+                },
 			]
 		}
 	]
@@ -70,22 +76,7 @@ namespace WhiteStone.UI.Container
 
 ");
 
-            var fileSystemWatcher = new FileSystemWatcher
-            {
-                Path = Path.GetDirectoryName(SourceJsonFilePath) + Path.DirectorySeparatorChar,
-                NotifyFilter = NotifyFilters.LastAccess |
-                               NotifyFilters.LastWrite |
-                               NotifyFilters.FileName |
-                               NotifyFilters.DirectoryName,
-
-                EnableRaisingEvents = true
-            };
-
-            fileSystemWatcher.Changed += (s, e) =>
-            {
-                Action action = UpdateResult;
-                Dispatcher?.BeginInvoke(DispatcherPriority.Normal, action);
-            };
+            FileHelper.ListenForSave(Dispatcher,SourceJsonFilePath,UpdateResult);
 
             Process.Start(SourceJsonFilePath);
         }
@@ -109,25 +100,20 @@ namespace WhiteStone.UI.Container
                 {
                     return;
                 }
-
-                LastBuildTime = DateTime.Now;
+                
 
                 if (FileHelper.IsFileLocked(SourceJsonFilePath))
                 {
                     return;
                 }
 
+                LastBuildTime = DateTime.Now;
+
                 ContentGrid.RowDefinitions.Clear();
                 ContentGrid.ColumnDefinitions.Clear();
                 ContentGrid.Children.Clear();
 
-                var builder = new Builder
-                {
-                    DataContext = this,
-                    Caller      = ContentGrid
-                };
-
-                builder.Load(FileHelper.ReadFile(SourceJsonFilePath));
+                ContentGrid.LoadJsonFile(SourceJsonFilePath);
             }
             catch (Exception e)
             {

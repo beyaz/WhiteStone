@@ -41,8 +41,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         static readonly List<Action<Node>> Transforms = new List<Action<Node>>
         {
-            WpfExtra.TransformViewName,
-            
+            WpfExtra.TransformViewName
         };
         #endregion
 
@@ -109,6 +108,24 @@ namespace CustomUIMarkupLanguage.UIBuilding
         }
 
         /// <summary>
+        ///     Registers the element creation.
+        /// </summary>
+        public static void RegisterElementCreation(string uiName, Type uiType)
+        {
+            Func<Builder, Node, UIElement> func = (builder, node) =>
+            {
+                if (node.UI == uiName.ToUpperEN())
+                {
+                    return (UIElement) Activator.CreateInstance(uiType);
+                }
+
+                return null;
+            };
+
+            _tryToCreateElement.Add(func);
+        }
+
+        /// <summary>
         ///     Loads the specified json string.
         /// </summary>
         public void Load(string jsonString)
@@ -125,7 +142,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
             if (node.UI == null)
             {
-                node.Properties.Items.Insert(0,new Node{Name = "view",ValueAsString = Caller.GetType().Name});
+                node.Properties.Items.Insert(0, new Node {Name = "view", ValueAsString = Caller.GetType().Name});
             }
 
             foreach (var transform in Transforms)
@@ -380,7 +397,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
             var fe = DataContext as FrameworkElement;
             if (node.NameToUpperInEnglish == "NAME" && fe != null)
             {
-                var fieldInfo = fe.GetType().GetPublicNonStaticField(node.ValueAsString);
+                var fieldInfo = fe.GetType().GetField(node.ValueAsString,isPublic: null,isStatic: false,ignoreCase: true,throwExceptionOnNotFound: false);
                 if (fieldInfo != null)
                 {
                     fieldInfo.SetValue(fe, element);
@@ -553,7 +570,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 throw Errors.AttributeValueIsInvalid(node);
             }
 
-            var property = element.GetType().GetProperty(attributeName);
+            var property = element.GetType().GetProperty(attributeName,isPublic: true, isStatic: false,ignoreCase: true,throwExceptionOnNotFound: false);
             if (property == null)
             {
                 var eventInfo = element.GetType().GetEvent(attributeName);
@@ -562,12 +579,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     throw Errors.PropertyNotFound(attributeName, element.GetType());
                 }
 
-                var handlerMethod = Caller.GetType().GetMethod(attributeValue.ToString());
-                if (handlerMethod == null)
-                {
-                    throw Errors.MethodNotFound(attributeValue.ToString(), DataContext.GetType());
-                }
-
+                var handlerMethod = Caller.GetType().GetMethod(attributeValue.ToString(),isPublic: null,isStatic: false,ignoreCase: true,throwExceptionOnNotFound: true);
                 var handlerMethodParameters = handlerMethod.GetParameters();
                 if (handlerMethodParameters.Length == 0)
                 {
