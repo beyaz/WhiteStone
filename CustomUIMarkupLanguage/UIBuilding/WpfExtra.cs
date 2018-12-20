@@ -23,6 +23,36 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
             return false;
         }
+        public static bool IsVisible(Builder builder, UIElement element, Node node)
+        {
+            if (node.NameToUpperInEnglish == "ISVISIBLE")
+            {
+                if (node.ValueIsBoolean)
+                {
+                    if (node.ValueAsBoolean)
+                    {
+                        element.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        element.Visibility = Visibility.Collapsed;
+                    }
+
+                    return true;
+
+                }
+
+                if (node.ValueIsBindingExpression)
+                {
+                    node.ValueAsBindingInfo.ConverterTypeFullName = typeof(BooleanToVisibilityConverter).FullName;
+
+                    node.Name = "Visibility";
+                }
+            }
+
+            return false;
+        }
+        
 
         /// <summary>
         ///     Riches the text box create.

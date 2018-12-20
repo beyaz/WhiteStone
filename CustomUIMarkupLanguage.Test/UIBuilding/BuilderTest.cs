@@ -53,6 +53,7 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
 
             var builder = new Builder
             {
+               
                 Caller = textBox
             };
 
@@ -66,16 +67,25 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
         {
             var textBox = new TextBox();
 
-            const string ui = "{text:'A'}";
+            const string ui = "{text:'A',IsVisible:'{Binding "+nameof(TestModel.BooleanProperty1)+"}'}";
+
+            var dataContext = new TestModel();
 
             var builder = new Builder
             {
+                DataContext = dataContext,
                 Caller = textBox
             };
 
             builder.Load(ui);
 
             Assert.AreEqual("A", textBox.Text);
+            Assert.AreEqual(Visibility.Collapsed, textBox.Visibility);
+
+            dataContext.BooleanProperty1 = true;
+
+            Assert.AreEqual(Visibility.Visible, textBox.Visibility);
+
         }
 
 

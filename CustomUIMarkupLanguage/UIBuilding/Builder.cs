@@ -25,7 +25,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
         {
             WpfExtra.TextBlock_IsBold,
             WpfExtra.RichTextBox_Text,
-            WpfExtra.Button_Text
+            WpfExtra.Button_Text,
+            WpfExtra.IsVisible
         };
 
         /// <summary>

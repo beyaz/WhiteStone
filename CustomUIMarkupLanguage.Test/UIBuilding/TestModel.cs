@@ -33,6 +33,31 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
                 }
             }
         }
+
+
+
+        #endregion
+
+
+
+        #region bool BooleanProperty1
+        bool _booleanProperty1;
+
+        public bool BooleanProperty1
+        {
+            get { return _booleanProperty1; }
+            set
+            {
+                if (_booleanProperty1 != value)
+                {
+                    _booleanProperty1 = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+
         #endregion
     }
 }
