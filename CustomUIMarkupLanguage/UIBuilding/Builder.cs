@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -543,6 +544,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return false;
         }
 
+        public bool IsInDesignMode { get; set; }
+
         /// <summary>
         ///     Tries to invoke default property.
         /// </summary>
@@ -580,7 +583,13 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     throw Errors.PropertyNotFound(attributeName, element.GetType());
                 }
 
+                if (IsInDesignMode)
+                {
+                    return true;
+                }
+
                 var handlerMethod = Caller.GetType().GetMethod(attributeValue.ToString(),isPublic: null,isStatic: false,ignoreCase: true,throwExceptionOnNotFound: true);
+
                 var handlerMethodParameters = handlerMethod.GetParameters();
                 if (handlerMethodParameters.Length == 0)
                 {

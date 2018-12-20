@@ -140,6 +140,7 @@
     <None Include="SearchProcedure\DatabaseConnectionStrings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="VSIntegration\MainForm.json" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\View.xaml">

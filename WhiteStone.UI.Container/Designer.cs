@@ -113,7 +113,16 @@ namespace WhiteStone.UI.Container
                 ContentGrid.ColumnDefinitions.Clear();
                 ContentGrid.Children.Clear();
 
-                ContentGrid.LoadJsonFile(SourceJsonFilePath);
+
+                var builder = new Builder
+                {
+                    DataContext = ContentGrid,
+                    Caller      = ContentGrid,
+                    IsInDesignMode = true
+                };
+
+                builder.Load(File.ReadAllText(SourceJsonFilePath));
+
             }
             catch (Exception e)
             {

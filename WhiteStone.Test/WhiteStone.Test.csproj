@@ -51,7 +51,6 @@
     <Compile Include="BagTest.cs" />
     <Compile Include="Common.Helpers\XmlHelperTest.cs" />
     <Compile Include="Common.Helpers\CastingTest.cs" />
-    <Compile Include="BOA.DatabaseAccess\ExtensionsTest.cs" />
     <Compile Include="BOA.Office.Excel\CopyPasteStringHelperTest.cs" />
     <Compile Include="Configuration\PropertyFileTest.cs" />
     <Compile Include="Helpers\ExpressionUtilityTest.cs" />
@@ -96,7 +95,9 @@
   <ItemGroup>
     <Content Include="LanguageTranslations\SampleEnglishWords.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BOA.DatabaseAccess\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
