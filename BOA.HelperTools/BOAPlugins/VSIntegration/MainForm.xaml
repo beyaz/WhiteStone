@@ -4,9 +4,11 @@
         WindowStartupLocation = "CenterScreen"
         Width = "450"
         Title = "Close - ESC"
+
+        x:Name="CodeBehind" DataContext="{Binding ElementName = CodeBehind}"
         Height = "440" >
     <StackPanel>
-        <Button x:Name = "buttonUpdateMessageCs" Margin = "10" Click = "UpdateMessageCs" >Update Message.cs (in type project)</Button>
+        <Button  Margin = "10" Click = "UpdateMessageCs" >Update Message.cs (in type project)</Button>
         <Button  Margin = "10" Click = "RemoveUnusedMessagesInCsCodes" >Remove Unused Messages In Message.cs (in type project)</Button>
         <Button  Margin = "10" Click = "UpdateMessageTsx" >Update 'utils -> Message.tsx'</Button>
         <Button  Margin = "10" Click = "RemoveUnusedMessagesInTypescriptCodes" >Remove Unused Messages In Typescript Codes ( 'utils -> Message.tsx' )</Button>
@@ -17,7 +19,7 @@
         <Button Margin = "10" Click = "OpenPluginDirectory" >Open Plugin Directory</Button>
         <StackPanel Margin = "10" >
             <TextBox Margin = "5"> Check In Comment</TextBox>
-            <TextBox Margin = "5" x:Name="cmpCheckInComment" />
+            <TextBox Margin = "5" Text="{Binding SolutionCheckInComment}" />
         </StackPanel>
         <Button Margin = "10" Click = "InitializeFormAssistantDefaultCodes" >Initialize Form Asisstant Default Codes</Button>
     </StackPanel>

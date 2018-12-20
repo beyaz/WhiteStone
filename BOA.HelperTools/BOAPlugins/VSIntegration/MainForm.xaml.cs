@@ -14,10 +14,23 @@ namespace BOAPlugins.VSIntegration
     /// </summary>
     public partial class MainForm
     {
+        #region string SolutionCheckInComment
+        public static readonly DependencyProperty SolutionCheckInCommentProperty = DependencyProperty.Register(
+                                                        "SolutionCheckInComment", typeof(string), typeof(MainForm), new PropertyMetadata(default(string)));
+
+        public string SolutionCheckInComment
+        {
+            get { return (string) GetValue(SolutionCheckInCommentProperty); }
+            set { SetValue(SolutionCheckInCommentProperty, value); }
+        }
+        #endregion
+
+
         #region Constructors
         public MainForm()
         {
             InitializeComponent();
+
             Loaded += OnLoadCompleted;
 
             KeyDown += (sender, e) =>
@@ -81,13 +94,12 @@ namespace BOAPlugins.VSIntegration
 
         void MainForm_Closed(object sender, EventArgs e)
         {
-            SM.Get<Configuration>().CheckInCommentDefaultValue = cmpCheckInComment.Text;
+            SM.Get<Configuration>().CheckInCommentDefaultValue = SolutionCheckInComment;
             Configuration.SaveToFile();
         }
 
         void OnLoadCompleted(object sender, RoutedEventArgs e)
         {
-            buttonUpdateMessageCs.Focus();
 
             if (string.IsNullOrWhiteSpace(VisualStudio.CursorSelectedText))
             {
@@ -98,7 +110,7 @@ namespace BOAPlugins.VSIntegration
                 buttonViewMethodCallGraph.Content = buttonViewMethodCallGraph.Content + ": " + VisualStudio.CursorSelectedText;
             }
 
-            cmpCheckInComment.Text = SM.Get<Configuration>().CheckInCommentDefaultValue;
+            SolutionCheckInComment = SM.Get<Configuration>().CheckInCommentDefaultValue;
         }
 
         void OpenPluginDirectory(object sender, RoutedEventArgs e)
