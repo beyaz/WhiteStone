@@ -1,5 +1,5 @@
 {
-  "CheckInCommentDefaultValue": "583# -  refactor",
+  
   "ServerFiles": [
     "Newtonsoft.Json.dll",
     "ClangSharp.dll",
@@ -23,5 +23,5 @@
     "Mono.Cecil.dll",
     "System.Collections.Immutable.dll",
     "System.Reflection.Metadata.dll"
-  ] 
+  ]
 }

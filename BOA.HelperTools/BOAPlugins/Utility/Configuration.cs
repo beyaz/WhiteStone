@@ -9,15 +9,11 @@ namespace BOAPlugins.Utility
     [Serializable]
     public class Configuration
     {
-
-        
-            
-
-        public bool CheckInSolutionIsEnabled { get; set; }
-        public Dictionary<string,string> SolutionCheckInComments { get; set; }
         #region Public Properties
+        public bool                        CheckInSolutionIsEnabled     { get; set; }
         public bool                        DeepEndsAssembliesDownloaded { get; set; }
         public IReadOnlyCollection<string> ServerFiles                  { get; set; }
+        public Dictionary<string, string>  SolutionCheckInComments      { get; set; } = new Dictionary<string, string>();
         #endregion
 
         #region Public Methods
