@@ -89,6 +89,15 @@ namespace CustomUIMarkupLanguage.Markup
                     continue;
                 }
 
+                if (jProperty.Value.Type == JTokenType.Object)
+                {
+                    propertyNode.ValueAsNode = Parse((JObject) jProperty.Value);
+                    propertyNode.ValueIsNode = true;
+
+                    node.AddProperty(propertyNode);
+                    continue;
+                }
+
                 throw new ArgumentException();
             }
 
@@ -157,6 +166,11 @@ namespace CustomUIMarkupLanguage.Markup
                 {
                     Visit(item, onVisit);
                 }
+            }
+
+            if (root.ValueIsNode)
+            {
+                root.ValueAsNode.Visit(onVisit);
             }
 
             onVisit(root);

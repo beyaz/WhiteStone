@@ -9,12 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BOAPlugins</RootNamespace>
     <AssemblyName>BOAPlugins</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,9 +41,14 @@
     <AssemblyOriginatorKeyFile>..\Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Intellibox, Version=1.3.0.0, Culture=neutral, PublicKeyToken=8e428f51fac3a5f0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="CustomUIMarkupLanguage">
+      <HintPath>D:\github\WhiteStone\CustomUIMarkupLanguage\bin\Debug\CustomUIMarkupLanguage.dll</HintPath>
+    </Reference>
+    <Reference Include="Intellibox">
       <HintPath>..\Lib\Intellibox\Intellibox.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.dll</HintPath>
@@ -76,6 +82,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WhiteStone.UI.Container">
+      <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\WhiteStone.UI.Container.exe</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -84,10 +93,6 @@
     <Compile Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\Model.cs" />
     <Compile Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VSIntegration\Command.cs" />
-    <Compile Include="VSIntegration\MainForm.xaml.cs">
-      <DependentUpon>MainForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="VSIntegration\FormAssistantProjectInitializer.cs" />
     <Compile Include="Messaging\DataSource.cs" />
@@ -116,7 +121,6 @@
     <Compile Include="Utility\ConstConfiguration.cs" />
     <Compile Include="Utility\DownloadHelper.cs" />
     <Compile Include="Utility\Extensions.cs" />
-    <Compile Include="Utility\Log.cs" />
     <Compile Include="Utility\NamingInfo.cs" />
     <Compile Include="Utility\TypescriptNaming.cs" />
     <Compile Include="Utility\Util.cs" />
@@ -126,6 +130,9 @@
     <Compile Include="ViewClassDependency\Model.cs" />
     <Compile Include="VSIntegration\Communication.cs" />
     <Compile Include="VSIntegration\IVisualStudioLayer.cs" />
+    <Compile Include="VSIntegration\MainForm\Controller.cs" />
+    <Compile Include="VSIntegration\MainForm\Model.cs" />
+    <Compile Include="VSIntegration\MainForm\View.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BOA.CodeGeneration\BOA.CodeGeneration.csproj">
@@ -140,16 +147,14 @@
     <None Include="SearchProcedure\DatabaseConnectionStrings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="VSIntegration\MainForm.json" />
+    <None Include="VSIntegration\MainForm\View.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\View.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="VSIntegration\MainForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TypeSearchView\View.xaml">
       <Generator>MSBuild:Compile</Generator>

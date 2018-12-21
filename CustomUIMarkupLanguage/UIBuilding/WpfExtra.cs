@@ -97,7 +97,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                     var propertyInfo = builder.Caller.GetType().GetProperty(node.ValueAsString,  isPublic: true,isStatic: false,ignoreCase: true,throwExceptionOnNotFound: true);
 
-                    propertyInfo.SetValue(builder.DataContext, text);
+                    throw new Exception("TODO");
+                    // propertyInfo.SetValue(builder.DataContext, text);
                 };
 
                 return true;

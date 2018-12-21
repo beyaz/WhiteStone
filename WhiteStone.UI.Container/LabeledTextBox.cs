@@ -44,9 +44,9 @@ namespace WhiteStone.UI.Container
         #region Constructors
         public LabeledTextBox()
         {
+            DataContext = this;
             var builder = new Builder
             {
-                DataContext = this,
                 Caller = this,
                 
             };

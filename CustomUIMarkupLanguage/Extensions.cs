@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -14,111 +13,36 @@ namespace CustomUIMarkupLanguage
     {
         #region Public Methods
         /// <summary>
-        ///     Gets the field.
+        ///     Does the cast operations on parameters for invoke method.
         /// </summary>
-        public static FieldInfo GetField(this Type type, string fieldName, bool? isPublic, bool? isStatic, bool ignoreCase, bool throwExceptionOnNotFound)
+        public static void DoCastOperationsOnParametersForInvokeMethod(this MethodInfo mi, object[] parameters)
         {
-            if (type == null)
+            var parameterInfos = mi.GetParameters();
+
+            if (parameterInfos.Length != parameters.Length)
             {
-                throw new ArgumentNullException(nameof(type));
+                throw new InvalidOperationException();
             }
 
-            if (fieldName == null)
+            for (var i = 0; i < parameterInfos.Length; i++)
             {
-                throw new ArgumentNullException(nameof(fieldName));
+                var parameterInfo = parameterInfos[i];
+
+                parameters[i] = Cast.To(parameters[i], parameterInfo.ParameterType, CultureInfo.CurrentCulture);
             }
-
-            FieldInfo fieldInfo = null;
-
-            var fields = type.GetFields(GetFlag(isPublic, isStatic));
-
-            if (ignoreCase)
-            {
-                fieldInfo = fields.FirstOrDefault(p => p.Name.ToUpperEN() == fieldName.ToUpperEN());
-            }
-            else
-            {
-                fieldInfo = fields.FirstOrDefault(p => p.Name == fieldName);
-            }
-
-            if (fieldInfo == null && throwExceptionOnNotFound)
-            {
-                throw new MissingMemberException(type.FullName + "::" + fieldName);
-            }
-
-            return fieldInfo;
         }
 
         /// <summary>
-        ///     Gets the get method.
+        ///     Gets default value of <paramref name="type" />
         /// </summary>
-        public static MethodInfo GetMethod(this Type type, string methodName, bool? isPublic, bool? isStatic, bool ignoreCase, bool throwExceptionOnNotFound)
+        public static object GetDefaultValue(this Type type)
         {
-            if (type == null)
+            if (type.IsValueType && Nullable.GetUnderlyingType(type) == null)
             {
-                throw new ArgumentNullException(nameof(type));
+                return Activator.CreateInstance(type);
             }
 
-            if (methodName == null)
-            {
-                throw new ArgumentNullException(nameof(methodName));
-            }
-
-            MethodInfo methodInfo = null;
-
-            var methods = type.GetMethods(GetFlag(isPublic, isStatic));
-
-            if (ignoreCase)
-            {
-                methodInfo = methods.FirstOrDefault(p => p.Name.ToUpperEN() == methodName.ToUpperEN());
-            }
-            else
-            {
-                methodInfo = methods.FirstOrDefault(p => p.Name == methodName);
-            }
-
-            if (methodInfo == null && throwExceptionOnNotFound)
-            {
-                throw new MissingMemberException(type.FullName + "::" + methodName);
-            }
-
-            return methodInfo;
-        }
-
-        /// <summary>
-        ///     Gets the property.
-        /// </summary>
-        public static PropertyInfo GetProperty(this Type type, string propertyName, bool? isPublic, bool? isStatic, bool ignoreCase, bool throwExceptionOnNotFound)
-        {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            if (propertyName == null)
-            {
-                throw new ArgumentNullException(nameof(propertyName));
-            }
-
-            PropertyInfo propertyInfo = null;
-
-            var fields = type.GetProperties(GetFlag(isPublic, isStatic));
-
-            if (ignoreCase)
-            {
-                propertyInfo = fields.FirstOrDefault(p => p.Name.ToUpperEN() == propertyName.ToUpperEN());
-            }
-            else
-            {
-                propertyInfo = fields.FirstOrDefault(p => p.Name == propertyName);
-            }
-
-            if (propertyInfo == null && throwExceptionOnNotFound)
-            {
-                throw new MissingMemberException(type.FullName + "::" + propertyName);
-            }
-
-            return propertyInfo;
+            return null;
         }
 
         /// <summary>
@@ -180,41 +104,6 @@ namespace CustomUIMarkupLanguage
         #endregion
 
         #region Methods
-        /// <summary>
-        ///     Gets the flag.
-        /// </summary>
-        static BindingFlags GetFlag(bool? isPublic, bool? isStatic)
-        {
-            var flags = BindingFlags.Default;
-
-            if (isPublic == null)
-            {
-                flags |= BindingFlags.Public | BindingFlags.NonPublic;
-            }
-            else if (isPublic == true)
-            {
-                flags |= BindingFlags.Public;
-            }
-            else
-            {
-                flags |= BindingFlags.NonPublic;
-            }
-
-            if (isStatic == null)
-            {
-                flags |= BindingFlags.Instance | BindingFlags.Static;
-            }
-            else if (isStatic == true)
-            {
-                flags |= BindingFlags.Static;
-            }
-            else
-            {
-                flags |= BindingFlags.Instance;
-            }
-
-            return flags;
-        }
         #endregion
     }
 }

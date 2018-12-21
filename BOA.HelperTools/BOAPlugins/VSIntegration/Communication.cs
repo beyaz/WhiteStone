@@ -40,21 +40,7 @@ namespace BOAPlugins.VSIntegration
             Process(handler.Result);
         }
 
-        /// <summary>
-        ///     Sends the specified input.
-        /// </summary>
-        public void Send(Data input)
-        {
-            var result = new ViewClassDependency.Handler().Handle(input);
-
-            if (result.ErrorMessage != null)
-            {
-                MessageBox.Show(result.ErrorMessage);
-                return;
-            }
-
-            _visualStudioLayer.OpenFile(input.OutputFileFullPath);
-        }
+      
         #endregion
 
         #region Methods

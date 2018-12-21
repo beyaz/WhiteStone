@@ -9,6 +9,8 @@ namespace BOAPlugins.Utility
     [Serializable]
     public class Configuration
     {
+        
+        public Dictionary<string,string> SolutionCheckInComments { get; set; }
         #region Public Properties
         public string                      CheckInCommentDefaultValue   { get; set; }
         public bool                        DeepEndsAssembliesDownloaded { get; set; }

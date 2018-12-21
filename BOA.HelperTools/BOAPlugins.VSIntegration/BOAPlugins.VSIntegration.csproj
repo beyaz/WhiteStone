@@ -16,6 +16,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>14.0</OldToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -35,7 +36,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BOAPlugins.VSIntegration</RootNamespace>
     <AssemblyName>BOAPlugins.VSIntegration</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
     <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
@@ -115,6 +116,11 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\MahApps.Metro.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
@@ -208,6 +214,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="WhiteStone">
       <HintPath>D:\github\WhiteStone\bin\WhiteStone.dll</HintPath>
+    </Reference>
+    <Reference Include="WhiteStone.UI.Container, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\WhiteStone.UI.Container\bin\Debug\WhiteStone.UI.Container.exe</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>

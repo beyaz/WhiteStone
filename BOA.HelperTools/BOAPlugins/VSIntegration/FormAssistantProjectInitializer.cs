@@ -39,12 +39,18 @@ namespace BOAPlugins.VSIntegration
 
         static void Export_FormAssistant_tsx(SolutionInfo solutionInfo)
         {
+            var targetFilePath = solutionInfo.FormAssistant_tsx_FilePath;
+            if (targetFilePath == null)
+            {
+                return;
+            }
+
             // FormAssistant.tsx
             const string tfsPath = @"$/BOA.BusinessModules/Dev/BOA.CardGeneral.DebitCard/One/BOA.One.CardGeneral.DebitCard/ClientApp/utils/FormAssistant.tsx";
 
             var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardGeneral.DebitCard", NamingInfo.GetNamespaceNameForType(solutionInfo.SlnFilePath));
 
-            var targetFilePath = solutionInfo.FormAssistant_tsx_FilePath;
+            
 
             Util.WriteFileIfContentNotEqual(targetFilePath, fileContent);
         }

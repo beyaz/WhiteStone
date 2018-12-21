@@ -50,9 +50,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cast.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Markup\Node.cs" />
     <Compile Include="Markup\NodeCollection.cs" />
+    <Compile Include="Markup\ViewInvocationExpressionInfo.cs" />
+    <Compile Include="ReflectionHelper.cs" />
     <Compile Include="UIBuilding\Builder.cs" />
     <Compile Include="UIBuilding\BuilderUtility.cs" />
     <Compile Include="UIBuilding\Errors.cs" />
@@ -71,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mvc\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

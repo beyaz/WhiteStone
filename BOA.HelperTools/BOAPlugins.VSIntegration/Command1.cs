@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using BOA.CodeGeneration.Util;
-using BOAPlugins;
+using BOA.Common.Helpers;
 using BOAPlugins.SearchProcedure;
 using BOAPlugins.Utility;
 using BOAPlugins.ViewClassDependency;
@@ -141,12 +141,18 @@ namespace BOASpSearch
 
         void OpenMainForm(object sender, EventArgs e)
         {
-            var mainForm = new MainForm
+            try
             {
-                VisualStudio = VisualStudio
-            };
+                SM.Set(VisualStudio);
 
-            mainForm.ShowDialog();
+                var mainForm = new BOAPlugins.VSIntegration.MainForm.View();
+                
+                 mainForm.ShowDialog();
+            }
+            catch (Exception exception)
+            {
+                Log.Push(exception);
+            }
         }
 
         void SearchProcedure(object sender, EventArgs e)

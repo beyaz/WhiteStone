@@ -1,12 +1,25 @@
-﻿using Notifications.Wpf;
+﻿using System;
+using Notifications.Wpf;
 
 namespace WhiteStone.UI.Container
 {
     /// <summary>
     ///     Interaction logic for App.xaml
     /// </summary>
-    public partial class App
+    public partial class App:System.Windows.Application
     {
+
+        [STAThread]
+        public static void Main()
+        {
+            var application = new App
+            {
+                MainWindow = new MainWindow()
+            };
+            application.MainWindow.Show();
+            application.Run();
+        }
+
         #region Static Fields
         /// <summary>
         ///     The notification manager

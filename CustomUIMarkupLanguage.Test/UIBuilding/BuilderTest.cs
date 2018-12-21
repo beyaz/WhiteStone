@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using CustomUIMarkupLanguage.Markup;
 using CustomUIMarkupLanguage.UIBuilding;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,24 +18,59 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
 
         #region Public Methods
         [TestMethod]
+        public void FireEventWithPrimitiveParameters()
+        {
+            var button = new ExtendedButton2();
+
+            button.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+
+            Assert.AreEqual("A", (string) button.Content);
+
+            Assert.IsTrue(button.IsClicked);
+        }
+
+        
+
+
+        [TestMethod]
         public void GetBinding()
         {
+
+            
+
+
             var typeFinder = new TypeFinder();
+
+            Func<string,Binding> ParseBinding = (bindingExpressionAsText) => { return BindingExpressionParser.TryParse(bindingExpressionAsText).ConvertToBinding(typeFinder, null); };
+
+
             var expression = "{Binding Model.Customers, Mode=OneWay,Converter =" + typeof(ConverterClass).FullName + "}";
-            var binding    = expression.ConvertToBinding(typeFinder);
+            var binding    = ParseBinding(expression);
             Assert.IsTrue(binding.Mode == BindingMode.OneWay);
             Assert.IsTrue(binding.Path.Path == "Model.Customers");
             Assert.IsTrue(binding.Converter is ConverterClass);
 
             var text = "{Binding Model.Contract.SaleAmount}";
 
-            binding = text.ConvertToBinding(typeFinder);
+            binding = ParseBinding(text);
             Assert.IsTrue(binding.Path.Path == "Model.Contract.SaleAmount");
 
             text = " { Model.Contract.SaleAmount } ";
 
-            binding = text.ConvertToBinding(typeFinder);
+            binding = ParseBinding(text);
             Assert.IsTrue(binding.Path.Path == "Model.Contract.SaleAmount");
+        }
+
+        [TestMethod]
+        public void OnClick()
+        {
+            var button = new ExtendedButton();
+
+            button.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+
+            Assert.AreEqual("A", (string) button.Content);
+
+            Assert.IsTrue(button.IsClicked);
         }
 
         [TestMethod]
@@ -42,6 +78,32 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
         {
             Assert.IsNotNull(BuilderUtility.SearchDependencyProperty("System.Windows.FrameworkElement.WidthProperty", new TypeFinder()));
             Assert.IsNotNull(BuilderUtility.SearchDependencyProperty(GetType().FullName + ".TestPropertyNullableInt32Property", new TypeFinder()));
+        }
+
+        [TestMethod]
+        public void ShouldSupportLowerCaseProperties()
+        {
+            var textBox = new TextBox();
+
+            const string ui = "{text:'A',IsVisible:'{Binding " + nameof(TestModel.BooleanProperty1) + "}'}";
+
+            var dataContext = new TestModel();
+
+            var builder = new Builder
+            {
+                Caller      = textBox
+            };
+
+            builder.Load(ui);
+
+            textBox.DataContext = dataContext;
+
+            Assert.AreEqual("A", textBox.Text);
+            Assert.AreEqual(Visibility.Collapsed, textBox.Visibility);
+
+            dataContext.BooleanProperty1 = true;
+
+            Assert.AreEqual(Visibility.Visible, textBox.Visibility);
         }
 
         [TestMethod]
@@ -53,7 +115,6 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
 
             var builder = new Builder
             {
-               
                 Caller = textBox
             };
 
@@ -61,33 +122,6 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
 
             Assert.AreEqual("A", textBox.Text);
         }
-
-        [TestMethod]
-        public void ShouldSupportLowerCaseProperties()
-        {
-            var textBox = new TextBox();
-
-            const string ui = "{text:'A',IsVisible:'{Binding "+nameof(TestModel.BooleanProperty1)+"}'}";
-
-            var dataContext = new TestModel();
-
-            var builder = new Builder
-            {
-                DataContext = dataContext,
-                Caller = textBox
-            };
-
-            builder.Load(ui);
-
-            Assert.AreEqual("A", textBox.Text);
-            Assert.AreEqual(Visibility.Collapsed, textBox.Visibility);
-
-            dataContext.BooleanProperty1 = true;
-
-            Assert.AreEqual(Visibility.Visible, textBox.Visibility);
-
-        }
-
 
         [TestMethod]
         public void Test2_GridCols()
@@ -170,9 +204,10 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
             var builder = new Builder
             {
                 Caller      = view,
-                DataContext = model
             };
             builder.Load(ui);
+
+            view.DataContext = model;
 
             Assert.AreEqual(4, view.Children.Count);
 
@@ -183,27 +218,27 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
             user.UserName = "yyy";
             Assert.IsTrue(user.UserName == userNameTextBox.Text);
         }
-        #endregion
-
-
 
         [TestMethod]
-        public void OnClick()
+        public void WindowContentMustBeSupport()
         {
-            var button = new ExtendedButton();
+            var window = new Window();
 
-           
-            button.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-            
+            var builder = new Builder
+            {
+                Caller = window
+            };
 
-            Assert.AreEqual("A", (string)button.Content);
+            builder.Load("{Content:{ui:'Grid',rows:[{ui:'TextBox',Text:'A'}]}}");
+            var grid = (Grid) window.Content;
+            Assert.IsTrue(((TextBox)grid.Children[0]).Text == "A" );
 
-            Assert.IsTrue(button.IsClicked);
         }
+        #endregion
 
-
-        class ExtendedButton:Button
+        class ExtendedButton : Button
         {
+            #region Constructors
             public ExtendedButton()
             {
                 const string ui = "{Text:'A', Click:'Click1'}";
@@ -215,19 +250,56 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
 
                 builder.Load(ui);
             }
+            #endregion
 
+            #region Public Properties
             public bool IsClicked { get; set; }
+            #endregion
 
-            public  void Click1(object sender, RoutedEventArgs e)
+            #region Public Methods
+            public void Click1(object sender, RoutedEventArgs e)
             {
                 if (!Equals(sender, this))
                 {
                     throw new ArgumentException();
                 }
+
                 IsClicked = true;
             }
+            #endregion
         }
 
-        
+        class ExtendedButton2 : Button
+        {
+            #region Constructors
+            public ExtendedButton2()
+            {
+                const string ui = "{Text:'A', Click:'this.MyClick(2)'}";
+
+                var builder = new Builder
+                {
+                    Caller = this
+                };
+
+                builder.Load(ui);
+            }
+            #endregion
+
+            #region Public Properties
+            public bool IsClicked { get; set; }
+            #endregion
+
+            #region Public Methods
+            public void MyClick(int number)
+            {
+                if (number != 2)
+                {
+                    throw new ArgumentException();
+                }
+
+                IsClicked = true;
+            }
+            #endregion
+        }
     }
 }

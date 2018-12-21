@@ -8,7 +8,6 @@ using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using FeserWard.Controls;
-using WhiteStone.Jaml;
 
 namespace BOAPlugins.TypeSearchView
 {

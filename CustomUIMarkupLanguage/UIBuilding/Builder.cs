@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -72,11 +71,6 @@ namespace CustomUIMarkupLanguage.UIBuilding
         ///     Gets or sets the caller.
         /// </summary>
         public UIElement Caller { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the data context.
-        /// </summary>
-        public object DataContext { get; set; }
 
         /// <summary>
         ///     Gets or sets the type finder.
@@ -152,7 +146,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 transform(node);
             }
 
-            Build(Caller, node);
+            BuildProperties(Caller, node);
         }
 
         /// <summary>
@@ -336,9 +330,9 @@ namespace CustomUIMarkupLanguage.UIBuilding
         }
 
         /// <summary>
-        ///     Builds the specified element.
+        ///     Builds the properties.
         /// </summary>
-        void Build(UIElement element, Node node)
+        void BuildProperties(UIElement element, Node node)
         {
             foreach (var property in node.Properties)
             {
@@ -396,10 +390,10 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         bool TryToSetName(Builder builder, UIElement element, Node node)
         {
-            var fe = DataContext as FrameworkElement;
+            var fe = Caller as FrameworkElement;
             if (node.NameToUpperInEnglish == "NAME" && fe != null)
             {
-                var fieldInfo = fe.GetType().GetField(node.ValueAsString,isPublic: null,isStatic: false,ignoreCase: true,throwExceptionOnNotFound: false);
+                var fieldInfo = fe.GetType().GetField(node.ValueAsString, null, false, true, false);
                 if (fieldInfo != null)
                 {
                     fieldInfo.SetValue(fe, element);
@@ -466,10 +460,35 @@ namespace CustomUIMarkupLanguage.UIBuilding
             {
                 var uiElement = CreateInstance(item);
 
-                Build(uiElement, item);
+                BuildProperties(uiElement, item);
 
                 addChild.AddChild(uiElement);
             }
+
+            return true;
+        }
+
+        /// <summary>
+        ///     Tries to handle node values.
+        /// </summary>
+        bool TryToHandleNodeValues(Builder builder, UIElement element, Node node)
+        {
+            if (!node.ValueIsNode)
+            {
+                return false;
+            }
+
+            var addChild = element as IAddChild;
+            if (addChild == null)
+            {
+                throw Errors.ElementMustBeInheritFromIAddChild(element);
+            }
+
+            var instance = CreateInstance(node.ValueAsNode);
+
+            BuildProperties(instance, node.ValueAsNode);
+
+            addChild.AddChild(instance);
 
             return true;
         }
@@ -494,8 +513,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     throw Errors.DependencyPropertyNotFound(node.Name);
                 }
 
-                var binding = bindingInfoContract.ConvertToBinding(TypeFinder);
-                binding.Source = DataContext;
+                var binding = bindingInfoContract.ConvertToBinding(TypeFinder,"DataContext.");
+                binding.Source = Caller;
 
                 BindingOperations.SetBinding(element, dp, binding);
                 return true;
@@ -544,6 +563,9 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return false;
         }
 
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is in design mode.
+        /// </summary>
         public bool IsInDesignMode { get; set; }
 
         /// <summary>
@@ -574,7 +596,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 throw Errors.AttributeValueIsInvalid(node);
             }
 
-            var property = element.GetType().GetProperty(attributeName,isPublic: true, isStatic: false,ignoreCase: true,throwExceptionOnNotFound: false);
+            var property = element.GetType().GetProperty(attributeName, true, false, true, false);
             if (property == null)
             {
                 var eventInfo = element.GetType().GetEvent(attributeName);
@@ -588,7 +610,39 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     return true;
                 }
 
-                var handlerMethod = Caller.GetType().GetMethod(attributeValue.ToString(),isPublic: null,isStatic: false,ignoreCase: true,throwExceptionOnNotFound: true);
+                var methodInvocationExpression = string.Empty + node.ValueAsString;
+                // support this format: this.Notify(OnContactClicked)
+                if (methodInvocationExpression.StartsWith("this."))
+                {
+                    var viewInvocationExpressionInfo = ViewInvocationExpressionInfo.Parse(methodInvocationExpression);
+
+                    var methodName = viewInvocationExpressionInfo.MethodName;
+
+                    var mi = Caller.GetType().GetMethod(methodName, null, false, true, false);
+
+                    var button = element as Button;
+
+                    if (button != null && node.NameToUpperInEnglish == "CLICK")
+                    {
+                        button.Click += (s, e) =>
+                        {
+                            if (mi == null)
+                            {
+                                throw new MissingMemberException(Caller.GetType().FullName + "->" + methodName);
+                            }
+
+                            var parameters = viewInvocationExpressionInfo.Parameters.ToArray();
+
+                            mi.DoCastOperationsOnParametersForInvokeMethod(parameters);
+
+                            mi.Invoke(Caller, parameters);
+                        };
+                    }
+
+                    return true;
+                }
+
+                var handlerMethod = Caller.GetType().GetMethod(attributeValue.ToString(), null, false, true, true);
 
                 var handlerMethodParameters = handlerMethod.GetParameters();
                 if (handlerMethodParameters.Length == 0)
@@ -599,8 +653,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     {
                         if (eventInfo.EventHandlerType == typeof(KeyEventHandler))
                         {
-                            var             dataContext = DataContext;
-                            KeyEventHandler handler     = (s, e) => { handlerMethod.Invoke(dataContext, null); };
+                            var caller = Caller;
+                            KeyEventHandler handler     = (s, e) => { handlerMethod.Invoke(caller, null); };
                             eventInfo.AddEventHandler(element, handler);
                             return true;
                         }
@@ -718,6 +772,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 TryToHandleGravity,
                 TryToHandleStackPanelTitle,
                 TryToHandleArrayValues,
+                TryToHandleNodeValues,
                 TryToInvokeCustomProperty,
                 TryToBindingExpression,
                 TryToHandleDProperty,

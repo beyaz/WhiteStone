@@ -4,23 +4,12 @@ using BOA.Common.Helpers;
 
 namespace WhiteStone.UI.Container
 {
-    /// <summary>
-    ///     Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow
+    class MainWindow : WindowBase
     {
-        #region Constructors
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="MainWindow" /> class.
-        /// </summary>
         public MainWindow()
         {
-            InitializeComponent();
             Loaded += OnMainWindowLoaded;
         }
-        #endregion
-
-        #region Methods
         /// <summary>
         ///     Called when [main window loaded].
         /// </summary>
@@ -42,6 +31,6 @@ namespace WhiteStone.UI.Container
 
             mi.Invoke(null, null);
         }
-        #endregion
+
     }
 }

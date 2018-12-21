@@ -8,11 +8,6 @@ namespace CustomUIMarkupLanguage.Markup
     /// </summary>
     public class Node
     {
-        /// <summary>
-        /// Gets the UI.
-        /// </summary>
-        public string UI => Properties?["view"]?.ValueAsStringToUpperInEnglish;
-
         #region Public Properties
         /// <summary>
         ///     Gets or sets the name.
@@ -30,6 +25,11 @@ namespace CustomUIMarkupLanguage.Markup
         public NodeCollection Properties { get; set; }
 
         /// <summary>
+        ///     Gets the UI.
+        /// </summary>
+        public string UI => Properties?["view"]?.ValueAsStringToUpperInEnglish;
+
+        /// <summary>
         ///     Gets or sets the value as array.
         /// </summary>
         public NodeCollection ValueAsArray { get; set; }
@@ -43,6 +43,11 @@ namespace CustomUIMarkupLanguage.Markup
         ///     Gets or sets a value indicating whether [value as boolean].
         /// </summary>
         public bool ValueAsBoolean { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value as node.
+        /// </summary>
+        public Node ValueAsNode { get; set; }
 
         /// <summary>
         ///     Gets or sets the value as number.
@@ -80,6 +85,11 @@ namespace CustomUIMarkupLanguage.Markup
         public bool ValueIsBoolean { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether [value is node].
+        /// </summary>
+        public bool ValueIsNode { get; set; }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether [value is number].
         /// </summary>
         public bool ValueIsNumber { get; set; }
@@ -105,6 +115,14 @@ namespace CustomUIMarkupLanguage.Markup
         }
 
         /// <summary>
+        ///     Determines whether the specified name has property.
+        /// </summary>
+        public bool HasProperty(string name)
+        {
+            return Properties?[name] != null;
+        }
+
+        /// <summary>
         ///     Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         public override string ToString()
@@ -115,15 +133,18 @@ namespace CustomUIMarkupLanguage.Markup
             {
                 return $"{Name}:'{ValueAsString}'";
             }
-            if (ValueAsBoolean )
+
+            if (ValueAsBoolean)
             {
                 return $"{Name}:{ValueAsBoolean}";
             }
-            if ( ValueIsNumber )
+
+            if (ValueIsNumber)
             {
                 return $"{Name}:{ValueAsNumber}";
             }
-            if ( ValueIsBindingExpression)
+
+            if (ValueIsBindingExpression)
             {
                 return $"{Name}:{ValueAsBindingInfo}";
             }
@@ -157,11 +178,5 @@ namespace CustomUIMarkupLanguage.Markup
             throw new NotImplementedException(Name);
         }
         #endregion
-
-        public bool HasProperty(string name)
-        {
-
-            return Properties?[name] != null;
-        }
     }
 }

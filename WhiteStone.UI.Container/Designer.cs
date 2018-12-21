@@ -32,10 +32,11 @@ namespace WhiteStone.UI.Container
             var builder = new Builder
             {
                 Caller      = this,
-                DataContext = this
             };
 
             builder.Load(ui);
+
+            DataContext = this;
 
             SourceJsonFilePath = Path.GetDirectoryName(GetType().Assembly.Location) + Path.DirectorySeparatorChar + "Designer.json";
 
@@ -116,7 +117,6 @@ namespace WhiteStone.UI.Container
 
                 var builder = new Builder
                 {
-                    DataContext = ContentGrid,
                     Caller      = ContentGrid,
                     IsInDesignMode = true
                 };

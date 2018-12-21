@@ -16,7 +16,6 @@ namespace WhiteStone.UI.Container
         {
             var builder = new Builder
             {
-                DataContext = element,
                 Caller      = element
             };
 

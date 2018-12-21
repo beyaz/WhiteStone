@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using BOA.Common.Helpers;
 using BOAPlugins.Utility;
 
 namespace BOAPlugins.TypescriptModelGeneration
@@ -61,7 +62,10 @@ namespace BOAPlugins.TypescriptModelGeneration
 
             data.OneProjectFolder = GetOneProjectFolder(slnFilePath);
 
-            data.FormAssistant_tsx_FilePath = data.OneProjectFolder + @"ClientApp\utils\FormAssistant.tsx";
+            if (data.OneProjectFolder != null)
+            {
+                data.FormAssistant_tsx_FilePath = data.OneProjectFolder + @"ClientApp\utils\FormAssistant.tsx";
+            }
 
             data.TypesProjectFolder = Path.GetDirectoryName(slnFilePath) + Path.DirectorySeparatorChar + NamingInfo.GetNamespaceNameForType(slnFilePath) + Path.DirectorySeparatorChar;
 
@@ -94,7 +98,7 @@ namespace BOAPlugins.TypescriptModelGeneration
                 }
             }
 
-            throw new InvalidOperationException("One project folder not found." + string.Join(Environment.NewLine, paths));
+            return null;
         }
         #endregion
     }
