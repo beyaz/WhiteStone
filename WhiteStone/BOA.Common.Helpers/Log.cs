@@ -43,7 +43,7 @@ namespace BOA.Common.Helpers
         {
             var filePath = Path.GetDirectoryName(typeof(Log).Assembly.Location) + Path.DirectorySeparatorChar + "Log.txt";
 
-            var value = Environment.NewLine + $"{callerMemberName} -> {message}";
+            var value = Environment.NewLine + Environment.NewLine + $"{callerMemberName} -> {message}";
 
             FileHelper.AppendToEndOfFile(filePath, value);
         }

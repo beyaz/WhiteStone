@@ -12,6 +12,7 @@ namespace BOAPlugins.VSIntegration.MainForm
         public bool   MethodCallGraphIsVisible  { get; set; }
         public string SolutionCheckInComment    { get; set; }
         public string SolutionFilePath { get; set; }
+        public bool CheckInSolutionIsEnabled { get; set; }
         #endregion
     }
 }

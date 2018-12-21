@@ -92,19 +92,12 @@
 
       <Button guid="guidCommand1PackageCmdSet" id="CommandId13" priority="10" type="Button">
         <Parent guid="guidCommand1PackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="DocumentIcon" id="DocumentIcon1"/>
+        <Icon guid="OpenMainWindow" id="OpenMainWindow1"/>
         <Strings>
           <ButtonText>OPEN MAİN FORM</ButtonText>
         </Strings>
       </Button>
 
-      <Button guid="guidCommand1PackageCmdSet" id="CommandId10" priority="11" type="Button">
-        <Parent guid="guidCommand1PackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="bmpPicArrows"/>
-        <Strings>
-          <ButtonText>Check-in (Only This Solution)</ButtonText>
-        </Strings>
-      </Button>
 
 
       <Button guid="guidCommand1PackageCmdSet" id="cmdViewTypeDependency" type="Button">
@@ -126,7 +119,9 @@
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages" href="Resources\Command1.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
       
-      <Bitmap guid="DocumentIcon" href="Resources\Document.png" usedList="DocumentIcon1" />  
+      <Bitmap guid="DocumentIcon" href="Resources\Document.png" usedList="DocumentIcon1" />
+
+      <Bitmap guid="OpenMainWindow" href="Resources\OpenMainWindow.png" usedList="OpenMainWindow1" />
 
     </Bitmaps>
   </Commands>
@@ -147,7 +142,7 @@
       
       
       
-      <IDSymbol name="CommandId10" value="11" />
+      
       <IDSymbol name="CommandId12" value="12" />
       <IDSymbol name="CommandId13" value="13" />
 
@@ -167,8 +162,13 @@
     </GuidSymbol>
     
     <GuidSymbol name="DocumentIcon" value="{9465bf68-c7a1-447e-a3a9-91e19daa1b84}">
-      <IDSymbol name="DocumentIcon1" value="1" />  
+      <IDSymbol name="DocumentIcon1" value="10" />  
     </GuidSymbol>
+
+    <GuidSymbol name="OpenMainWindow" value="{9465bf68-c7a1-447e-a3a9-91e19daa1b85}">
+      <IDSymbol name="OpenMainWindow1" value="11" />
+    </GuidSymbol>
+    
 
   </Symbols>
 </CommandTable>

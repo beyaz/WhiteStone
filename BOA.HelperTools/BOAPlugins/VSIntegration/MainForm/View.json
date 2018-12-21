@@ -1,8 +1,17 @@
 ﻿{
+  "Title": "Close -> Esc",
   "Content": {
 
     "ui": "StackPanel",
     "Childs": [
+      {
+        "ui": "Button",
+        "Text": "Check In Current Solution",
+        "Click": "this.FireAction('CheckInSolution')",
+        "IsVisible": "{Binding CheckInSolutionIsEnabled}",
+        "Margin": 10
+      },
+
       {
         "ui": "Button",
         "Text": "Update Message.cs (in type project)",

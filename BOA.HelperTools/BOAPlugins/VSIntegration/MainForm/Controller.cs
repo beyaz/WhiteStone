@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using BOA.CodeGeneration.Util;
 using BOAPlugins.Messaging;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
@@ -17,6 +20,21 @@ namespace BOAPlugins.VSIntegration.MainForm
         #endregion
 
         #region Public Methods
+        public void CheckInSolution()
+        {
+            var data = new CheckInSolutionInput
+            {
+                SolutionFilePath = Model.SolutionFilePath,
+                Comment          = Model.SolutionCheckInComment
+            };
+
+            TFSAccessForBOA.CheckInSolution(data);
+
+            Model.ViewMessage = data.ResultMessage;
+
+            Model.ViewShouldBeClose = true;
+        }
+
         public void InitializeFormAssistantDefaultCodes()
         {
             var solutionInfo = SolutionInfo.CreateFrom(Model.SolutionFilePath);
@@ -29,18 +47,28 @@ namespace BOAPlugins.VSIntegration.MainForm
 
         public override void OnViewClose()
         {
-            SM.Get<Configuration>().CheckInCommentDefaultValue = Model.SolutionCheckInComment;
+            var configuration = SM.Get<Configuration>();
+
+            configuration.SolutionCheckInComments.SetValue(Model.SolutionFilePath,Model.SolutionCheckInComment);
+
             Configuration.SaveToFile();
         }
 
         public override void OnViewLoaded()
         {
+            var configuration = SM.Get<Configuration>();
+
+            
+
             Model = new Model
             {
                 CursorSelectedText     = VisualStudio.CursorSelectedText,
-                SolutionCheckInComment = SM.Get<Configuration>().CheckInCommentDefaultValue,
-                SolutionFilePath       = VisualStudio.GetSolutionFilePath()
+                SolutionFilePath       = VisualStudio.GetSolutionFilePath(),
+                CheckInSolutionIsEnabled = configuration.CheckInSolutionIsEnabled||Environment.UserName == "beyaztas"
             };
+
+            Model.SolutionCheckInComment = configuration.SolutionCheckInComments.TryGetValue(Model.SolutionFilePath,null);
+            
 
             if (string.IsNullOrWhiteSpace(Model.CursorSelectedText))
             {

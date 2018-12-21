@@ -27,7 +27,6 @@ namespace BOASpSearch
         /// </summary>
         public const int CommandId = 0x0100;
 
-        public const int CommandId11 = 11;
         public const int CommandId12 = 12;
         public const int CommandId13 = 13;
 
@@ -75,7 +74,6 @@ namespace BOASpSearch
             commandService.AddCommand(new MenuCommand(ViewTypeDependency, new CommandID(CommandSet, CommandId9)));
             commandService.AddCommand(new MenuCommand(DocumentFile, new CommandID(CommandSet, CommandId12)));
             commandService.AddCommand(new MenuCommand(OpenMainForm, new CommandID(CommandSet, CommandId13)));
-            commandService.AddCommand(new MenuCommand(CheckInSolution, new CommandID(CommandSet, CommandId11)));
 
             Factory.InitializeApplicationServices();
         }
@@ -114,30 +112,9 @@ namespace BOASpSearch
         #endregion
 
         #region Methods
-        void CheckInSolution(object sender, EventArgs e)
-        {
-            new Thread(CheckInSolution).Start();
-        }
+        
 
-        void CheckInSolution()
-        {
-            VisualStudio.UpdateStatusBarText("Check-in started...");
-            var data = new CheckInSolutionInput
-            {
-                SolutionFilePath = VisualStudio.GetSolutionFilePath(),
-                Comment          = Configuration.CheckInCommentDefaultValue
-            };
-
-            try
-            {
-                TFSAccessForBOA.CheckInSolution(data);
-                VisualStudio.UpdateStatusBarText(data.ResultMessage);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.ToString());
-            }
-        }
+        
 
         void OpenMainForm(object sender, EventArgs e)
         {

@@ -70,7 +70,8 @@ namespace WhiteStone.UI.Container.Mvc
             }
             catch (Exception e)
             {
-                App.ShowErrorNotification(e.ToString());
+                App.ShowErrorNotification(e.Message);
+                Log.Push(e);
                 return;
             }
           

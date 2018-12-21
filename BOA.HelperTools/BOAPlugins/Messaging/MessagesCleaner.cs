@@ -61,7 +61,7 @@ namespace BOAPlugins.Messaging
             {
                 var propertyName = match.Value.RemoveFromStart(Prefix).Trim();
 
-                Util.SetValue(usedPropertyNames, propertyName, propertyName);
+                usedPropertyNames.SetValue( propertyName, propertyName);
 
                 match = match.NextMatch();
             }

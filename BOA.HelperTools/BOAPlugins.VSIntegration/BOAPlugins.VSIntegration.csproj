@@ -70,7 +70,10 @@
     <Compile Include="VisualStudioLayer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Document.png" />
+    <Content Include="Resources\Document.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\OpenMainWindow.png" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
