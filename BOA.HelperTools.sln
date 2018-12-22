@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F3FD5023
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.Test", "BOA.HelperTools\Tests\BOAPlugins.Test\BOAPlugins.Test.csproj", "{3BA245FB-B218-441D-BEFB-17CC7BD71454}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.OneDesigner", "BOA.OneDesigner\BOA.OneDesigner.csproj", "{8A56C904-32B1-41A8-A690-D39A7604BEB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{3BA245FB-B218-441D-BEFB-17CC7BD71454}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BA245FB-B218-441D-BEFB-17CC7BD71454}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BA245FB-B218-441D-BEFB-17CC7BD71454}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A56C904-32B1-41A8-A690-D39A7604BEB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A56C904-32B1-41A8-A690-D39A7604BEB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A56C904-32B1-41A8-A690-D39A7604BEB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A56C904-32B1-41A8-A690-D39A7604BEB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

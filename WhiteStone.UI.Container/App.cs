@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Configuration;
+using System.Windows;
+using BOA.Common.Helpers;
+using CustomUIMarkupLanguage.UIBuilding;
 using Notifications.Wpf;
 
 namespace WhiteStone.UI.Container
@@ -9,12 +13,41 @@ namespace WhiteStone.UI.Container
     public partial class App:System.Windows.Application
     {
 
+          static void InitializeBuilder()
+        {
+            Builder.RegisterElementCreation(LabeledTextBox.On);
+
+            Builder.RegisterElementCreation("Tile",typeof(MahApps.Metro.Controls.Tile));
+        }
+
+        static Window StartupMainWindow()
+        {
+            var startupMainWindow = ConfigurationManager.AppSettings[nameof(StartupMainWindow)];
+            if (string.IsNullOrWhiteSpace(startupMainWindow))
+            {
+                Log.IsNull(nameof(StartupMainWindow));
+                return null;
+            }
+
+            var type = Type.GetType(startupMainWindow);
+            if (type == null)
+            {
+                Log.IsNull(startupMainWindow);
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            return (Window) Activator.CreateInstance(type);
+
+        }
+
         [STAThread]
         public static void Main()
         {
+            InitializeBuilder();
+
             var application = new App
             {
-                MainWindow = new MainWindow()
+                MainWindow = StartupMainWindow()
             };
             application.MainWindow.Show();
             application.Run();

@@ -2,7 +2,7 @@
 
 
 
-namespace BOA.CodeGeneration.JsxElementRender
+namespace BOA.OneDesigner.JsxElementRender
 { partial class  BCheckBoxTemplate
     {
         public BCheckBox Data { get; set; }

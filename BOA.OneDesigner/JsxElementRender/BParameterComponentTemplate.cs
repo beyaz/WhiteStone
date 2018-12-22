@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOA.CodeGeneration.JsxElementRender
+namespace BOA.OneDesigner.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOA.CodeGeneration.JsxElementRender
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BInputTemplate : BInputTemplateBase
+    public partial class BParameterComponentTemplate : BParameterComponentTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,28 +28,128 @@ namespace BOA.CodeGeneration.JsxElementRender
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<BInput value    = {");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+if(Data.ValueTypeIsInt32){
+            
+            #line default
+            #line hidden
+            this.Write(" <BParameterComponent selectedParamCode = {Helper.numberToString(");
+            
+            #line 7 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write("}\r\n        onChange = {(e: any, value: string) => ");
+            this.Write(")}\r\n                      onParameterSelect = {(selectedParameter: BOA.Types.Kern" +
+                    "el.General.ParameterContract) => ");
             
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputTemplate.tt"
+            #line 8 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write(" = value}\r\n        floatingLabelTextDate = {");
+            this.Write(" = selectedParameter ? Helper.stringToNumber(selectedParameter.paramCode) : null}" +
+                    "\r\n                      paramType =\"");
             
-            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BInputTemplate.tt"
+            #line 9 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.ParamType));
+            
+            #line default
+            #line hidden
+            this.Write("\"\r\n                      hintText  = {");
+            
+            #line 10 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
             
             #line default
             #line hidden
-            this.Write("}\r\n        context = {context}/>\r\n");
+            this.Write("}\r\n                      labelText = {");
+            
+            #line 11 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
+            
+            #line default
+            #line hidden
+            this.Write(@"}
+                      isAllOptionIncluded={true}
+                      paramColumns={[
+                            { name: ""paramCode"",        header: Message.Code,        visible: false },
+                            { name: ""paramDescription"", header: Message.Description, width:   200 }
+                      ]}
+                      ref = {(r: any) => this.snaps.");
+            
+            #line 17 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.SnapName));
+            
+            #line default
+            #line hidden
+            this.Write(" = r}\r\n                      context = {context}/>\r\n\r\n");
+            
+            #line 20 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+}
+else
+{
+            
+            #line default
+            #line hidden
+            this.Write(" <BParameterComponent selectedParamCode = {");
+            
+            #line 23 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n                      onParameterSelect = {(selectedParameter: BOA.Types.Kerne" +
+                    "l.General.ParameterContract) => ");
+            
+            #line 24 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
+            
+            #line default
+            #line hidden
+            this.Write(" = selectedParameter ? selectedParameter.paramCode : null}\r\n                     " +
+                    " paramType =\"");
+            
+            #line 25 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.ParamType));
+            
+            #line default
+            #line hidden
+            this.Write("\"\r\n                      hintText  = {");
+            
+            #line 26 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n                      labelText = {");
+            
+            #line 27 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
+            
+            #line default
+            #line hidden
+            this.Write(@"}
+                      isAllOptionIncluded={true}
+                      paramColumns={[
+                            { name: ""paramCode"",        header: Message.Code,        visible: false },
+                            { name: ""paramDescription"", header: Message.Description, width:   200 }
+                      ]}
+                      ref = {(r: any) => this.snaps.");
+            
+            #line 33 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.SnapName));
+            
+            #line default
+            #line hidden
+            this.Write(" = r}\r\n                      context = {context}/>\r\n\r\n");
+            
+            #line 36 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
+}
+            
+            #line default
+            #line hidden
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -61,7 +161,7 @@ namespace BOA.CodeGeneration.JsxElementRender
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BInputTemplateBase
+    public class BParameterComponentTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

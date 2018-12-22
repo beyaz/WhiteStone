@@ -4,10 +4,11 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
+using CustomUIMarkupLanguage.UIBuilding;
 
 namespace WhiteStone.UI.Container
 {
-    public class Designer : Grid
+    public class Designer : WindowBase
     {
         #region Fields
         public Grid ContentGrid;
@@ -20,12 +21,17 @@ namespace WhiteStone.UI.Container
         {
             const string ui = @"
 {
-    Margin:7,
-    rows:[
-		{ui:'TextBox',Text:'{Binding SourceJsonFilePath}', Label:'Source Json File Path',  Height:'auto'},
-        {ui:'Grid', Name:'ContentGrid', Gravity:1 }
-	]
-	
+   Title:'Designer',
+   Content:{
+       ui:'Grid',
+        Margin:7,
+        rows:[
+		    {ui:'TextBox',Text:'{Binding SourceJsonFilePath}', Label:'Source Json File Path',  Height:'auto'},
+            {ui:'Grid', Name:'ContentGrid', Gravity:1 }
+	    ]
+	    
+    }
+
 }
 ";
 

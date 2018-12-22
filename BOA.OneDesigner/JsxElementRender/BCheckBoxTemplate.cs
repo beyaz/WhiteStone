@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOA.CodeGeneration.JsxElementRender
+namespace BOA.OneDesigner.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,7 +18,7 @@ namespace BOA.CodeGeneration.JsxElementRender
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCheckBoxTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCheckBoxTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     public partial class BCheckBoxTemplate : BCheckBoxTemplateBase
     {
@@ -30,21 +30,21 @@ namespace BOA.CodeGeneration.JsxElementRender
         {
             this.Write("<BCheckBox checked = {");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCheckBoxTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCheckBoxTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
             this.Write("}\r\n           onCheck = {(e: Object, isChecked: boolean) => ");
             
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCheckBoxTemplate.tt"
+            #line 7 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCheckBoxTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
             this.Write(" = isChecked}\r\n           label = {");
             
-            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCheckBoxTemplate.tt"
+            #line 8 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCheckBoxTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
             
             #line default

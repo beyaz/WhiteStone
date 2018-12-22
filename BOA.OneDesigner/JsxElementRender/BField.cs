@@ -1,7 +1,7 @@
 ﻿using System;
 using BOA.Common.Helpers;
 
-namespace BOA.CodeGeneration.JsxElementRender
+namespace BOA.OneDesigner.JsxElementRender
 {
     [Serializable]
     public abstract class BField

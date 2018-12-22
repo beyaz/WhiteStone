@@ -59,6 +59,7 @@
     <Compile Include="UIBuilding\Builder.cs" />
     <Compile Include="UIBuilding\BuilderUtility.cs" />
     <Compile Include="UIBuilding\Errors.cs" />
+    <Compile Include="UIBuilding\Extensions.cs" />
     <Compile Include="UIBuilding\TypeFinder.cs" />
     <Compile Include="UIBuilding\WpfExtra.cs" />
     <Compile Include="Markup\BindingExpressionParser.cs" />

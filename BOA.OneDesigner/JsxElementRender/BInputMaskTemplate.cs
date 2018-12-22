@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOA.CodeGeneration.JsxElementRender
+namespace BOA.OneDesigner.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOA.CodeGeneration.JsxElementRender
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BDateTimePickerTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BInputMaskTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BDateTimePickerTemplate : BDateTimePickerTemplateBase
+    public partial class BInputMaskTemplate : BInputMaskTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,28 +28,36 @@ namespace BOA.CodeGeneration.JsxElementRender
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<BDateTimePicker format = \"DDMMYYYY\")\r\n                 value  = {");
+            this.Write("<BInputMask value    = {");
             
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BDateTimePickerTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BInputMaskTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write("}\r\n           dateOnChange = {(e: any, value: Date) => ");
+            this.Write("}\r\ntype=\"Custom\"\r\n                                mask=\"nn:nn\"\r\n        onChange " +
+                    "= {(e: any, value: string) => ");
             
-            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BDateTimePickerTemplate.tt"
+            #line 9 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BInputMaskTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write(" = value}\r\n  floatingLabelTextDate = {");
+            this.Write(" = value}\r\n        floatingLabelTextDate = {");
             
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BDateTimePickerTemplate.tt"
+            #line 10 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BInputMaskTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
             
             #line default
             #line hidden
-            this.Write("}\r\n                context = {context}/>");
+            this.Write("}\r\n        hintText={");
+            
+            #line 11 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BInputMaskTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n        context = {context}/>");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -61,7 +69,7 @@ namespace BOA.CodeGeneration.JsxElementRender
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BDateTimePickerTemplateBase
+    public class BInputMaskTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

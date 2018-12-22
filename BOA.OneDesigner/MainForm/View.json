@@ -1,0 +1,33 @@
+{
+  "Title": "BOA One Designer",
+  "Content": {
+
+    "ui": "Grid",
+    "columns": [
+      {
+        "view": "GroupBox",
+        "gravity": 1,
+        "Header": "Toolbox",
+
+        "Content": {
+          "ui": "StackPanel",
+          "children": [
+            {
+              "ui": "GroupBox",
+              "Header": "GroupBox",
+              "Height": 100,
+              "PreviewMouseLeftButtonDown": "List_PreviewMouseLeftButtonDown",
+              "PreviewMouseMove": "List_MouseMove"
+
+            }
+          ]
+        }
+      },
+      { "view": "GridSplitter" },
+      {
+        "ui": "StackPanel",
+        "gravity": 8
+      }
+    ]
+  }
+}

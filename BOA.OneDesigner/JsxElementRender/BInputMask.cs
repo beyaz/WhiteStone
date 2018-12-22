@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.CodeGeneration.JsxElementRender
+namespace BOA.OneDesigner.JsxElementRender
 {
     [Serializable]
     public class BInputMask : BField

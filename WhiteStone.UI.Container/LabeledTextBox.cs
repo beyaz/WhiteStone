@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.Markup;
+using CustomUIMarkupLanguage.UIBuilding;
 
 namespace WhiteStone.UI.Container
 {
@@ -45,13 +46,8 @@ namespace WhiteStone.UI.Container
         public LabeledTextBox()
         {
             DataContext = this;
-            var builder = new Builder
-            {
-                Caller = this,
-                
-            };
 
-            builder.Load(UITemplate);
+            this.LoadJson(UITemplate);
         }
         #endregion
 

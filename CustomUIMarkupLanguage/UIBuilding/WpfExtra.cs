@@ -59,9 +59,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         public static UIElement RichTextBox_Create(Builder builder, Node node)
         {
-            var viewNode = node.Properties["view"];
-
-            if (viewNode.ValueAsStringToUpperInEnglish == "TEXTAREA")
+            if (node.UI == "TEXTAREA")
             {
                 return new RichTextBox
                 {

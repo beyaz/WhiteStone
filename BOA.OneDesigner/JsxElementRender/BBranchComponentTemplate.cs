@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOA.CodeGeneration.JsxElementRender
+namespace BOA.OneDesigner.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOA.CodeGeneration.JsxElementRender
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BAccountComponentTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BBranchComponentTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BAccountComponentTemplate : BAccountComponentTemplateBase
+    public partial class BBranchComponentTemplate : BBranchComponentTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,28 +28,31 @@ namespace BOA.CodeGeneration.JsxElementRender
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<BAccountComponent accountNumber = {");
+            this.Write("<BBranchComponent selectedBranchId = {");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BAccountComponentTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BBranchComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write("}\r\n                 onAccountSelect = {(selectedAccount: any) => ");
+            this.Write("}\r\n                  onBranchSelect   = {(selectedBranch: BOA.Common.Types.Branch" +
+                    "Contract) => ");
             
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BAccountComponentTemplate.tt"
+            #line 7 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BBranchComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write(@" = selectedAccount ? selectedAccount.accountNumber : null}
-                isVisibleBalance = {false}
-          isVisibleAccountSuffix = {false}
-enableShowDialogMessagesInCallback = {false}
-                   isVisibleIBAN = {false}
-                             ref = {(r: any) => this.snaps.SnapName = r}
-                         context = {context}/>
-");
+            this.Write(" = selectedBranch ? selectedBranch.branchId : null}\r\n                  mode      " +
+                    " = {\"horizontal\"}\r\n                  labelText  = {");
+            
+            #line 9 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BBranchComponentTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n                  sortOption = {BBranchComponent.name}                      \r\n" +
+                    "                  context    = {context}/>\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -61,7 +64,7 @@ enableShowDialogMessagesInCallback = {false}
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BAccountComponentTemplateBase
+    public class BBranchComponentTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

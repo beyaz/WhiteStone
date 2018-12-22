@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOA.CodeGeneration.JsxElementRender
+namespace BOA.OneDesigner.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOA.CodeGeneration.JsxElementRender
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BAccountComponentTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BParameterComponentTemplate : BParameterComponentTemplateBase
+    public partial class BAccountComponentTemplate : BAccountComponentTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,128 +28,28 @@ namespace BOA.CodeGeneration.JsxElementRender
         /// </summary>
         public virtual string TransformText()
         {
+            this.Write("<BAccountComponent accountNumber = {");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-if(Data.ValueTypeIsInt32){
-            
-            #line default
-            #line hidden
-            this.Write(" <BParameterComponent selectedParamCode = {Helper.numberToString(");
-            
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BAccountComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write(")}\r\n                      onParameterSelect = {(selectedParameter: BOA.Types.Kern" +
-                    "el.General.ParameterContract) => ");
+            this.Write("}\r\n                 onAccountSelect = {(selectedAccount: any) => ");
             
-            #line 8 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
+            #line 7 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BAccountComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write(" = selectedParameter ? Helper.stringToNumber(selectedParameter.paramCode) : null}" +
-                    "\r\n                      paramType =\"");
-            
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.ParamType));
-            
-            #line default
-            #line hidden
-            this.Write("\"\r\n                      hintText  = {");
-            
-            #line 10 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
-            
-            #line default
-            #line hidden
-            this.Write("}\r\n                      labelText = {");
-            
-            #line 11 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
-            
-            #line default
-            #line hidden
-            this.Write(@"}
-                      isAllOptionIncluded={true}
-                      paramColumns={[
-                            { name: ""paramCode"",        header: Message.Code,        visible: false },
-                            { name: ""paramDescription"", header: Message.Description, width:   200 }
-                      ]}
-                      ref = {(r: any) => this.snaps.");
-            
-            #line 17 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.SnapName));
-            
-            #line default
-            #line hidden
-            this.Write(" = r}\r\n                      context = {context}/>\r\n\r\n");
-            
-            #line 20 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-}
-else
-{
-            
-            #line default
-            #line hidden
-            this.Write(" <BParameterComponent selectedParamCode = {");
-            
-            #line 23 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
-            
-            #line default
-            #line hidden
-            this.Write("}\r\n                      onParameterSelect = {(selectedParameter: BOA.Types.Kerne" +
-                    "l.General.ParameterContract) => ");
-            
-            #line 24 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
-            
-            #line default
-            #line hidden
-            this.Write(" = selectedParameter ? selectedParameter.paramCode : null}\r\n                     " +
-                    " paramType =\"");
-            
-            #line 25 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.ParamType));
-            
-            #line default
-            #line hidden
-            this.Write("\"\r\n                      hintText  = {");
-            
-            #line 26 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
-            
-            #line default
-            #line hidden
-            this.Write("}\r\n                      labelText = {");
-            
-            #line 27 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
-            
-            #line default
-            #line hidden
-            this.Write(@"}
-                      isAllOptionIncluded={true}
-                      paramColumns={[
-                            { name: ""paramCode"",        header: Message.Code,        visible: false },
-                            { name: ""paramDescription"", header: Message.Description, width:   200 }
-                      ]}
-                      ref = {(r: any) => this.snaps.");
-            
-            #line 33 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.SnapName));
-            
-            #line default
-            #line hidden
-            this.Write(" = r}\r\n                      context = {context}/>\r\n\r\n");
-            
-            #line 36 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BParameterComponentTemplate.tt"
-}
-            
-            #line default
-            #line hidden
+            this.Write(@" = selectedAccount ? selectedAccount.accountNumber : null}
+                isVisibleBalance = {false}
+          isVisibleAccountSuffix = {false}
+enableShowDialogMessagesInCallback = {false}
+                   isVisibleIBAN = {false}
+                             ref = {(r: any) => this.snaps.SnapName = r}
+                         context = {context}/>
+");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -161,7 +61,7 @@ else
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BParameterComponentTemplateBase
+    public class BAccountComponentTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

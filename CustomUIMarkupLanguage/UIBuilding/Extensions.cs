@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using BOA.Common.Helpers;
+﻿using System.IO;
+using System.Windows;
 
-namespace WhiteStone.UI.Container
+namespace CustomUIMarkupLanguage.UIBuilding
 {
     /// <summary>
     ///     The extensions
@@ -16,7 +16,7 @@ namespace WhiteStone.UI.Container
         {
             var builder = new Builder
             {
-                Caller      = element
+                Caller = element
             };
 
             builder.Load(json);
@@ -29,7 +29,7 @@ namespace WhiteStone.UI.Container
         /// </summary>
         public static T LoadJsonFile<T>(this T element, string jsonFilePath) where T : UIElement
         {
-            return element.LoadJson(FileHelper.ReadFile(jsonFilePath));
+            return element.LoadJson(File.ReadAllText(jsonFilePath));
         }
         #endregion
     }

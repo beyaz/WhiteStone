@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOA.CodeGeneration.JsxElementRender
+namespace BOA.OneDesigner.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOA.CodeGeneration.JsxElementRender
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BDateTimePickerTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BCardSectionTemplate : BCardSectionTemplateBase
+    public partial class BDateTimePickerTemplate : BDateTimePickerTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,80 +28,28 @@ namespace BOA.CodeGeneration.JsxElementRender
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<BCardSection context={context} ");
+            this.Write("<BDateTimePicker format = \"DDMMYYYY\")\r\n                 value  = {");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
-    if(Cards.Count > 1)
-            
-            #line default
-            #line hidden
-            
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
-    {
+            #line 7 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BDateTimePickerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
-            this.Write("thresholdColumnCount={3}");
+            this.Write("}\r\n           dateOnChange = {(e: any, value: Date) => ");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
-    }
-            
-            #line default
-            #line hidden
-            this.Write(">\r\n");
-            
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
-
-int? columnIndex = 0;
-foreach (var card in Cards)
+            #line 8 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BDateTimePickerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
             
             #line default
             #line hidden
+            this.Write(" = value}\r\n  floatingLabelTextDate = {");
             
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
-{
-if (columnIndex == 3)
-{
-    columnIndex = 0;
-}
-
-if (Cards.Count == 1)
-{
-    columnIndex = null;
-}
-card.ColumnIndex = columnIndex;
-
+            #line 9 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BDateTimePickerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
             
             #line default
             #line hidden
-            this.Write("\r\n    ");
-            
-            #line 22 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
-card.PushIndent("    ");
-            
-            #line default
-            #line hidden
-            this.Write("    ");
-            
-            #line 23 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(card.TransformText()));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n    ");
-            
-            #line 24 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
-card.PopIndent();
-            
-            #line default
-            #line hidden
-            
-            #line 25 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BCardSectionTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write("           \r\n</BCardSection>");
+            this.Write("}\r\n                context = {context}/>");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -113,7 +61,7 @@ card.PopIndent();
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BCardSectionTemplateBase
+    public class BDateTimePickerTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace BOA.CodeGeneration.JsxElementRender
+namespace BOA.OneDesigner.JsxElementRender
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace BOA.CodeGeneration.JsxElementRender
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BBranchComponentTemplate.tt"
+    #line 1 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class BBranchComponentTemplate : BBranchComponentTemplateBase
+    public partial class BCardTemplate : BCardTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,31 +28,81 @@ namespace BOA.CodeGeneration.JsxElementRender
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("<BBranchComponent selectedBranchId = {");
+            this.Write(" <BCard context={context} ");
             
-            #line 6 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BBranchComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
-            
-            #line default
-            #line hidden
-            this.Write("}\r\n                  onBranchSelect   = {(selectedBranch: BOA.Common.Types.Branch" +
-                    "Contract) => ");
-            
-            #line 7 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BBranchComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.BindingPath));
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+    if(HasTitle)
             
             #line default
             #line hidden
-            this.Write(" = selectedBranch ? selectedBranch.branchId : null}\r\n                  mode      " +
-                    " = {\"horizontal\"}\r\n                  labelText  = {");
             
-            #line 9 "D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\FormApplicationGenerator\BOA.CodeGeneration.JsxElementRender\BBranchComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.Label));
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+    {
             
             #line default
             #line hidden
-            this.Write("}\r\n                  sortOption = {BBranchComponent.name}                      \r\n" +
-                    "                  context    = {context}/>\r\n");
+            this.Write("Title={Message.");
+            
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Title));
+            
+            #line default
+            #line hidden
+            this.Write("}");
+            
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+    }
+            
+            #line default
+            #line hidden
+            
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+    if(HasColumnIndex)
+            
+            #line default
+            #line hidden
+            
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+    {
+            
+            #line default
+            #line hidden
+            this.Write("column={");
+            
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ColumnIndex));
+            
+            #line default
+            #line hidden
+            this.Write("}");
+            
+            #line 6 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+    }
+            
+            #line default
+            #line hidden
+            this.Write(">\r\n");
+            
+            #line 7 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+foreach (var component in Components)
+            
+            #line default
+            #line hidden
+            
+            #line 8 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+{
+            
+            #line default
+            #line hidden
+            this.Write("    component.PushIndent(\"    \");\r\n    component.TransformText();\r\n    component." +
+                    "PopIndent();\r\n");
+            
+            #line 12 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BCardTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("           \r\n</BCard>");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -64,7 +114,7 @@ namespace BOA.CodeGeneration.JsxElementRender
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class BBranchComponentTemplateBase
+    public class BCardTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
