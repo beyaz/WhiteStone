@@ -274,7 +274,7 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
             #region Constructors
             public ExtendedButton2()
             {
-                const string ui = "{Text:'A', Click:'this.MyClick(2)'}";
+                const string ui = "{Text:'A', Click:'this.MyClick(2)', Height:34 }";
 
                 var builder = new Builder
                 {

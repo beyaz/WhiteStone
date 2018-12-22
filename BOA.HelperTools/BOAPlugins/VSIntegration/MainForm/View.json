@@ -9,6 +9,7 @@
         "Text": "Check In Current Solution",
         "Click": "this.FireAction('CheckInSolution')",
         "IsVisible": "{Binding CheckInSolutionIsEnabled}",
+        "Height": 20,
         "Margin": 10
       },
 
@@ -65,6 +66,7 @@
         "ui": "TextBox",
         "Text": "{Binding SolutionCheckInComment}",
         "Label": "Check In Comment",
+        "IsVisible": "{Binding CheckInSolutionIsEnabled}",
         "Margin": 10
       }
     ]

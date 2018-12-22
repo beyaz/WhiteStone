@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -673,6 +674,12 @@ namespace CustomUIMarkupLanguage.UIBuilding
             {
                 attributeValue = converter.ConvertFrom(attributeValue);
             }
+            else
+            {
+                attributeValue =  Cast.To(attributeValue, property.PropertyType,CultureInfo.CurrentUICulture);
+            }
+
+            
 
             property.SetValue(element, attributeValue);
 
