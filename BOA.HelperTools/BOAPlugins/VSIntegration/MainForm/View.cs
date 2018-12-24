@@ -1,5 +1,5 @@
 ﻿using BOAPlugins.Utility;
-using WhiteStone.UI.Container;
+using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container.Mvc;
 
 namespace BOAPlugins.VSIntegration.MainForm

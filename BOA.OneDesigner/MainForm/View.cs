@@ -1,29 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using BOA.OneDesigner.DragAndDrop;
+using BOA.OneDesigner.JsxElementRender;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container;
 using WhiteStone.UI.Container.Mvc;
 
 namespace BOA.OneDesigner.MainForm
 {
-
-    [Serializable]
-    public class  Model:ModelBase
-    {
-        
-    }
-
-    public class Controller : ControllerBase<Model>
-    {
-
-    }
     public class View:WindowBase<Model,Controller>
     {
+        public StackPanel DesignSurface;
 
         public View()
         {
@@ -31,6 +23,22 @@ namespace BOA.OneDesigner.MainForm
             
 
             this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
+
+
+            DesignSurface.VerticalAlignment = VerticalAlignment.Stretch;
+
+            var bCard = new BCard
+            {
+                Title = "Aloha",
+                Fields = new List<BField>
+                {
+                    new BInput
+                    {
+                        Label = "BLabel"
+                    }
+                }
+            };
+            DesignSurface.Children.Add(Visualizer.Visualize(bCard));
         }
 
        

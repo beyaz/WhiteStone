@@ -27,11 +27,11 @@ namespace BOA.CodeGeneration.Util
         {
             var input = new CheckInSolutionInput
             {
-                Comment          = "INC292087# -",
-                SolutionFilePath = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.Kernel.DataAccess.sln"
+                Comment          = "583# - Can Enter new Debit provizyon bilgisinin kaldırılması.",
+                SolutionFilePath = @"D:\work\BOA.Kernel\Dev\BOA.Kernel.CardGeneral\BOA.Kernel.CardGeneral.sln"
             };
 
-            TFSAccessForBOA.CheckInSolution(input);
+            // TFSAccessForBOA.CheckInSolution(input);
         }
 
         [TestMethod]

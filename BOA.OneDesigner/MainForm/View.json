@@ -15,9 +15,7 @@
             {
               "ui": "GroupBox",
               "Header": "GroupBox",
-              "Height": 100,
-              "PreviewMouseLeftButtonDown": "List_PreviewMouseLeftButtonDown",
-              "PreviewMouseMove": "List_MouseMove"
+              "Height": 100
 
             }
           ]
@@ -25,8 +23,17 @@
       },
       { "view": "GridSplitter" },
       {
-        "ui": "StackPanel",
+        "ui": "Grid",
+        "rows": [
+          {"ui": "StackPanel", "Name": "DesignSurface" ,"Height": 700}
+        ],
         "gravity": 8
+      },
+      { "view": "GridSplitter" },
+      {
+        "ui": "StackPanel", 
+        
+        "gravity": 2
       }
     ]
   }
