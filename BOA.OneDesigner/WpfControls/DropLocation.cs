@@ -6,12 +6,12 @@ using BOA.OneDesigner.DragAndDrop;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public sealed class DropLocation : Border
+    public sealed class DropLocation : Border,IDropLocation
     {
-        public Action<DropLocation> OnDropAction { get; }
+        public Action<IDropLocation> OnDropAction { get; }
 
         #region Constructors
-        public DropLocation(Action<DropLocation> onDropAction)
+        public DropLocation(Action<IDropLocation> onDropAction)
         {
             OnDropAction = onDropAction;
 

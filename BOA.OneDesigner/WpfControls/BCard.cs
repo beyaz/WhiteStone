@@ -6,7 +6,7 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCard : Grid
+    public class BCard : Grid,IDropLocationContainer
     {
 
         public void Refresh()
@@ -65,6 +65,9 @@ namespace BOA.OneDesigner.WpfControls
 	]
 	
 }");
+
+
+            Helper.MakeDraggable(this);
         }
         #endregion
 
@@ -99,9 +102,9 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
-        public void OnDrop(DropLocation dropLocation)
+        public void OnDrop(IDropLocation dropLocation)
         {
-            var index = ChildrenContainer.Children.IndexOf(dropLocation);
+            var index = ChildrenContainer.Children.IndexOf((UIElement)dropLocation);
             if (index<0)
             {
                 throw new ArgumentException();

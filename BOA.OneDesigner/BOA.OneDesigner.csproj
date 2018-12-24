@@ -78,6 +78,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DragAndDrop\Helper.cs" />
     <Compile Include="DragAndDrop\Info.cs" />
     <Compile Include="JsxElementModel\BAccountComponent.cs" />
     <Compile Include="JsxElementRender\BAccountComponentTemplate.cs">

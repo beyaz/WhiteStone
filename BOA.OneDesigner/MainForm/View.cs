@@ -1,30 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using BOA.OneDesigner.DragAndDrop;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.JsxElementRender;
 using CustomUIMarkupLanguage.UIBuilding;
-using WhiteStone.UI.Container;
 using WhiteStone.UI.Container.Mvc;
 
 namespace BOA.OneDesigner.MainForm
 {
-    public class View:WindowBase<Model,Controller>
+    public class View : WindowBase<Model, Controller>
     {
+        #region Fields
         public StackPanel DesignSurface;
+        #endregion
 
+        #region Constructors
         public View()
         {
-
-            
-
             this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
-
 
             DesignSurface.VerticalAlignment = VerticalAlignment.Stretch;
 
@@ -35,7 +28,7 @@ namespace BOA.OneDesigner.MainForm
                 {
                     new BInput
                     {
-                        Label = "User Name",
+                        Label       = "User Name",
                         BindingPath = "Request.DataContract.UserName"
                     },
 
@@ -46,9 +39,11 @@ namespace BOA.OneDesigner.MainForm
                     }
                 }
             };
-            DesignSurface.Children.Add(Visualizer.Visualize(bCard));
+            DesignSurface.Children.Add(new WpfControls.BCard
+            {
+                DataContext = bCard
+            });
         }
-
-       
+        #endregion
     }
 }
