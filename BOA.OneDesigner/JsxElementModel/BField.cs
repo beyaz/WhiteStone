@@ -6,7 +6,16 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public abstract class BField
     {
+
+        public Container Container { get; set; }
+
+        public void RemoveFromParent()
+        {
+            Container.RemoveField(this);
+        }
+
         public string Indent { get; set; }
+
         #region Public Properties
         public string BindingPath { get; set; }
         public string Label       { get; set; }

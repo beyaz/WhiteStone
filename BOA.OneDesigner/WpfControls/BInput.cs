@@ -1,15 +1,22 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
     public class BInput : Grid
     {
+        
+
         #region Constructors
         public BInput()
         {
+            MouseEnter += BInput_MouseEnter;
+            MouseLeave += BInput_MouseLeave;
+
             this.LoadJson(@"
 {
+    Margin:10,
 	rows:
 	[
 		{view:'TextBlock', Text:'{Binding " + nameof(JsxElementModel.BInput.Label) + @"}', MarginBottom:5, IsBold:true},
@@ -17,6 +24,16 @@ namespace BOA.OneDesigner.WpfControls
 	]
 	
 }");
+        }
+
+        private void BInput_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
+
+        void BInput_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Cursor = Cursors.Hand;
         }
         #endregion
 

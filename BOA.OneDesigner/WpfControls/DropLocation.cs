@@ -10,6 +10,8 @@ namespace BOA.OneDesigner.WpfControls
     {
         public Action<IDropLocation> OnDropAction { get; }
 
+        
+
         #region Constructors
         public DropLocation(Action<IDropLocation> onDropAction)
         {

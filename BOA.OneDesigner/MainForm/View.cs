@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.JsxElementModel;
@@ -23,22 +22,26 @@ namespace BOA.OneDesigner.MainForm
 
             var bCard = new BCard
             {
-                Title = "Aloha",
-                Fields = new List<BField>
-                {
-                    new BInput
-                    {
-                        Label       = "User Name",
-                        BindingPath = "Request.DataContract.UserName"
-                    },
-
-                    new BInput
-                    {
-                        Label       = "User Password",
-                        BindingPath = "Request.DataContract.Password"
-                    }
-                }
+                Title = "Aloha"
             };
+
+            bCard.InsertField(0, new BInput
+            {
+                Label       = "User Name",
+                BindingPath = "Request.DataContract.UserName"
+            });
+            bCard.InsertField(1, new BInput
+            {
+                Label       = "User Password",
+                BindingPath = "Request.DataContract.Password"
+            });
+
+            bCard.InsertField(2, new BInput
+            {
+                Label       = "System Date",
+                BindingPath = "Request.DataContract.SystemDate"
+            });
+
             DesignSurface.Children.Add(new WpfControls.BCard
             {
                 DataContext = bCard

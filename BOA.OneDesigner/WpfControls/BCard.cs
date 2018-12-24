@@ -6,46 +6,8 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCard : Grid,IDropLocationContainer
+    public class BCard : Grid, IDropLocationContainer
     {
-
-        public void Refresh()
-        {
-            ChildrenContainer.Children.Clear();
-
-            if (Data == null)
-            {
-                return;
-            }
-
-            foreach (var bField in Data.Fields)
-            {
-                if (bField is JsxElementModel.BInput)
-                {
-                    var uiElement = new BInput
-                    {
-                        DataContext = bField
-                    };
-
-                    Helper.MakeDraggable(uiElement);
-
-                    ChildrenContainer.Children.Add(uiElement);
-                }
-            }
-        }
-
-        JsxElementModel.BCard Data => (JsxElementModel.BCard)DataContext;
-
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.Property == DataContextProperty)
-            {
-                Refresh();
-            }
-
-            base.OnPropertyChanged(e);
-        }
-
         #region Fields
         public StackPanel ChildrenContainer;
         #endregion
@@ -66,13 +28,16 @@ namespace BOA.OneDesigner.WpfControls
 	
 }");
 
-
             Helper.MakeDraggable(this);
         }
         #endregion
 
         #region Public Properties
         public bool IsEnteredDropLocationMode { get; set; }
+        #endregion
+
+        #region Properties
+        JsxElementModel.BCard Data => (JsxElementModel.BCard) DataContext;
         #endregion
 
         #region Public Methods
@@ -102,28 +67,6 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
-        public void OnDrop(IDropLocation dropLocation)
-        {
-            var index = ChildrenContainer.Children.IndexOf((UIElement)dropLocation);
-            if (index<0)
-            {
-                throw new ArgumentException();
-            }
-
-            var bInput = Info.Current.Sender as BInput;
-            if (bInput != null)
-            {
-                Data.Fields.Insert(index,bInput.Data);
-                var dataContext = DataContext;
-                DataContext = null;
-                DataContext = dataContext;
-
-                return;
-            }
-
-            throw new ArgumentException();
-        }
-
         public void ExitDropLocationMode()
         {
             if (!IsEnteredDropLocationMode)
@@ -146,6 +89,105 @@ namespace BOA.OneDesigner.WpfControls
 
                 ChildrenContainer.Children.Add(control);
             }
+        }
+
+        public void OnDrop(IDropLocation dropLocation)
+        {
+         
+
+            var dropLocationIndex = ChildrenContainer.Children.IndexOf((UIElement) dropLocation);
+            if (dropLocationIndex < 0)
+            {
+                throw new ArgumentException();
+            }
+
+            UIElement previousElement = null;
+            if (dropLocationIndex > 0)
+            {
+                previousElement = ChildrenContainer.Children[dropLocationIndex - 1];
+            }
+            else
+            {
+                previousElement = ChildrenContainer.Children[1];
+            }
+
+            ExitDropLocationMode();
+
+            
+
+            var previousComponentIndex = ChildrenContainer.Children.IndexOf(previousElement);
+            if (previousComponentIndex < 0)
+            {
+                throw new ArgumentException();
+            }
+
+
+            var insertIndex = previousComponentIndex +1;
+
+            if (dropLocationIndex == 0)
+            {
+                insertIndex = 0;
+            }
+            
+
+
+            var bInput = Info.Current.Sender as BInput;
+            if (bInput != null)
+            {
+                bInput.Data.RemoveFromParent();
+
+                Data.InsertField(insertIndex, bInput.Data);
+
+                RefreshDataContext();
+
+                return;
+            }
+
+            throw new ArgumentException();
+        }
+
+        public void Refresh()
+        {
+            ChildrenContainer.Children.Clear();
+
+            if (Data == null)
+            {
+                return;
+            }
+
+            foreach (var bField in Data.Fields)
+            {
+                if (bField is JsxElementModel.BInput)
+                {
+                    var uiElement = new BInput
+                    {
+                        DataContext = bField
+                    };
+
+                    Helper.MakeDraggable(uiElement);
+
+                    ChildrenContainer.Children.Add(uiElement);
+                }
+            }
+        }
+        #endregion
+
+        #region Methods
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.Property == DataContextProperty)
+            {
+                Refresh();
+            }
+
+            base.OnPropertyChanged(e);
+        }
+
+        void RefreshDataContext()
+        {
+            var dataContext = DataContext;
+            DataContext = null;
+            DataContext = dataContext;
         }
         #endregion
     }
