@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using BOA.OneDesigner.WpfControls;
 
 namespace BOA.OneDesigner.DragAndDrop
 {
+
+
+
 
     public interface IDropLocation
     {
@@ -95,10 +99,10 @@ namespace BOA.OneDesigner.DragAndDrop
             if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
-                var dropLocationContainer = sender as IDropLocationContainer;
-                if (dropLocationContainer != null)
+                var surface = (sender as DependencyObject)?.FindParent<JsxElementDesignerSurface>();
+                if (surface != null)
                 {
-                    dropLocationContainer.EnterDropLocationMode();
+                    surface.EnterDropLocationMode();
 
                     var dragData = new DataObject("myFormat", "A");
                     DragDrop.DoDragDrop(info.Sender, dragData, DragDropEffects.Copy);

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
-using System.Windows.Controls;
+using BOA.OneDesigner.DragAndDrop;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container.Mvc;
@@ -10,42 +10,73 @@ namespace BOA.OneDesigner.MainForm
     public class View : WindowBase<Model, Controller>
     {
         #region Fields
-        public StackPanel DesignSurface;
+        public JsxElementDesignerSurface DesignSurface;
         #endregion
 
         #region Constructors
         public View()
         {
+            Builder.RegisterElementCreation("Surface",typeof(JsxElementDesignerSurface));
+
             this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
 
             DesignSurface.VerticalAlignment = VerticalAlignment.Stretch;
 
-            var bCard = new BCard
+            var card = new BCard
             {
                 Title = "Aloha"
             };
 
-            bCard.InsertField(0, new BInput
+            card.InsertField(0, new BInput
             {
                 Label       = "User Name",
                 BindingPath = "Request.DataContract.UserName"
             });
-            bCard.InsertField(1, new BInput
+            card.InsertField(1, new BInput
             {
                 Label       = "User Password",
                 BindingPath = "Request.DataContract.Password"
             });
 
-            bCard.InsertField(2, new BInput
+            card.InsertField(2, new BInput
             {
                 Label       = "System Date",
                 BindingPath = "Request.DataContract.SystemDate"
             });
 
-            DesignSurface.Children.Add(new WpfControls.BCard
+            var cardSection = new BCardSection();
+            cardSection.InsertCard(0,card);
+
+
+            card = new BCard
             {
-                DataContext = bCard
+                Title = "Aloha2"
+            };
+
+            card.InsertField(0, new BInput
+            {
+                Label       = "User Name2",
+                BindingPath = "Request.DataContract.UserName2"
             });
+            card.InsertField(1, new BInput
+            {
+                Label       = "User Password2",
+                BindingPath = "Request.DataContract.Password2"
+            });
+
+            card.InsertField(2, new BInput
+            {
+                Label       = "System Date2",
+                BindingPath = "Request.DataContract.SystemDate2"
+            });
+
+            cardSection.InsertCard(0,card);
+
+           
+
+            DesignSurface.DataContext = cardSection;
+
+           
         }
         #endregion
     }

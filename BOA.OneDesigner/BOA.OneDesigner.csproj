@@ -148,6 +148,7 @@
     <Compile Include="MainForm\View.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WpfControls\BCard.cs" />
+    <Compile Include="WpfControls\BCardSection.cs" />
     <Compile Include="WpfControls\BInput.cs" />
     <Compile Include="WpfControls\Extensions.cs" />
     <Compile Include="WpfControls\DropLocation.cs" />

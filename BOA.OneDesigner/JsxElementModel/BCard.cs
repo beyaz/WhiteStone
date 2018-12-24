@@ -6,6 +6,13 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BCard : Container
     {
+
+        public void RemoveFromParent()
+        {
+            Container.RemoveCard(this);
+        }
+
+        public CardContainer Container { get; set; }
         #region Public Properties
         public List<BField> Fields { get; set; } = new List<BField>();
 
@@ -41,4 +48,7 @@ namespace BOA.OneDesigner.JsxElementModel
         public abstract void RemoveField(BField field);
         #endregion
     }
+
+
+   
 }

@@ -1,5 +1,7 @@
 {
   "Title": "BOA One Designer",
+  "Width": 900,
+  "Height": 600,
   "Content": {
 
     "ui": "Grid",
@@ -25,7 +27,7 @@
       {
         "ui": "Grid",
         "rows": [
-          {"ui": "StackPanel", "Name": "DesignSurface" ,"Height": 700}
+          {"ui": "Surface", "Name": "DesignSurface" ,"Height": 700}
         ],
         "gravity": 8
       },

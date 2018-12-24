@@ -1,11 +1,16 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using BOA.OneDesigner.DragAndDrop;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
+
+   
     public class BInput : Grid
     {
+
+        public IDropLocationContainer Container { get; set; }
         
 
         #region Constructors

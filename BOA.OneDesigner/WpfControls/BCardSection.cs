@@ -2,74 +2,60 @@
 using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.DragAndDrop;
-using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCard : Grid, IDropLocationContainer
+    public class BCardSection : WrapPanel, IDropLocationContainer
     {
-        public IDropLocationContainer Container { get; set; }
-
-        #region Fields
-        public StackPanel ChildrenContainer;
-        #endregion
-
-        #region Constructors
-        public BCard()
-        {
-            this.LoadJson(@"
-{
-	rows:
-	[
-		{
-            view:   'GroupBox', 
-            Header: '{Binding " + nameof(JsxElementModel.BCard.Title) + @"}',
-            Content: { ui:'StackPanel' , Name:'" + nameof(ChildrenContainer) + @"' }
-        }
-	]
-	
-}");
-
-        }
-        #endregion
-
+        
         #region Public Properties
         public bool IsEnteredDropLocationMode { get; set; }
         #endregion
 
         #region Properties
-        public JsxElementModel.BCard Data => (JsxElementModel.BCard) DataContext;
+        JsxElementModel.BCardSection Data => (JsxElementModel.BCardSection) DataContext;
         #endregion
 
         #region Public Methods
         public void EnterDropLocationMode()
         {
 
-            if (Info.Current?.Sender is BCard)
-            {
-                return;
-            }
+            
 
+            
             if (IsEnteredDropLocationMode)
             {
                 return;
             }
 
+            if (!(Info.Current?.Sender is BCard))
+            {
+                foreach (var child in Children)
+                {
+                    (child as IDropLocationContainer)?.EnterDropLocationMode();
+                }
+
+                return;
+            }
+
+
             IsEnteredDropLocationMode = true;
 
-            var items = ChildrenContainer.Children.ToArray();
+            var items = Children.ToArray();
 
-            ChildrenContainer.Children.Clear();
+            Children.Clear();
 
             foreach (var control in items)
             {
-                ChildrenContainer.Children.Add(new DropLocation(OnDrop));
+                Children.Add(new DropLocation(OnDrop));
 
-                ChildrenContainer.Children.Add(control);
+                (control as IDropLocationContainer)?.EnterDropLocationMode();
+
+                Children.Add(control);
 
                 if (control == items[items.Length - 1])
                 {
-                    ChildrenContainer.Children.Add(new DropLocation(OnDrop));
+                    Children.Add(new DropLocation(OnDrop));
                 }
             }
         }
@@ -83,9 +69,21 @@ namespace BOA.OneDesigner.WpfControls
 
             IsEnteredDropLocationMode = false;
 
-            var items = ChildrenContainer.Children.ToArray();
 
-            ChildrenContainer.Children.Clear();
+            if (!(Info.Current?.Sender is BCard))
+            {
+                foreach (var child in Children)
+                {
+                    (child as IDropLocationContainer)?.ExitDropLocationMode();
+                }
+
+                return;
+            }
+
+
+            var items = Children.ToArray();
+
+            Children.Clear();
 
             foreach (var control in items)
             {
@@ -94,13 +92,15 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-                ChildrenContainer.Children.Add(control);
+                (control as IDropLocationContainer)?.ExitDropLocationMode();
+
+                Children.Add(control);
             }
         }
 
         public void OnDrop(IDropLocation dropLocation)
         {
-            var dropLocationIndex = ChildrenContainer.Children.IndexOf((UIElement) dropLocation);
+            var dropLocationIndex = Children.IndexOf((UIElement) dropLocation);
             if (dropLocationIndex < 0)
             {
                 throw new ArgumentException();
@@ -109,16 +109,16 @@ namespace BOA.OneDesigner.WpfControls
             UIElement previousElement = null;
             if (dropLocationIndex > 0)
             {
-                previousElement = ChildrenContainer.Children[dropLocationIndex - 1];
+                previousElement = Children[dropLocationIndex - 1];
             }
             else
             {
-                previousElement = ChildrenContainer.Children[1];
+                previousElement = Children[1];
             }
 
             ExitDropLocationMode();
 
-            var previousComponentIndex = ChildrenContainer.Children.IndexOf(previousElement);
+            var previousComponentIndex = Children.IndexOf(previousElement);
             if (previousComponentIndex < 0)
             {
                 throw new ArgumentException();
@@ -131,12 +131,12 @@ namespace BOA.OneDesigner.WpfControls
                 insertIndex = 0;
             }
 
-            var bInput = Info.Current.Sender as BInput;
+            var bInput = Info.Current.Sender as BCard;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
 
-                Data.InsertField(insertIndex, bInput.Data);
+                Data.InsertCard(insertIndex, bInput.Data);
 
                 RefreshDataContext();
 
@@ -148,27 +148,25 @@ namespace BOA.OneDesigner.WpfControls
 
         public void Refresh()
         {
-            ChildrenContainer.Children.Clear();
+            Children.Clear();
 
             if (Data == null)
             {
                 return;
             }
 
-            foreach (var bField in Data.Fields)
+            foreach (var bField in Data.Cards)
             {
-                if (bField is JsxElementModel.BInput)
+                var uiElement = new BCard
                 {
-                    var uiElement = new BInput
-                    {
-                        DataContext = bField,
-                        Container = this
-                    };
+                    DataContext = bField,
+                    Margin = new Thickness(10),
+                    Container =  this
+                };
 
-                    Helper.MakeDraggable(uiElement);
+                Helper.MakeDraggable(uiElement);
 
-                    ChildrenContainer.Children.Add(uiElement);
-                }
+                Children.Add(uiElement);
             }
         }
         #endregion
