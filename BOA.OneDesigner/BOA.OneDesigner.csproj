@@ -79,20 +79,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DragAndDrop\Info.cs" />
-    <Compile Include="JsxElementRender\BAccountComponent.cs" />
+    <Compile Include="JsxElementModel\BAccountComponent.cs" />
     <Compile Include="JsxElementRender\BAccountComponentTemplate.cs">
       <DependentUpon>BAccountComponentTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="JsxElementRender\BBranchComponent.cs" />
+    <Compile Include="JsxElementModel\BBranchComponent.cs" />
     <Compile Include="JsxElementRender\BBranchComponentTemplate.cs">
       <DependentUpon>BBranchComponentTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="JsxElementRender\BCard.cs" />
-    <Compile Include="JsxElementRender\BCardSection.cs" />
+    <Compile Include="JsxElementModel\BCard.cs" />
+    <Compile Include="JsxElementModel\BCardSection.cs" />
     <Compile Include="JsxElementRender\BCardSectionTemplate.cs">
       <DependentUpon>BCardSectionTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -103,27 +103,27 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="JsxElementRender\BCheckBox.cs" />
+    <Compile Include="JsxElementModel\BCheckBox.cs" />
     <Compile Include="JsxElementRender\BCheckBoxTemplate.cs">
       <DependentUpon>BCheckBoxTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="JsxElementRender\BDateTimePicker.cs" />
+    <Compile Include="JsxElementModel\BDateTimePicker.cs" />
     <Compile Include="JsxElementRender\BDateTimePickerTemplate.cs">
       <DependentUpon>BDateTimePickerTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="JsxElementRender\BField.cs" />
-    <Compile Include="JsxElementRender\BInput.cs" />
-    <Compile Include="JsxElementRender\BInputMask.cs" />
+    <Compile Include="JsxElementModel\BField.cs" />
+    <Compile Include="JsxElementModel\BInput.cs" />
+    <Compile Include="JsxElementModel\BInputMask.cs" />
     <Compile Include="JsxElementRender\BInputMaskTemplate.cs">
       <DependentUpon>BInputMaskTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="JsxElementRender\BInputNumeric.cs" />
+    <Compile Include="JsxElementModel\BInputNumeric.cs" />
     <Compile Include="JsxElementRender\BInputNumericTemplate.cs">
       <DependentUpon>BInputNumericTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -134,18 +134,22 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="JsxElementRender\BParameterComponent.cs" />
+    <Compile Include="JsxElementModel\BParameterComponent.cs" />
     <Compile Include="JsxElementRender\BParameterComponentTemplate.cs">
       <DependentUpon>BParameterComponentTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="JsxElementRender\BTab.cs" />
+    <Compile Include="JsxElementModel\BTab.cs" />
     <Compile Include="JsxElementRender\Templates.Extensions.cs" />
     <Compile Include="MainForm\Controller.cs" />
     <Compile Include="MainForm\Model.cs" />
     <Compile Include="MainForm\View.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WpfControls\BCard.cs" />
+    <Compile Include="WpfControls\BInput.cs" />
+    <Compile Include="WpfControls\Extensions.cs" />
+    <Compile Include="WpfControls\DropLocation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MainForm\View.json">

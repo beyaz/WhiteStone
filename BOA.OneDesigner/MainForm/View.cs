@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.DragAndDrop;
+using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.JsxElementRender;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container;
@@ -34,7 +35,14 @@ namespace BOA.OneDesigner.MainForm
                 {
                     new BInput
                     {
-                        Label = "BLabel"
+                        Label = "User Name",
+                        BindingPath = "Request.DataContract.UserName"
+                    },
+
+                    new BInput
+                    {
+                        Label       = "User Password",
+                        BindingPath = "Request.DataContract.Password"
                     }
                 }
             };

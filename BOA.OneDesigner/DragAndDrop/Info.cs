@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,84 +6,82 @@ using System.Windows.Media;
 using BOA.OneDesigner.JsxElementRender;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container;
+using  BOA.OneDesigner.WpfControls;
+using BCard = BOA.OneDesigner.WpfControls.BCard;
+using BInput = BOA.OneDesigner.WpfControls.BInput;
 
 namespace BOA.OneDesigner.DragAndDrop
 {
 
+   
+
+   
+
     static class Visualizer
     {
-        public static UIElement Visualize(BInput bInput)
+        #region Public Methods
+        public static UIElement Visualize(JsxElementModel.BInput bInput)
         {
-            return new LabeledTextBox{DataContext = bInput}.LoadJson("{Label:'{Binding " + nameof(BInput.Label) + "}'}");
-        }
-
-        public static UIElement Visualize(BCard bCard)
-        {
-            var groupBox = new GroupBox().LoadJson("{Header:'{Binding "+nameof(BCard.Title)+"}'}");
-
-            groupBox.DataContext = bCard;
-
-            var sp = new StackPanel();
-
-            groupBox.Content = sp;
-
-            foreach (var bField in bCard.Fields)
+            return new BInput
             {
-                if (bField is BInput)
-                {
-                    sp.Children.Add(new YoungBird{ Height = 5});
-                    sp.Children.Add(Visualize((BInput) bField));
-                    sp.Children.Add(new YoungBird{ Height = 5});
-                    continue;
-                }
-
-            }
-
-            return groupBox;
-
+                DataContext = bInput
+            };
         }
-        
-    }
 
-
-    public class  YoungBird:Border
-    {
-        public YoungBird()
+        public static UIElement Visualize(JsxElementModel.BCard bCard)
         {
-            BorderBrush = Brushes.HotPink;
-            BorderThickness = new Thickness(2);
+            var inWpf = new BCard
+            {
+                DataContext = bCard
+            };
 
-            MouseEnter += YoungBird_MouseEnter
-                ;
+
+
             
-        }
 
-        private void YoungBird_MouseEnter(object sender, MouseEventArgs e)
-        {
-            this.BorderBrush = Brushes.Blue;
-            BorderThickness = new Thickness(6);
-            Height += 20;
+            Helper.MakeDraggable(inWpf);
+            // Helper.MakeDropLocation(inWpf);
+
+            return inWpf;
         }
+        #endregion
     }
+
+    
 
     static class Helper
     {
 
-        
-        public static void OnDragEnter(object sender, DragEventArgs e)
+        public static void MakeDraggable(UIElement element)
         {
-            var youngBird = sender as YoungBird;
 
-            if (youngBird  == null)
+            element.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
+
+            element.PreviewMouseMove += OnMouseMove;
+        }
+
+        #region Public Methods
+        public static void MakeDropLocation(UIElement element)
+        {
+            element.AllowDrop =  true;
+            element.Drop      += OnDrop;
+
+            element.DragEnter += OnDragEnter;
+            element.DragLeave += OnDragLeave;
+        }
+        #endregion
+
+        #region Methods
+
+        static void OnDragEnter(object sender , DragEventArgs e)
+        {
+
+
+
+            if (sender == e.Source)
             {
-                return;
-            }
+                (sender as DropLocation)?.OnDragEnter();
 
-
-
-            if (!e.Data.GetDataPresent("myFormat") ||
-                sender == e.Source)
-            {
                 e.Effects = DragDropEffects.Copy;
             }
             else
@@ -96,93 +90,88 @@ namespace BOA.OneDesigner.DragAndDrop
             }
         }
 
+        static void OnDragLeave(object sender, DragEventArgs e)
+        {
+            (sender as DropLocation)?.OnDragLeave();
+        }
 
-        public static void DropList_Drop(object sender, DragEventArgs e)
+        static void OnDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent("myFormat"))
             {
-                var        contact = e.Data.GetData("myFormat") as string;
-                StackPanel sp      = sender as StackPanel;
+                var dropLocation = sender as DropLocation;
+                var bInput = Info.Current?.Sender as BInput;
 
-
-                sp.Children.Add(new Button{Content = contact});
-
-
-
-
-            }
-        }
-
-        public static void  DropList_OnDragLeave(object sender, DragEventArgs e)
-        {
-            
-            var stackPanel = sender as StackPanel;
-
-            if (stackPanel != null)
-            {
-                stackPanel.Background = Brushes.LightBlue;
-                stackPanel.Height     = 100;
+                if (bInput != null && dropLocation != null)
+                {
+                    dropLocation.OnDropAction(dropLocation);
+                }
+                
+                
+                
             }
         }
 
         static void OnMouseMove(object sender, MouseEventArgs e)
         {
+            if (e.LeftButton != MouseButtonState.Pressed)
+            {
+                return;
+            }
             var info = Info.Current;
             if (info == null)
             {
                 return;
             }
 
-            // Get the current mouse position
-            Point  mousePos = e.GetPosition(null);
-            Vector diff     = info.StartPoint - mousePos;
- 
-            if (e.LeftButton == MouseButtonState.Pressed &&
-                Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
-                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance )
+            if (Equals(sender, info.Sender))
             {
-                // Get the dragged ListViewItem
-                StackPanel listView = sender as StackPanel;
-                Button listViewItem = 
-                    FindAnchestor<Button>((DependencyObject)e.OriginalSource);
-
-                if (listViewItem == null)
-                {
-                    return;
-                }
-                // Find the data behind the ListViewItem
-                
- 
-                // Initialize the drag & drop operation
-                DataObject dragData = new DataObject("myFormat", "A" );
-                DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Copy);
-            } 
-        }
-
-
-         static T FindAnchestor<T>(DependencyObject current)
-            where T : DependencyObject
-        {
-            do
-            {
-                if( current is T )
-                {
-                    return (T)current;
-                }
-                current = VisualTreeHelper.GetParent(current);
+                return;
             }
-            while (current != null);
-            return null;
+
+            // Get the current mouse position
+            var mousePos = e.GetPosition(null);
+            var diff     = info.StartPoint - mousePos;
+
+            if (
+                Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+            {
+                var bCardInWpf = sender as BCard;
+                if (bCardInWpf != null)
+                {
+
+                    bCardInWpf.EnterDropLocationMode();
+
+                    var dragData = new DataObject("myFormat", "A");
+                    DragDrop.DoDragDrop(info.Sender, dragData, DragDropEffects.Copy);
+                }
+
+               
+            }
         }
 
-        public static void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        static void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Info.Current = new Info {StartPoint = e.GetPosition(null)};
+            Info.Current = new Info
+            {
+                StartPoint = e.GetPosition(null),
+                Sender =(UIElement) sender
+            };
         }
+        #endregion
     }
+
     public class Info
     {
+        #region Static Fields
         public static Info Current;
+        #endregion
+
+        #region Fields
         public Point StartPoint;
+        #endregion
+
+        public UIElement Sender { get; set; }
     }
 }

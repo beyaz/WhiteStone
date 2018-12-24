@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BOA.OneDesigner.JsxElementRender
+namespace BOA.OneDesigner.JsxElementModel
 {
     [Serializable]
     public class BCard
@@ -9,7 +9,7 @@ namespace BOA.OneDesigner.JsxElementRender
         
 
         #region Public Properties
-        public IReadOnlyList<BField> Fields { get; set; }
+        public List<BField> Fields { get; set; }
         public string                Title  { get; set; }
         #endregion
     }

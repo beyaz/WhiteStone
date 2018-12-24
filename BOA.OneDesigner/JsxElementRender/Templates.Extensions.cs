@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-
-
+using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.JsxElementRender
 { partial class  BCheckBoxTemplate

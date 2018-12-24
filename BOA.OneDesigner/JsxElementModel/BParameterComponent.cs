@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.OneDesigner.JsxElementRender
+namespace BOA.OneDesigner.JsxElementModel
 {
     [Serializable]
     public class BParameterComponent: BField

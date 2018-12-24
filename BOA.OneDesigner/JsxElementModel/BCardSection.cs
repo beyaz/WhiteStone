@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BOA.OneDesigner.JsxElementRender
+namespace BOA.OneDesigner.JsxElementModel
 {
     [Serializable]
     public class BCardSection
