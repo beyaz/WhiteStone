@@ -42,6 +42,9 @@
     <Reference Include="ControlzEx">
       <HintPath>$(SolutionDir)packages\ControlzEx.4.0.0-alpha0218\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="Intellibox">
+      <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\Intellibox.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>$(SolutionDir)packages\MahApps.Metro.2.0.0-alpha0170\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -68,6 +71,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntellisenseTextBox.cs" />
     <Compile Include="WindowBase.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Designer.cs" />

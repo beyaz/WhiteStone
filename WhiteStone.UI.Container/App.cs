@@ -16,6 +16,7 @@ namespace WhiteStone.UI.Container
           static void InitializeBuilder()
         {
             Builder.RegisterElementCreation(LabeledTextBox.On);
+            Builder.RegisterElementCreation(IntellisenseTextBox.On);
 
             Builder.RegisterElementCreation("Tile",typeof(MahApps.Metro.Controls.Tile));
         }

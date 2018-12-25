@@ -15,7 +15,7 @@ namespace WhiteStone.UI.Container
                 return new LabeledTextBox();
             }
 
-            if (node.Properties["view"].ValueAsStringToUpperInEnglish == nameof(TextBox).ToUpperEN() && 
+            if (node.UI == nameof(TextBox).ToUpperEN() && 
                 node.HasProperty("Label"))
             {
                 return new LabeledTextBox();
