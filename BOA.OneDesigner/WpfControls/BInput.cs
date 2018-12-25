@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
-using BOA.OneDesigner.DragAndDrop;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
@@ -9,7 +8,7 @@ namespace BOA.OneDesigner.WpfControls
    
     public class BInput : Grid,IJsxElementDesignerSurfaceItem
     {
-        public IJsxElementDesignerSurface Surface { get; set; }
+        public JsxElementDesignerSurface Surface { get; set; }
 
         public IDropLocationContainer Container { get; set; }
         

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using BOA.OneDesigner.DragAndDrop;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
@@ -35,7 +34,7 @@ namespace BOA.OneDesigner.WpfControls
         public JsxElementModel.BCard  Data                      => (JsxElementModel.BCard) DataContext;
         public bool                   IsEnteredDropLocationMode { get; set; }
 
-        public IJsxElementDesignerSurface Surface { get; set; }
+        public JsxElementDesignerSurface Surface { get; set; }
         #endregion
 
         #region Public Methods
@@ -96,7 +95,7 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
-        public void OnDrop(IDropLocation dropLocation)
+        public void OnDrop(DropLocation dropLocation)
         {
             var insertIndex = dropLocation.TargetLocationIndex;
 
@@ -138,7 +137,7 @@ namespace BOA.OneDesigner.WpfControls
                         Container   = this
                     };
 
-                    Helper.MakeDraggable(uiElement);
+                    DragAndDropHelper.MakeDraggable(uiElement);
 
                     ChildrenContainer.Children.Add(uiElement);
                 }

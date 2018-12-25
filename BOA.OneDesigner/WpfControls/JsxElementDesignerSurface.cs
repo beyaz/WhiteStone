@@ -1,29 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using BOA.OneDesigner.JsxElementModel;
 
-namespace BOA.OneDesigner.DragAndDrop
+namespace BOA.OneDesigner.WpfControls
 {
-   
-
-    public interface IJsxElementDesignerSurface
-    {
-         Point DraggingElementStartPoint { get; set; }
-
-         UIElement DraggingElement { get; set; }
-
-         void EnterDropLocationMode();
-
-         void ExitDropLocationMode();
-    }
-
-    public interface IJsxElementDesignerSurfaceItem
-    {
-        IJsxElementDesignerSurface Surface { get; set; }
-    }
-
-    public class JsxElementDesignerSurface : StackPanel,IDropLocationContainer,IJsxElementDesignerSurface
+    public class JsxElementDesignerSurface : StackPanel,IDropLocationContainer
     {
 
         public Point DraggingElementStartPoint { get; set; }
@@ -41,7 +22,7 @@ namespace BOA.OneDesigner.DragAndDrop
                 return;
             }
 
-            var cardSection = DataContext as BCardSection;
+            var cardSection = DataContext as JsxElementModel.BCardSection;
 
             if (cardSection!= null)
             {

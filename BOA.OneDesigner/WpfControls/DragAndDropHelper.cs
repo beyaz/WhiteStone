@@ -1,32 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using BOA.OneDesigner.WpfControls;
 
-namespace BOA.OneDesigner.DragAndDrop
+namespace BOA.OneDesigner.WpfControls
 {
-
-
-
-
-    public interface IDropLocation
-    {
-        void OnDragEnter();
-
-        void OnDragLeave();
-
-        Action<IDropLocation> OnDropAction { get; }
-
-         int TargetLocationIndex { get; set; }
-    }
-
-    public interface IDropLocationContainer
-    {
-        void EnterDropLocationMode();
-        void ExitDropLocationMode();
-    }
-
-    static class Helper
+    static class DragAndDropHelper
     {
         #region Public Methods
         public static void MakeDraggable(UIElement element)
@@ -51,7 +29,7 @@ namespace BOA.OneDesigner.DragAndDrop
         {
             if (sender == e.Source)
             {
-                (sender as IDropLocation)?.OnDragEnter();
+                (sender as DropLocation)?.OnDragEnter();
 
                 e.Effects = DragDropEffects.Copy;
             }
@@ -63,14 +41,14 @@ namespace BOA.OneDesigner.DragAndDrop
 
         static void OnDragLeave(object sender, DragEventArgs e)
         {
-            (sender as IDropLocation)?.OnDragLeave();
+            (sender as DropLocation)?.OnDragLeave();
         }
 
         static void OnDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent("myFormat"))
             {
-                var dropLocation = (sender as IDropLocation);
+                var dropLocation = (sender as DropLocation);
 
                 dropLocation?.OnDropAction(dropLocation);
             }

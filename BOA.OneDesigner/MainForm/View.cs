@@ -1,9 +1,11 @@
 ﻿using System.IO;
 using System.Windows;
-using BOA.OneDesigner.DragAndDrop;
-using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container.Mvc;
+using BCard = BOA.OneDesigner.JsxElementModel.BCard;
+using BCardSection = BOA.OneDesigner.JsxElementModel.BCardSection;
+using BInput = BOA.OneDesigner.JsxElementModel.BInput;
 
 namespace BOA.OneDesigner.MainForm
 {

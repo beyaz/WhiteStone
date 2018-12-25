@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using BOA.OneDesigner.DragAndDrop;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -10,7 +9,7 @@ namespace BOA.OneDesigner.WpfControls
     {
         #region Public Properties
         public bool                       IsEnteredDropLocationMode { get; set; }
-        public IJsxElementDesignerSurface Surface                   { get; set; }
+        public JsxElementDesignerSurface Surface                   { get; set; }
         #endregion
 
         #region Properties
@@ -98,7 +97,7 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
-        public void OnDrop(IDropLocation dropLocation)
+        public void OnDrop(DropLocation dropLocation)
         {
             Surface.ExitDropLocationMode();
 
@@ -138,7 +137,7 @@ namespace BOA.OneDesigner.WpfControls
                     Container   = this
                 };
 
-                Helper.MakeDraggable(uiElement);
+                DragAndDropHelper.MakeDraggable(uiElement);
 
                 Children.Add(uiElement);
             }

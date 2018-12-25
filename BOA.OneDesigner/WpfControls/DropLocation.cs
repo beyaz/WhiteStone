@@ -2,11 +2,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using BOA.OneDesigner.DragAndDrop;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public sealed class DropLocation : Border, IDropLocation
+    public sealed class DropLocation : Border
     {
         #region Constructors
         public DropLocation()
@@ -16,14 +15,14 @@ namespace BOA.OneDesigner.WpfControls
             MinHeight       = 20;
             MinWidth        = 20;
 
-            Helper.MakeDropLocation(this);
+            DragAndDropHelper.MakeDropLocation(this);
 
             OnDragLeave();
         }
         #endregion
 
         #region Public Properties
-        public Action<IDropLocation> OnDropAction        { get; set; }
+        public Action<DropLocation> OnDropAction        { get; set; }
         public int                   TargetLocationIndex { get; set; }
         #endregion
 
