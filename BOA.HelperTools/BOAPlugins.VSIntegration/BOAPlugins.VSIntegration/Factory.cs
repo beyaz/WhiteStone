@@ -19,7 +19,7 @@ namespace BOAPlugins.VSIntegration
         internal static Configuration Configuration => SM.Get<Configuration>();
 
         internal static string      WhiteStoneBinDirectory => ConstConfiguration.PluginDirectory + "bin" + Path.DirectorySeparatorChar;
-        static          ISerializer Serializer             => SM.Get<ISerializer>() ?? SM.Set<ISerializer>(new JsonSerializer());
+        
         #endregion
 
         #region Public Methods

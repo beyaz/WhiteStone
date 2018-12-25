@@ -41,7 +41,7 @@ namespace BOAPlugins.Utility
                 RequestNameForDefinition           = tableNameIndDatabase + "FormRequest",
                 RequestNameForList                 = tableNameIndDatabase + "ListFormRequest",
                 NamespaceNameForType               = GetNamespaceNameForType(slnFilePath),
-                TypeAssemblyName                   = $"{GetNamespaceNameForType(slnFilePath)}.dll",
+                TypeAssemblyName                   = GetTypeAssemblyName(slnFilePath),
                 NamespaceNameForOrchestration      = GetNamespaceNameForOrchestration(slnFilePath),
                 DefinitionFormDataClassName        = tableNameIndDatabase + "FormData",
                 OrchestrationFileNameForListForm   = tableNameIndDatabase + "ListForm.cs",
@@ -62,6 +62,11 @@ namespace BOAPlugins.Utility
         public static string GetNamespaceNameForType(string slnFilePath)
         {
             return $"BOA.Types.{GetSolutionNamespaceName(slnFilePath)}";
+        }
+
+        public static string GetTypeAssemblyName(string slnFilePath)
+        {
+            return $"{GetNamespaceNameForType(slnFilePath)}.dll";
         }
 
         public static string GetSolutionNamespaceName(string slnFilePath)

@@ -27,7 +27,7 @@ namespace BOA.OneDesigner.MainForm
         public IReadOnlyList<string> RequestNames { get; set; }
 
         public bool SelectedRequestNameIsIsEnabled { get; set; }
-        
+        public string SlnFilePath { get; set; }
         #endregion
     }
 }
