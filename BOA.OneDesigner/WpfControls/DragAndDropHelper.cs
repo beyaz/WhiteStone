@@ -17,9 +17,11 @@ namespace BOA.OneDesigner.WpfControls
         public static void MakeDropLocation(UIElement element)
         {
             element.AllowDrop =  true;
+
             element.Drop      += OnDrop;
 
             element.DragEnter += OnDragEnter;
+
             element.DragLeave += OnDragLeave;
         }
         #endregion
@@ -51,8 +53,12 @@ namespace BOA.OneDesigner.WpfControls
                 var dropLocation = (sender as DropLocation);
 
                 dropLocation?.OnDropAction(dropLocation);
+
+                AfterDropOperation?.Invoke();
             }
         }
+
+        public static event Action AfterDropOperation;
 
         static void OnMouseMove(object sender, MouseEventArgs e)
         {
@@ -60,11 +66,10 @@ namespace BOA.OneDesigner.WpfControls
             {
                 return;
             }
-
             
 
             var surfaceItem = sender as IJsxElementDesignerSurfaceItem;
-            if (surfaceItem == null)
+            if (surfaceItem == null || surfaceItem.Surface == null)
             {
                 return;
             }
@@ -90,18 +95,20 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
+       
+
         static void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var surface = (sender as UIElement)?.FindParent<JsxElementDesignerSurface>();
 
-            if (surface == null)
-            {
-                throw new ArgumentException();
-            }
+           UIContext. DraggingElementStartPoint = e.GetPosition(null);
+           UIContext.DraggingElement           = (UIElement) sender;
+           UIContext.OnDragElementSelected();
 
-            surface.DraggingElementStartPoint = e.GetPosition(null);
-            surface.DraggingElement = (UIElement) sender;
         }
         #endregion
+
+        
+
+        
     }
 }

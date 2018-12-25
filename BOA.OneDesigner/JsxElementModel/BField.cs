@@ -11,7 +11,7 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public void RemoveFromParent()
         {
-            Container.RemoveItem(this);
+            Container?.RemoveItem(this);
         }
 
         public string Indent { get; set; }

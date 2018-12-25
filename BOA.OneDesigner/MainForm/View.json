@@ -7,21 +7,9 @@
     "ui": "Grid",
     "columns": [
       {
-        "view": "GroupBox",
-        "gravity": 1,
-        "Header": "Toolbox",
-
-        "Content": {
-          "ui": "StackPanel",
-          "children": [
-            {
-              "ui": "GroupBox",
-              "Header": "GroupBox",
-              "Height": 100
-
-            }
-          ]
-        }
+        "view": "Toolbox",
+        "Margin": 5,
+        "gravity": 1
       },
       { "view": "GridSplitter" },
       {
@@ -33,8 +21,7 @@
       },
       { "view": "GridSplitter" },
       {
-        "ui": "StackPanel", 
-        
+        "ui": "PropertyEditorContainer",
         "gravity": 2
       }
     ]

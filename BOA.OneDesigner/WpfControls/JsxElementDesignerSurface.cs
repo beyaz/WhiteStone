@@ -7,14 +7,21 @@ namespace BOA.OneDesigner.WpfControls
     public class JsxElementDesignerSurface : StackPanel,IDropLocationContainer
     {
 
-        public Point DraggingElementStartPoint { get; set; }
+        public JsxElementDesignerSurface()
+        {
+            UIContext.Register(this);
+        }
+        
 
-        public UIElement DraggingElement { get; set; }
+        public Point DraggingElementStartPoint => UIContext.DraggingElementStartPoint;
+
+        public UIElement DraggingElement => UIContext.DraggingElement;
 
       
 
         public void Refresh()
         {
+            
             Children.Clear();
 
             if (DataContext == null)

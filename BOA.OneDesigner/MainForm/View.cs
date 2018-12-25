@@ -19,6 +19,8 @@ namespace BOA.OneDesigner.MainForm
         public View()
         {
             Builder.RegisterElementCreation("Surface",typeof(JsxElementDesignerSurface));
+            Builder.RegisterElementCreation("ToolBox",typeof(ToolBox));
+            Builder.RegisterElementCreation("PropertyEditorContainer",typeof(PropertyEditorContainer));
 
             this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
 

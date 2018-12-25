@@ -105,11 +105,11 @@ namespace BOA.OneDesigner.WpfControls
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
-                ((BCard) bInput.Container).RefreshDataContext();
+                ((BCard) bInput.Container)?.RefreshDataContext();
 
                 Data.InsertItem(insertIndex, bInput.Data);
 
-                RefreshDataContext();
+                this.RefreshDataContext();
 
                 return;
             }
@@ -166,12 +166,7 @@ namespace BOA.OneDesigner.WpfControls
             return false;
         }
 
-        void RefreshDataContext()
-        {
-            var dataContext = DataContext;
-            DataContext = null;
-            DataContext = dataContext;
-        }
+        
         #endregion
     }
 }

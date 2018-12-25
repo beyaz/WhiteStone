@@ -6,6 +6,13 @@ namespace BOA.OneDesigner.WpfControls
 {
     static class Extensions
     {
+        public static void RefreshDataContext(this FrameworkElement element )
+        {
+            var dataContext = element.DataContext;
+            element.DataContext = null;
+            element.DataContext = dataContext;
+        }
+
         #region Public Methods
         public static T FindParent<T>(this DependencyObject child) where T : DependencyObject
         {

@@ -154,6 +154,9 @@
     <Compile Include="WpfControls\BInput.cs" />
     <Compile Include="WpfControls\Extensions.cs" />
     <Compile Include="WpfControls\DropLocation.cs" />
+    <Compile Include="WpfControls\PropertyEditorContainer.cs" />
+    <Compile Include="WpfControls\ToolBox.cs" />
+    <Compile Include="WpfControls\UIContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MainForm\View.json">
