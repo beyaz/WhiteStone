@@ -113,35 +113,39 @@ namespace WhiteStone.UI.Container.Mvc
         }
         #endregion
 
+        public Panel ActionPanel;
+
         #region Methods
         void Apply(IReadOnlyCollection<ActionButtonInfo> actionButtons)
         {
+            ActionPanel?.Children.Clear();
+            
             if (actionButtons == null)
             {
-                LeftWindowCommands = new WindowCommands();
                 return;
             }
 
-            var itemsSource = new List<Button>();
+            if (ActionPanel == null)
+            {
+                throw new ArgumentException(nameof(ActionPanel));
+            }
+
 
             foreach (var info in actionButtons)
             {
                 var button = new Button
                 {
                     Content = info.Text,
-                    FontWeight = FontWeights.ExtraBold,
-                    FontSize = 17
+                    FontWeight = FontWeights.Bold,
+                    Margin = new Thickness(10),
+                    MinWidth = 150
                 };
 
                 button.Click += (s, e) => { FireAction(info.ActionName); };
 
-                itemsSource.Add(button);
+                ActionPanel.Children.Add(button);
             }
-
-            LeftWindowCommands = new WindowCommands
-            {
-                ItemsSource = itemsSource
-            };
+            
         }
 
         void OnViewClose(object sender, EventArgs e)

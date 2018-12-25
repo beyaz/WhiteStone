@@ -1,62 +1,46 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
-using WhiteStone;
 using WhiteStone.UI.Container.Mvc;
 
 namespace BOA.OneDesigner.MainForm
 {
     public class Controller : ControllerBase<Model>
     {
-
-        
-
-        public void WorkingOnScreenListSelectionChanged()
+        #region Public Methods
+        public void Next()
         {
+            if (string.IsNullOrWhiteSpace(Model.SelectedTfsFolderName))
+            {
+                Model.ViewMessage = "Tfs Project boş olamaz.";
+                Model.ViewMessageTypeIsError = true;
+               return;
+            }
+
+            Model.SelectedTfsFolderNameIsIsEnabled = false;
+
+            Model.SelectedRequestNameIsIsEnabled = true;
+
 
             
         }
 
-        public void CreateNewForm()
-        {
-            Model.StartTabIsVisible = false;
-            Model.ActionButtons = new List<ActionButtonInfo>
-            {
-                new ActionButtonInfo
-                {
-                    ActionName = "Next",
-                    Text       = "İleri"
-                },
-                new ActionButtonInfo
-                {
-                    ActionName = "Back",
-                    Text       = "Vazgeç"
-                }
-            };
-        }
         public override void OnViewLoaded()
         {
-            var workingOnScreenListItems = SM.Get<InitialConfig>().SolutionFileNames.Select(x => new WorkingOnScreenListItem
-            {
-                Name = x
-            }).ToList();
-
             Model = new Model
             {
-                SolutionFileNames = SM.Get<InitialConfig>().SolutionFileNames,
-                WorkingOnScreenList = workingOnScreenListItems,
+                SelectedTfsFolderNameIsIsEnabled = true,
+                TfsFolderNames    = SM.Get<InitialConfig>().TfsFolderNames,
                 StartTabIsVisible = true,
                 ActionButtons = new List<ActionButtonInfo>
                 {
                     new ActionButtonInfo
                     {
-                        ActionName = nameof(CreateNewForm),
-                        Text       = "Yeni Ekran Tasarla"
+                        ActionName = nameof(Next),
+                        Text       = "İleri"
                     }
                 }
             };
         }
+        #endregion
     }
 }

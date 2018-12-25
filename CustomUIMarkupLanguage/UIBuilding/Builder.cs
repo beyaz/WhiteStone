@@ -27,7 +27,9 @@ namespace CustomUIMarkupLanguage.UIBuilding
             WpfExtra.TextBlock_IsBold,
             WpfExtra.RichTextBox_Text,
             WpfExtra.Button_Text,
-            WpfExtra.IsVisible
+            WpfExtra.IsVisible,
+            WpfExtra.HorizontalAlignmentIsCenter,
+            WpfExtra.VerticalAlignmentIsCenter
         };
 
         /// <summary>

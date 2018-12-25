@@ -16,7 +16,7 @@ namespace BOA.OneDesigner.WpfControls
             {
                 SM.Set(new InitialConfig
                 {
-                    SolutionFileNames = TfsHelper.GetFolderNames()
+                    TfsFolderNames = TfsHelper.GetFolderNames()
                 });
 
                 InitialConfigCache.Save();    

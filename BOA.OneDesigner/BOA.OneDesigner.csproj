@@ -90,6 +90,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainForm\InitialConfig.cs" />
+    <Compile Include="MainForm\InitialConfigCache.cs" />
     <Compile Include="WpfControls\DragAndDropHelper.cs" />
     <Compile Include="WpfControls\IDropLocationContainer.cs" />
     <Compile Include="WpfControls\IJsxElementDesignerSurfaceItem.cs" />

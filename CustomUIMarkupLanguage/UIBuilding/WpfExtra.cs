@@ -52,6 +52,53 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
             return false;
         }
+
+        public static bool VerticalAlignmentIsCenter(Builder builder, UIElement element, Node node)
+        {
+            if (node.NameToUpperInEnglish == "VERTICALALIGNISCENTER" ||
+                node.NameToUpperInEnglish == "VALIGNISCENTER")
+            {
+                if (node.ValueIsBoolean)
+                {
+                    if (node.ValueAsBoolean)
+                    {
+                        ((FrameworkElement)element).VerticalAlignment = VerticalAlignment.Center;
+                    }
+                    else
+                    {
+                        ((FrameworkElement)element).VerticalAlignment = default(VerticalAlignment);
+                    }
+
+                    return true;
+
+                }
+            }
+
+            return false;
+        }
+        public static bool HorizontalAlignmentIsCenter(Builder builder, UIElement element, Node node)
+        {
+            if (node.NameToUpperInEnglish == "HORIZONTALALIGNISCENTER" ||
+                node.NameToUpperInEnglish == "HALIGNISCENTER")
+            {
+                if (node.ValueIsBoolean)
+                {
+                    if (node.ValueAsBoolean)
+                    {
+                        ((FrameworkElement)element).HorizontalAlignment = HorizontalAlignment.Center;
+                    }
+                    else
+                    {
+                        ((FrameworkElement)element).HorizontalAlignment = default(HorizontalAlignment);
+                    }
+
+                    return true;
+
+                }
+            }
+
+            return false;
+        }
         
 
         /// <summary>

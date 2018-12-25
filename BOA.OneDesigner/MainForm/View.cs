@@ -21,7 +21,6 @@ namespace BOA.OneDesigner.MainForm
         {
            UIContext.RegisterElements();
 
-           
             
             this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
 

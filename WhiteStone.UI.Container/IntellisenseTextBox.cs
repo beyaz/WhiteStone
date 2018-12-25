@@ -43,6 +43,9 @@ namespace WhiteStone.UI.Container
         #region Public Methods
         public static UIElement On(Builder builder, Node node)
         {
+
+            
+
             if (node.UI == nameof(Intellibox).ToUpperEN())
             {
                 return new Intellibox();

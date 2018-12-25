@@ -3,86 +3,109 @@
   "Width": 1100,
   "Height": 800,
   "Content": {
-    "ui": "TabControl",
-    "Children": [
+    "ui": "Grid",
+    "rows": [
       {
-        "ui": "TabItem",
-        "Header": "Start",
-        "IsVisible": "{Binding StartTabIsVisible}",
-        "Content": {
+        "gravity": 10,
+        "ui": "TabControl",
+        "Children": [
+          {
+            "ui": "TabItem",
+            "Header": "Start",
+            "IsVisible": "{Binding StartTabIsVisible}",
+            "Content": {
 
-          "ui": "StackPanel",
-          "Margin": 20,
-          "rows": [
-            {
-              "ui": "TextBox",
-              "Label": "Ara",
-              "IntellisenseSource": "{Binding SolutionFileNames}",
-              "Text": "{Binding ScreenSearchKey}"
-            },
-            {
-              "ui": "DatagRid",
-              "AutoGenerateColumns": true,
-              "ItemsSource": "{Binding WorkingOnScreenList}",
-              "CanUserAddRows": false,
-              "CanUserDeleteRows": false,
-              "SelectionChanged": "this.FireAction('WorkingOnScreenListSelectionChanged')"
-            }
-
-          ]
-        }
-        
-      },
-      {
-        "ui": "TabItem",
-        "IsVisible": "{Binding ScreenInfoTabIsVisible}",
-        "Header": "Ekran Bilgileri",
-        "Content": {
-          "ui": "StackPanel",
-          "Margin": 20,
-          "Children": [
-            {
-              "ui": "TextBox",
-              "Label": "Solution file Path (Örn:D:\\work\\BOA.BusinessModules\\Dev\\BOA.CardGeneral.DebitCard\\BOA.CardGeneral.DebitCard.sln)",
-              "Text": "{Binding SolutionFilePath}"
-            }
-          ]
-        }
-      },
-      {
-        "ui": "TabItem",
-        "IsVisible": "{Binding DesignTabIsVisible}",
-        "Header": "Design",
-        "Content": {
-
-          "ui": "Grid",
-          "columns": [
-            {
-              "view": "Toolbox",
-              "Margin": 5,
-              "gravity": 1
-            },
-            { "view": "GridSplitter" },
-            {
               "ui": "Grid",
+              "Margin": 20,
               "rows": [
                 {
-                  "ui": "Surface",
-                  "Name": "DesignSurface",
-                  "Height": 700
-                }
-              ],
-              "gravity": 8
-            },
-            { "view": "GridSplitter" },
-            {
-              "ui": "PropertyEditorContainer",
-              "gravity": 2
-            }
-          ]
-        }
-      }
+                  "IsEnabled": "{Binding SelectedTfsFolderNameIsIsEnabled}",
+                  "ui": "TextBox",
+                  "Label": "Select Tfs Project",
+                  "IntellisenseSource": "{Binding TfsFolderNames}",
+                  "Text": "{Binding SelectedTfsFolderName}",
+                  "vAlignIsCenter": true,
+                  "hAlignIsCenter": true,
+                  "MinWidth": 500,
+                  "ToolTip": "Oluşturulacak tsx dosyaları bu projenin altına atılacak"
 
+                },
+                {
+                  "IsEnabled": "{Binding SelectedRequestNameIsIsEnabled}",
+                  "ui": "TextBox",
+                  "Label": "Select Request",
+                  "IntellisenseSource": "{Binding RequestNames}",
+                  "Text": "{Binding SelectedRequestName}",
+                  "vAlignIsCenter": true,
+                  "hAlignIsCenter": true,
+                  "MinWidth": 500
+
+                }
+
+              ]
+            }
+
+          },
+          {
+            "ui": "TabItem",
+            "IsVisible": "{Binding ScreenInfoTabIsVisible}",
+            "Header": "Ekran Bilgileri",
+            "Content": {
+              "ui": "StackPanel",
+              "Margin": 20,
+              "Children": [
+                {
+                  "ui": "TextBox",
+                  "Label": "Solution file Path (Örn:D:\\work\\BOA.BusinessModules\\Dev\\BOA.CardGeneral.DebitCard\\BOA.CardGeneral.DebitCard.sln)",
+                  "Text": "{Binding SolutionFilePath}"
+                }
+              ]
+            }
+          },
+          {
+            "ui": "TabItem",
+            "IsVisible": "{Binding DesignTabIsVisible}",
+            "Header": "Design",
+            "Content": {
+
+              "ui": "Grid",
+              "columns": [
+                {
+                  "view": "Toolbox",
+                  "Margin": 5,
+                  "gravity": 1
+                },
+                { "view": "GridSplitter" },
+                {
+                  "ui": "Grid",
+                  "rows": [
+                    {
+                      "ui": "Surface",
+                      "Name": "DesignSurface",
+                      "Height": 700
+                    }
+                  ],
+                  "gravity": 8
+                },
+                { "view": "GridSplitter" },
+                {
+                  "ui": "PropertyEditorContainer",
+                  "gravity": 2
+                }
+              ]
+            }
+          }
+
+        ]
+      },
+      {"ui": "GridSplitter"},
+      {
+        "ui": "StackPanel",
+        "Name": "ActionPanel",
+        "gravity": 1,
+        "FlowDirection": "RightToLeft",
+        "Orientation": "Horizontal"
+      }
     ]
   }
 }
