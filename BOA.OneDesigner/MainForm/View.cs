@@ -21,6 +21,9 @@ namespace BOA.OneDesigner.MainForm
             Builder.RegisterElementCreation("Surface",typeof(JsxElementDesignerSurface));
             Builder.RegisterElementCreation("ToolBox",typeof(ToolBox));
             Builder.RegisterElementCreation("PropertyEditorContainer",typeof(PropertyEditorContainer));
+            Builder.RegisterElementCreation("RequestIntellisenseTextBox",typeof(RequestIntellisenseTextBox));
+
+            
 
             this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
 

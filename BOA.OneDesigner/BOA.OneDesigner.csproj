@@ -46,7 +46,7 @@
     <Reference Include="Mono.Cecil.Rocks">
       <HintPath>$(SolutionDir)packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
-	 <Reference Include="Intellibox">
+    <Reference Include="Intellibox">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\Intellibox.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
@@ -167,6 +167,7 @@
     <Compile Include="WpfControls\Extensions.cs" />
     <Compile Include="WpfControls\DropLocation.cs" />
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
+    <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
     <Compile Include="WpfControls\UIContext.cs" />
   </ItemGroup>

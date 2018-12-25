@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.UIBuilding;
-using FeserWard.Controls;
 
 namespace BOA.OneDesigner.WpfControls
 {
-
-
     public sealed class PropertyEditorContainer : GroupBox
     {
         #region Constructors
@@ -62,7 +55,7 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = DataContext as JsxElementModel.BInput;
             if (bInput != null)
             {
-                sp.LoadJson("{ Childs:[  {ui:'TextBox',Text:'{Binding "+nameof(bInput.BindingPath)+"}' , Label:'Binding Path' }  ] }");
+                sp.LoadJson("{ Childs:[  {ui:'RequestIntellisenseTextBox',Text:'{Binding "+nameof(bInput.BindingPath)+"}' , Label:'Binding Path' }  ] }");
                 Content = sp;
                 return;
             }

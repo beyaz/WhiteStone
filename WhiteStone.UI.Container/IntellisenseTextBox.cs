@@ -21,9 +21,9 @@ namespace WhiteStone.UI.Container
 
         #endregion
 
-       
 
-        public Intellibox IntellisenseBox { get;  set; }
+
+        public Intellibox IntellisenseBox;
 
         public static UIElement On(CustomUIMarkupLanguage.UIBuilding.Builder builder, Node node)
         {
