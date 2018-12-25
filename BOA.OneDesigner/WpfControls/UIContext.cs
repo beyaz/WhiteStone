@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
     public static class UIContext
     {
+        public static void RegisterElements()
+        {
+            Builder.RegisterElementCreation("Surface",typeof(JsxElementDesignerSurface));
+            Builder.RegisterElementCreation("ToolBox",typeof(ToolBox));
+            Builder.RegisterElementCreation("PropertyEditorContainer",typeof(PropertyEditorContainer));
+            Builder.RegisterElementCreation("RequestIntellisenseTextBox",typeof(RequestIntellisenseTextBox));
+        }
+
+
         #region Static Fields
         static readonly List<JsxElementDesignerSurface> DesignerSurfaces = new List<JsxElementDesignerSurface>();
         #endregion

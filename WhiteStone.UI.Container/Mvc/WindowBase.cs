@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -27,6 +28,7 @@ namespace WhiteStone.UI.Container.Mvc
             Closed     += OnViewClose;
 
             TitleAlignment = HorizontalAlignment.Center;
+
         }
         #endregion
 
@@ -126,7 +128,9 @@ namespace WhiteStone.UI.Container.Mvc
             {
                 var button = new Button
                 {
-                    Content = info.Text
+                    Content = info.Text,
+                    FontWeight = FontWeights.ExtraBold,
+                    FontSize = 17
                 };
 
                 button.Click += (s, e) => { FireAction(info.ActionName); };

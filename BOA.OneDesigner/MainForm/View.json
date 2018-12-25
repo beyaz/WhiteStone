@@ -1,29 +1,87 @@
 {
   "Title": "BOA One Designer",
-  "Width": 900,
-  "Height": 600,
+  "Width": 1100,
+  "Height": 800,
   "Content": {
+    "ui": "TabControl",
+    "Children": [
+      {
+        "ui": "TabItem",
+        "Header": "Start",
+        "IsVisible": "{Binding StartTabIsVisible}",
+        "Content": {
 
-    "ui": "Grid",
-    "columns": [
-      {
-        "view": "Toolbox",
-        "Margin": 5,
-        "gravity": 1
+          "ui": "StackPanel",
+          "Margin": 20,
+          "rows": [
+            {
+              "ui": "TextBox",
+              "Label": "Ara",
+              "Text": "{Binding ScreenSearchKey}"
+            },
+            {
+              "ui": "DatagRid",
+              "AutoGenerateColumns": true,
+              "ItemsSource": "{Binding WorkingOnScreenList}",
+              "CanUserAddRows": false,
+              "CanUserDeleteRows": false,
+              "SelectionChanged": "this.FireAction('WorkingOnScreenListSelectionChanged')"
+            }
+
+          ]
+        }
+        
       },
-      { "view": "GridSplitter" },
       {
-        "ui": "Grid",
-        "rows": [
-          {"ui": "Surface", "Name": "DesignSurface" ,"Height": 700}
-        ],
-        "gravity": 8
+        "ui": "TabItem",
+        "IsVisible": "{Binding ScreenInfoTabIsVisible}",
+        "Header": "Ekran Bilgileri",
+        "Content": {
+          "ui": "StackPanel",
+          "Margin": 20,
+          "Children": [
+            {
+              "ui": "TextBox",
+              "Label": "Solution file Path (Örn:D:\\work\\BOA.BusinessModules\\Dev\\BOA.CardGeneral.DebitCard\\BOA.CardGeneral.DebitCard.sln)",
+              "Text": "{Binding SolutionFilePath}"
+            }
+          ]
+        }
       },
-      { "view": "GridSplitter" },
       {
-        "ui": "PropertyEditorContainer",
-        "gravity": 2
+        "ui": "TabItem",
+        "IsVisible": "{Binding DesignTabIsVisible}",
+        "Header": "Design",
+        "Content": {
+
+          "ui": "Grid",
+          "columns": [
+            {
+              "view": "Toolbox",
+              "Margin": 5,
+              "gravity": 1
+            },
+            { "view": "GridSplitter" },
+            {
+              "ui": "Grid",
+              "rows": [
+                {
+                  "ui": "Surface",
+                  "Name": "DesignSurface",
+                  "Height": 700
+                }
+              ],
+              "gravity": 8
+            },
+            { "view": "GridSplitter" },
+            {
+              "ui": "PropertyEditorContainer",
+              "gravity": 2
+            }
+          ]
+        }
       }
+
     ]
   }
 }

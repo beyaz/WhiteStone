@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container.Mvc;
@@ -18,13 +19,10 @@ namespace BOA.OneDesigner.MainForm
         #region Constructors
         public View()
         {
-            Builder.RegisterElementCreation("Surface",typeof(JsxElementDesignerSurface));
-            Builder.RegisterElementCreation("ToolBox",typeof(ToolBox));
-            Builder.RegisterElementCreation("PropertyEditorContainer",typeof(PropertyEditorContainer));
-            Builder.RegisterElementCreation("RequestIntellisenseTextBox",typeof(RequestIntellisenseTextBox));
+           UIContext.RegisterElements();
 
+           
             
-
             this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
 
             DesignSurface.VerticalAlignment = VerticalAlignment.Stretch;

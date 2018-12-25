@@ -172,6 +172,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 return (UIElement) Activator.CreateInstance(controlType);
             }
 
+            
             throw Errors.TypeNotFound(wpfElementName);
         }
 

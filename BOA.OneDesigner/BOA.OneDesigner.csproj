@@ -168,6 +168,7 @@
     <Compile Include="WpfControls\DropLocation.cs" />
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
+    <Compile Include="WpfControls\RequestPropertyIntellisenseProvider.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
     <Compile Include="WpfControls\UIContext.cs" />
   </ItemGroup>
