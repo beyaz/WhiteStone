@@ -9,31 +9,38 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public void RemoveFromParent()
         {
-            Container.RemoveCard(this);
+            Container.RemoveItem(this);
         }
 
         public CardContainer Container { get; set; }
         #region Public Properties
-        public List<BField> Fields { get; set; } = new List<BField>();
+        public List<BField> Items { get; set; } = new List<BField>();
 
         public string       Title  { get; set; }
         #endregion
 
         #region Public Methods
-        public override void InsertField(int index, BField field)
+        public override void InsertItem(int index, BField item)
         {
-            field.Container = this;
-            Fields.Insert(index, field);
+            item.Container = this;
+
+            if (index > Items.Count)
+            {
+                Items.Add(item);
+                return;
+            }
+
+            Items.Insert(index, item);
         }
 
-        public override void RemoveField(BField field)
+        public override void RemoveItem(BField field)
         {
             if (field.Container != this)
             {
                 throw new ArgumentException();
             }
 
-            Fields?.Remove(field);
+            Items?.Remove(field);
 
             field.Container = null;
         }
@@ -44,8 +51,8 @@ namespace BOA.OneDesigner.JsxElementModel
     public abstract class Container
     {
         #region Public Methods
-        public abstract void InsertField(int    index, BField field);
-        public abstract void RemoveField(BField field);
+        public abstract void InsertItem(int    index, BField item);
+        public abstract void RemoveItem(BField field);
         #endregion
     }
 

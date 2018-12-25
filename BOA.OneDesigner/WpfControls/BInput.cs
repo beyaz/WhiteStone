@@ -7,8 +7,9 @@ namespace BOA.OneDesigner.WpfControls
 {
 
    
-    public class BInput : Grid
+    public class BInput : Grid,IJsxElementDesignerSurfaceItem
     {
+        public IJsxElementDesignerSurface Surface { get; set; }
 
         public IDropLocationContainer Container { get; set; }
         

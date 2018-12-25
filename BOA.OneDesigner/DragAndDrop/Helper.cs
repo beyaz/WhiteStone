@@ -16,6 +16,8 @@ namespace BOA.OneDesigner.DragAndDrop
         void OnDragLeave();
 
         Action<IDropLocation> OnDropAction { get; }
+
+         int TargetLocationIndex { get; set; }
     }
 
     public interface IDropLocationContainer
@@ -81,42 +83,46 @@ namespace BOA.OneDesigner.DragAndDrop
                 return;
             }
 
-            var info = Info.Current;
-            if (info == null)
+            
+
+            var surfaceItem = sender as IJsxElementDesignerSurfaceItem;
+            if (surfaceItem == null)
             {
                 return;
             }
 
-            if (Equals(sender, info.Sender))
+            if (Equals(sender, surfaceItem.Surface.DraggingElement))
             {
                 return;
             }
 
             // Get the current mouse position
             var mousePos = e.GetPosition(null);
-            var diff     = info.StartPoint - mousePos;
+            var diff     = surfaceItem.Surface.DraggingElementStartPoint - mousePos;
 
             if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
-                var surface = (sender as DependencyObject)?.FindParent<JsxElementDesignerSurface>();
-                if (surface != null)
-                {
-                    surface.EnterDropLocationMode();
+                var surface = surfaceItem.Surface;
 
-                    var dragData = new DataObject("myFormat", "A");
-                    DragDrop.DoDragDrop(info.Sender, dragData, DragDropEffects.Copy);
-                }
+                surface.EnterDropLocationMode();
+
+                var dragData = new DataObject("myFormat", "A");
+                DragDrop.DoDragDrop(surfaceItem.Surface.DraggingElement, dragData, DragDropEffects.Copy);
             }
         }
 
         static void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Info.Current = new Info
+            var surface = (sender as UIElement)?.FindParent<JsxElementDesignerSurface>();
+
+            if (surface == null)
             {
-                StartPoint = e.GetPosition(null),
-                Sender     = (UIElement) sender
-            };
+                throw new ArgumentException();
+            }
+
+            surface.DraggingElementStartPoint = e.GetPosition(null);
+            surface.DraggingElement = (UIElement) sender;
         }
         #endregion
     }

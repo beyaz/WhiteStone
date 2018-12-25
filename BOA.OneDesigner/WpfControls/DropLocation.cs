@@ -6,17 +6,11 @@ using BOA.OneDesigner.DragAndDrop;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public sealed class DropLocation : Border,IDropLocation
+    public sealed class DropLocation : Border, IDropLocation
     {
-        public Action<IDropLocation> OnDropAction { get; }
-
-        
-
         #region Constructors
-        public DropLocation(Action<IDropLocation> onDropAction)
+        public DropLocation()
         {
-            OnDropAction = onDropAction;
-
             BorderBrush     = Brushes.HotPink;
             BorderThickness = new Thickness(10);
             MinHeight       = 20;
@@ -26,6 +20,11 @@ namespace BOA.OneDesigner.WpfControls
 
             OnDragLeave();
         }
+        #endregion
+
+        #region Public Properties
+        public Action<IDropLocation> OnDropAction        { get; set; }
+        public int                   TargetLocationIndex { get; set; }
         #endregion
 
         #region Public Methods

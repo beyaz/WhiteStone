@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage;
+using MahApps.Metro.Controls;
 
 namespace WhiteStone.UI.Container.Mvc
 {
@@ -10,18 +13,20 @@ namespace WhiteStone.UI.Container.Mvc
     {
         #region Fields
         TController controller;
-        TModel model;
+        TModel      model;
         #endregion
 
-        #region Constructors
+        #region Constructors       
         /// <summary>
-        ///     Initializes a new instance of the <see cref="MainWindow" /> class.
+        /// Initializes a new instance of the <see cref="WindowBase{TModel, TController}"/> class.
         /// </summary>
         public WindowBase()
         {
             Controller =  new TController();
             Loaded     += OnViewLoaded;
             Closed     += OnViewClose;
+
+            TitleAlignment = HorizontalAlignment.Center;
         }
         #endregion
 
@@ -38,8 +43,7 @@ namespace WhiteStone.UI.Container.Mvc
             }
         }
 
-        
-        public  TModel Model
+        public TModel Model
         {
             get { return model; }
             set
@@ -74,7 +78,6 @@ namespace WhiteStone.UI.Container.Mvc
                 Log.Push(e);
                 return;
             }
-          
 
             if (Controller.Model == null)
             {
@@ -83,8 +86,6 @@ namespace WhiteStone.UI.Container.Mvc
             }
 
             Model = Controller.Model.Clone();
-
-           
 
             if (Model.ViewMessage != null)
             {
@@ -104,11 +105,41 @@ namespace WhiteStone.UI.Container.Mvc
                 return;
             }
 
+            Apply(Model.ActionButtons);
+
             DataContext = Model;
         }
         #endregion
 
         #region Methods
+        void Apply(IReadOnlyCollection<ActionButtonInfo> actionButtons)
+        {
+            if (actionButtons == null)
+            {
+                LeftWindowCommands = new WindowCommands();
+                return;
+            }
+
+            var itemsSource = new List<Button>();
+
+            foreach (var info in actionButtons)
+            {
+                var button = new Button
+                {
+                    Content = info.Text
+                };
+
+                button.Click += (s, e) => { FireAction(info.ActionName); };
+
+                itemsSource.Add(button);
+            }
+
+            LeftWindowCommands = new WindowCommands
+            {
+                ItemsSource = itemsSource
+            };
+        }
+
         void OnViewClose(object sender, EventArgs e)
         {
             FireAction(nameof(OnViewClose));

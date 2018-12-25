@@ -7,25 +7,30 @@ namespace BOA.OneDesigner.JsxElementModel
     public class BCardSection:CardContainer
     {
         #region Public Properties
-        public List<BCard> Cards { get; set; } = new List<BCard>();
+        public List<BCard> Items { get; set; } = new List<BCard>();
         #endregion
 
 
         #region Public Methods
-        public override void InsertCard(int index, BCard field)
+        public override void InsertItem(int index, BCard item)
         {
-            field.Container = this;
-            Cards.Insert(index, field);
+            item.Container = this;
+            if (index > Items.Count)
+            {
+                Items.Add(item);
+                return;
+            }
+            Items.Insert(index, item);
         }
 
-        public override void RemoveCard(BCard field)
+        public override void RemoveItem(BCard field)
         {
             if (field.Container != this)
             {
                 throw new ArgumentException();
             }
 
-            Cards?.Remove(field);
+            Items?.Remove(field);
 
             field.Container = null;
         }
@@ -36,8 +41,8 @@ namespace BOA.OneDesigner.JsxElementModel
     public abstract class CardContainer
     {
         #region Public Methods
-        public abstract void InsertCard(int   index, BCard card);
-        public abstract void RemoveCard(BCard card);
+        public abstract void InsertItem(int   index, BCard item);
+        public abstract void RemoveItem(BCard card);
         #endregion
     }
 }

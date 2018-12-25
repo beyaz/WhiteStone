@@ -5,27 +5,32 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.DragAndDrop
 {
-    public class Info
+   
+
+    public interface IJsxElementDesignerSurface
     {
-        #region Static Fields
-        public static Info Current;
-        #endregion
+         Point DraggingElementStartPoint { get; set; }
 
-        #region Fields
-        public Point StartPoint;
-        #endregion
+         UIElement DraggingElement { get; set; }
 
-        #region Public Properties
-        public UIElement Sender { get; set; }
-        #endregion
+         void EnterDropLocationMode();
+
+         void ExitDropLocationMode();
     }
 
-    public class JsxElementDesignerSurface : StackPanel,IDropLocationContainer
+    public interface IJsxElementDesignerSurfaceItem
     {
-        public JsxElementDesignerSurface()
-        {
-            
-        }
+        IJsxElementDesignerSurface Surface { get; set; }
+    }
+
+    public class JsxElementDesignerSurface : StackPanel,IDropLocationContainer,IJsxElementDesignerSurface
+    {
+
+        public Point DraggingElementStartPoint { get; set; }
+
+        public UIElement DraggingElement { get; set; }
+
+      
 
         public void Refresh()
         {
@@ -42,7 +47,9 @@ namespace BOA.OneDesigner.DragAndDrop
             {
                 var bCardSection = new WpfControls.BCardSection
                 {
+                    Surface = this,
                     DataContext = cardSection
+                    
                 };
 
                 Children.Add(bCardSection);

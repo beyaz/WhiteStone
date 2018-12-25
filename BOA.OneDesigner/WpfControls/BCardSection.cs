@@ -5,11 +5,12 @@ using BOA.OneDesigner.DragAndDrop;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardSection : WrapPanel, IDropLocationContainer
+    public class BCardSection : WrapPanel, IDropLocationContainer, IJsxElementDesignerSurfaceItem
+
     {
-        
         #region Public Properties
-        public bool IsEnteredDropLocationMode { get; set; }
+        public bool                       IsEnteredDropLocationMode { get; set; }
+        public IJsxElementDesignerSurface Surface                   { get; set; }
         #endregion
 
         #region Properties
@@ -19,67 +20,66 @@ namespace BOA.OneDesigner.WpfControls
         #region Public Methods
         public void EnterDropLocationMode()
         {
-
-            
-
-            
             if (IsEnteredDropLocationMode)
             {
                 return;
             }
 
-            if (!(Info.Current?.Sender is BCard))
-            {
-                foreach (var child in Children)
-                {
-                    (child as IDropLocationContainer)?.EnterDropLocationMode();
-                }
+            IsEnteredDropLocationMode = true;
 
-                return;
+            foreach (var child in Children)
+            {
+                (child as IDropLocationContainer)?.EnterDropLocationMode();
             }
 
-
-            IsEnteredDropLocationMode = true;
+            if (!CanDrop(Surface.DraggingElement))
+            {
+                return;
+            }
 
             var items = Children.ToArray();
 
             Children.Clear();
 
-            foreach (var control in items)
+            for (var i = 0; i < items.Length; i++)
             {
-                Children.Add(new DropLocation(OnDrop));
+
+                var control = items[i];
+                var dropLocation = new DropLocation
+                {
+                    OnDropAction        = OnDrop,
+                    TargetLocationIndex = i
+                };
+                Children.Add(dropLocation);
 
                 (control as IDropLocationContainer)?.EnterDropLocationMode();
 
                 Children.Add(control);
-
-                if (control == items[items.Length - 1])
-                {
-                    Children.Add(new DropLocation(OnDrop));
-                }
             }
+
+            Children.Add(new DropLocation
+            {
+                OnDropAction        = OnDrop,
+                TargetLocationIndex = items.Length
+            });
         }
 
         public void ExitDropLocationMode()
         {
+            if (!(Surface.DraggingElement is BCard))
+            {
+                foreach (var child in Children)
+                {
+                    (child as IDropLocationContainer)?.ExitDropLocationMode();
+                }
+            }
+
             if (!IsEnteredDropLocationMode)
             {
                 return;
             }
 
             IsEnteredDropLocationMode = false;
-
-
-            if (!(Info.Current?.Sender is BCard))
-            {
-                foreach (var child in Children)
-                {
-                    (child as IDropLocationContainer)?.ExitDropLocationMode();
-                }
-
-                return;
-            }
-
 
             var items = Children.ToArray();
 
@@ -100,43 +100,16 @@ namespace BOA.OneDesigner.WpfControls
 
         public void OnDrop(IDropLocation dropLocation)
         {
-            var dropLocationIndex = Children.IndexOf((UIElement) dropLocation);
-            if (dropLocationIndex < 0)
-            {
-                throw new ArgumentException();
-            }
+            Surface.ExitDropLocationMode();
 
-            UIElement previousElement = null;
-            if (dropLocationIndex > 0)
-            {
-                previousElement = Children[dropLocationIndex - 1];
-            }
-            else
-            {
-                previousElement = Children[1];
-            }
+            var insertIndex = dropLocation.TargetLocationIndex;
 
-            ExitDropLocationMode();
-
-            var previousComponentIndex = Children.IndexOf(previousElement);
-            if (previousComponentIndex < 0)
-            {
-                throw new ArgumentException();
-            }
-
-            var insertIndex = previousComponentIndex + 1;
-
-            if (dropLocationIndex == 0)
-            {
-                insertIndex = 0;
-            }
-
-            var bInput = Info.Current.Sender as BCard;
+            var bInput = Surface.DraggingElement as BCard;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
 
-                Data.InsertCard(insertIndex, bInput.Data);
+                Data.InsertItem(insertIndex, bInput.Data);
 
                 RefreshDataContext();
 
@@ -155,13 +128,14 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            foreach (var bField in Data.Cards)
+            foreach (var bField in Data.Items)
             {
                 var uiElement = new BCard
                 {
+                    Surface     = Surface,
                     DataContext = bField,
-                    Margin = new Thickness(10),
-                    Container =  this
+                    Margin      = new Thickness(10),
+                    Container   = this
                 };
 
                 Helper.MakeDraggable(uiElement);
@@ -180,6 +154,16 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             base.OnPropertyChanged(e);
+        }
+
+        static bool CanDrop(UIElement dragElement)
+        {
+            if (dragElement is BCard)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         void RefreshDataContext()

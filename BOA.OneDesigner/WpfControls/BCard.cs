@@ -6,10 +6,8 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCard : Grid, IDropLocationContainer
+    public class BCard : Grid, IDropLocationContainer, IJsxElementDesignerSurfaceItem
     {
-        public IDropLocationContainer Container { get; set; }
-
         #region Fields
         public StackPanel ChildrenContainer;
         #endregion
@@ -29,23 +27,21 @@ namespace BOA.OneDesigner.WpfControls
 	]
 	
 }");
-
         }
         #endregion
 
         #region Public Properties
-        public bool IsEnteredDropLocationMode { get; set; }
-        #endregion
+        public IDropLocationContainer Container                 { get; set; }
+        public JsxElementModel.BCard  Data                      => (JsxElementModel.BCard) DataContext;
+        public bool                   IsEnteredDropLocationMode { get; set; }
 
-        #region Properties
-        public JsxElementModel.BCard Data => (JsxElementModel.BCard) DataContext;
+        public IJsxElementDesignerSurface Surface { get; set; }
         #endregion
 
         #region Public Methods
         public void EnterDropLocationMode()
         {
-
-            if (Info.Current?.Sender is BCard)
+            if (!CanDrop(Surface.DraggingElement))
             {
                 return;
             }
@@ -61,17 +57,19 @@ namespace BOA.OneDesigner.WpfControls
 
             ChildrenContainer.Children.Clear();
 
-            foreach (var control in items)
+            for (var i = 0; i < items.Length; i++)
             {
-                ChildrenContainer.Children.Add(new DropLocation(OnDrop));
+                var control = items[i];
+
+                var dropLocation = new DropLocation {OnDropAction = OnDrop, TargetLocationIndex = i};
+
+                ChildrenContainer.Children.Add(dropLocation);
 
                 ChildrenContainer.Children.Add(control);
 
-                if (control == items[items.Length - 1])
-                {
-                    ChildrenContainer.Children.Add(new DropLocation(OnDrop));
-                }
             }
+
+            ChildrenContainer.Children.Add(new DropLocation {OnDropAction = OnDrop, TargetLocationIndex = items.Length});
         }
 
         public void ExitDropLocationMode()
@@ -100,43 +98,17 @@ namespace BOA.OneDesigner.WpfControls
 
         public void OnDrop(IDropLocation dropLocation)
         {
-            var dropLocationIndex = ChildrenContainer.Children.IndexOf((UIElement) dropLocation);
-            if (dropLocationIndex < 0)
-            {
-                throw new ArgumentException();
-            }
+            var insertIndex = dropLocation.TargetLocationIndex;
 
-            UIElement previousElement = null;
-            if (dropLocationIndex > 0)
-            {
-                previousElement = ChildrenContainer.Children[dropLocationIndex - 1];
-            }
-            else
-            {
-                previousElement = ChildrenContainer.Children[1];
-            }
+            Surface.ExitDropLocationMode();
 
-            ExitDropLocationMode();
-
-            var previousComponentIndex = ChildrenContainer.Children.IndexOf(previousElement);
-            if (previousComponentIndex < 0)
-            {
-                throw new ArgumentException();
-            }
-
-            var insertIndex = previousComponentIndex + 1;
-
-            if (dropLocationIndex == 0)
-            {
-                insertIndex = 0;
-            }
-
-            var bInput = Info.Current.Sender as BInput;
+            var bInput = Surface.DraggingElement as BInput;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
+                ((BCard) bInput.Container).RefreshDataContext();
 
-                Data.InsertField(insertIndex, bInput.Data);
+                Data.InsertItem(insertIndex, bInput.Data);
 
                 RefreshDataContext();
 
@@ -155,14 +127,15 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            foreach (var bField in Data.Fields)
+            foreach (var bField in Data.Items)
             {
                 if (bField is JsxElementModel.BInput)
                 {
                     var uiElement = new BInput
                     {
+                        Surface     = Surface,
                         DataContext = bField,
-                        Container = this
+                        Container   = this
                     };
 
                     Helper.MakeDraggable(uiElement);
@@ -182,6 +155,16 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             base.OnPropertyChanged(e);
+        }
+
+        static bool CanDrop(UIElement dragElement)
+        {
+            if (dragElement is BInput)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         void RefreshDataContext()
