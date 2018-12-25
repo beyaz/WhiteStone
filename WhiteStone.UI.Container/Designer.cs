@@ -1,15 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.UIBuilding;
+using WhiteStone.Common;
 
 namespace WhiteStone.UI.Container
 {
+
+
+    public class TestContract
+    {
+        public bool IsSelected { get; set; }
+
+        public string Name { get; set; }
+
+        public string Password { get; set; }
+
+    }
+
+
     public class Designer : WindowBase
     {
+
+        public List<TestContract> DataGridComponentItemSource { get; set; } = new List<TestContract>
+        {
+            new TestContract
+            {
+                Name = "A",
+                Password = "B",
+                
+            },
+
+            new TestContract
+            {
+                Name     = "A1",
+                Password = "B1",
+                IsSelected = true
+            }
+            ,
+            
+            new TestContract
+            {
+            Name     = "A2",
+            Password = "B2"
+            
+        }
+        };
+
         #region Fields
         public Grid ContentGrid;
 
@@ -46,6 +88,7 @@ namespace WhiteStone.UI.Container
 
             SourceJsonFilePath = Path.GetDirectoryName(GetType().Assembly.Location) + Path.DirectorySeparatorChar + "Designer.json";
 
+            
             FileHelper.WriteAllText(SourceJsonFilePath, @"
 
 {
@@ -70,7 +113,8 @@ namespace WhiteStone.UI.Container
                     ui:'WrapPanel',gravity:2,
                     childs:[
                         {ui:'Tile',Count:'A'},
-                        {ui:'Tile',count:'B'}
+                        {ui:'Tile',count:'B'},
+                        {ui:'DataGrid', Width:300,Height:200, AutoGenerateColumns:true, ItemsSource:'{Binding DataGridComponentItemSource}'}
                     ]
                 },
 			]
