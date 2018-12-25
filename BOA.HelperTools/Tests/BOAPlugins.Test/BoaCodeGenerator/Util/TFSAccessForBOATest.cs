@@ -11,7 +11,7 @@ namespace BOA.CodeGeneration.Util
 
         #region Public Methods
         [TestMethod]
-        public void CheckinFile()
+        public void CheckInFile()
         {
             // ARRANGE
             var path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";
@@ -23,7 +23,7 @@ namespace BOA.CodeGeneration.Util
         }
 
         [TestMethod]
-        public void CheckinSolution()
+        public void CheckInSolution()
         {
             var input = new CheckInSolutionInput
             {
@@ -35,7 +35,7 @@ namespace BOA.CodeGeneration.Util
         }
 
         [TestMethod]
-        public void ChecoutFile()
+        public void CheckOutFile()
         {
             // ARRANGE
             var path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";

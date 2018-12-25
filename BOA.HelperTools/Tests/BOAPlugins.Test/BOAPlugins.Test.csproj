@@ -85,7 +85,6 @@
   <ItemGroup>
     <Compile Include="BOA.Tools.Translator\GoogleTranslatorTest.cs" />
     <Compile Include="BoaCodeGenerator\Util\TFSAccessForBOATest.cs" />
-    <Compile Include="BoaCodeGenerator\Util\TFSUndoHelperTest.cs" />
     <Compile Include="ConfigurationTest.cs" />
     <Compile Include="ExportingModel\ExporterTest.cs" />
     <Compile Include="ExportingModel\HandlerTest.cs" />
