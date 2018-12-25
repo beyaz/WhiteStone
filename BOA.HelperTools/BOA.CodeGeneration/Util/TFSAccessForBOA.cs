@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
@@ -106,6 +107,28 @@ namespace BOA.CodeGeneration.Util
                 }
 
                 return new StreamReader(stream).ReadToEnd();
+            }
+        }
+
+        public static IReadOnlyList<string> GetSubFolderNames(string tfsPathWithSearchPattern)
+        {
+
+            var ConstTfsServerUri = GetTfsServerPath(tfsPathWithSearchPattern);
+
+            using (var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(ConstTfsServerUri)))
+            {
+                if (pc == null)
+                {
+                    return null;
+                }
+
+                var version = pc.GetService(typeof(VersionControlServer)) as VersionControlServer;
+
+                var items    = version?.GetItems(tfsPathWithSearchPattern);
+
+                return items?.Items.Select(x => x.ServerItem).ToList();
+
+
             }
         }
         #endregion

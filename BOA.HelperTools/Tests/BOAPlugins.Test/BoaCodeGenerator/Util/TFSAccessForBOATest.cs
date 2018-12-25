@@ -60,6 +60,19 @@ namespace BOA.CodeGeneration.Util
             // ASSERT
             Assert.IsNotNull(content);
         }
+        [TestMethod]
+        public void GetSubFolderNames()
+        {
+            // ARRANGE
+            const string tfsPathWithSearchPattern = @"$/BOA.BusinessModules/Dev/*";
+
+            // ACT
+            var content = TFSAccessForBOA.GetSubFolderNames(tfsPathWithSearchPattern);
+
+            // ASSERT
+            Assert.IsNotNull(content);
+        }
+
         #endregion
     }
 }

@@ -225,5 +225,15 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BOA.HelperTools\BOA.CodeGeneration\BOA.CodeGeneration.csproj">
+      <Project>{A51D1954-365F-4F98-8492-F8841FBAD5BE}</Project>
+      <Name>BOA.CodeGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BOA.HelperTools\BOAPlugins\BOAPlugins.csproj">
+      <Project>{92502f72-d2a3-4b2f-aa82-3e4f286599aa}</Project>
+      <Name>BOAPlugins</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

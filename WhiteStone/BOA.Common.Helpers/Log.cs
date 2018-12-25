@@ -9,6 +9,13 @@ namespace BOA.Common.Helpers
     /// </summary>
     public class Log
     {
+        #region Public Properties
+        /// <summary>
+        ///     Gets the directory.
+        /// </summary>
+        public static string Directory => Path.GetDirectoryName(typeof(Log).Assembly.Location) + Path.DirectorySeparatorChar;
+        #endregion
+
         #region Public Methods
         /// <summary>
         ///     Determines whether the specified message is null.
@@ -41,7 +48,7 @@ namespace BOA.Common.Helpers
         /// </summary>
         static void PushInternal(string message, string callerMemberName)
         {
-            var filePath = Path.GetDirectoryName(typeof(Log).Assembly.Location) + Path.DirectorySeparatorChar + "Log.txt";
+            var filePath = Directory + "Log.txt";
 
             var value = Environment.NewLine + Environment.NewLine + $"{callerMemberName} -> {message}";
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using BOA.OneDesigner.MainForm;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
@@ -9,6 +10,8 @@ namespace BOA.OneDesigner.WpfControls
     {
         public static void RegisterElements()
         {
+            InitialConfig.TryLoadFromCache();
+
             Builder.RegisterElementCreation("Surface",typeof(JsxElementDesignerSurface));
             Builder.RegisterElementCreation("ToolBox",typeof(ToolBox));
             Builder.RegisterElementCreation("PropertyEditorContainer",typeof(PropertyEditorContainer));
