@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
+using WhiteStone;
 using WhiteStone.UI.Container.Mvc;
 
 namespace BOA.OneDesigner.MainForm
@@ -36,25 +38,15 @@ namespace BOA.OneDesigner.MainForm
         }
         public override void OnViewLoaded()
         {
-
-            if (InitialConfig.Instance == null)
+            var workingOnScreenListItems = SM.Get<InitialConfig>().SolutionFileNames.Select(x => new WorkingOnScreenListItem
             {
-                const string tfsPathWithSearchPattern = @"$/BOA.BusinessModules/Dev/*";
-                InitialConfig .Instance = new InitialConfig
-                {
-                    SolutionFileNames = TFSAccessForBOA.GetSubFolderNames(tfsPathWithSearchPattern)
-                };
-            }
+                Name = x
+            }).ToList();
 
             Model = new Model
             {
-                WorkingOnScreenList = new List<WorkingOnScreenListItem>
-                {
-                    new WorkingOnScreenListItem
-                    {
-                        Name = "Test"
-                    }
-                },
+                SolutionFileNames = SM.Get<InitialConfig>().SolutionFileNames,
+                WorkingOnScreenList = workingOnScreenListItems,
                 StartTabIsVisible = true,
                 ActionButtons = new List<ActionButtonInfo>
                 {

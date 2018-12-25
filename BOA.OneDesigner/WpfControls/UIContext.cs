@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.MainForm;
 using CustomUIMarkupLanguage.UIBuilding;
 
@@ -10,7 +11,19 @@ namespace BOA.OneDesigner.WpfControls
     {
         public static void RegisterElements()
         {
-            InitialConfig.TryLoadFromCache();
+            InitialConfigCache.TryLoadFromCache();
+            if (!SM.HasValue<InitialConfig>())
+            {
+                SM.Set(new InitialConfig
+                {
+                    SolutionFileNames = TfsHelper.GetFolderNames()
+                });
+
+                InitialConfigCache.Save();    
+                
+            }
+            
+                
 
             Builder.RegisterElementCreation("Surface",typeof(JsxElementDesignerSurface));
             Builder.RegisterElementCreation("ToolBox",typeof(ToolBox));

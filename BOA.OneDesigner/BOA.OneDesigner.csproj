@@ -169,6 +169,7 @@
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
     <Compile Include="WpfControls\RequestPropertyIntellisenseProvider.cs" />
+    <Compile Include="WpfControls\TfsHelper.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
     <Compile Include="WpfControls\UIContext.cs" />
   </ItemGroup>

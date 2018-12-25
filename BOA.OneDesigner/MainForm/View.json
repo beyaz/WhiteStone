@@ -17,6 +17,7 @@
             {
               "ui": "TextBox",
               "Label": "Ara",
+              "IntellisenseSource": "{Binding SolutionFileNames}",
               "Text": "{Binding ScreenSearchKey}"
             },
             {

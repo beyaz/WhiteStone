@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
+using WhiteStone;
 using WhiteStone.UI.Container.Mvc;
 
 namespace BOA.OneDesigner.MainForm
@@ -10,31 +11,32 @@ namespace BOA.OneDesigner.MainForm
     public class InitialConfig
     {
         #region Public Properties
-        public static InitialConfig Instance          { get; set; }
         public        IReadOnlyList<string>  SolutionFileNames { get; set; }
         #endregion
 
+       
+    }
+
+    class InitialConfigCache
+    {
         #region Properties
-        static string filePath => Log.Directory + $"{nameof(InitialConfig)}.txt";
+        static string FilePath => Log.Directory + $"{nameof(InitialConfig)}.txt";
         #endregion
 
         #region Public Methods
         public static void Save()
         {
-            if (Instance != null)
-            {
-                FileHelper.WriteAllText(filePath, JsonHelper.Serialize(Instance));
-            }
+            FileHelper.WriteAllText(FilePath, JsonHelper.Serialize(SM.Get<InitialConfig>()));
         }
 
         public static void TryLoadFromCache()
         {
-            if (File.Exists(filePath) == false)
+            if (File.Exists(FilePath) == false)
             {
                 return;
             }
-
-            Instance = JsonHelper.Deserialize<InitialConfig>(FileHelper.ReadFile(filePath));
+            
+            SM.Set(JsonHelper.Deserialize<InitialConfig>(FileHelper.ReadFile(FilePath)));
         }
         #endregion
     }
@@ -60,6 +62,9 @@ namespace BOA.OneDesigner.MainForm
         public string                        SolutionFilePath    { get; set; }
         public bool                          StartTabIsVisible   { get; set; }
         public List<WorkingOnScreenListItem> WorkingOnScreenList { get; set; }
+
+
+        public IReadOnlyList<string> SolutionFileNames { get; set; }
 
         
         #endregion
