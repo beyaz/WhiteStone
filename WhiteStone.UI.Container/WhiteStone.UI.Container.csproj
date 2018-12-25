@@ -113,5 +113,9 @@
       <Name>WhiteStone</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\Intellibox.dll" />
+    <Resource Include="Lib\Intellibox.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
