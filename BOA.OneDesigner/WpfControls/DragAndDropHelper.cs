@@ -6,20 +6,22 @@ namespace BOA.OneDesigner.WpfControls
 {
     static class DragAndDropHelper
     {
+        
+
         #region Public Methods
         public static void MakeDraggable(UIElement element)
         {
             element.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
-            element.PreviewMouseLeftButtonUp += OnPreviewMouseLeftButtonUp;
+            element.PreviewMouseLeftButtonUp   += OnPreviewMouseLeftButtonUp;
 
             element.PreviewMouseMove += OnMouseMove;
         }
 
         public static void MakeDropLocation(UIElement element)
         {
-            element.AllowDrop =  true;
+            element.AllowDrop = true;
 
-            element.Drop      += OnDrop;
+            element.Drop += OnDrop;
 
             element.DragEnter += OnDragEnter;
 
@@ -51,15 +53,13 @@ namespace BOA.OneDesigner.WpfControls
         {
             if (e.Data.GetDataPresent("myFormat"))
             {
-                var dropLocation = (sender as DropLocation);
+                var dropLocation = sender as DropLocation;
 
                 dropLocation?.OnDropAction(dropLocation);
 
-                AfterDropOperation?.Invoke();
+                EventBus.OnAfterDropOperation();
             }
         }
-
-        public static event Action AfterDropOperation;
 
         static void OnMouseMove(object sender, MouseEventArgs e)
         {
@@ -67,7 +67,6 @@ namespace BOA.OneDesigner.WpfControls
             {
                 return;
             }
-            
 
             var surfaceItem = sender as IJsxElementDesignerSurfaceItem;
             if (surfaceItem == null || surfaceItem.Surface == null)
@@ -75,48 +74,36 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            if (Equals(sender, surfaceItem.Surface.DraggingElement))
+            if (Equals(sender, UIContext.DraggingElement))
             {
                 // return;
             }
 
             // Get the current mouse position
             var mousePos = e.GetPosition(null);
-            var diff     = surfaceItem.Surface.DraggingElementStartPoint - mousePos;
+            var diff     = UIContext.DraggingElementStartPoint - mousePos;
 
             if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
-                var surface = surfaceItem.Surface;
-
-                surface.EnterDropLocationMode();
+                EventBus.OnDragStarted();
 
                 var dragData = new DataObject("myFormat", "A");
-                DragDrop.DoDragDrop(surfaceItem.Surface.DraggingElement, dragData, DragDropEffects.Copy);
+                DragDrop.DoDragDrop(UIContext.DraggingElement, dragData, DragDropEffects.Copy);
             }
         }
 
-       
-
         static void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-           UIContext. DraggingElementStartPoint = e.GetPosition(null);
-           UIContext.DraggingElement           = (UIElement) sender;
-           UIContext.OnDragElementSelected();
-
+            UIContext.DraggingElementStartPoint = e.GetPosition(null);
+            UIContext.DraggingElement           = (UIElement) sender;
+            EventBus.OnDragElementSelected();
         }
 
         static void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
-            UIContext.DraggingElement            = null;
-
+            UIContext.DraggingElement = null;
         }
         #endregion
-
-        
-
-        
     }
 }

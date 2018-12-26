@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
 using WhiteStone.UI.Container.Mvc;
 
 namespace BOA.OneDesigner.MainForm
 {
-
-    [Serializable]
-    public class ScreenInfo
-    {
-        public string TfsFolderName { get; set; }
-        public string RequestName   { get; set; }
-        public string FormType      { get; set; }
-        public object JsxModel { get; set; }
-    }
-
-
     /// <summary>
     ///     The model
     /// </summary>

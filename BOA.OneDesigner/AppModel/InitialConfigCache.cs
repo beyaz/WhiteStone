@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
 
-namespace BOA.OneDesigner.MainForm
+namespace BOA.OneDesigner.AppModel
 {
     class InitialConfigCache
     {

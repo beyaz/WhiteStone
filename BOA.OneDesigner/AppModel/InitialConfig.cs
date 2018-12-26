@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using BOA.OneDesigner.JsxElementModel;
 
-namespace BOA.OneDesigner.MainForm
+namespace BOA.OneDesigner.AppModel
 {
     /// <summary>
     ///     The initial configuration

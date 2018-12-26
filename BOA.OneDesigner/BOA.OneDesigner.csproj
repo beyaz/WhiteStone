@@ -90,10 +90,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainForm\InitialConfig.cs" />
-    <Compile Include="MainForm\InitialConfigCache.cs" />
+    <Compile Include="AppModel\InitialConfig.cs" />
+    <Compile Include="AppModel\InitialConfigCache.cs" />
+    <Compile Include="JsxElementModel\ScreenInfo.cs" />
     <Compile Include="WpfControls\CecilHelper.cs" />
     <Compile Include="WpfControls\DragAndDropHelper.cs" />
+    <Compile Include="WpfControls\EventBus.cs" />
     <Compile Include="WpfControls\IDropLocationContainer.cs" />
     <Compile Include="WpfControls\IJsxElementDesignerSurfaceItem.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
@@ -172,7 +174,7 @@
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
     <Compile Include="WpfControls\RequestPropertyIntellisenseProvider.cs" />
-    <Compile Include="WpfControls\TfsHelper.cs" />
+    <Compile Include="Helpers\TfsHelper.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
     <Compile Include="WpfControls\UIContext.cs" />
   </ItemGroup>

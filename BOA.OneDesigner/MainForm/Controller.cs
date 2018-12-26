@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
 using BOAPlugins.TypescriptModelGeneration;
 using WhiteStone.UI.Container.Mvc;

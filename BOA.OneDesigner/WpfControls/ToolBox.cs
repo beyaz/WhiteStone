@@ -9,7 +9,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             Header = "Tool Box";
 
-            DragAndDropHelper.AfterDropOperation += Refresh;
+            EventBus.AfterDropOperation += Refresh;
 
             Refresh();
         }

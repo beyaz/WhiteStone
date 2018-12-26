@@ -4,9 +4,14 @@ using System.Windows.Controls;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardSectionWpf : WrapPanel, IDropLocationContainer, IJsxElementDesignerSurfaceItem
-
+    public class BCardSectionWpf : WrapPanel,  IJsxElementDesignerSurfaceItem
     {
+
+        public BCardSectionWpf()
+        {
+            EventBus.DragStarted        += EnterDropLocationMode;
+            EventBus.AfterDropOperation += ExitDropLocationMode;
+        }
         #region Public Properties
         public bool                       IsEnteredDropLocationMode { get; set; }
         public JsxElementDesignerSurface Surface                   { get; set; }
@@ -17,7 +22,7 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Methods
-        public void EnterDropLocationMode()
+         void EnterDropLocationMode()
         {
             if (IsEnteredDropLocationMode)
             {
@@ -26,12 +31,9 @@ namespace BOA.OneDesigner.WpfControls
 
             IsEnteredDropLocationMode = true;
 
-            foreach (var child in Children)
-            {
-                (child as IDropLocationContainer)?.EnterDropLocationMode();
-            }
+            
 
-            if (!CanDrop(Surface.DraggingElement))
+            if (!CanDrop(UIContext.DraggingElement))
             {
                 return;
             }
@@ -51,7 +53,6 @@ namespace BOA.OneDesigner.WpfControls
                 };
                 Children.Add(dropLocation);
 
-                (control as IDropLocationContainer)?.EnterDropLocationMode();
 
                 Children.Add(control);
             }
@@ -63,14 +64,11 @@ namespace BOA.OneDesigner.WpfControls
             });
         }
 
-        public void ExitDropLocationMode()
+         void ExitDropLocationMode()
         {
-            if (!(Surface.DraggingElement is BCardWpf))
+            if (!(UIContext.DraggingElement is BCardWpf))
             {
-                foreach (var child in Children)
-                {
-                    (child as IDropLocationContainer)?.ExitDropLocationMode();
-                }
+                
             }
 
             if (!IsEnteredDropLocationMode)
@@ -91,7 +89,7 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-                (control as IDropLocationContainer)?.ExitDropLocationMode();
+                
 
                 Children.Add(control);
             }
@@ -99,11 +97,11 @@ namespace BOA.OneDesigner.WpfControls
 
         public void OnDrop(DropLocation dropLocation)
         {
-            Surface.ExitDropLocationMode();
+            // Surface.ExitDropLocationMode();
 
             var insertIndex = dropLocation.TargetLocationIndex;
 
-            var bInput = Surface.DraggingElement as BCardWpf;
+            var bInput = UIContext.DraggingElement as BCardWpf;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
@@ -134,7 +132,7 @@ namespace BOA.OneDesigner.WpfControls
                     Surface     = Surface,
                     DataContext = bField,
                     Margin      = new Thickness(10),
-                    Container   = this
+                    // Container   = this
                 };
 
                 DragAndDropHelper.MakeDraggable(uiElement);

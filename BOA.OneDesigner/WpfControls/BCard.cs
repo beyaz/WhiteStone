@@ -5,7 +5,7 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardWpf : Grid, IDropLocationContainer, IJsxElementDesignerSurfaceItem
+    public class BCardWpf : Grid,  IJsxElementDesignerSurfaceItem
     {
         #region Fields
         public StackPanel ChildrenContainer;
@@ -14,6 +14,10 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         public BCardWpf()
         {
+
+            EventBus.DragStarted        += EnterDropLocationMode;
+            EventBus.AfterDropOperation += ExitDropLocationMode;
+
             this.LoadJson(@"
 {
 	rows:
@@ -38,9 +42,9 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Methods
-        public void EnterDropLocationMode()
+         void EnterDropLocationMode()
         {
-            if (!CanDrop(Surface.DraggingElement))
+            if (!CanDrop(UIContext.DraggingElement))
             {
                 return;
             }
@@ -71,7 +75,7 @@ namespace BOA.OneDesigner.WpfControls
             ChildrenContainer.Children.Add(new DropLocation {OnDropAction = OnDrop, TargetLocationIndex = items.Length});
         }
 
-        public void ExitDropLocationMode()
+         void ExitDropLocationMode()
         {
             if (!IsEnteredDropLocationMode)
             {
@@ -99,9 +103,9 @@ namespace BOA.OneDesigner.WpfControls
         {
             var insertIndex = dropLocation.TargetLocationIndex;
 
-            Surface.ExitDropLocationMode();
+            // Surface.ExitDropLocationMode();
 
-            var bInput = Surface.DraggingElement as BInputWpf;
+            var bInput = UIContext.DraggingElement as BInputWpf;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
@@ -134,7 +138,7 @@ namespace BOA.OneDesigner.WpfControls
                     {
                         Surface     = Surface,
                         DataContext = bField,
-                        Container   = this
+                        // Container   = this
                     };
 
                     DragAndDropHelper.MakeDraggable(uiElement);
