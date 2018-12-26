@@ -13,33 +13,33 @@ namespace BOAPlugins.VSIntegration
         #endregion
 
         #region Public Methods
-        public static void Initialize(SolutionInfo solutionInfo)
+        public static void Initialize(GenerateFilePathInfo generateFilePathInfo)
         {
-            Export_FormAssistant_cs(solutionInfo);
-            Export_FormAssistant_tsx(solutionInfo);
-            Export_Orchestration_Extension_Class(solutionInfo);
+            Export_FormAssistant_cs(generateFilePathInfo);
+            Export_FormAssistant_tsx(generateFilePathInfo);
+            Export_Orchestration_Extension_Class(generateFilePathInfo);
         }
         #endregion
 
         #region Methods
-        static void Export_FormAssistant_cs(SolutionInfo solutionInfo)
+        static void Export_FormAssistant_cs(GenerateFilePathInfo generateFilePathInfo)
         {
             
 
             // FormAssistant.cs 
             const string tfsPath = @"$/BOA.BusinessModules/Dev/BOA.CardGeneral.DebitCard/BOA.Types.CardGeneral.DebitCard/FormAssistant.cs";
 
-            var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardGeneral.DebitCard", NamingInfo.GetNamespaceNameForType(solutionInfo.SlnFilePath));
+            var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardGeneral.DebitCard", generateFilePathInfo.SolutionInfo.NamespaceNameForType);
 
             
-            var targetFilePath = solutionInfo.FilePathOf_FormAssistant_cs_In_Types;
+            var targetFilePath = generateFilePathInfo.FilePathOf_FormAssistant_cs_In_Types;
 
             Util.WriteFileIfContentNotEqual(targetFilePath, fileContent);
         }
 
-        static void Export_FormAssistant_tsx(SolutionInfo solutionInfo)
+        static void Export_FormAssistant_tsx(GenerateFilePathInfo generateFilePathInfo)
         {
-            var targetFilePath = solutionInfo.FormAssistant_tsx_FilePath;
+            var targetFilePath = generateFilePathInfo.FormAssistant_tsx_FilePath;
             if (targetFilePath == null)
             {
                 return;
@@ -48,29 +48,29 @@ namespace BOAPlugins.VSIntegration
             // FormAssistant.tsx
             const string tfsPath = @"$/BOA.BusinessModules/Dev/BOA.CardGeneral.DebitCard/One/BOA.One.CardGeneral.DebitCard/ClientApp/utils/FormAssistant.tsx";
 
-            var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardGeneral.DebitCard", NamingInfo.GetNamespaceNameForType(solutionInfo.SlnFilePath));
+            var fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Types.CardGeneral.DebitCard", generateFilePathInfo.SolutionInfo.NamespaceNameForType);
 
             
 
             Util.WriteFileIfContentNotEqual(targetFilePath, fileContent);
         }
 
-        static void Export_Orchestration_Extension_Class(SolutionInfo solutionInfo)
+        static void Export_Orchestration_Extension_Class(GenerateFilePathInfo generateFilePathInfo)
         {
             // Extensions.designer.cs
             const string tfsPath     = @"$/BOA.BusinessModules/Dev/BOA.CardGeneral.DebitCard/BOA.Orchestration.CardGeneral.DebitCard/Extensions.designer.cs";
-            var          fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Orchestration", NamingInfo.GetNamespaceNameForOrchestration(solutionInfo.SlnFilePath));
+            var          fileContent = TFSAccessForBOA.GetFileContent(tfsPath).Replace("BOA.Orchestration", generateFilePathInfo.SolutionInfo.NamespaceNameForOrchestration);
 
-            var targetFilePath = solutionInfo.OrchestrationProjectFolder + "Extensions.designer.cs";
+            var targetFilePath = generateFilePathInfo.SolutionInfo.OrchestrationProjectFolder + "Extensions.designer.cs";
 
             Util.WriteFileIfContentNotEqual(targetFilePath, fileContent);
 
-            targetFilePath = solutionInfo.OrchestrationProjectFolder + "Extensions.cs";
+            targetFilePath = generateFilePathInfo.SolutionInfo.OrchestrationProjectFolder + "Extensions.cs";
             if (File.Exists(targetFilePath) == false)
             {
                 Util.WriteFileIfContentNotEqual(targetFilePath,
                                                 @"
-namespace " + NamingInfo.GetNamespaceNameForOrchestration(solutionInfo.SlnFilePath) + @"
+namespace " + generateFilePathInfo.SolutionInfo.NamespaceNameForOrchestration + @"
 {
     static partial class Extensions
     {

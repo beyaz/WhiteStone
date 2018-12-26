@@ -10,8 +10,8 @@ using BOAPlugins.SearchProcedure;
 using BOAPlugins.Utility;
 using BOAPlugins.ViewClassDependency;
 using BOAPlugins.VSIntegration;
+using BOAPlugins.VSIntegration.MainForm;
 using Microsoft.VisualStudio.Shell;
-using WhiteStone;
 using WhiteStone.IO;
 
 namespace BOASpSearch
@@ -67,7 +67,6 @@ namespace BOASpSearch
             {
                 Log.Push("commandService is null.");
                 return;
-
             }
 
             commandService.AddCommand(new MenuCommand(SearchProcedure, new CommandID(CommandSet, CommandId)));
@@ -88,7 +87,7 @@ namespace BOASpSearch
 
         #region Properties
         static Configuration Configuration => SM.Get<Configuration>();
-        Communication       Communication => Factory.GetCommunication(VisualStudio);
+        Communication        Communication => Factory.GetCommunication(VisualStudio);
 
         /// <summary>
         ///     Gets the service provider from the owner package.
@@ -112,19 +111,15 @@ namespace BOASpSearch
         #endregion
 
         #region Methods
-        
-
-        
-
         void OpenMainForm(object sender, EventArgs e)
         {
             try
             {
                 SM.Set(VisualStudio);
 
-                var mainForm = new BOAPlugins.VSIntegration.MainForm.View();
-                
-                 mainForm.ShowDialog();
+                var mainForm = new View();
+
+                mainForm.ShowDialog();
             }
             catch (Exception exception)
             {

@@ -19,23 +19,33 @@
               "Margin": 20,
               "rows": [
                 {
-                  "IsEnabled": "{Binding SelectedTfsFolderNameIsIsEnabled}",
+                  "IsEnabled": "{Binding TfsFolderNameIsEnabled}",
                   "ui": "TextBox",
                   "Label": "Select Tfs Project",
                   "IntellisenseSource": "{Binding TfsFolderNames}",
-                  "Text": "{Binding SelectedTfsFolderName}",
+                  "Text": "{Binding TfsFolderName}",
                   "vAlignIsCenter": true,
                   "hAlignIsCenter": true,
-                  "MinWidth": 500,
-                  "ToolTip": "Oluşturulacak tsx dosyaları bu projenin altına atılacak"
+                  "MinWidth": 500
 
                 },
                 {
-                  "IsEnabled": "{Binding SelectedRequestNameIsIsEnabled}",
+                  "IsVisible": "{Binding RequestNameIsVisible}",
                   "ui": "TextBox",
                   "Label": "Select Request",
                   "IntellisenseSource": "{Binding RequestNames}",
-                  "Text": "{Binding SelectedRequestName}",
+                  "Text": "{Binding RequestName}",
+                  "vAlignIsCenter": true,
+                  "hAlignIsCenter": true,
+                  "MinWidth": 500
+
+                },
+                {
+                  "IsVisible": "{Binding FormTypeIsVisible}",
+                  "ui": "TextBox",
+                  "Label": "Form Tipi",
+                  "IntellisenseSource": "{Binding FormTypes}",
+                  "Text": "{Binding FormType}",
                   "vAlignIsCenter": true,
                   "hAlignIsCenter": true,
                   "MinWidth": 500

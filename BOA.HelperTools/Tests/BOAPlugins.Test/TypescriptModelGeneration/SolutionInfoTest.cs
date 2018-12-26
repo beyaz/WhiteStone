@@ -12,7 +12,7 @@ namespace BOAPlugins.Utility.TypescriptModelGeneration
         public void Test()
         {
             const string SlnFilePath  = @"D:\Work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\BOA.CardGeneral.DebitCard.sln";
-            var          solutionInfo = SolutionInfo.CreateFrom(SlnFilePath);
+            var          solutionInfo = GenerateFilePathInfo.CreateFrom(SlnFilePath);
 
             Assert.IsNotNull(solutionInfo.FilePathOf_FormAssistant_cs_In_Types);
 

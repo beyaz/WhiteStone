@@ -13,7 +13,7 @@ namespace WhiteStone.UI.Container
     public partial class App:System.Windows.Application
     {
 
-          static void InitializeBuilder()
+          public static void InitializeBuilder()
         {
             Builder.RegisterElementCreation(IntellisenseTextBox.On);
 

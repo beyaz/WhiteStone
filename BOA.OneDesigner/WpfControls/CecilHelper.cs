@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mono.Cecil;
 
 namespace BOA.OneDesigner.WpfControls
 {
     static class CecilHelper
     {
+        #region Public Methods
+        public static IReadOnlyList<string> GetAllRequestNames(string assemblyPath)
+        {
+            return GetAllTypeNames(assemblyPath).Where(t => t.EndsWith("Request")).ToList();
+        }
 
         public static IReadOnlyList<string> GetAllTypeNames(string assemblyPath)
         {
@@ -27,5 +33,6 @@ namespace BOA.OneDesigner.WpfControls
 
             return items;
         }
+        #endregion
     }
 }

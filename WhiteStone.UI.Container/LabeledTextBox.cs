@@ -10,7 +10,7 @@ namespace WhiteStone.UI.Container
     {
         public static UIElement On(CustomUIMarkupLanguage.UIBuilding.Builder builder,Node node)
         {
-            if (node.Properties["view"].ValueAsStringToUpperInEnglish == nameof(LabeledTextBox).ToUpperEN())
+            if (node.UI == nameof(LabeledTextBox).ToUpperEN())
             {
                 return new LabeledTextBox();
             }

@@ -62,7 +62,7 @@
     <Reference Include="Mono.Cecil.Rocks">
       <HintPath>$(SolutionDir)packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
-   <Reference Include="Newtonsoft.Json">
+    <Reference Include="Newtonsoft.Json">
       <HintPath>$(SolutionDir)packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="WhiteStone">
@@ -90,6 +90,7 @@
     <Compile Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypescriptModelGeneration\GenerateFilePathInfo.cs" />
     <Compile Include="VSIntegration\FormAssistantProjectInitializer.cs" />
     <Compile Include="Messaging\DataSource.cs" />
     <Compile Include="DocumentFile\Handler.cs" />

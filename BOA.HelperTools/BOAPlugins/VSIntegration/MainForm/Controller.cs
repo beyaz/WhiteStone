@@ -38,7 +38,7 @@ namespace BOAPlugins.VSIntegration.MainForm
 
         public void InitializeFormAssistantDefaultCodes()
         {
-            var solutionInfo = SolutionInfo.CreateFrom(Model.SolutionFilePath);
+            var solutionInfo = GenerateFilePathInfo.CreateFrom(Model.SolutionFilePath);
 
             FormAssistantProjectInitializer.Initialize(solutionInfo);
 
