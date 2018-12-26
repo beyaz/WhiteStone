@@ -17,6 +17,7 @@ namespace BOA.OneDesigner.WpfControls
 
             EventBus.DragStarted        += EnterDropLocationMode;
             EventBus.AfterDropOperation += ExitDropLocationMode;
+            EventBus.AfterDropOperation += Refresh;
 
             this.LoadJson(@"
 {
@@ -34,7 +35,6 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Properties
-        public IDropLocationContainer Container                 { get; set; }
         public JsxElementModel.BCard  Data                      => (JsxElementModel.BCard) DataContext;
         public bool                   IsEnteredDropLocationMode { get; set; }
 
@@ -103,13 +103,10 @@ namespace BOA.OneDesigner.WpfControls
         {
             var insertIndex = dropLocation.TargetLocationIndex;
 
-            // Surface.ExitDropLocationMode();
-
             var bInput = UIContext.DraggingElement as BInputWpf;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
-                ((BCardWpf) bInput.Container)?.RefreshDataContext();
 
                 Data.InsertItem(insertIndex, bInput.Data);
 

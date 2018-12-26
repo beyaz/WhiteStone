@@ -10,7 +10,6 @@ namespace BOA.OneDesigner.WpfControls
     {
         public JsxElementDesignerSurface Surface { get; set; }
 
-        public IDropLocationContainer Container { get; set; }
         
 
         #region Constructors

@@ -68,7 +68,6 @@ namespace BOA.OneDesigner.WpfControls
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
-                ((BCardWpf) bInput.Container)?.RefreshDataContext();
 
                 DataContext = new BCardSection
                 {

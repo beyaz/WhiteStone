@@ -96,7 +96,6 @@
     <Compile Include="WpfControls\CecilHelper.cs" />
     <Compile Include="WpfControls\DragAndDropHelper.cs" />
     <Compile Include="WpfControls\EventBus.cs" />
-    <Compile Include="WpfControls\IDropLocationContainer.cs" />
     <Compile Include="WpfControls\IJsxElementDesignerSurfaceItem.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
     <Compile Include="JsxElementModel\BAccountComponent.cs" />
