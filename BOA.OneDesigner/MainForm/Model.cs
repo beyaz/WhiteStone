@@ -12,6 +12,7 @@ namespace BOA.OneDesigner.MainForm
         public string TfsFolderName { get; set; }
         public string RequestName   { get; set; }
         public string FormType      { get; set; }
+        public object JsxModel { get; set; }
     }
 
 

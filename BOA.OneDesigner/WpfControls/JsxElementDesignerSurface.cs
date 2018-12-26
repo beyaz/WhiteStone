@@ -48,7 +48,7 @@ namespace BOA.OneDesigner.WpfControls
 
             if (cardSection!= null)
             {
-                var bCardSection = new WpfControls.BCardSection
+                var bCardSection = new WpfControls.BCardSectionWpf
                 {
                     Surface = this,
                     DataContext = cardSection
@@ -99,11 +99,11 @@ namespace BOA.OneDesigner.WpfControls
 
             ExitDropLocationMode();
 
-            var bInput = DraggingElement as BCard;
+            var bInput = DraggingElement as BCardWpf;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
-                ((BCard) bInput.Container)?.RefreshDataContext();
+                ((BCardWpf) bInput.Container)?.RefreshDataContext();
 
                 DataContext = new JsxElementModel.BCardSection
                 {

@@ -12,6 +12,25 @@ namespace BOA.OneDesigner.MainForm
 {
     public class View : WindowBase<Model, Controller>
     {
+
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.Property == DataContextProperty)
+            {
+                Refresh();
+            }
+
+            base.OnPropertyChanged(e);
+        }
+
+
+
+        public void Refresh()
+        {
+            DesignSurface.DataContext = Model.ScreenInfo.JsxModel;
+        }
+
+
         #region Fields
         public JsxElementDesignerSurface DesignSurface;
         #endregion
@@ -78,11 +97,11 @@ namespace BOA.OneDesigner.MainForm
 
             cardSection.InsertItem(0,card);
 
-           
 
-            DesignSurface.DataContext = new BCardSection();
 
-           
+         
+
+
         }
         #endregion
     }

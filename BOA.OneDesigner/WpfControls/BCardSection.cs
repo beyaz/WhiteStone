@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardSection : WrapPanel, IDropLocationContainer, IJsxElementDesignerSurfaceItem
+    public class BCardSectionWpf : WrapPanel, IDropLocationContainer, IJsxElementDesignerSurfaceItem
 
     {
         #region Public Properties
@@ -65,7 +65,7 @@ namespace BOA.OneDesigner.WpfControls
 
         public void ExitDropLocationMode()
         {
-            if (!(Surface.DraggingElement is BCard))
+            if (!(Surface.DraggingElement is BCardWpf))
             {
                 foreach (var child in Children)
                 {
@@ -103,7 +103,7 @@ namespace BOA.OneDesigner.WpfControls
 
             var insertIndex = dropLocation.TargetLocationIndex;
 
-            var bInput = Surface.DraggingElement as BCard;
+            var bInput = Surface.DraggingElement as BCardWpf;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
@@ -129,7 +129,7 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var bField in Data.Items)
             {
-                var uiElement = new BCard
+                var uiElement = new BCardWpf
                 {
                     Surface     = Surface,
                     DataContext = bField,
@@ -157,7 +157,7 @@ namespace BOA.OneDesigner.WpfControls
 
         static bool CanDrop(UIElement dragElement)
         {
-            if (dragElement is BCard)
+            if (dragElement is BCardWpf)
             {
                 return true;
             }

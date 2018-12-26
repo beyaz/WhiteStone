@@ -6,7 +6,7 @@ namespace BOA.OneDesigner.WpfControls
 {
 
    
-    public class BInput : Grid,IJsxElementDesignerSurfaceItem
+    public class BInputWpf : Grid,IJsxElementDesignerSurfaceItem
     {
         public JsxElementDesignerSurface Surface { get; set; }
 
@@ -14,7 +14,7 @@ namespace BOA.OneDesigner.WpfControls
         
 
         #region Constructors
-        public BInput()
+        public BInputWpf()
         {
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;

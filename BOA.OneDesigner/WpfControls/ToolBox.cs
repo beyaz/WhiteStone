@@ -20,13 +20,13 @@ namespace BOA.OneDesigner.WpfControls
         {
             var stackPanel = new StackPanel();
 
-            var bCard = new BCard {Height = 100, DataContext = new JsxElementModel.BCard {Title = "Card"}};
+            var bCard = new BCardWpf {Height = 100, DataContext = new JsxElementModel.BCard {Title = "Card"}};
 
             DragAndDropHelper.MakeDraggable(bCard);
 
             stackPanel.Children.Add(bCard);
 
-            var bInput = new BInput {DataContext = new JsxElementModel.BInput {Label = "Label", BindingPath = "?"}};
+            var bInput = new BInputWpf {DataContext = new JsxElementModel.BInput {Label = "Label", BindingPath = "?"}};
 
             DragAndDropHelper.MakeDraggable(bInput);
 

@@ -5,14 +5,14 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCard : Grid, IDropLocationContainer, IJsxElementDesignerSurfaceItem
+    public class BCardWpf : Grid, IDropLocationContainer, IJsxElementDesignerSurfaceItem
     {
         #region Fields
         public StackPanel ChildrenContainer;
         #endregion
 
         #region Constructors
-        public BCard()
+        public BCardWpf()
         {
             this.LoadJson(@"
 {
@@ -101,11 +101,11 @@ namespace BOA.OneDesigner.WpfControls
 
             Surface.ExitDropLocationMode();
 
-            var bInput = Surface.DraggingElement as BInput;
+            var bInput = Surface.DraggingElement as BInputWpf;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
-                ((BCard) bInput.Container)?.RefreshDataContext();
+                ((BCardWpf) bInput.Container)?.RefreshDataContext();
 
                 Data.InsertItem(insertIndex, bInput.Data);
 
@@ -130,7 +130,7 @@ namespace BOA.OneDesigner.WpfControls
             {
                 if (bField is JsxElementModel.BInput)
                 {
-                    var uiElement = new BInput
+                    var uiElement = new BInputWpf
                     {
                         Surface     = Surface,
                         DataContext = bField,
@@ -158,7 +158,7 @@ namespace BOA.OneDesigner.WpfControls
 
         static bool CanDrop(UIElement dragElement)
         {
-            if (dragElement is BInput)
+            if (dragElement is BInputWpf)
             {
                 return true;
             }
