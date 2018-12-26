@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -37,8 +38,13 @@ namespace WhiteStone.UI.Container
             DataContext = this;
 
             this.LoadJson(UITemplate);
+
+
+
         }
         #endregion
+
+        public event Action TextChanged;
 
         #region Public Methods
         public static UIElement On(Builder builder, Node node)
@@ -72,12 +78,31 @@ namespace WhiteStone.UI.Container
         #endregion
 
         #region  Text
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(IntellisenseTextBox), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(IntellisenseTextBox), new PropertyMetadata(default(string),OnTextChanged));
+
+        static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var intellisenseTextBox = d as IntellisenseTextBox;
+            if (intellisenseTextBox == null)
+            {
+                return;
+            }
+
+            intellisenseTextBox.IntellisenseBox.SelectedValue = (string)e.NewValue;
+            intellisenseTextBox.IntellisenseBox.WatermarkText = (string)e.NewValue;
+
+            intellisenseTextBox.OnTextChanged();
+            
+        }
 
         public string Text
         {
             get { return (string) GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            set
+            {
+                SetValue(TextProperty, value);
+              
+            }
         }
         #endregion
 
@@ -136,7 +161,7 @@ namespace WhiteStone.UI.Container
             #endregion
 
             #region Methods
-            protected virtual IEnumerable<string> Sort(IEnumerable<string> preResults)
+            protected  IEnumerable<string> Sort(IEnumerable<string> preResults)
             {
                 return preResults.OrderByDescending(s => s.Length);
             }
@@ -145,5 +170,9 @@ namespace WhiteStone.UI.Container
             #endregion
         }
 
+        void OnTextChanged()
+        {
+            TextChanged?.Invoke();
+        }
     }
 }

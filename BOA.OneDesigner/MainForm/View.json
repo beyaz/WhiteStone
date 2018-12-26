@@ -7,45 +7,44 @@
     "rows": [
       {
         "gravity": 10,
-        "ui": "TabControl",
+        "ui": "StackPanel",
         "Children": [
           {
-            "ui": "TabItem",
-            "Header": "Start",
-            "IsVisible": "{Binding StartTabIsVisible}",
+            "ui": "GroupBox",
+            "Header": "Search",
+            "IsVisible": "{Binding SearchIsVisible}",
             "Content": {
 
               "ui": "Grid",
               "Margin": 20,
               "rows": [
                 {
-                  "IsEnabled": "{Binding TfsFolderNameIsEnabled}",
                   "ui": "TextBox",
                   "Label": "Select Tfs Project",
                   "IntellisenseSource": "{Binding TfsFolderNames}",
-                  "Text": "{Binding TfsFolderName}",
+                  "Text": "{Binding ScreenInfo.TfsFolderName}",
                   "vAlignIsCenter": true,
                   "hAlignIsCenter": true,
                   "MinWidth": 500
 
+
                 },
                 {
-                  "IsVisible": "{Binding RequestNameIsVisible}",
                   "ui": "TextBox",
                   "Label": "Select Request",
                   "IntellisenseSource": "{Binding RequestNames}",
-                  "Text": "{Binding RequestName}",
+                  "Text": "{Binding ScreenInfo.RequestName}",
                   "vAlignIsCenter": true,
                   "hAlignIsCenter": true,
-                  "MinWidth": 500
+                  "MinWidth": 500,
+                  "TextChanged": "this.FireAction('RequestNameChanged')"
 
                 },
                 {
-                  "IsVisible": "{Binding FormTypeIsVisible}",
                   "ui": "TextBox",
-                  "Label": "Form Tipi",
+                  "Label": "Form Tipi (Detay - List)",
                   "IntellisenseSource": "{Binding FormTypes}",
-                  "Text": "{Binding FormType}",
+                  "Text": "{Binding ScreenInfo.FormType}",
                   "vAlignIsCenter": true,
                   "hAlignIsCenter": true,
                   "MinWidth": 500
@@ -57,24 +56,8 @@
 
           },
           {
-            "ui": "TabItem",
-            "IsVisible": "{Binding ScreenInfoTabIsVisible}",
-            "Header": "Ekran Bilgileri",
-            "Content": {
-              "ui": "StackPanel",
-              "Margin": 20,
-              "Children": [
-                {
-                  "ui": "TextBox",
-                  "Label": "Solution file Path (Örn:D:\\work\\BOA.BusinessModules\\Dev\\BOA.CardGeneral.DebitCard\\BOA.CardGeneral.DebitCard.sln)",
-                  "Text": "{Binding SolutionFilePath}"
-                }
-              ]
-            }
-          },
-          {
-            "ui": "TabItem",
-            "IsVisible": "{Binding DesignTabIsVisible}",
+            "ui": "GroupBox",
+            "IsVisible": "{Binding DesignIsVisible}",
             "Header": "Design",
             "Content": {
 

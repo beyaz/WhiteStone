@@ -13,37 +13,35 @@ namespace BOA.OneDesigner.MainForm
         #region Public Methods
         public void Next()
         {
-            if (string.IsNullOrWhiteSpace(Model.TfsFolderName))
+            if (string.IsNullOrWhiteSpace(Model.ScreenInfo.TfsFolderName))
             {
                 Model.ViewMessage            = "Tfs Project boş olamaz.";
                 Model.ViewMessageTypeIsError = true;
                 return;
             }
 
-            Model.TfsFolderNameIsEnabled = false;
+            Model.SolutionInfo = SolutionInfo.CreateFrom(GetSlnFilePath(Model.ScreenInfo.TfsFolderName));
 
-            Model.SolutionInfo = SolutionInfo.CreateFrom(GetSlnFilePath(Model.TfsFolderName));
+            Model.RequestNames = CecilHelper.GetAllRequestNames($@"d:\boa\server\bin\{Model.SolutionInfo.TypeAssemblyName}");
 
-            if (Model.RequestNames == null)
-            {
-                Model.RequestNames = CecilHelper.GetAllRequestNames($@"d:\boa\server\bin\{Model.SolutionInfo.TypeAssemblyName}");
 
-                Model.RequestNameIsVisible = true;
-
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(Model.RequestName))
+            if (string.IsNullOrWhiteSpace(Model.ScreenInfo.RequestName))
             {
                 Model.ViewMessage            = "Request boş olamaz.";
                 Model.ViewMessageTypeIsError = true;
                 return;
             }
 
-            Model.FormTypeIsVisible = true;
+            if (string.IsNullOrWhiteSpace(Model.ScreenInfo.FormType))
+            {
+                Model.ViewMessage            = "Form Tipi boş olamaz.";
+                Model.ViewMessageTypeIsError = true;
+                return;
+            }
 
-            Model.StartTabIsVisible = false;
-            Model.DesignTabIsVisible = true;
+            Model.SearchIsVisible = false;
+
+            Model.DesignIsVisible = true;
 
             Model.ActionButtons = new List<ActionButtonInfo>
             {
@@ -58,16 +56,27 @@ namespace BOA.OneDesigner.MainForm
                     Text       = "Generate Codes"
                 }
             };
+
+
+            var screenInfo = SM.Get<InitialConfig>().ScreenInfoList?.FirstOrDefault(x => x.RequestName == Model.ScreenInfo.RequestName);
+            if (screenInfo == null)
+            {
+                SM.Get<InitialConfig>().ScreenInfoList.Add(Model.ScreenInfo);
+
+                InitialConfigCache.Save();
+            }
+
+
         }
 
         public override void OnViewLoaded()
         {
             Model = new Model
             {
-                TfsFolderNameIsEnabled = true,
-                TfsFolderNames         = SM.Get<InitialConfig>().TfsFolderNames,
-                StartTabIsVisible      = true,
-                FormTypes              = new List<string> {"Detay", "List"},
+                ScreenInfo        = new ScreenInfo(),
+                TfsFolderNames    = SM.Get<InitialConfig>().TfsFolderNames,
+                SearchIsVisible = true,
+                FormTypes         = new List<string> {"Detay", "List"},
                 ActionButtons = new List<ActionButtonInfo>
                 {
                     new ActionButtonInfo
@@ -75,8 +84,19 @@ namespace BOA.OneDesigner.MainForm
                         ActionName = nameof(Next),
                         Text       = "İleri"
                     }
-                }
+                },
+
+                RequestNames = SM.Get<InitialConfig>().ScreenInfoList?.Select(x => x.RequestName).ToList()
             };
+        }
+
+        public void RequestNameChanged()
+        {
+            var screenInfo = SM.Get<InitialConfig>().ScreenInfoList?.FirstOrDefault(x => x.RequestName == Model.ScreenInfo.RequestName);
+            if (screenInfo != null)
+            {
+                Model.ScreenInfo = screenInfo;
+            }
         }
         #endregion
 

@@ -16,7 +16,8 @@ namespace BOA.OneDesigner.WpfControls
             {
                 SM.Set(new InitialConfig
                 {
-                    TfsFolderNames = TfsHelper.GetFolderNames()
+                    TfsFolderNames = TfsHelper.GetFolderNames(),
+                    ScreenInfoList = new List<ScreenInfo>()
                 });
 
                 InitialConfigCache.Save();    

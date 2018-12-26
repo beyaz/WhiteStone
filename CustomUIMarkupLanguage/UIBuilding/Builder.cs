@@ -624,6 +624,10 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                     var mi = Caller.GetType().GetMethod(methodName, null, false, true, false);
 
+                    var parameters = viewInvocationExpressionInfo.Parameters.ToArray();
+
+                    mi.DoCastOperationsOnParametersForInvokeMethod(parameters);
+
                     var button = element as Button;
 
                     if (button != null && node.NameToUpperInEnglish == "CLICK")
@@ -635,15 +639,24 @@ namespace CustomUIMarkupLanguage.UIBuilding
                                 throw new MissingMemberException(Caller.GetType().FullName + "->" + methodName);
                             }
 
-                            var parameters = viewInvocationExpressionInfo.Parameters.ToArray();
-
-                            mi.DoCastOperationsOnParametersForInvokeMethod(parameters);
-
                             mi.Invoke(Caller, parameters);
                         };
+
+                        return true;
                     }
 
-                    return true;
+                    if (eventInfo.EventHandlerType == typeof(Action))
+                    {
+                        var caller = Caller;
+                        Action handler = () =>
+                        {
+                            mi.Invoke(caller, parameters);
+                        };
+                        eventInfo.AddMethod.Invoke(element, new object[]{handler});
+                        return true;
+                    }
+
+                    throw new NotImplementedException();
                 }
 
                 var handlerMethod = Caller.GetType().GetMethod(attributeValue.ToString(), null, false, true, true);
