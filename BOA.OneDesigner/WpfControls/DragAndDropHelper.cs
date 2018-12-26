@@ -10,6 +10,7 @@ namespace BOA.OneDesigner.WpfControls
         public static void MakeDraggable(UIElement element)
         {
             element.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
+            element.PreviewMouseLeftButtonUp += OnPreviewMouseLeftButtonUp;
 
             element.PreviewMouseMove += OnMouseMove;
         }
@@ -76,7 +77,7 @@ namespace BOA.OneDesigner.WpfControls
 
             if (Equals(sender, surfaceItem.Surface.DraggingElement))
             {
-                return;
+                // return;
             }
 
             // Get the current mouse position
@@ -103,6 +104,13 @@ namespace BOA.OneDesigner.WpfControls
            UIContext. DraggingElementStartPoint = e.GetPosition(null);
            UIContext.DraggingElement           = (UIElement) sender;
            UIContext.OnDragElementSelected();
+
+        }
+
+        static void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+            UIContext.DraggingElement            = null;
 
         }
         #endregion

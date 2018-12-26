@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -10,8 +12,21 @@ namespace BOA.OneDesigner.WpfControls
         public JsxElementDesignerSurface()
         {
             UIContext.Register(this);
+
+            Background = Brushes.WhiteSmoke;
+
+            MouseMove += JsxElementDesignerSurface_MouseEnter;
         }
-        
+
+        void JsxElementDesignerSurface_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var surfaceItem = UIContext.DraggingElement as IJsxElementDesignerSurfaceItem;
+            if (surfaceItem != null && surfaceItem.Surface == null)
+            {
+                surfaceItem.Surface = this;
+                EnterDropLocationMode();
+            }
+        }
 
         public Point DraggingElementStartPoint => UIContext.DraggingElementStartPoint;
 
@@ -63,6 +78,47 @@ namespace BOA.OneDesigner.WpfControls
             {
                 (child as IDropLocationContainer)?.EnterDropLocationMode();
             }
+
+            if (Children.Count == 0)
+            {
+                var dropLocation = new DropLocation
+                {
+                    OnDropAction = OnDrop, TargetLocationIndex = 0,
+                    Width = 50,
+                    Height = 50
+                };
+
+                Children.Add(dropLocation);
+            }
+            
+        }
+
+        public void OnDrop(DropLocation dropLocation)
+        {
+            var insertIndex = dropLocation.TargetLocationIndex;
+
+            ExitDropLocationMode();
+
+            var bInput = DraggingElement as BCard;
+            if (bInput != null)
+            {
+                bInput.Data.RemoveFromParent();
+                ((BCard) bInput.Container)?.RefreshDataContext();
+
+                DataContext = new JsxElementModel.BCardSection
+                {
+                    Items = new List<JsxElementModel.BCard>
+                    {
+                        bInput.Data
+                    }
+                };
+
+                this.RefreshDataContext();
+
+                return;
+            }
+
+            throw new ArgumentException();
         }
 
         public void ExitDropLocationMode()

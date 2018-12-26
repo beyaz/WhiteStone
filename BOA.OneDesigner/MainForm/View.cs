@@ -26,6 +26,8 @@ namespace BOA.OneDesigner.MainForm
 
             DesignSurface.VerticalAlignment = VerticalAlignment.Stretch;
 
+
+
             var card = new BCard
             {
                 Title = "Aloha"
@@ -78,7 +80,7 @@ namespace BOA.OneDesigner.MainForm
 
            
 
-            DesignSurface.DataContext = cardSection;
+            DesignSurface.DataContext = new BCardSection();
 
            
         }
