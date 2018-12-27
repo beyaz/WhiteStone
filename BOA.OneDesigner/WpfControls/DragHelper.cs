@@ -32,11 +32,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var surfaceItem = sender as IJsxElementDesignerSurfaceItem;
-            if (surfaceItem == null || surfaceItem.Surface == null)
-            {
-                // return;
-            }
+           
 
             var mousePosition = e.GetPosition(null);
             var diff          = UIContext.DraggingElementStartPoint - mousePosition;

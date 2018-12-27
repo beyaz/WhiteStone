@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -15,10 +14,8 @@ namespace BOA.OneDesigner.WpfControls
         {
             Background = Brushes.WhiteSmoke;
 
-            EventBus.DragStarted += EnterDropLocationMode;
+            EventBus.DragStarted        += EnterDropLocationMode;
             EventBus.AfterDropOperation += ExitDropLocationMode;
-
-            MouseMove += JsxElementDesignerSurface_MouseEnter;
         }
         #endregion
 
@@ -29,7 +26,8 @@ namespace BOA.OneDesigner.WpfControls
             {
                 var dropLocation = new DropLocation
                 {
-                    OnDropAction = OnDrop, TargetLocationIndex = 0,
+                    OnDropAction = OnDrop,
+                    TargetLocationIndex = 0,
                     Width        = 50,
                     Height       = 50
                 };
@@ -38,32 +36,8 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
-        void ExitDropLocationMode()
-        {
-
-            var items = Children.ToArray();
-
-            Children.Clear();
-
-            foreach (var control in items)
-            {
-                if (control is DropLocation)
-                {
-                    continue;
-                }
-
-                
-
-                Children.Add(control);
-            }
-        }
-
         public void OnDrop(DropLocation dropLocation)
         {
-            var insertIndex = dropLocation.TargetLocationIndex;
-
-            // ExitDropLocationMode();
-
             var bInput = UIContext.DraggingElement as BCardWpf;
             if (bInput != null)
             {
@@ -123,14 +97,20 @@ namespace BOA.OneDesigner.WpfControls
             base.OnPropertyChanged(e);
         }
 
-        void JsxElementDesignerSurface_MouseEnter(object sender, MouseEventArgs e)
+        void ExitDropLocationMode()
         {
-            var surfaceItem = UIContext.DraggingElement as IJsxElementDesignerSurfaceItem;
-            if (surfaceItem != null && surfaceItem.Surface == null)
+            var items = Children.ToArray();
+
+            Children.Clear();
+
+            foreach (var control in items)
             {
-                surfaceItem.Surface = this;
-                EventBus.OnDragStarted();
-                // EnterDropLocationMode();
+                if (control is DropLocation)
+                {
+                    continue;
+                }
+
+                Children.Add(control);
             }
         }
         #endregion
