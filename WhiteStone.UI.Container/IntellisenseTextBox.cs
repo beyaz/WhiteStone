@@ -39,6 +39,7 @@ namespace WhiteStone.UI.Container
 
             this.LoadJson(UITemplate);
 
+            
 
 
         }
@@ -97,7 +98,7 @@ namespace WhiteStone.UI.Container
 
         public string Text
         {
-            get { return (string) GetValue(TextProperty); }
+            get { return (string) GetValue(TextProperty) ?? IntellisenseBox?.WatermarkText; }
             set
             {
                 SetValue(TextProperty, value);

@@ -5,6 +5,7 @@ using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
+using BOA.UI.Types;
 using BOAPlugins.TypescriptModelGeneration;
 using WhiteStone.UI.Container.Mvc;
 
@@ -91,6 +92,11 @@ namespace BOA.OneDesigner.MainForm
                 SearchIsVisible = true,
                 FormTypes       = new List<string> {"Detay", "List"},
                 MessagingGroupNames = Database.GetMessagingGroupNames(),
+                MessagingGroupNames2 = new List<Pair>
+                {
+                    new Pair("A","B"),
+                    new Pair("R","C")
+                },
                 ActionButtons = new List<ActionButtonInfo>
                 {
                     new ActionButtonInfo

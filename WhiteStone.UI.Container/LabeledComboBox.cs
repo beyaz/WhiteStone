@@ -67,22 +67,22 @@ namespace WhiteStone.UI.Container
 
         #region SelectedValuePath
         public static readonly DependencyProperty SelectedValuePathProperty = DependencyProperty.Register(
-                                                                                                          "SelectedValuePath", typeof(IEnumerable), typeof(LabeledComboBox), new PropertyMetadata(default(IEnumerable)));
+                                                                                                          "SelectedValuePath", typeof(string), typeof(LabeledComboBox), new PropertyMetadata(default(IEnumerable)));
 
-        public IEnumerable SelectedValuePath
+        public string SelectedValuePath
         {
-            get { return (IEnumerable) GetValue(SelectedValuePathProperty); }
+            get { return (string) GetValue(SelectedValuePathProperty); }
             set { SetValue(SelectedValuePathProperty, value); }
         }
         #endregion
 
         #region DisplayMemberPath
         public static readonly DependencyProperty DisplayMemberPathProperty = DependencyProperty.Register(
-                                                                                                          "DisplayMemberPath", typeof(IEnumerable), typeof(LabeledComboBox), new PropertyMetadata(default(IEnumerable)));
+                                                                                                          "DisplayMemberPath", typeof(string), typeof(LabeledComboBox), new PropertyMetadata(default(IEnumerable)));
 
-        public IEnumerable DisplayMemberPath
+        public string DisplayMemberPath
         {
-            get { return (IEnumerable) GetValue(DisplayMemberPathProperty); }
+            get { return (string) GetValue(DisplayMemberPathProperty); }
             set { SetValue(DisplayMemberPathProperty, value); }
         }
         #endregion

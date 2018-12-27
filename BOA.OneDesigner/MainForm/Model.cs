@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.UI.Types;
 using BOAPlugins.Messaging;
 using BOAPlugins.TypescriptModelGeneration;
 using WhiteStone.UI.Container.Mvc;
@@ -28,6 +29,9 @@ namespace BOA.OneDesigner.MainForm
         ///     Gets or sets the messaging group names.
         /// </summary>
         public IReadOnlyList<string> MessagingGroupNames { get; set; }
+
+
+        public IReadOnlyList<Pair> MessagingGroupNames2 { get; set; }
 
         /// <summary>
         ///     Gets or sets the request names.
