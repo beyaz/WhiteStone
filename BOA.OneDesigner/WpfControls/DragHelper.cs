@@ -6,6 +6,13 @@ namespace BOA.OneDesigner.WpfControls
 {
     static class DragHelper
     {
+        #region Constructors
+        static DragHelper()
+        {
+            EventBus.AfterDropOperation += () => { UIContext.DraggingElement = null; };
+        }
+        #endregion
+
         #region Public Methods
         public static void MakeDraggable(UIElement element)
         {
@@ -28,12 +35,11 @@ namespace BOA.OneDesigner.WpfControls
             var surfaceItem = sender as IJsxElementDesignerSurfaceItem;
             if (surfaceItem == null || surfaceItem.Surface == null)
             {
-                return;
+                // return;
             }
 
-            // Get the current mouse position
-            var mousePos = e.GetPosition(null);
-            var diff     = UIContext.DraggingElementStartPoint - mousePos;
+            var mousePosition = e.GetPosition(null);
+            var diff          = UIContext.DraggingElementStartPoint - mousePosition;
 
             if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
@@ -55,6 +61,7 @@ namespace BOA.OneDesigner.WpfControls
         static void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             UIContext.DraggingElement = null;
+            EventBus.OnAfterDropOperation();
         }
         #endregion
     }
