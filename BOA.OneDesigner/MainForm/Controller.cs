@@ -24,7 +24,9 @@ namespace BOA.OneDesigner.MainForm
 
             Model.SolutionInfo = SolutionInfo.CreateFrom(GetSlnFilePath(Model.ScreenInfo.TfsFolderName));
 
-            Model.RequestNames = CecilHelper.GetAllRequestNames($@"d:\boa\server\bin\{Model.SolutionInfo.TypeAssemblyName}");
+            var typeAssemblyPath = $@"d:\boa\server\bin\{Model.SolutionInfo.TypeAssemblyName}";
+
+            Model.RequestNames = CecilHelper.GetAllRequestNames(typeAssemblyPath);
 
 
             if (string.IsNullOrWhiteSpace(Model.ScreenInfo.RequestName))
@@ -66,8 +68,12 @@ namespace BOA.OneDesigner.MainForm
                 SM.Get<InitialConfig>().ScreenInfoList.Add(Model.ScreenInfo);
 
                 InitialConfigCache.Save();
+
+
+                
             }
 
+            UIContext.RequestPropertyIntellisense = CecilHelper.GetAllBindProperties(typeAssemblyPath, Model.ScreenInfo.RequestName);
 
         }
 

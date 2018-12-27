@@ -10,6 +10,9 @@ namespace BOA.OneDesigner.WpfControls
 {
     public static class UIContext
     {
+
+        public static IReadOnlyList<string> RequestPropertyIntellisense { get; set; }
+
         public static void RegisterElements()
         {
             InitialConfigCache.TryLoadFromCache();
