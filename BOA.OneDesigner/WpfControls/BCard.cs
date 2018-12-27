@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardWpf : Grid,  IJsxElementDesignerSurfaceItem
+    public class BCardWpf : Grid, IJsxElementDesignerSurfaceItem
     {
         #region Fields
         public StackPanel ChildrenContainer;
@@ -14,7 +15,6 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         public BCardWpf()
         {
-
             EventBus.DragStarted        += EnterDropLocationMode;
             EventBus.AfterDropOperation += ExitDropLocationMode;
             EventBus.AfterDropOperation += Refresh;
@@ -25,7 +25,7 @@ namespace BOA.OneDesigner.WpfControls
 	[
 		{
             view:   'GroupBox', 
-            Header: '{Binding " + nameof(JsxElementModel.BCard.Title) + @"}',
+            Header: '{Binding " + nameof(BCard.Title) + @"}',
             Content: { ui:'StackPanel' , Name:'" + nameof(ChildrenContainer) + @"' }
         }
 	]
@@ -35,70 +35,13 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Properties
-        public JsxElementModel.BCard  Data                      => (JsxElementModel.BCard) DataContext;
-        public bool                   IsEnteredDropLocationMode { get; set; }
+        public BCard Data                      => (BCard) DataContext;
+        public bool  IsEnteredDropLocationMode { get; set; }
 
         public JsxElementDesignerSurface Surface { get; set; }
         #endregion
 
         #region Public Methods
-         void EnterDropLocationMode()
-        {
-            if (!CanDrop(UIContext.DraggingElement))
-            {
-                return;
-            }
-
-            if (IsEnteredDropLocationMode)
-            {
-                return;
-            }
-
-            IsEnteredDropLocationMode = true;
-
-            var items = ChildrenContainer.Children.ToArray();
-
-            ChildrenContainer.Children.Clear();
-
-            for (var i = 0; i < items.Length; i++)
-            {
-                var control = items[i];
-
-                var dropLocation = new DropLocation {OnDropAction = OnDrop, TargetLocationIndex = i};
-
-                ChildrenContainer.Children.Add(dropLocation);
-
-                ChildrenContainer.Children.Add(control);
-
-            }
-
-            ChildrenContainer.Children.Add(new DropLocation {OnDropAction = OnDrop, TargetLocationIndex = items.Length});
-        }
-
-         void ExitDropLocationMode()
-        {
-            if (!IsEnteredDropLocationMode)
-            {
-                return;
-            }
-
-            IsEnteredDropLocationMode = false;
-
-            var items = ChildrenContainer.Children.ToArray();
-
-            ChildrenContainer.Children.Clear();
-
-            foreach (var control in items)
-            {
-                if (control is DropLocation)
-                {
-                    continue;
-                }
-
-                ChildrenContainer.Children.Add(control);
-            }
-        }
-
         public void OnDrop(DropLocation dropLocation)
         {
             var insertIndex = dropLocation.TargetLocationIndex;
@@ -129,12 +72,12 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var bField in Data.Items)
             {
-                if (bField is JsxElementModel.BInput)
+                if (bField is BInput)
                 {
                     var uiElement = new BInputWpf
                     {
                         Surface     = Surface,
-                        DataContext = bField,
+                        DataContext = bField
                         // Container   = this
                     };
 
@@ -167,7 +110,70 @@ namespace BOA.OneDesigner.WpfControls
             return false;
         }
 
-        
+
+        public bool IsInToolbox { get; set; }
+
+        void EnterDropLocationMode()
+        {
+
+            if (IsInToolbox)
+            {
+                return;
+            }
+
+            if (!CanDrop(UIContext.DraggingElement))
+            {
+                return;
+            }
+
+            if (IsEnteredDropLocationMode)
+            {
+                return;
+            }
+
+            IsEnteredDropLocationMode = true;
+
+            var items = ChildrenContainer.Children.ToArray();
+
+            ChildrenContainer.Children.Clear();
+
+            for (var i = 0; i < items.Length; i++)
+            {
+                var control = items[i];
+
+                var dropLocation = new DropLocation {OnDropAction = OnDrop, TargetLocationIndex = i};
+
+                ChildrenContainer.Children.Add(dropLocation);
+
+                ChildrenContainer.Children.Add(control);
+            }
+
+            ChildrenContainer.Children.Add(new DropLocation {OnDropAction = OnDrop, TargetLocationIndex = items.Length});
+        }
+
+        void ExitDropLocationMode()
+        {
+            if (!IsEnteredDropLocationMode)
+            {
+                return;
+            }
+
+            IsEnteredDropLocationMode = false;
+
+            var items = ChildrenContainer.Children.ToArray();
+
+            ChildrenContainer.Children.Clear();
+
+            foreach (var control in items)
+            {
+                if (control is DropLocation)
+                {
+                    continue;
+                }
+
+                ChildrenContainer.Children.Add(control);
+            }
+        }
         #endregion
     }
 }

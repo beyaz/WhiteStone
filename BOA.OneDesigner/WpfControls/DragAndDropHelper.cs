@@ -51,14 +51,12 @@ namespace BOA.OneDesigner.WpfControls
 
         static void OnDrop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent("myFormat"))
-            {
-                var dropLocation = sender as DropLocation;
+            var dropLocation = sender as DropLocation;
 
-                dropLocation?.OnDropAction(dropLocation);
+            dropLocation?.OnDropAction(dropLocation);
 
-                EventBus.OnAfterDropOperation();
-            }
+            EventBus.OnAfterDropOperation();
+
         }
 
         static void OnMouseMove(object sender, MouseEventArgs e)
@@ -88,7 +86,7 @@ namespace BOA.OneDesigner.WpfControls
             {
                 EventBus.OnDragStarted();
 
-                var dragData = new DataObject("myFormat", "A");
+                var dragData = new DataObject(string.Empty);
                 DragDrop.DoDragDrop(UIContext.DraggingElement, dragData, DragDropEffects.Copy);
             }
         }
