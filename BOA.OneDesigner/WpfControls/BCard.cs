@@ -6,7 +6,7 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardWpf : Grid, IJsxElementDesignerSurfaceItem
+    public class BCardWpf : Grid
     {
         #region Fields
         public StackPanel ChildrenContainer;
@@ -38,7 +38,7 @@ namespace BOA.OneDesigner.WpfControls
         public BCard Data                      => (BCard) DataContext;
         public bool  IsEnteredDropLocationMode { get; set; }
 
-        public JsxElementDesignerSurface Surface { get; set; }
+
         #endregion
 
         #region Public Methods
@@ -76,9 +76,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     var uiElement = new BInputWpf
                     {
-                        Surface     = Surface,
                         DataContext = bField
-                        // Container   = this
                     };
 
                     DragHelper.MakeDraggable(uiElement);

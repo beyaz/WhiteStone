@@ -74,7 +74,6 @@ namespace BOA.OneDesigner.WpfControls
             {
                 var bCardSection = new BCardSectionWpf
                 {
-                    Surface     = this,
                     DataContext = cardSection
                 };
 

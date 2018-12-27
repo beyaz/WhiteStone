@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardSectionWpf : WrapPanel,  IJsxElementDesignerSurfaceItem
+    public class BCardSectionWpf : WrapPanel
     {
 
         public BCardSectionWpf()
@@ -14,7 +14,6 @@ namespace BOA.OneDesigner.WpfControls
         }
         #region Public Properties
         public bool                       IsEnteredDropLocationMode { get; set; }
-        public JsxElementDesignerSurface Surface                   { get; set; }
         #endregion
 
         #region Properties
@@ -129,10 +128,8 @@ namespace BOA.OneDesigner.WpfControls
             {
                 var uiElement = new BCardWpf
                 {
-                    Surface     = Surface,
                     DataContext = bField,
                     Margin      = new Thickness(10),
-                    // Container   = this
                 };
 
                 DragHelper.MakeDraggable(uiElement);

@@ -1,17 +1,12 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-
-   
-    public class BInputWpf : Grid,IJsxElementDesignerSurfaceItem
+    public class BInputWpf : Grid
     {
-        public JsxElementDesignerSurface Surface { get; set; }
-
-        
-
         #region Constructors
         public BInputWpf()
         {
@@ -23,26 +18,28 @@ namespace BOA.OneDesigner.WpfControls
     Margin:10,
 	rows:
 	[
-		{view:'TextBlock', Text:'{Binding " + nameof(JsxElementModel.BInput.Label) + @"}', MarginBottom:5, IsBold:true},
-        {view:'TextBox',   Text:'{Binding " + nameof(JsxElementModel.BInput.BindingPath) + @"}' , IsReadOnly:true}        
+		{view:'TextBlock', Text:'{Binding " + nameof(BInput.Label) + @"}', MarginBottom:5, IsBold:true},
+        {view:'TextBox',   Text:'{Binding " + nameof(BInput.BindingPath) + @"}' , IsReadOnly:true}        
 	]
 	
 }");
         }
-
-        private void BInput_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Cursor = Cursors.Arrow;
-        }
-
-        void BInput_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            Cursor = Cursors.Hand;
-        }
         #endregion
 
         #region Public Properties
-        public JsxElementModel.BInput Data => (JsxElementModel.BInput) DataContext;
+        public BInput Data => (BInput) DataContext;
+        #endregion
+
+        #region Methods
+        void BInput_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Hand;
+        }
+
+        void BInput_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
         #endregion
     }
 }
