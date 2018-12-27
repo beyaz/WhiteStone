@@ -7,6 +7,53 @@ namespace BOA.OneDesigner.WpfControls
 {
     public sealed class DropLocation : Border
     {
+
+        
+
+        static class Helper
+        {
+            public static void MakeDropLocation(UIElement element)
+            {
+                element.AllowDrop = true;
+
+                element.Drop += OnDrop;
+
+                element.DragEnter += OnDragEnter;
+
+                element.DragLeave += OnDragLeave;
+            }
+
+            static void OnDragEnter(object sender, DragEventArgs e)
+            {
+                if (sender == e.Source)
+                {
+                    (sender as DropLocation)?.OnDragEnter();
+
+                    e.Effects = DragDropEffects.Copy;
+                }
+                else
+                {
+                    e.Effects = DragDropEffects.Move;
+                }
+            }
+
+            static void OnDragLeave(object sender, DragEventArgs e)
+            {
+                (sender as DropLocation)?.OnDragLeave();
+            }
+
+            static void OnDrop(object sender, DragEventArgs e)
+            {
+                var dropLocation = sender as DropLocation;
+
+                dropLocation?.OnDropAction(dropLocation);
+
+                EventBus.OnAfterDropOperation();
+
+            }
+        }
+
+
         #region Constructors
         public DropLocation()
         {
@@ -15,7 +62,7 @@ namespace BOA.OneDesigner.WpfControls
             MinHeight       = 20;
             MinWidth        = 20;
 
-            DragAndDropHelper.MakeDropLocation(this);
+            Helper.MakeDropLocation(this);
 
             OnDragLeave();
         }

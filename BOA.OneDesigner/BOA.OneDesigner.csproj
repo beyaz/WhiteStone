@@ -94,7 +94,7 @@
     <Compile Include="AppModel\InitialConfigCache.cs" />
     <Compile Include="JsxElementModel\ScreenInfo.cs" />
     <Compile Include="WpfControls\CecilHelper.cs" />
-    <Compile Include="WpfControls\DragAndDropHelper.cs" />
+    <Compile Include="WpfControls\DragHelper.cs" />
     <Compile Include="WpfControls\EventBus.cs" />
     <Compile Include="WpfControls\IJsxElementDesignerSurfaceItem.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />

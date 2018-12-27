@@ -135,7 +135,7 @@ namespace BOA.OneDesigner.WpfControls
                     // Container   = this
                 };
 
-                DragAndDropHelper.MakeDraggable(uiElement);
+                DragHelper.MakeDraggable(uiElement);
 
                 Children.Add(uiElement);
             }

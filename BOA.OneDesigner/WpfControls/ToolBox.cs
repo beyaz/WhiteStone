@@ -31,13 +31,13 @@ namespace BOA.OneDesigner.WpfControls
                 }
             };
 
-            DragAndDropHelper.MakeDraggable(bCard);
+            DragHelper.MakeDraggable(bCard);
 
             stackPanel.Children.Add(bCard);
 
             var bInput = new BInputWpf {DataContext = new BInput {Label = "Label", BindingPath = "?"}};
 
-            DragAndDropHelper.MakeDraggable(bInput);
+            DragHelper.MakeDraggable(bInput);
 
             stackPanel.Children.Add(bInput);
 

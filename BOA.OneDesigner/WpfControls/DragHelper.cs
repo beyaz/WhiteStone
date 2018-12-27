@@ -4,61 +4,20 @@ using System.Windows.Input;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    static class DragAndDropHelper
+    static class DragHelper
     {
-        
-
         #region Public Methods
         public static void MakeDraggable(UIElement element)
         {
             element.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
-            element.PreviewMouseLeftButtonUp   += OnPreviewMouseLeftButtonUp;
+
+            element.PreviewMouseLeftButtonUp += OnPreviewMouseLeftButtonUp;
 
             element.PreviewMouseMove += OnMouseMove;
-        }
-
-        public static void MakeDropLocation(UIElement element)
-        {
-            element.AllowDrop = true;
-
-            element.Drop += OnDrop;
-
-            element.DragEnter += OnDragEnter;
-
-            element.DragLeave += OnDragLeave;
         }
         #endregion
 
         #region Methods
-        static void OnDragEnter(object sender, DragEventArgs e)
-        {
-            if (sender == e.Source)
-            {
-                (sender as DropLocation)?.OnDragEnter();
-
-                e.Effects = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effects = DragDropEffects.Move;
-            }
-        }
-
-        static void OnDragLeave(object sender, DragEventArgs e)
-        {
-            (sender as DropLocation)?.OnDragLeave();
-        }
-
-        static void OnDrop(object sender, DragEventArgs e)
-        {
-            var dropLocation = sender as DropLocation;
-
-            dropLocation?.OnDropAction(dropLocation);
-
-            EventBus.OnAfterDropOperation();
-
-        }
-
         static void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton != MouseButtonState.Pressed)
@@ -70,11 +29,6 @@ namespace BOA.OneDesigner.WpfControls
             if (surfaceItem == null || surfaceItem.Surface == null)
             {
                 return;
-            }
-
-            if (Equals(sender, UIContext.DraggingElement))
-            {
-                // return;
             }
 
             // Get the current mouse position
