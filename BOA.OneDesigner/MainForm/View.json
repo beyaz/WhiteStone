@@ -7,7 +7,7 @@
     "rows": [
       {
         "gravity": 10,
-        "ui": "StackPanel",
+        "ui": "Grid",
         "Children": [
           {
             "ui": "GroupBox",
@@ -15,7 +15,8 @@
             "IsVisible": "{Binding SearchIsVisible}",
             "Content": {
 
-              "ui": "Grid",
+              "ui": "StackPanel",
+              "vAlignIsCenter": true,
               "Margin": 20,
               "rows": [
                 {

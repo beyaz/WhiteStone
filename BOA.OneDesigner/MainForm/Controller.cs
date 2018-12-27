@@ -12,6 +12,9 @@ namespace BOA.OneDesigner.MainForm
 {
     public class Controller : ControllerBase<Model>
     {
+
+        IDatabase Database => UIContext.Database;
+
         #region Public Methods
         public void Next()
         {
@@ -44,31 +47,38 @@ namespace BOA.OneDesigner.MainForm
             {
                 new ActionButtonInfo
                 {
-                    ActionName = nameof(Next),
+                    ActionName = nameof(Save),
                     Text       = "Kaydet"
                 },
                 new ActionButtonInfo
                 {
-                    ActionName = nameof(Next),
+                    ActionName = nameof(GenerateCodes),
                     Text       = "Generate Codes"
                 }
             };
 
-            var screenInfo = SM.Get<InitialConfig>().ScreenInfoList?.FirstOrDefault(x => x.RequestName == Model.ScreenInfo.RequestName);
-            if (screenInfo == null)
-            {
-                SM.Get<InitialConfig>().ScreenInfoList.Add(Model.ScreenInfo);
-
-                InitialConfigCache.Save();
-            }
+            
         }
 
+        public void Save()
+        {
+
+            Database.Save(Model.ScreenInfo);
+
+            Model.ViewMessage = "Kaydedildi.";
+
+
+        }
+        public void GenerateCodes()
+        {
+
+        }
         public override void OnViewLoaded()
         {
             Model = new Model
             {
                 ScreenInfo      = new ScreenInfo(),
-                TfsFolderNames  = SM.Get<InitialConfig>().TfsFolderNames,
+                TfsFolderNames  = Database.GetTfsFolderNames(),
                 SearchIsVisible = true,
                 FormTypes       = new List<string> {"Detay", "List"},
                 ActionButtons = new List<ActionButtonInfo>
@@ -80,13 +90,14 @@ namespace BOA.OneDesigner.MainForm
                     }
                 },
 
-                RequestNames = SM.Get<InitialConfig>().ScreenInfoList?.Select(x => x.RequestName).ToList()
+                RequestNames = Database.GetDefaultRequestNames()
             };
         }
 
         public void RequestNameChanged()
         {
-            var screenInfo = SM.Get<InitialConfig>().ScreenInfoList?.FirstOrDefault(x => x.RequestName == Model.ScreenInfo.RequestName);
+
+            var screenInfo = Database.GetScreenInfo(Model.ScreenInfo.RequestName);
             if (screenInfo != null)
             {
                 Model.ScreenInfo = screenInfo;

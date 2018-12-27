@@ -13,30 +13,58 @@ namespace BOA.OneDesigner.WpfControls
         public JsxElementDesignerSurface()
         {
             Background = Brushes.WhiteSmoke;
+            VerticalAlignment = VerticalAlignment.Stretch;
 
             EventBus.DragStarted        += EnterDropLocationMode;
             EventBus.AfterDropOperation += ExitDropLocationMode;
         }
         #endregion
 
-        #region Public Methods
-        public void EnterDropLocationMode()
+        #region Methods
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.Property == DataContextProperty)
+            {
+                Refresh();
+            }
+
+            base.OnPropertyChanged(e);
+        }
+
+        void EnterDropLocationMode()
         {
             if (Children.Count == 0)
             {
                 var dropLocation = new DropLocation
                 {
-                    OnDropAction = OnDrop,
+                    OnDropAction        = OnDrop,
                     TargetLocationIndex = 0,
-                    Width        = 50,
-                    Height       = 50
+                    Width               = 50,
+                    Height              = 50
                 };
 
                 Children.Add(dropLocation);
             }
         }
 
-        public void OnDrop(DropLocation dropLocation)
+        void ExitDropLocationMode()
+        {
+            var items = Children.ToArray();
+
+            Children.Clear();
+
+            foreach (var control in items)
+            {
+                if (control is DropLocation)
+                {
+                    continue;
+                }
+
+                Children.Add(control);
+            }
+        }
+
+        void OnDrop(DropLocation dropLocation)
         {
             var bInput = UIContext.DraggingElement as BCardWpf;
             if (bInput != null)
@@ -59,7 +87,7 @@ namespace BOA.OneDesigner.WpfControls
             throw new ArgumentException();
         }
 
-        public void Refresh()
+        void Refresh()
         {
             Children.Clear();
 
@@ -82,35 +110,6 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             throw new ArgumentException();
-        }
-        #endregion
-
-        #region Methods
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.Property == DataContextProperty)
-            {
-                Refresh();
-            }
-
-            base.OnPropertyChanged(e);
-        }
-
-        void ExitDropLocationMode()
-        {
-            var items = Children.ToArray();
-
-            Children.Clear();
-
-            foreach (var control in items)
-            {
-                if (control is DropLocation)
-                {
-                    continue;
-                }
-
-                Children.Add(control);
-            }
         }
         #endregion
     }

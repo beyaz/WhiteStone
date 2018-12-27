@@ -82,7 +82,10 @@ namespace BOA.OneDesigner.WpfControls
                     DragHelper.MakeDraggable(uiElement);
 
                     ChildrenContainer.Children.Add(uiElement);
+                    continue;
                 }
+
+                throw new ArgumentException(bField.GetType().FullName);
             }
         }
         #endregion
@@ -174,4 +177,7 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
     }
+
+
+
 }
