@@ -4,6 +4,7 @@ using System.Windows;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.UIBuilding;
 using Notifications.Wpf;
+using WPF_AutoCompleteComboBox;
 
 namespace WhiteStone.UI.Container
 {
@@ -18,9 +19,13 @@ namespace WhiteStone.UI.Container
             Builder.RegisterElementCreation(IntellisenseTextBox.On);
 
             Builder.RegisterElementCreation(LabeledTextBox.On);
+            Builder.RegisterElementCreation(LabeledComboBox.On);
+            
             
 
             Builder.RegisterElementCreation("Tile",typeof(MahApps.Metro.Controls.Tile));
+            Builder.RegisterElementCreation("AutoCompleteComboBox",typeof(AutoCompleteComboBox));
+            
         }
 
         static Window StartupMainWindow()

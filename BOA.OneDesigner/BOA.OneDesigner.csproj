@@ -56,6 +56,9 @@
     <Reference Include="Intellibox">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\Intellibox.dll</HintPath>
     </Reference>
+	<Reference Include="WPF_AutoCompleteComboBox">
+      <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\WPF_AutoCompleteComboBox.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\MahApps.Metro.dll</HintPath>
     </Reference>
