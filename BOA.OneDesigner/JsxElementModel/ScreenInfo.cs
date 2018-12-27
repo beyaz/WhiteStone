@@ -8,6 +8,7 @@ namespace BOA.OneDesigner.JsxElementModel
         public string TfsFolderName { get; set; }
         public string RequestName   { get; set; }
         public string FormType      { get; set; }
+        public string MessagingGroupName { get; set; }
         public object JsxModel      { get; set; }
     }
 }

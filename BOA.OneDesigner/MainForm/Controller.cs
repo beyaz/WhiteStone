@@ -39,6 +39,13 @@ namespace BOA.OneDesigner.MainForm
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(Model.ScreenInfo.MessagingGroupName))
+            {
+                Model.ViewMessage            = "Messaging Group boş olamaz.";
+                Model.ViewMessageTypeIsError = true;
+                return;
+            }
+
             Model.SearchIsVisible = false;
 
             Model.DesignIsVisible = true;
@@ -57,7 +64,9 @@ namespace BOA.OneDesigner.MainForm
                 }
             };
 
-            
+            Model.MessagingPropertyNames = BOAPlugins.Messaging.DataSource.GetPropertyNames(Model.ScreenInfo.MessagingGroupName);
+
+
         }
 
         public void Save()
@@ -81,6 +90,7 @@ namespace BOA.OneDesigner.MainForm
                 TfsFolderNames  = Database.GetTfsFolderNames(),
                 SearchIsVisible = true,
                 FormTypes       = new List<string> {"Detay", "List"},
+                MessagingGroupNames = Database.GetMessagingGroupNames(),
                 ActionButtons = new List<ActionButtonInfo>
                 {
                     new ActionButtonInfo

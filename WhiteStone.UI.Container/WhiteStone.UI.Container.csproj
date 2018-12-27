@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\Intellibox.dll" />
+    <Content Include="Lib\WPF_AutoCompleteComboBox.dll" />
     <Resource Include="Lib\Intellibox.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

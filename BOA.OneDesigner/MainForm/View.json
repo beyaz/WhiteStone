@@ -28,8 +28,6 @@
                   "hAlignIsCenter": true,
                   "MinWidth": 500,
                   "TextChanged": "this.FireAction('TfsFolderNameChanged')"
-
-
                 },
                 {
                   "ui": "TextBox",
@@ -50,7 +48,15 @@
                   "vAlignIsCenter": true,
                   "hAlignIsCenter": true,
                   "MinWidth": 500
-
+                },
+                {
+                  "ui": "TextBox",
+                  "Label": "Messaging Group",
+                  "IntellisenseSource": "{Binding MessagingGroupNames}",
+                  "Text": "{Binding ScreenInfo.MessagingGroupName}",
+                  "vAlignIsCenter": true,
+                  "hAlignIsCenter": true,
+                  "MinWidth": 500
                 }
 
               ]

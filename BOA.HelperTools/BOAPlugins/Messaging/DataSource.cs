@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -7,7 +8,8 @@ using WhiteStone.Helpers;
 
 namespace BOAPlugins.Messaging
 {
-    class PropertyInfo
+    [Serializable]
+    public class PropertyInfo
     {
         #region Public Properties
         public string EN_Description { get; set; }
@@ -18,7 +20,7 @@ namespace BOAPlugins.Messaging
         #endregion
     }
 
-    class DataSource
+    public static class DataSource
     {
         #region Public Methods
         public static IList<PropertyInfo> GetPropertyNames(string groupName)
