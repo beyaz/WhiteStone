@@ -25,7 +25,8 @@
                   "Text": "{Binding ScreenInfo.TfsFolderName}",
                   "vAlignIsCenter": true,
                   "hAlignIsCenter": true,
-                  "MinWidth": 500
+                  "MinWidth": 500,
+                  "TextChanged": "this.FireAction('TfsFolderNameChanged')"
 
 
                 },

@@ -20,7 +20,9 @@ namespace BOA.OneDesigner.WpfControls
             typeof(long).FullName,
             typeof(long).FullName,
             typeof(decimal).FullName,
-            typeof(decimal?).FullName
+            typeof(decimal?).FullName,
+            typeof(DateTime).FullName,
+            typeof(DateTime?).FullName
         };
 
         public static IReadOnlyList<string> GetAllBindProperties(string assemblyPath,string typeFullName)
@@ -42,18 +44,39 @@ namespace BOA.OneDesigner.WpfControls
             {
                 var typeDefinition = typeDefinitions[0];
 
-                foreach (var propertyDefinition in typeDefinition.Properties)
-                {
-                    if ( PrimitiveTypes.Contains(propertyDefinition.PropertyType.FullName) )
-                    {
-                        items.Add(propertyDefinition.Name);
-                    }
-                }
+
+                GetAllBindProperties("request.",items,typeDefinition);
             }
 
             return items;
 
 
+        }
+
+        static void GetAllBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
+        {
+            if (typeDefinition == null)
+            {
+                return;
+            }
+            foreach (var propertyDefinition in typeDefinition.Properties)
+            {
+                if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
+                {
+                    continue;
+                }
+
+                if ( PrimitiveTypes.Contains(propertyDefinition.PropertyType.FullName) )
+                {
+                    paths.Add(pathPrefix+propertyDefinition.Name);
+                    continue;
+                }
+
+                if (propertyDefinition.PropertyType.IsValueType == false)
+                {
+                    GetAllBindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
+                }
+            }
         }
 
         #region Public Methods
@@ -78,8 +101,11 @@ namespace BOA.OneDesigner.WpfControls
 
          static void VisitAllTypes(string assemblyPath, Action<TypeDefinition> action)
         {
-            var assemblyDefinition = AssemblyDefinition.ReadAssembly(assemblyPath);
+            var resolver = new DefaultAssemblyResolver();
+            resolver.AddSearchDirectory(@"d:\boa\server\bin\");
 
+            var assemblyDefinition = AssemblyDefinition.ReadAssembly(assemblyPath,new ReaderParameters {AssemblyResolver = resolver});
+            
 
             foreach (var moduleDefinition in assemblyDefinition.Modules)
             {

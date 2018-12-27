@@ -22,13 +22,6 @@ namespace BOA.OneDesigner.MainForm
                 return;
             }
 
-            Model.SolutionInfo = SolutionInfo.CreateFrom(GetSlnFilePath(Model.ScreenInfo.TfsFolderName));
-
-            var typeAssemblyPath = $@"d:\boa\server\bin\{Model.SolutionInfo.TypeAssemblyName}";
-
-            Model.RequestNames = CecilHelper.GetAllRequestNames(typeAssemblyPath);
-
-
             if (string.IsNullOrWhiteSpace(Model.ScreenInfo.RequestName))
             {
                 Model.ViewMessage            = "Request boş olamaz.";
@@ -61,30 +54,23 @@ namespace BOA.OneDesigner.MainForm
                 }
             };
 
-
             var screenInfo = SM.Get<InitialConfig>().ScreenInfoList?.FirstOrDefault(x => x.RequestName == Model.ScreenInfo.RequestName);
             if (screenInfo == null)
             {
                 SM.Get<InitialConfig>().ScreenInfoList.Add(Model.ScreenInfo);
 
                 InitialConfigCache.Save();
-
-
-                
             }
-
-            UIContext.RequestPropertyIntellisense = CecilHelper.GetAllBindProperties(typeAssemblyPath, Model.ScreenInfo.RequestName);
-
         }
 
         public override void OnViewLoaded()
         {
             Model = new Model
             {
-                ScreenInfo        = new ScreenInfo(),
-                TfsFolderNames    = SM.Get<InitialConfig>().TfsFolderNames,
+                ScreenInfo      = new ScreenInfo(),
+                TfsFolderNames  = SM.Get<InitialConfig>().TfsFolderNames,
                 SearchIsVisible = true,
-                FormTypes         = new List<string> {"Detay", "List"},
+                FormTypes       = new List<string> {"Detay", "List"},
                 ActionButtons = new List<ActionButtonInfo>
                 {
                     new ActionButtonInfo
@@ -104,6 +90,18 @@ namespace BOA.OneDesigner.MainForm
             if (screenInfo != null)
             {
                 Model.ScreenInfo = screenInfo;
+                Model.SolutionInfo = SolutionInfo.CreateFrom(GetSlnFilePath(Model.ScreenInfo.TfsFolderName));
+            }
+
+            UIContext.RequestPropertyIntellisense = CecilHelper.GetAllBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
+        }
+
+        public void TfsFolderNameChanged()
+        {
+            if (Model.ScreenInfo.TfsFolderName != null)
+            {
+                Model.SolutionInfo = SolutionInfo.CreateFrom(GetSlnFilePath(Model.ScreenInfo.TfsFolderName));
+                Model.RequestNames = CecilHelper.GetAllRequestNames(Model.SolutionInfo.TypeAssemblyPathInServerBin);
             }
         }
         #endregion
