@@ -22,7 +22,20 @@ namespace CustomUIMarkupLanguage.UIBuilding
             }
 
             return false;
+        } public static bool RadioButton_Label(Builder builder, UIElement element, Node node)
+        {
+            if (element is RadioButton)
+            {
+                if (node.NameToUpperInEnglish == "LABEL" || node.NameToUpperInEnglish == "TEXT")
+                {
+                    node.Name = "Content";
+                }
+            }
+
+            return false;
         }
+
+        
         public static bool IsVisible(Builder builder, UIElement element, Node node)
         {
             if (node.NameToUpperInEnglish == "ISVISIBLE")

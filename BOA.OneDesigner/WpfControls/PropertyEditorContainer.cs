@@ -47,7 +47,8 @@ namespace BOA.OneDesigner.WpfControls
 
             var sp = new StackPanel
             {
-                Margin = new Thickness(10)
+                Margin = new Thickness(10),
+                DataContext = DataContext
             };
 
             
@@ -55,7 +56,16 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = DataContext as JsxElementModel.BInput;
             if (bInput != null)
             {
-                sp.LoadJson("{ Childs:[  {ui:'RequestIntellisenseTextBox',Text:'{Binding "+nameof(bInput.BindingPath)+"}' , Label:'Binding Path' }  ] }");
+                sp.LoadJson(@"
+
+{ 
+	Childs:[  
+		{ui:'RequestIntellisenseTextBox', Text:'{Binding BindingPath}', Label:'Binding Path' },
+		{ui:'LabelEditor', MarginTop:10, DataContext:'{Binding LabelInfo}'}
+	]
+}
+
+");
                 Content = sp;
                 return;
             }

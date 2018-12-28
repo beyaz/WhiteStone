@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,7 +39,18 @@ namespace WhiteStone.UI.Container
         {
             DataContext = this;
 
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                Builder.RegisterElementCreation(IntellisenseTextBox.On);
+            }
+
             this.LoadJson(UITemplate);
+
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                Builder.RegisterElementCreation(IntellisenseTextBox.On);
+                return;
+            }
 
             EdiTextBox.KeyUp += (s, e) => { UpdateTextFromEditBox(); };
 

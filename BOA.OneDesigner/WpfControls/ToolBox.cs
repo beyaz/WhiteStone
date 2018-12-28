@@ -35,7 +35,7 @@ namespace BOA.OneDesigner.WpfControls
 
             stackPanel.Children.Add(bCard);
 
-            var bInput = new BInputWpf {DataContext = new BInput {Label = "Label", BindingPath = "?"}};
+            var bInput = new BInputWpf {DataContext = new BInput {LabelInfo = CreateDefaultLabelInfo(), BindingPath = "?"}};
 
             DragHelper.MakeDraggable(bInput);
 
@@ -44,5 +44,17 @@ namespace BOA.OneDesigner.WpfControls
             Content = stackPanel;
         }
         #endregion
+
+
+
+        static LabelInfo CreateDefaultLabelInfo()
+        {
+            return new LabelInfo
+            {
+                IsFreeText    = true,
+                FreeTextValue = "Label",
+                DesignerText  = "Label"
+            };
+        }
     }
 }

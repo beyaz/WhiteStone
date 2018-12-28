@@ -41,23 +41,9 @@
     <Reference Include="CustomUIMarkupLanguage">
       <HintPath>D:\github\WhiteStone\CustomUIMarkupLanguage\bin\Debug\CustomUIMarkupLanguage.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>$(SolutionDir)packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb">
-      <HintPath>$(SolutionDir)packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>$(SolutionDir)packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>$(SolutionDir)packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
-    <Reference Include="Intellibox">
-      <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\Intellibox.dll</HintPath>
-    </Reference>
-    <Reference Include="WPF_AutoCompleteComboBox">
-      <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\WPF_AutoCompleteComboBox.dll</HintPath>
+    <Reference Include="Intellibox, Version=1.3.0.0, Culture=neutral, PublicKeyToken=8e428f51fac3a5f0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BOA.HelperTools\Lib\Intellibox\Intellibox.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\MahApps.Metro.dll</HintPath>
@@ -102,6 +88,7 @@
   <ItemGroup>
     <Compile Include="AppModel\IDatabase.cs" />
     <Compile Include="AppModel\JsonFile.cs" />
+    <Compile Include="JsxElementModel\LabelInfo.cs" />
     <Compile Include="JsxElementModel\ScreenInfo.cs" />
     <Compile Include="WpfControls\CecilHelper.cs" />
     <Compile Include="WpfControls\DragHelper.cs" />
@@ -179,6 +166,7 @@
     <Compile Include="WpfControls\BInput.cs" />
     <Compile Include="WpfControls\Extensions.cs" />
     <Compile Include="WpfControls\DropLocation.cs" />
+    <Compile Include="WpfControls\LabelEditor.cs" />
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
     <Compile Include="Helpers\TfsHelper.cs" />

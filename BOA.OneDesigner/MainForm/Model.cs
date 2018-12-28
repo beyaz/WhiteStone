@@ -56,7 +56,7 @@ namespace BOA.OneDesigner.MainForm
         /// </summary>
         public IReadOnlyList<string> TfsFolderNames { get; set; }
 
-        public IList<PropertyInfo> MessagingPropertyNames { get; set; }
+        
         #endregion
     }
 }

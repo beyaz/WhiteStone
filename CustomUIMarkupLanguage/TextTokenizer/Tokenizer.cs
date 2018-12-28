@@ -26,7 +26,12 @@ namespace CustomUIMarkupLanguage.TextTokenizer
 
             foreach (var tokenDefinition in tokenDefinitions)
             {
-                tokenMatches.AddRange(tokenDefinition.FindMatches(data).ToList());
+                if (tokenDefinition.TokenType == TokenType.Identifier)
+                {
+                    "".ToString();
+                }
+
+                tokenMatches.AddRange(tokenDefinition.FindMatches(data));
             }
 
             var items = new List<Token>();

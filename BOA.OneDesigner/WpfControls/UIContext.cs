@@ -2,12 +2,16 @@
 using System.Windows;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
+using BOAPlugins.Messaging;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
     public static class UIContext
     {
+
+        public static IList<PropertyInfo> MessagingPropertyNames { get; set; }
+
         #region Public Properties
         public static UIElement DraggingElement { get; set; }
 
@@ -40,6 +44,9 @@ namespace BOA.OneDesigner.WpfControls
             Builder.RegisterElementCreation("ToolBox", typeof(ToolBox));
             Builder.RegisterElementCreation("PropertyEditorContainer", typeof(PropertyEditorContainer));
             Builder.RegisterElementCreation("RequestIntellisenseTextBox", typeof(RequestIntellisenseTextBox));
+            Builder.RegisterElementCreation("MessagingIntellisenseTextBox", typeof(MessagingIntellisenseTextBox));
+            Builder.RegisterElementCreation("LabelEditor", typeof(LabelEditor));
+            
         }
         #endregion
     }

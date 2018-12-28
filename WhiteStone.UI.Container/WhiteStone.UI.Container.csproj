@@ -45,12 +45,6 @@
     <Reference Include="Intellibox">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\Intellibox.dll</HintPath>
     </Reference>
-    <Reference Include="WPFTextBoxAutoComplete">
-      <HintPath>$(SolutionDir)packages\WPFTextBoxAutoComplete.1.0.5\lib\net40\WPFTextBoxAutoComplete.dll</HintPath>
-    </Reference>
-    <Reference Include="WPF_AutoCompleteComboBox">
-      <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\WPF_AutoCompleteComboBox.dll</HintPath>
-    </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>$(SolutionDir)packages\MahApps.Metro.2.0.0-alpha0170\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -126,7 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\Intellibox.dll" />
-    <Content Include="Lib\WPF_AutoCompleteComboBox.dll" />
     <Resource Include="Lib\Intellibox.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

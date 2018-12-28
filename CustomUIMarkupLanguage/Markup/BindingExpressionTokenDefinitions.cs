@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using CustomUIMarkupLanguage.TextTokenizer;
 
 namespace CustomUIMarkupLanguage.Markup
@@ -26,7 +27,8 @@ namespace CustomUIMarkupLanguage.Markup
             new TokenDefinition(TokenType.Equals, "=", 1),
             new TokenDefinition(TokenType.This, "this", 1),
             new TokenDefinition(TokenType.NotEquals, "!=", 1),
-            new TokenDefinition(TokenType.Identifier, "[a-zA-Z_$][a-zA-Z0-9_$]*", 1),
+            // new TokenDefinition(TokenType.Identifier, "[a-zA-Z_$][a-zA-Z0-9_$]*", 1),
+            new TokenDefinition(TokenType.Identifier, new Regex("[a-zA-Z_$][a-zA-Z0-9_$]*"), 1),
 
             // new TokenDefinition(TokenType.StringValue, "'([^']*)'", 1),
             new TokenDefinition(TokenType.NumberValue, "\\d+", 1),

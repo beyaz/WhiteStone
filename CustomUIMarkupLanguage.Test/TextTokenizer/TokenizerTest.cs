@@ -28,6 +28,19 @@ namespace CustomUIMarkupLanguage.Test.TextTokenizer
             Assert.AreEqual(typeof(TokenizerTest).FullName,info.ConverterTypeFullName);
 
             Assert.AreEqual("j4 A5: p o ş",info.ConverterParameter as string);
+
+            
+
+        }
+
+        [TestMethod]
+        public void ParseBindingExpressionsWithEnglish()
+        {
+            
+
+            var info = BindingExpressionParser.TryParse("{Binding Inner.A}");
+            Assert.IsTrue(info.SourcePath == "Inner.A");
+
         }
         #endregion
     }

@@ -29,6 +29,87 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
             Assert.IsTrue(button.IsClicked);
         }
 
+        #region BindDataContext
+        class BindDataContextTestModel
+        {
+            public BindDataContextTestModel Inner { get; set; }
+
+            public string A { get; set; }
+        }
+
+        class BindDataContextTestUI : Grid
+        {
+            public BindDataContextTestUI()
+            {
+                this.LoadJson(@"
+{
+ rows:[
+    {ui:'Button',Content:'{Binding A}'},
+    {ui:'Button',Content:'{Binding Inner.A}'},
+    {ui:'Button',DataContext:'{Binding Inner}', Content:'{Binding A}'}
+ ]
+}
+
+");
+            }
+        }
+
+
+        [TestMethod]
+        public void BindDataContext()
+        {
+            var model = new BindDataContextTestModel
+            {
+                Inner = new BindDataContextTestModel
+                {
+                    A = "A1"
+                },
+                A = "A0"
+            };
+
+            var ui = new BindDataContextTestUI
+            {
+                DataContext = model
+            };
+
+            Assert.IsTrue(((ui.Children[0] as Button)?.Content as string) == "A0");
+            Assert.IsTrue(((ui.Children[1] as Button)?.Content as string) == "A1");
+            Assert.IsTrue(((ui.Children[2] as Button)?.Content as string) == "A0");
+
+        } 
+        #endregion
+
+
+        [TestMethod]
+        public void FireEventWithNoParameter()
+        {
+
+            var radioButton = new ExtendedRadioButton();
+
+            radioButton.RaiseEvent(new RoutedEventArgs(ToggleButton.CheckedEvent));
+
+
+            Assert.AreEqual("A", radioButton.Value);
+
+            // Assert.IsTrue(radioButton.IsChecked == true);
+        }
+
+        class ExtendedRadioButton:RadioButton
+        {
+            public string Value { get; set; }
+
+            public void OnCheckedChanged()
+            {
+                Value = "A";
+            }
+
+            public ExtendedRadioButton()
+            {
+                this.LoadJson("{Checked:'OnCheckedChanged'}");
+            }
+        }
+        
+
         
 
 

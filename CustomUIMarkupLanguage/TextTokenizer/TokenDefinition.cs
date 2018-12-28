@@ -25,6 +25,8 @@ namespace CustomUIMarkupLanguage.TextTokenizer
         readonly TokenType _tokenType;
         #endregion
 
+        public TokenType TokenType => _tokenType;
+
         #region Constructors
         /// <summary>
         ///     Initializes a new instance of the <see cref="TokenDefinition" /> class.
@@ -35,29 +37,40 @@ namespace CustomUIMarkupLanguage.TextTokenizer
             _tokenType  = tokenType;
             _precedence = precedence;
         }
+
+        public TokenDefinition(TokenType tokenType, Regex regex, int precedence)
+        {
+            _regex      = regex;
+            _tokenType  = tokenType;
+            _precedence = precedence;
+        }
+
         #endregion
 
         #region Public Methods
         /// <summary>
         ///     Finds the matches.
         /// </summary>
-        public IEnumerable<TokenMatch> FindMatches(string inputString)
+        public IReadOnlyList<TokenMatch> FindMatches(string inputString)
         {
             var matches = _regex.Matches(inputString);
             var len     = matches.Count;
+            var findMatches = new List<TokenMatch>();
             for (var i = 0; i < len; i++)
             {
                 var match = matches[i];
 
-                yield return new TokenMatch
+                findMatches.Add(new TokenMatch
                 {
                     StartIndex = match.Index,
                     EndIndex   = match.Index + match.Length,
                     TokenType  = _tokenType,
                     Value      = match.Value,
                     Precedence = _precedence
-                };
+                });
             }
+
+            return findMatches;
         }
         #endregion
     }

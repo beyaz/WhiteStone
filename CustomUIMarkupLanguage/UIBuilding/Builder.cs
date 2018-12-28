@@ -27,6 +27,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
             WpfExtra.TextBlock_IsBold,
             WpfExtra.RichTextBox_Text,
             WpfExtra.Button_Text,
+            WpfExtra.RadioButton_Label,
             WpfExtra.IsVisible,
             WpfExtra.HorizontalAlignmentIsCenter,
             WpfExtra.VerticalAlignmentIsCenter
@@ -519,6 +520,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                 var binding = bindingInfoContract.ConvertToBinding(TypeFinder,"DataContext.");
                 binding.Source = Caller;
+                binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
                 BindingOperations.SetBinding(element, dp, binding);
                 return true;
@@ -668,10 +670,27 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     var eventParameters    = eventInfoAddMethod.GetParameters();
                     if (eventParameters.Length > 0)
                     {
+                        var caller = Caller;
+
                         if (eventInfo.EventHandlerType == typeof(KeyEventHandler))
                         {
-                            var caller = Caller;
                             KeyEventHandler handler     = (s, e) => { handlerMethod.Invoke(caller, null); };
+                            eventInfo.AddEventHandler(element, handler);
+                            return true;
+                        }
+
+                        if (eventInfo.EventHandlerType == typeof(RoutedEventHandler))
+                        {
+                           
+                            RoutedEventHandler handler = (s, e) => { handlerMethod.Invoke(caller, null); };
+                            eventInfo.AddEventHandler(element, handler);
+                            return true;
+                        }
+
+                        if (eventInfo.EventHandlerType == typeof(Action))
+                        {
+                           
+                            Action handler = () => { handlerMethod.Invoke(caller, null); };
                             eventInfo.AddEventHandler(element, handler);
                             return true;
                         }

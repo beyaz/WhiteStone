@@ -17,7 +17,9 @@ namespace BOA.OneDesigner.JsxElementModel
         public string Indent { get; set; }
 
         #region Public Properties
+
         public string BindingPath { get; set; }
+
         public string Label       { get; set; }
 
         public string SnapName

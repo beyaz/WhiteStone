@@ -8,6 +8,7 @@ namespace BOA.OneDesigner.WpfControls
     {
         public static void RefreshDataContext(this FrameworkElement element )
         {
+
             var dataContext = element.DataContext;
             element.DataContext = null;
             element.DataContext = dataContext;
