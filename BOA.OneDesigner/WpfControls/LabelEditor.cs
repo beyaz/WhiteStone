@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
@@ -8,7 +9,8 @@ namespace BOA.OneDesigner.WpfControls
 {
     class LabelEditor : GroupBox
     {
-        
+       
+
         #region Constructors
         public LabelEditor()
         {

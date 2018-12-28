@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="AppModel\IDatabase.cs" />
     <Compile Include="AppModel\JsonFile.cs" />
+    <Compile Include="JsxElementModel\Container.cs" />
     <Compile Include="JsxElementModel\LabelInfo.cs" />
     <Compile Include="JsxElementModel\ScreenInfo.cs" />
     <Compile Include="WpfControls\CecilHelper.cs" />

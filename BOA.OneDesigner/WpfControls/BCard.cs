@@ -1,13 +1,25 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
+
+   
+
     public class BCardWpf : Grid
     {
+
+        GroupBox _groupBox;
+
+        void RefreshTitle()
+        {
+            _groupBox.GetBindingExpression(HeaderedContentControl.HeaderProperty)?.UpdateTarget();
+        }
+
         #region Fields
         public StackPanel ChildrenContainer;
         #endregion
@@ -20,13 +32,15 @@ namespace BOA.OneDesigner.WpfControls
             EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
 
+            EventBus.Subscribe(EventBus.OnComponentPropertyChanged,RefreshTitle );
+
             this.LoadJson(@"
 {
 	rows:
 	[
 		{
-            view:   'GroupBox', 
-            Header: '{Binding " + nameof(BCard.Title) + @"}',
+            view:   'GroupBox', Name:'_groupBox',
+            Header: '{Binding " + nameof(BCard.Title) + @",Mode=OneWay}', 
             Content: { ui:'StackPanel' , Name:'" + nameof(ChildrenContainer) + @"' }
         }
 	]

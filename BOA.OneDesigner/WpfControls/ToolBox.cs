@@ -27,7 +27,7 @@ namespace BOA.OneDesigner.WpfControls
                 IsInToolbox = true,
                 DataContext = new BCard
                 {
-                    Title = "Card"
+                   TitleInfo = CreateDefaultLabelInfo("Title")
                 }
             };
 
@@ -47,12 +47,12 @@ namespace BOA.OneDesigner.WpfControls
 
 
 
-        static LabelInfo CreateDefaultLabelInfo()
+        static LabelInfo CreateDefaultLabelInfo(string freeText = null)
         {
             return new LabelInfo
             {
                 IsFreeText    = true,
-                FreeTextValue = "Label",
+                FreeTextValue = freeText??"Label",
                 DesignerText  = "Label"
             };
         }

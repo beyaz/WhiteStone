@@ -73,7 +73,14 @@ namespace BOA.OneDesigner.WpfControls
             var bCard = DataContext as JsxElementModel.BCard;
             if (bCard != null)
             {
-                sp.LoadJson("{ Childs:[  {ui:'TextBox',Text:'{Binding "+nameof(bCard.Title)+"}' , Label:'Title' }  ] }");
+                sp.LoadJson(@"
+{ 
+	Childs:[  
+		{ui:'LabelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding TitleInfo}'}
+	]
+}
+
+");
                 Content = sp;
                 return;
             }

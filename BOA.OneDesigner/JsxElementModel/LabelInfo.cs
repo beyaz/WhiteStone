@@ -1,4 +1,5 @@
 ﻿using System;
+using WhiteStone.Common;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
