@@ -15,8 +15,11 @@ namespace BOA.OneDesigner.WpfControls
             Background = Brushes.WhiteSmoke;
             VerticalAlignment = VerticalAlignment.Stretch;
 
-            EventBus.DragStarted        += EnterDropLocationMode;
-            EventBus.AfterDropOperation += ExitDropLocationMode;
+            
+
+            EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            
+            EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
         }
         #endregion
 

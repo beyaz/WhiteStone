@@ -15,9 +15,10 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         public BCardWpf()
         {
-            EventBus.DragStarted        += EnterDropLocationMode;
-            EventBus.AfterDropOperation += ExitDropLocationMode;
-            EventBus.AfterDropOperation += Refresh;
+
+            EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
 
             this.LoadJson(@"
 {

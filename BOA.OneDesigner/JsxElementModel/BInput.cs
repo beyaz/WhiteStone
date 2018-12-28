@@ -21,6 +21,12 @@ namespace BOA.OneDesigner.JsxElementModel
                     return LabelInfo.MessagingValue;
                 }
 
+                
+                if (LabelInfo?.IsRequestBindingPath == true)
+                {
+                    return LabelInfo.RequestBindingPath;
+                }
+
                 return base.Label;
             }
         }

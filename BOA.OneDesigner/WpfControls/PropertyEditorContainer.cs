@@ -12,7 +12,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             Header = "Properties";
 
-            EventBus.DragElementSelected += Refresh;
+            EventBus.Subscribe(EventBus.OnDragElementSelected,Refresh);
 
         }
         #endregion

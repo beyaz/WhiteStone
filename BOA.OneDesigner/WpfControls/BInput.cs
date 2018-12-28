@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
@@ -11,7 +10,7 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         public BInputWpf()
         {
-            EventBus.BComponentPropertyChanged += RefreshDataContext;
+            EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshDataContext);
 
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;

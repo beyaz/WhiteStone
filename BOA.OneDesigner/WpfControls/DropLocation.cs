@@ -48,7 +48,7 @@ namespace BOA.OneDesigner.WpfControls
 
                 dropLocation?.OnDropAction(dropLocation);
 
-                EventBus.OnAfterDropOperation();
+                EventBus.Publish(EventBus.OnAfterDropOperation);
 
             }
         }

@@ -9,7 +9,7 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         static DragHelper()
         {
-            EventBus.AfterDropOperation += () => { UIContext.DraggingElement = null; };
+            EventBus.Subscribe(EventBus.OnAfterDropOperation, () => { UIContext.DraggingElement = null; });
         }
         #endregion
 
@@ -40,7 +40,7 @@ namespace BOA.OneDesigner.WpfControls
             if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
-                EventBus.OnDragStarted();
+                EventBus.Publish(EventBus.OnDragStarted);
 
                 var dragData = new DataObject(string.Empty);
                 DragDrop.DoDragDrop(UIContext.DraggingElement, dragData, DragDropEffects.Copy);
@@ -51,13 +51,13 @@ namespace BOA.OneDesigner.WpfControls
         {
             UIContext.DraggingElementStartPoint = e.GetPosition(null);
             UIContext.DraggingElement           = (UIElement) sender;
-            EventBus.OnDragElementSelected();
+            EventBus.Publish(EventBus.OnDragElementSelected);
         }
 
         static void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             UIContext.DraggingElement = null;
-            EventBus.OnAfterDropOperation();
+            EventBus.Publish(EventBus.OnAfterDropOperation);
         }
         #endregion
     }

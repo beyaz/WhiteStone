@@ -9,8 +9,11 @@ namespace BOA.OneDesigner.WpfControls
 
         public BCardSectionWpf()
         {
-            EventBus.DragStarted        += EnterDropLocationMode;
-            EventBus.AfterDropOperation += ExitDropLocationMode;
+            
+
+            EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            
+            EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
         }
         #region Public Properties
         public bool                       IsEnteredDropLocationMode { get; set; }

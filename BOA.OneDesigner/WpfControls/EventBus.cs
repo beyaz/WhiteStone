@@ -1,50 +1,31 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BOA.OneDesigner.WpfControls
 {
     public static class EventBus
     {
-        public const string OnComponentPropertyChanged = nameof(OnBComponentPropertyChanged);
+        #region Constants
+        public const string OnAfterDropOperation       = nameof(OnAfterDropOperation);
+        public const string OnComponentPropertyChanged = nameof(OnComponentPropertyChanged);
+        public const string OnDragElementSelected      = nameof(OnDragElementSelected);
+        public const string OnDragStarted              = nameof(OnDragStarted);
+        #endregion
 
         #region Static Fields
         static readonly ConcurrentDictionary<string, List<Action>> Subscribers = new ConcurrentDictionary<string, List<Action>>();
         #endregion
 
-        #region Public Events
-        public static event Action AfterDropOperation;
-        public static event Action BComponentPropertyChanged;
-        public static event Action DragElementSelected;
-        public static event Action DragStarted;
-        #endregion
-
         #region Public Methods
-        public static void OnAfterDropOperation()
-        {
-            AfterDropOperation?.Invoke();
-        }
-
-        public static void OnBComponentPropertyChanged()
-        {
-            BComponentPropertyChanged?.Invoke();
-        }
-
-        public static void OnDragElementSelected()
-        {
-            DragElementSelected?.Invoke();
-        }
-
-        public static void OnDragStarted()
-        {
-            DragStarted?.Invoke();
-        }
-
         public static void Publish(string eventName)
         {
             if (Subscribers.ContainsKey(eventName))
             {
-                foreach (var action in Subscribers[eventName])
+                var actions = Subscribers[eventName].ToList();
+
+                foreach (var action in actions)
                 {
                     action();
                 }
