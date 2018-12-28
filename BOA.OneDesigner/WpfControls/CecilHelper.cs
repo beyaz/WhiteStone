@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Mono.Cecil;
 
@@ -101,6 +102,12 @@ namespace BOA.OneDesigner.WpfControls
 
          static void VisitAllTypes(string assemblyPath, Action<TypeDefinition> action)
         {
+
+            if (File.Exists(assemblyPath) == false)
+            {
+                return;
+            }
+
             var resolver = new DefaultAssemblyResolver();
             resolver.AddSearchDirectory(@"d:\boa\server\bin\");
 

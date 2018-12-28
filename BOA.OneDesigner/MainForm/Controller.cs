@@ -120,7 +120,11 @@ namespace BOA.OneDesigner.MainForm
                 Model.SolutionInfo = SolutionInfo.CreateFrom(GetSlnFilePath(Model.ScreenInfo.TfsFolderName));
             }
 
-            UIContext.RequestPropertyIntellisense = CecilHelper.GetAllBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
+            if (Model.SolutionInfo != null)
+            {
+                UIContext.RequestPropertyIntellisense = CecilHelper.GetAllBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);    
+            }
+            
         }
 
         public void TfsFolderNameChanged()
