@@ -92,11 +92,7 @@ namespace BOA.OneDesigner.MainForm
                 SearchIsVisible = true,
                 FormTypes       = new List<string> {"Detay", "List"},
                 MessagingGroupNames = Database.GetMessagingGroupNames(),
-                MessagingGroupNames2 = new List<Pair>
-                {
-                    new Pair("A","B"),
-                    new Pair("R","C")
-                },
+               
                 ActionButtons = new List<ActionButtonInfo>
                 {
                     new ActionButtonInfo

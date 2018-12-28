@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -56,7 +56,7 @@
     <Reference Include="Intellibox">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\Intellibox.dll</HintPath>
     </Reference>
-	<Reference Include="WPF_AutoCompleteComboBox">
+    <Reference Include="WPF_AutoCompleteComboBox">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\WPF_AutoCompleteComboBox.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
@@ -100,7 +100,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppModel\InitialConfigCache.cs" />
+    <Compile Include="AppModel\IDatabase.cs" />
+    <Compile Include="AppModel\JsonFile.cs" />
     <Compile Include="JsxElementModel\ScreenInfo.cs" />
     <Compile Include="WpfControls\CecilHelper.cs" />
     <Compile Include="WpfControls\DragHelper.cs" />
@@ -180,7 +181,6 @@
     <Compile Include="WpfControls\DropLocation.cs" />
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
-    <Compile Include="WpfControls\RequestPropertyIntellisenseProvider.cs" />
     <Compile Include="Helpers\TfsHelper.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
     <Compile Include="WpfControls\UIContext.cs" />

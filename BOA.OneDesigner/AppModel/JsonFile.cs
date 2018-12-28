@@ -8,50 +8,36 @@ using BOA.UnitTestHelper;
 
 namespace BOA.OneDesigner.AppModel
 {
-    public interface IDatabase
+    class JsonFile : IDatabase
     {
-        #region Public Methods
-        List<string>          GetDefaultRequestNames();
-        ScreenInfo            GetScreenInfo(string requestName);
-        IReadOnlyList<string> GetTfsFolderNames();
-        void                  Save(ScreenInfo screenInfo);
-        #endregion
-
-        IReadOnlyList<string> GetMessagingGroupNames();
-    }
-
-    class CacheHelper : IDatabase
-    {
-        static BOATestContextDev Dev => new BOATestContextDev();
-
-        public IReadOnlyList<string> GetMessagingGroupNames()
-        {
-            
-            var path = CacheDirectory + nameof(GetMessagingGroupNames) + ".cache";
-            if (File.Exists(path))
-            {
-                return BinarySerialization.Deserialize<List<string>>(File.ReadAllBytes(path));
-            }
-
-            var items =  Dev.GetRecords<Pair>("select DISTINCT(Name) as [Key] from BOA.COR.MessagingGroup WITH(NOLOCK)").Select(x=>x.Key).ToList();
-
-            File.WriteAllBytes(path,BinarySerialization.Serialize(items));
-
-            return items;
-        }
-
         #region Properties
-        static string CacheDirectory => Log.Directory + "Cache" + Path.DirectorySeparatorChar;
-        static string FilePath       => CacheDirectory + $"{nameof(GetTfsFolderNames)}.json";
+        static string            CacheDirectory => Log.Directory + "Cache" + Path.DirectorySeparatorChar;
+        static BOATestContextDev Dev            => new BOATestContextDev();
+        static string            FilePath       => CacheDirectory + $"{nameof(GetTfsFolderNames)}.json";
         #endregion
 
         #region Public Methods
         public List<string> GetDefaultRequestNames()
         {
             return Directory.GetFiles(CacheDirectory)
-                            .Where(x => x != FilePath && !x.Contains(nameof(GetMessagingGroupNames)))
                             .Select(Path.GetFileNameWithoutExtension)
+                            .Where(x => x.StartsWith("BOA."))
                             .ToList();
+        }
+
+        public IReadOnlyList<string> GetMessagingGroupNames()
+        {
+            var path = CacheDirectory + nameof(GetMessagingGroupNames) + ".cache";
+            if (File.Exists(path))
+            {
+                return BinarySerialization.Deserialize<List<string>>(File.ReadAllBytes(path));
+            }
+
+            var items = Dev.GetRecords<Pair>("select DISTINCT(Name) as [Key] from BOA.COR.MessagingGroup WITH(NOLOCK)").Select(x => x.Key).ToList();
+
+            File.WriteAllBytes(path, BinarySerialization.Serialize(items));
+
+            return items;
         }
 
         public ScreenInfo GetScreenInfo(string requestName)

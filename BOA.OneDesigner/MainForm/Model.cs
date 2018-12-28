@@ -31,7 +31,6 @@ namespace BOA.OneDesigner.MainForm
         public IReadOnlyList<string> MessagingGroupNames { get; set; }
 
 
-        public IReadOnlyList<Pair> MessagingGroupNames2 { get; set; }
 
         /// <summary>
         ///     Gets or sets the request names.

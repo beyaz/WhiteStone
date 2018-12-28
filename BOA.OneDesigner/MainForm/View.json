@@ -50,12 +50,10 @@
                   "MinWidth": 500
                 },
                 {
-                  "ui": "Combo",
+                  "ui": "TextBox",
                   "Label": "Messaging Group",
-                  "ItemsSource": "{Binding MessagingGroupNames2}",
-                  "SelectedValuePath": "Key",
-                  "DisplayMemberPath": "Value",
-                  "SelectedValue": "{Binding ScreenInfo.MessagingGroupName}",
+                  "IntellisenseSource": "{Binding MessagingGroupNames}",
+                  "Text": "{Binding ScreenInfo.MessagingGroupName}",
                   "vAlignIsCenter": true,
                   "hAlignIsCenter": true,
                   "MinWidth": 500

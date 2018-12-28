@@ -24,7 +24,7 @@ namespace BOA.OneDesigner.WpfControls
         public static void RegisterElements()
         {
 
-            Database = new CacheHelper();
+            Database = new JsonFile();
 
 
             var tfsFolderNames = Database.GetTfsFolderNames();
@@ -33,7 +33,7 @@ namespace BOA.OneDesigner.WpfControls
             {
                 tfsFolderNames = TfsHelper.GetFolderNames();
 
-                (Database as CacheHelper)?.SaveTfsFolderNames(tfsFolderNames);
+                (Database as JsonFile)?.SaveTfsFolderNames(tfsFolderNames);
             }
 
             Builder.RegisterElementCreation("Surface", typeof(JsxElementDesignerSurface));

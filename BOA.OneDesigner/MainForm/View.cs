@@ -8,6 +8,13 @@ namespace BOA.OneDesigner.MainForm
 {
     public class View : WindowBase<Model, Controller>
     {
+        public override void FireAction(string controllerPublicMethodName)
+        {
+            Refresh();
+
+            base.FireAction(controllerPublicMethodName);
+        }
+
         #region Fields
         public JsxElementDesignerSurface DesignSurface;
         #endregion
@@ -26,6 +33,10 @@ namespace BOA.OneDesigner.MainForm
         #region Public Methods
         public void Refresh()
         {
+            if (Model == null)
+            {
+                return;
+            }
             if (Model.ScreenInfo.JsxModel != null && DesignSurface.DataContext == Model.ScreenInfo.JsxModel)
             {
                 return;
