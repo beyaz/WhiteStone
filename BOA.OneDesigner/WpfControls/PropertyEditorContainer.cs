@@ -70,17 +70,5 @@ namespace BOA.OneDesigner.WpfControls
             throw new ArgumentException();
         }
         #endregion
-
-        #region Methods
-        //protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        //{
-        //    if (e.Property == DataContextProperty)
-        //    {
-        //        Refresh();
-        //    }
-
-        //    base.OnPropertyChanged(e);
-        //}
-        #endregion
     }
 }

@@ -134,12 +134,10 @@ namespace CustomUIMarkupLanguage.UIBuilding
         {
             if (node.UI == nameof(ListBox).ToUpperEN())
             {
-                var ui =  new ListBox
-                {
-                    
-                };
+                var ui = new ListBox();
 
                 ui.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty,ScrollBarVisibility.Auto);
+
                 return ui;
             }
 

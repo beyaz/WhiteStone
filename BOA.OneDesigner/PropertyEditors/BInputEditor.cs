@@ -1,10 +1,12 @@
 ﻿using System.Windows.Controls;
+using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
 {
-    class BInputEditor:StackPanel
+    class BInputEditor : StackPanel
     {
+        #region Constructors
         public BInputEditor()
         {
             this.LoadJson(@"
@@ -12,12 +14,13 @@ namespace BOA.OneDesigner.PropertyEditors
 { 
     Margin:10,
 	Childs:[
-		{ui:'RequestIntellisenseTextBox', Text:'{Binding BindingPath}', Label:'Binding Path' },
-		{ui:'LabelEditor', MarginTop:10, DataContext:'{Binding LabelInfo}'}
+		{ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BInput.BindingPath) + @"}', Label:'Binding Path' },
+		{ui:'LabelEditor', DataContext:'{Binding " + nameof(BInput.LabelInfo) + @"}'}
 	]
 }
 
 ");
         }
+        #endregion
     }
 }

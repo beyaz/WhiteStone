@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Controls;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
@@ -20,38 +20,39 @@ namespace BOA.OneDesigner.PropertyEditors
 
     class BDataGridEditor : StackPanel
     {
-        public ListBox _listBox;
-        public Button _removeButton;
+        #region Fields
         public StackPanel _labelEditor;
+        public ListBox    _listBox;
+        public Button     _removeButton;
+        #endregion
 
         #region Constructors
         public BDataGridEditor()
         {
-            
             this.LoadJson(@"
 { 
   MinHeight:300,
    Margin:5,
 	Childs:[  
-		{ui:'RequestIntellisenseTextBox', Text:'{Binding DataSourceBindingPath}', Label:'Data Source Binding' },
-        {ui:'Button', Text:'Add Column',Click:'AddColumn'},
-        {ui:'Button', Name:'_removeButton', Text:'Remove Column',  IsVisible:'{Binding RemoveColumnButtonIsVisible,Mode:OneWay}' },
+		{ui:'RequestIntellisenseTextBox', Text:'{Binding " + nameof(BDataGridEditorModel.Info.DataSourceBindingPath) + @"}', Label:'Data Source Binding' },
+        {ui:'Button', Text:'Add Column',Click:'"+ nameof(AddColumn)+@"'},
+        {ui:'Button', Name:'_removeButton', Text:'Remove Column',  IsVisible:'{Binding " + nameof(BDataGridEditorModel.RemoveColumnButtonIsVisible) + @",Mode:OneWay}' },
         {ui:'ListBox', Name:'_listBox', Height:300,
-             ItemsSource:'{Binding Info.Columns,Mode:OneWay}', 
-             SelectionChanged:'SelectedColumnChanged', 
-             DisplayMemberPath:'LabelText',
-             SelectedValue:'{Binding SelectedColumn}'
+             ItemsSource:'{Binding " + Model.AccessPathOf(m=>m.Info.Columns) + @",Mode:OneWay}', 
+             SelectionChanged:'" + nameof(SelectedColumnChanged) + @"', 
+             DisplayMemberPath:'"+ nameof(BDataGridEditorModel.SelectedColumn.LabelText)+@"',
+             SelectedValue:'{Binding "+ nameof(BDataGridEditorModel.SelectedColumn)+@"}'
 
         },
         
         { 
             ui:'StackPanel',
             Name:'_labelEditor',
-            DataContext:'{Binding SelectedColumn}',
-            IsVisible:'{Binding RemoveColumnButtonIsVisible,Mode:OneWay}',
+            DataContext:'{Binding "+ nameof(BDataGridEditorModel.SelectedColumn)+@"}',
+            IsVisible:'{Binding "+ nameof(BDataGridEditorModel.RemoveColumnButtonIsVisible)+@",Mode:OneWay}',
 	        Childs:[
-		        {ui:'RequestIntellisenseTextBox', Text:'{Binding BindingPath}', Label:'Binding Path' },
-		        {ui:'LabelEditor', MarginTop:10, DataContext:'{Binding SelectedColumn.Label}'}
+		        {ui:'RequestIntellisenseTextBox', Text:'{Binding "+ Model.AccessPathOf(m=>m.SelectedColumn.BindingPath)+@"}', Label:'Binding Path' },
+		        {ui:'LabelEditor', MarginTop:10, DataContext:'{Binding "+ Model.AccessPathOf(m=>m.SelectedColumn.Label)+@"}'}
 	        ]
         }
         
@@ -59,7 +60,6 @@ namespace BOA.OneDesigner.PropertyEditors
 }
 
 ");
-
         }
         #endregion
 
@@ -100,8 +100,8 @@ namespace BOA.OneDesigner.PropertyEditors
             this.RefreshDataContext();
 
             _listBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-            _removeButton.GetBindingExpression(UIElement.VisibilityProperty)?.UpdateTarget();
-            _labelEditor.GetBindingExpression(UIElement.VisibilityProperty)?.UpdateTarget();
+            _removeButton.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
+            _labelEditor.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
         }
         #endregion
     }
