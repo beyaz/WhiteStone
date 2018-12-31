@@ -65,7 +65,7 @@ namespace BOA.OneDesigner.MainForm
                 }
             };
 
-            UIContext.MessagingPropertyNames = BOAPlugins.Messaging.DataSource.GetPropertyNames(Model.ScreenInfo.MessagingGroupName);
+            UIContext.MessagingPropertyNames = Database.GetPropertyNames(Model.ScreenInfo.MessagingGroupName);
 
 
         }

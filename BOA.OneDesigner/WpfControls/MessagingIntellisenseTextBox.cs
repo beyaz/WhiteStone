@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
@@ -8,10 +7,12 @@ using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    class RequestIntellisenseTextBox : IntellisenseTextBox
+    class MessagingIntellisenseTextBox : IntellisenseTextBox
     {
+        static IReadOnlyList<string> MessagingPropertyNames => UIContext.MessagingPropertyNames.Select(x => x.PropertyName).ToList();
+
         #region Constructors
-        public RequestIntellisenseTextBox()
+        public MessagingIntellisenseTextBox()
         {
             QueryProvider = new RequestPropertyIntellisenseProvider();
         }
@@ -22,7 +23,7 @@ namespace BOA.OneDesigner.WpfControls
             #region Public Methods
             public IEnumerable DoSearch(string searchTerm, int maxResults, object tag)
             {
-                return UIContext.RequestPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                return MessagingPropertyNames.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
             }
             #endregion
 

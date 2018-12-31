@@ -169,6 +169,7 @@
     <Compile Include="WpfControls\Extensions.cs" />
     <Compile Include="WpfControls\DropLocation.cs" />
     <Compile Include="WpfControls\LabelEditor.cs" />
+    <Compile Include="WpfControls\MessagingIntellisenseTextBox.cs" />
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
     <Compile Include="Helpers\TfsHelper.cs" />

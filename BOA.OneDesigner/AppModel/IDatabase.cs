@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BOA.OneDesigner.JsxElementModel;
+using BOAPlugins.Messaging;
 
 namespace BOA.OneDesigner.AppModel
 {
@@ -12,6 +13,8 @@ namespace BOA.OneDesigner.AppModel
         ScreenInfo            GetScreenInfo(string requestName);
         IReadOnlyList<string> GetTfsFolderNames();
         void                  Save(ScreenInfo screenInfo);
+
+        IList<PropertyInfo> GetPropertyNames(string groupName);
         #endregion
     }
 }

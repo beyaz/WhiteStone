@@ -5,6 +5,7 @@ using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.UI.Types;
 using BOA.UnitTestHelper;
+using BOAPlugins.Messaging;
 
 namespace BOA.OneDesigner.AppModel
 {
@@ -34,6 +35,21 @@ namespace BOA.OneDesigner.AppModel
             }
 
             var items = Dev.GetRecords<Pair>("select DISTINCT(Name) as [Key] from BOA.COR.MessagingGroup WITH(NOLOCK)").Select(x => x.Key).ToList();
+
+            File.WriteAllBytes(path, BinarySerialization.Serialize(items));
+
+            return items;
+        }
+
+        public IList<PropertyInfo> GetPropertyNames(string groupName)
+        {
+            var path = CacheDirectory + nameof(GetPropertyNames) + ".cache";
+            if (File.Exists(path))
+            {
+                return BinarySerialization.Deserialize<IList<PropertyInfo>>(File.ReadAllBytes(path));
+            }
+            
+            var items = BOAPlugins.Messaging.DataSource.GetPropertyNames(groupName);
 
             File.WriteAllBytes(path, BinarySerialization.Serialize(items));
 
