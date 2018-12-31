@@ -5,12 +5,18 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BInputWpf : Grid
+    public class BInputWpf : Grid, IEventBusDisposable
     {
+        #region Fields
+        public TextBox   _bindingPath;
+        public TextBlock _label;
+        #endregion
+
         #region Constructors
         public BInputWpf()
         {
-            EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshDataContext);
+            EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
 
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;
@@ -20,8 +26,8 @@ namespace BOA.OneDesigner.WpfControls
     Margin:10,
 	rows:
 	[
-		{view:'TextBlock', Text:'{Binding " + nameof(BInput.Label) + @",       Mode = OneWay}', MarginBottom:5, IsBold:true},
-        {view:'TextBox',   Text:'{Binding " + nameof(BInput.BindingPath) + @", Mode = OneWay}' , IsReadOnly:true}        
+		{view:'TextBlock', Name:'_label',        Text:'{Binding " + nameof(BInput.Label) + @",       Mode = OneWay}', MarginBottom:5, IsBold:true},
+        {view:'TextBox',   Name:'_bindingPath',  Text:'{Binding " + nameof(BInput.BindingPath) + @", Mode = OneWay}' , IsReadOnly:true}        
 	]
 	
 }");
@@ -30,6 +36,14 @@ namespace BOA.OneDesigner.WpfControls
 
         #region Public Properties
         public BInput Data => (BInput) DataContext;
+        #endregion
+
+        #region Public Methods
+        public void UnSubscribeFromEventBus()
+        {
+            EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+        }
         #endregion
 
         #region Methods
@@ -43,26 +57,14 @@ namespace BOA.OneDesigner.WpfControls
             Cursor = Cursors.Arrow;
         }
 
-        
-        bool IsRefreshingDataContext;
-
-        void RefreshDataContext()
+        void UpdateBindingPath()
         {
-            // OnPropertyChanged(new DependencyPropertyChangedEventArgs(DataContextProperty, DataContext, DataContext));
+            _bindingPath.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+        }
 
-            if (IsRefreshingDataContext)
-            {
-                return;
-            }
-
-            IsRefreshingDataContext = true;
-
-            var dataContext = DataContext;
-            DataContext = null;
-            DataContext = dataContext;
-
-            
-            IsRefreshingDataContext = false;
+        void UpdateLabel()
+        {
+            _label.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
         }
         #endregion
     }

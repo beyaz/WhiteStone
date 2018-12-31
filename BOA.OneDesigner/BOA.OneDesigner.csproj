@@ -94,6 +94,7 @@
     <Compile Include="WpfControls\CecilHelper.cs" />
     <Compile Include="WpfControls\DragHelper.cs" />
     <Compile Include="WpfControls\EventBus.cs" />
+    <Compile Include="WpfControls\IEventBusDisposable.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
     <Compile Include="JsxElementModel\BAccountComponent.cs" />
     <Compile Include="JsxElementRender\BAccountComponentTemplate.cs">

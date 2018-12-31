@@ -6,14 +6,6 @@ namespace BOA.OneDesigner.WpfControls
 {
     static class Extensions
     {
-        public static void RefreshDataContext(this FrameworkElement element )
-        {
-
-            var dataContext = element.DataContext;
-            element.DataContext = null;
-            element.DataContext = dataContext;
-        }
-
         #region Public Methods
         public static T FindParent<T>(this DependencyObject child) where T : DependencyObject
         {
@@ -34,6 +26,21 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             return FindParent<T>(parentObject);
+        }
+
+        public static void RefreshDataContext(this FrameworkElement element)
+        {
+            element.GetBindingExpression(FrameworkElement.DataContextProperty)?.UpdateTarget();
+        }
+
+        public static void RemoveAll(this UIElementCollection elementCollection)
+        {
+            foreach (var element in elementCollection)
+            {
+                (element as IEventBusDisposable)?.UnSubscribeFromEventBus();
+            }
+
+            elementCollection.Clear();
         }
 
         public static UIElement[] ToArray(this UIElementCollection uiElementCollection)

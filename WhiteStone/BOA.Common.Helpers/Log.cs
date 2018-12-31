@@ -14,6 +14,11 @@ namespace BOA.Common.Helpers
         ///     Gets the directory.
         /// </summary>
         public static string Directory => Path.GetDirectoryName(typeof(Log).Assembly.Location) + Path.DirectorySeparatorChar;
+
+        /// <summary>
+        ///     Gets or sets the indent.
+        /// </summary>
+        public static int Indent { get; set; }
         #endregion
 
         #region Public Methods
@@ -50,7 +55,7 @@ namespace BOA.Common.Helpers
         {
             var filePath = Directory + "Log.txt";
 
-            var value = Environment.NewLine + Environment.NewLine + $"{callerMemberName} -> {message}";
+            var value = Environment.NewLine + Environment.NewLine + string.Empty.PadLeft(Indent, ' ') + $"{callerMemberName} -> {message}";
 
             FileHelper.AppendToEndOfFile(filePath, value);
         }

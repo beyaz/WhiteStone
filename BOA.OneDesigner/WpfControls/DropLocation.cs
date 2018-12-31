@@ -7,11 +7,40 @@ namespace BOA.OneDesigner.WpfControls
 {
     public sealed class DropLocation : Border
     {
+        #region Constructors
+        public DropLocation()
+        {
+            BorderBrush     = Brushes.HotPink;
+            BorderThickness = new Thickness(10);
+            MinHeight       = 20;
+            MinWidth        = 20;
 
-        
+            Helper.MakeDropLocation(this);
+
+            OnDragLeave();
+        }
+        #endregion
+
+        #region Public Properties
+        public Action<DropLocation> OnDropAction        { get; set; }
+        public int                  TargetLocationIndex { get; set; }
+        #endregion
+
+        #region Public Methods
+        public void OnDragEnter()
+        {
+            BorderBrush = Brushes.BlueViolet;
+        }
+
+        public void OnDragLeave()
+        {
+            BorderBrush = Brushes.HotPink;
+        }
+        #endregion
 
         static class Helper
         {
+            #region Public Methods
             public static void MakeDropLocation(UIElement element)
             {
                 element.AllowDrop = true;
@@ -22,7 +51,9 @@ namespace BOA.OneDesigner.WpfControls
 
                 element.DragLeave += OnDragLeave;
             }
+            #endregion
 
+            #region Methods
             static void OnDragEnter(object sender, DragEventArgs e)
             {
                 if (sender == e.Source)
@@ -49,40 +80,8 @@ namespace BOA.OneDesigner.WpfControls
                 dropLocation?.OnDropAction(dropLocation);
 
                 EventBus.Publish(EventBus.OnAfterDropOperation);
-
             }
+            #endregion
         }
-
-
-        #region Constructors
-        public DropLocation()
-        {
-            BorderBrush     = Brushes.HotPink;
-            BorderThickness = new Thickness(10);
-            MinHeight       = 20;
-            MinWidth        = 20;
-
-            Helper.MakeDropLocation(this);
-
-            OnDragLeave();
-        }
-        #endregion
-
-        #region Public Properties
-        public Action<DropLocation> OnDropAction        { get; set; }
-        public int                   TargetLocationIndex { get; set; }
-        #endregion
-
-        #region Public Methods
-        public void OnDragEnter()
-        {
-            BorderBrush = Brushes.BlueViolet;
-        }
-
-        public void OnDragLeave()
-        {
-            BorderBrush = Brushes.HotPink;
-        }
-        #endregion
     }
 }

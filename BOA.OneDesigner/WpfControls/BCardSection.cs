@@ -1,30 +1,72 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardSectionWpf : WrapPanel
+    public class BCardSectionWpf : WrapPanel, IEventBusDisposable
     {
-
+        #region Constructors
         public BCardSectionWpf()
         {
-            
-
             EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            
-            EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+
+            this.Loaded += (s, e) => { Refresh(); };
         }
+        #endregion
+
         #region Public Properties
-        public bool                       IsEnteredDropLocationMode { get; set; }
+        public bool IsEnteredDropLocationMode { get; set; }
         #endregion
 
         #region Properties
-        JsxElementModel.BCardSection Data => (JsxElementModel.BCardSection) DataContext;
+        BCardSection Data => (BCardSection) DataContext;
         #endregion
 
         #region Public Methods
-         void EnterDropLocationMode()
+        public void OnDrop(DropLocation dropLocation)
+        {
+            // Surface.ExitDropLocationMode();
+
+            var insertIndex = dropLocation.TargetLocationIndex;
+
+            var bInput = UIContext.DraggingElement as BCardWpf;
+            if (bInput != null)
+            {
+                bInput.Data.RemoveFromParent();
+
+                Data.InsertItem(insertIndex, bInput.Data);
+
+
+                return;
+            }
+
+            throw new ArgumentException();
+        }
+
+        public void UnSubscribeFromEventBus()
+        {
+            EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
+        }
+        #endregion
+
+        #region Methods
+        static bool CanDrop(UIElement dragElement)
+        {
+            if (dragElement is BCardWpf)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        void EnterDropLocationMode()
         {
             if (IsEnteredDropLocationMode)
             {
@@ -32,8 +74,6 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             IsEnteredDropLocationMode = true;
-
-            
 
             if (!CanDrop(UIContext.DraggingElement))
             {
@@ -46,7 +86,6 @@ namespace BOA.OneDesigner.WpfControls
 
             for (var i = 0; i < items.Length; i++)
             {
-
                 var control = items[i];
                 var dropLocation = new DropLocation
                 {
@@ -54,7 +93,6 @@ namespace BOA.OneDesigner.WpfControls
                     TargetLocationIndex = i
                 };
                 Children.Add(dropLocation);
-
 
                 Children.Add(control);
             }
@@ -66,11 +104,10 @@ namespace BOA.OneDesigner.WpfControls
             });
         }
 
-         void ExitDropLocationMode()
+        void ExitDropLocationMode()
         {
             if (!(UIContext.DraggingElement is BCardWpf))
             {
-                
             }
 
             if (!IsEnteredDropLocationMode)
@@ -91,36 +128,15 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-                
-
                 Children.Add(control);
             }
         }
 
-        public void OnDrop(DropLocation dropLocation)
+        void Refresh()
         {
-            // Surface.ExitDropLocationMode();
+            IsEnteredDropLocationMode = false;
 
-            var insertIndex = dropLocation.TargetLocationIndex;
-
-            var bInput = UIContext.DraggingElement as BCardWpf;
-            if (bInput != null)
-            {
-                bInput.Data.RemoveFromParent();
-
-                Data.InsertItem(insertIndex, bInput.Data);
-
-                this.RefreshDataContext();
-
-                return;
-            }
-
-            throw new ArgumentException();
-        }
-
-        public void Refresh()
-        {
-            Children.Clear();
+            Children.RemoveAll();
 
             if (Data == null)
             {
@@ -132,7 +148,7 @@ namespace BOA.OneDesigner.WpfControls
                 var uiElement = new BCardWpf
                 {
                     DataContext = bField,
-                    Margin      = new Thickness(10),
+                    Margin      = new Thickness(10)
                 };
 
                 DragHelper.MakeDraggable(uiElement);
@@ -140,30 +156,6 @@ namespace BOA.OneDesigner.WpfControls
                 Children.Add(uiElement);
             }
         }
-        #endregion
-
-        #region Methods
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.Property == DataContextProperty)
-            {
-                Refresh();
-            }
-
-            base.OnPropertyChanged(e);
-        }
-
-        static bool CanDrop(UIElement dragElement)
-        {
-            if (dragElement is BCardWpf)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-       
         #endregion
     }
 }

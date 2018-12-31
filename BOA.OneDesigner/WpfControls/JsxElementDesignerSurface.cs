@@ -7,32 +7,31 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class JsxElementDesignerSurface : StackPanel
+    public class JsxElementDesignerSurface : StackPanel, IEventBusDisposable
     {
         #region Constructors
         public JsxElementDesignerSurface()
         {
-            Background = Brushes.WhiteSmoke;
+            Background        = Brushes.WhiteSmoke;
             VerticalAlignment = VerticalAlignment.Stretch;
 
-            
-
             EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            
             EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+        }
+        #endregion
+
+        #region Public Methods
+        public void UnSubscribeFromEventBus()
+        {
+            EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
         }
         #endregion
 
         #region Methods
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.Property == DataContextProperty)
-            {
-                Refresh();
-            }
-
-            base.OnPropertyChanged(e);
-        }
+       
 
         void EnterDropLocationMode()
         {
@@ -82,7 +81,7 @@ namespace BOA.OneDesigner.WpfControls
                     }
                 };
 
-                this.RefreshDataContext();
+                
 
                 return;
             }
@@ -92,7 +91,7 @@ namespace BOA.OneDesigner.WpfControls
 
         void Refresh()
         {
-            Children.Clear();
+            Children.RemoveAll();
 
             if (DataContext == null)
             {

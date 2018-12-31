@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
@@ -9,13 +6,9 @@ namespace BOA.OneDesigner.WpfControls
 {
     class LabelEditor : GroupBox
     {
-       
-
         #region Constructors
         public LabelEditor()
         {
-            
-            
             this.LoadJson(@"
 
 {
@@ -51,37 +44,17 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
 
-        bool IsRefreshingDataContext;
         #region Public Methods
-        public void OnCheckedChanged()
-        {
-            RefreshDataContext();
-        }
-
         public void FirePropertyChanged()
         {
-            EventBus. Publish(EventBus.OnComponentPropertyChanged);
+            EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }
 
-        public void RefreshDataContext()
+        public void OnCheckedChanged()
         {
-            if (IsRefreshingDataContext)
-            {
-                return;
-            }
-
-            EventBus. Publish(EventBus.OnComponentPropertyChanged);
-
-            IsRefreshingDataContext = true;
-
-            var dataContext = DataContext;
-            DataContext = null;
-            DataContext = dataContext;
-
-            IsRefreshingDataContext = false;
+            this.RefreshDataContext();
+            EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }
-
-        
         #endregion
     }
 }

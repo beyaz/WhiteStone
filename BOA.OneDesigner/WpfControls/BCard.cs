@@ -1,38 +1,50 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-
-   
-
-    public class BCardWpf : Grid
+    /// <summary>
+    ///     The b card WPF
+    /// </summary>
+    public class BCardWpf : Grid,IEventBusDisposable
     {
 
-        GroupBox _groupBox;
-
-        void RefreshTitle()
+        public void UnSubscribeFromEventBus()
         {
-            _groupBox.GetBindingExpression(HeaderedContentControl.HeaderProperty)?.UpdateTarget();
+            EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
         }
 
+
         #region Fields
+        /// <summary>
+        ///     The children container
+        /// </summary>
         public StackPanel ChildrenContainer;
+
+        #pragma warning disable 649
+        /// <summary>
+        ///     The group box
+        /// </summary>
+        GroupBox _groupBox;
+        #pragma warning restore 649
         #endregion
 
         #region Constructors
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="BCardWpf" /> class.
+        /// </summary>
         public BCardWpf()
         {
-
             EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-
-            EventBus.Subscribe(EventBus.OnComponentPropertyChanged,RefreshTitle );
+            EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
 
             this.LoadJson(@"
 {
@@ -50,13 +62,26 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Properties
-        public BCard Data                      => (BCard) DataContext;
-        public bool  IsEnteredDropLocationMode { get; set; }
+        /// <summary>
+        ///     Gets the data.
+        /// </summary>
+        public BCard Data => (BCard) DataContext;
 
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is entered drop location mode.
+        /// </summary>
+        public bool IsEnteredDropLocationMode { get; set; }
 
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is in toolbox.
+        /// </summary>
+        public bool IsInToolbox { get; set; }
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Called when [drop].
+        /// </summary>
         public void OnDrop(DropLocation dropLocation)
         {
             var insertIndex = dropLocation.TargetLocationIndex;
@@ -68,7 +93,6 @@ namespace BOA.OneDesigner.WpfControls
 
                 Data.InsertItem(insertIndex, bInput.Data);
 
-                this.RefreshDataContext();
 
                 return;
             }
@@ -76,9 +100,13 @@ namespace BOA.OneDesigner.WpfControls
             throw new ArgumentException();
         }
 
+        /// <summary>
+        ///     Refreshes this instance.
+        /// </summary>
         public void Refresh()
         {
-            ChildrenContainer.Children.Clear();
+
+            ChildrenContainer.Children.RemoveAll();
 
             if (Data == null)
             {
@@ -106,6 +134,13 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Invoked whenever the effective value of any dependency property on this
+        ///     <see cref="T:System.Windows.FrameworkElement" /> has been updated. The specific dependency property that changed is
+        ///     reported in the arguments parameter. Overrides
+        ///     <see cref="M:System.Windows.DependencyObject.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)" />
+        ///     .
+        /// </summary>
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.Property == DataContextProperty)
@@ -116,6 +151,9 @@ namespace BOA.OneDesigner.WpfControls
             base.OnPropertyChanged(e);
         }
 
+        /// <summary>
+        ///     Determines whether this instance can drop the specified drag element.
+        /// </summary>
         static bool CanDrop(UIElement dragElement)
         {
             if (dragElement is BInputWpf)
@@ -126,12 +164,11 @@ namespace BOA.OneDesigner.WpfControls
             return false;
         }
 
-
-        public bool IsInToolbox { get; set; }
-
+        /// <summary>
+        ///     Enters the drop location mode.
+        /// </summary>
         void EnterDropLocationMode()
         {
-
             if (IsInToolbox)
             {
                 return;
@@ -167,6 +204,9 @@ namespace BOA.OneDesigner.WpfControls
             ChildrenContainer.Children.Add(new DropLocation {OnDropAction = OnDrop, TargetLocationIndex = items.Length});
         }
 
+        /// <summary>
+        ///     Exits the drop location mode.
+        /// </summary>
         void ExitDropLocationMode()
         {
             if (!IsEnteredDropLocationMode)
@@ -190,9 +230,14 @@ namespace BOA.OneDesigner.WpfControls
                 ChildrenContainer.Children.Add(control);
             }
         }
+
+        /// <summary>
+        ///     Refreshes the title.
+        /// </summary>
+        void RefreshTitle()
+        {
+            _groupBox.GetBindingExpression(HeaderedContentControl.HeaderProperty)?.UpdateTarget();
+        }
         #endregion
     }
-
-
-
 }
