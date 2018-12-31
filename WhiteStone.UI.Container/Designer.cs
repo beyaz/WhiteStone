@@ -26,6 +26,17 @@ namespace WhiteStone.UI.Container
 
     public class Designer : WindowBase
     {
+        #region SelectedValueAsString
+
+        public static readonly DependencyProperty SelectedValueAsStringProperty = DependencyProperty.Register(
+                                                        "SelectedValueAsString", typeof(string), typeof(Designer), new PropertyMetadata(default(string)));
+
+        public string SelectedValueAsString
+        {
+            get { return (string)GetValue(SelectedValueAsStringProperty); }
+            set { SetValue(SelectedValueAsStringProperty, value); }
+        } 
+        #endregion
 
         public List<TestContract> DataGridComponentItemSource { get; set; } = new List<TestContract>
         {
@@ -91,6 +102,8 @@ namespace WhiteStone.UI.Container
             
             FileHelper.WriteAllText(SourceJsonFilePath, @"
 
+
+
 {
 	view:'grid',	
 	rows:[
@@ -106,13 +119,20 @@ namespace WhiteStone.UI.Container
 		{			
 			view:'grid',gravity:1,
 			cols:[
-				{view:'Textbox',Text:'Success',gravity:1},
+				{
+					view:'ListBox',
+					ItemsSource:'{Binding DataGridComponentItemSource}',
+					DisplayMemberPath:'Name',
+					SelectedValuePath:'Password', 
+                    SelectedValue:'{Binding SelectedValueAsString,Mode:OneWay}',
+					gravity:1
+				},
 				{view:'GridSplitter'},
-				{ui:'TextArea',Text:'Success2',gravity:1},
+				{ui:'TextArea',Text:'Success2', gravity:1},
                 {
-                    ui:'WrapPanel',gravity:2,
+                    ui:'WrapPanel',gravity:2, 
                     childs:[
-                        {ui:'Tile',Count:'A'},
+                        {ui:'Tile',Count:'{Binding SelectedValueAsString,Mode:OneWay}'},
                         {ui:'Tile',count:'B'},
                         {ui:'DataGrid', Width:300,Height:200, AutoGenerateColumns:true, ItemsSource:'{Binding DataGridComponentItemSource}'}
                     ]
@@ -121,6 +141,9 @@ namespace WhiteStone.UI.Container
 		}
 	]
 }
+
+
+
 
 
 

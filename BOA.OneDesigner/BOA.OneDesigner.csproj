@@ -41,9 +41,8 @@
     <Reference Include="CustomUIMarkupLanguage">
       <HintPath>D:\github\WhiteStone\CustomUIMarkupLanguage\bin\Debug\CustomUIMarkupLanguage.dll</HintPath>
     </Reference>
-    <Reference Include="Intellibox, Version=1.3.0.0, Culture=neutral, PublicKeyToken=8e428f51fac3a5f0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\BOA.HelperTools\Lib\Intellibox\Intellibox.dll</HintPath>
+    <Reference Include="Intellibox">
+      <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\Intellibox.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\MahApps.Metro.dll</HintPath>
@@ -95,9 +94,11 @@
     <Compile Include="WpfControls\BDataGridColumnWpf.xaml.cs">
       <DependentUpon>BDataGridColumnWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfControls\BDataGridEditor.cs" />
     <Compile Include="WpfControls\BDataGridInfoWpf.xaml.cs">
       <DependentUpon>BDataGridInfoWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfControls\BInputEditor.cs" />
     <Compile Include="WpfControls\CecilHelper.cs" />
     <Compile Include="WpfControls\DragHelper.cs" />
     <Compile Include="WpfControls\EventBus.cs" />

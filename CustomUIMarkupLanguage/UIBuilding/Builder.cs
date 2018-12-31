@@ -695,6 +695,14 @@ namespace CustomUIMarkupLanguage.UIBuilding
                             return true;
                         }
 
+                        if (eventInfo.EventHandlerType == typeof(SelectionChangedEventHandler))
+                        {
+                           
+                            SelectionChangedEventHandler handler = (s,e) => { handlerMethod.Invoke(caller, null); };
+                            eventInfo.AddEventHandler(element, handler);
+                            return true;
+                        }
+
                         throw new NotImplementedException(attributeName);
                     }
                 }

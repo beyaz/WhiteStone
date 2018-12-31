@@ -48,6 +48,7 @@ namespace BOA.OneDesigner.WpfControls
             Builder.RegisterElementCreation("MessagingIntellisenseTextBox", typeof(MessagingIntellisenseTextBox));
             Builder.RegisterElementCreation("LabelEditor", typeof(LabelEditor));
             Builder.RegisterElementCreation("BDataGridEditor", typeof(BDataGridEditor));
+            Builder.RegisterElementCreation("BInputEditor", typeof(BInputEditor));
             
         }
         #endregion

@@ -19,6 +19,10 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets the label.
         /// </summary>
         public LabelInfo Label { get; set; }
+
+
+        public string LabelText => Label.GetDesignerText();
+
         #endregion
     }
 

@@ -11,40 +11,6 @@
             path entered by the user.
             </summary>
         </member>
-        <member name="T:FeserWard.Controls.IIntelliboxResultsProvider">
-            <summary>
-            Defines the interface contract between an <see cref="T:FeserWard.Controls.Intellibox"/> and its <see cref="P:FeserWard.Controls.Intellibox.DataProvider"/>.
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.IIntelliboxResultsProvider.DoSearch(System.String,System.Int32,System.Object)">
-            <summary>
-            Tell the <see cref="T:FeserWard.Controls.IIntelliboxResultsProvider"/> to search for the <paramref name="searchTerm"/>. 
-            </summary>
-            <param name="searchTerm">The text in the search box at the time the search was requested.</param>
-            <param name="maxResults">The maximum number of search results the <see cref="T:FeserWard.Controls.Intellibox"/> wants returned.</param>
-            <param name="extraInfo">This is the value of the Tag property of the <see cref="T:FeserWard.Controls.Intellibox"/> control at the time the search was started. Use the Tag property to pass any custom data to your <see cref="T:FeserWard.Controls.IIntelliboxResultsProvider"/>.</param>
-        </member>
-        <member name="M:FeserWard.Controls.FilePathSearchProvider.#ctor(FeserWard.Controls.FilePathSearchProvider.PathSearchIncludes)">
-            <summary>
-            Creates a new <see cref="T:FeserWard.Controls.FilePathSearchProvider"/>
-            </summary>
-            <param name="searchIncludes">Whether this provider should search for Directories, Files, or both.</param>
-        </member>
-        <member name="M:FeserWard.Controls.FilePathSearchProvider.DoSearch(System.String,System.Int32,System.Object)">
-            <summary>
-            Searches for Files and/or Directories on the local filesystem whose fully-qualified path
-            matched the <paramref name="searchTerm"/>. Directories are always returned before files.
-            </summary>
-            <param name="searchTerm">The search path. The function will return all the files and/or directories under this path.</param>
-            <param name="maxResults">The maximum number of results to return. The function will return all results when this is 0 (zero).</param>
-            <param name="extraInfo">Not used.</param>
-            <returns>A list of Files or Directories whose fully-qualified path starts with the <paramref name="searchTerm"/>.</returns>
-        </member>
-        <member name="P:FeserWard.Controls.FilePathSearchProvider.IncludeInSearch">
-            <summary>
-            Whether this <see cref="T:FeserWard.Controls.FilePathSearchProvider"/> should search for Directories, Files, or both.
-            </summary>
-        </member>
         <member name="T:FeserWard.Controls.FilePathSearchProvider.PathSearchIncludes">
             <summary>
             Enumeration of the search options for a <see cref="T:FeserWard.Controls.FilePathSearchProvider"/>
@@ -65,131 +31,26 @@
             Search for matching Directories, but not for matching Files.
             </summary>
         </member>
-        <member name="T:FeserWard.Controls.IntelliboxAlternateRowColorizer">
+        <member name="P:FeserWard.Controls.FilePathSearchProvider.IncludeInSearch">
             <summary>
-            Provides a simple way to color the even rows of a ListBox with one color and the odd rows with another.
+            Whether this <see cref="T:FeserWard.Controls.FilePathSearchProvider"/> should search for Directories, Files, or both.
             </summary>
         </member>
-        <member name="T:FeserWard.Controls.IntelliboxRowColorizer">
+        <member name="M:FeserWard.Controls.FilePathSearchProvider.#ctor(FeserWard.Controls.FilePathSearchProvider.PathSearchIncludes)">
             <summary>
-            Provides an abstract implementation of an <see cref="T:System.Windows.Data.IValueConverter"/> that converts a ListBoxItem
-            into a Brush based on the index of the ListBoxItem in its parent collection.
+            Creates a new <see cref="T:FeserWard.Controls.FilePathSearchProvider"/>
             </summary>
+            <param name="searchIncludes">Whether this provider should search for Directories, Files, or both.</param>
         </member>
-        <member name="M:FeserWard.Controls.IntelliboxRowColorizer.GetBrushes">
+        <member name="M:FeserWard.Controls.FilePathSearchProvider.DoSearch(System.String,System.Int32,System.Object)">
             <summary>
-            Must be overridden by derived classes to return the brushes that the derived class
-            wants to use when converting from a ListBoxItem to a System.Windows.Media.Brush
+            Searches for Files and/or Directories on the local filesystem whose fully-qualified path
+            matched the <paramref name="searchTerm"/>. Directories are always returned before files.
             </summary>
-            <returns>The System.Windows.Media.Brushes that should be used when converting
-            a ListBoxItem to a Brush.</returns>
-        </member>
-        <member name="M:FeserWard.Controls.IntelliboxRowColorizer.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            Converts a ListBoxItem to the System.Windows.Media.Brush based upon
-            its ordinal position within its containing ListBox.
-            </summary>
-            <param name="value">A ListBoxItem or a derived class.</param>
-            <param name="targetType">Should be a System.Windows.Media.Brush type.</param>
-            <param name="parameter">NOT USED. The converter parameter to use.</param>
-            <param name="culture">NOT USED. The culture to use in the converter.</param>
-            <returns>The brush to use for the background of the ListBoxItem.</returns>
-        </member>
-        <member name="M:FeserWard.Controls.IntelliboxRowColorizer.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            Throws an <see cref="T:System.InvalidOperationException"/> when called, since it is
-            impossible to reverse the conversion done by the Convert() method.
-            </summary>
-            <param name="value">N/A</param>
-            <param name="targetType">N/A</param>
-            <param name="parameter">N/A</param>
-            <param name="culture">N/A</param>
-            <returns>N/A</returns>
-        </member>
-        <member name="M:FeserWard.Controls.IntelliboxAlternateRowColorizer.GetBrushes">
-            <summary>
-            Returns the brushes that this object wants to use to colorize the background of each row in a ListBox control.
-            </summary>
-            <returns>An array that contains the values of the <see cref="P:FeserWard.Controls.IntelliboxAlternateRowColorizer.EvenRowBrush"/> and <see cref="P:FeserWard.Controls.IntelliboxAlternateRowColorizer.OddRowBrush"/> at the time of the call.</returns>
-        </member>
-        <member name="P:FeserWard.Controls.IntelliboxAlternateRowColorizer.EvenRowBrush">
-            <summary>
-            The <see cref="T:System.Windows.Media.Brush"/> to use on even numbered rows (0,2,4,6,...)
-            </summary>
-        </member>
-        <member name="P:FeserWard.Controls.IntelliboxAlternateRowColorizer.OddRowBrush">
-            <summary>
-            The <see cref="T:System.Windows.Media.Brush"/> to use on odd numbered rows (1,3,5,7,...)
-            </summary>
-        </member>
-        <member name="T:FeserWard.Controls.DelegateCommand">
-            <summary>
-                This class allows delegating the commanding logic to methods passed as parameters,
-                and enables a View to bind commands to objects that are not part of the element tree.
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.DelegateCommand.#ctor(System.Action)">
-            <summary>
-                Constructor
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
-            <summary>
-                Constructor
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean},System.Boolean)">
-            <summary>
-                Constructor
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.DelegateCommand.CanExecute">
-            <summary>
-                Method to determine if the command can be executed
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.DelegateCommand.Execute">
-            <summary>
-                Execution of the command
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.DelegateCommand.RaiseCanExecuteChanged">
-            <summary>
-                Raises the CanExecuteChaged event
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.DelegateCommand.OnCanExecuteChanged">
-            <summary>
-                Protected virtual method to raise CanExecuteChanged event
-            </summary>
-        </member>
-        <member name="P:FeserWard.Controls.DelegateCommand.IsAutomaticRequeryDisabled">
-            <summary>
-                Property to enable or disable CommandManager's automatic requery on this command
-            </summary>
-        </member>
-        <member name="E:FeserWard.Controls.DelegateCommand.CanExecuteChanged">
-            <summary>
-                ICommand.CanExecuteChanged implementation
-            </summary>
-        </member>
-        <member name="T:FeserWard.Controls.CommandManagerHelper">
-            <summary>
-                This class contains methods for the CommandManager that help avoid memory leaks by
-                using weak references.
-            </summary>
-        </member>
-        <member name="T:FeserWard.Controls.IntelliboxAsyncProvider">
-            <summary>
-            Provide a wrapper method so that people do not need to implement an async provider
-            </summary>
-        </member>
-        <member name="F:FeserWard.Controls.IntelliboxAsyncProvider.searchdata.WasCanceled">
-            <summary>
-            have to store the canceled info here b/c the background worker
-            throws an exception if you try to acces the e.Result of a
-            canceled background task.
-            </summary>
+            <param name="searchTerm">The search path. The function will return all the files and/or directories under this path.</param>
+            <param name="maxResults">The maximum number of results to return. The function will return all results when this is 0 (zero).</param>
+            <param name="extraInfo">Not used.</param>
+            <returns>A list of Files or Directories whose fully-qualified path starts with the <paramref name="searchTerm"/>.</returns>
         </member>
         <member name="T:FeserWard.Controls.WatermarkTextVisibilityConverter">
             <summary>
@@ -220,52 +81,6 @@
             <param name="parameter">Not Used.</param>
             <param name="culture">Not Used.</param>
             <returns>Not Used.</returns>
-        </member>
-        <member name="T:FeserWard.Controls.Properties.Resources">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:FeserWard.Controls.Properties.Resources.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:FeserWard.Controls.Properties.Resources.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
-            </summary>
-        </member>
-        <member name="T:FeserWard.Controls.IntelliboxColumnCollection">
-            <summary>
-            Represents an observable collection of <see cref="T:FeserWard.Controls.IntelliboxColumn"/>s.
-            This class exists becuase XAML pre-2009 spec doesn't support the instantiation of generic types.
-            </summary>
-        </member>
-        <member name="T:FeserWard.Controls.IntelliboxColumn">
-            <summary>
-            Represents a column that displays data from an <see cref="T:FeserWard.Controls.IIntelliboxResultsProvider"/> result set.
-            </summary>
-        </member>
-        <member name="P:FeserWard.Controls.IntelliboxColumn.ForProperty">
-            <summary>
-            Associates this column with a property on a result set data row. The data row property name that 
-            matches this string will be hidden or positioned based on the <seealso cref="P:FeserWard.Controls.IntelliboxColumn.Hide"/> and <seealso cref="P:FeserWard.Controls.IntelliboxColumn.Position"/> values.
-            </summary>
-        </member>
-        <member name="P:FeserWard.Controls.IntelliboxColumn.Hide">
-            <summary>
-            When True, this column will not be shown in the result set. This property is useful
-            if you only want to hide a few columns of the result set; otherwise you're
-            probably better off just listing all the columns explicitly.
-            </summary>
-        </member>
-        <member name="P:FeserWard.Controls.IntelliboxColumn.Position">
-            <summary>
-            When set, controls the left-to-right position of this column in the result set.
-            Lower numbers sort farther to the left. NULL values sort to the right.
-            </summary>
         </member>
         <member name="T:FeserWard.Controls.Intellibox">
             <summary>
@@ -338,6 +153,11 @@
         <member name="F:FeserWard.Controls.Intellibox.MinimumSearchDelayProperty">
             <summary>
             Identifies the <see cref="F:FeserWard.Controls.Intellibox.MinimumSearchDelayProperty"/> Dependancy Property. Default is 250 milliseconds.
+            </summary>
+        </member>
+        <member name="F:FeserWard.Controls.Intellibox.NoResultsTextProperty">
+            <summary>
+            Identifies the <see cref="F:FeserWard.Controls.Intellibox.NoResultsTextProperty"/> Dependancy Property.
             </summary>
         </member>
         <member name="F:FeserWard.Controls.Intellibox.PagingScrollRowsProperty">
@@ -425,57 +245,9 @@
             Identifies the <see cref="P:FeserWard.Controls.Intellibox.AutoSelectSingleResult"/> Dependancy Property
             </summary>
         </member>
-        <member name="M:FeserWard.Controls.Intellibox.ApplyDisableWhitespaceTrim(System.String)">
+        <member name="F:FeserWard.Controls.Intellibox.SingleClickToSelectResultProperty">
             <summary>
-            Applies the <see cref="P:FeserWard.Controls.Intellibox.DisableWhitespaceTrim"/> property to the <paramref name="input"/> text.
-            The return value is always non-null.
-            </summary>
-            <param name="input">the string to which <see cref="P:FeserWard.Controls.Intellibox.DisableWhitespaceTrim"/> should be applied.</param>
-            <returns>
-            If <see cref="P:FeserWard.Controls.Intellibox.DisableWhitespaceTrim"/> is true, returns <paramref name="input"/> unmodified.
-            Otherwise the function returns the result of input.Trim(), or string.Empty if input is null.
-            </returns>
-        </member>
-        <member name="M:FeserWard.Controls.Intellibox.#ctor">
-            <summary>
-            Initializes the <see cref="T:FeserWard.Controls.Intellibox"/>, preparing it to accept data entry
-            and retrieve results from the <see cref="P:FeserWard.Controls.Intellibox.DataProvider"/>.
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.Intellibox.HighlightNewItem(System.Windows.Input.Key)">
-            <summary>
-            Because of a bug in .NET, this method should only ever be called from the dispatcher,
-            and only ever with 'DispatcherPriority.Background'
-            <para>
-            See the following link for more details.
-            http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=324064
-            </para>
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.Intellibox.CreateSearch(System.String)">
-            <summary>
-            Set the last value and Call OnSearchBeginning and BeginSearchAsync
-            </summary>
-            <param name="current">The last typed in value</param>
-        </member>
-        <member name="M:FeserWard.Controls.Intellibox.OnUserEndedSearchEvent">
-            <summary>
-            Called whenever (and ONLY whenever) the user has either
-            1. selected an item from the result set
-            2. decided not to select an item from the result set
-            3. cleared the currently selected item
-            </summary>
-        </member>
-        <member name="M:FeserWard.Controls.Intellibox.ProcessSearchResults(System.DateTime,System.Collections.IEnumerable)">
-            <summary>
-            Called when a search completes to process the search results.
-            </summary>
-            <param name="startTimeUtc"></param>
-            <param name="results"></param>
-        </member>
-        <member name="M:FeserWard.Controls.Intellibox.InitializeComponent">
-            <summary>
-            InitializeComponent
+            Identifies the <see cref="P:FeserWard.Controls.Intellibox.SingleClickToSelectResult"/> Dependancy Property
             </summary>
         </member>
         <member name="E:FeserWard.Controls.Intellibox.SearchBeginning">
@@ -569,6 +341,12 @@
             when the user is rapidly entering text. Minimum is 125 milliseconds. Defaults to 250 milliseconds.
             </summary>
         </member>
+        <member name="P:FeserWard.Controls.Intellibox.NoResultsText">
+            <summary>
+            Gets or sets the text displayed in the search results popup when no records are found.
+            This is a Dependancy Property.
+            </summary>
+        </member>
         <member name="P:FeserWard.Controls.Intellibox.PagingScrollRows">
             <summary>
             The number of rows to scroll up or down when a user uses the Page Up or Page Down key.
@@ -657,7 +435,7 @@
             A binding expression that determines what <see cref="P:FeserWard.Controls.Intellibox.SelectedValue"/>
             will be chosen out of the <see cref="P:FeserWard.Controls.Intellibox.SelectedItem"/>. If this property is
             NULL, then the entire <see cref="P:FeserWard.Controls.Intellibox.SelectedItem"/> is chosen as the <see cref="P:FeserWard.Controls.Intellibox.SelectedValue"/>.
-            This property exists so that the <see cref="P:FeserWard.Controls.Intellibox.SelectedValue"/> can differ from the
+            This property exists so that the <see cref="P:FeserWard.Controls.Intellibox.SelectedValue" /> can differ from the
             value displayed in the text field.
             This is a Dependancy Property.
             </summary>
@@ -699,6 +477,254 @@
         <member name="P:FeserWard.Controls.Intellibox.WatermarkText">
             <summary>
             Sets the text that is displayed when the <see cref="T:FeserWard.Controls.Intellibox"/> doesn't have focus or any entered content.
+            </summary>
+        </member>
+        <member name="P:FeserWard.Controls.Intellibox.SingleClickToSelectResult">
+            <summary>
+            When True, selects the result after a single click instead of a double click. This is a Dependancy Property.
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.Intellibox.ApplyDisableWhitespaceTrim(System.String)">
+            <summary>
+            Applies the <see cref="P:FeserWard.Controls.Intellibox.DisableWhitespaceTrim"/> property to the <paramref name="input"/> text.
+            The return value is always non-null.
+            </summary>
+            <param name="input">the string to which <see cref="P:FeserWard.Controls.Intellibox.DisableWhitespaceTrim"/> should be applied.</param>
+            <returns>
+            If <see cref="P:FeserWard.Controls.Intellibox.DisableWhitespaceTrim"/> is true, returns <paramref name="input"/> unmodified.
+            Otherwise the function returns the result of input.Trim(), or string.Empty if input is null.
+            </returns>
+        </member>
+        <member name="M:FeserWard.Controls.Intellibox.#ctor">
+            <summary>
+            Initializes the <see cref="T:FeserWard.Controls.Intellibox" />, preparing it to accept data entry
+            and retrieve results from the <see cref="P:FeserWard.Controls.Intellibox.DataProvider"/>.
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.Intellibox.HighlightNewItem(System.Windows.Input.Key)">
+            <summary>
+            Because of a bug in .NET, this method should only ever be called from the dispatcher,
+            and only ever with 'DispatcherPriority.Background'
+            <para>
+            See the following link for more details.
+            http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=324064
+            </para>
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.Intellibox.CreateSearch(System.String)">
+            <summary>
+            Set the last value and Call OnSearchBeginning and BeginSearchAsync
+            </summary>
+            <param name="current">The last typed in value</param>
+        </member>
+        <member name="M:FeserWard.Controls.Intellibox.OnUserEndedSearchEvent">
+            <summary>
+            Called whenever (and ONLY whenever) the user has either
+            1. selected an item from the result set
+            2. decided not to select an item from the result set
+            3. cleared the currently selected item
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.Intellibox.ProcessSearchResults(System.DateTime,System.Collections.IEnumerable)">
+            <summary>
+            Called when a search completes to process the search results.
+            </summary>
+            <param name="startTimeUtc"></param>
+            <param name="results"></param>
+        </member>
+        <member name="E:FeserWard.Controls.Intellibox.TextChanged">
+            <summary>
+            Event called when text is updated.
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.Intellibox.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:FeserWard.Controls.DelegateCommand">
+            <summary>
+                This class allows delegating the commanding logic to methods passed as parameters,
+                and enables a View to bind commands to objects that are not part of the element tree.
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.DelegateCommand.#ctor(System.Action)">
+            <summary>
+                Constructor
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
+            <summary>
+                Constructor
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean},System.Boolean)">
+            <summary>
+                Constructor
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.DelegateCommand.CanExecute">
+            <summary>
+                Method to determine if the command can be executed
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.DelegateCommand.Execute">
+            <summary>
+                Execution of the command
+            </summary>
+        </member>
+        <member name="P:FeserWard.Controls.DelegateCommand.IsAutomaticRequeryDisabled">
+            <summary>
+                Property to enable or disable CommandManager's automatic requery on this command
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.DelegateCommand.RaiseCanExecuteChanged">
+            <summary>
+                Raises the CanExecuteChaged event
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.DelegateCommand.OnCanExecuteChanged">
+            <summary>
+                Protected virtual method to raise CanExecuteChanged event
+            </summary>
+        </member>
+        <member name="E:FeserWard.Controls.DelegateCommand.CanExecuteChanged">
+            <summary>
+                ICommand.CanExecuteChanged implementation
+            </summary>
+        </member>
+        <member name="T:FeserWard.Controls.CommandManagerHelper">
+            <summary>
+                This class contains methods for the CommandManager that help avoid memory leaks by
+                using weak references.
+            </summary>
+        </member>
+        <member name="T:FeserWard.Controls.IntelliboxAsyncProvider">
+            <summary>
+            Provide a wrapper method so that people do not need to implement an async provider
+            </summary>
+        </member>
+        <member name="F:FeserWard.Controls.IntelliboxAsyncProvider.searchdata.WasCanceled">
+            <summary>
+            have to store the canceled info here b/c the background worker
+            throws an exception if you try to acces the e.Result of a
+            canceled background task.
+            </summary>
+        </member>
+        <member name="T:FeserWard.Controls.IntelliboxRowColorizer">
+            <summary>
+            Provides an abstract implementation of an <see cref="T:System.Windows.Data.IValueConverter"/> that converts a ListBoxItem
+            into a Brush based on the index of the ListBoxItem in its parent collection.
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.IntelliboxRowColorizer.GetBrushes">
+            <summary>
+            Must be overridden by derived classes to return the brushes that the derived class
+            wants to use when converting from a ListBoxItem to a System.Windows.Media.Brush
+            </summary>
+            <returns>The System.Windows.Media.Brushes that should be used when converting
+            a ListBoxItem to a Brush.</returns>
+        </member>
+        <member name="M:FeserWard.Controls.IntelliboxRowColorizer.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a ListBoxItem to the System.Windows.Media.Brush based upon
+            its ordinal position within its containing ListBox.
+            </summary>
+            <param name="value">A ListBoxItem or a derived class.</param>
+            <param name="targetType">Should be a System.Windows.Media.Brush type.</param>
+            <param name="parameter">NOT USED. The converter parameter to use.</param>
+            <param name="culture">NOT USED. The culture to use in the converter.</param>
+            <returns>The brush to use for the background of the ListBoxItem.</returns>
+        </member>
+        <member name="M:FeserWard.Controls.IntelliboxRowColorizer.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Throws an <see cref="T:System.InvalidOperationException"/> when called, since it is
+            impossible to reverse the conversion done by the Convert() method.
+            </summary>
+            <param name="value">N/A</param>
+            <param name="targetType">N/A</param>
+            <param name="parameter">N/A</param>
+            <param name="culture">N/A</param>
+            <returns>N/A</returns>
+        </member>
+        <member name="T:FeserWard.Controls.IntelliboxAlternateRowColorizer">
+            <summary>
+            Provides a simple way to color the even rows of a ListBox with one color and the odd rows with another.
+            </summary>
+        </member>
+        <member name="P:FeserWard.Controls.IntelliboxAlternateRowColorizer.EvenRowBrush">
+            <summary>
+            The <see cref="T:System.Windows.Media.Brush"/> to use on even numbered rows (0,2,4,6,...)
+            </summary>
+        </member>
+        <member name="P:FeserWard.Controls.IntelliboxAlternateRowColorizer.OddRowBrush">
+            <summary>
+            The <see cref="T:System.Windows.Media.Brush"/> to use on odd numbered rows (1,3,5,7,...)
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.IntelliboxAlternateRowColorizer.GetBrushes">
+            <summary>
+            Returns the brushes that this object wants to use to colorize the background of each row in a ListBox control.
+            </summary>
+            <returns>An array that contains the values of the <see cref="P:FeserWard.Controls.IntelliboxAlternateRowColorizer.EvenRowBrush"/> and <see cref="P:FeserWard.Controls.IntelliboxAlternateRowColorizer.OddRowBrush"/> at the time of the call.</returns>
+        </member>
+        <member name="T:FeserWard.Controls.IntelliboxColumn">
+            <summary>
+            Represents a column that displays data from an <see cref="T:FeserWard.Controls.IIntelliboxResultsProvider"/> result set.
+            </summary>
+        </member>
+        <member name="P:FeserWard.Controls.IntelliboxColumn.ForProperty">
+            <summary>
+            Associates this column with a property on a result set data row. The data row property name that 
+            matches this string will be hidden or positioned based on the <seealso cref="P:FeserWard.Controls.IntelliboxColumn.Hide"/> and <seealso cref="P:FeserWard.Controls.IntelliboxColumn.Position"/> values.
+            </summary>
+        </member>
+        <member name="P:FeserWard.Controls.IntelliboxColumn.Hide">
+            <summary>
+            When True, this column will not be shown in the result set. This property is useful
+            if you only want to hide a few columns of the result set; otherwise you're
+            probably better off just listing all the columns explicitly.
+            </summary>
+        </member>
+        <member name="P:FeserWard.Controls.IntelliboxColumn.Position">
+            <summary>
+            When set, controls the left-to-right position of this column in the result set.
+            Lower numbers sort farther to the left. NULL values sort to the right.
+            </summary>
+        </member>
+        <member name="T:FeserWard.Controls.IntelliboxColumnCollection">
+            <summary>
+            Represents an observable collection of <see cref="T:FeserWard.Controls.IntelliboxColumn"/>s.
+            This class exists becuase XAML pre-2009 spec doesn't support the instantiation of generic types.
+            </summary>
+        </member>
+        <member name="T:FeserWard.Controls.IIntelliboxResultsProvider">
+            <summary>
+            Defines the interface contract between an <see cref="T:FeserWard.Controls.Intellibox"/> and its <see cref="P:FeserWard.Controls.Intellibox.DataProvider" />.
+            </summary>
+        </member>
+        <member name="M:FeserWard.Controls.IIntelliboxResultsProvider.DoSearch(System.String,System.Int32,System.Object)">
+            <summary>
+            Tell the <see cref="T:FeserWard.Controls.IIntelliboxResultsProvider" /> to search for the <paramref name="searchTerm"/>. 
+            </summary>
+            <param name="searchTerm">The text in the search box at the time the search was requested.</param>
+            <param name="maxResults">The maximum number of search results the <see cref="T:FeserWard.Controls.Intellibox"/> wants returned.</param>
+            <param name="extraInfo">This is the value of the Tag property of the <see cref="T:FeserWard.Controls.Intellibox"/> control at the time the search was started. Use the Tag property to pass any custom data to your <see cref="T:FeserWard.Controls.IIntelliboxResultsProvider" />.</param>
+        </member>
+        <member name="T:FeserWard.Controls.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:FeserWard.Controls.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:FeserWard.Controls.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
             </summary>
         </member>
     </members>
