@@ -8,7 +8,7 @@ namespace BOA.OneDesigner.WpfControls
 {
     static class CecilHelper
     {
-
+        #region Static Fields
         static readonly List<string> PrimitiveTypes = new List<string>
         {
             typeof(string).FullName,
@@ -25,13 +25,14 @@ namespace BOA.OneDesigner.WpfControls
             typeof(DateTime).FullName,
             typeof(DateTime?).FullName
         };
+        #endregion
 
-        public static IReadOnlyList<string> GetAllBindProperties(string assemblyPath,string typeFullName)
+        #region Public Methods
+        public static IReadOnlyList<string> GetAllBindProperties(string assemblyPath, string typeFullName)
         {
-            
             var typeDefinitions = new List<TypeDefinition>();
 
-            VisitAllTypes(assemblyPath, (type) =>
+            VisitAllTypes(assemblyPath, type =>
             {
                 if (type.FullName == typeFullName)
                 {
@@ -39,27 +40,65 @@ namespace BOA.OneDesigner.WpfControls
                 }
             });
 
-            var items  = new List<string>();
+            var items = new List<string>();
 
-            if (typeDefinitions.Count>0)
+            if (typeDefinitions.Count > 0)
             {
                 var typeDefinition = typeDefinitions[0];
 
-
-                GetAllBindProperties("request.",items,typeDefinition);
+                GetAllBindProperties("request.", items, typeDefinition);
             }
 
             return items;
-
-
         }
 
+        public static IReadOnlyList<string> GetAllStringBindProperties(string assemblyPath, string typeFullName)
+        {
+            var typeDefinitions = new List<TypeDefinition>();
+
+            VisitAllTypes(assemblyPath, type =>
+            {
+                if (type.FullName == typeFullName)
+                {
+                    typeDefinitions.Add(type);
+                }
+            });
+
+            var items = new List<string>();
+
+            if (typeDefinitions.Count > 0)
+            {
+                var typeDefinition = typeDefinitions[0];
+
+                GetAllStringBindProperties("request.", items, typeDefinition);
+            }
+
+            return items;
+        }
+
+        public static IReadOnlyList<string> GetAllRequestNames(string assemblyPath)
+        {
+            return GetAllTypeNames(assemblyPath).Where(t => t.EndsWith("Request")).ToList();
+        }
+
+        public static IReadOnlyList<string> GetAllTypeNames(string assemblyPath)
+        {
+            var items = new List<string>();
+
+            VisitAllTypes(assemblyPath, type => { items.Add(type.FullName); });
+
+            return items;
+        }
+        #endregion
+
+        #region Methods
         static void GetAllBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
         {
             if (typeDefinition == null)
             {
                 return;
             }
+
             foreach (var propertyDefinition in typeDefinition.Properties)
             {
                 if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
@@ -67,9 +106,14 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-                if ( PrimitiveTypes.Contains(propertyDefinition.PropertyType.FullName) )
+                if (PrimitiveTypes.Contains(propertyDefinition.PropertyType.FullName))
                 {
-                    paths.Add(pathPrefix+propertyDefinition.Name);
+                    paths.Add(pathPrefix + propertyDefinition.Name);
+                    continue;
+                }
+
+                if (IsCollection(propertyDefinition.PropertyType) )
+                {
                     continue;
                 }
 
@@ -80,29 +124,66 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
-        #region Public Methods
-        public static IReadOnlyList<string> GetAllRequestNames(string assemblyPath)
-        {
-            return GetAllTypeNames(assemblyPath).Where(t => t.EndsWith("Request")).ToList();
-        }
 
-        public static IReadOnlyList<string> GetAllTypeNames(string assemblyPath)
+        static void GetAllStringBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
         {
-            var items = new List<string>();
-
-            VisitAllTypes(assemblyPath, (type) =>
+            if (typeDefinition == null)
             {
-                items.Add(type.FullName);
-            });
-            
+                return;
+            }
 
-            return items;
+            foreach (var propertyDefinition in typeDefinition.Properties)
+            {
+                if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
+                {
+                    continue;
+                }
+
+                if (propertyDefinition.PropertyType.FullName == typeof(string).FullName)
+                {
+                    paths.Add(pathPrefix + propertyDefinition.Name);
+                    continue;
+                }
+
+                if (IsCollection(propertyDefinition.PropertyType) )
+                {
+                    continue;
+                }
+
+                if (propertyDefinition.PropertyType.IsValueType == false)
+                {
+                    GetAllStringBindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
+                }
+            }
+        }
+
+        static bool IsCollection(TypeReference typeReference)
+        {
+            if (typeReference.FullName.StartsWith("System.Collections.Generic.List<"))
+            {
+                return true;
+            }
+
+            if (typeReference.FullName.StartsWith("System.Collections.Generic.IReadOnlyList<"))
+            {
+                return true;
+            }
+
+            if (typeReference.FullName.StartsWith("System.Collections.Generic.ICollection<"))
+            {
+                return true;
+            }
+
+            if (typeReference.FullName.StartsWith("System.Array"))
+            {
+                return true;
+            }
+            return false;
         }
 
 
-         static void VisitAllTypes(string assemblyPath, Action<TypeDefinition> action)
+        static void VisitAllTypes(string assemblyPath, Action<TypeDefinition> action)
         {
-
             if (File.Exists(assemblyPath) == false)
             {
                 return;
@@ -111,8 +192,7 @@ namespace BOA.OneDesigner.WpfControls
             var resolver = new DefaultAssemblyResolver();
             resolver.AddSearchDirectory(@"d:\boa\server\bin\");
 
-            var assemblyDefinition = AssemblyDefinition.ReadAssembly(assemblyPath,new ReaderParameters {AssemblyResolver = resolver});
-            
+            var assemblyDefinition = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters {AssemblyResolver = resolver});
 
             foreach (var moduleDefinition in assemblyDefinition.Modules)
             {
@@ -126,9 +206,7 @@ namespace BOA.OneDesigner.WpfControls
                     action(type);
                 }
             }
-
         }
-
         #endregion
     }
 }

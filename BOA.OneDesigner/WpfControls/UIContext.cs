@@ -18,6 +18,7 @@ namespace BOA.OneDesigner.WpfControls
         public static Point DraggingElementStartPoint { get; set; }
 
         public static IReadOnlyList<string> RequestPropertyIntellisense { get; set; }
+        public static IReadOnlyList<string> RequestStringPropertyIntellisense { get; set; }
 
         public static UIElement SelectedElement => DraggingElement;
         #endregion
@@ -46,6 +47,7 @@ namespace BOA.OneDesigner.WpfControls
             Builder.RegisterElementCreation("RequestIntellisenseTextBox", typeof(RequestIntellisenseTextBox));
             Builder.RegisterElementCreation("MessagingIntellisenseTextBox", typeof(MessagingIntellisenseTextBox));
             Builder.RegisterElementCreation("LabelEditor", typeof(LabelEditor));
+            Builder.RegisterElementCreation("BDataGridEditor", typeof(BDataGridEditor));
             
         }
         #endregion

@@ -119,6 +119,7 @@ namespace BOA.OneDesigner.MainForm
             if (Model.SolutionInfo != null)
             {
                 UIContext.RequestPropertyIntellisense = CecilHelper.GetAllBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);    
+                UIContext.RequestStringPropertyIntellisense = CecilHelper.GetAllStringBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);    
             }
             
         }

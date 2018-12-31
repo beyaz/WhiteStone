@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Media;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
@@ -27,7 +29,7 @@ namespace BOA.OneDesigner.WpfControls
                 IsInToolbox = true,
                 DataContext = new BCard
                 {
-                   TitleInfo = CreateDefaultLabelInfo("Title")
+                    TitleInfo = CreateDefaultLabelInfo("Title")
                 }
             };
 
@@ -41,20 +43,39 @@ namespace BOA.OneDesigner.WpfControls
 
             stackPanel.Children.Add(bInput);
 
+            var dataGridInfoWpf = new DataGridInfoWpf
+            {
+                Background = Brushes.Azure,
+                DataContext = new BDataGrid
+                {
+                    Columns = new List<BDataGridColumnInfo>
+                    {
+                        new BDataGridColumnInfo
+                        {
+                            Label = CreateDefaultLabelInfo()
+                        }
+                    }
+                }
+            };
+
+            DragHelper.MakeDraggable(dataGridInfoWpf);
+
+            stackPanel.Children.Add(dataGridInfoWpf);
+
             Content = stackPanel;
         }
         #endregion
 
-
-
+        #region Methods
         static LabelInfo CreateDefaultLabelInfo(string freeText = null)
         {
             return new LabelInfo
             {
                 IsFreeText    = true,
-                FreeTextValue = freeText??"Label",
+                FreeTextValue = freeText ?? "Label",
                 DesignerText  = "Label"
             };
         }
+        #endregion
     }
 }

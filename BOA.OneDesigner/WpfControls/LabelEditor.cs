@@ -29,7 +29,9 @@ namespace BOA.OneDesigner.WpfControls
              TextChanged:'FirePropertyChanged'
             },
             {
-               ui:'RequestIntellisenseTextBox', Text:'{Binding RequestBindingPath}', Label:'Binding Path',
+               ui:'RequestIntellisenseTextBox', Text:'{Binding RequestBindingPath}', 
+               Label:'Binding Path',
+               ShowOnlyStringProperties:true,
                IsVisible:'{Binding " + nameof(LabelInfo.IsRequestBindingPath) + @"}',
                KeyUp:'FirePropertyChanged'
             }

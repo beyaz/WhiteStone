@@ -89,9 +89,12 @@
     <Compile Include="AppModel\IDatabase.cs" />
     <Compile Include="AppModel\JsonFile.cs" />
     <Compile Include="JsxElementModel\Container.cs" />
+    <Compile Include="JsxElementModel\DataGridColumn.cs" />
     <Compile Include="JsxElementModel\LabelInfo.cs" />
     <Compile Include="JsxElementModel\ScreenInfo.cs" />
     <Compile Include="WpfControls\CecilHelper.cs" />
+    <Compile Include="WpfControls\DataGridColumnInfoWpf.cs" />
+    <Compile Include="WpfControls\DataGridInfoWpf.cs" />
     <Compile Include="WpfControls\DragHelper.cs" />
     <Compile Include="WpfControls\EventBus.cs" />
     <Compile Include="WpfControls\IEventBusDisposable.cs" />

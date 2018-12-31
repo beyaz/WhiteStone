@@ -1,10 +1,48 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
+
+
+    class BDataGridEditor:StackPanel
+    {
+        public void AddColumn()
+        {
+            (this.DataContext as BDataGrid)?.Columns.Add(new BDataGridColumnInfo
+            {
+                Label = new LabelInfo
+                {
+                    IsFreeText    =  true,
+                    FreeTextValue = "??"
+                }
+            });
+
+            EventBus.Publish(EventBus.OnComponentPropertyChanged);
+        }
+
+
+        public BDataGridEditor()
+        {
+            MinWidth = 200;
+            MinHeight = 200;
+
+            this.LoadJson(@"
+{ 
+	Childs:[  
+		{ui:'RequestIntellisenseTextBox', Text:'{Binding DataSourceBindingPath}', Label:'Data Source Binding' },
+        {ui:'Button', Text:'Add Column',Click:'AddColumn'},
+        {ui:'Button', Text:'Remove Column'}
+	]
+}
+
+");
+        }
+    }
+
     public sealed class PropertyEditorContainer : GroupBox
     {
         #region Constructors
@@ -48,7 +86,9 @@ namespace BOA.OneDesigner.WpfControls
             var sp = new StackPanel
             {
                 Margin = new Thickness(10),
-                DataContext = DataContext
+                DataContext = DataContext,
+                MinWidth = 200,
+                MinHeight = 200
             };
 
             
@@ -85,12 +125,24 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
+
+            var dataGridInfo = DataContext as JsxElementModel.BDataGrid;
+            if (dataGridInfo != null)
+            {
+                var editor = new BDataGridEditor()
+                {
+                    DataContext = DataContext
+                };
+                sp.Children.Add(editor);
+
+                Content = sp;
+                return;
+            }
           
             throw new ArgumentException();
         }
 
-
-
+       
         
     }
 }

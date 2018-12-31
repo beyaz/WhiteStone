@@ -9,30 +9,15 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     The b card WPF
     /// </summary>
-    public class BCardWpf : Grid,IEventBusDisposable
+    public class BCardWpf : Grid, IEventBusDisposable
     {
-
-        public void UnSubscribeFromEventBus()
-        {
-            EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
-        }
-
-
         #region Fields
+        public GroupBox _groupBox;
+
         /// <summary>
         ///     The children container
         /// </summary>
         public StackPanel ChildrenContainer;
-
-        #pragma warning disable 649
-        /// <summary>
-        ///     The group box
-        /// </summary>
-        GroupBox _groupBox;
-        #pragma warning restore 649
         #endregion
 
         #region Constructors
@@ -45,6 +30,8 @@ namespace BOA.OneDesigner.WpfControls
             EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
             EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
+
+            Loaded += (s, e) => { Refresh(); };
 
             this.LoadJson(@"
 {
@@ -93,6 +80,15 @@ namespace BOA.OneDesigner.WpfControls
 
                 Data.InsertItem(insertIndex, bInput.Data);
 
+                return;
+            }
+
+            var dataGridInfoWpf = UIContext.DraggingElement as DataGridInfoWpf;
+            if (dataGridInfoWpf != null)
+            {
+                dataGridInfoWpf.BData.RemoveFromParent();
+
+                Data.InsertItem(insertIndex, dataGridInfoWpf.BData);
 
                 return;
             }
@@ -105,7 +101,6 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public void Refresh()
         {
-
             ChildrenContainer.Children.RemoveAll();
 
             if (Data == null)
@@ -128,35 +123,44 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
+                if (bField is BDataGrid)
+                {
+                    var uiElement = new DataGridInfoWpf()
+                    {
+                        DataContext = bField
+                    };
+
+                    DragHelper.MakeDraggable(uiElement);
+
+                    ChildrenContainer.Children.Add(uiElement);
+                    continue;
+                }
+
                 throw new ArgumentException(bField.GetType().FullName);
             }
+        }
+
+        public void UnSubscribeFromEventBus()
+        {
+            EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
         }
         #endregion
 
         #region Methods
-        /// <summary>
-        ///     Invoked whenever the effective value of any dependency property on this
-        ///     <see cref="T:System.Windows.FrameworkElement" /> has been updated. The specific dependency property that changed is
-        ///     reported in the arguments parameter. Overrides
-        ///     <see cref="M:System.Windows.DependencyObject.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)" />
-        ///     .
-        /// </summary>
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.Property == DataContextProperty)
-            {
-                Refresh();
-            }
-
-            base.OnPropertyChanged(e);
-        }
-
         /// <summary>
         ///     Determines whether this instance can drop the specified drag element.
         /// </summary>
         static bool CanDrop(UIElement dragElement)
         {
             if (dragElement is BInputWpf)
+            {
+                return true;
+            }
+
+            if (dragElement is DataGridInfoWpf)
             {
                 return true;
             }
