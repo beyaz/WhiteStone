@@ -50,7 +50,7 @@ namespace BOA.OneDesigner.WpfControls
             IsVisible:'{Binding RemoveColumnButtonIsVisible,Mode:OneWay}',
 	        Childs:[
 		        {ui:'RequestIntellisenseTextBox', Text:'{Binding BindingPath}', Label:'Binding Path' },
-		        {ui:'LabelEditor', MarginTop:10, DataContext:'{Binding Label}'}
+		        {ui:'LabelEditor', MarginTop:10, DataContext:'{Binding SelectedColumn.Label}'}
 	        ]
         }
         
