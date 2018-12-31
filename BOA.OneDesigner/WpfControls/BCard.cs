@@ -143,6 +143,7 @@ namespace BOA.OneDesigner.WpfControls
 
         public void UnSubscribeFromEventBus()
         {
+            ChildrenContainer.Children.UnSubscribeFromEventBus();
             EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);

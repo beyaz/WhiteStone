@@ -66,6 +66,8 @@ namespace BOA.OneDesigner.WpfControls
 
         public void UnSubscribeFromEventBus()
         {
+            _columnsContainer.Children.UnSubscribeFromEventBus();
+
             EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
             EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }

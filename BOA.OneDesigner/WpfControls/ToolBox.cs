@@ -22,6 +22,9 @@ namespace BOA.OneDesigner.WpfControls
         #region Public Methods
         public void Refresh()
         {
+
+            (Content as StackPanel)?.Children.RemoveAll();
+
             var stackPanel = new StackPanel();
 
             var bCard = new BCardWpf
