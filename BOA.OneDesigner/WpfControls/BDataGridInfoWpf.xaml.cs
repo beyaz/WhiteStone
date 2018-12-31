@@ -1,24 +1,23 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
     /// <summary>
-    ///     The b card WPF
+    ///     Interaction logic for BDataGridInfoWpf.xaml
     /// </summary>
-    public class DataGridInfoWpf : WrapPanel, IEventBusDisposable
+    public partial class BDataGridInfoWpf : IEventBusDisposable
     {
         #region Constructors
         /// <summary>
         ///     Initializes a new instance of the <see cref="BCardWpf" /> class.
         /// </summary>
-        public DataGridInfoWpf()
+        public BDataGridInfoWpf()
         {
+            InitializeComponent();
+
             EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
             EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            MinWidth  = 200;
-            MinHeight = 70;
 
             Background = Brushes.Bisque;
 
@@ -28,14 +27,16 @@ namespace BOA.OneDesigner.WpfControls
 
         #region Public Properties
         /// <summary>
-        ///     Gets the data.
-        /// </summary>
-        public BDataGrid BData => (BDataGrid) DataContext;
-
-        /// <summary>
         ///     Gets or sets a value indicating whether this instance is in toolbox.
         /// </summary>
         public bool IsInToolbox { get; set; }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        ///     Gets the data.
+        /// </summary>
+        public BDataGrid BData => (BDataGrid) DataContext;
         #endregion
 
         #region Public Methods
@@ -44,7 +45,7 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public void Refresh()
         {
-            Children.RemoveAll();
+            _columnsContainer.Children.RemoveAll();
 
             if (BData == null)
             {
@@ -53,12 +54,12 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var columnInfo in BData.Columns)
             {
-                var uiElement = new BDataGridColumnInfoWpf
+                var uiElement = new BDataGridColumnWpf
                 {
                     DataContext = columnInfo
                 };
 
-                Children.Add(uiElement);
+                _columnsContainer.Children.Add(uiElement);
             }
         }
 

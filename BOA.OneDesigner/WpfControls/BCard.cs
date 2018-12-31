@@ -83,7 +83,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var dataGridInfoWpf = UIContext.DraggingElement as DataGridInfoWpf;
+            var dataGridInfoWpf = UIContext.DraggingElement as BDataGridInfoWpf;
             if (dataGridInfoWpf != null)
             {
                 dataGridInfoWpf.BData.RemoveFromParent();
@@ -125,7 +125,7 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (bField is BDataGrid)
                 {
-                    var uiElement = new DataGridInfoWpf()
+                    var uiElement = new BDataGridInfoWpf()
                     {
                         DataContext = bField
                     };
@@ -160,7 +160,7 @@ namespace BOA.OneDesigner.WpfControls
                 return true;
             }
 
-            if (dragElement is DataGridInfoWpf)
+            if (dragElement is BDataGridInfoWpf)
             {
                 return true;
             }

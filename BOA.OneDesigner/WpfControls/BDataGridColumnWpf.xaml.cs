@@ -1,44 +1,29 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 using BOA.OneDesigner.JsxElementModel;
-using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BDataGridColumnInfoWpf : Grid, IEventBusDisposable
+    /// <summary>
+    ///     Interaction logic for BDataGridColumnWpf.xaml
+    /// </summary>
+    public partial class BDataGridColumnWpf : IEventBusDisposable
     {
-        #region Fields
-        public TextBox   _bindingPath;
-        public TextBlock _label;
-        #endregion
-
         #region Constructors
-        public BDataGridColumnInfoWpf()
+        public BDataGridColumnWpf()
         {
+            InitializeComponent();
+
             EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
             EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
 
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;
-
-            MinWidth = 20;
-            MinHeight = 20;
-
-            this.LoadJson(@"
-{
-    Margin:10,
-	rows:
-	[
-		{view:'TextBlock', Name:'_label',        Text:'{Binding " + nameof(BInput.Label) + @",       Mode = OneWay}', MarginBottom:5, IsBold:true},
-        {view:'TextBox',   Name:'_bindingPath',  Text:'{Binding " + nameof(BInput.BindingPath) + @", Mode = OneWay}' , IsReadOnly:true}        
-	]
-	
-}");
         }
         #endregion
 
-        #region Public Properties
-        public BDataGridColumnInfo BData => (BDataGridColumnInfo) DataContext;
+        #region Properties
+        BDataGridColumnInfo BData => (BDataGridColumnInfo) DataContext;
         #endregion
 
         #region Public Methods
@@ -67,7 +52,7 @@ namespace BOA.OneDesigner.WpfControls
 
         void UpdateLabel()
         {
-            _label.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
+            _label.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
         }
         #endregion
     }

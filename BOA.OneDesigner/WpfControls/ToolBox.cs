@@ -43,9 +43,8 @@ namespace BOA.OneDesigner.WpfControls
 
             stackPanel.Children.Add(bInput);
 
-            var dataGridInfoWpf = new DataGridInfoWpf
+            var dataGridInfoWpf = new BDataGridInfoWpf
             {
-                Background = Brushes.Azure,
                 DataContext = new BDataGrid
                 {
                     Columns = new List<BDataGridColumnInfo>

@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="BOA.OneDesigner.WpfControls.BDataGridColumnWpf"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:jsxElementModel = "clr-namespace:BOA.OneDesigner.JsxElementModel"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance jsxElementModel:BDataGridColumnInfo, IsDesignTimeCreatable=True}"
+             d:DesignHeight="200" d:DesignWidth="200"
+             Background="Beige"
+             Margin="10,0,0,0"
+             >
+    <StackPanel MinWidth="50" MinHeight="50">
+        <TextBlock x:Name="_label" Text="{Binding Label.DesignerText,Mode=OneWay}" FontWeight="Bold"/>
+        <TextBlock x:Name="_bindingPath" Text="{Binding BindingPath,Mode=OneWay}"/>
+    </StackPanel>
+</UserControl>

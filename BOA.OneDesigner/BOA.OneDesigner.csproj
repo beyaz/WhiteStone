@@ -92,9 +92,13 @@
     <Compile Include="JsxElementModel\DataGridColumn.cs" />
     <Compile Include="JsxElementModel\LabelInfo.cs" />
     <Compile Include="JsxElementModel\ScreenInfo.cs" />
+    <Compile Include="WpfControls\BDataGridColumnWpf.xaml.cs">
+      <DependentUpon>BDataGridColumnWpf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\BDataGridInfoWpf.xaml.cs">
+      <DependentUpon>BDataGridInfoWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfControls\CecilHelper.cs" />
-    <Compile Include="WpfControls\DataGridColumnInfoWpf.cs" />
-    <Compile Include="WpfControls\DataGridInfoWpf.cs" />
     <Compile Include="WpfControls\DragHelper.cs" />
     <Compile Include="WpfControls\EventBus.cs" />
     <Compile Include="WpfControls\IEventBusDisposable.cs" />
@@ -241,6 +245,16 @@
       <Project>{92502f72-d2a3-4b2f-aa82-3e4f286599aa}</Project>
       <Name>BOAPlugins</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="WpfControls\BDataGridColumnWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WpfControls\BDataGridInfoWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
