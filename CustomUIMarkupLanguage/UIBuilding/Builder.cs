@@ -38,7 +38,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         static readonly List<Func<Builder, Node, UIElement>> _tryToCreateElement = new List<Func<Builder, Node, UIElement>>
         {
-            WpfExtra.RichTextBox_Create
+            WpfExtra.RichTextBox_Create,
+            WpfExtra.ListBox_Create
         };
 
         /// <summary>

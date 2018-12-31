@@ -21,10 +21,12 @@ namespace BOA.OneDesigner.WpfControls
     {
         public ListBox _listBox;
         public Button _removeButton;
+        public StackPanel _labelEditor;
 
         #region Constructors
         public BDataGridEditor()
         {
+            
             this.LoadJson(@"
 { 
   MinHeight:300,
@@ -32,14 +34,26 @@ namespace BOA.OneDesigner.WpfControls
 	Childs:[  
 		{ui:'RequestIntellisenseTextBox', Text:'{Binding DataSourceBindingPath}', Label:'Data Source Binding' },
         {ui:'Button', Text:'Add Column',Click:'AddColumn'},
-        {ui:'Button', Name:'_removeButton', Text:'Remove Column',IsVisible:'{Binding RemoveColumnButtonIsVisible,Mode:OneWay}'},
-        {ui:'ListBox', Name:'_listBox',
+        {ui:'Button', Name:'_removeButton', Text:'Remove Column',  IsVisible:'{Binding RemoveColumnButtonIsVisible,Mode:OneWay}' },
+        {ui:'ListBox', Name:'_listBox', Height:300,
              ItemsSource:'{Binding Info.Columns,Mode:OneWay}', 
              SelectionChanged:'SelectedColumnChanged', 
              DisplayMemberPath:'LabelText',
              SelectedValue:'{Binding SelectedColumn}'
 
+        },
+        
+        { 
+            ui:'StackPanel',
+            Name:'_labelEditor',
+            DataContext:'{Binding SelectedColumn}',
+            IsVisible:'{Binding RemoveColumnButtonIsVisible,Mode:OneWay}',
+	        Childs:[
+		        {ui:'RequestIntellisenseTextBox', Text:'{Binding BindingPath}', Label:'Binding Path' },
+		        {ui:'LabelEditor', MarginTop:10, DataContext:'{Binding Label}'}
+	        ]
         }
+        
 	]
 }
 
@@ -64,7 +78,7 @@ namespace BOA.OneDesigner.WpfControls
                 }
             });
 
-            _listBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateSource();
+            _listBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
 
             EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }
@@ -86,6 +100,7 @@ namespace BOA.OneDesigner.WpfControls
 
             _listBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
             _removeButton.GetBindingExpression(UIElement.VisibilityProperty)?.UpdateTarget();
+            _labelEditor.GetBindingExpression(UIElement.VisibilityProperty)?.UpdateTarget();
         }
         #endregion
     }

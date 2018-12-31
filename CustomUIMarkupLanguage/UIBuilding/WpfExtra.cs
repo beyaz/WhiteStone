@@ -130,6 +130,23 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return null;
         }
 
+        public static UIElement ListBox_Create(Builder builder, Node node)
+        {
+            if (node.UI == nameof(ListBox).ToUpperEN())
+            {
+                var ui =  new ListBox
+                {
+                    
+                };
+
+                ui.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty,ScrollBarVisibility.Auto);
+                return ui;
+            }
+
+            return null;
+        }
+         
+
         /// <summary>
         ///     Riches the text box text.
         /// </summary>
