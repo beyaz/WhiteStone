@@ -1,8 +1,9 @@
 ﻿using System.Windows.Controls;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 
-namespace BOA.OneDesigner.WpfControls
+namespace BOA.OneDesigner.Helpers
 {
     class LabelEditor : GroupBox
     {

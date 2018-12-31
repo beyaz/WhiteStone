@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.Helpers;
 using FeserWard.Controls;
 using WhiteStone.UI.Container;
 
@@ -9,7 +10,7 @@ namespace BOA.OneDesigner.WpfControls
 {
     class MessagingIntellisenseTextBox : IntellisenseTextBox
     {
-        static IReadOnlyList<string> MessagingPropertyNames => UIContext.MessagingPropertyNames.Select(x => x.PropertyName).ToList();
+        static IReadOnlyList<string> MessagingPropertyNames => MessagingHelper.MessagingPropertyNames.Select(x => x.PropertyName).ToList();
 
         #region Constructors
         public MessagingIntellisenseTextBox()

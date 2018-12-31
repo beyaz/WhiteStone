@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 
-namespace BOA.OneDesigner.WpfControls
+namespace BOA.OneDesigner.Helpers
 {
     public static class EventBus
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using CustomUIMarkupLanguage.UIBuilding;
 
-namespace BOA.OneDesigner.WpfControls
+namespace BOA.OneDesigner.PropertyEditors
 {
     class BInputEditor:StackPanel
     {

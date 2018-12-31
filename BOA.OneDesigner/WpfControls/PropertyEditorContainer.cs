@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.PropertyEditors;
 
 namespace BOA.OneDesigner.WpfControls
 {

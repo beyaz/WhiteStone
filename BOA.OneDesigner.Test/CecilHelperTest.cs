@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.WpfControls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

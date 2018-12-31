@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container.Mvc;

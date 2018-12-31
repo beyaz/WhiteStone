@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Mono.Cecil;
 
-namespace BOA.OneDesigner.WpfControls
+namespace BOA.OneDesigner.Helpers
 {
     static class CecilHelper
     {

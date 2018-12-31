@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BOA.CodeGeneration.Util;
 
-namespace BOA.OneDesigner.WpfControls
+namespace BOA.OneDesigner.Helpers
 {
     static class TfsHelper
     {

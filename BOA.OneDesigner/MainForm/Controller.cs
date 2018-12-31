@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
 using BOA.UI.Types;
@@ -65,7 +66,7 @@ namespace BOA.OneDesigner.MainForm
                 }
             };
 
-            UIContext.MessagingPropertyNames = Database.GetPropertyNames(Model.ScreenInfo.MessagingGroupName);
+            MessagingHelper.MessagingPropertyNames = Database.GetPropertyNames(Model.ScreenInfo.MessagingGroupName);
 
 
         }

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using BOA.Common.Helpers;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 
-namespace BOA.OneDesigner.WpfControls
+namespace BOA.OneDesigner.PropertyEditors
 {
     [Serializable]
     public class BDataGridEditorModel

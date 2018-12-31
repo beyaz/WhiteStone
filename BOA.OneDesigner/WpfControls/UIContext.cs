@@ -2,7 +2,8 @@
 using System.Windows;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
-using BOAPlugins.Messaging;
+using BOA.OneDesigner.Helpers;
+using BOA.OneDesigner.PropertyEditors;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
@@ -10,7 +11,7 @@ namespace BOA.OneDesigner.WpfControls
     public static class UIContext
     {
 
-        public static IList<PropertyInfo> MessagingPropertyNames { get; set; }
+        
 
         #region Public Properties
         public static UIElement DraggingElement { get; set; }
