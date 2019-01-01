@@ -1,12 +1,12 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardSectionWpf : WrapPanel, IEventBusDisposable
+    public class BCardSectionWpf : WrapPanel, IEventBusDisposable, IHostItem
     {
         #region Constructors
         public BCardSectionWpf()
@@ -15,11 +15,12 @@ namespace BOA.OneDesigner.WpfControls
             EventBus2.Subscribe(EventBus2.OnAfterDropOperation, Refresh);
             EventBus2.Subscribe(EventBus2.RefreshFromDataContext, Refresh);
 
-            this.Loaded += (s, e) => { Refresh(); };
+            Loaded += (s, e) => { Refresh(); };
         }
         #endregion
 
         #region Public Properties
+        public Host Host                      { get; set; }
         public bool IsEnteredDropLocationMode { get; set; }
         #endregion
 
@@ -41,11 +42,10 @@ namespace BOA.OneDesigner.WpfControls
 
                 Data.InsertItem(insertIndex, bInput.Data);
 
-
                 return;
             }
 
-            throw new ArgumentException();
+            throw Error.InvalidOperation();
         }
 
         public void UnSubscribeFromEventBus()
@@ -90,6 +90,7 @@ namespace BOA.OneDesigner.WpfControls
                 var control = items[i];
                 var dropLocation = new DropLocation
                 {
+                    Host                = Host,
                     OnDropAction        = OnDrop,
                     TargetLocationIndex = i
                 };
@@ -100,6 +101,7 @@ namespace BOA.OneDesigner.WpfControls
 
             Children.Add(new DropLocation
             {
+                Host                = Host,
                 OnDropAction        = OnDrop,
                 TargetLocationIndex = items.Length
             });
@@ -144,13 +146,10 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            foreach (var bField in Data.Items)
+            foreach (var bCard in Data.Items)
             {
-                var uiElement = new BCardWpf
-                {
-                    DataContext = bField,
-                    Margin      = new Thickness(10)
-                };
+                var uiElement = Host.Create<BCardWpf>(bCard);
+                uiElement.Margin = new Thickness(10);
 
                 DragHelper.MakeDraggable(uiElement);
 

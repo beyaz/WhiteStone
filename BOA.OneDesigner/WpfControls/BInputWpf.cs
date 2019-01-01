@@ -1,12 +1,13 @@
 using System.Windows.Controls;
 using System.Windows.Input;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BInputWpf : Grid, IEventBusDisposable
+    public class BInputWpf : Grid, IEventBusDisposable,IHostItem
     {
         #region Fields
         public TextBox   _bindingPath;
@@ -68,5 +69,7 @@ namespace BOA.OneDesigner.WpfControls
             _label.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
         }
         #endregion
+
+        public Host Host { get; set; }
     }
 }

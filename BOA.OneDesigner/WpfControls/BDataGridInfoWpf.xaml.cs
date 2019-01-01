@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -8,7 +9,7 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     Interaction logic for BDataGridInfoWpf.xaml
     /// </summary>
-    public partial class BDataGridInfoWpf : IEventBusDisposable
+    public partial class BDataGridInfoWpf : IEventBusDisposable,IHostItem
     {
         #region Constructors
         /// <summary>
@@ -78,5 +79,7 @@ namespace BOA.OneDesigner.WpfControls
             EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, Refresh);
         }
         #endregion
+
+        public Host Host { get; set; }
     }
 }

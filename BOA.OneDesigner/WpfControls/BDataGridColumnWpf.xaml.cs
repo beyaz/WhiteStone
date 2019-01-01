@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -8,7 +9,7 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     Interaction logic for BDataGridColumnWpf.xaml
     /// </summary>
-    public partial class BDataGridColumnWpf : IEventBusDisposable
+    public partial class BDataGridColumnWpf : IEventBusDisposable,IHostItem
     {
         #region Constructors
         public BDataGridColumnWpf(BDataGridColumnInfo dataContext)
@@ -58,5 +59,7 @@ namespace BOA.OneDesigner.WpfControls
             _label.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
         }
         #endregion
+
+        public Host Host { get; set; }
     }
 }

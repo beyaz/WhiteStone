@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
@@ -21,6 +22,8 @@ namespace BOA.OneDesigner.MainForm
             this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
 
             DesignSurface.VerticalAlignment = VerticalAlignment.Stretch;
+
+            DesignSurface.Host = new Host();
         }
         #endregion
 

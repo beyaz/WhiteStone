@@ -2,11 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public sealed class DropLocation : Border
+    public sealed class DropLocation : Border,IHostItem
     {
         #region Constructors
         public DropLocation()
@@ -84,5 +85,7 @@ namespace BOA.OneDesigner.WpfControls
             }
             #endregion
         }
+
+        public Host Host { get; set; }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
@@ -10,7 +10,7 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     The b card WPF
     /// </summary>
-    public class BCardWpf : Grid, IEventBusDisposable
+    public class BCardWpf : Grid, IEventBusDisposable, IHostItem
     {
         #region Fields
         public GroupBox _groupBox;
@@ -55,6 +55,8 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public BCard Data => (BCard) DataContext;
 
+        public Host Host { get; set; }
+
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is entered drop location mode.
         /// </summary>
@@ -94,7 +96,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            throw new ArgumentException();
+            throw Error.InvalidOperation();
         }
 
         /// <summary>
@@ -113,10 +115,7 @@ namespace BOA.OneDesigner.WpfControls
             {
                 if (bField is BInput)
                 {
-                    var uiElement = new BInputWpf
-                    {
-                        DataContext = bField
-                    };
+                    var uiElement = Host.Create<BInputWpf>(bField);
 
                     DragHelper.MakeDraggable(uiElement);
 
@@ -126,10 +125,7 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (bField is BDataGrid)
                 {
-                    var uiElement = new BDataGridInfoWpf()
-                    {
-                        DataContext = bField
-                    };
+                    var uiElement = Host.Create<BDataGridInfoWpf>(bField);
 
                     DragHelper.MakeDraggable(uiElement);
 
@@ -137,7 +133,7 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-                throw new ArgumentException(bField.GetType().FullName);
+                throw Error.InvalidOperation(bField.GetType().FullName);
             }
         }
 
@@ -200,14 +196,24 @@ namespace BOA.OneDesigner.WpfControls
             {
                 var control = items[i];
 
-                var dropLocation = new DropLocation {OnDropAction = OnDrop, TargetLocationIndex = i};
+                var dropLocation = new DropLocation
+                {
+                    Host                = Host,
+                    OnDropAction        = OnDrop,
+                    TargetLocationIndex = i
+                };
 
                 ChildrenContainer.Children.Add(dropLocation);
 
                 ChildrenContainer.Children.Add(control);
             }
 
-            ChildrenContainer.Children.Add(new DropLocation {OnDropAction = OnDrop, TargetLocationIndex = items.Length});
+            ChildrenContainer.Children.Add(new DropLocation
+            {
+                Host                = Host,
+                OnDropAction        = OnDrop,
+                TargetLocationIndex = items.Length
+            });
         }
 
         /// <summary>

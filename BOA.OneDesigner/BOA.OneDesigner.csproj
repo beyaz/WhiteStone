@@ -85,6 +85,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppModel\Error.cs" />
     <Compile Include="AppModel\EventBus.cs" />
     <Compile Include="AppModel\Host.cs" />
     <Compile Include="AppModel\IDatabase.cs" />

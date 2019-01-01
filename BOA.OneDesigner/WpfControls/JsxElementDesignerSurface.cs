@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class JsxElementDesignerSurface : StackPanel, IEventBusDisposable
+    public class JsxElementDesignerSurface : StackPanel, IEventBusDisposable, IHostItem
     {
         #region Constructors
         public JsxElementDesignerSurface()
@@ -22,6 +22,10 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
 
+        #region Public Properties
+        public Host Host { get; set; }
+        #endregion
+
         #region Public Methods
         public void UnSubscribeFromEventBus()
         {
@@ -32,14 +36,13 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
-       
-
         void EnterDropLocationMode()
         {
             if (Children.Count == 0)
             {
                 var dropLocation = new DropLocation
                 {
+                    Host                = Host,
                     OnDropAction        = OnDrop,
                     TargetLocationIndex = 0,
                     Width               = 50,
@@ -82,12 +85,10 @@ namespace BOA.OneDesigner.WpfControls
                     }
                 };
 
-                
-
                 return;
             }
 
-            throw new ArgumentException();
+            throw Error.InvalidOperation();
         }
 
         void Refresh()
@@ -103,16 +104,13 @@ namespace BOA.OneDesigner.WpfControls
 
             if (cardSection != null)
             {
-                var bCardSection = new BCardSectionWpf
-                {
-                    DataContext = cardSection
-                };
+                var bCardSection = Host.Create<BCardSectionWpf>(cardSection);
 
                 Children.Add(bCardSection);
                 return;
             }
 
-            throw new ArgumentException();
+            throw Error.InvalidOperation();
         }
         #endregion
     }
