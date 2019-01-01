@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Windows.Controls;
+using System.Windows.Media;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -40,12 +41,20 @@ namespace BOA.OneDesigner.WpfControls
         public BDataGrid BData => (BDataGrid) DataContext;
         #endregion
 
+
+        public UIElementCollection ColumnsCollection => _columnsContainer.Children;
+
         #region Public Methods
         /// <summary>
         ///     Refreshes this instance.
         /// </summary>
         public void Refresh()
         {
+            if (IsVisible == false)
+            {
+                //UnSubscribeFromEventBus();
+                //return;
+            }
             _columnsContainer.Children.RemoveAll();
 
             if (BData == null)
@@ -55,10 +64,7 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var columnInfo in BData.Columns)
             {
-                var uiElement = new BDataGridColumnWpf
-                {
-                    DataContext = columnInfo
-                };
+                var uiElement = new BDataGridColumnWpf(columnInfo);
 
                 _columnsContainer.Children.Add(uiElement);
             }

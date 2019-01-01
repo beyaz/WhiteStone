@@ -11,8 +11,10 @@ namespace BOA.OneDesigner.WpfControls
     public partial class BDataGridColumnWpf : IEventBusDisposable
     {
         #region Constructors
-        public BDataGridColumnWpf()
+        public BDataGridColumnWpf(BDataGridColumnInfo dataContext)
         {
+            DataContext = dataContext;
+
             InitializeComponent();
 
             EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);

@@ -20,6 +20,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
     class BDataGridEditor : StackPanel
     {
+        
         #region Fields
         public StackPanel _labelEditor;
         public ListBox    _listBox;
@@ -29,6 +30,9 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Constructors
         public BDataGridEditor()
         {
+
+            EventBus.Subscribe(EventBus.OnComponentPropertyChanged,RefreshListBoxItemsSource);
+
             this.LoadJson(@"
 { 
   MinHeight:300,
@@ -63,6 +67,11 @@ namespace BOA.OneDesigner.PropertyEditors
         }
         #endregion
 
+
+        void RefreshListBoxItemsSource()
+        {
+            _listBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+        }
         #region Public Properties
         public BDataGridEditorModel Model { get; set; }
         #endregion
@@ -79,7 +88,7 @@ namespace BOA.OneDesigner.PropertyEditors
                 }
             });
 
-            _listBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            
 
             EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }

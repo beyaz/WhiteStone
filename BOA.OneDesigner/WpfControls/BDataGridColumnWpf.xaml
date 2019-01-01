@@ -11,7 +11,7 @@
              Margin="10,0,0,0"
              >
     <StackPanel MinWidth="50" MinHeight="50">
-        <TextBlock x:Name="_label" Text="{Binding Label.DesignerText,Mode=OneWay}" FontWeight="Bold"/>
+        <TextBlock x:Name="_label" Text="{Binding LabelText,Mode=OneWay}" FontWeight="Bold"/>
         <TextBlock x:Name="_bindingPath" Text="{Binding BindingPath,Mode=OneWay}"/>
     </StackPanel>
 </UserControl>
