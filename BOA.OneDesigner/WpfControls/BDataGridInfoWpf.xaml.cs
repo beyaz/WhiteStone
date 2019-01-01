@@ -18,8 +18,8 @@ namespace BOA.OneDesigner.WpfControls
         {
             InitializeComponent();
 
-            EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, Refresh);
+            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged, Refresh);
 
             Background = Brushes.Bisque;
 
@@ -74,8 +74,8 @@ namespace BOA.OneDesigner.WpfControls
         {
             _columnsContainer.Children.UnSubscribeFromEventBus();
 
-            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            EventBus2.UnSubscribe(EventBus2.OnAfterDropOperation, Refresh);
+            EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, Refresh);
         }
         #endregion
     }

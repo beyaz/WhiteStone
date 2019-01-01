@@ -6,7 +6,7 @@ using BOA.Common.Helpers;
 
 namespace BOA.OneDesigner.Helpers
 {
-    public static class EventBus
+    public static class EventBus2
     {
         #region Constants
         public const string OnAfterDropOperation       = nameof(OnAfterDropOperation);

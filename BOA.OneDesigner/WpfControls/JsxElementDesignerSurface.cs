@@ -16,18 +16,18 @@ namespace BOA.OneDesigner.WpfControls
             Background        = Brushes.WhiteSmoke;
             VerticalAlignment = VerticalAlignment.Stretch;
 
-            EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+            EventBus2.Subscribe(EventBus2.OnDragStarted, EnterDropLocationMode);
+            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, ExitDropLocationMode);
+            EventBus2.Subscribe(EventBus2.RefreshFromDataContext, Refresh);
         }
         #endregion
 
         #region Public Methods
         public void UnSubscribeFromEventBus()
         {
-            EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
+            EventBus2.UnSubscribe(EventBus2.OnDragStarted, EnterDropLocationMode);
+            EventBus2.UnSubscribe(EventBus2.OnAfterDropOperation, ExitDropLocationMode);
+            EventBus2.UnSubscribe(EventBus2.RefreshFromDataContext, Refresh);
         }
         #endregion
 

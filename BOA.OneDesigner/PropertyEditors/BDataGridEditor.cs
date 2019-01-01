@@ -31,7 +31,7 @@ namespace BOA.OneDesigner.PropertyEditors
         public BDataGridEditor()
         {
 
-            EventBus.Subscribe(EventBus.OnComponentPropertyChanged,RefreshListBoxItemsSource);
+            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged,RefreshListBoxItemsSource);
 
             this.LoadJson(@"
 { 
@@ -90,7 +90,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
             
 
-            EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            EventBus2.Publish(EventBus2.OnComponentPropertyChanged);
         }
         #endregion
 

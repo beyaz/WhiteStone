@@ -80,7 +80,7 @@ namespace BOA.OneDesigner.WpfControls
 
                 dropLocation?.OnDropAction(dropLocation);
 
-                EventBus.Publish(EventBus.OnAfterDropOperation);
+                EventBus2.Publish(EventBus2.OnAfterDropOperation);
             }
             #endregion
         }

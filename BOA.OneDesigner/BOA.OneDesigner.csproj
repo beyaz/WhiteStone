@@ -103,7 +103,7 @@
     <Compile Include="PropertyEditors\BInputEditor.cs" />
     <Compile Include="Helpers\CecilHelper.cs" />
     <Compile Include="WpfControls\DragHelper.cs" />
-    <Compile Include="Helpers\EventBus.cs" />
+    <Compile Include="Helpers\EventBus2.cs" />
     <Compile Include="WpfControls\IEventBusDisposable.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
     <Compile Include="JsxElementModel\BAccountComponent.cs" />

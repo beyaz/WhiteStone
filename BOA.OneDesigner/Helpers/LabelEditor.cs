@@ -50,13 +50,13 @@ namespace BOA.OneDesigner.Helpers
         #region Public Methods
         public void FirePropertyChanged()
         {
-            EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            EventBus2.Publish(EventBus2.OnComponentPropertyChanged);
         }
 
         public void OnCheckedChanged()
         {
             this.RefreshDataContext();
-            EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            EventBus2.Publish(EventBus2.OnComponentPropertyChanged);
         }
         #endregion
     }

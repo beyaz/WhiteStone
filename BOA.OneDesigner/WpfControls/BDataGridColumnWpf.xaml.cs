@@ -17,8 +17,8 @@ namespace BOA.OneDesigner.WpfControls
 
             InitializeComponent();
 
-            EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-            EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged, UpdateLabel);
+            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged, UpdateBindingPath);
 
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;
@@ -32,8 +32,8 @@ namespace BOA.OneDesigner.WpfControls
         #region Public Methods
         public void UnSubscribeFromEventBus()
         {
-            EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-            EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+            EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, UpdateLabel);
+            EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, UpdateBindingPath);
         }
         #endregion
 

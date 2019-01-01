@@ -13,7 +13,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             Header = "Tool Box";
 
-            EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, Refresh);
 
             Refresh();
         }

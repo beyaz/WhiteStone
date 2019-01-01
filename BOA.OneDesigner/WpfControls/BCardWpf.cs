@@ -27,10 +27,10 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public BCardWpf()
         {
-            EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
+            EventBus2.Subscribe(EventBus2.OnDragStarted, EnterDropLocationMode);
+            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, ExitDropLocationMode);
+            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, Refresh);
+            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged, RefreshTitle);
 
             Loaded += (s, e) => { Refresh(); };
 
@@ -144,10 +144,10 @@ namespace BOA.OneDesigner.WpfControls
         public void UnSubscribeFromEventBus()
         {
             ChildrenContainer.Children.UnSubscribeFromEventBus();
-            EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
+            EventBus2.UnSubscribe(EventBus2.OnDragStarted, EnterDropLocationMode);
+            EventBus2.UnSubscribe(EventBus2.OnAfterDropOperation, ExitDropLocationMode);
+            EventBus2.UnSubscribe(EventBus2.OnAfterDropOperation, Refresh);
+            EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, RefreshTitle);
         }
         #endregion
 

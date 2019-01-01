@@ -11,9 +11,9 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         public BCardSectionWpf()
         {
-            EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+            EventBus2.Subscribe(EventBus2.OnDragStarted, EnterDropLocationMode);
+            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, Refresh);
+            EventBus2.Subscribe(EventBus2.RefreshFromDataContext, Refresh);
 
             this.Loaded += (s, e) => { Refresh(); };
         }
@@ -50,9 +50,9 @@ namespace BOA.OneDesigner.WpfControls
 
         public void UnSubscribeFromEventBus()
         {
-            EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
+            EventBus2.UnSubscribe(EventBus2.OnDragStarted, EnterDropLocationMode);
+            EventBus2.UnSubscribe(EventBus2.OnAfterDropOperation, Refresh);
+            EventBus2.UnSubscribe(EventBus2.RefreshFromDataContext, Refresh);
         }
         #endregion
 

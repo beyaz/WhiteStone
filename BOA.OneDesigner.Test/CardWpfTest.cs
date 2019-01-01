@@ -32,7 +32,7 @@ namespace BOA.OneDesigner
 
             bCard.TitleInfo.FreeTextValue = "B";
 
-            EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            EventBus2.Publish(EventBus2.OnComponentPropertyChanged);
 
             Assert.AreEqual("B", cardWpf._groupBox.Header as string);
         }
@@ -68,7 +68,7 @@ namespace BOA.OneDesigner
 
             bDataGrid.Columns[0].Label.FreeTextValue = "B";
 
-            EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            EventBus2.Publish(EventBus2.OnComponentPropertyChanged);
 
             bDataGridColumnWpf = bDataGridInfoWpf.ColumnsCollection[0] as BDataGridColumnWpf;
             Assert.AreEqual("B", bDataGridColumnWpf?._label.Text);

@@ -47,7 +47,7 @@ namespace BOA.OneDesigner.MainForm
             if (Model?.ScreenInfo?.JsxModel != null)
             {
                 DesignSurface.DataContext = Model.ScreenInfo.JsxModel;
-                EventBus.Publish(EventBus.RefreshFromDataContext);
+                EventBus2.Publish(EventBus2.RefreshFromDataContext);
             }
 
             else if (Model?.ScreenInfo != null && Model.ScreenInfo.JsxModel == null && DesignSurface.DataContext != null)
@@ -57,7 +57,7 @@ namespace BOA.OneDesigner.MainForm
             else
             {
                 DesignSurface.DataContext = null;
-                EventBus.Publish(EventBus.RefreshFromDataContext);
+                EventBus2.Publish(EventBus2.RefreshFromDataContext);
             }
         }
         #endregion
