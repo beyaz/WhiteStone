@@ -1,13 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.PropertyEditors;
 using CustomUIMarkupLanguage.UIBuilding;
-
-
-
-
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -18,14 +13,8 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Properties
-        public static UIElement DraggingElement { get; set; }
-
-        public static Point DraggingElementStartPoint { get; set; }
-
         public static IReadOnlyList<string> RequestPropertyIntellisense       { get; set; }
         public static IReadOnlyList<string> RequestStringPropertyIntellisense { get; set; }
-
-        public static UIElement SelectedElement => DraggingElement;
         #endregion
 
         #region Public Methods

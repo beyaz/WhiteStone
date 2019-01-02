@@ -74,6 +74,7 @@
                 {
                   "view": "Toolbox",
                   "Margin": 5,
+                  "Name": "_toolBox",
                   "gravity": 1
                 },
                 { "view": "GridSplitter" },
@@ -91,6 +92,7 @@
                 { "view": "GridSplitter" },
                 {
                   "ui": "PropertyEditorContainer",
+                  "Name": "_propertyEditorContainer",
                   "gravity": 2
                 }
               ]

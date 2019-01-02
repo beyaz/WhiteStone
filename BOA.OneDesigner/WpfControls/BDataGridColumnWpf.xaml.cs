@@ -18,13 +18,19 @@ namespace BOA.OneDesigner.WpfControls
 
             InitializeComponent();
 
-            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged, UpdateLabel);
-            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged, UpdateBindingPath);
+            this.Loaded += (s, e) => { AttachToEventBus(); };
 
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;
         }
         #endregion
+
+
+        public void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+        }
 
         #region Properties
         BDataGridColumnInfo BData => (BDataGridColumnInfo) DataContext;
@@ -33,8 +39,8 @@ namespace BOA.OneDesigner.WpfControls
         #region Public Methods
         public void UnSubscribeFromEventBus()
         {
-            EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, UpdateLabel);
-            EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, UpdateBindingPath);
+           Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+           Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
         #endregion
 

@@ -27,11 +27,7 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public BCardWpf()
         {
-            EventBus2.Subscribe(EventBus2.OnDragStarted, EnterDropLocationMode);
-            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, ExitDropLocationMode);
-            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, Refresh);
-            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged, RefreshTitle);
-
+            Loaded += (s, e) => { AttachToEventBus(); };
             Loaded += (s, e) => { Refresh(); };
 
             this.LoadJson(@"
@@ -69,6 +65,14 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Methods
+        public void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
+        }
+
         /// <summary>
         ///     Called when [drop].
         /// </summary>
@@ -76,7 +80,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             var insertIndex = dropLocation.TargetLocationIndex;
 
-            var bInput = UIContext.DraggingElement as BInputWpf;
+            var bInput = Host.DraggingElement as BInputWpf;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
@@ -86,7 +90,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var dataGridInfoWpf = UIContext.DraggingElement as BDataGridInfoWpf;
+            var dataGridInfoWpf = Host.DraggingElement as BDataGridInfoWpf;
             if (dataGridInfoWpf != null)
             {
                 dataGridInfoWpf.BData.RemoveFromParent();
@@ -117,7 +121,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     var uiElement = Host.Create<BInputWpf>(bField);
 
-                    DragHelper.MakeDraggable(uiElement);
+                    Host.DragHelper.MakeDraggable(uiElement);
 
                     ChildrenContainer.Children.Add(uiElement);
                     continue;
@@ -127,7 +131,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     var uiElement = Host.Create<BDataGridInfoWpf>(bField);
 
-                    DragHelper.MakeDraggable(uiElement);
+                    Host.DragHelper.MakeDraggable(uiElement);
 
                     ChildrenContainer.Children.Add(uiElement);
                     continue;
@@ -140,10 +144,11 @@ namespace BOA.OneDesigner.WpfControls
         public void UnSubscribeFromEventBus()
         {
             ChildrenContainer.Children.UnSubscribeFromEventBus();
-            EventBus2.UnSubscribe(EventBus2.OnDragStarted, EnterDropLocationMode);
-            EventBus2.UnSubscribe(EventBus2.OnAfterDropOperation, ExitDropLocationMode);
-            EventBus2.UnSubscribe(EventBus2.OnAfterDropOperation, Refresh);
-            EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, RefreshTitle);
+
+            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
         }
         #endregion
 
@@ -176,7 +181,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            if (!CanDrop(UIContext.DraggingElement))
+            if (!CanDrop(Host.DraggingElement))
             {
                 return;
             }

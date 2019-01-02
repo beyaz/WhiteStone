@@ -1,11 +1,12 @@
 ﻿using System.Windows.Controls;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.Helpers
 {
-    class LabelEditor : GroupBox
+    class LabelEditor : GroupBox,IHostItem
     {
         #region Constructors
         public LabelEditor()
@@ -50,14 +51,16 @@ namespace BOA.OneDesigner.Helpers
         #region Public Methods
         public void FirePropertyChanged()
         {
-            EventBus2.Publish(EventBus2.OnComponentPropertyChanged);
+            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }
 
         public void OnCheckedChanged()
         {
             this.RefreshDataContext();
-            EventBus2.Publish(EventBus2.OnComponentPropertyChanged);
+            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }
         #endregion
+
+        public Host Host { get; set; }
     }
 }

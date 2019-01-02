@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Media;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public sealed class ToolBox : GroupBox
+    public sealed class ToolBox : GroupBox, IHostItem
     {
         #region Constructors
         public ToolBox()
@@ -15,20 +15,24 @@ namespace BOA.OneDesigner.WpfControls
 
             EventBus2.Subscribe(EventBus2.OnAfterDropOperation, Refresh);
 
-            Refresh();
+            Loaded += (s, e) => { Refresh(); };
         }
+        #endregion
+
+        #region Public Properties
+        public Host Host { get; set; }
         #endregion
 
         #region Public Methods
         public void Refresh()
         {
-
             (Content as StackPanel)?.Children.RemoveAll();
 
             var stackPanel = new StackPanel();
 
             var bCard = new BCardWpf
             {
+                Host        = Host,
                 Height      = 100,
                 IsInToolbox = true,
                 DataContext = new BCard
@@ -37,18 +41,23 @@ namespace BOA.OneDesigner.WpfControls
                 }
             };
 
-            DragHelper.MakeDraggable(bCard);
+            Host.DragHelper.MakeDraggable(bCard);
 
             stackPanel.Children.Add(bCard);
 
-            var bInput = new BInputWpf {DataContext = new BInput {LabelInfo = CreateDefaultLabelInfo(), BindingPath = "?"}};
+            var bInput = new BInputWpf
+            {
+                Host        = Host,
+                DataContext = new BInput {LabelInfo = CreateDefaultLabelInfo(), BindingPath = "?"}
+            };
 
-            DragHelper.MakeDraggable(bInput);
+            Host.DragHelper.MakeDraggable(bInput);
 
             stackPanel.Children.Add(bInput);
 
             var dataGridInfoWpf = new BDataGridInfoWpf
             {
+                Host = Host,
                 DataContext = new BDataGrid
                 {
                     Columns = new List<BDataGridColumnInfo>
@@ -61,7 +70,7 @@ namespace BOA.OneDesigner.WpfControls
                 }
             };
 
-            DragHelper.MakeDraggable(dataGridInfoWpf);
+            Host.DragHelper.MakeDraggable(dataGridInfoWpf);
 
             stackPanel.Children.Add(dataGridInfoWpf);
 

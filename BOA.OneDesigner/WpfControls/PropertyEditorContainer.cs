@@ -1,35 +1,44 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.PropertyEditors;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public sealed class PropertyEditorContainer : GroupBox
+    public sealed class PropertyEditorContainer : GroupBox,IHostItem
     {
+        
         #region Constructors
         public PropertyEditorContainer()
         {
             Header = "Properties";
 
-            EventBus2.Subscribe(EventBus2.OnDragElementSelected, Refresh);
+            this.Loaded += (s, e) => { AttachToEventBus(); };
+
         }
         #endregion
+
+
+        public void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Refresh);
+        }
 
         #region Public Methods
         public void Refresh()
         {
             Content = null;
 
-            if (UIContext.SelectedElement == null)
+            if (Host.SelectedElement == null)
             {
                 DataContext = null;
                 return;
             }
 
-            DataContext = ((FrameworkElement) UIContext.SelectedElement).DataContext;
+            DataContext = ((FrameworkElement) Host.SelectedElement).DataContext;
 
             if (DataContext == null)
             {
@@ -46,7 +55,7 @@ namespace BOA.OneDesigner.WpfControls
             var bCard = DataContext as BCard;
             if (bCard != null)
             {
-                Content = new BCardEditor {DataContext = DataContext};
+                Content = new BCardEditor {DataContext = DataContext,Host = Host};
                 return;
             }
 
@@ -70,5 +79,7 @@ namespace BOA.OneDesigner.WpfControls
             throw new ArgumentException();
         }
         #endregion
+
+        public Host Host { get; set; }
     }
 }

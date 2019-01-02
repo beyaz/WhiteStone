@@ -11,12 +11,19 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         public BCardSectionWpf()
         {
-            EventBus2.Subscribe(EventBus2.OnDragStarted, EnterDropLocationMode);
-            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, Refresh);
-            EventBus2.Subscribe(EventBus2.RefreshFromDataContext, Refresh);
-
+          
+            this.Loaded += (s, e) => { AttachToEventBus(); };
             Loaded += (s, e) => { Refresh(); };
         }
+
+
+        public void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+        }
+
         #endregion
 
         #region Public Properties
@@ -35,7 +42,7 @@ namespace BOA.OneDesigner.WpfControls
 
             var insertIndex = dropLocation.TargetLocationIndex;
 
-            var bInput = UIContext.DraggingElement as BCardWpf;
+            var bInput = Host.DraggingElement as BCardWpf;
             if (bInput != null)
             {
                 bInput.Data.RemoveFromParent();
@@ -50,9 +57,9 @@ namespace BOA.OneDesigner.WpfControls
 
         public void UnSubscribeFromEventBus()
         {
-            EventBus2.UnSubscribe(EventBus2.OnDragStarted, EnterDropLocationMode);
-            EventBus2.UnSubscribe(EventBus2.OnAfterDropOperation, Refresh);
-            EventBus2.UnSubscribe(EventBus2.RefreshFromDataContext, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
         }
         #endregion
 
@@ -76,7 +83,7 @@ namespace BOA.OneDesigner.WpfControls
 
             IsEnteredDropLocationMode = true;
 
-            if (!CanDrop(UIContext.DraggingElement))
+            if (!CanDrop(Host.DraggingElement))
             {
                 return;
             }
@@ -109,7 +116,7 @@ namespace BOA.OneDesigner.WpfControls
 
         void ExitDropLocationMode()
         {
-            if (!(UIContext.DraggingElement is BCardWpf))
+            if (!(Host.DraggingElement is BCardWpf))
             {
             }
 
@@ -151,7 +158,7 @@ namespace BOA.OneDesigner.WpfControls
                 var uiElement = Host.Create<BCardWpf>(bCard);
                 uiElement.Margin = new Thickness(10);
 
-                DragHelper.MakeDraggable(uiElement);
+                Host.DragHelper.MakeDraggable(uiElement);
 
                 Children.Add(uiElement);
             }

@@ -2,17 +2,22 @@
 
 namespace BOA.OneDesigner.AppModel
 {
-    public interface IHostItem
-    {
-        #region Public Properties
-        Host Host { get; set; }
-        #endregion
-    }
-
     public class Host
     {
+        #region Constructors
+        public Host()
+        {
+            DragHelper = new DragHelper(this);
+        }
+        #endregion
+
         #region Public Properties
-        public EventBus EventBus { get; } = new EventBus();
+
+        public  UIElement SelectedElement => DraggingElement;
+        public UIElement  DraggingElement           { get; set; }
+        public Point      DraggingElementStartPoint { get; set; }
+        public DragHelper DragHelper                { get; }
+        public EventBus   EventBus                  { get; } = new EventBus();
         #endregion
 
         #region Public Methods

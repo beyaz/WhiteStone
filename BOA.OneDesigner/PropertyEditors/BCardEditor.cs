@@ -1,12 +1,15 @@
 ﻿using System.Windows.Controls;
+using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
 {
-    class BCardEditor:StackPanel
+    class BCardEditor:StackPanel,IHostItem
     {
-
+       
+        public LabelEditor _labelEditor;
 
         public BCardEditor()
         {
@@ -16,11 +19,17 @@ namespace BOA.OneDesigner.PropertyEditors
 { 
     Margin:10,
 	Childs:[  
-		{ui:'LabelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding "+nameof(BCard.TitleInfo)+@"}'}
+		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding "+nameof(BCard.TitleInfo)+@"}'}
 	]
 }
 
 ");
+
+            this.Loaded += (s, e) => { _labelEditor.Host = Host; };
+
+
         }
+
+        public Host Host { get; set; }
     }
 }

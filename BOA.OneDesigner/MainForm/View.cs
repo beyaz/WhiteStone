@@ -11,7 +11,9 @@ namespace BOA.OneDesigner.MainForm
     public class View : WindowBase<Model, Controller>
     {
         #region Fields
+        public ToolBox                   _toolBox;
         public JsxElementDesignerSurface DesignSurface;
+        public PropertyEditorContainer _propertyEditorContainer;
         #endregion
 
         #region Constructors
@@ -23,7 +25,9 @@ namespace BOA.OneDesigner.MainForm
 
             DesignSurface.VerticalAlignment = VerticalAlignment.Stretch;
 
-            DesignSurface.Host = new Host();
+            _propertyEditorContainer.Host = 
+            DesignSurface.Host =
+                _toolBox.Host = new Host();
         }
         #endregion
 

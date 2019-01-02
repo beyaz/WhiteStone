@@ -9,6 +9,13 @@ namespace BOA.OneDesigner.WpfControls
 {
     public class BInputWpf : Grid, IEventBusDisposable,IHostItem
     {
+
+        public void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+        }
+
         #region Fields
         public TextBox   _bindingPath;
         public TextBlock _label;
@@ -17,9 +24,8 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         public BInputWpf()
         {
-            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged, UpdateLabel);
-            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged, UpdateBindingPath);
-
+          
+            this.Loaded += (s, e) => { AttachToEventBus(); };
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;
 
@@ -43,8 +49,8 @@ namespace BOA.OneDesigner.WpfControls
         #region Public Methods
         public void UnSubscribeFromEventBus()
         {
-            EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, UpdateLabel);
-            EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, UpdateBindingPath);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
         #endregion
 
