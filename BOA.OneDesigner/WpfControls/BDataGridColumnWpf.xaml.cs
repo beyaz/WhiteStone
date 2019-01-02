@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -10,27 +12,35 @@ namespace BOA.OneDesigner.WpfControls
     /// </summary>
     public partial class BDataGridColumnWpf : IEventBusDisposable, IHostItem
     {
+
         #region Constructors
-        public BDataGridColumnWpf(BDataGridColumnInfo dataContext, Host host)
+        public BDataGridColumnWpf(BDataGridColumnInfo dataContext, Host host, BDataGridInfoWpf bDataGridInfoWpf)
         {
             DataContext = dataContext;
             Host        = host;
+            BDataGridInfoWpf = bDataGridInfoWpf;
 
             InitializeComponent();
+            BorderThickness = new Thickness(1);
+            BorderBrush = Brushes.DarkBlue;
 
             Loaded += (s, e) => { AttachToEventBus(); };
 
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;
+            
         }
+
+        
         #endregion
 
         #region Public Properties
         public Host Host { get; set; }
+        public BDataGridInfoWpf BDataGridInfoWpf { get; }
         #endregion
 
         #region Properties
-        BDataGridColumnInfo BData => (BDataGridColumnInfo) DataContext;
+        public BDataGridColumnInfo BData => (BDataGridColumnInfo) DataContext;
         #endregion
 
         #region Public Methods
@@ -53,11 +63,13 @@ namespace BOA.OneDesigner.WpfControls
         void BInput_MouseEnter(object sender, MouseEventArgs e)
         {
             Cursor = Cursors.Hand;
+            BorderBrush = Brushes.GreenYellow;
         }
 
         void BInput_MouseLeave(object sender, MouseEventArgs e)
         {
             Cursor = Cursors.Arrow;
+            BorderBrush = Brushes.DarkBlue;
         }
 
         void UpdateBindingPath()

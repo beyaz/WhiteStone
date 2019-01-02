@@ -18,6 +18,7 @@ namespace BOA.OneDesigner.AppModel
         public Point      DraggingElementStartPoint { get; set; }
         public DragHelper DragHelper                { get; }
         public EventBus   EventBus                  { get; } = new EventBus();
+        public UIElement LastSelectedUIElement { get; set; }
         #endregion
 
         #region Public Methods

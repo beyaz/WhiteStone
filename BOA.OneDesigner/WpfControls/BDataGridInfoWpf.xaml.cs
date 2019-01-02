@@ -195,7 +195,7 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var columnInfo in BData.Columns)
             {
-                var uiElement = new BDataGridColumnWpf(columnInfo, Host);
+                var uiElement = new BDataGridColumnWpf(columnInfo, Host,this);
 
                 Host.DragHelper.MakeDraggable(uiElement);
 

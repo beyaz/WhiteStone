@@ -98,6 +98,7 @@
     <Compile Include="Helpers\LabelInfoHelper.cs" />
     <Compile Include="JsxElementModel\ScreenInfo.cs" />
     <Compile Include="PropertyEditors\BCardEditor.cs" />
+    <Compile Include="PropertyEditors\BDataGridColumnInfoEditor.cs" />
     <Compile Include="WpfControls\BDataGridColumnWpf.xaml.cs">
       <DependentUpon>BDataGridColumnWpf.xaml</DependentUpon>
     </Compile>

@@ -59,6 +59,7 @@ namespace BOA.OneDesigner.AppModel
         {
             Host.DraggingElementStartPoint = e.GetPosition(null);
             Host.DraggingElement           = (UIElement) sender;
+            Host.LastSelectedUIElement = (UIElement) sender;
             EventBus.Publish(EventBus.OnDragElementSelected);
         }
 
