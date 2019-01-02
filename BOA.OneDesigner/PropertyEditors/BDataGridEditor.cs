@@ -9,6 +9,9 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
 {
+
+
+    
     [Serializable]
     public class BDataGridEditorModel
     {

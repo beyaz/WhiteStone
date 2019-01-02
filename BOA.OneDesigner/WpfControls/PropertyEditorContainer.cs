@@ -52,6 +52,14 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
+            var dataGridColumnInfo = DataContext as BDataGridColumnInfo;
+            if (dataGridColumnInfo != null)
+            {
+                Content = Host.Create<BDataGridColumnInfoEditor>(DataContext);
+                return;
+            }
+            
+
             var bCard = DataContext as BCard;
             if (bCard != null)
             {
@@ -76,6 +84,8 @@ namespace BOA.OneDesigner.WpfControls
                 Content = editor;
                 return;
             }
+
+
 
             throw new ArgumentException();
         }

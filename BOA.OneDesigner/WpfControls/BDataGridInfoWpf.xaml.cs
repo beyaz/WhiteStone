@@ -1,7 +1,5 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
@@ -9,7 +7,7 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     Interaction logic for BDataGridInfoWpf.xaml
     /// </summary>
-    public partial class BDataGridInfoWpf : IEventBusDisposable,IHostItem
+    public partial class BDataGridInfoWpf : IEventBusDisposable, IHostItem
     {
         #region Constructors
         /// <summary>
@@ -19,14 +17,9 @@ namespace BOA.OneDesigner.WpfControls
         {
             InitializeComponent();
 
-        
-
-            Background = Brushes.Bisque;
-
             Loaded += (s, e) =>
             {
-                Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-                Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+                AttachToEventBus();
                 Refresh();
             };
         }
@@ -34,22 +27,27 @@ namespace BOA.OneDesigner.WpfControls
 
         #region Public Properties
         /// <summary>
+        ///     Gets the data.
+        /// </summary>
+        public BDataGrid BData => (BDataGrid) DataContext;
+
+        public UIElementCollection ColumnsCollection => _columnsContainer.Children;
+
+        public Host Host { get; set; }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether this instance is in toolbox.
         /// </summary>
         public bool IsInToolbox { get; set; }
         #endregion
 
-        #region Properties
-        /// <summary>
-        ///     Gets the data.
-        /// </summary>
-        public BDataGrid BData => (BDataGrid) DataContext;
-        #endregion
-
-
-        public UIElementCollection ColumnsCollection => _columnsContainer.Children;
-
         #region Public Methods
+        public void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+        }
+
         /// <summary>
         ///     Refreshes this instance.
         /// </summary>
@@ -57,9 +55,10 @@ namespace BOA.OneDesigner.WpfControls
         {
             if (IsVisible == false)
             {
-                //UnSubscribeFromEventBus();
-                //return;
+                //UnSubscribeFromEventBus(); // TODO:?? 
+                return;
             }
+
             _columnsContainer.Children.RemoveAll();
 
             if (BData == null)
@@ -69,7 +68,9 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var columnInfo in BData.Columns)
             {
-                var uiElement = new BDataGridColumnWpf(columnInfo,Host);
+                var uiElement = new BDataGridColumnWpf(columnInfo, Host);
+
+                Host.DragHelper.MakeDraggable(uiElement);
 
                 _columnsContainer.Children.Add(uiElement);
             }
@@ -83,7 +84,5 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }
         #endregion
-
-        public Host Host { get; set; }
     }
 }

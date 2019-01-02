@@ -1,7 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
@@ -9,39 +8,44 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     Interaction logic for BDataGridColumnWpf.xaml
     /// </summary>
-    public partial class BDataGridColumnWpf : IEventBusDisposable,IHostItem
+    public partial class BDataGridColumnWpf : IEventBusDisposable, IHostItem
     {
         #region Constructors
-        public BDataGridColumnWpf(BDataGridColumnInfo dataContext,Host host)
+        public BDataGridColumnWpf(BDataGridColumnInfo dataContext, Host host)
         {
             DataContext = dataContext;
-            Host = host;
+            Host        = host;
 
             InitializeComponent();
 
-            this.Loaded += (s, e) => { AttachToEventBus(); };
+            Loaded += (s, e) => { AttachToEventBus(); };
 
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;
         }
         #endregion
 
-
-        public void AttachToEventBus()
-        {
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
-        }
+        #region Public Properties
+        public Host Host { get; set; }
+        #endregion
 
         #region Properties
         BDataGridColumnInfo BData => (BDataGridColumnInfo) DataContext;
         #endregion
 
         #region Public Methods
+        public void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+
+            
+        }
+
         public void UnSubscribeFromEventBus()
         {
-           Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-           Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
         #endregion
 
@@ -66,7 +70,5 @@ namespace BOA.OneDesigner.WpfControls
             _label.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
         }
         #endregion
-
-        public Host Host { get; set; }
     }
 }

@@ -51,6 +51,10 @@ namespace BOA.OneDesigner.Helpers
         #region Public Methods
         public void FirePropertyChanged()
         {
+            if (Host == null)
+            {
+                throw Error.InvalidOperation();
+            }
             Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }
 
