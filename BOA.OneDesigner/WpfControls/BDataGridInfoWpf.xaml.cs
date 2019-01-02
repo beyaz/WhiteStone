@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -9,6 +11,126 @@ namespace BOA.OneDesigner.WpfControls
     /// </summary>
     public partial class BDataGridInfoWpf : IEventBusDisposable, IHostItem
     {
+
+        void ExitDropLocationMode()
+        {
+            if (!IsEnteredDropLocationMode)
+            {
+                return;
+            }
+
+            IsEnteredDropLocationMode = false;
+
+            var children = _columnsContainer.Children;
+
+            var items = children.ToArray();
+
+            children.Clear();
+
+            foreach (var control in items)
+            {
+                if (control is DropLocation)
+                {
+                    continue;
+                }
+
+                children.Add(control);
+            }
+        }
+
+        /// <summary>
+        ///     Enters the drop location mode.
+        /// </summary>
+        void EnterDropLocationMode()
+        {
+            if (IsInToolbox)
+            {
+                return;
+            }
+
+            if (!CanDrop(Host.DraggingElement))
+            {
+                return;
+            }
+
+            if (IsEnteredDropLocationMode)
+            {
+                return;
+            }
+
+            IsEnteredDropLocationMode = true;
+
+            var children = _columnsContainer.Children;
+
+            var items = children.ToArray();
+
+            children.Clear();
+
+            for (var i = 0; i < items.Length; i++)
+            {
+                var control = items[i];
+
+                var dropLocation = new DropLocation
+                {
+                    Host                = Host,
+                    OnDropAction        = OnDrop,
+                    TargetLocationIndex = i
+                };
+
+                children.Add(dropLocation);
+
+                children.Add(control);
+            }
+
+            children.Add(new DropLocation
+            {
+                Host                = Host,
+                OnDropAction        = OnDrop,
+                TargetLocationIndex = items.Length
+            });
+        }
+
+
+        
+        /// <summary>
+        ///     Called when [drop].
+        /// </summary>
+        public void OnDrop(DropLocation dropLocation)
+        {
+            var insertIndex = dropLocation.TargetLocationIndex;
+
+            var dataGridColumnWpf = Host.DraggingElement as BDataGridColumnWpf;
+            if (dataGridColumnWpf != null)
+            {
+                var dataGridColumnInfo = dataGridColumnWpf.DataContext as BDataGridColumnInfo;
+
+                BData.Columns.Remove(dataGridColumnInfo);
+               
+
+                BData.Columns.Insert(insertIndex, dataGridColumnInfo);
+
+                return;
+            }
+            
+
+            throw Error.InvalidOperation();
+        }
+
+
+        /// <summary>
+        ///     Determines whether this instance can drop the specified drag element.
+        /// </summary>
+         bool CanDrop(UIElement dragElement)
+        {
+            return _columnsContainer.Children.ToArray().Contains(dragElement);
+        }
+
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is entered drop location mode.
+        /// </summary>
+        public bool IsEnteredDropLocationMode { get; set; }
+
         #region Constructors
         /// <summary>
         ///     Initializes a new instance of the <see cref="BCardWpf" /> class.
@@ -44,6 +166,11 @@ namespace BOA.OneDesigner.WpfControls
         #region Public Methods
         public void AttachToEventBus()
         {
+
+            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+
+
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }

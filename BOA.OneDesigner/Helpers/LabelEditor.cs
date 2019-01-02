@@ -53,7 +53,9 @@ namespace BOA.OneDesigner.Helpers
         {
             if (Host == null)
             {
-                throw Error.InvalidOperation();
+                return;
+                 // TODO:??
+                // throw Error.InvalidOperation();
             }
             Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }

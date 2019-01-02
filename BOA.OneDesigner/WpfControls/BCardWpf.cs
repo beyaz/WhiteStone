@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
@@ -13,6 +12,9 @@ namespace BOA.OneDesigner.WpfControls
     public class BCardWpf : Grid, IEventBusDisposable, IHostItem
     {
         #region Fields
+        /// <summary>
+        ///     The group box
+        /// </summary>
         public GroupBox _groupBox;
 
         /// <summary>
@@ -27,9 +29,6 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public BCardWpf()
         {
-            Loaded += (s, e) => { AttachToEventBus(); };
-            Loaded += (s, e) => { Refresh(); };
-
             this.LoadJson(@"
 {
 	rows:
@@ -42,6 +41,9 @@ namespace BOA.OneDesigner.WpfControls
 	]
 	
 }");
+
+            Loaded += (s, e) => { AttachToEventBus(); };
+            Loaded += (s, e) => { Refresh(); };
         }
         #endregion
 
@@ -51,6 +53,9 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public BCard Data => (BCard) DataContext;
 
+        /// <summary>
+        ///     Gets or sets the host.
+        /// </summary>
         public Host Host { get; set; }
 
         /// <summary>
@@ -65,6 +70,9 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Attaches to event bus.
+        /// </summary>
         public void AttachToEventBus()
         {
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
@@ -141,6 +149,9 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
+        /// <summary>
+        ///     Uns the subscribe from event bus.
+        /// </summary>
         public void UnSubscribeFromEventBus()
         {
             ChildrenContainer.Children.UnSubscribeFromEventBus();
@@ -193,9 +204,11 @@ namespace BOA.OneDesigner.WpfControls
 
             IsEnteredDropLocationMode = true;
 
-            var items = ChildrenContainer.Children.ToArray();
+            var children = ChildrenContainer.Children;
 
-            ChildrenContainer.Children.Clear();
+            var items = children.ToArray();
+
+            children.Clear();
 
             for (var i = 0; i < items.Length; i++)
             {
@@ -208,12 +221,12 @@ namespace BOA.OneDesigner.WpfControls
                     TargetLocationIndex = i
                 };
 
-                ChildrenContainer.Children.Add(dropLocation);
+                children.Add(dropLocation);
 
-                ChildrenContainer.Children.Add(control);
+                children.Add(control);
             }
 
-            ChildrenContainer.Children.Add(new DropLocation
+            children.Add(new DropLocation
             {
                 Host                = Host,
                 OnDropAction        = OnDrop,
@@ -233,9 +246,11 @@ namespace BOA.OneDesigner.WpfControls
 
             IsEnteredDropLocationMode = false;
 
-            var items = ChildrenContainer.Children.ToArray();
+            var children = ChildrenContainer.Children;
 
-            ChildrenContainer.Children.Clear();
+            var items = children.ToArray();
+
+            children.Clear();
 
             foreach (var control in items)
             {
@@ -244,7 +259,7 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-                ChildrenContainer.Children.Add(control);
+                children.Add(control);
             }
         }
 
