@@ -42,6 +42,7 @@ namespace BOA.OneDesigner.AppModel
 
 
         public RequestIntellisenseData RequestIntellisenseData { get; set; }
+        public string LastSelectedUIElement_as_DataGrid_DataSourceBindingPath { get; set; }
         #endregion
 
         #region Public Methods

@@ -41,6 +41,7 @@ namespace BOA.OneDesigner.WpfControls
 
             #region Public Properties
             public RequestIntellisenseData Data { get; set; } = SM.Get<Host>().RequestIntellisenseData;
+            public Host Host { get; set; } = SM.Get<Host>();
             #endregion
 
             #region Public Methods
@@ -49,17 +50,19 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (_requestIntellisenseTextBox.SearchByCurrentSelectedDataGridDataSourceContract)
                 {
-                    return new[] { "Önce gridin data source bilgisi  girilmelidir."};
 
-                    //var column = ((BDataGridColumnWpf) Host.LastSelectedUIElement);
-                    
-                    //var bindingPath = column.BDataGridInfoWpf?.BData?.DataSourceBindingPath;
-                    //if (string.IsNullOrWhiteSpace(bindingPath) )
-                    //{
-                    //    return new[] { "Önce gridin data source bilgisi  girilmelidir."};
-                    //}
+                    var bindingPath = Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath;
+                    if (string.IsNullOrWhiteSpace(bindingPath))
+                    {
+                        return new[] { "Önce gridin data source bilgisi  girilmelidir." };
+                    }
 
-                    //return CecilHelper.GetAllBindProperties(Host.TypeAssemblyPathInServerBin, Host.RequestName, bindingPath);
+                    if (Host.RequestIntellisenseData.Collections.ContainsKey(bindingPath) == false)
+                    {
+                        return new[] { "ilgili data source path bulunamadı." };
+                    }
+
+                    return Host.RequestIntellisenseData.Collections[bindingPath];
 
 
                 }
