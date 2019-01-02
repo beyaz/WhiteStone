@@ -55,6 +55,12 @@ namespace WhiteStone.UI.Container
             EdiTextBox.KeyUp += (s, e) => { UpdateTextFromEditBox(); };
 
             IntellisenseBox.SearchCompleted += UpdateTextFromEditBox;
+
+            IntellisenseBox.SingleClickToSelectResult = true;
+            IntellisenseBox.MinimumPrefixLength = 0;
+
+            // https://github.com/joefeser/intellibox
+
         }
         #endregion
 

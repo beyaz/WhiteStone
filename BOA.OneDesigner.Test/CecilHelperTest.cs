@@ -17,6 +17,14 @@ namespace BOA.OneDesigner
 
             Assert.IsTrue(bindProperties.Contains("request.Account.IBAN"));
         }
+        [TestMethod]
+        public void GetAllBindPropertiesOfCollection()
+        {
+            var bindProperties = CecilHelper.GetAllBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ChargebackListFormRequest","DataSource.DataGridRecords");
+
+            Assert.IsTrue(bindProperties.Contains("Foreign.KBBusinessKey"));
+        }
+        
         #endregion
     }
 }

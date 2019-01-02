@@ -20,7 +20,7 @@ namespace BOA.OneDesigner.PropertyEditors
 { 
     Margin:10,
 	Childs:[
-		{ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BDataGridColumnInfo.BindingPath) + @"}', Label:'Binding Path' },
+		{ui:'RequestIntellisenseTextBox', SearchByCurrentSelectedDataGridDataSourceContract:true, Margin:5, Text:'{Binding " + nameof(BDataGridColumnInfo.BindingPath) + @"}', Label:'Binding Path' },
 		{ui:'LabelEditor', Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(BDataGridColumnInfo.Label) + @"}'},
         {ui:'Button', Text:'Remove Column',Click:'" + nameof(RemoveColumn) + @"'}
 	]

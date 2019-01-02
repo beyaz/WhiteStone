@@ -6,7 +6,6 @@ using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
-using BOA.UI.Types;
 using BOAPlugins.TypescriptModelGeneration;
 using WhiteStone.UI.Container.Mvc;
 
@@ -14,8 +13,9 @@ namespace BOA.OneDesigner.MainForm
 {
     public class Controller : ControllerBase<Model>
     {
+        public Host Host { get; set; }
 
-        IDatabase Database => UIContext.Database;
+        IDatabase Database => Host.Database;
 
         #region Public Methods
         public void Next()
@@ -119,8 +119,13 @@ namespace BOA.OneDesigner.MainForm
 
             if (Model.SolutionInfo != null)
             {
-                UIContext.RequestPropertyIntellisense = CecilHelper.GetAllBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);    
-                UIContext.RequestStringPropertyIntellisense = CecilHelper.GetAllStringBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);    
+                Host.RequestPropertyIntellisense = CecilHelper.GetAllBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);    
+                Host.RequestStringPropertyIntellisense = CecilHelper.GetAllStringBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);    
+                Host.RequestCollectionPropertyIntellisense = CecilHelper.GetAllCollectionProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
+
+                Host.TypeAssemblyPathInServerBin = Model.SolutionInfo.TypeAssemblyPathInServerBin;
+                Host.RequestName = Model.ScreenInfo.RequestName;
+
             }
             
         }

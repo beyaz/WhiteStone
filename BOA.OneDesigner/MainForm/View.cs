@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.WpfControls;
@@ -19,7 +20,11 @@ namespace BOA.OneDesigner.MainForm
         #region Constructors
         public View()
         {
-            UIContext.RegisterElements();
+            SM.Set(Host);
+
+            Controller.Host = Host;
+
+            UIBuilderHelper.RegisterElements();
 
             this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
 

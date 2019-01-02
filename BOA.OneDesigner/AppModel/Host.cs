@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using BOA.Common.Helpers;
+using BOA.OneDesigner.Helpers;
+using BOAPlugins.TypescriptModelGeneration;
 
 namespace BOA.OneDesigner.AppModel
 {
@@ -7,18 +11,39 @@ namespace BOA.OneDesigner.AppModel
         #region Constructors
         public Host()
         {
+            
+
             DragHelper = new DragHelper(this);
+
+            Database = new JsonFile();
+
+            var tfsFolderNames = Database.GetTfsFolderNames();
+
+            if (tfsFolderNames == null)
+            {
+                tfsFolderNames = TfsHelper.GetFolderNames();
+
+                (Database as JsonFile)?.SaveTfsFolderNames(tfsFolderNames);
+            }
         }
         #endregion
 
         #region Public Properties
-
-        public  UIElement SelectedElement => DraggingElement;
+        public IDatabase  Database                  { get; }
         public UIElement  DraggingElement           { get; set; }
         public Point      DraggingElementStartPoint { get; set; }
         public DragHelper DragHelper                { get; }
         public EventBus   EventBus                  { get; } = new EventBus();
-        public UIElement LastSelectedUIElement { get; set; }
+        public UIElement  LastSelectedUIElement     { get; set; }
+
+        public IReadOnlyList<string> RequestPropertyIntellisense       { get; set; }
+        public IReadOnlyList<string> RequestStringPropertyIntellisense { get; set; }
+
+        public UIElement SelectedElement => DraggingElement;
+        public IReadOnlyList<string> RequestCollectionPropertyIntellisense { get; set; }
+        
+        public string RequestName { get; set; }
+        public string TypeAssemblyPathInServerBin { get; set; }
         #endregion
 
         #region Public Methods

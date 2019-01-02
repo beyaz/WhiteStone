@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8A56C904-32B1-41A8-A690-D39A7604BEB3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BOA.OneDesigner</RootNamespace>
+    <AssemblyName>BOA.OneDesigner</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppModel\DragHelper.cs" />
+    <Compile Include="AppModel\Error.cs" />
+    <Compile Include="AppModel\EventBus.cs" />
+    <Compile Include="AppModel\Host.cs" />
+    <Compile Include="AppModel\IDatabase.cs" />
+    <Compile Include="AppModel\IHostItem.cs" />
+    <Compile Include="AppModel\JsonFile.cs" />
+    <Compile Include="JsxElementModel\Container.cs" />
+    <Compile Include="JsxElementModel\DataGridColumn.cs" />
+    <Compile Include="JsxElementModel\LabelInfo.cs" />
+    <Compile Include="Helpers\LabelInfoHelper.cs" />
+    <Compile Include="JsxElementModel\ScreenInfo.cs" />
+    <Compile Include="PropertyEditors\BCardEditor.cs" />
+    <Compile Include="PropertyEditors\BDataGridColumnInfoEditor.cs" />
+    <Compile Include="WpfControls\BDataGridColumnWpf.xaml.cs">
+      <DependentUpon>BDataGridColumnWpf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyEditors\BDataGridEditor.cs" />
+    <Compile Include="WpfControls\BDataGridInfoWpf.xaml.cs">
+      <DependentUpon>BDataGridInfoWpf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyEditors\BInputEditor.cs" />
+    <Compile Include="Helpers\CecilHelper.cs" />
+    <Compile Include="WpfControls\IEventBusDisposable.cs" />
+    <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
+    <Compile Include="JsxElementModel\BAccountComponent.cs" />
+    <Compile Include="JsxElementRender\BAccountComponentTemplate.cs">
+      <DependentUpon>BAccountComponentTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JsxElementModel\BBranchComponent.cs" />
+    <Compile Include="JsxElementRender\BBranchComponentTemplate.cs">
+      <DependentUpon>BBranchComponentTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JsxElementModel\BCard.cs" />
+    <Compile Include="JsxElementModel\BCardSection.cs" />
+    <Compile Include="JsxElementRender\BCardSectionTemplate.cs">
+      <DependentUpon>BCardSectionTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JsxElementRender\BCardTemplate.cs">
+      <DependentUpon>BCardTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JsxElementModel\BCheckBox.cs" />
+    <Compile Include="JsxElementRender\BCheckBoxTemplate.cs">
+      <DependentUpon>BCheckBoxTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JsxElementModel\BDateTimePicker.cs" />
+    <Compile Include="JsxElementRender\BDateTimePickerTemplate.cs">
+      <DependentUpon>BDateTimePickerTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JsxElementModel\BField.cs" />
+    <Compile Include="JsxElementModel\BInput.cs" />
+    <Compile Include="JsxElementModel\BInputMask.cs" />
+    <Compile Include="JsxElementRender\BInputMaskTemplate.cs">
+      <DependentUpon>BInputMaskTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JsxElementModel\BInputNumeric.cs" />
+    <Compile Include="JsxElementRender\BInputNumericTemplate.cs">
+      <DependentUpon>BInputNumericTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JsxElementRender\BInputTemplate.cs">
+      <DependentUpon>BInputTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JsxElementModel\BParameterComponent.cs" />
+    <Compile Include="JsxElementRender\BParameterComponentTemplate.cs">
+      <DependentUpon>BParameterComponentTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JsxElementModel\BTab.cs" />
+    <Compile Include="JsxElementRender\Templates.Extensions.cs" />
+    <Compile Include="MainForm\Controller.cs" />
+    <Compile Include="MainForm\Model.cs" />
+    <Compile Include="MainForm\View.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WpfControls\BCardWpf.cs" />
+    <Compile Include="WpfControls\BCardSectionWpf.cs" />
+    <Compile Include="WpfControls\BInputWpf.cs" />
+    <Compile Include="WpfControls\Extensions.cs" />
+    <Compile Include="WpfControls\DropLocation.cs" />
+    <Compile Include="Helpers\LabelEditor.cs" />
+    <Compile Include="Helpers\MessagingHelper.cs" />
+    <Compile Include="WpfControls\MessagingIntellisenseTextBox.cs" />
+    <Compile Include="WpfControls\PropertyEditorContainer.cs" />
+    <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
+    <Compile Include="Helpers\TfsHelper.cs" />
+    <Compile Include="WpfControls\ToolBox.cs" />
+    <Compile Include="WpfControls\UIContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MainForm\View.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="WhiteStone.UI.Container.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="JsxElementRender\BAccountComponentTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BAccountComponentTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="JsxElementRender\BBranchComponentTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BBranchComponentTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="JsxElementRender\BCardSectionTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BCardSectionTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="JsxElementRender\BCardTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BCardTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="JsxElementRender\BCheckBoxTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BCheckBoxTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="JsxElementRender\BDateTimePickerTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BDateTimePickerTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="JsxElementRender\BInputMaskTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BInputMaskTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="JsxElementRender\BInputNumericTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BInputNumericTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="JsxElementRender\BInputTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BInputTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="JsxElementRender\BParameterComponentTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BParameterComponentTemplate.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BOA.HelperTools\BOA.CodeGeneration\BOA.CodeGeneration.csproj">
+      <Project>{A51D1954-365F-4F98-8492-F8841FBAD5BE}</Project>
+      <Name>BOA.CodeGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BOA.HelperTools\BOAPlugins\BOAPlugins.csproj">
+      <Project>{92502f72-d2a3-4b2f-aa82-3e4f286599aa}</Project>
+      <Name>BOAPlugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ReferencePath Include="d:\BOA\server\bin\BOA.Base.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\BOA.HelperTools\BOA.CodeGeneration\bin\Debug\BOA.CodeGeneration.dll" />
+    <ReferencePath Include="d:\BOA\server\bin\BOA.UnitTestHelper.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\BOA.HelperTools\BOAPlugins\bin\Debug\BOAPlugins.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\CustomUIMarkupLanguage\bin\Debug\CustomUIMarkupLanguage.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\WhiteStone.UI.Container\Lib\Intellibox.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\MahApps.Metro.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Mdb.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Pdb.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Rocks.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\mscorlib.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Web.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Windows.Forms.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Xml.Linq.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\bin\WhiteStone.dll" />
+    <ReferencePath Include="D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\WhiteStone.UI.Container.exe" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\WindowsBase.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="D:\github\WhiteStone\BOA.OneDesigner\obj\Debug\WpfControls\BDataGridColumnWpf.g.cs" />
+    <Compile Include="D:\github\WhiteStone\BOA.OneDesigner\obj\Debug\WpfControls\BDataGridInfoWpf.g.cs" />
+  </ItemGroup>
+</Project>

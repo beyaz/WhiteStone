@@ -20,7 +20,7 @@ namespace BOA.OneDesigner.PropertyEditors
   MinHeight:300,
    Margin:5,
 	Childs:[  
-		{ui:'RequestIntellisenseTextBox', Text:'{Binding " + nameof(BDataGrid.DataSourceBindingPath) + @"}', Label:'Data Source Binding' },
+		{ui:'RequestIntellisenseTextBox', ShowOnlyCollectionProperties:true, Text:'{Binding " + nameof(BDataGrid.DataSourceBindingPath) + @"}', Label:'Data Source Binding' },
         {ui:'Button', Text:'Add Column',Click:'" + nameof(AddColumn) + @"'}
 	]
 }
