@@ -2,7 +2,6 @@
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
@@ -37,16 +36,16 @@ namespace BOA.OneDesigner.PropertyEditors
         public Host Host { get; set; }
         #endregion
 
+        #region Properties
+        BDataGridColumnInfo Model => (BDataGridColumnInfo) DataContext;
+        #endregion
+
         #region Public Methods
         public void RemoveColumn()
         {
-            var selectedUI = (BDataGridColumnWpf) Host.LastSelectedUIElement;
+            Model.ShouldRemove = true;
 
-            var dataGridInfoWpf = selectedUI.BDataGridInfoWpf;
-
-            dataGridInfoWpf.BData.Columns.Remove(selectedUI.BData);
-
-            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            Host.EventBus.Publish(EventBus.DataGridColumnRemoved);
         }
         #endregion
     }

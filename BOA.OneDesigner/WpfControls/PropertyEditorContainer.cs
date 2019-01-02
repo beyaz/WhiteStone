@@ -15,6 +15,7 @@ namespace BOA.OneDesigner.WpfControls
             Header = "Properties";
 
             Loaded += (s, e) => { AttachToEventBus(); };
+            Unloaded += (s, e) => { DeAttachToEventBus(); };
         }
         #endregion
 
@@ -26,6 +27,10 @@ namespace BOA.OneDesigner.WpfControls
         public void AttachToEventBus()
         {
             Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Refresh);
+        }
+        public void DeAttachToEventBus()
+        {
+            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, Refresh);
         }
 
         public void Refresh()

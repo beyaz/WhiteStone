@@ -25,6 +25,7 @@ namespace BOA.OneDesigner.WpfControls
             BorderBrush = Brushes.DarkBlue;
 
             Loaded += (s, e) => { AttachToEventBus(); };
+            Unloaded += (s, e) => { DeAttachToEventBus(); };
 
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;
@@ -52,7 +53,7 @@ namespace BOA.OneDesigner.WpfControls
             
         }
 
-        public void UnSubscribeFromEventBus()
+        public void DeAttachToEventBus()
         {
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);

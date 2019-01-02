@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
@@ -16,11 +15,16 @@ namespace BOA.OneDesigner.WpfControls
             Background        = Brushes.WhiteSmoke;
             VerticalAlignment = VerticalAlignment.Stretch;
 
-            this.Loaded += (s, e) => { AttachToEventBus(); };
-        
+            Loaded   += (s, e) => { AttachToEventBus(); };
+            Unloaded += (s, e) => { DeAttachToEventBus(); };
         }
         #endregion
 
+        #region Public Properties
+        public Host Host { get; set; }
+        #endregion
+
+        #region Public Methods
         public void AttachToEventBus()
         {
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
@@ -28,12 +32,7 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
         }
 
-        #region Public Properties
-        public Host Host { get; set; }
-        #endregion
-
-        #region Public Methods
-        public void UnSubscribeFromEventBus()
+        public void DeAttachToEventBus()
         {
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);

@@ -1,21 +1,13 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BInputWpf : Grid, IEventBusDisposable,IHostItem
+    public class BInputWpf : Grid, IEventBusDisposable, IHostItem
     {
-
-        public void AttachToEventBus()
-        {
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
-        }
-
         #region Fields
         public TextBox   _bindingPath;
         public TextBlock _label;
@@ -24,8 +16,10 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         public BInputWpf()
         {
-          
-            this.Loaded += (s, e) => { AttachToEventBus(); };
+            Loaded += (s, e) => { AttachToEventBus(); };
+
+            Unloaded += (s, e) => { DeAttachToEventBus(); };
+
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;
 
@@ -44,10 +38,18 @@ namespace BOA.OneDesigner.WpfControls
 
         #region Public Properties
         public BInput Data => (BInput) DataContext;
+
+        public Host Host { get; set; }
         #endregion
 
         #region Public Methods
-        public void UnSubscribeFromEventBus()
+        public void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+        }
+
+        public void DeAttachToEventBus()
         {
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
@@ -75,7 +77,5 @@ namespace BOA.OneDesigner.WpfControls
             _label.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
         }
         #endregion
-
-        public Host Host { get; set; }
     }
 }

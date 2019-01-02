@@ -23,7 +23,7 @@ namespace BOA.OneDesigner.JsxElementModel
 
 
         public string LabelText => Label.GetDesignerText();
-
+        public bool ShouldRemove { get; set; }
         #endregion
     }
 

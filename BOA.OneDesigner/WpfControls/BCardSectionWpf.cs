@@ -12,8 +12,9 @@ namespace BOA.OneDesigner.WpfControls
         public BCardSectionWpf()
         {
           
-            this.Loaded += (s, e) => { AttachToEventBus(); };
+            Loaded += (s, e) => { AttachToEventBus(); };
             Loaded += (s, e) => { Refresh(); };
+            Unloaded += (s, e) => { DeAttachToEventBus(); };
         }
 
 
@@ -55,7 +56,7 @@ namespace BOA.OneDesigner.WpfControls
             throw Error.InvalidOperation();
         }
 
-        public void UnSubscribeFromEventBus()
+        public void DeAttachToEventBus()
         {
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);

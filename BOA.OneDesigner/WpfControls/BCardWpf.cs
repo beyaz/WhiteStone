@@ -44,7 +44,10 @@ namespace BOA.OneDesigner.WpfControls
 
             Loaded += (s, e) => { AttachToEventBus(); };
             Loaded += (s, e) => { Refresh(); };
+            Unloaded += (s, e) => { DeAttachToEventBus(); };
         }
+
+        
         #endregion
 
         #region Public Properties
@@ -152,7 +155,7 @@ namespace BOA.OneDesigner.WpfControls
         /// <summary>
         ///     Uns the subscribe from event bus.
         /// </summary>
-        public void UnSubscribeFromEventBus()
+        public void DeAttachToEventBus()
         {
             ChildrenContainer.Children.UnSubscribeFromEventBus();
 

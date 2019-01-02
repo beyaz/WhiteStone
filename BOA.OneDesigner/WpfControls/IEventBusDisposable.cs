@@ -2,6 +2,6 @@
 {
     interface IEventBusDisposable
     {
-        void UnSubscribeFromEventBus();
+        void DeAttachToEventBus();
     }
 }

@@ -58,7 +58,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             foreach (var element in elementCollection)
             {
-                (element as IEventBusDisposable)?.UnSubscribeFromEventBus();
+                (element as IEventBusDisposable)?.DeAttachToEventBus();
             }
         }
         #endregion

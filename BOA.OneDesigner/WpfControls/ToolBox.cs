@@ -14,14 +14,25 @@ namespace BOA.OneDesigner.WpfControls
             Header = "Tool Box";
 
            
+            
 
-            Loaded += (s, e) =>
-            {
-                Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-                Refresh();
-            };
+            Loaded   += (s, e) => { AttachToEventBus(); };
+            Unloaded += (s, e) => { DeAttachToEventBus(); };
+
+            Loaded += (s, e) => { Refresh(); };
         }
         #endregion
+
+
+        public void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+        }
+        public void DeAttachToEventBus()
+        {
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+        }
+
 
         #region Public Properties
         public Host Host { get; set; }
