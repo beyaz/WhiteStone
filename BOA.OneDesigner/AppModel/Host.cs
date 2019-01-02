@@ -36,14 +36,12 @@ namespace BOA.OneDesigner.AppModel
         public EventBus   EventBus                  { get; } = new EventBus();
         public UIElement  LastSelectedUIElement     { get; set; }
 
-        public IReadOnlyList<string> RequestPropertyIntellisense       { get; set; }
-        public IReadOnlyList<string> RequestStringPropertyIntellisense { get; set; }
+        
 
         public UIElement SelectedElement => DraggingElement;
-        public IReadOnlyList<string> RequestCollectionPropertyIntellisense { get; set; }
-        
-        public string RequestName { get; set; }
-        public string TypeAssemblyPathInServerBin { get; set; }
+
+
+        public RequestIntellisenseData RequestIntellisenseData { get; set; }
         #endregion
 
         #region Public Methods

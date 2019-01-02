@@ -5,7 +5,6 @@ using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.WpfControls;
 using BOAPlugins.TypescriptModelGeneration;
 using WhiteStone.UI.Container.Mvc;
 
@@ -119,12 +118,7 @@ namespace BOA.OneDesigner.MainForm
 
             if (Model.SolutionInfo != null)
             {
-                Host.RequestPropertyIntellisense = CecilHelper.GetAllBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);    
-                Host.RequestStringPropertyIntellisense = CecilHelper.GetAllStringBindProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);    
-                Host.RequestCollectionPropertyIntellisense = CecilHelper.GetAllCollectionProperties(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
-
-                Host.TypeAssemblyPathInServerBin = Model.SolutionInfo.TypeAssemblyPathInServerBin;
-                Host.RequestName = Model.ScreenInfo.RequestName;
+                Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);   
 
             }
             

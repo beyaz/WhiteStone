@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
@@ -41,7 +40,7 @@ namespace BOA.OneDesigner.WpfControls
             #endregion
 
             #region Public Properties
-            public Host Host { get; set; } = SM.Get<Host>();
+            public RequestIntellisenseData Data { get; set; } = SM.Get<Host>().RequestIntellisenseData;
             #endregion
 
             #region Public Methods
@@ -50,31 +49,34 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (_requestIntellisenseTextBox.SearchByCurrentSelectedDataGridDataSourceContract)
                 {
-                    var column = ((BDataGridColumnWpf) Host.LastSelectedUIElement);
-                    
-                    var bindingPath = column.BDataGridInfoWpf?.BData?.DataSourceBindingPath;
-                    if (string.IsNullOrWhiteSpace(bindingPath) )
-                    {
-                        return new[] { "Önce gridin data source bilgisi  girilmelidir."};
-                    }
+                    return new[] { "Önce gridin data source bilgisi  girilmelidir."};
 
-                    return CecilHelper.GetAllBindProperties(Host.TypeAssemblyPathInServerBin, Host.RequestName, bindingPath);
+                    //var column = ((BDataGridColumnWpf) Host.LastSelectedUIElement);
+                    
+                    //var bindingPath = column.BDataGridInfoWpf?.BData?.DataSourceBindingPath;
+                    //if (string.IsNullOrWhiteSpace(bindingPath) )
+                    //{
+                    //    return new[] { "Önce gridin data source bilgisi  girilmelidir."};
+                    //}
+
+                    //return CecilHelper.GetAllBindProperties(Host.TypeAssemblyPathInServerBin, Host.RequestName, bindingPath);
 
 
                 }
 
+                
 
                 if (_requestIntellisenseTextBox.ShowOnlyStringProperties)
                 {
-                    return Host.RequestStringPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                    return Data.RequestStringPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
                 }
                 if (_requestIntellisenseTextBox.ShowOnlyCollectionProperties)
                 {
-                    return Host.RequestCollectionPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                    return Data.RequestCollectionPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
                 }
                 
 
-                return Host.RequestPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                return Data.RequestPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
             }
             #endregion
 

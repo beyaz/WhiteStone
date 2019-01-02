@@ -7,13 +7,23 @@ using Mono.Cecil;
 
 namespace BOA.OneDesigner.Helpers
 {
+    public class RequestIntellisenseData
+    {
+        #region Public Properties
+        public Dictionary<string, IReadOnlyList<string>> Collections                           { get; set; }
+        public IReadOnlyList<string>                     RequestCollectionPropertyIntellisense { get; set; }
+        public IReadOnlyList<string>                     RequestPropertyIntellisense           { get; set; }
+        public IReadOnlyList<string>                     RequestStringPropertyIntellisense     { get; set; }
+        #endregion
+    }
+
     static class CecilHelper
     {
         #region Static Fields
         static readonly List<string> PrimitiveTypes = new List<string>
         {
             typeof(string).FullName,
-            
+
             typeof(sbyte).FullName,
             typeof(byte).FullName,
             typeof(short).FullName,
@@ -22,14 +32,13 @@ namespace BOA.OneDesigner.Helpers
             typeof(decimal).FullName,
             typeof(DateTime).FullName,
 
-            "System.Nullable`1<"+typeof(sbyte).FullName+">",
-            "System.Nullable`1<"+typeof(byte).FullName+">",
-            "System.Nullable`1<"+typeof(short).FullName+">",
-            "System.Nullable`1<"+typeof(int).FullName+">",
-            "System.Nullable`1<"+typeof(long).FullName+">",
-            "System.Nullable`1<"+typeof(decimal).FullName+">",
-            "System.Nullable`1<"+typeof(DateTime).FullName+">"
-
+            "System.Nullable`1<" + typeof(sbyte).FullName + ">",
+            "System.Nullable`1<" + typeof(byte).FullName + ">",
+            "System.Nullable`1<" + typeof(short).FullName + ">",
+            "System.Nullable`1<" + typeof(int).FullName + ">",
+            "System.Nullable`1<" + typeof(long).FullName + ">",
+            "System.Nullable`1<" + typeof(decimal).FullName + ">",
+            "System.Nullable`1<" + typeof(DateTime).FullName + ">"
         };
         #endregion
 
@@ -79,8 +88,20 @@ namespace BOA.OneDesigner.Helpers
 
             if (typeDefinition != null)
             {
-
                 GetAllBindProperties(string.Empty, items, typeDefinition);
+            }
+
+            return items;
+        }
+
+        public static IReadOnlyList<string> GetAllCollectionProperties(string assemblyPath, string typeFullName)
+        {
+            var items = new List<string>();
+
+            var typeDefinition = FindType(assemblyPath, typeFullName);
+            if (typeDefinition != null)
+            {
+                GetAllCollectionProperties(string.Empty, items, typeDefinition);
             }
 
             return items;
@@ -104,18 +125,6 @@ namespace BOA.OneDesigner.Helpers
             return items;
         }
 
-        public static IReadOnlyList<string> GetAllCollectionProperties(string assemblyPath, string typeFullName)
-        {
-            var items = new List<string>();
-
-            var typeDefinition = FindType(assemblyPath, typeFullName);
-            if (typeDefinition != null)
-            {
-                GetAllCollectionProperties(string.Empty, items, typeDefinition);
-            }
-
-            return items;
-        }
         public static IReadOnlyList<string> GetAllTypeNames(string assemblyPath)
         {
             var items = new List<string>();
@@ -123,6 +132,24 @@ namespace BOA.OneDesigner.Helpers
             VisitAllTypes(assemblyPath, type => { items.Add(type.FullName); });
 
             return items;
+        }
+
+        public static RequestIntellisenseData GetRequestIntellisenseData(string assemblyPath, string requestTypeFullName)
+        {
+            var data = new RequestIntellisenseData
+            {
+                RequestPropertyIntellisense           = GetAllBindProperties(assemblyPath, requestTypeFullName),
+                RequestStringPropertyIntellisense     = GetAllStringBindProperties(assemblyPath, requestTypeFullName),
+                RequestCollectionPropertyIntellisense = GetAllCollectionProperties(assemblyPath, requestTypeFullName),
+                Collections                           = new Dictionary<string, IReadOnlyList<string>>()
+            };
+
+            foreach (var path in data.RequestCollectionPropertyIntellisense)
+            {
+                data.Collections[path] = GetAllBindProperties(assemblyPath, requestTypeFullName, path);
+            }
+
+            return data;
         }
         #endregion
 
@@ -162,7 +189,6 @@ namespace BOA.OneDesigner.Helpers
                     continue;
                 }
 
-                
                 if (IsCollection(propertyDefinition.PropertyType))
                 {
                     continue;
@@ -171,38 +197,6 @@ namespace BOA.OneDesigner.Helpers
                 if (propertyDefinition.PropertyType.IsValueType == false)
                 {
                     GetAllBindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
-                }
-            }
-        }
-
-        static void GetAllStringBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
-        {
-            if (typeDefinition == null)
-            {
-                return;
-            }
-
-            foreach (var propertyDefinition in typeDefinition.Properties)
-            {
-                if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
-                {
-                    continue;
-                }
-
-                if (propertyDefinition.PropertyType.FullName == typeof(string).FullName)
-                {
-                    paths.Add(pathPrefix + propertyDefinition.Name);
-                    continue;
-                }
-
-                if (IsCollection(propertyDefinition.PropertyType))
-                {
-                    continue;
-                }
-
-                if (propertyDefinition.PropertyType.IsValueType == false)
-                {
-                    GetAllStringBindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
                 }
             }
         }
@@ -235,6 +229,38 @@ namespace BOA.OneDesigner.Helpers
                 if (propertyDefinition.PropertyType.IsValueType == false)
                 {
                     GetAllCollectionProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
+                }
+            }
+        }
+
+        static void GetAllStringBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
+        {
+            if (typeDefinition == null)
+            {
+                return;
+            }
+
+            foreach (var propertyDefinition in typeDefinition.Properties)
+            {
+                if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
+                {
+                    continue;
+                }
+
+                if (propertyDefinition.PropertyType.FullName == typeof(string).FullName)
+                {
+                    paths.Add(pathPrefix + propertyDefinition.Name);
+                    continue;
+                }
+
+                if (IsCollection(propertyDefinition.PropertyType))
+                {
+                    continue;
+                }
+
+                if (propertyDefinition.PropertyType.IsValueType == false)
+                {
+                    GetAllStringBindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
                 }
             }
         }
