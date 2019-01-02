@@ -60,19 +60,20 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-
             Host.EventBus.Subscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
         }
 
         public void DeAttachToEventBus()
         {
-            _columnsContainer.Children.UnSubscribeFromEventBus();
+           
 
+            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
         }
 
         /// <summary>
@@ -102,12 +103,7 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public void Refresh()
         {
-            if (IsVisible == false)
-            {
-                //UnSubscribeFromEventBus(); // TODO:?? 
-                return;
-            }
-
+           
             _columnsContainer.Children.RemoveAll();
 
             if (BData == null)

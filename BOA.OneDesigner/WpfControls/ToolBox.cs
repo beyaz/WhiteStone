@@ -72,6 +72,7 @@ namespace BOA.OneDesigner.WpfControls
 
             var dataGridInfoWpf = new BDataGridInfoWpf
             {
+                IsInToolbox = true,
                 Host = Host,
                 DataContext = new BDataGrid
                 {
