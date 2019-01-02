@@ -13,9 +13,13 @@ namespace BOA.OneDesigner.WpfControls
         {
             Header = "Tool Box";
 
-            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, Refresh);
+           
 
-            Loaded += (s, e) => { Refresh(); };
+            Loaded += (s, e) =>
+            {
+                Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+                Refresh();
+            };
         }
         #endregion
 
@@ -37,7 +41,7 @@ namespace BOA.OneDesigner.WpfControls
                 IsInToolbox = true,
                 DataContext = new BCard
                 {
-                    TitleInfo = CreateDefaultLabelInfo("Title")
+                    TitleInfo = LabelInfoHelper.CreateNewLabelInfo("? Title ?")
                 }
             };
 
@@ -48,7 +52,7 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = new BInputWpf
             {
                 Host        = Host,
-                DataContext = new BInput {LabelInfo = CreateDefaultLabelInfo(), BindingPath = "?"}
+                DataContext = new BInput {LabelInfo = LabelInfoHelper.CreateNewLabelInfo(), BindingPath = "?"}
             };
 
             Host.DragHelper.MakeDraggable(bInput);
@@ -64,7 +68,7 @@ namespace BOA.OneDesigner.WpfControls
                     {
                         new BDataGridColumnInfo
                         {
-                            Label = CreateDefaultLabelInfo()
+                            Label = LabelInfoHelper.CreateNewLabelInfo()
                         }
                     }
                 }
@@ -79,15 +83,7 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
-        static LabelInfo CreateDefaultLabelInfo(string freeText = null)
-        {
-            return new LabelInfo
-            {
-                IsFreeText    = true,
-                FreeTextValue = freeText ?? "Label",
-                DesignerText  = "Label"
-            };
-        }
+        
         #endregion
     }
 }

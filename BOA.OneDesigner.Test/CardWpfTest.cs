@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.MainForm;
 using BOA.OneDesigner.WpfControls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,35 +14,10 @@ namespace BOA.OneDesigner
     {
         #region Public Methods
         [TestMethod]
-        public void Header()
-        {
-            var bCard = new BCard
-            {
-                TitleInfo = new LabelInfo
-                {
-                    FreeTextValue = "A",
-                    IsFreeText    = true
-                }
-            };
-
-            var cardWpf = new BCardWpf
-            {
-                DataContext = bCard
-            };
-
-            Assert.AreEqual("A", cardWpf._groupBox.Header as string);
-
-            bCard.TitleInfo.FreeTextValue = "B";
-
-            EventBus2.Publish(EventBus2.OnComponentPropertyChanged);
-
-            Assert.AreEqual("B", cardWpf._groupBox.Header as string);
-        }
-
-
-        [TestMethod]
         public void BDataGrid()
         {
+            var host = new Host();
+
             var bDataGrid = new BDataGrid
             {
                 Columns = new List<BDataGridColumnInfo>
@@ -56,10 +33,9 @@ namespace BOA.OneDesigner
                 }
             };
 
-            var bDataGridInfoWpf = new BDataGridInfoWpf
-            {
-                DataContext = bDataGrid
-            };
+
+            var bDataGridInfoWpf = host.Create<BDataGridInfoWpf>(bDataGrid);
+            
             bDataGridInfoWpf.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
 
             var bDataGridColumnWpf = bDataGridInfoWpf.ColumnsCollection[0] as BDataGridColumnWpf;
@@ -68,12 +44,33 @@ namespace BOA.OneDesigner
 
             bDataGrid.Columns[0].Label.FreeTextValue = "B";
 
-            EventBus2.Publish(EventBus2.OnComponentPropertyChanged);
+            host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
 
             bDataGridColumnWpf = bDataGridInfoWpf.ColumnsCollection[0] as BDataGridColumnWpf;
             Assert.AreEqual("B", bDataGridColumnWpf?._label.Text);
         }
 
+        [TestMethod]
+        public void Header()
+        {
+            var host = new Host();
+
+            var bCard = new BCard
+            {
+                TitleInfo = LabelInfoHelper.CreateNewLabelInfo("?")
+            };
+
+            var cardWpf = host.Create<BCardWpf>(bCard);
+            cardWpf.AttachToEventBus();
+
+            Assert.AreEqual("?", cardWpf._groupBox.Header as string);
+
+            bCard.TitleInfo.FreeTextValue = "B";
+
+            host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+
+            Assert.AreEqual("B", cardWpf._groupBox.Header as string);
+        }
         #endregion
     }
 }

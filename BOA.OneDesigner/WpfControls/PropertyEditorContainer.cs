@@ -2,32 +2,32 @@
 using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.PropertyEditors;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public sealed class PropertyEditorContainer : GroupBox,IHostItem
+    public sealed class PropertyEditorContainer : GroupBox, IHostItem
     {
-        
         #region Constructors
         public PropertyEditorContainer()
         {
             Header = "Properties";
 
-            this.Loaded += (s, e) => { AttachToEventBus(); };
-
+            Loaded += (s, e) => { AttachToEventBus(); };
         }
         #endregion
 
+        #region Public Properties
+        public Host Host { get; set; }
+        #endregion
 
+        #region Public Methods
         public void AttachToEventBus()
         {
             Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Refresh);
         }
 
-        #region Public Methods
         public void Refresh()
         {
             Content = null;
@@ -48,14 +48,14 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = DataContext as BInput;
             if (bInput != null)
             {
-                Content = new BInputEditor {DataContext = DataContext};
+                Content = Host.Create<BInputEditor>(DataContext);
                 return;
             }
 
             var bCard = DataContext as BCard;
             if (bCard != null)
             {
-                Content = new BCardEditor {DataContext = DataContext,Host = Host};
+                Content = Host.Create<BCardEditor>(DataContext);
                 return;
             }
 
@@ -67,7 +67,8 @@ namespace BOA.OneDesigner.WpfControls
                     Model = new BDataGridEditorModel
                     {
                         Info = dataGridInfo
-                    }
+                    },
+                    Host = Host
                 };
 
                 editor.DataContext = editor.Model;
@@ -79,7 +80,5 @@ namespace BOA.OneDesigner.WpfControls
             throw new ArgumentException();
         }
         #endregion
-
-        public Host Host { get; set; }
     }
 }

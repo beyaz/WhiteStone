@@ -19,12 +19,16 @@ namespace BOA.OneDesigner.WpfControls
         {
             InitializeComponent();
 
-            EventBus2.Subscribe(EventBus2.OnAfterDropOperation, Refresh);
-            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged, Refresh);
+        
 
             Background = Brushes.Bisque;
 
-            Loaded += (s, e) => { Refresh(); };
+            Loaded += (s, e) =>
+            {
+                Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+                Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+                Refresh();
+            };
         }
         #endregion
 
@@ -65,7 +69,7 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var columnInfo in BData.Columns)
             {
-                var uiElement = new BDataGridColumnWpf(columnInfo);
+                var uiElement = new BDataGridColumnWpf(columnInfo,Host);
 
                 _columnsContainer.Children.Add(uiElement);
             }
@@ -75,8 +79,8 @@ namespace BOA.OneDesigner.WpfControls
         {
             _columnsContainer.Children.UnSubscribeFromEventBus();
 
-            EventBus2.UnSubscribe(EventBus2.OnAfterDropOperation, Refresh);
-            EventBus2.UnSubscribe(EventBus2.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }
         #endregion
 

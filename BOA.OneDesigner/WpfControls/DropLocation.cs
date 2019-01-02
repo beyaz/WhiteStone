@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -17,7 +16,7 @@ namespace BOA.OneDesigner.WpfControls
             MinHeight       = 20;
             MinWidth        = 20;
 
-            Helper.MakeDropLocation(this);
+            Loaded += (s, e) => { new DropLocationHelper(Host).MakeDropLocation(this); };
 
             OnDragLeave();
         }
@@ -40,52 +39,61 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
 
-        static class Helper
-        {
-            #region Public Methods
-            public static void MakeDropLocation(UIElement element)
-            {
-                element.AllowDrop = true;
-
-                element.Drop += OnDrop;
-
-                element.DragEnter += OnDragEnter;
-
-                element.DragLeave += OnDragLeave;
-            }
-            #endregion
-
-            #region Methods
-            static void OnDragEnter(object sender, DragEventArgs e)
-            {
-                if (sender == e.Source)
-                {
-                    (sender as DropLocation)?.OnDragEnter();
-
-                    e.Effects = DragDropEffects.Copy;
-                }
-                else
-                {
-                    e.Effects = DragDropEffects.Move;
-                }
-            }
-
-            static void OnDragLeave(object sender, DragEventArgs e)
-            {
-                (sender as DropLocation)?.OnDragLeave();
-            }
-
-            static void OnDrop(object sender, DragEventArgs e)
-            {
-                var dropLocation = sender as DropLocation;
-
-                dropLocation?.OnDropAction(dropLocation);
-
-                EventBus2.Publish(EventBus2.OnAfterDropOperation);
-            }
-            #endregion
-        }
+       
 
         public Host Host { get; set; }
+    }
+
+
+    class DropLocationHelper
+    {
+        public Host Host { get; set; }
+        public DropLocationHelper(Host host)
+        {
+            Host = host;
+        }
+
+        #region Public Methods
+        public  void MakeDropLocation(UIElement element)
+        {
+            element.AllowDrop = true;
+
+            element.Drop += OnDrop;
+
+            element.DragEnter += OnDragEnter;
+
+            element.DragLeave += OnDragLeave;
+        }
+        #endregion
+
+        #region Methods
+         void OnDragEnter(object sender, DragEventArgs e)
+        {
+            if (sender == e.Source)
+            {
+                (sender as DropLocation)?.OnDragEnter();
+
+                e.Effects = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.Move;
+            }
+        }
+
+         void OnDragLeave(object sender, DragEventArgs e)
+        {
+            (sender as DropLocation)?.OnDragLeave();
+        }
+
+         void OnDrop(object sender, DragEventArgs e)
+        {
+            var dropLocation = sender as DropLocation;
+
+            dropLocation?.OnDropAction(dropLocation);
+
+            Host.EventBus.Publish(EventBus.OnAfterDropOperation);
+        }
+        #endregion
     }
 }

@@ -56,6 +56,10 @@ namespace BOA.OneDesigner.Helpers
 
         public void OnCheckedChanged()
         {
+            if (!IsLoaded)
+            {
+                return;
+            }
             this.RefreshDataContext();
             Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }

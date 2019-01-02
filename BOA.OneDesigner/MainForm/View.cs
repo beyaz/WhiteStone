@@ -11,9 +11,9 @@ namespace BOA.OneDesigner.MainForm
     public class View : WindowBase<Model, Controller>
     {
         #region Fields
+        public PropertyEditorContainer   _propertyEditorContainer;
         public ToolBox                   _toolBox;
         public JsxElementDesignerSurface DesignSurface;
-        public PropertyEditorContainer _propertyEditorContainer;
         #endregion
 
         #region Constructors
@@ -25,10 +25,14 @@ namespace BOA.OneDesigner.MainForm
 
             DesignSurface.VerticalAlignment = VerticalAlignment.Stretch;
 
-            _propertyEditorContainer.Host = 
-            DesignSurface.Host =
-                _toolBox.Host = new Host();
+            _propertyEditorContainer.Host = Host;
+            DesignSurface.Host            = Host;
+            _toolBox.Host                 = Host;
         }
+        #endregion
+
+        #region Public Properties
+        public Host Host { get; set; } = new Host();
         #endregion
 
         #region Public Methods
@@ -54,7 +58,7 @@ namespace BOA.OneDesigner.MainForm
             if (Model?.ScreenInfo?.JsxModel != null)
             {
                 DesignSurface.DataContext = Model.ScreenInfo.JsxModel;
-                EventBus2.Publish(EventBus2.RefreshFromDataContext);
+                Host.EventBus.Publish(EventBus.RefreshFromDataContext);
             }
 
             else if (Model?.ScreenInfo != null && Model.ScreenInfo.JsxModel == null && DesignSurface.DataContext != null)
@@ -64,7 +68,7 @@ namespace BOA.OneDesigner.MainForm
             else
             {
                 DesignSurface.DataContext = null;
-                EventBus2.Publish(EventBus2.RefreshFromDataContext);
+                Host.EventBus.Publish(EventBus.RefreshFromDataContext);
             }
         }
         #endregion

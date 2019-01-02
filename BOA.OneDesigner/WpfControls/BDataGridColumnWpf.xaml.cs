@@ -12,9 +12,10 @@ namespace BOA.OneDesigner.WpfControls
     public partial class BDataGridColumnWpf : IEventBusDisposable,IHostItem
     {
         #region Constructors
-        public BDataGridColumnWpf(BDataGridColumnInfo dataContext)
+        public BDataGridColumnWpf(BDataGridColumnInfo dataContext,Host host)
         {
             DataContext = dataContext;
+            Host = host;
 
             InitializeComponent();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
@@ -18,7 +19,7 @@ namespace BOA.OneDesigner.PropertyEditors
         #endregion
     }
 
-    class BDataGridEditor : StackPanel
+    class BDataGridEditor : StackPanel,IHostItem
     {
         
         #region Fields
@@ -31,7 +32,7 @@ namespace BOA.OneDesigner.PropertyEditors
         public BDataGridEditor()
         {
 
-            EventBus2.Subscribe(EventBus2.OnComponentPropertyChanged,RefreshListBoxItemsSource);
+            
 
             this.LoadJson(@"
 { 
@@ -56,7 +57,7 @@ namespace BOA.OneDesigner.PropertyEditors
             IsVisible:'{Binding "+ nameof(BDataGridEditorModel.RemoveColumnButtonIsVisible)+@",Mode:OneWay}',
 	        Childs:[
 		        {ui:'RequestIntellisenseTextBox', Text:'{Binding "+ Model.AccessPathOf(m=>m.SelectedColumn.BindingPath)+@"}', Label:'Binding Path' },
-		        {ui:'LabelEditor', MarginTop:10, DataContext:'{Binding "+ Model.AccessPathOf(m=>m.SelectedColumn.Label)+@"}'}
+		        {ui:'LabelEditor',Name:'_labelEditor2', MarginTop:10, DataContext:'{Binding "+ Model.AccessPathOf(m=>m.SelectedColumn.Label)+@"}'}
 	        ]
         }
         
@@ -64,9 +65,17 @@ namespace BOA.OneDesigner.PropertyEditors
 }
 
 ");
+
+
+            this.Loaded += (s, e) =>
+            {
+                Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged,RefreshListBoxItemsSource);
+                _labelEditor2.Host = Host;
+            };
         }
         #endregion
 
+        public LabelEditor _labelEditor2;
 
         void RefreshListBoxItemsSource()
         {
@@ -90,7 +99,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
             
 
-            EventBus2.Publish(EventBus2.OnComponentPropertyChanged);
+            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }
         #endregion
 
@@ -113,5 +122,7 @@ namespace BOA.OneDesigner.PropertyEditors
             _labelEditor.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
         }
         #endregion
+
+        public Host Host { get; set; }
     }
 }

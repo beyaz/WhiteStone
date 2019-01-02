@@ -5,6 +5,17 @@ namespace BOA.OneDesigner.Helpers
 {
     static class LabelInfoHelper
     {
+
+        public static LabelInfo CreateNewLabelInfo(string freeText = null)
+        {
+            return new LabelInfo
+            {
+                IsFreeText    = true,
+                FreeTextValue = freeText ?? "?",
+                DesignerText  = "Label"
+            };
+        }
+
         public static string GetDesignerText(this LabelInfo labelInfo)
         {
             if (labelInfo == null)
