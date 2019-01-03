@@ -1,4 +1,5 @@
 ﻿using BOA.Common.Helpers;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace WhiteStone.Helpers.Test
@@ -17,9 +18,12 @@ namespace WhiteStone.Helpers.Test
         public void NameofMethodMust_Return_Full_Property_Path()
         {
             var c = new TestClassForNameof();
-            Assert.AreEqual("C3_Nullable", c.AccessPathOf(x => x.C3_Nullable));
-            Assert.AreEqual("Inner.C3_Nullable", c.AccessPathOf(x => x.Inner.C3_Nullable));
-            Assert.AreEqual("Inner.Inner.Inner.B3", c.AccessPathOf(xu => xu.Inner.Inner.Inner.B3));
+
+            c.AccessPathOf(x => x.C3_Nullable).Should().Be("C3_Nullable");
+
+            c.AccessPathOf(x => x.Inner.C3_Nullable).Should().Be("Inner.C3_Nullable");
+
+            c.AccessPathOf(xu => xu.Inner.Inner.Inner.B3).Should().Be("Inner.Inner.Inner.B3");
         }
         #endregion
 
