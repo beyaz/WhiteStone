@@ -47,17 +47,19 @@ namespace BOAPlugins.VSIntegration.MainForm
 
         public override void OnViewClose()
         {
-            var configuration = SM.Get<Configuration>();
+            var checkInInformationFile = SM.Get<Host>().CheckInInformationFile;
 
-            configuration.SolutionCheckInComments.SetValue(Model.SolutionFilePath,Model.SolutionCheckInComment);
+            var checkInInformation = checkInInformationFile.Load();
 
-            Configuration.SaveToFile();
+            checkInInformation.SolutionCheckInComments.SetValue(Model.SolutionFilePath,Model.SolutionCheckInComment);
+
+            checkInInformationFile.Save(checkInInformation);
         }
 
         public override void OnViewLoaded()
         {
-            var configuration = SM.Get<Configuration>();
-
+            var configuration = SM.Get<Host>().ConfigurationFile.Load();
+            var checkInInformationFile = SM.Get<Host>().CheckInInformationFile;
             
 
             Model = new Model
@@ -67,7 +69,7 @@ namespace BOAPlugins.VSIntegration.MainForm
                 CheckInSolutionIsEnabled = configuration.CheckInSolutionIsEnabled||Environment.UserName == "beyaztas"
             };
 
-            Model.SolutionCheckInComment = configuration.SolutionCheckInComments.TryGetValue(Model.SolutionFilePath,null);
+            Model.SolutionCheckInComment = checkInInformationFile.Load().SolutionCheckInComments.TryGetValue(Model.SolutionFilePath,null);
             
 
             if (string.IsNullOrWhiteSpace(Model.CursorSelectedText))
@@ -87,6 +89,9 @@ namespace BOAPlugins.VSIntegration.MainForm
             Model.ViewShouldBeClose = true;
 
             Process.Start(ConstConfiguration.PluginDirectory);
+
+            Process.Start(SM.Get<Host>().ConfigurationFile.DirectoryPath);
+            
         }
 
         public void RemoveUnusedMessagesInCsCodes()

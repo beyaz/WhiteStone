@@ -17,8 +17,7 @@ namespace BOAPlugins.Utility
         #endregion
 
         #region Public Properties
-        public static string ConfigurationJsonFilePath => PluginDirectory + "BOAPlugins.VSIntegration.Configuration.json";
-        public static string PluginDirectory           => Path.GetDirectoryName(typeof(ConstConfiguration).Assembly.Location) + Path.DirectorySeparatorChar;
+        public static string PluginDirectory => Path.GetDirectoryName(typeof(ConstConfiguration).Assembly.Location) + Path.DirectorySeparatorChar;
         #endregion
     }
 }

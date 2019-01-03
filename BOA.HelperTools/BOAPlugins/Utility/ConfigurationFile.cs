@@ -1,30 +1,26 @@
-using System.IO;
-using BOA.Common.Helpers;
-
 namespace BOAPlugins.Utility
 {
-    public class ConfigurationFile
+    public class ConfigurationFile : FileBase
     {
-        public static void LoadFromFile()
-        {
-            var configurationAsString = File.ReadAllText(ConstConfiguration.ConfigurationJsonFilePath);
-
-            SM.Set(JsonHelper.Deserialize<Configuration>(configurationAsString));
-        }
-
-        public static void SaveToFile()
-        {
-            File.WriteAllText(ConstConfiguration.ConfigurationJsonFilePath, JsonHelper.Serialize(SM.Get<Configuration>()));
-        }
-
-        public void Save(Configuration configuration)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        #region Public Methods
         public Configuration Load()
         {
-            throw new System.NotImplementedException();
+            return base.Load<Configuration>();
         }
+        #endregion
+
+        #region Methods
+        protected override string GetFilePath()
+        {
+            if (DirectoryPath == null)
+            {
+                DirectoryPath = ConstConfiguration.PluginDirectory;
+            }
+
+            const string FileName = "BOAPlugins.VSIntegration.Configuration.json";
+
+            return DirectoryPath + FileName;
+        }
+        #endregion
     }
 }

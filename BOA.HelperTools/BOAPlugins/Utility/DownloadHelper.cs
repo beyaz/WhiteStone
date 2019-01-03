@@ -1,30 +1,31 @@
 using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
-using WhiteStone;
+using BOAPlugins.VSIntegration;
 
 namespace BOAPlugins.Utility
 {
     public class DownloadHelper
     {
         #region Public Methods
-        public static void CheckDeepEndsDownloaded()
+        public static void CheckDeepEndsDownloaded(Host host)
         {
-            var configuration = SM.Get<Configuration>();
+            var configuration = host.ConfigurationFile.Load();
+
             if (configuration.DeepEndsAssembliesDownloaded)
             {
                 return;
             }
-          string DeepEndsDirectory = ConstConfiguration.PluginDirectory + "DeepEnds" + Path.DirectorySeparatorChar;
+
+            var DeepEndsDirectory = ConstConfiguration.PluginDirectory + "DeepEnds" + Path.DirectorySeparatorChar;
+
             DownloadDeepEnds(DeepEndsDirectory, configuration.ServerFiles);
 
             configuration.DeepEndsAssembliesDownloaded = true;
 
-            Configuration.SaveToFile();
+            host.ConfigurationFile.Save(configuration);
 
-            Configuration.LoadFromFile();
-
-            Log.Push(nameof(CheckDeepEndsDownloaded));
+            Log.Push("CheckDeepEndsDownloaded");
         }
 
         public static void EnsureNewtonsoftJson()
@@ -51,7 +52,7 @@ namespace BOAPlugins.Utility
                 return;
             }
 
-         const string DllDataSourceDirectory = "https://github.com/beyaz/WhiteStone/blob/master/BOA.HelperTools/BOAPlugins.VSIntegration/DeepEnds/";
+            const string DllDataSourceDirectory = "https://github.com/beyaz/WhiteStone/blob/master/BOA.HelperTools/BOAPlugins.VSIntegration/DeepEnds/";
 
             var url = DllDataSourceDirectory + fileName + "?raw=true";
 

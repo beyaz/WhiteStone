@@ -16,7 +16,7 @@ namespace BOAPlugins.VSIntegration
         #endregion
 
         #region Properties
-        internal static Configuration Configuration => SM.Get<Configuration>();
+        
 
         internal static string      WhiteStoneBinDirectory => ConstConfiguration.PluginDirectory + "bin" + Path.DirectorySeparatorChar;
         
@@ -40,6 +40,10 @@ namespace BOAPlugins.VSIntegration
 
             _isInitialized = true;
 
+            var host = new Host();
+
+            SM.Set(host);
+
             if (Debugger.IsAttached)
             {
                 AppDomain.CurrentDomain.AddAssemblySearchDirectory(@"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOAPlugins.VSIntegration\bin\Debug\");
@@ -52,9 +56,9 @@ namespace BOAPlugins.VSIntegration
 
             DownloadHelper.EnsureNewtonsoftJson();
 
-            Configuration.LoadFromFile();
+            
 
-            Task.Run(() => DownloadHelper.CheckDeepEndsDownloaded());
+            Task.Run(() => DownloadHelper.CheckDeepEndsDownloaded(host));
         }
         #endregion
     }
