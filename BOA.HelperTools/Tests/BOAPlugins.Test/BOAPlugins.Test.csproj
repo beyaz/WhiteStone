@@ -6,7 +6,7 @@
     <ProjectGuid>{3BA245FB-B218-441D-BEFB-17CC7BD71454}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BOAPlugins.Test</RootNamespace>
+    <RootNamespace>BOAPlugins</RootNamespace>
     <AssemblyName>BOAPlugins.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -103,6 +103,7 @@
     <Compile Include="SearchProcedure\HandlerTest.cs" />
     <Compile Include="SearchProcedure\SpaceCaseInsensitiveComparatorTest.cs" />
     <Compile Include="TypescriptModelGeneration\SolutionInfoTest.cs" />
+    <Compile Include="Utility\ConfigurationFileTest.cs" />
     <Compile Include="ViewClassDependency\GraphCreatorTest.cs" />
     <Compile Include="ViewClassDependency\HandlerTest.cs" />
   </ItemGroup>

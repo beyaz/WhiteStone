@@ -8,7 +8,6 @@ using BOAPlugins.Messaging;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 using BOAPlugins.ViewClassDependency;
-using WhiteStone;
 using WhiteStone.UI.Container.Mvc;
 using Handler = BOAPlugins.TypescriptModelGeneration.Handler;
 

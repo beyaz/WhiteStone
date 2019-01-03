@@ -91,6 +91,7 @@
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
     <Compile Include="TypescriptModelGeneration\GenerateFilePathInfo.cs" />
+    <Compile Include="Utility\ConfigurationFile.cs" />
     <Compile Include="VSIntegration\FormAssistantProjectInitializer.cs" />
     <Compile Include="Messaging\DataSource.cs" />
     <Compile Include="DocumentFile\Handler.cs" />
