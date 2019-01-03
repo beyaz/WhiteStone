@@ -7,6 +7,7 @@ using BOA.CodeGeneration.SQLParser;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WhiteStone.Helpers;
 
@@ -38,24 +39,24 @@ namespace BOACodeGeneratorTest.Generators
             var testData = new CustomExecution
             {
                 DotNetMethodName = "GetKMHLimitByDebitCard",
-                ReturnValueType = "BOA.Types.Kernel.DebitCard.DebitCardKMHInfoContract".LoadBOAType(),
+                ReturnValueType  = "BOA.Types.Kernel.DebitCard.DebitCardKMHInfoContract".LoadBOAType(),
                 SqlProcedureName = "sel_KMHLimitByDebitCard",
-                ExecutionType = ExecutionType.ExecuteReader,
+                ExecutionType    = ExecutionType.ExecuteReader,
 
-                Comment = "Aloha"
+                Comment                   = "Aloha",
+                ProcedureDefinitionScript = sel_KMHLimitByDebitCard,
+                DatabaseEnumName          = "Boa",
+                ProcedureFullName         = "DBT.sel_KMHLimitByDebitCard",
+                Database                  = DbLayerPrep
             };
-            testData.ProcedureDefinitionScript = sel_KMHLimitByDebitCard;
-            testData.DatabaseEnumName = "Boa";
-            testData.ProcedureFullName = "DBT.sel_KMHLimitByDebitCard";
 
-            testData.Database = DbLayerPrep;
 
             var instance = new CustomExecutionCs(null, testData);
 
-
             var cs = instance.Generate();
 
-            Assert.IsTrue(StringHelper.IsEqualAsData(ExpectedOutputForExecuteReader, cs, GlobalizationUtility.EnglishCulture));
+            StringHelper.IsEqualAsData(ExpectedOutputForExecuteReader, cs, GlobalizationUtility.EnglishCulture)
+                        .Should().BeTrue();
         }
 
         [TestMethod]

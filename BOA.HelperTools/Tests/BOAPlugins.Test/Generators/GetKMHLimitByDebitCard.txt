@@ -16,12 +16,12 @@
                 return returnObject.Add(sp);
             }
 
-            var listOfDataContract = new List<DebitCardKMHInfoContract>();
-
             var reader = sp.Value;
+
+            var listOfDataContract = new List<DebitCardKMHInfoContract>();
             while (reader.Read())
             {
-                var dataContract = new DebitCardKMHInfoContract();
+var                 dataContract = new DebitCardKMHInfoContract();
                 dataContract.KMHPackageId = SQLDBHelper.GetInt32Value(reader["KMHPackageId"]);
                 dataContract.MinimumBalance = SQLDBHelper.GetDecimalValue(reader["MinimumBalance"]);
                 dataContract.KMHLimit = SQLDBHelper.GetDecimalValue(reader["KMHLimit"]);

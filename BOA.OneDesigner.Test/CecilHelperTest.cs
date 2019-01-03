@@ -13,9 +13,9 @@ namespace BOA.OneDesigner
         {
             var bindProperties = CecilHelper.GetAllBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ForeignDebitClearingRequest");
 
-            Assert.IsTrue(bindProperties.Contains("request.FileId"));
+            Assert.IsTrue(bindProperties.Contains("FileId"));
 
-            Assert.IsTrue(bindProperties.Contains("request.Account.IBAN"));
+            Assert.IsTrue(bindProperties.Contains("Account.IBAN"));
         }
         [TestMethod]
         public void GetAllBindPropertiesOfCollection()

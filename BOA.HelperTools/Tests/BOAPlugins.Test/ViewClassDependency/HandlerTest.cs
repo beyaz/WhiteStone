@@ -1,5 +1,4 @@
-﻿using System.IO;
-using BOAPlugins.ViewClassDependency;
+﻿using BOAPlugins.ViewClassDependency;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOAPlugins.Test.ViewClassDependency
@@ -11,26 +10,6 @@ namespace BOAPlugins.Test.ViewClassDependency
     public class HandlerTest
     {
         #region Public Methods
-        [TestMethod]
-        public void SetDirectionLeftToRight_ShouldAddNodeIfNotExists()
-        {
-            const string filePath = "ViewClassDependency\\SetDirectionLeftToRight\\ShouldAddNodeIfNotExists.xml";
-
-            var expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<DirectedGraph xmlns=""http://schemas.microsoft.com/vs/2009/dgml"">
-  <Properties>
-    <Property Id=""GraphDirection"" DataType=""Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation"" />
-    <Property Id=""Layout"" DataType=""System.String"" />
-  </Properties>
-</DirectedGraph>";
-
-            DgmlHelper.SetDirectionLeftToRight(filePath);
-            Assert.AreEqual(expected, File.ReadAllText(filePath));
-
-            DgmlHelper.SetDirectionLeftToRight(filePath);
-            Assert.AreEqual(expected, File.ReadAllText(filePath));
-        }
-
         /// <summary>
         ///     Finds the test.
         /// </summary>

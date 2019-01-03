@@ -18,17 +18,7 @@ namespace BOA.Tools.Translator
             Assert.AreEqual("MusicLesson", result);
         }
 
-        [TestMethod]
-        public void TranslateEnglishToGerman()
-        {
-            Assert.AreEqual("Gerettet", GoogleTranslator.TranslateEnglishToGerman("Saved"));
-
-            Assert.AreEqual("__\"Gerettet\"__", GoogleTranslator.ReplaceEmbeddedEnglishStringsWithGermanVersions("__\"Saved\"__"));
-
-
-
-            // TranslateEnglishToGerman_TranslateExistingFile(@"d:\temp\A.txt");
-        }
+       
 
         void TranslateEnglishToGerman_TranslateExistingFile(string path)
         {
@@ -45,13 +35,7 @@ namespace BOA.Tools.Translator
 
 
 
-        [TestMethod]
-        public void TranslateTurkishToEnglish()
-        {
-            var result = GoogleTranslator.TranslateTurkishToEnglish("Çalışana hakkını teri kurumadan önce verin.");
-
-            Assert.AreEqual("Give the employee the right to work before it is dried.", result);
-        }
+       
 
       
         #endregion
