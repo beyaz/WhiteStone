@@ -19,7 +19,7 @@ namespace BOA.CodeGeneration.Util
             TFSAccessForBOA.CheckoutFile(path);
 
             // ACT  + ASSERT
-            TFSAccessForBOA.CheckInFile(path, "INC292087# auto check in.");
+            //TFSAccessForBOA.CheckInFile(path, "INC292087# auto check in.");
         }
 
         [TestMethod]
