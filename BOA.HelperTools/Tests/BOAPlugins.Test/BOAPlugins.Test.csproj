@@ -103,7 +103,6 @@
     <Compile Include="SearchProcedure\HandlerTest.cs" />
     <Compile Include="SearchProcedure\SpaceCaseInsensitiveComparatorTest.cs" />
     <Compile Include="TypescriptModelGeneration\SolutionInfoTest.cs" />
-    <Compile Include="Utility\ConfigurationFileTest.cs" />
     <Compile Include="ViewClassDependency\GraphCreatorTest.cs" />
     <Compile Include="ViewClassDependency\HandlerTest.cs" />
   </ItemGroup>
@@ -141,7 +140,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Utility\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

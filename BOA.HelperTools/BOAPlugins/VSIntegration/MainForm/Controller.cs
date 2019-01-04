@@ -66,7 +66,7 @@ namespace BOAPlugins.VSIntegration.MainForm
             {
                 CursorSelectedText     = VisualStudio.CursorSelectedText,
                 SolutionFilePath       = VisualStudio.GetSolutionFilePath(),
-                CheckInSolutionIsEnabled = configuration.CheckInSolutionIsEnabled||Environment.UserName == "beyaztas"
+                CheckInSolutionIsEnabled = Environment.UserName == "beyaztas" || configuration.CheckInSolutionIsEnabled
             };
 
             Model.SolutionCheckInComment = checkInInformationFile.Load().SolutionCheckInComments.TryGetValue(Model.SolutionFilePath,null);
@@ -90,7 +90,7 @@ namespace BOAPlugins.VSIntegration.MainForm
 
             Process.Start(ConstConfiguration.PluginDirectory);
 
-            Process.Start(SM.Get<Host>().ConfigurationFile.DirectoryPath);
+            Process.Start(ConstConfiguration.BOAPluginDirectory);
             
         }
 

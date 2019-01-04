@@ -1,12 +1,13 @@
-﻿using BOAPlugins.Utility;
+﻿using BOA.Services;
+using BOAPlugins.Utility;
 
 namespace BOAPlugins.VSIntegration
 {
     public class Host
     {
         #region Public Properties
-        public ConfigurationFile ConfigurationFile { get; set; } = new ConfigurationFile();
-        public CheckInInformationFile CheckInInformationFile { get; set; } = new CheckInInformationFile();
+        public JsonFile<CheckInInformation> CheckInInformationFile { get; set; } = new JsonFile<CheckInInformation>(ConstConfiguration.BOAPluginDirectory + "CheckInInformation.json");
+        public JsonFile<Configuration>      ConfigurationFile      { get; set; } = new JsonFile<Configuration>(ConstConfiguration.PluginDirectory + "BOAPlugins.VSIntegration.Configuration.json");
         #endregion
     }
 }

@@ -10,22 +10,33 @@ namespace BOAPlugins.Utility
         #region Public Methods
         public static void CheckDeepEndsDownloaded(Host host)
         {
-            var configuration = host.ConfigurationFile.Load();
-
-            if (configuration.DeepEndsAssembliesDownloaded)
+            var serverFiles = new[]
             {
-                return;
-            }
+                "Newtonsoft.Json.dll",
+                "ClangSharp.dll",
+                "DeepEnds.Console.exe",
+                "DeepEnds.Console.exe.config",
+                "DeepEnds.Core.dll",
+                "DeepEnds.Cpp.dll",
+                "DeepEnds.CSharp.dll",
+                "DeepEnds.Decompile.dll",
+                "DeepEnds.DGML.dll",
+                "DeepEnds.DoxygenXml.dll",
+                "DeepEnds.Reporting.dll",
+                "DeepEnds.VBasic.dll",
+                "libclang.dll",
+                "Microsoft.CodeAnalysis.CSharp.dll",
+                "Microsoft.CodeAnalysis.dll",
+                "Microsoft.CodeAnalysis.VisualBasic.dll",
+                "Microsoft.VisualStudio.Diagnostics.PerformanceProvider.dll",
+                "Microsoft.VisualStudio.GraphModel.dll",
+                "Microsoft.VisualStudio.OLE.Interop.dll",
+                "Mono.Cecil.dll",
+                "System.Collections.Immutable.dll",
+                "System.Reflection.Metadata.dll"
+            };
 
-            var DeepEndsDirectory = ConstConfiguration.PluginDirectory + "DeepEnds" + Path.DirectorySeparatorChar;
-
-            DownloadDeepEnds(DeepEndsDirectory, configuration.ServerFiles);
-
-            configuration.DeepEndsAssembliesDownloaded = true;
-
-            host.ConfigurationFile.Save(configuration);
-
-            Log.Push("CheckDeepEndsDownloaded");
+            DownloadDeepEnds(ConstConfiguration.BOAPluginDirectory_DeepEnds, serverFiles);
         }
 
         public static void EnsureNewtonsoftJson()
