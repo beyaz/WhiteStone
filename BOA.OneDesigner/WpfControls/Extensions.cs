@@ -1,16 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
     static class Extensions
     {
-
-       
-
-
         #region Public Methods
         public static T FindParent<T>(this DependencyObject child) where T : DependencyObject
         {
@@ -31,6 +26,11 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             return FindParent<T>(parentObject);
+        }
+
+        public static void RaiseLoadedEvent(this FrameworkElement element)
+        {
+            element.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
         }
 
         public static void RefreshDataContext(this FrameworkElement element)

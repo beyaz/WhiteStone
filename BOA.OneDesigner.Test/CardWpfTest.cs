@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -14,7 +13,7 @@ namespace BOA.OneDesigner
     {
         #region Public Methods
         [TestMethod]
-        public void BDataGrid()
+        public void Should_update_data_grid_column_when_property_changed()
         {
             var host = new Host();
 
@@ -35,22 +34,23 @@ namespace BOA.OneDesigner
 
             var bDataGridInfoWpf = host.Create<BDataGridInfoWpf>(bDataGrid);
 
-            bDataGridInfoWpf.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
+            bDataGridInfoWpf.RaiseLoadedEvent();
 
-            var bDataGridColumnWpf = bDataGridInfoWpf.ColumnsCollection[0] as BDataGridColumnWpf;
+            var bDataGridColumnWpf = (BDataGridColumnWpf) bDataGridInfoWpf.ColumnsCollection[0];
 
-            bDataGridColumnWpf?._label.Text.Should().Be("A");
+            bDataGridColumnWpf._label.Text.Should().Be("A");
 
             bDataGrid.Columns[0].Label.FreeTextValue = "B";
 
             host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
 
-            bDataGridColumnWpf = bDataGridInfoWpf.ColumnsCollection[0] as BDataGridColumnWpf;
-            bDataGridColumnWpf?._label.Text.Should().Be("B");
+            bDataGridColumnWpf = (BDataGridColumnWpf) bDataGridInfoWpf.ColumnsCollection[0];
+
+            bDataGridColumnWpf._label.Text.Should().Be("B");
         }
 
         [TestMethod]
-        public void Header()
+        public void Should_update_when_card_header_property_changed()
         {
             var host = new Host();
 
@@ -60,15 +60,18 @@ namespace BOA.OneDesigner
             };
 
             var cardWpf = host.Create<BCardWpf>(bCard);
-            cardWpf.AttachToEventBus();
 
-            (cardWpf._groupBox.Header as string).Should().Be("?");
+            cardWpf.RaiseLoadedEvent();
 
+            cardWpf._groupBox.Header.Should().Be("?");
+
+            // ACT
             bCard.TitleInfo.FreeTextValue = "B";
 
             host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
 
-            (cardWpf._groupBox.Header as string).Should().Be("B");
+            // ASSERT
+            cardWpf._groupBox.Header.Should().Be("B");
         }
         #endregion
     }
