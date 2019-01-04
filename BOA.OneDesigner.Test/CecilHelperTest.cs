@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using BOA.OneDesigner.Helpers;
+﻿using BOA.OneDesigner.Helpers;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.OneDesigner
@@ -13,18 +13,17 @@ namespace BOA.OneDesigner
         {
             var bindProperties = CecilHelper.GetAllBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ForeignDebitClearingRequest");
 
-            Assert.IsTrue(bindProperties.Contains("FileId"));
-
-            Assert.IsTrue(bindProperties.Contains("Account.IBAN"));
+            bindProperties.Should().Contain("FileId");
+            bindProperties.Should().Contain("Account.IBAN");
         }
+
         [TestMethod]
         public void GetAllBindPropertiesOfCollection()
         {
-            var bindProperties = CecilHelper.GetAllBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ChargebackListFormRequest","DataSource.DataGridRecords");
+            var bindProperties = CecilHelper.GetAllBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ChargebackListFormRequest", "DataSource.DataGridRecords");
 
-            Assert.IsTrue(bindProperties.Contains("Foreign.KBBusinessKey"));
+            bindProperties.Should().Contain("Foreign.KBBusinessKey");
         }
-        
         #endregion
     }
 }

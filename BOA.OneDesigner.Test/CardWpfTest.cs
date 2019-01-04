@@ -3,8 +3,8 @@ using System.Windows;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.MainForm;
 using BOA.OneDesigner.WpfControls;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.OneDesigner
@@ -33,21 +33,20 @@ namespace BOA.OneDesigner
                 }
             };
 
-
             var bDataGridInfoWpf = host.Create<BDataGridInfoWpf>(bDataGrid);
-            
+
             bDataGridInfoWpf.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
 
             var bDataGridColumnWpf = bDataGridInfoWpf.ColumnsCollection[0] as BDataGridColumnWpf;
 
-            Assert.AreEqual("A", bDataGridColumnWpf?._label.Text);
+            bDataGridColumnWpf?._label.Text.Should().Be("A");
 
             bDataGrid.Columns[0].Label.FreeTextValue = "B";
 
             host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
 
             bDataGridColumnWpf = bDataGridInfoWpf.ColumnsCollection[0] as BDataGridColumnWpf;
-            Assert.AreEqual("B", bDataGridColumnWpf?._label.Text);
+            bDataGridColumnWpf?._label.Text.Should().Be("B");
         }
 
         [TestMethod]
@@ -63,13 +62,13 @@ namespace BOA.OneDesigner
             var cardWpf = host.Create<BCardWpf>(bCard);
             cardWpf.AttachToEventBus();
 
-            Assert.AreEqual("?", cardWpf._groupBox.Header as string);
+            (cardWpf._groupBox.Header as string).Should().Be("?");
 
             bCard.TitleInfo.FreeTextValue = "B";
 
             host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
 
-            Assert.AreEqual("B", cardWpf._groupBox.Header as string);
+            (cardWpf._groupBox.Header as string).Should().Be("B");
         }
         #endregion
     }
