@@ -100,12 +100,7 @@
 
 
 
-      <Button guid="guidCommand1PackageCmdSet" id="cmdViewTypeDependency" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_EXPLORE" />
-        <Strings>
-          <ButtonText>View Type Dependency</ButtonText>
-        </Strings>
-      </Button>
+     
       
 
     </Buttons>
@@ -148,7 +143,7 @@
 
       
 
-      <IDSymbol name="cmdViewTypeDependency" value="0x0900" />
+      
       <IDSymbol name="TopLevelMenu" value="0x1021"/>
     </GuidSymbol>
 

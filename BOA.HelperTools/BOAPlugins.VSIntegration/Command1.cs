@@ -1,11 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Design;
-using System.Windows;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOAPlugins.SearchProcedure;
 using BOAPlugins.Utility;
-using BOAPlugins.ViewClassDependency;
 using BOAPlugins.VSIntegration;
 using BOAPlugins.VSIntegration.MainForm;
 using Microsoft.VisualStudio.Shell;
@@ -26,7 +24,6 @@ namespace BOASpSearch
         public const int CommandId12 = 12;
         public const int CommandId13 = 13;
 
-        public const int CommandId9 = 0x0900;
         #endregion
 
         #region Static Fields
@@ -66,7 +63,6 @@ namespace BOASpSearch
             }
 
             commandService.AddCommand(new MenuCommand(SearchProcedure, new CommandID(CommandSet, CommandId)));
-            commandService.AddCommand(new MenuCommand(ViewTypeDependency, new CommandID(CommandSet, CommandId9)));
             commandService.AddCommand(new MenuCommand(DocumentFile, new CommandID(CommandSet, CommandId12)));
             commandService.AddCommand(new MenuCommand(OpenMainForm, new CommandID(CommandSet, CommandId13)));
 
@@ -139,23 +135,7 @@ namespace BOASpSearch
             Communication.Send(input);
         }
 
-        void ViewTypeDependency(object sender, EventArgs e)
-        {
-            var data = new ViewTypeDependencyData
-            {
-                CsprojFilePath = VisualStudio.ActiveProjectCsprojFilePath
-            };
-
-            BOAPlugins.ViewClassDependency.ViewTypeDependency.Execute(data);
-
-            if (data.ErrorMessage != null)
-            {
-                MessageBox.Show(data.ErrorMessage);
-                return;
-            }
-
-            VisualStudio.OpenFile(data.GraphFilePath);
-        }
+        
         #endregion
     }
 
