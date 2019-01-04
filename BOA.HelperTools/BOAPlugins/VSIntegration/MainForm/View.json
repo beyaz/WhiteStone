@@ -53,6 +53,13 @@
       },
       {
         "ui": "Button",
+        "Text": "View type dependency of selected project",
+        "Click": "this.FireAction('ViewTypeDependencyOfSelectedProject')",
+        "IsVisible": "{Binding ViewTypeDependencyOfSelectedProjectIsVisible}",
+        "Margin": 10
+      },
+      {
+        "ui": "Button",
         "Text": "Open Plugin Directory",
         "Click": "this.FireAction('OpenPluginDirectory')",
         "Margin": 10

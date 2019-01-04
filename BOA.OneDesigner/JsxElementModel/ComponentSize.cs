@@ -10,3 +10,20 @@
         #endregion
     }
 }
+
+
+
+/*
+ BCard
+ - Background_should_be_white_and_should_border_radius
+ if(layoutprop:12)
+    if small + small 
+	    _ _ _ olur sondaki boş olur
+		
+ if(layoutprop:12)
+    if medium + xsmall + xsmall
+	    __ _ _ 
+		
+		
+card default layout prop is 5
+ */

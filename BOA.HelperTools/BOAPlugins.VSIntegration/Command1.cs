@@ -1,8 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
 using System.Windows;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
@@ -12,7 +9,6 @@ using BOAPlugins.ViewClassDependency;
 using BOAPlugins.VSIntegration;
 using BOAPlugins.VSIntegration.MainForm;
 using Microsoft.VisualStudio.Shell;
-using WhiteStone.IO;
 
 namespace BOASpSearch
 {
@@ -145,46 +141,24 @@ namespace BOASpSearch
 
         void ViewTypeDependency(object sender, EventArgs e)
         {
-            var filePath = VisualStudio.ActiveProjectCsprojFilePath;
-            if (filePath == null)
+            var data = new ViewTypeDependencyData
             {
+                CsprojFilePath = VisualStudio.ActiveProjectCsprojFilePath
+            };
+
+            BOAPlugins.ViewClassDependency.ViewTypeDependency.Execute(data);
+
+            if (data.ErrorMessage != null)
+            {
+                MessageBox.Show(data.ErrorMessage);
                 return;
             }
 
-            var graphFilePath = filePath + ".dgml";
-
-            var FS = new FileService();
-            FS.TryDelete(graphFilePath);
-
-            var arguments = string.Format(@"graph={1} source={0} {0}", filePath, graphFilePath);
-            Process.Start(ConstConfiguration.BOAPluginDirectory_DeepEnds + "DeepEnds.Console.exe", arguments);
-
-            var count = 0;
-            // wait for process finih
-            while (true)
-            {
-                if (!FS.Exists(graphFilePath))
-                {
-                    Thread.Sleep(300);
-                    continue;
-                }
-
-                var fi = new FileInfo(graphFilePath);
-                if (fi.Length > 0)
-                {
-                    DgmlHelper.SetDirectionLeftToRight(graphFilePath);
-                    VisualStudio.OpenFile(graphFilePath);
-                    return;
-                }
-
-                Thread.Sleep(300);
-                if (count++ > 50)
-                {
-                    MessageBox.Show("EvaluationTimeout");
-                    return;
-                }
-            }
+            VisualStudio.OpenFile(data.GraphFilePath);
         }
         #endregion
     }
+
+
+
 }

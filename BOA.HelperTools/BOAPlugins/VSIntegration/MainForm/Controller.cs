@@ -51,26 +51,24 @@ namespace BOAPlugins.VSIntegration.MainForm
 
             var checkInInformation = checkInInformationFile.Load();
 
-            checkInInformation.SolutionCheckInComments.SetValue(Model.SolutionFilePath,Model.SolutionCheckInComment);
+            checkInInformation.SolutionCheckInComments.SetValue(Model.SolutionFilePath, Model.SolutionCheckInComment);
 
             checkInInformationFile.Save(checkInInformation);
         }
 
         public override void OnViewLoaded()
         {
-            var configuration = SM.Get<Host>().ConfigurationFile.Load();
+            var configuration          = SM.Get<Host>().ConfigurationFile.Load();
             var checkInInformationFile = SM.Get<Host>().CheckInInformationFile;
-            
 
             Model = new Model
             {
-                CursorSelectedText     = VisualStudio.CursorSelectedText,
-                SolutionFilePath       = VisualStudio.GetSolutionFilePath(),
+                CursorSelectedText       = VisualStudio.CursorSelectedText,
+                SolutionFilePath         = VisualStudio.GetSolutionFilePath(),
                 CheckInSolutionIsEnabled = Environment.UserName == "beyaztas" || configuration.CheckInSolutionIsEnabled
             };
 
-            Model.SolutionCheckInComment = checkInInformationFile.Load().SolutionCheckInComments.TryGetValue(Model.SolutionFilePath,null);
-            
+            Model.SolutionCheckInComment = checkInInformationFile.Load().SolutionCheckInComments.TryGetValue(Model.SolutionFilePath, null);
 
             if (string.IsNullOrWhiteSpace(Model.CursorSelectedText))
             {
@@ -82,6 +80,12 @@ namespace BOAPlugins.VSIntegration.MainForm
 
                 Model.MethodCallGraphButtonText = "Call Graph -> " + Model.CursorSelectedText;
             }
+
+            if (VisualStudio.ActiveProjectCsprojFilePath != null)
+            {
+                Model.ViewTypeDependencyOfSelectedProjectIsVisible = true;
+            }
+            
         }
 
         public void OpenPluginDirectory()
@@ -91,7 +95,6 @@ namespace BOAPlugins.VSIntegration.MainForm
             Process.Start(ConstConfiguration.PluginDirectory);
 
             Process.Start(ConstConfiguration.BOAPluginDirectory);
-            
         }
 
         public void RemoveUnusedMessagesInCsCodes()
@@ -215,6 +218,25 @@ namespace BOAPlugins.VSIntegration.MainForm
             Model.ViewShouldBeClose = true;
 
             VisualStudio.OpenFile(input.OutputFileFullPath);
+        }
+
+        public void ViewTypeDependencyOfSelectedProject()
+        {
+            var data = new ViewTypeDependencyData
+            {
+                CsprojFilePath = VisualStudio.ActiveProjectCsprojFilePath
+            };
+
+            ViewTypeDependency.Execute(data);
+
+            if (data.ErrorMessage != null)
+            {
+                Model.ViewMessage            = data.ErrorMessage;
+                Model.ViewMessageTypeIsError = true;
+                return;
+            }
+
+            VisualStudio.OpenFile(data.GraphFilePath);
         }
         #endregion
     }
