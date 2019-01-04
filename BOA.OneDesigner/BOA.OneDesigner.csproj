@@ -92,6 +92,7 @@
     <Compile Include="AppModel\IDatabase.cs" />
     <Compile Include="AppModel\IHostItem.cs" />
     <Compile Include="AppModel\JsonFile.cs" />
+    <Compile Include="JsxElementModel\ComponentSize.cs" />
     <Compile Include="JsxElementModel\Container.cs" />
     <Compile Include="JsxElementModel\DataGridColumn.cs" />
     <Compile Include="JsxElementModel\LabelInfo.cs" />

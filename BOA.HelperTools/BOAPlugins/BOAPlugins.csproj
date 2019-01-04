@@ -126,7 +126,7 @@
     <Compile Include="ViewClassDependency\Handler.cs" />
     <Compile Include="ViewClassDependency\Model.cs" />
     <Compile Include="VSIntegration\Communication.cs" />
-    <Compile Include="VSIntegration\Host.cs" />
+    <Compile Include="Utility\Host.cs" />
     <Compile Include="VSIntegration\IVisualStudioLayer.cs" />
     <Compile Include="VSIntegration\MainForm\Controller.cs" />
     <Compile Include="VSIntegration\MainForm\Model.cs" />

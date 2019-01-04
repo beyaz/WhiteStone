@@ -1,7 +1,6 @@
 ﻿using BOA.Services;
-using BOAPlugins.Utility;
 
-namespace BOAPlugins.VSIntegration
+namespace BOAPlugins.Utility
 {
     public class Host
     {
