@@ -84,7 +84,7 @@
                     {
                       "ui": "Surface",
                       "Name": "DesignSurface",
-                      "Height": 700
+                      "vAlignIsCenter": true
                     }
                   ],
                   "gravity": 8
