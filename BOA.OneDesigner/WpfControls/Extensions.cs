@@ -40,7 +40,6 @@ namespace BOA.OneDesigner.WpfControls
 
         public static void RemoveAll(this UIElementCollection elementCollection)
         {
-            elementCollection.UnSubscribeFromEventBus();
 
             elementCollection.Clear();
         }
@@ -54,13 +53,7 @@ namespace BOA.OneDesigner.WpfControls
             return items;
         }
 
-        public static void UnSubscribeFromEventBus(this UIElementCollection elementCollection)
-        {
-            foreach (var element in elementCollection)
-            {
-                (element as IEventBusDisposable)?.DeAttachToEventBus();
-            }
-        }
+        
         #endregion
     }
 }

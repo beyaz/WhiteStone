@@ -10,7 +10,7 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     Interaction logic for BDataGridColumnWpf.xaml
     /// </summary>
-    public partial class BDataGridColumnWpf : IEventBusDisposable, IHostItem
+    public partial class BDataGridColumnWpf :  IHostItem
     {
 
         #region Constructors

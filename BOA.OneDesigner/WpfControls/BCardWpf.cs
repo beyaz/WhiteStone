@@ -10,7 +10,7 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     The b card WPF
     /// </summary>
-    public class BCardWpf : Grid, IEventBusDisposable, IHostItem
+    public class BCardWpf : Grid, IHostItem
     {
 
         public UIElement BChildrenAt(int index)
@@ -170,7 +170,6 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public void DeAttachToEventBus()
         {
-            ChildrenContainer.Children.UnSubscribeFromEventBus();
 
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);

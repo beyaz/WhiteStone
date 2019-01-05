@@ -7,7 +7,7 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class JsxElementDesignerSurface : StackPanel, IEventBusDisposable, IHostItem
+    public class JsxElementDesignerSurface : StackPanel,  IHostItem
     {
         #region Constructors
         public JsxElementDesignerSurface()

@@ -6,7 +6,7 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardSectionWpf : WrapPanel, IEventBusDisposable, IHostItem
+    public class BCardSectionWpf : WrapPanel, IHostItem
     {
         #region Constructors
         public BCardSectionWpf()

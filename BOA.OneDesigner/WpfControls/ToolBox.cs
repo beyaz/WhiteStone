@@ -52,7 +52,7 @@ namespace BOA.OneDesigner.WpfControls
                 IsInToolbox = true,
                 DataContext = new BCard
                 {
-                    TitleInfo = LabelInfoHelper.CreateNewLabelInfo("? Title ?")
+                    TitleInfo = LabelInfoHelper.CreateNewLabelInfo("Card")
                 }
             };
 
@@ -63,7 +63,7 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = new BInputWpf
             {
                 Host        = Host,
-                DataContext = new BInput {LabelInfo = LabelInfoHelper.CreateNewLabelInfo(), BindingPath = "?"}
+                DataContext = new BInput {LabelInfo = LabelInfoHelper.CreateNewLabelInfo("Input"), BindingPath = "?"}
             };
 
             Host.DragHelper.MakeDraggable(bInput);
@@ -72,10 +72,12 @@ namespace BOA.OneDesigner.WpfControls
 
             var dataGridInfoWpf = new BDataGridInfoWpf
             {
+               
                 IsInToolbox = true,
                 Host = Host,
                 DataContext = new BDataGrid
                 {
+                    DataSourceBindingPath = "Data Grid",
                     Columns = new List<BDataGridColumnInfo>
                     {
                         new BDataGridColumnInfo

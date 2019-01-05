@@ -6,7 +6,7 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BInputWpf : Grid, IEventBusDisposable, IHostItem
+    public class BInputWpf : Grid,  IHostItem
     {
         #region Fields
         public TextBox   _bindingPath;
