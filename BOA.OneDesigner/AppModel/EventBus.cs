@@ -8,6 +8,9 @@ namespace BOA.OneDesigner.AppModel
 {
     public sealed class EventBus
     {
+        public const string ComponentDeleted= nameof(ComponentDeleted);
+
+
         #region Constants
         public const string OnAfterDropOperation       = nameof(OnAfterDropOperation);
         public const string OnComponentPropertyChanged = nameof(OnComponentPropertyChanged);

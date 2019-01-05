@@ -6,9 +6,12 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
 {
-    class BInputEditor : StackPanel,IHostItem
+    class BInputEditor : StackPanel, IHostItem
     {
+        #region Fields
         public LabelEditor _labelEditor;
+        #endregion
+
         #region Constructors
         public BInputEditor()
         {
@@ -18,16 +21,32 @@ namespace BOA.OneDesigner.PropertyEditors
     Margin:10,
 	Childs:[
 		{ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BInput.BindingPath) + @"}', Label:'Binding Path' },
-		{ui:'LabelEditor', Name:'"+nameof(_labelEditor)+@"', DataContext:'{Binding " + nameof(BInput.LabelInfo) + @"}'}
+		{ui:'LabelEditor', Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(BInput.LabelInfo) + @"}'},
+        {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }
 
 ");
 
-            this.Loaded += (s, e) => { _labelEditor.Host = Host; };
+            Loaded += (s, e) => { _labelEditor.Host = Host; };
         }
         #endregion
 
+        #region Public Properties
         public Host Host { get; set; }
+        #endregion
+
+        #region Properties
+        BInput Model => (BInput) DataContext;
+        #endregion
+
+        #region Public Methods
+        public void Delete()
+        {
+            Model.Container.RemoveItem(Model);
+
+            Host.EventBus.Publish(EventBus.ComponentDeleted);
+        }
+        #endregion
     }
 }

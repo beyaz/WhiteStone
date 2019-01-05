@@ -27,10 +27,12 @@ namespace BOA.OneDesigner.WpfControls
         public void AttachToEventBus()
         {
             Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Refresh);
+            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
         }
         public void DeAttachToEventBus()
         {
             Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
         }
 
         public void Refresh()

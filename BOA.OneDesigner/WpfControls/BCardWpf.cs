@@ -11,6 +11,14 @@ namespace BOA.OneDesigner.WpfControls
     /// </summary>
     public class BCardWpf : Grid, IEventBusDisposable, IHostItem
     {
+
+        public UIElement BChildrenAt(int index)
+        {
+            return ChildrenContainer.Children[index];
+        }
+
+        public int BChildrenCount => ChildrenContainer.Children.Count;
+
         #region Fields
         /// <summary>
         ///     The group box
@@ -43,8 +51,9 @@ namespace BOA.OneDesigner.WpfControls
 }");
 
             Loaded += (s, e) => { AttachToEventBus(); };
-            Loaded += (s, e) => { Refresh(); };
             Unloaded += (s, e) => { DeAttachToEventBus(); };
+
+            Loaded += (s, e) => { Refresh(); };
         }
 
         
@@ -81,6 +90,7 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
         }
 
@@ -162,6 +172,7 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
         }
         #endregion

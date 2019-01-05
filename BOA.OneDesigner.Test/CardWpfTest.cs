@@ -13,6 +13,39 @@ namespace BOA.OneDesigner
     {
         #region Public Methods
         [TestMethod]
+        public void Should_remove_when_item_property_changed()
+        {
+            var host = new Host();
+
+            var bCard = new BCard
+            {
+                Items = new List<BField>
+                {
+                    new BInput
+                    {
+                        BindingPath = "A"
+                    },
+                    new BInput
+                    {
+                        BindingPath = "B"
+                    }
+                }
+            };
+
+            var cardWpf = host.Create<BCardWpf>(bCard);
+
+            cardWpf.RaiseLoadedEvent();
+            cardWpf.BChildrenCount.Should().Be(2);
+
+            // ACT
+            bCard.Items.RemoveAt(1);
+            host.EventBus.Publish(EventBus.ComponentDeleted);
+
+            // ASSERT
+            cardWpf.BChildrenCount.Should().Be(1);
+        }
+
+        [TestMethod]
         public void Should_update_data_grid_column_when_property_changed()
         {
             var host = new Host();
