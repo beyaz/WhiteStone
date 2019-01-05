@@ -1,15 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BCardSectionWpf : WrapPanel, IHostItem
+    public class DivAsCardContainerWpf : WrapPanel, IHostItem
     {
         #region Constructors
-        public BCardSectionWpf()
+        public DivAsCardContainerWpf()
         {
           
             Loaded += (s, e) => { AttachToEventBus(); };
@@ -34,7 +33,7 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Properties
-        BCardSection Data => (BCardSection) DataContext;
+        DivAsCardContainer Model => (DivAsCardContainer) DataContext;
         #endregion
 
         #region Public Methods
@@ -49,7 +48,7 @@ namespace BOA.OneDesigner.WpfControls
             {
                 bInput.Data.RemoveFromParent();
 
-                Data.InsertItem(insertIndex, bInput.Data);
+                Model.InsertItem(insertIndex, bInput.Data);
 
                 return;
             }
@@ -151,12 +150,12 @@ namespace BOA.OneDesigner.WpfControls
 
             Children.RemoveAll();
 
-            if (Data == null)
+            if (Model == null)
             {
                 return;
             }
 
-            foreach (var bCard in Data.Items)
+            foreach (var bCard in Model.Items)
             {
                 var uiElement = Host.Create<BCardWpf>(bCard);
                 uiElement.Margin = new Thickness(10);

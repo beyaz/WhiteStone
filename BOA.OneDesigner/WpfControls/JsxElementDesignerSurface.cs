@@ -77,16 +77,16 @@ namespace BOA.OneDesigner.WpfControls
 
         void OnDrop(DropLocation dropLocation)
         {
-            var bInput = Host.DraggingElement as BCardWpf;
-            if (bInput != null)
+            var cardWpf = Host.DraggingElement as BCardWpf;
+            if (cardWpf != null)
             {
-                bInput.Data.RemoveFromParent();
+                cardWpf.Data.RemoveFromParent();
 
-                DataContext = new BCardSection
+                DataContext = new DivAsCardContainer
                 {
                     Items = new List<BCard>
                     {
-                        bInput.Data
+                        cardWpf.Data
                     }
                 };
 
@@ -105,11 +105,11 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var cardSection = DataContext as BCardSection;
+            var cardSection = DataContext as DivAsCardContainer;
 
             if (cardSection != null)
             {
-                var bCardSection = Host.Create<BCardSectionWpf>(cardSection);
+                var bCardSection = Host.Create<DivAsCardContainerWpf>(cardSection);
 
                 Children.Add(bCardSection);
                 return;

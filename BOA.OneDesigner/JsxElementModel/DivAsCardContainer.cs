@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace BOA.OneDesigner.JsxElementModel
 {
     [Serializable]
-    public class BCardSection:CardContainer
+    public class DivAsCardContainer:CardContainer
     {
         #region Public Properties
         public List<BCard> Items { get; set; } = new List<BCard>();
@@ -34,15 +34,6 @@ namespace BOA.OneDesigner.JsxElementModel
 
             field.Container = null;
         }
-        #endregion
-    }
-
-    [Serializable]
-    public abstract class CardContainer
-    {
-        #region Public Methods
-        public abstract void InsertItem(int   index, BCard item);
-        public abstract void RemoveItem(BCard card);
         #endregion
     }
 }
