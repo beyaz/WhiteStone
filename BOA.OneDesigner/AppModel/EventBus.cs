@@ -15,6 +15,7 @@ namespace BOA.OneDesigner.AppModel
         public const string OnAfterDropOperation       = nameof(OnAfterDropOperation);
         public const string OnComponentPropertyChanged = nameof(OnComponentPropertyChanged);
         public const string OnDragElementSelected      = nameof(OnDragElementSelected);
+        public const string BeforeDragElementSelected = nameof(BeforeDragElementSelected);
         public const string OnDragStarted              = nameof(OnDragStarted);
         public const string RefreshFromDataContext     = nameof(RefreshFromDataContext);
         public const string DataGridColumnRemoved = nameof(DataGridColumnRemoved);

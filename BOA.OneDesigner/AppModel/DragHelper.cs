@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using BOA.OneDesigner.WpfControls;
+
+// using BOA.OneDesigner.WpfControls;
 
 namespace BOA.OneDesigner.AppModel
 {
@@ -47,6 +48,7 @@ namespace BOA.OneDesigner.AppModel
             {
                 return;
             }
+
             var mousePosition = e.GetPosition(null);
             var diff          = Host.DraggingElementStartPoint - mousePosition;
 
@@ -64,13 +66,9 @@ namespace BOA.OneDesigner.AppModel
         {
             Host.DraggingElementStartPoint = e.GetPosition(null);
             Host.DraggingElement           = (UIElement) sender;
-            Host.LastSelectedUIElement = (UIElement) sender;
+            Host.LastSelectedUIElement     = (UIElement) sender;
 
-
-            var column = Host.LastSelectedUIElement as BDataGridColumnWpf;
-
-            Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath = column?.BDataGridInfoWpf?.BData?.DataSourceBindingPath;
-            
+            EventBus.Publish(EventBus.BeforeDragElementSelected);
 
             EventBus.Publish(EventBus.OnDragElementSelected);
         }

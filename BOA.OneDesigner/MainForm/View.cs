@@ -55,6 +55,11 @@ namespace BOA.OneDesigner.MainForm
                 return;
             }
 
+            if (DesignSurface.DataContext == Model)
+            {
+                DesignSurface.DataContext = null;
+            }
+
             if (Model.ScreenInfo.JsxModel != null && DesignSurface.DataContext == Model.ScreenInfo.JsxModel)
             {
                 return;

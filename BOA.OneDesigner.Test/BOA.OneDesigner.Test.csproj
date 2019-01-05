@@ -111,6 +111,7 @@
     <Compile Include="CardWpfTest.cs" />
     <Compile Include="CecilHelperTest.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="JsxElementDesignerSurfaceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

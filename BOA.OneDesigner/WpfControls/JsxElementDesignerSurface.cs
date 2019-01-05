@@ -30,6 +30,7 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.Subscribe(EventBus.BeforeDragElementSelected, BeforeDragElementSelected);
         }
 
         public void DeAttachToEventBus()
@@ -37,12 +38,27 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.BeforeDragElementSelected, BeforeDragElementSelected);
         }
         #endregion
+
+        void BeforeDragElementSelected()
+        {
+            var column = Host.LastSelectedUIElement as BDataGridColumnWpf;
+
+            Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath = column?.BDataGridInfoWpf?.BData?.DataSourceBindingPath;
+
+        }
 
         #region Methods
         void EnterDropLocationMode()
         {
+
+            if (!(Host.DraggingElement is BCardWpf))
+            {
+                return;
+            }
+
             if (Children.Count == 0)
             {
                 var dropLocation = new DropLocation
@@ -90,6 +106,7 @@ namespace BOA.OneDesigner.WpfControls
                     }
                 };
 
+                Refresh();
                 return;
             }
 
