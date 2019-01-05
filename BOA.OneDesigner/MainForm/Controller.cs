@@ -72,7 +72,12 @@ namespace BOA.OneDesigner.MainForm
 
         public void Save()
         {
-
+            if (Model.ScreenInfo.JsxModel == null)
+            {
+                Model.ViewMessage            = "Design boş olamaz.";
+                Model.ViewMessageTypeIsError = true;
+                return;
+            }
             Database.Save(Model.ScreenInfo);
 
             Model.ViewMessage = "Kaydedildi.";

@@ -2,7 +2,6 @@
 using System.Windows;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container.Mvc;
@@ -41,6 +40,40 @@ namespace BOA.OneDesigner.MainForm
         #endregion
 
         #region Public Methods
+        public static void Refresh(Host host, Model model, JsxElementDesignerSurface surface)
+        {
+            if (model == null)
+            {
+                return;
+            }
+
+            if (surface.DataContext == model)
+            {
+                surface.DataContext = null;
+            }
+
+            if (model.ScreenInfo?.JsxModel != null && surface.DataContext == model.ScreenInfo.JsxModel)
+            {
+                return;
+            }
+
+            if (model.ScreenInfo?.JsxModel != null)
+            {
+                surface.DataContext = model.ScreenInfo.JsxModel;
+                host.EventBus.Publish(EventBus.RefreshFromDataContext);
+            }
+
+            else if (model.ScreenInfo != null && model.ScreenInfo.JsxModel == null && surface.DataContext != null)
+            {
+                model.ScreenInfo.JsxModel = surface.DataContext;
+            }
+            else
+            {
+                surface.DataContext = null;
+                host.EventBus.Publish(EventBus.RefreshFromDataContext);
+            }
+        }
+
         public override void FireAction(string controllerPublicMethodName)
         {
             base.FireAction(controllerPublicMethodName);
@@ -50,36 +83,7 @@ namespace BOA.OneDesigner.MainForm
 
         public void Refresh()
         {
-            if (Model == null)
-            {
-                return;
-            }
-
-            if (DesignSurface.DataContext == Model)
-            {
-                DesignSurface.DataContext = null;
-            }
-
-            if (Model.ScreenInfo.JsxModel != null && DesignSurface.DataContext == Model.ScreenInfo.JsxModel)
-            {
-                return;
-            }
-
-            if (Model?.ScreenInfo?.JsxModel != null)
-            {
-                DesignSurface.DataContext = Model.ScreenInfo.JsxModel;
-                Host.EventBus.Publish(EventBus.RefreshFromDataContext);
-            }
-
-            else if (Model?.ScreenInfo != null && Model.ScreenInfo.JsxModel == null && DesignSurface.DataContext != null)
-            {
-                Model.ScreenInfo.JsxModel = DesignSurface.DataContext;
-            }
-            else
-            {
-                DesignSurface.DataContext = null;
-                Host.EventBus.Publish(EventBus.RefreshFromDataContext);
-            }
+            Refresh(Host, Model, DesignSurface);
         }
         #endregion
     }

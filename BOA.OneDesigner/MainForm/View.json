@@ -83,8 +83,7 @@
                   "rows": [
                     {
                       "ui": "Surface",
-                      "Name": "DesignSurface",
-                      "vAlignIsCenter": true
+                      "Name": "DesignSurface"
                     }
                   ],
                   "gravity": 8

@@ -1,11 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class DivAsCardContainerWpf : WrapPanel, IHostItem
+    public class DivAsCardContainerWpf : StackPanel, IHostItem
     {
         #region Constructors
         public DivAsCardContainerWpf()
