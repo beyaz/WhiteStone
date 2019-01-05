@@ -8,6 +8,15 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class BCardEditor:StackPanel,IHostItem
     {
+        BCard Model => (BCard) DataContext;
+
+        public void Delete()
+        {
+            Model.Container.RemoveItem(Model);
+
+            Host.EventBus.Publish(EventBus.ComponentDeleted);
+        }
+
        
         public LabelEditor _labelEditor;
 
@@ -19,7 +28,8 @@ namespace BOA.OneDesigner.PropertyEditors
 { 
     Margin:10,
 	Childs:[  
-		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding "+nameof(BCard.TitleInfo)+@"}'}
+		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding "+nameof(BCard.TitleInfo)+@"}'},
+        {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }
 

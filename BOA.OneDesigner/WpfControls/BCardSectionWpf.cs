@@ -23,6 +23,7 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
         }
 
         #endregion
@@ -61,6 +62,7 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
         }
         #endregion
 

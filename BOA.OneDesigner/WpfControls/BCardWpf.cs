@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
@@ -37,6 +38,8 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public BCardWpf()
         {
+            Background = Brushes.White;
+
             this.LoadJson(@"
 {
 	rows:
@@ -104,9 +107,9 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = Host.DraggingElement as BInputWpf;
             if (bInput != null)
             {
-                bInput.Data.RemoveFromParent();
+                bInput.Model.RemoveFromParent();
 
-                Data.InsertItem(insertIndex, bInput.Data);
+                Data.InsertItem(insertIndex, bInput.Model);
 
                 return;
             }

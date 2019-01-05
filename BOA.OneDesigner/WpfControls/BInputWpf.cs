@@ -37,7 +37,7 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Properties
-        public BInput Data => (BInput) DataContext;
+        public BInput Model => (BInput) DataContext;
 
         public Host Host { get; set; }
         #endregion

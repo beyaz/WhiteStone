@@ -10,12 +10,12 @@
              Margin = "10,0,0,0" >
     <StackPanel MinWidth = "50" MinHeight = "50" >
 
-        <TextBlock HorizontalAlignment = "Center"
+        <TextBlock HorizontalAlignment = "Center" Padding="5"
                    x:Name = "_label"
                    Text = "{Binding LabelText,Mode=OneWay}"
                    FontWeight = "Bold" Foreground = "White" />
 
-        <TextBlock HorizontalAlignment = "Center"
+        <TextBlock HorizontalAlignment = "Center" Padding="5"
                    x:Name = "_bindingPath"
                    Text = "{Binding BindingPath,Mode=OneWay}"
                    Foreground = "White" FontWeight = "Light" />

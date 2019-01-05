@@ -103,6 +103,11 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public void Refresh()
         {
+            if (IsInToolbox)
+            {
+                return;
+            }
+
            
             _columnsContainer.Children.RemoveAll();
 
