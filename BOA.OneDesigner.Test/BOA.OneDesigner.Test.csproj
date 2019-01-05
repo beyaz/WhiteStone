@@ -39,7 +39,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="FluentAssertions">
+    <Reference Include="FluentAssertions">
       <HintPath>$(SolutionDir)packages\FluentAssertions.5.5.3\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
@@ -107,6 +107,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BDataGridInfoWpfTest.cs" />
     <Compile Include="CardWpfTest.cs" />
     <Compile Include="CecilHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
