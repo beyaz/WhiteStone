@@ -10,6 +10,7 @@ namespace BOA.OneDesigner.PropertyEditors
     {
         #region Fields
         public LabelEditor _labelEditor;
+        public SizeEditor _sizeEditor;
         #endregion
 
         #region Constructors
@@ -22,13 +23,19 @@ namespace BOA.OneDesigner.PropertyEditors
 	Childs:[
 		{ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BInput.BindingPath) + @"}', Label:'Binding Path' },
 		{ui:'LabelEditor', Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(BInput.LabelInfo) + @"}'},
+        {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BInput.SizeInfo) + @"}'},
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }
 
 ");
 
-            Loaded += (s, e) => { _labelEditor.Host = Host; };
+            Loaded += (s, e) =>
+            {
+                _labelEditor.Host = Host;
+                _sizeEditor.Host = Host;
+
+            };
         }
         #endregion
 

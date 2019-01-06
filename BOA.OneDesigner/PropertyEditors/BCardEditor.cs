@@ -22,7 +22,7 @@ namespace BOA.OneDesigner.PropertyEditors
     Margin:10,
 	Childs:[  
 		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(BCard.TitleInfo) + @"}'},
-        {ui:'SizeEditor',Name:'_sizeEditor',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BCard.SizeInfo) + @"}'},
+        {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BCard.SizeInfo) + @"}'},
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }

@@ -7,6 +7,8 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BInput : BField
     {
+        public SizeInfo SizeInfo { get; set; } = new SizeInfo();
+
         #region Public Properties
         public new string Label => LabelInfo.GetDesignerText();
 

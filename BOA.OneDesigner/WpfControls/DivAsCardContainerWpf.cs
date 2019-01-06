@@ -39,6 +39,7 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
             Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }
 
         void DeAttachToEventBus()
@@ -47,6 +48,7 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
             Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }
 
         void EnterDropLocationMode()
@@ -157,12 +159,44 @@ namespace BOA.OneDesigner.WpfControls
 
                 Host.DragHelper.MakeDraggable(cardWpf);
 
-                var grid = WpfHelper.CreateGridWithFourColumn();
-                cardWpf.SetValue(Grid.RowSpanProperty,2);
+                
+                var grid = WpfHelper.CreateGridWith12Column();
                 grid.Children.Add(cardWpf);
+
+                cardWpf.SetValue(Grid.ColumnSpanProperty,EvaluateColumnSpan(bCard.SizeInfo));    
+                
 
                 Children.Add(grid);
             }
+        }
+
+        static int EvaluateColumnSpan(SizeInfo sizeInfo)
+        {
+            if (sizeInfo == null)
+            {
+                return 6;
+            }
+            if (sizeInfo.IsLarge)
+            {
+                return 12;
+            }
+
+            if (sizeInfo.IsMedium)
+            {
+                return 6;
+            }
+            if (sizeInfo.IsSmall)
+            {
+                return 4;
+            }
+            if (sizeInfo.IsExtraSmall)
+            {
+                return 3;
+            }
+
+            return 6;
+
+
         }
         #endregion
     }
