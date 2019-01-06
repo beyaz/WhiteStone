@@ -152,6 +152,7 @@ namespace BOA.OneDesigner.WpfControls
                 bCard.Container = Model;
 
                 var uiElement = Host.Create<BCardWpf>(bCard);
+
                 uiElement.Margin = new Thickness(10);
 
                 Host.DragHelper.MakeDraggable(uiElement);
