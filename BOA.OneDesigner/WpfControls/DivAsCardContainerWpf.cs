@@ -157,6 +157,8 @@ namespace BOA.OneDesigner.WpfControls
 
                 Host.DragHelper.MakeDraggable(cardWpf);
 
+
+
                 Children.Add(cardWpf);
             }
         }
