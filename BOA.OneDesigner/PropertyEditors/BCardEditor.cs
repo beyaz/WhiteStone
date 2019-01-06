@@ -8,7 +8,7 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class BCardEditor:StackPanel,IHostItem
     {
-        BCard Model => (BCard) DataContext;
+        public BCard Model => (BCard) DataContext;
 
         public void Delete()
         {

@@ -7,7 +7,7 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class JsxElementDesignerSurface : StackPanel,  IHostItem
+    public class JsxElementDesignerSurface : StackPanel, IHostItem
     {
         #region Constructors
         public JsxElementDesignerSurface()
@@ -22,6 +22,8 @@ namespace BOA.OneDesigner.WpfControls
 
         #region Public Properties
         public Host Host { get; set; }
+
+        public DivAsCardContainer Model => (DivAsCardContainer) DataContext;
         #endregion
 
         #region Public Methods
@@ -42,18 +44,16 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
 
+        #region Methods
         void BeforeDragElementSelected()
         {
             var column = Host.LastSelectedUIElement as BDataGridColumnWpf;
 
             Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath = column?.BDataGridInfoWpf?.Model?.DataSourceBindingPath;
-
         }
 
-        #region Methods
         void EnterDropLocationMode()
         {
-
             if (!(Host.DraggingElement is BCardWpf))
             {
                 return;
@@ -93,16 +93,17 @@ namespace BOA.OneDesigner.WpfControls
 
         void OnDrop(DropLocation dropLocation)
         {
-            var cardWpf = Host.DraggingElement as BCardWpf;
-            if (cardWpf != null)
+            var card = (Host.DraggingElement as BCardWpf)?.Data;
+            if (card != null)
             {
-                cardWpf.Data.RemoveFromParent();
+                card.RemoveFromParent();
+                card.Container = Model;
 
                 DataContext = new DivAsCardContainer
                 {
                     Items = new List<BCard>
                     {
-                        cardWpf.Data
+                        card
                     }
                 };
 
@@ -122,17 +123,9 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var cardSection = DataContext as DivAsCardContainer;
+            var bCardSection = Host.Create<DivAsCardContainerWpf>(Model);
 
-            if (cardSection != null)
-            {
-                var bCardSection = Host.Create<DivAsCardContainerWpf>(cardSection);
-
-                Children.Add(bCardSection);
-                return;
-            }
-
-            throw Error.InvalidOperation();
+            Children.Add(bCardSection);
         }
         #endregion
     }

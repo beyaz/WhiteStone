@@ -158,6 +158,8 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var bCard in Model.Items)
             {
+                bCard.Container = Model;
+
                 var uiElement = Host.Create<BCardWpf>(bCard);
                 uiElement.Margin = new Thickness(10);
 
