@@ -110,6 +110,7 @@
     <Compile Include="BDataGridInfoWpfTest.cs" />
     <Compile Include="CardWpfTest.cs" />
     <Compile Include="CecilHelperTest.cs" />
+    <Compile Include="DataGridWpfTest.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="InsertHelperTest.cs" />
     <Compile Include="JsxElementDesignerSurfaceTest.cs" />
