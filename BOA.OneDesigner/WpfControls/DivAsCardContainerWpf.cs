@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -11,59 +10,16 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         public DivAsCardContainerWpf()
         {
-          
-            Loaded += (s, e) => { AttachToEventBus(); };
-            Loaded += (s, e) => { Refresh(); };
+            Loaded   += (s, e) => { AttachToEventBus(); };
             Unloaded += (s, e) => { DeAttachToEventBus(); };
+            Loaded   += (s, e) => { Refresh(); };
         }
-
-
-        public void AttachToEventBus()
-        {
-            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
-        }
-
         #endregion
 
         #region Public Properties
-        public Host Host                      { get; set; }
-        public bool IsEnteredDropLocationMode { get; set; }
-        #endregion
-
-        #region Properties
-        DivAsCardContainer Model => (DivAsCardContainer) DataContext;
-        #endregion
-
-        #region Public Methods
-        public void OnDrop(DropLocation dropLocation)
-        {
-            // Surface.ExitDropLocationMode();
-
-            var insertIndex = dropLocation.TargetLocationIndex;
-
-            var bInput = Host.DraggingElement as BCardWpf;
-            if (bInput != null)
-            {
-                bInput.Data.RemoveFromParent();
-
-                Model.InsertItem(insertIndex, bInput.Data);
-
-                return;
-            }
-
-            throw Error.InvalidOperation();
-        }
-
-        public void DeAttachToEventBus()
-        {
-            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
-        }
+        public Host               Host                      { get; set; }
+        public bool               IsEnteredDropLocationMode { get; set; }
+        public DivAsCardContainer Model                     => (DivAsCardContainer) DataContext;
         #endregion
 
         #region Methods
@@ -75,6 +31,22 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             return false;
+        }
+
+        void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
+        }
+
+        void DeAttachToEventBus()
+        {
+            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
         }
 
         void EnterDropLocationMode()
@@ -143,6 +115,25 @@ namespace BOA.OneDesigner.WpfControls
 
                 Children.Add(control);
             }
+        }
+
+        void OnDrop(DropLocation dropLocation)
+        {
+            // Surface.ExitDropLocationMode();
+
+            var insertIndex = dropLocation.TargetLocationIndex;
+
+            var bInput = Host.DraggingElement as BCardWpf;
+            if (bInput != null)
+            {
+                bInput.Data.RemoveFromParent();
+
+                Model.InsertItem(insertIndex, bInput.Data);
+
+                return;
+            }
+
+            throw Error.InvalidOperation();
         }
 
         void Refresh()
