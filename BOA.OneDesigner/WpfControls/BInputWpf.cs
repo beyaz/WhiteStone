@@ -6,7 +6,12 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class BInputWpf : Grid,  IHostItem
+
+    public interface ISupportSizeInfo
+    {
+        SizeInfo SizeInfo { get; }
+    }
+    public class BInputWpf : Grid,  IHostItem,ISupportSizeInfo
     {
         #region Fields
         public TextBox   _bindingPath;
@@ -38,6 +43,8 @@ namespace BOA.OneDesigner.WpfControls
 
         #region Public Properties
         public BInput Model => (BInput) DataContext;
+
+        public SizeInfo SizeInfo => Model?.SizeInfo;
 
         public Host Host { get; set; }
         #endregion
