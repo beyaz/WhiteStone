@@ -92,6 +92,7 @@
     <Compile Include="AppModel\IDatabase.cs" />
     <Compile Include="AppModel\IHostItem.cs" />
     <Compile Include="AppModel\JsonFile.cs" />
+    <Compile Include="Helpers\SizeEditor.cs" />
     <Compile Include="JsxElementModel\ComponentSize.cs" />
     <Compile Include="JsxElementModel\Container.cs" />
     <Compile Include="JsxElementModel\DataGridColumn.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="JsxElementModel\LabelInfo.cs" />
     <Compile Include="Helpers\LabelInfoHelper.cs" />
     <Compile Include="JsxElementModel\ScreenInfo.cs" />
+    <Compile Include="JsxElementModel\SizeInfo.cs" />
     <Compile Include="PropertyEditors\BCardEditor.cs" />
     <Compile Include="PropertyEditors\BDataGridColumnInfoEditor.cs" />
     <Compile Include="WpfControls\BDataGridColumnWpf.xaml.cs">

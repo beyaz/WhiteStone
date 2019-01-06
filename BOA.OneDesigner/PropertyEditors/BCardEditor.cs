@@ -6,40 +6,49 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
 {
-    class BCardEditor:StackPanel,IHostItem
+    class BCardEditor : StackPanel, IHostItem
     {
-        public BCard Model => (BCard) DataContext;
-
-        public void Delete()
-        {
-            Model.Container.RemoveItem(Model);
-
-            Host.EventBus.Publish(EventBus.ComponentDeleted);
-        }
-
-       
+        #region Fields
         public LabelEditor _labelEditor;
+        public SizeEditor  _sizeEditor;
+        #endregion
 
+        #region Constructors
         public BCardEditor()
         {
-            
             this.LoadJson(@"
 
 { 
     Margin:10,
 	Childs:[  
-		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding "+nameof(BCard.TitleInfo)+@"}'},
+		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(BCard.TitleInfo) + @"}'},
+        {ui:'SizeEditor',Name:'_sizeEditor',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BCard.SizeInfo) + @"}'},
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }
 
 ");
 
-            this.Loaded += (s, e) => { _labelEditor.Host = Host; };
-
-
+            Loaded += (s, e) =>
+            {
+                _labelEditor.Host = Host;
+                _sizeEditor.Host  = Host;
+            };
         }
+        #endregion
 
-        public Host Host { get; set; }
+        #region Public Properties
+        public Host  Host  { get; set; }
+        public BCard Model => (BCard) DataContext;
+        #endregion
+
+        #region Public Methods
+        public void Delete()
+        {
+            Model.Container.RemoveItem(Model);
+
+            Host.EventBus.Publish(EventBus.ComponentDeleted);
+        }
+        #endregion
     }
 }

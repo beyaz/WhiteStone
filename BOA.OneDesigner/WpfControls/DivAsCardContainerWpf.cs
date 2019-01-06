@@ -126,9 +126,9 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = Host.DraggingElement as BCardWpf;
             if (bInput != null)
             {
-                bInput.Data.RemoveFromParent();
+                bInput.Model.RemoveFromParent();
 
-                Model.InsertItem(insertIndex, bInput.Data);
+                Model.InsertItem(insertIndex, bInput.Model);
 
                 return;
             }
@@ -157,9 +157,11 @@ namespace BOA.OneDesigner.WpfControls
 
                 Host.DragHelper.MakeDraggable(cardWpf);
 
+                var grid = WpfHelper.CreateGridWithFourColumn();
+                cardWpf.SetValue(Grid.RowSpanProperty,2);
+                grid.Children.Add(cardWpf);
 
-
-                Children.Add(cardWpf);
+                Children.Add(grid);
             }
         }
         #endregion

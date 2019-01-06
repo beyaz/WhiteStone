@@ -93,7 +93,7 @@ namespace BOA.OneDesigner.WpfControls
 
         void OnDrop(DropLocation dropLocation)
         {
-            var card = (Host.DraggingElement as BCardWpf)?.Data;
+            var card = (Host.DraggingElement as BCardWpf)?.Model;
             if (card != null)
             {
                 card.RemoveFromParent();

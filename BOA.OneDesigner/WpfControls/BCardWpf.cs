@@ -66,7 +66,7 @@ namespace BOA.OneDesigner.WpfControls
         /// <summary>
         ///     Gets the data.
         /// </summary>
-        public BCard Data => (BCard) DataContext;
+        public BCard Model => (BCard) DataContext;
 
         /// <summary>
         ///     Gets or sets the host.
@@ -109,7 +109,7 @@ namespace BOA.OneDesigner.WpfControls
             {
                 bInput.Model.RemoveFromParent();
 
-                Data.InsertItem(insertIndex, bInput.Model);
+                Model.InsertItem(insertIndex, bInput.Model);
 
                 return;
             }
@@ -119,7 +119,7 @@ namespace BOA.OneDesigner.WpfControls
             {
                 dataGridInfoWpf.Model.RemoveFromParent();
 
-                Data.InsertItem(insertIndex, dataGridInfoWpf.Model);
+                Model.InsertItem(insertIndex, dataGridInfoWpf.Model);
 
                 return;
             }
@@ -134,12 +134,12 @@ namespace BOA.OneDesigner.WpfControls
         {
             ChildrenContainer.Children.RemoveAll();
 
-            if (Data == null)
+            if (Model == null)
             {
                 return;
             }
 
-            foreach (var bField in Data.Items)
+            foreach (var bField in Model.Items)
             {
                 if (bField is BInput)
                 {

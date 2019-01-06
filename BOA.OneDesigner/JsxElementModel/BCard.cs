@@ -7,6 +7,8 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BCard : Container
     {
+        public SizeInfo SizeInfo { get; set; } = new SizeInfo();
+
         #region Public Properties
         public CardContainer Container { get; set; }
         public List<BField>  Items     { get; set; } = new List<BField>();

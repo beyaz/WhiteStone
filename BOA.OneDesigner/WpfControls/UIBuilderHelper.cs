@@ -15,6 +15,7 @@ namespace BOA.OneDesigner.WpfControls
             Builder.RegisterElementCreation("RequestIntellisenseTextBox", typeof(RequestIntellisenseTextBox));
             Builder.RegisterElementCreation("MessagingIntellisenseTextBox", typeof(MessagingIntellisenseTextBox));
             Builder.RegisterElementCreation("LabelEditor", typeof(LabelEditor));
+            Builder.RegisterElementCreation("SizeEditor", typeof(SizeEditor));
             Builder.RegisterElementCreation("BDataGridEditor", typeof(BDataGridEditor));
             Builder.RegisterElementCreation("BInputEditor", typeof(BInputEditor));
         }
