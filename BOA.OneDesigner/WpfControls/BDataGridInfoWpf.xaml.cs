@@ -33,7 +33,7 @@ namespace BOA.OneDesigner.WpfControls
         /// <summary>
         ///     Gets the data.
         /// </summary>
-        public BDataGrid BData => (BDataGrid) DataContext;
+        public BDataGrid Model => (BDataGrid) DataContext;
 
         public UIElementCollection ColumnsCollection => _columnsContainer.Children;
 
@@ -83,14 +83,18 @@ namespace BOA.OneDesigner.WpfControls
         {
             var insertIndex = dropLocation.TargetLocationIndex;
 
+
+
+
+
+
             var dataGridColumnWpf = Host.DraggingElement as BDataGridColumnWpf;
             if (dataGridColumnWpf != null)
             {
-                var dataGridColumnInfo = dataGridColumnWpf.DataContext as BDataGridColumnInfo;
-
-                BData.Columns.Remove(dataGridColumnInfo);
-
-                BData.Columns.Insert(insertIndex, dataGridColumnInfo);
+                if (Model.Columns.Contains(dataGridColumnWpf.Model))
+                {
+                    InsertHelper.Move(Model.Columns,dataGridColumnWpf.Model,insertIndex);
+                }
 
                 return;
             }
@@ -111,12 +115,12 @@ namespace BOA.OneDesigner.WpfControls
            
             _columnsContainer.Children.RemoveAll();
 
-            if (BData == null)
+            if (Model == null)
             {
                 return;
             }
 
-            foreach (var columnInfo in BData.Columns)
+            foreach (var columnInfo in Model.Columns)
             {
                 var uiElement = new BDataGridColumnWpf(columnInfo, Host, this);
 
@@ -216,13 +220,13 @@ namespace BOA.OneDesigner.WpfControls
 
         void OnColumnRemoved()
         {
-            var column = BData.Columns.FirstOrDefault(x => x.ShouldRemove);
+            var column = Model.Columns.FirstOrDefault(x => x.ShouldRemove);
             if (column != null)
             {
-                var index = BData.Columns.IndexOf(column);
+                var index = Model.Columns.IndexOf(column);
                 if (index >= 0)
                 {
-                    BData.Columns.RemoveAt(index);
+                    Model.Columns.RemoveAt(index);
                     Refresh();
                 }
             }

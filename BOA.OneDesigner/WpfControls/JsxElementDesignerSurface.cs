@@ -46,7 +46,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             var column = Host.LastSelectedUIElement as BDataGridColumnWpf;
 
-            Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath = column?.BDataGridInfoWpf?.BData?.DataSourceBindingPath;
+            Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath = column?.BDataGridInfoWpf?.Model?.DataSourceBindingPath;
 
         }
 

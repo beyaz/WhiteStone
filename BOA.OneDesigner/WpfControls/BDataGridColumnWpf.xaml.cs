@@ -41,7 +41,7 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Properties
-        public BDataGridColumnInfo BData => (BDataGridColumnInfo) DataContext;
+        public BDataGridColumnInfo Model => (BDataGridColumnInfo) DataContext;
         #endregion
 
         #region Public Methods

@@ -117,9 +117,9 @@ namespace BOA.OneDesigner.WpfControls
             var dataGridInfoWpf = Host.DraggingElement as BDataGridInfoWpf;
             if (dataGridInfoWpf != null)
             {
-                dataGridInfoWpf.BData.RemoveFromParent();
+                dataGridInfoWpf.Model.RemoveFromParent();
 
-                Data.InsertItem(insertIndex, dataGridInfoWpf.BData);
+                Data.InsertItem(insertIndex, dataGridInfoWpf.Model);
 
                 return;
             }

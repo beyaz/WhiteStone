@@ -110,6 +110,7 @@
     </Compile>
     <Compile Include="PropertyEditors\BInputEditor.cs" />
     <Compile Include="Helpers\CecilHelper.cs" />
+    <Compile Include="WpfControls\InsertHelper.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
     <Compile Include="JsxElementModel\BAccountComponent.cs" />
     <Compile Include="JsxElementRender\BAccountComponentTemplate.cs">
