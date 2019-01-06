@@ -151,13 +151,13 @@ namespace BOA.OneDesigner.WpfControls
             {
                 bCard.Container = Model;
 
-                var uiElement = Host.Create<BCardWpf>(bCard);
+                var cardWpf = Host.Create<BCardWpf>(bCard);
 
-                uiElement.Margin = new Thickness(10);
+                cardWpf.Margin = new Thickness(10);
 
-                Host.DragHelper.MakeDraggable(uiElement);
+                Host.DragHelper.MakeDraggable(cardWpf);
 
-                Children.Add(uiElement);
+                Children.Add(cardWpf);
             }
         }
         #endregion
