@@ -4,10 +4,10 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-    class TransactionPage
+    static class TransactionPage
     {
         #region Public Methods
-        public string Generate(ScreenInfo screenInfo)
+        public static string Generate(ScreenInfo screenInfo)
         {
             var sb       = new PaddedStringBuilder();
             var jsxModel = (DivAsCardContainer) screenInfo.JsxModel;
