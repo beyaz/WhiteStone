@@ -24,15 +24,15 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var item in elements)
             {
-                var element = item as ISupportSizeInfo;
-                if (element == null)
+                var sizeInfo = (item as ISupportSizeInfo)?.SizeInfo;
+                if (sizeInfo == null)
                 {
-                    continue;
+                    sizeInfo = cardSizeInfo;
                 }
 
                 var isLast = item == elements.Last();
 
-                if (element.SizeInfo.IsLarge)
+                if (sizeInfo.IsLarge)
                 {
                     row.Add(item);
 
@@ -43,7 +43,7 @@ namespace BOA.OneDesigner.WpfControls
                     pushRow = true;
                 }
 
-                if (element.SizeInfo.IsMedium)
+                if (sizeInfo.IsMedium)
                 {
                     row.Add(item);
 
@@ -54,7 +54,7 @@ namespace BOA.OneDesigner.WpfControls
                     columnIndex += 6;
                 }
 
-                if (element.SizeInfo.IsExtraSmall)
+                if (sizeInfo.IsExtraSmall)
                 {
                     row.Add(item);
 
@@ -65,7 +65,7 @@ namespace BOA.OneDesigner.WpfControls
                     columnIndex += 3;
                 }
 
-                if (element.SizeInfo.IsSmall)
+                if (sizeInfo.IsSmall)
                 {
                     row.Add(item);
 

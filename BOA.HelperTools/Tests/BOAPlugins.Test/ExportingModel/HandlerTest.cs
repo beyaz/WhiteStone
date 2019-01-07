@@ -1,6 +1,5 @@
 ﻿using BOAPlugins.Messaging;
 using BOAPlugins.TypescriptModelGeneration;
-using BOAPlugins.Utility.TypescriptModelGeneration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOAPlugins.ExportingModel
