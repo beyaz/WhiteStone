@@ -24,6 +24,15 @@ namespace BOA.OneDesigner
 
             bindProperties.Should().Contain("Foreign.KBBusinessKey");
         }
+
+
+        [TestMethod]
+        public void GetPropertyInfo_should_get_cecil_property_info()
+        {
+            var definition = CecilHelper.FindPropertyInfo(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ChargebackListFormRequest", "Data.AccountNumber");
+
+            definition.Name.Should().Be("AccountNumber");
+        }
         #endregion
     }
 }

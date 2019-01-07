@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using BOA.Common.Helpers;
 
 namespace BOAPlugins.TypescriptModelGeneration
@@ -75,6 +76,14 @@ namespace BOAPlugins.TypescriptModelGeneration
                 TypeAssemblyPathInServerBin   = $@"d:\boa\server\bin\{GetTypeAssemblyName(slnFilePath)}"
             };
         }
+
+        /// <summary>
+        ///     Creates from TFS folder path.
+        /// </summary>
+        public static SolutionInfo CreateFromTfsFolderPath(string tfsFolderPath)
+        {
+            return CreateFrom(GetSlnFilePath(tfsFolderPath));
+        }
         #endregion
 
         #region Methods
@@ -116,6 +125,18 @@ namespace BOAPlugins.TypescriptModelGeneration
             }
 
             return paths[0];
+        }
+
+        /// <summary>
+        ///     Gets the SLN file path.
+        /// </summary>
+        static string GetSlnFilePath(string tfsFolderPath)
+        {
+            // $/BOA.BusinessModules/Dev/BOA.CardGeneral.DebitCard
+
+            var projectName = tfsFolderPath.Split('/').Last();
+
+            return "d:\\work" + tfsFolderPath.Replace('/', '\\').RemoveFromStart("$") + Path.DirectorySeparatorChar + projectName + ".sln";
         }
 
         /// <summary>

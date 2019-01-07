@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.AppModel;
 using Mono.Cecil;
 
 namespace BOA.OneDesigner.Helpers
 {
+    public class CecilPropertyInfo
+    {
+        #region Public Properties
+        public TypeReference DotNetType { get; set; }
+        public string        Name       { get; set; }
+        #endregion
+    }
+
     public class RequestIntellisenseData
     {
         #region Public Properties
@@ -32,17 +41,57 @@ namespace BOA.OneDesigner.Helpers
             typeof(decimal).FullName,
             typeof(DateTime).FullName,
 
-            "System.Nullable`1<" + typeof(sbyte).FullName + ">",
-            "System.Nullable`1<" + typeof(byte).FullName + ">",
-            "System.Nullable`1<" + typeof(short).FullName + ">",
-            "System.Nullable`1<" + typeof(int).FullName + ">",
-            "System.Nullable`1<" + typeof(long).FullName + ">",
-            "System.Nullable`1<" + typeof(decimal).FullName + ">",
-            "System.Nullable`1<" + typeof(DateTime).FullName + ">"
+            FullNameOfNullableSbyte,
+            FullNameOfNullableByte,
+            FullNameOfNullableShort,
+            FullNameOfNullableInt,
+            FullNameOfNullableLong,
+            FullNameOfNullableDecimal,
+            FullNameOfNullableDateTime
         };
         #endregion
 
+        #region Public Properties
+        public static string FullNameOfNullableByte     => "System.Nullable`1<" + typeof(byte).FullName + ">";
+        public static string FullNameOfNullableDateTime => "System.Nullable`1<" + typeof(DateTime).FullName + ">";
+        public static string FullNameOfNullableDecimal  => "System.Nullable`1<" + typeof(decimal).FullName + ">";
+        public static string FullNameOfNullableInt      => "System.Nullable`1<" + typeof(int).FullName + ">";
+        public static string FullNameOfNullableLong     => "System.Nullable`1<" + typeof(long).FullName + ">";
+        public static string FullNameOfNullableSbyte    => "System.Nullable`1<" + typeof(sbyte).FullName + ">";
+        public static string FullNameOfNullableShort    => "System.Nullable`1<" + typeof(short).FullName + ">";
+        #endregion
+
         #region Public Methods
+        public static PropertyDefinition FindPropertyInfo(string assemblyPath, string typeFullName, string propertyPath)
+        {
+            var items = new List<string>();
+
+            var typeDefinition = FindType(assemblyPath, typeFullName);
+
+            var list = propertyPath.SplitAndClear(".");
+
+            for (var i = 0; i < list.Count; i++)
+            {
+                var propertyName = list[i];
+
+                if (typeDefinition == null)
+                {
+                    throw Error.InvalidOperation();
+                }
+
+                if (i == list.Count - 1)
+                {
+                    return typeDefinition.Properties.FirstOrDefault(p => p.Name == propertyName);
+                }
+
+                var typeReference = typeDefinition.Properties.FirstOrDefault(p => p.Name == propertyName)?.PropertyType;
+
+                typeDefinition = typeReference?.Resolve();
+            }
+
+            return null;
+        }
+
         public static IReadOnlyList<string> GetAllBindProperties(string assemblyPath, string typeFullName)
         {
             var items = new List<string>();

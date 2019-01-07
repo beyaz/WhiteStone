@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -118,7 +115,7 @@ namespace BOA.OneDesigner.MainForm
             if (screenInfo != null)
             {
                 Model.ScreenInfo = screenInfo;
-                Model.SolutionInfo = SolutionInfo.CreateFrom(GetSlnFilePath(Model.ScreenInfo.TfsFolderName));
+                Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
             }
 
             if (Model.SolutionInfo != null)
@@ -133,21 +130,12 @@ namespace BOA.OneDesigner.MainForm
         {
             if (Model.ScreenInfo.TfsFolderName != null)
             {
-                Model.SolutionInfo = SolutionInfo.CreateFrom(GetSlnFilePath(Model.ScreenInfo.TfsFolderName));
+                Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
                 Model.RequestNames = CecilHelper.GetAllRequestNames(Model.SolutionInfo.TypeAssemblyPathInServerBin);
             }
         }
         #endregion
 
-        #region Methods
-        static string GetSlnFilePath(string tfsFolderPath)
-        {
-            // $/BOA.BusinessModules/Dev/BOA.CardGeneral.DebitCard
-
-            var projectName = tfsFolderPath.Split('/').Last();
-
-            return "d:\\work" + tfsFolderPath.Replace('/', '\\').RemoveFromStart("$") + Path.DirectorySeparatorChar + projectName + ".sln";
-        }
-        #endregion
+        
     }
 }

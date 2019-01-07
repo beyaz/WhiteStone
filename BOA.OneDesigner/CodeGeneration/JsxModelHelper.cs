@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOAPlugins.TypescriptModelGeneration;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -115,12 +117,46 @@ namespace BOA.OneDesigner.CodeGeneration
 
         public static void Write(this PaddedStringBuilder sb, ScreenInfo screenInfo ,BInput data)
         {
-            sb.AppendLine($"<BInput value = {{request.{data.BindingPath}}}");
-            sb.PaddingCount++;
+            
+            var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
 
+            var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin,screenInfo.RequestName,data.BindingPath);
+
+            var isDecimal = CecilHelper.FullNameOfNullableDecimal == propertyDefinition.PropertyType.FullName ||
+                            propertyDefinition.PropertyType.FullName == typeof(decimal).FullName;
+
+
+            var isString = propertyDefinition.PropertyType.FullName == typeof(string).FullName;
+
+
+            if (isString)
+            {
+
+                sb.AppendLine($"<BInput value = {{request.{data.BindingPath}}}");
+                sb.PaddingCount++;
+
+                sb.AppendLine($"onChange = {{(e: any, value: string) => request.{data.BindingPath} = value}}");
+
+            }
+            else if(isDecimal)
+            {
+                sb.AppendLine($"<BInputNumeric value = {{request.{data.BindingPath}}}");
+                sb.PaddingCount++;
+
+                sb.AppendLine($"onChange = {{(e: any, value: any) => request.{data.BindingPath} = value}}");
+                sb.AppendLine("format = {\"D\"}");
+                sb.AppendLine("maxLength = {22}");
+            }
+            else
+            {
+                sb.AppendLine($"<BInputNumeric value = {{request.{data.BindingPath}}}");
+                sb.PaddingCount++;
+
+                sb.AppendLine($"onChange = {{(e: any, value: any) => request.{data.BindingPath} = value}}");
+                sb.AppendLine("maxLength = {10}");
+            }
             
 
-            sb.AppendLine($"onChange = {{(e: any, value: string) => request.{data.BindingPath} = value}}");
 
             var labelValue = GetLabelValue(screenInfo,data.LabelInfo);
             if (labelValue != null)
