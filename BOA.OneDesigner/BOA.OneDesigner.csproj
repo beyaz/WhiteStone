@@ -92,6 +92,8 @@
     <Compile Include="AppModel\IDatabase.cs" />
     <Compile Include="AppModel\IHostItem.cs" />
     <Compile Include="AppModel\JsonFile.cs" />
+    <Compile Include="CodeGeneration\JsxModelHelper.cs" />
+    <Compile Include="CodeGeneration\TransactionPage.cs" />
     <Compile Include="Helpers\SizeEditor.cs" />
     <Compile Include="JsxElementModel\ComponentSize.cs" />
     <Compile Include="JsxElementModel\Container.cs" />
@@ -270,5 +272,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
