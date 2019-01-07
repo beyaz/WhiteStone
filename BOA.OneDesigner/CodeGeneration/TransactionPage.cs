@@ -21,8 +21,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("import * as React from \"react\"");
             sb.AppendLine("import { TransactionPage, TransactionPageComposer } from \"b-framework\"");
-            sb.AppendLine("import { Sizes } from \"b-component\"");
             sb.AppendLine("import { getMessage } from \"b-framework\"");
+
+            sb.AppendLine("import { ComponentSize } from \"b-component\"");
             
             sb.AppendLine("import { FormAssistant } from \"../utils/FormAssistant\";");
 

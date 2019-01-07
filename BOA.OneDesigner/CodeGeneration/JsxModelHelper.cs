@@ -126,6 +126,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
             foreach (var item in data.Items)
             {
+                sb.AppendLine();
+
                 var bInput = item as BInput;
                 if (bInput != null)
                 {
@@ -191,21 +193,22 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
 
+            
             if (data.SizeInfo?.IsLarge == true)
             {
-                sb.AppendLine("size = {Sizes.LARGE}");  
+                sb.AppendLine("size = {ComponentSize.LARGE}");  
             }
             else if (data.SizeInfo?.IsMedium == true)
             {
-                sb.AppendLine("size = {Sizes.MEDIUM}");  
+                sb.AppendLine("size = {ComponentSize.MEDIUM}");  
             }
             else if (data.SizeInfo?.IsSmall == true)
             {
-                sb.AppendLine("size = {Sizes.SMALL}");   
+                sb.AppendLine("size = {ComponentSize.SMALL}");   
             }
             else if (data.SizeInfo?.IsExtraSmall == true)
             {
-                sb.AppendLine("size = {Sizes.XSMALL}");   
+                sb.AppendLine("size = {ComponentSize.XSMALL}");   
             }
 
             sb.AppendLine("context = {context}/>");
