@@ -201,6 +201,51 @@ namespace BOA.OneDesigner
             grid.Children[12].GetValue(Grid.ColumnProperty).Should().Be(8);
             grid.Children[12].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
         }
+
+        [TestMethod]
+        public void ApplyWithDropLocationMode_should_reorder_elements_every_element_as_small()
+        {
+            var grid = new Grid();
+
+            // row 0
+            grid.Children.Add(Create_ExtraSmall());
+            grid.Children.Add(Create_ExtraSmall());
+            grid.Children.Add(Create_ExtraSmall());
+
+            // row 1
+            grid.Children.Add(Create_ExtraSmall());
+            grid.Children.Add(Create_ExtraSmall());
+            grid.Children.Add(Create_ExtraSmall());
+
+            // ACT
+            CardLayout.ApplyWithDropLocationMode(grid);
+
+            // row 0
+            grid.Children[0].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+            grid.Children[1].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+            grid.Children[2].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+            grid.Children[0].GetValue(Grid.ColumnProperty).Should().Be(0);
+            grid.Children[1].GetValue(Grid.ColumnProperty).Should().Be(4);
+            grid.Children[2].GetValue(Grid.ColumnProperty).Should().Be(8);
+
+            grid.Children[0].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[1].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[2].GetValue(Grid.RowProperty).Should().Be(0);
+
+            // row 1
+            grid.Children[3].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+            grid.Children[4].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+            grid.Children[5].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+            grid.Children[3].GetValue(Grid.ColumnProperty).Should().Be(0);
+            grid.Children[4].GetValue(Grid.ColumnProperty).Should().Be(4);
+            grid.Children[5].GetValue(Grid.ColumnProperty).Should().Be(8);
+
+            grid.Children[3].GetValue(Grid.RowProperty).Should().Be(1);
+            grid.Children[4].GetValue(Grid.RowProperty).Should().Be(1);
+            grid.Children[5].GetValue(Grid.RowProperty).Should().Be(1);
+        }
         #endregion
 
         #region Methods

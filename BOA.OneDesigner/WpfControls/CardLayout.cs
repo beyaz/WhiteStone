@@ -91,6 +91,44 @@ namespace BOA.OneDesigner.WpfControls
                 }
             }
         }
+
+        public static void ApplyWithDropLocationMode(Grid grid)
+        {
+            WpfHelper.Apply12Column(grid);
+
+            var row         = new List<UIElement>();
+            var rowIndex    = 0;
+            var columnIndex = 0;
+
+            var elements = grid.Children.ToArray();
+
+            grid.Children.Clear();
+
+            foreach (var item in elements)
+            {
+                var isLast = item == elements.Last();
+
+                row.Add(item);
+
+                item.SetValue(Grid.RowProperty, rowIndex);
+                item.SetValue(Grid.ColumnProperty, columnIndex);
+                item.SetValue(Grid.ColumnSpanProperty, 4);
+
+                columnIndex += 4;
+
+                if (isLast || columnIndex >= 12)
+                {
+                    foreach (var uiElement in row)
+                    {
+                        grid.Children.Add(uiElement);
+                    }
+
+                    columnIndex = 0;
+                    rowIndex++;
+                    row.Clear();
+                }
+            }
+        }
         #endregion
     }
 }
