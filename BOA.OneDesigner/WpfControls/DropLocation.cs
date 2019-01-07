@@ -13,7 +13,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             BorderBrush     = Brushes.HotPink;
             BorderThickness = new Thickness(10);
-            MinHeight       = 20;
+            MinHeight       = 15;
             MinWidth        = 20;
 
             Loaded += (s, e) => { new DropLocationHelper(Host).MakeDropLocation(this); };

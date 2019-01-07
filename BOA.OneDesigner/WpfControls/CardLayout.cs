@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.JsxElementModel;
@@ -13,28 +12,26 @@ namespace BOA.OneDesigner.WpfControls
         {
             WpfHelper.Apply12Column(grid);
 
-            var row         = new List<UIElement>();
             var rowIndex    = 0;
             var columnIndex = 0;
             var pushRow     = false;
 
             var elements = grid.Children.ToArray();
 
-            grid.Children.Clear();
 
             foreach (var item in elements)
             {
                 var sizeInfo = (item as ISupportSizeInfo)?.SizeInfo;
-                if (sizeInfo == null)
+                if (sizeInfo == null || sizeInfo.IsEmpty)
                 {
                     sizeInfo = cardSizeInfo;
                 }
+
 
                 var isLast = item == elements.Last();
 
                 if (sizeInfo.IsLarge)
                 {
-                    row.Add(item);
 
                     item.SetValue(Grid.RowProperty, rowIndex);
                     item.SetValue(Grid.ColumnProperty, columnIndex);
@@ -45,7 +42,6 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (sizeInfo.IsMedium)
                 {
-                    row.Add(item);
 
                     item.SetValue(Grid.RowProperty, rowIndex);
                     item.SetValue(Grid.ColumnProperty, columnIndex);
@@ -56,7 +52,6 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (sizeInfo.IsExtraSmall)
                 {
-                    row.Add(item);
 
                     item.SetValue(Grid.RowProperty, rowIndex);
                     item.SetValue(Grid.ColumnProperty, columnIndex);
@@ -67,7 +62,6 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (sizeInfo.IsSmall)
                 {
-                    row.Add(item);
 
                     item.SetValue(Grid.RowProperty, rowIndex);
                     item.SetValue(Grid.ColumnProperty, columnIndex);
@@ -78,16 +72,11 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (pushRow || isLast || columnIndex >= 12)
                 {
+                    grid.RowDefinitions.Add(new RowDefinition{Height = GridLength.Auto});
                     pushRow = false;
-
-                    foreach (var uiElement in row)
-                    {
-                        grid.Children.Add(uiElement);
-                    }
-
+                    
                     columnIndex = 0;
                     rowIndex++;
-                    row.Clear();
                 }
             }
         }
@@ -96,19 +85,16 @@ namespace BOA.OneDesigner.WpfControls
         {
             WpfHelper.Apply12Column(grid);
 
-            var row         = new List<UIElement>();
             var rowIndex    = 0;
             var columnIndex = 0;
 
             var elements = grid.Children.ToArray();
 
-            grid.Children.Clear();
 
             foreach (var item in elements)
             {
                 var isLast = item == elements.Last();
 
-                row.Add(item);
 
                 item.SetValue(Grid.RowProperty, rowIndex);
                 item.SetValue(Grid.ColumnProperty, columnIndex);
@@ -118,16 +104,14 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (isLast || columnIndex >= 12)
                 {
-                    foreach (var uiElement in row)
-                    {
-                        grid.Children.Add(uiElement);
-                    }
-
+                    grid.RowDefinitions.Add(new RowDefinition{Height = GridLength.Auto});
                     columnIndex = 0;
                     rowIndex++;
-                    row.Clear();
                 }
             }
+
+
+            
         }
         #endregion
     }

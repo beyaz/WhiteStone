@@ -29,7 +29,7 @@ namespace BOA.OneDesigner.WpfControls
         /// <summary>
         ///     The children container
         /// </summary>
-        public StackPanel ChildrenContainer;
+        public Grid ChildrenContainer;
         #endregion
 
         #region Constructors
@@ -47,7 +47,7 @@ namespace BOA.OneDesigner.WpfControls
 		{
             view:   'GroupBox', Name:'_groupBox',
             Header: '{Binding " + nameof(BCard.Title) + @",Mode=OneWay}', 
-            Content: { ui:'StackPanel' , Name:'" + nameof(ChildrenContainer) + @"' }
+            Content: { ui:'Grid' , Name:'" + nameof(ChildrenContainer) + @"' }
         }
 	]
 	
@@ -163,6 +163,8 @@ namespace BOA.OneDesigner.WpfControls
 
                 throw Error.InvalidOperation(bField.GetType().FullName);
             }
+
+            CardLayout.Apply(Model.SizeInfo,ChildrenContainer);
         }
 
         /// <summary>
@@ -234,7 +236,8 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     Host                = Host,
                     OnDropAction        = OnDrop,
-                    TargetLocationIndex = i
+                    TargetLocationIndex = i,
+                    Margin = new Thickness(20)
                 };
 
                 children.Add(dropLocation);
@@ -248,6 +251,9 @@ namespace BOA.OneDesigner.WpfControls
                 OnDropAction        = OnDrop,
                 TargetLocationIndex = items.Length
             });
+
+
+            CardLayout.ApplyWithDropLocationMode(ChildrenContainer);
         }
 
         /// <summary>
@@ -277,6 +283,9 @@ namespace BOA.OneDesigner.WpfControls
 
                 children.Add(control);
             }
+
+
+            CardLayout.Apply(Model.SizeInfo,ChildrenContainer);
         }
 
         /// <summary>
