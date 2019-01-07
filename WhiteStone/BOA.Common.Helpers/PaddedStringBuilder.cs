@@ -50,11 +50,12 @@ namespace BOA.Common.Helpers
         {
             var strings = multipleLines.SplitToLines().ToArray();
 
-            var length = strings.Length-1;
+            var length = strings.Length - 1;
             for (var i = 0; i < length; i++)
             {
                 AppendLine(strings[i]);
             }
+
             AppendWithPadding(strings[length]);
         }
 
@@ -65,6 +66,14 @@ namespace BOA.Common.Helpers
         {
             sb.Append(Padding);
             sb.AppendLine(line);
+        }
+
+        /// <summary>
+        ///     Appends the line.
+        /// </summary>
+        public void AppendLine()
+        {
+            sb.AppendLine();
         }
 
         /// <summary>

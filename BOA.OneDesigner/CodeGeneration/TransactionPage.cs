@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
@@ -12,11 +13,17 @@ namespace BOA.OneDesigner.CodeGeneration
             var sb       = new PaddedStringBuilder();
             var jsxModel = (DivAsCardContainer) screenInfo.JsxModel;
 
+            var hasWorkflow = screenInfo.FormType == FormType.TransactionPageWithWorkflow;
+
+
             // GeneralParametersFormRequest
             var className = screenInfo.RequestName.SplitAndClear(".").Last().RemoveFromEnd("Request");
 
             sb.AppendLine("import * as React from \"react\"");
             sb.AppendLine("import { TransactionPage, TransactionPageComposer } from \"b-framework\"");
+            
+            sb.AppendLine("import { getMessage } from \"b-framework\"");
+            sb.AppendLine("import { FormAssistant } from \"../utils/FormAssistant\";");
             sb.AppendLine("import { BCard } from \"b-card\"");
 
             if (jsxModel.HasComponent<BInput>())
@@ -24,98 +31,133 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("import { BInput } from \"b-input\"");
             }
 
-            sb.AppendLine(string.Empty);
+            sb.AppendLine();
             sb.AppendLine($"class {className} extends TransactionPage");
-            sb.Append("{");
+            sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine(string.Empty);
+
+            if (hasWorkflow)
+            {
+                sb.AppendLine();
+                sb.AppendLine("executeWorkFlow: () => void;");
+            }
+
+
+            sb.AppendLine();
+
+            
 
             #region constructor
-            sb.Append("constructor(props: BFramework.BasePageProps)");
-            sb.Append("{");
+            sb.AppendLine("constructor(props: BFramework.BasePageProps)");
+            sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.Append("super(props);");
-            sb.Append("this.connect(this);");
-            sb.Append("FormAssistant.initialize(this, RequestName.GeneralParametersFormRequest);");
-
+            sb.AppendLine("super(props);");
+            sb.AppendLine("this.connect(this);");
+            sb.AppendLine($"FormAssistant.initialize(this, \"{screenInfo.RequestName}\");");
             sb.PaddingCount--;
-            sb.Append("}");
+            sb.AppendLine("}");
             #endregion
 
-            sb.AppendLine(string.Empty);
+            sb.AppendLine();
 
-            #region onActionClick
-            sb.Append("onActionClick(command: BOA.Common.Types.ResourceActionContract)");
-            sb.Append("{");
-            sb.PaddingCount++;
+            if (hasWorkflow)
+            {
+                #region onActionClick
+                sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract, executeWorkFlow: () => void)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
 
-            sb.Append("FormAssistant.executeWindowRequest(this,command.commandName);");
-            sb.Append("return /*isCompleted*/true;");
+                sb.AppendLine("this.executeWorkFlow = executeWorkFlow;");
+                sb.AppendLine("FormAssistant.executeWindowRequest(this,command.commandName);");
+                sb.AppendLine("return /*isCompleted*/false;");
 
-            sb.PaddingCount--;
-            sb.Append("}");
-            #endregion
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                #endregion
+            }
+            else
+            {
+                #region onActionClick
+                sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
 
-            sb.AppendLine(string.Empty);
+                sb.AppendLine("FormAssistant.executeWindowRequest(this,command.commandName);");
+                sb.AppendLine("return /*isCompleted*/true;");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                #endregion
+            }
+          
+
+            sb.AppendLine();
 
             #region componentDidMount
-            sb.Append("componentDidMount()");
-            sb.Append("{");
+            sb.AppendLine("componentDidMount()");
+            sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.Append("super.componentDidMount();");
-            sb.Append("FormAssistant.componentDidMount(this);");
+            sb.AppendLine("super.componentDidMount();");
+            sb.AppendLine("FormAssistant.componentDidMount(this);");
 
             sb.PaddingCount--;
-            sb.Append("}");
+            sb.AppendLine("}");
             #endregion
 
-            sb.AppendLine(string.Empty);
+            sb.AppendLine();
 
             #region proxyDidRespond
-            sb.Append("proxyDidRespond(proxyResponse: ProxyResponse)");
-            sb.Append("{");
+            sb.AppendLine("proxyDidRespond(proxyResponse: ProxyResponse)");
+            sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.Append("return FormAssistant.receiveResponse(this,proxyResponse);");
+            sb.AppendLine("return FormAssistant.receiveResponse(this,proxyResponse);");
 
             sb.PaddingCount--;
-            sb.Append("}");
+            sb.AppendLine("}");
             #endregion
 
-            sb.AppendLine(string.Empty);
+            sb.AppendLine();
+
+
+           
 
             #region render
-            sb.Append("render()");
-            sb.Append("{");
+            sb.AppendLine("render()");
+            sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.Append("if (!FormAssistant.isReadyToRender(this))");
-            sb.Append("{");
+            sb.AppendLine("if (!FormAssistant.isReadyToRender(this))");
+            sb.AppendLine("{");
             sb.PaddingCount++;
-            sb.Append("return <div/>;");
+            sb.AppendLine("return <div/>;");
             sb.PaddingCount--;
-            sb.Append("}");
+            sb.AppendLine("}");
 
-            sb.AppendLine(string.Empty);
-            sb.Append("const context = this.state.context;");
+            sb.AppendLine();
+            sb.AppendLine("const context = this.state.context;");
 
-            sb.Append("const windowRequest: GeneralParametersFormRequest = FormAssistant.getWindowRequest(this);");
+            sb.AppendLine("const request: any = FormAssistant.getWindowRequest(this);");
 
-            sb.Append("return (");
+            sb.AppendLine("return (");
             sb.PaddingCount++;
-            sb.Write(jsxModel);
+            sb.Write(screenInfo,jsxModel);
             sb.PaddingCount--;
-            sb.Append(")");
+            sb.AppendLine(");");
 
             sb.PaddingCount--;
-            sb.Append("}");
+            sb.AppendLine("}");
             #endregion
 
             sb.PaddingCount--;
-            sb.Append("}");
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+
+            sb.AppendLine($"export default TransactionPageComposer({className});");
 
             return sb.ToString();
         }

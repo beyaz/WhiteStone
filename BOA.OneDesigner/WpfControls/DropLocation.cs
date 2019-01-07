@@ -15,6 +15,8 @@ namespace BOA.OneDesigner.WpfControls
             BorderThickness = new Thickness(10);
             MinHeight       = 15;
             MinWidth        = 20;
+            VerticalAlignment = VerticalAlignment.Center;
+            HorizontalAlignment = HorizontalAlignment.Center;
 
             Loaded += (s, e) => { new DropLocationHelper(Host).MakeDropLocation(this); };
 

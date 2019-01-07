@@ -95,7 +95,7 @@ namespace BOA.OneDesigner.MainForm
                 ScreenInfo      = new ScreenInfo(),
                 TfsFolderNames  = Database.GetTfsFolderNames(),
                 SearchIsVisible = true,
-                FormTypes       = new List<string> {"Detay", "List"},
+                FormTypes       = FormType.GetAll(),
                 MessagingGroupNames = Database.GetMessagingGroupNames(),
                
                 ActionButtons = new List<ActionButtonInfo>

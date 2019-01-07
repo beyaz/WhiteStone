@@ -38,7 +38,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
         }
 
-        public static void Write(this PaddedStringBuilder sb, DivAsCardContainer data)
+        public static void Write(this PaddedStringBuilder sb, ScreenInfo screenInfo, DivAsCardContainer data)
         {
             sb.AppendLine("<div>");
 
@@ -46,7 +46,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             foreach (var bCard in data.Items)
             {
-                sb.Write(bCard);
+                sb.Write(screenInfo,bCard);
 
                 sb.AppendLine(string.Empty);
             }
@@ -56,16 +56,44 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("</div>");
         }
 
-        public static void Write(this PaddedStringBuilder sb, BCard data)
+
+        static string GetLabelValue(ScreenInfo screenInfo, LabelInfo data)
         {
-            sb.Append("<BCard context={context}");
-            var hasTitle = string.IsNullOrWhiteSpace(data.Title) == false;
-            if (hasTitle)
+            if (data == null)
             {
-                sb.AppendLine($" title = {{{data.Title}}}");
+                return null;
             }
 
-            sb.AppendLine(">");
+            if (data.IsFreeText)
+            {
+
+                return '"' + data.FreeTextValue + '"';
+            }
+            if(data.IsRequestBindingPath)
+            {
+                return "request." + data.RequestBindingPath;
+            }
+            if(data.IsFromMessaging)
+            {
+                return $"getMessage(\"{screenInfo.MessagingGroupName}\", \"{data.MessagingValue}\")";
+            }
+
+            throw Error.InvalidOperation();
+        }
+
+
+        public static void Write(this PaddedStringBuilder sb, ScreenInfo screenInfo, BCard data)
+        {
+            sb.AppendWithPadding("<BCard context={context}");
+
+            var labelValue = GetLabelValue(screenInfo,data.TitleInfo);
+            if (labelValue != null)
+            {
+                sb.Append($" title = {labelValue}");  
+            }
+            
+            sb.Append(">");
+            sb.Append(Environment.NewLine);
 
             sb.PaddingCount++;
 
@@ -74,7 +102,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 var bInput = item as BInput;
                 if (bInput != null)
                 {
-                    sb.Write(bInput);
+                    sb.Write(screenInfo,bInput);
                     continue;
                 }
 
@@ -82,19 +110,27 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
             sb.PaddingCount--;
-            sb.Append("</BCard>");
+            sb.AppendLine("</BCard>");
         }
 
-        public static void Write(this PaddedStringBuilder sb, BInput data)
+        public static void Write(this PaddedStringBuilder sb, ScreenInfo screenInfo ,BInput data)
         {
             sb.AppendLine($"<BInput value = {{request.{data.BindingPath}}}");
-            sb.PaddingCount += 2;
+            sb.PaddingCount++;
 
-            sb.AppendLine($"onChange = {{(e: any, value: string) => {data.BindingPath} = value}}");
-            sb.AppendLine($"floatingLabelTextDate = {{{data.Label}}}");
+            
+
+            sb.AppendLine($"onChange = {{(e: any, value: string) => request.{data.BindingPath} = value}}");
+
+            var labelValue = GetLabelValue(screenInfo,data.LabelInfo);
+            if (labelValue != null)
+            {
+                sb.AppendLine($"floatingLabelText = {labelValue}");  
+            }
+
             sb.AppendLine("context = {context}/>");
 
-            sb.PaddingCount -= 2;
+            sb.PaddingCount--;
         }
         #endregion
     }

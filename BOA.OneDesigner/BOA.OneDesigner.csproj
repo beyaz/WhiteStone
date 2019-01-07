@@ -88,6 +88,7 @@
     <Compile Include="AppModel\DragHelper.cs" />
     <Compile Include="AppModel\Error.cs" />
     <Compile Include="AppModel\EventBus.cs" />
+    <Compile Include="AppModel\FormType.cs" />
     <Compile Include="AppModel\Host.cs" />
     <Compile Include="AppModel\IDatabase.cs" />
     <Compile Include="AppModel\IHostItem.cs" />
