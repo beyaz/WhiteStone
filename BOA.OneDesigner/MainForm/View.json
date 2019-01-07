@@ -82,9 +82,15 @@
                   "ui": "Grid",
                   "rows": [
                     {
-                      "ui": "Surface",
-                      "Name": "DesignSurface"
+                      "ui": "ScrollViewer",
+                      "VerticalScrollBarVisibility": "Auto",
+
+                      "Content": {
+                        "ui": "Surface",
+                        "Name": "DesignSurface"
+                      }
                     }
+                    
                   ],
                   "gravity": 8
                 },
