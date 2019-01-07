@@ -21,10 +21,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("import * as React from \"react\"");
             sb.AppendLine("import { TransactionPage, TransactionPageComposer } from \"b-framework\"");
-            
+            sb.AppendLine("import { Sizes } from \"b-component\"");
             sb.AppendLine("import { getMessage } from \"b-framework\"");
+            
             sb.AppendLine("import { FormAssistant } from \"../utils/FormAssistant\";");
+
             sb.AppendLine("import { BCard } from \"b-card\"");
+            sb.AppendLine("import { BInputNumeric } from \"b-input-numeric\";");
 
             if (jsxModel.HasComponent<BInput>())
             {

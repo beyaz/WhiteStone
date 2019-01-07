@@ -6,6 +6,7 @@ using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
+using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -71,9 +72,10 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 return '"' + data.FreeTextValue + '"';
             }
+
             if(data.IsRequestBindingPath)
             {
-                return "request." + data.RequestBindingPath;
+                return NormalizeBindingPath("request." + data.RequestBindingPath);
             }
             if(data.IsFromMessaging)
             {
@@ -81,6 +83,12 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
             throw Error.InvalidOperation();
+        }
+
+        static string NormalizeBindingPath(string propertyNameInCSharp)
+        {
+
+            return string.Join(".", propertyNameInCSharp.SplitAndClear(".").ToList().ConvertAll(TypescriptNaming.GetResolvedPropertyName));
         }
 
 
@@ -91,7 +99,24 @@ namespace BOA.OneDesigner.CodeGeneration
             var labelValue = GetLabelValue(screenInfo,data.TitleInfo);
             if (labelValue != null)
             {
-                sb.Append($" title = {labelValue}");  
+                sb.Append($" title = {{{labelValue}}}");  
+            }
+
+            if (data.SizeInfo?.IsLarge == true)
+            {
+                sb.Append(" layoutProps = {{w:12}}");  
+            }
+            else if (data.SizeInfo?.IsMedium == true)
+            {
+                sb.Append(" layoutProps = {{w:6}}");  
+            }
+            else if (data.SizeInfo?.IsSmall == true)
+            {
+                sb.Append(" layoutProps = {{w:4}}");  
+            }
+            else if (data.SizeInfo?.IsExtraSmall == true)
+            {
+                sb.Append(" layoutProps = {{w:3}}");  
             }
             
             sb.Append(">");
@@ -128,31 +153,32 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var isString = propertyDefinition.PropertyType.FullName == typeof(string).FullName;
 
+            var bindingPathInJs = NormalizeBindingPath($"request.{data.BindingPath}");
 
             if (isString)
             {
 
-                sb.AppendLine($"<BInput value = {{request.{data.BindingPath}}}");
+                sb.AppendLine($"<BInput value = {{{bindingPathInJs}}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: string) => request.{data.BindingPath} = value}}");
+                sb.AppendLine($"onChange = {{(e: any, value: string) => {bindingPathInJs} = value}}");
 
             }
             else if(isDecimal)
             {
-                sb.AppendLine($"<BInputNumeric value = {{request.{data.BindingPath}}}");
+                sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: any) => request.{data.BindingPath} = value}}");
+                sb.AppendLine($"onChange = {{(e: any, value: any) => {bindingPathInJs} = value}}");
                 sb.AppendLine("format = {\"D\"}");
                 sb.AppendLine("maxLength = {22}");
             }
             else
             {
-                sb.AppendLine($"<BInputNumeric value = {{request.{data.BindingPath}}}");
+                sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: any) => request.{data.BindingPath} = value}}");
+                sb.AppendLine($"onChange = {{(e: any, value: any) => {bindingPathInJs} = value}}");
                 sb.AppendLine("maxLength = {10}");
             }
             
@@ -162,6 +188,24 @@ namespace BOA.OneDesigner.CodeGeneration
             if (labelValue != null)
             {
                 sb.AppendLine($"floatingLabelText = {labelValue}");  
+            }
+
+
+            if (data.SizeInfo?.IsLarge == true)
+            {
+                sb.AppendLine("size = {Sizes.LARGE}");  
+            }
+            else if (data.SizeInfo?.IsMedium == true)
+            {
+                sb.AppendLine("size = {Sizes.MEDIUM}");  
+            }
+            else if (data.SizeInfo?.IsSmall == true)
+            {
+                sb.AppendLine("size = {Sizes.SMALL}");   
+            }
+            else if (data.SizeInfo?.IsExtraSmall == true)
+            {
+                sb.AppendLine("size = {Sizes.XSMALL}");   
             }
 
             sb.AppendLine("context = {context}/>");
