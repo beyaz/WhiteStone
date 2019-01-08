@@ -95,6 +95,7 @@
     <Compile Include="AppModel\JsonFile.cs" />
     <Compile Include="CodeGeneration\JsxModelHelper.cs" />
     <Compile Include="CodeGeneration\TransactionPage.cs" />
+    <Compile Include="Helpers\LayoutPropWideConverter.cs" />
     <Compile Include="Helpers\SizeEditor.cs" />
     <Compile Include="JsxElementModel\ComponentSize.cs" />
     <Compile Include="JsxElementModel\Container.cs" />

@@ -74,7 +74,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.Append(" layoutProps = {{w:"+data.LayoutProps.Wide+", x:"+data.LayoutProps.X+"}}");
             }
 
-            data.SizeInfo = null;
 
             sb.Append(">");
             sb.Append(Environment.NewLine);

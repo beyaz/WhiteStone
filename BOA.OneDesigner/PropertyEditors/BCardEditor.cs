@@ -23,7 +23,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
         #region Fields
         public LabelEditor _labelEditor;
-        public SizeEditor  _sizeEditor;
+        
         #endregion
 
         #region Constructors
@@ -35,10 +35,10 @@ namespace BOA.OneDesigner.PropertyEditors
     Margin:10,
 	Childs:[  
 		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(BCard.TitleInfo) + @"}'},
-        {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BCard.SizeInfo) + @"}'},
         
-        {ui:'TextBox',Label:'Wide',MarginTop:10, Text:'{Binding "+ Model.AccessPathOf(m=>m.LayoutProps.Wide) +@"}', KeyUp:'FirePropertyChanged' },
-        {ui:'TextBox',Label:'X',  MarginTop:10,  Text:'{Binding "+ Model.AccessPathOf(m=>m.LayoutProps.X) +@"}',    KeyUp:'FirePropertyChanged' },
+        
+        {ui:'TextBox',Label:'Wide',MarginTop:10, Text:'{Binding "+ Model.AccessPathOf(m=>m.LayoutProps.Wide) +@", Converter="+typeof(LayoutPropWideConverter).FullName+@"}', KeyUp:'FirePropertyChanged' },
+        {ui:'TextBox',Label:'X',  MarginTop:10,  Text:'{Binding "+ Model.AccessPathOf(m=>m.LayoutProps.X) +@"}',  Converter="+typeof(LayoutPropWideConverter).FullName+@"}', KeyUp:'FirePropertyChanged' },
 
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
@@ -49,7 +49,6 @@ namespace BOA.OneDesigner.PropertyEditors
             Loaded += (s, e) =>
             {
                 _labelEditor.Host = Host;
-                _sizeEditor.Host  = Host;
             };
         }
         #endregion
