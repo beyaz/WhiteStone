@@ -8,6 +8,45 @@ namespace BOA.OneDesigner.WpfControls
 {
     static class CardLayout
     {
+
+
+        public static void ApplyForCardsContainer(Grid grid)
+        {
+            WpfHelper.Apply12Column(grid);
+
+            var rowIndex    = 0;
+            var columnIndex = 0;
+
+            var elements = grid.Children.ToArray();
+
+            foreach (var item in elements)
+            {
+                var layoutProps = (item as BCardWpf)?.Model?.LayoutProps;
+                if (layoutProps == null )
+                {
+                    throw Error.InvalidOperation();
+                }
+
+                var isLast = item == elements.Last();
+
+                var span = layoutProps.Wide;
+
+                item.SetValue(Grid.RowProperty, rowIndex);
+                item.SetValue(Grid.ColumnProperty, columnIndex+layoutProps.X);
+                item.SetValue(Grid.ColumnSpanProperty, span);
+
+                columnIndex += span;
+
+                if (isLast || columnIndex >= 12)
+                {
+                    grid.RowDefinitions.Add(new RowDefinition {Height = GridLength.Auto});
+
+                    columnIndex = 0;
+                    rowIndex++;
+                }
+            }
+        }
+
         #region Public Methods
         public static void Apply(Grid grid)
         {
