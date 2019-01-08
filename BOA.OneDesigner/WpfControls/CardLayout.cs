@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -17,7 +18,6 @@ namespace BOA.OneDesigner.WpfControls
 
             var elements = grid.Children.ToArray();
 
-
             foreach (var item in elements)
             {
                 var sizeInfo = (item as ISupportSizeInfo)?.SizeInfo;
@@ -26,53 +26,20 @@ namespace BOA.OneDesigner.WpfControls
                     throw Error.InvalidOperation();
                 }
 
-
                 var isLast = item == elements.Last();
 
-                if (sizeInfo.IsLarge)
+                var span = GetSpan(sizeInfo);
+
+                item.SetValue(Grid.RowProperty, rowIndex);
+                item.SetValue(Grid.ColumnProperty, columnIndex);
+                item.SetValue(Grid.ColumnSpanProperty, span);
+
+                columnIndex += span;
+
+                if (isLast || columnIndex >= 12)
                 {
+                    grid.RowDefinitions.Add(new RowDefinition {Height = GridLength.Auto});
 
-                    item.SetValue(Grid.RowProperty, rowIndex);
-                    item.SetValue(Grid.ColumnProperty, columnIndex);
-                    item.SetValue(Grid.ColumnSpanProperty, 12);
-
-                    columnIndex += 12;
-                }
-
-                if (sizeInfo.IsMedium)
-                {
-
-                    item.SetValue(Grid.RowProperty, rowIndex);
-                    item.SetValue(Grid.ColumnProperty, columnIndex);
-                    item.SetValue(Grid.ColumnSpanProperty, 6);
-
-                    columnIndex += 6;
-                }
-
-                if (sizeInfo.IsExtraSmall)
-                {
-
-                    item.SetValue(Grid.RowProperty, rowIndex);
-                    item.SetValue(Grid.ColumnProperty, columnIndex);
-                    item.SetValue(Grid.ColumnSpanProperty, 3);
-
-                    columnIndex += 3;
-                }
-
-                if (sizeInfo.IsSmall)
-                {
-
-                    item.SetValue(Grid.RowProperty, rowIndex);
-                    item.SetValue(Grid.ColumnProperty, columnIndex);
-                    item.SetValue(Grid.ColumnSpanProperty, 4);
-
-                    columnIndex += 4;
-                }
-
-                if ( isLast || columnIndex >= 12)
-                {
-                    grid.RowDefinitions.Add(new RowDefinition{Height = GridLength.Auto});
-                    
                     columnIndex = 0;
                     rowIndex++;
                 }
@@ -88,11 +55,9 @@ namespace BOA.OneDesigner.WpfControls
 
             var elements = grid.Children.ToArray();
 
-
             foreach (var item in elements)
             {
                 var isLast = item == elements.Last();
-
 
                 item.SetValue(Grid.RowProperty, rowIndex);
                 item.SetValue(Grid.ColumnProperty, columnIndex);
@@ -102,14 +67,38 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (isLast || columnIndex >= 12)
                 {
-                    grid.RowDefinitions.Add(new RowDefinition{Height = GridLength.Auto});
+                    grid.RowDefinitions.Add(new RowDefinition {Height = GridLength.Auto});
                     columnIndex = 0;
                     rowIndex++;
                 }
             }
+        }
+        #endregion
 
+        #region Methods
+        static int GetSpan(SizeInfo sizeInfo)
+        {
+            if (sizeInfo.IsLarge)
+            {
+                return 12;
+            }
 
-            
+            if (sizeInfo.IsMedium)
+            {
+                return 6;
+            }
+
+            if (sizeInfo.IsExtraSmall)
+            {
+                return 3;
+            }
+
+            if (sizeInfo.IsSmall)
+            {
+                return 4;
+            }
+
+            throw Error.InvalidOperation();
         }
         #endregion
     }
