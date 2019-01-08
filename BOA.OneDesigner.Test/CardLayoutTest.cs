@@ -26,7 +26,7 @@ namespace BOA.OneDesigner
             grid.Children.Add(new BInputWpf {DataContext = input_0});
 
             // ACT
-            CardLayout.Apply(new SizeInfo {IsLarge = true}, grid);
+            CardLayout.Apply(grid);
 
             // Large
             grid.Children[0].GetValue(Grid.ColumnSpanProperty).Should().Be(12);
@@ -35,7 +35,7 @@ namespace BOA.OneDesigner
             grid.Children.Add(Create_Medium());
 
             // ACT
-            CardLayout.Apply(new SizeInfo {IsLarge = true}, grid);
+            CardLayout.Apply(grid);
 
             // Large
             grid.Children[0].GetValue(Grid.RowProperty).Should().Be(0);
@@ -56,7 +56,7 @@ namespace BOA.OneDesigner
             grid.Children.Add(Create_ExtraSmall());
 
             // ACT
-            CardLayout.Apply(new SizeInfo {IsLarge = true}, grid);
+            CardLayout.Apply(grid);
 
             // Large
             grid.Children[0].GetValue(Grid.RowProperty).Should().Be(0);
@@ -91,7 +91,7 @@ namespace BOA.OneDesigner
             grid.Children.Add(Create_ExtraSmall());
 
             // ACT
-            CardLayout.Apply(new SizeInfo {IsLarge = true}, grid);
+            CardLayout.Apply(grid);
 
             // Large
             grid.Children[0].GetValue(Grid.RowProperty).Should().Be(0);
@@ -142,7 +142,7 @@ namespace BOA.OneDesigner
             grid.Children.Add(Create_Small());
 
             // ACT
-            CardLayout.Apply(new SizeInfo {IsLarge = true}, grid);
+            CardLayout.Apply(grid);
             grid.Children.Count.Should().Be(13);
 
             // Large

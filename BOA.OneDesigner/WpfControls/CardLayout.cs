@@ -2,14 +2,13 @@
 using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
     static class CardLayout
     {
         #region Public Methods
-        public static void Apply(SizeInfo cardSizeInfo, Grid grid)
+        public static void Apply(Grid grid)
         {
             WpfHelper.Apply12Column(grid);
 

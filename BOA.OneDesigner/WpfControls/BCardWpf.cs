@@ -164,7 +164,7 @@ namespace BOA.OneDesigner.WpfControls
                 throw Error.InvalidOperation(bField.GetType().FullName);
             }
 
-            CardLayout.Apply(Model.SizeInfo,ChildrenContainer);
+            CardLayout.Apply(ChildrenContainer);
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace BOA.OneDesigner.WpfControls
             }
 
 
-            CardLayout.Apply(Model.SizeInfo,ChildrenContainer);
+            CardLayout.Apply(ChildrenContainer);
         }
 
         /// <summary>

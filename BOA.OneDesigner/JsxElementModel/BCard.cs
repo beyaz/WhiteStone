@@ -4,22 +4,16 @@ using BOA.OneDesigner.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
-
-
-   
     [Serializable]
     public class BCard : Container
     {
         #region Public Properties
         public CardContainer Container { get; set; }
         public List<BField>  Items     { get; set; } = new List<BField>();
-        public SizeInfo      SizeInfo  { get; set; } = new SizeInfo();
 
         public LayoutProps LayoutProps { get; set; } = new LayoutProps {Wide = 5};
-        
 
-
-        public string        Title     => TitleInfo.GetDesignerText();
+        public string Title => TitleInfo.GetDesignerText();
 
         public LabelInfo TitleInfo { get; set; } = new LabelInfo();
         #endregion
