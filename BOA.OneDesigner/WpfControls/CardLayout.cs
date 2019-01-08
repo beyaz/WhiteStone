@@ -14,7 +14,6 @@ namespace BOA.OneDesigner.WpfControls
 
             var rowIndex    = 0;
             var columnIndex = 0;
-            var pushRow     = false;
 
             var elements = grid.Children.ToArray();
 
@@ -37,7 +36,7 @@ namespace BOA.OneDesigner.WpfControls
                     item.SetValue(Grid.ColumnProperty, columnIndex);
                     item.SetValue(Grid.ColumnSpanProperty, 12);
 
-                    pushRow = true;
+                    columnIndex += 12;
                 }
 
                 if (sizeInfo.IsMedium)
@@ -70,10 +69,9 @@ namespace BOA.OneDesigner.WpfControls
                     columnIndex += 4;
                 }
 
-                if (pushRow || isLast || columnIndex >= 12)
+                if ( isLast || columnIndex >= 12)
                 {
                     grid.RowDefinitions.Add(new RowDefinition{Height = GridLength.Auto});
-                    pushRow = false;
                     
                     columnIndex = 0;
                     rowIndex++;
