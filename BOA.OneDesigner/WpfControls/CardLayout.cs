@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
@@ -24,7 +25,7 @@ namespace BOA.OneDesigner.WpfControls
                 var sizeInfo = (item as ISupportSizeInfo)?.SizeInfo;
                 if (sizeInfo == null || sizeInfo.IsEmpty)
                 {
-                    sizeInfo = cardSizeInfo;
+                    throw Error.InvalidOperation();
                 }
 
 
