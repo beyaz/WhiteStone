@@ -23,6 +23,7 @@ namespace BOA.OneDesigner.Helpers
         public IReadOnlyList<string>                     RequestCollectionPropertyIntellisense { get; set; }
         public IReadOnlyList<string>                     RequestPropertyIntellisense           { get; set; }
         public IReadOnlyList<string>                     RequestStringPropertyIntellisense     { get; set; }
+        public IReadOnlyList<string> RequestBooleanPropertyIntellisense { get; set; }
         #endregion
     }
 
@@ -40,6 +41,7 @@ namespace BOA.OneDesigner.Helpers
             typeof(long).FullName,
             typeof(decimal).FullName,
             typeof(DateTime).FullName,
+            typeof(bool).FullName,
 
             FullNameOfNullableSbyte,
             FullNameOfNullableByte,
@@ -47,7 +49,8 @@ namespace BOA.OneDesigner.Helpers
             FullNameOfNullableInt,
             FullNameOfNullableLong,
             FullNameOfNullableDecimal,
-            FullNameOfNullableDateTime
+            FullNameOfNullableDateTime,
+            FullNameOfNullableBoolean
         };
         #endregion
 
@@ -56,6 +59,7 @@ namespace BOA.OneDesigner.Helpers
         public static string FullNameOfNullableDateTime => "System.Nullable`1<" + typeof(DateTime).FullName + ">";
         public static string FullNameOfNullableDecimal  => "System.Nullable`1<" + typeof(decimal).FullName + ">";
         public static string FullNameOfNullableInt      => "System.Nullable`1<" + typeof(int).FullName + ">";
+        public static string FullNameOfNullableBoolean => "System.Nullable`1<" + typeof(bool).FullName + ">";
         public static string FullNameOfNullableLong     => "System.Nullable`1<" + typeof(long).FullName + ">";
         public static string FullNameOfNullableSbyte    => "System.Nullable`1<" + typeof(sbyte).FullName + ">";
         public static string FullNameOfNullableShort    => "System.Nullable`1<" + typeof(short).FullName + ">";
@@ -104,6 +108,19 @@ namespace BOA.OneDesigner.Helpers
 
             return items;
         }
+        public static IReadOnlyList<string> GetAllBooleanBindProperties(string assemblyPath, string typeFullName)
+        {
+            var items = new List<string>();
+
+            var typeDefinition = FindType(assemblyPath, typeFullName);
+            if (typeDefinition != null)
+            {
+                GetAllBooleanBindProperties(string.Empty, items, typeDefinition);
+            }
+
+            return items;
+        }
+        
 
         public static IReadOnlyList<string> GetAllBindProperties(string assemblyPath, string typeFullName, string propertyPath)
         {
@@ -189,6 +206,7 @@ namespace BOA.OneDesigner.Helpers
             {
                 RequestPropertyIntellisense           = GetAllBindProperties(assemblyPath, requestTypeFullName),
                 RequestStringPropertyIntellisense     = GetAllStringBindProperties(assemblyPath, requestTypeFullName),
+                RequestBooleanPropertyIntellisense = GetAllBooleanBindProperties(assemblyPath, requestTypeFullName),
                 RequestCollectionPropertyIntellisense = GetAllCollectionProperties(assemblyPath, requestTypeFullName),
                 Collections                           = new Dictionary<string, IReadOnlyList<string>>()
             };
@@ -216,6 +234,42 @@ namespace BOA.OneDesigner.Helpers
             });
 
             return typeDefinitions.FirstOrDefault();
+        }
+
+
+        
+
+        static void GetAllBooleanBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
+        {
+            if (typeDefinition == null)
+            {
+                return;
+            }
+
+            foreach (var propertyDefinition in typeDefinition.Properties)
+            {
+                if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
+                {
+                    continue;
+                }
+
+                if (propertyDefinition.PropertyType.FullName == typeof(bool).FullName ||
+                    propertyDefinition.PropertyType.FullName == FullNameOfNullableBoolean)
+                {
+                    paths.Add(pathPrefix + propertyDefinition.Name);
+                    continue;
+                }
+
+                if (IsCollection(propertyDefinition.PropertyType))
+                {
+                    continue;
+                }
+
+                if (propertyDefinition.PropertyType.IsValueType == false)
+                {
+                    GetAllBooleanBindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
+                }
+            }
         }
 
         static void GetAllBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)

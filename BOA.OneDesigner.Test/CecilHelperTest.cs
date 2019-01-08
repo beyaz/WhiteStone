@@ -7,6 +7,16 @@ namespace BOA.OneDesigner
     [TestClass]
     public class CecilHelperTest
     {
+
+        [TestMethod]
+        public void GetAllBooleanBindProperties()
+        {
+            var bindProperties = CecilHelper.GetAllBooleanBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ForeignDebitClearingRequest");
+
+            bindProperties.Should().Contain("Account.HasKMH");
+        }
+
+
         #region Public Methods
         [TestMethod]
         public void GetAllBindProperties()
