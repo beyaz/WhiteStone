@@ -24,6 +24,10 @@ namespace BOA.OneDesigner.PropertyEditors
 		{ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BInput.BindingPath) + @"}', Label:'Binding Path' },
 		{ui:'LabelEditor', Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(BInput.LabelInfo) + @"}'},
         {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BInput.SizeInfo) + @"}'},
+
+        {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true, Margin:5, Text:'{Binding " + nameof(BInput.IsVisibleBindingPath) + @"}', Label:'Is Visible' },
+        {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true, Margin:5, Text:'{Binding " + nameof(BInput.IsDisabledBindingPath) + @"}', Label:'Is Disabled' },
+
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }

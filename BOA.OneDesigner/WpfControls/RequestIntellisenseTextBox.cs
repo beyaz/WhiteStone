@@ -23,6 +23,8 @@ namespace BOA.OneDesigner.WpfControls
         #region Public Properties
         public bool ShowOnlyStringProperties { get; set; }
 
+        public bool ShowOnlyBooleanProperties { get; set; }
+
         public bool ShowOnlyCollectionProperties { get; set; }
         #endregion
 
@@ -73,6 +75,12 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     return Data.RequestStringPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
                 }
+                
+                if (_requestIntellisenseTextBox.ShowOnlyBooleanProperties)
+                {
+                    return Data.RequestBooleanPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                }
+                
                 if (_requestIntellisenseTextBox.ShowOnlyCollectionProperties)
                 {
                     return Data.RequestCollectionPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);

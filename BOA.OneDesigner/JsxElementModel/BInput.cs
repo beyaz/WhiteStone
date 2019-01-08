@@ -1,6 +1,5 @@
 ﻿using System;
 using BOA.OneDesigner.Helpers;
-using BOA.OneDesigner.WpfControls;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -13,6 +12,12 @@ namespace BOA.OneDesigner.JsxElementModel
         public new string Label => LabelInfo.GetDesignerText();
 
         public LabelInfo LabelInfo { get; set; } = new LabelInfo();
+
+
+        public string IsVisibleBindingPath{ get; set; }
+
+        public string IsDisabledBindingPath { get; set; }
+
         #endregion
     }
 }

@@ -171,7 +171,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: any) => {bindingPathInJs} = value}}");
+                sb.AppendLine($"onChange = {{(e: any, value: number) => {bindingPathInJs} = value}}");
                 sb.AppendLine("format = {\"D\"}");
                 sb.AppendLine("maxLength = {22}");
             }
@@ -180,7 +180,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: any) => {bindingPathInJs} = value}}");
+                sb.AppendLine($"onChange = {{(e: any, value: number) => {bindingPathInJs} = value}}");
                 sb.AppendLine("maxLength = {10}");
             }
             

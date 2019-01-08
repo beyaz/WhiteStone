@@ -1,19 +1,44 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
+using BOAPlugins.Utility;
 using WhiteStone.UI.Container.Mvc;
+using Host = BOA.OneDesigner.AppModel.Host;
 
 namespace BOA.OneDesigner.MainForm
 {
     public class Controller : ControllerBase<Model>
     {
+        #region Public Properties
         public Host Host { get; set; }
+        #endregion
 
+        #region Properties
         IDatabase Database => Host.Database;
+        #endregion
 
         #region Public Methods
+        public void GenerateCodes()
+        {
+            if (Model.ScreenInfo.JsxModel == null)
+            {
+                Model.ViewMessage            = "Design boş olamaz.";
+                Model.ViewMessageTypeIsError = true;
+                return;
+            }
+
+            var tsxCode = TransactionPage.Generate(Model.ScreenInfo);
+
+            var filePath = Model.SolutionInfo.OneProjectFolder + @"ClientApp\pages\" + Model.ScreenInfo.RequestName.SplitAndClear(".").Last().RemoveFromEnd("Request") + ".tsx";
+
+            Util.WriteFileIfContentNotEqual(filePath, tsxCode);
+        }
+
         public void Next()
         {
             if (string.IsNullOrWhiteSpace(Model.ScreenInfo.TfsFolderName))
@@ -63,38 +88,18 @@ namespace BOA.OneDesigner.MainForm
             };
 
             MessagingHelper.MessagingPropertyNames = Database.GetPropertyNames(Model.ScreenInfo.MessagingGroupName);
-
-
         }
 
-        public void Save()
-        {
-            if (Model.ScreenInfo.JsxModel == null)
-            {
-                Model.ViewMessage            = "Design boş olamaz.";
-                Model.ViewMessageTypeIsError = true;
-                return;
-            }
-            Database.Save(Model.ScreenInfo);
-
-            Model.ViewMessage = "Kaydedildi.";
-
-
-        }
-        public void GenerateCodes()
-        {
-
-        }
         public override void OnViewLoaded()
         {
             Model = new Model
             {
-                ScreenInfo      = new ScreenInfo(),
-                TfsFolderNames  = Database.GetTfsFolderNames(),
-                SearchIsVisible = true,
-                FormTypes       = FormType.GetAll(),
+                ScreenInfo          = new ScreenInfo(),
+                TfsFolderNames      = Database.GetTfsFolderNames(),
+                SearchIsVisible     = true,
+                FormTypes           = FormType.GetAll(),
                 MessagingGroupNames = Database.GetMessagingGroupNames(),
-               
+
                 ActionButtons = new List<ActionButtonInfo>
                 {
                     new ActionButtonInfo
@@ -110,20 +115,31 @@ namespace BOA.OneDesigner.MainForm
 
         public void RequestNameChanged()
         {
-
             var screenInfo = Database.GetScreenInfo(Model.ScreenInfo.RequestName);
             if (screenInfo != null)
             {
-                Model.ScreenInfo = screenInfo;
+                Model.ScreenInfo   = screenInfo;
                 Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
             }
 
             if (Model.SolutionInfo != null)
             {
-                Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);   
-
+                Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
             }
-            
+        }
+
+        public void Save()
+        {
+            if (Model.ScreenInfo.JsxModel == null)
+            {
+                Model.ViewMessage            = "Design boş olamaz.";
+                Model.ViewMessageTypeIsError = true;
+                return;
+            }
+
+            Database.Save(Model.ScreenInfo);
+
+            Model.ViewMessage = "Kaydedildi.";
         }
 
         public void TfsFolderNameChanged()
@@ -135,7 +151,5 @@ namespace BOA.OneDesigner.MainForm
             }
         }
         #endregion
-
-        
     }
 }
