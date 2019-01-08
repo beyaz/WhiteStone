@@ -122,8 +122,6 @@ namespace BOA.OneDesigner.WpfControls
 
         void OnDrop(DropLocation dropLocation)
         {
-            // Surface.ExitDropLocationMode();
-
             var insertIndex = dropLocation.TargetLocationIndex;
 
             var bInput = Host.DraggingElement as BCardWpf;
