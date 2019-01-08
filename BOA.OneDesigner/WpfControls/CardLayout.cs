@@ -16,34 +16,64 @@ namespace BOA.OneDesigner.WpfControls
 
             var rowIndex    = 0;
             var columnIndex = 0;
+            var pushRow = false;
 
             var elements = grid.Children.ToArray();
 
-            foreach (var item in elements)
+            var length = elements.Length;
+
+            for (var i = 0; i < length; i++)
             {
+                var item        = elements[i];
+                var isLast = i == length - 1;
+               
+                var nextItem = isLast ? null: elements[i+1];
+                var nextItemLayoutProps = (nextItem as BCardWpf)?.Model?.LayoutProps;
+
+
                 var layoutProps = (item as BCardWpf)?.Model?.LayoutProps;
-                if (layoutProps == null )
+                if (layoutProps == null)
                 {
                     throw Error.InvalidOperation();
                 }
 
-                var isLast = item == elements.Last();
+                
 
                 var span = layoutProps.Wide;
 
                 item.SetValue(Grid.RowProperty, rowIndex);
-                item.SetValue(Grid.ColumnProperty, columnIndex+layoutProps.X);
+                item.SetValue(Grid.ColumnProperty,  layoutProps.X);
                 item.SetValue(Grid.ColumnSpanProperty, span);
 
                 columnIndex += span;
 
-                if (isLast || columnIndex >= 12)
+                if ( isLast || columnIndex >= 12 )
+                {
+                    pushRow = true;
+                }
+
+                if (!pushRow)
+                {
+                    if (  nextItemLayoutProps != null)
+                    {
+                        if (nextItemLayoutProps.X ==0 || columnIndex + nextItemLayoutProps.Wide >12)
+                        {
+                            pushRow = true;
+                        }
+                    }    
+                }
+                
+
+                if (pushRow)
                 {
                     grid.RowDefinitions.Add(new RowDefinition {Height = GridLength.Auto});
 
                     columnIndex = 0;
                     rowIndex++;
+                    pushRow = false;
                 }
+
+
             }
         }
 

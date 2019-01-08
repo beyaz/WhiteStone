@@ -9,6 +9,125 @@ namespace BOA.OneDesigner
     [TestClass]
     public class CardLayoutTest
     {
+        static BCardWpf CreateCard(int wide, int x)
+        {
+            return new BCardWpf {DataContext = new BCard {LayoutProps = new LayoutProps {Wide = wide, X = x}}};
+        }
+
+        [TestMethod]
+        public void ApplyForCardsContainer_should_reorder_elements_according_to_layoutProps_information()
+        {
+            var grid = new Grid();
+
+            // 4-4-4
+            grid.Children.Add(CreateCard(4,0));
+            grid.Children.Add(CreateCard(4,4));
+            grid.Children.Add(CreateCard(4,8));
+
+            // ACT
+            CardLayout.ApplyForCardsContainer(grid);
+
+            // 4-4-4
+            grid.Children[0].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[0].GetValue(Grid.ColumnProperty).Should().Be(0);
+            grid.Children[0].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+            grid.Children[1].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[1].GetValue(Grid.ColumnProperty).Should().Be(4);
+            grid.Children[1].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+            grid.Children[2].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[2].GetValue(Grid.ColumnProperty).Should().Be(8);
+            grid.Children[2].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+
+            // 3-3-3-3
+            grid.Children.Add(CreateCard(3,0));
+            grid.Children.Add(CreateCard(3,3));
+            grid.Children.Add(CreateCard(3,6));
+            grid.Children.Add(CreateCard(3,9));
+
+
+            // ACT
+            CardLayout.ApplyForCardsContainer(grid);
+
+
+            // 4-4-4
+            grid.Children[0].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[0].GetValue(Grid.ColumnProperty).Should().Be(0);
+            grid.Children[0].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+            grid.Children[1].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[1].GetValue(Grid.ColumnProperty).Should().Be(4);
+            grid.Children[1].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+            grid.Children[2].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[2].GetValue(Grid.ColumnProperty).Should().Be(8);
+            grid.Children[2].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+            // 3-3-3-3
+            grid.Children[3].GetValue(Grid.RowProperty).Should().Be(1);
+            grid.Children[3].GetValue(Grid.ColumnProperty).Should().Be(0);
+            grid.Children[3].GetValue(Grid.ColumnSpanProperty).Should().Be(3);
+
+            grid.Children[4].GetValue(Grid.RowProperty).Should().Be(1);
+            grid.Children[4].GetValue(Grid.ColumnProperty).Should().Be(3);
+            grid.Children[4].GetValue(Grid.ColumnSpanProperty).Should().Be(3);
+
+            grid.Children[5].GetValue(Grid.RowProperty).Should().Be(1);
+            grid.Children[5].GetValue(Grid.ColumnProperty).Should().Be(6);
+            grid.Children[5].GetValue(Grid.ColumnSpanProperty).Should().Be(3);
+
+            grid.Children[6].GetValue(Grid.RowProperty).Should().Be(1);
+            grid.Children[6].GetValue(Grid.ColumnProperty).Should().Be(9);
+            grid.Children[6].GetValue(Grid.ColumnSpanProperty).Should().Be(3);
+
+
+            // w:7,x:5
+            grid.Children.Add(CreateCard(7,5));
+
+            // ACT
+            CardLayout.ApplyForCardsContainer(grid);
+
+            // 4-4-4
+            grid.Children[0].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[0].GetValue(Grid.ColumnProperty).Should().Be(0);
+            grid.Children[0].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+            grid.Children[1].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[1].GetValue(Grid.ColumnProperty).Should().Be(4);
+            grid.Children[1].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+            grid.Children[2].GetValue(Grid.RowProperty).Should().Be(0);
+            grid.Children[2].GetValue(Grid.ColumnProperty).Should().Be(8);
+            grid.Children[2].GetValue(Grid.ColumnSpanProperty).Should().Be(4);
+
+            // 3-3-3-3
+            grid.Children[3].GetValue(Grid.RowProperty).Should().Be(1);
+            grid.Children[3].GetValue(Grid.ColumnProperty).Should().Be(0);
+            grid.Children[3].GetValue(Grid.ColumnSpanProperty).Should().Be(3);
+
+            grid.Children[4].GetValue(Grid.RowProperty).Should().Be(1);
+            grid.Children[4].GetValue(Grid.ColumnProperty).Should().Be(3);
+            grid.Children[4].GetValue(Grid.ColumnSpanProperty).Should().Be(3);
+
+            grid.Children[5].GetValue(Grid.RowProperty).Should().Be(1);
+            grid.Children[5].GetValue(Grid.ColumnProperty).Should().Be(6);
+            grid.Children[5].GetValue(Grid.ColumnSpanProperty).Should().Be(3);
+
+            grid.Children[6].GetValue(Grid.RowProperty).Should().Be(1);
+            grid.Children[6].GetValue(Grid.ColumnProperty).Should().Be(9);
+            grid.Children[6].GetValue(Grid.ColumnSpanProperty).Should().Be(3);
+
+
+            // w:7,x:5
+            grid.Children[7].GetValue(Grid.RowProperty).Should().Be(2);
+            grid.Children[7].GetValue(Grid.ColumnProperty).Should().Be(5);
+            grid.Children[7].GetValue(Grid.ColumnSpanProperty).Should().Be(7);
+        }
+
+
+
         #region Public Methods
         [TestMethod]
         public void App_should_reorder_elements_according_to_size_information()

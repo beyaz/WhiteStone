@@ -148,6 +148,10 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
+
+            var grid = new Grid();
+            Children.Add(grid);
+
             foreach (var bCard in Model.Items)
             {
                 bCard.Container = Model;
@@ -162,15 +166,13 @@ namespace BOA.OneDesigner.WpfControls
 
                 Host.DragHelper.MakeDraggable(cardWpf);
 
-                
-                var grid = WpfHelper.CreateGridWith12Column();
 
                 grid.Children.Add(cardWpf);
 
-                cardWpf.SetValue(Grid.ColumnSpanProperty,Math.Max(1,bCard.LayoutProps.Wide));    
 
-                Children.Add(grid);
             }
+
+            CardLayout.ApplyForCardsContainer(grid);
         }
         #endregion
     }
