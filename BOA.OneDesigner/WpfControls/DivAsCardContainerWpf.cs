@@ -169,43 +169,10 @@ namespace BOA.OneDesigner.WpfControls
 
                 grid.Children.Add(cardWpf);
 
-//                cardWpf.SetValue(Grid.ColumnSpanProperty,EvaluateColumnSpan(bCard.SizeInfo)); 
-              
-                
                 cardWpf.SetValue(Grid.ColumnSpanProperty,Math.Max(1,bCard.LayoutProps.Wide));    
-                
 
                 Children.Add(grid);
             }
-        }
-
-        static int EvaluateColumnSpan(SizeInfo sizeInfo)
-        {
-            if (sizeInfo == null)
-            {
-                return 6;
-            }
-            if (sizeInfo.IsLarge)
-            {
-                return 12;
-            }
-
-            if (sizeInfo.IsMedium)
-            {
-                return 6;
-            }
-            if (sizeInfo.IsSmall)
-            {
-                return 4;
-            }
-            if (sizeInfo.IsExtraSmall)
-            {
-                return 3;
-            }
-
-            return 6;
-
-
         }
         #endregion
     }
