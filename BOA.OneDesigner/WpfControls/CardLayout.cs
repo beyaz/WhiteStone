@@ -90,7 +90,7 @@ namespace BOA.OneDesigner.WpfControls
             foreach (var item in elements)
             {
                 var sizeInfo = (item as ISupportSizeInfo)?.SizeInfo;
-                if (sizeInfo == null || sizeInfo.IsEmpty)
+                if (sizeInfo == null )
                 {
                     throw Error.InvalidOperation();
                 }
@@ -167,7 +167,7 @@ namespace BOA.OneDesigner.WpfControls
                 return 4;
             }
 
-            throw Error.InvalidOperation();
+            return  12;
         }
         #endregion
     }

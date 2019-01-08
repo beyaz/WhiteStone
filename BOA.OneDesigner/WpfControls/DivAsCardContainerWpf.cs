@@ -1,12 +1,11 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class DivAsCardContainerWpf : StackPanel, IHostItem
+    public class DivAsCardContainerWpf : Grid, IHostItem
     {
         #region Constructors
         public DivAsCardContainerWpf()
@@ -90,6 +89,8 @@ namespace BOA.OneDesigner.WpfControls
                 OnDropAction        = OnDrop,
                 TargetLocationIndex = items.Length
             });
+
+            CardLayout.ApplyWithDropLocationMode(this);
         }
 
         void ExitDropLocationMode()
@@ -149,8 +150,7 @@ namespace BOA.OneDesigner.WpfControls
             }
 
 
-            var grid = new Grid();
-            Children.Add(grid);
+            
 
             foreach (var bCard in Model.Items)
             {
@@ -167,12 +167,12 @@ namespace BOA.OneDesigner.WpfControls
                 Host.DragHelper.MakeDraggable(cardWpf);
 
 
-                grid.Children.Add(cardWpf);
+                Children.Add(cardWpf);
 
 
             }
 
-            CardLayout.ApplyForCardsContainer(grid);
+            CardLayout.ApplyForCardsContainer(this);
         }
         #endregion
     }
