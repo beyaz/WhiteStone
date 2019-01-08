@@ -1,6 +1,7 @@
 ﻿{
   "Title": "Close -> Esc",
   "Width": 450,
+  "Height": 540,
   "Content": {
 
     "ui": "StackPanel",
