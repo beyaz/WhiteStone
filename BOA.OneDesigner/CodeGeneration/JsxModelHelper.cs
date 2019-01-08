@@ -69,22 +69,12 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.Append($" title = {{{labelValue}}}");
             }
 
-            if (data.SizeInfo?.IsLarge == true)
+            if (data.LayoutProps != null)
             {
-                sb.Append(" layoutProps = {{w:12}}");
+                sb.Append(" layoutProps = {{w:"+data.LayoutProps.Wide+", x:"+data.LayoutProps.X+"}}");
             }
-            else if (data.SizeInfo?.IsMedium == true)
-            {
-                sb.Append(" layoutProps = {{w:6}}");
-            }
-            else if (data.SizeInfo?.IsSmall == true)
-            {
-                sb.Append(" layoutProps = {{w:4}}");
-            }
-            else if (data.SizeInfo?.IsExtraSmall == true)
-            {
-                sb.Append(" layoutProps = {{w:3}}");
-            }
+
+            data.SizeInfo = null;
 
             sb.Append(">");
             sb.Append(Environment.NewLine);

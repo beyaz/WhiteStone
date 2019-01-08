@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -8,6 +9,18 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class BCardEditor : StackPanel, IHostItem
     {
+
+        public void FirePropertyChanged()
+        {
+            if (Host == null)
+            {
+                return;
+                // TODO:??
+                // throw Error.InvalidOperation();
+            }
+            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+        }
+
         #region Fields
         public LabelEditor _labelEditor;
         public SizeEditor  _sizeEditor;
@@ -23,6 +36,10 @@ namespace BOA.OneDesigner.PropertyEditors
 	Childs:[  
 		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(BCard.TitleInfo) + @"}'},
         {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BCard.SizeInfo) + @"}'},
+        
+        {ui:'TextBox',Label:'Wide',MarginTop:10, Text:'{Binding "+ Model.AccessPathOf(m=>m.LayoutProps.Wide) +@"}', KeyUp:'FirePropertyChanged' },
+        {ui:'TextBox',Label:'X',  MarginTop:10,  Text:'{Binding "+ Model.AccessPathOf(m=>m.LayoutProps.X) +@"}',    KeyUp:'FirePropertyChanged' },
+
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }

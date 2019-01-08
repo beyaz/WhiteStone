@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
@@ -152,6 +153,10 @@ namespace BOA.OneDesigner.WpfControls
             foreach (var bCard in Model.Items)
             {
                 bCard.Container = Model;
+                if (bCard.LayoutProps == null)
+                {
+                    bCard.LayoutProps = new LayoutProps();
+                }
 
                 var cardWpf = Host.Create<BCardWpf>(bCard);
 
@@ -161,9 +166,13 @@ namespace BOA.OneDesigner.WpfControls
 
                 
                 var grid = WpfHelper.CreateGridWith12Column();
+
                 grid.Children.Add(cardWpf);
 
-                cardWpf.SetValue(Grid.ColumnSpanProperty,EvaluateColumnSpan(bCard.SizeInfo));    
+//                cardWpf.SetValue(Grid.ColumnSpanProperty,EvaluateColumnSpan(bCard.SizeInfo)); 
+              
+                
+                cardWpf.SetValue(Grid.ColumnSpanProperty,Math.Max(1,bCard.LayoutProps.Wide));    
                 
 
                 Children.Add(grid);

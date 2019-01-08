@@ -4,19 +4,25 @@ using BOA.OneDesigner.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
+
+
+   
     [Serializable]
     public class BCard : Container
     {
-        public SizeInfo SizeInfo { get; set; } = new SizeInfo();
-
         #region Public Properties
         public CardContainer Container { get; set; }
         public List<BField>  Items     { get; set; } = new List<BField>();
-        public string Title => TitleInfo.GetDesignerText();
-        #endregion
+        public SizeInfo      SizeInfo  { get; set; } = new SizeInfo();
 
+        public LayoutProps LayoutProps { get; set; } = new LayoutProps {Wide = 5};
+        
+
+
+        public string        Title     => TitleInfo.GetDesignerText();
 
         public LabelInfo TitleInfo { get; set; } = new LabelInfo();
+        #endregion
 
         #region Public Methods
         public override void InsertItem(int index, BField item)
