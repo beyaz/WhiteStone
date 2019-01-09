@@ -107,7 +107,8 @@
     <Compile Include="JsxElementModel\SizeInfo.cs" />
     <Compile Include="PropertyEditors\BCardEditor.cs" />
     <Compile Include="PropertyEditors\BDataGridColumnInfoEditor.cs" />
-    <Compile Include="PropertyEditors\TabControlEditor.cs" />
+    <Compile Include="PropertyEditors\BTabBarPageEditor.cs" />
+    <Compile Include="PropertyEditors\BTabBarEditor.cs" />
     <Compile Include="WpfControls\BDataGridColumnWpf.xaml.cs">
       <DependentUpon>BDataGridColumnWpf.xaml</DependentUpon>
     </Compile>
@@ -117,6 +118,7 @@
     </Compile>
     <Compile Include="PropertyEditors\BInputEditor.cs" />
     <Compile Include="Helpers\CecilHelper.cs" />
+    <Compile Include="WpfControls\BTabBarPageWpf.cs" />
     <Compile Include="WpfControls\CardLayout.cs" />
     <Compile Include="WpfControls\InsertHelper.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
@@ -198,7 +200,7 @@
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
     <Compile Include="Helpers\TfsHelper.cs" />
-    <Compile Include="WpfControls\TabControlWpf.cs" />
+    <Compile Include="WpfControls\BTabBarWpf.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
     <Compile Include="WpfControls\UIBuilderHelper.cs" />
     <Compile Include="WpfControls\WpfHelper.cs" />

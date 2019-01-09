@@ -1,7 +1,9 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
@@ -128,6 +130,17 @@ namespace BOA.OneDesigner.WpfControls
             var tabControlWpf = Host.DraggingElement as BTabBarWpf;
             if (tabControlWpf != null)
             {
+                if (tabControlWpf.IsInToolbox)
+                {
+                    Model.InsertItem(insertIndex, new BTabBar{Items = new List<BTabBarPage>
+                    {
+                        new BTabBarPage
+                        {
+                            TitleInfo = LabelInfoHelper.CreateNewLabelInfo("Page 0")
+                        }
+                    }});
+                    return;
+                }
                 tabControlWpf.Model.RemoveFromParent();
 
                 Model.InsertItem(insertIndex, tabControlWpf.Model);

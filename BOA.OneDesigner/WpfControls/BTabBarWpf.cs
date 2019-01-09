@@ -1,51 +1,49 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    /// <summary>
-    ///     Interaction logic for BDataGridInfoWpf.xaml
-    /// </summary>
-    public partial class BDataGridInfoWpf :  IHostItem,ISupportSizeInfo
+    public sealed class BTabBarWpf : Border, IHostItem, ISupportSizeInfo
     {
+        #region Fields
+        readonly WrapPanel HeadersContainersWrapPanel;
+        readonly StackPanel _stackPanel;
+        #endregion
+
         #region Constructors
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="BCardWpf" /> class.
-        /// </summary>
-        public BDataGridInfoWpf()
+        public BTabBarWpf()
         {
-            InitializeComponent();
 
-            Loaded += (s, e) =>{AttachToEventBus();};
+            BorderBrush = Brushes.Black;
+            BorderThickness = new Thickness(3);
 
+            _stackPanel = new StackPanel();
+
+            Child = _stackPanel;
+
+
+            HeadersContainersWrapPanel = new WrapPanel();
+
+            _stackPanel.Children.Add(HeadersContainersWrapPanel);
+
+            Loaded   += (s, e) => { AttachToEventBus(); };
             Unloaded += (s, e) => { DeAttachToEventBus(); };
 
-            Loaded += (s, e) =>{ Refresh();};
+            Loaded += (s, e) => { Refresh(); };
         }
         #endregion
 
         #region Public Properties
-        /// <summary>
-        ///     Gets the data.
-        /// </summary>
-        public BDataGrid Model => (BDataGrid) DataContext;
+        public Host    Host                      { get; set; }
+        public bool    IsEnteredDropLocationMode { get; set; }
+        public bool    IsInToolbox               { get; set; }
+        public BTabBar Model                     => (BTabBar) DataContext;
 
-        public UIElementCollection ColumnsCollection => _columnsContainer.Children;
-
-        public Host Host { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether this instance is entered drop location mode.
-        /// </summary>
-        public bool IsEnteredDropLocationMode { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether this instance is in toolbox.
-        /// </summary>
-        public bool IsInToolbox { get; set; }
+        public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
         #endregion
 
         #region Public Methods
@@ -60,18 +58,17 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.Subscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
+
+            Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
         }
 
         public void DeAttachToEventBus()
         {
-           
-
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
+            Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
         }
 
         /// <summary>
@@ -81,17 +78,12 @@ namespace BOA.OneDesigner.WpfControls
         {
             var insertIndex = dropLocation.TargetLocationIndex;
 
-
-
-
-
-
-            var dataGridColumnWpf = Host.DraggingElement as BDataGridColumnWpf;
-            if (dataGridColumnWpf != null)
+            var bTabBarPageWpf = Host.DraggingElement as BTabBarPageWpf;
+            if (bTabBarPageWpf != null)
             {
-                if (Model.Columns.Contains(dataGridColumnWpf.Model))
+                if (Model.Items.Contains(bTabBarPageWpf.Model))
                 {
-                    InsertHelper.Move(Model.Columns,dataGridColumnWpf.Model,insertIndex);
+                    InsertHelper.Move(Model.Items, bTabBarPageWpf.Model, insertIndex);
                 }
 
                 return;
@@ -107,24 +99,31 @@ namespace BOA.OneDesigner.WpfControls
         {
             if (IsInToolbox)
             {
+                _stackPanel.Children.Clear();
+
+                _stackPanel.Children.Add(new GroupBox
+                {
+                    
+                    Header    = "Tab Bar"
+                });
                 return;
+
             }
 
-           
-            _columnsContainer.Children.RemoveAll();
+            HeadersContainersWrapPanel.Children.RemoveAll();
 
             if (Model == null)
             {
                 return;
             }
 
-            foreach (var columnInfo in Model.Columns)
+            foreach (var columnInfo in Model.Items)
             {
-                var uiElement = new BDataGridColumnWpf(columnInfo, Host, this);
+                var uiElement = new BTabBarPageWpf(columnInfo, Host, this);
 
                 Host.DragHelper.MakeDraggable(uiElement);
 
-                _columnsContainer.Children.Add(uiElement);
+                HeadersContainersWrapPanel.Children.Add(uiElement);
             }
         }
         #endregion
@@ -135,7 +134,7 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         bool CanDrop(UIElement dragElement)
         {
-            return _columnsContainer.Children.ToArray().Contains(dragElement);
+            return HeadersContainersWrapPanel.Children.ToArray().Contains(dragElement);
         }
 
         /// <summary>
@@ -145,6 +144,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             if (IsInToolbox)
             {
+               
                 return;
             }
 
@@ -160,7 +160,7 @@ namespace BOA.OneDesigner.WpfControls
 
             IsEnteredDropLocationMode = true;
 
-            var children = _columnsContainer.Children;
+            var children = HeadersContainersWrapPanel.Children;
 
             var items = children.ToArray();
 
@@ -199,7 +199,7 @@ namespace BOA.OneDesigner.WpfControls
 
             IsEnteredDropLocationMode = false;
 
-            var children = _columnsContainer.Children;
+            var children = HeadersContainersWrapPanel.Children;
 
             var items = children.ToArray();
 
@@ -216,21 +216,19 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
-        void OnColumnRemoved()
+        void OnTabPageRemoved()
         {
-            var column = Model.Columns.FirstOrDefault(x => x.ShouldRemove);
+            var column = Model.Items.FirstOrDefault(x => x.ShouldRemove);
             if (column != null)
             {
-                var index = Model.Columns.IndexOf(column);
+                var index = Model.Items.IndexOf(column);
                 if (index >= 0)
                 {
-                    Model.Columns.RemoveAt(index);
+                    Model.Items.RemoveAt(index);
                     Refresh();
                 }
             }
         }
         #endregion
-
-        public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
     }
 }

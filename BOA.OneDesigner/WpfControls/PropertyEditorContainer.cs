@@ -14,7 +14,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             Header = "Properties";
 
-            Loaded += (s, e) => { AttachToEventBus(); };
+            Loaded   += (s, e) => { AttachToEventBus(); };
             Unloaded += (s, e) => { DeAttachToEventBus(); };
         }
         #endregion
@@ -28,14 +28,20 @@ namespace BOA.OneDesigner.WpfControls
         {
             Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Refresh);
             Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, UpdateHeader);
+            
         }
+
         public void DeAttachToEventBus()
         {
             Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, Refresh);
             Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, UpdateHeader);
         }
+        #endregion
 
-        public void Refresh()
+        #region Methods
+        void Refresh()
         {
             Content = null;
 
@@ -65,7 +71,6 @@ namespace BOA.OneDesigner.WpfControls
                 Content = Host.Create<BDataGridColumnInfoEditor>(DataContext);
                 return;
             }
-            
 
             var bCard = DataContext as BCard;
             if (bCard != null)
@@ -81,16 +86,32 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-
-            var tabControl= DataContext as BTabBar;
+            var tabControl = DataContext as BTabBar;
             if (tabControl != null)
             {
-                Content = Host.Create<BDataGridEditor>(tabControl);
+                Content = Host.Create<BTabBarEditor>(tabControl);
                 return;
             }
 
+            var bTabBarPage = DataContext as BTabBarPage;
+            if (bTabBarPage != null)
+            {
+                Content = Host.Create<BTabBarPageEditor>(DataContext);
+                return;
+            }
 
             throw new ArgumentException();
+        }
+
+        void UpdateHeader()
+        {
+            if (DataContext == null)
+            {
+                Header = "Properties";
+                return;
+            }
+
+            Header = "Properties -> " + DataContext.GetType().Name;
         }
         #endregion
     }

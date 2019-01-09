@@ -8,15 +8,17 @@ namespace BOA.OneDesigner.JsxElementModel
     public class BTabBar:BField
     {
         #region Public Properties
-        public IReadOnlyList<TabPage> Items { get; set; }
+        public List<BTabBarPage> Items { get; set; } = new List<BTabBarPage>();
         #endregion
     }
 
     [Serializable]
-    public class TabPage
+    public class BTabBarPage
     {
+        public bool ShouldRemove { get; set; }
+
         #region Public Properties
-        public DivAsCardContainer DivAsCardContainer { get; set; }
+        public DivAsCardContainer DivAsCardContainer { get; set; } = new DivAsCardContainer();
 
         public string Title => TitleInfo.GetDesignerText();
 

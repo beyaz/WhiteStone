@@ -103,21 +103,12 @@ namespace BOA.OneDesigner.WpfControls
 
 
             #region TabControl
-            var tabControlWpf = new BTabBarWpf()
+            var tabControlWpf = new BTabBarWpf
             {
                 Host        = Host,
                 Height      = 100,
                 IsInToolbox = true,
-                DataContext = new JsxElementModel.BTabBar
-                {
-                    Items = new List<TabPage>
-                    {
-                        new TabPage
-                        {
-                            TitleInfo = LabelInfoHelper.CreateNewLabelInfo("Tab Page Header")
-                        }
-                    }
-                }
+                DataContext = new BTabBar()
             };
 
             Host.DragHelper.MakeDraggable(tabControlWpf);

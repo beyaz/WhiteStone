@@ -19,6 +19,7 @@ namespace BOA.OneDesigner.AppModel
         public const string OnDragStarted              = nameof(OnDragStarted);
         public const string RefreshFromDataContext     = nameof(RefreshFromDataContext);
         public const string DataGridColumnRemoved = nameof(DataGridColumnRemoved);
+        public const string TabBarPageRemoved = nameof(TabBarPageRemoved);
         #endregion
 
         #region Fields
