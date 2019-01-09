@@ -22,7 +22,7 @@ namespace BOA.OneDesigner.WpfControls
             tsxCode.Should().NotBeNullOrEmpty();
 
 
-            File.WriteAllText(@"D:\Work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\One\BOA.One.CardGeneral.DebitCard\ClientApp\pages\GeneralParametersForm.tsx",tsxCode);
+            // File.WriteAllText(@"D:\Work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\One\BOA.One.CardGeneral.DebitCard\ClientApp\pages\GeneralParametersForm.tsx",tsxCode);
         }
         #endregion
     }
