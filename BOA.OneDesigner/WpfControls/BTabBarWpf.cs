@@ -42,51 +42,11 @@ namespace BOA.OneDesigner.WpfControls
         public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
         #endregion
 
-        #region Public Methods
-        public void AttachToEventBus()
-        {
-            if (IsInToolbox)
-            {
-                return;
-            }
-
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
-        }
-
-        public void DeAttachToEventBus()
-        {
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
-        }
-
-        /// <summary>
-        ///     Called when [drop].
-        /// </summary>
-        public void OnDrop(DropLocation dropLocation)
-        {
-            var insertIndex = dropLocation.TargetLocationIndex;
-
-            var bTabBarPageWpf = Host.DraggingElement as BTabBarPageWpf;
-            if (bTabBarPageWpf != null)
-            {
-                if (Model.Items.Contains(bTabBarPageWpf.Model))
-                {
-                    InsertHelper.Move(Model.Items, bTabBarPageWpf.Model, insertIndex);
-                }
-
-                return;
-            }
-
-            throw Error.InvalidOperation();
-        }
-
+        #region Methods
         /// <summary>
         ///     Refreshes this instance.
         /// </summary>
-        public void Refresh()
+        internal void Refresh()
         {
             if (IsInToolbox)
             {
@@ -94,8 +54,8 @@ namespace BOA.OneDesigner.WpfControls
 
                 TabPageBodyList.Children.Add(new GroupBox
                 {
-                    Header = "Tab Bar",
-                   VerticalAlignment = VerticalAlignment.Stretch
+                    Header            = "Tab Bar",
+                    VerticalAlignment = VerticalAlignment.Stretch
                 });
                 return;
             }
@@ -114,27 +74,24 @@ namespace BOA.OneDesigner.WpfControls
                 Host.DragHelper.MakeDraggable(uiElement);
 
                 var tabPageBody = Host.Create<DivAsCardContainerWpf>(bTabBarPage.DivAsCardContainer);
-                
-                tabPageBody.MinHeight= 100;
-                tabPageBody.MinWidth = 150;
-                
+
+                tabPageBody.MinHeight = 100;
+                tabPageBody.MinWidth  = 150;
 
                 if (bTabBarPage.IsActiveInDesigner)
                 {
-                    tabPageBody.Visibility = Visibility.Visible;    
+                    tabPageBody.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     tabPageBody.Visibility = Visibility.Collapsed;
                 }
-                
 
                 uiElement.PreviewMouseLeftButtonDown += (s, e) =>
                 {
-                    Model.Items.ForEach(page=>page.IsActiveInDesigner = false);
+                    Model.Items.ForEach(page => page.IsActiveInDesigner = false);
                     bTabBarPage.IsActiveInDesigner = true;
                     Refresh();
-
                 };
 
                 TabPageBodyList.Children.Add(tabPageBody);
@@ -142,9 +99,51 @@ namespace BOA.OneDesigner.WpfControls
                 HeadersContainersWrapPanel.Children.Add(uiElement);
             }
         }
-        #endregion
 
-        #region Methods
+        void AttachToEventBus()
+        {
+            if (IsInToolbox)
+            {
+                return;
+            }
+
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
+        }
+
+        void DeAttachToEventBus()
+        {
+            if (IsInToolbox)
+            {
+                return;
+            }
+
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
+        }
+
+        /// <summary>
+        ///     Called when [drop].
+        /// </summary>
+        void OnDrop(DropLocation dropLocation)
+        {
+            var insertIndex = dropLocation.TargetLocationIndex;
+
+            var bTabBarPageWpf = Host.DraggingElement as BTabBarPageWpf;
+            if (bTabBarPageWpf != null)
+            {
+                if (Model.Items.Contains(bTabBarPageWpf.Model))
+                {
+                    InsertHelper.Move(Model.Items, bTabBarPageWpf.Model, insertIndex);
+                }
+
+                return;
+            }
+
+            throw Error.InvalidOperation();
+        }
 
         void OnTabPageRemoved()
         {
