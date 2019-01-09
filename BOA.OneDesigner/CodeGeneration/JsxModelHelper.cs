@@ -80,19 +80,32 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.PaddingCount++;
 
+            var subComponents= new List<string>();
+
             foreach (var item in data.Items)
             {
-                sb.AppendLine();
-
                 var bInput = item as BInput;
                 if (bInput != null)
                 {
-                    sb.Write(screenInfo, bInput);
+                    var stringBuilder = new PaddedStringBuilder();
+                    stringBuilder.Write(screenInfo, bInput);
+
+                    subComponents.Add(stringBuilder.ToString());
                     continue;
                 }
 
                 throw Error.InvalidOperation();
             }
+
+            
+            foreach (var subComponent in subComponents)
+            {
+                sb.AppendLine();
+                sb.AppendAll(subComponent);
+                sb.AppendLine();
+            }
+
+
 
             sb.PaddingCount--;
             sb.AppendLine("</BCard>");
