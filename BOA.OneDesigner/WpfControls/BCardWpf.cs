@@ -124,6 +124,17 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
+
+            var tabControlWpf = Host.DraggingElement as BTabBarWpf;
+            if (tabControlWpf != null)
+            {
+                tabControlWpf.Model.RemoveFromParent();
+
+                Model.InsertItem(insertIndex, tabControlWpf.Model);
+
+                return;
+            }
+
             throw Error.InvalidOperation();
         }
 
@@ -154,6 +165,16 @@ namespace BOA.OneDesigner.WpfControls
                 if (bField is BDataGrid)
                 {
                     var uiElement = Host.Create<BDataGridInfoWpf>(bField);
+
+                    Host.DragHelper.MakeDraggable(uiElement);
+
+                    ChildrenContainer.Children.Add(uiElement);
+                    continue;
+                }
+
+                if (bField is BTabBar)
+                {
+                    var uiElement = Host.Create<BTabBarWpf>(bField);
 
                     Host.DragHelper.MakeDraggable(uiElement);
 
@@ -193,6 +214,11 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             if (dragElement is BDataGridInfoWpf)
+            {
+                return true;
+            }
+
+            if (dragElement is BTabBarWpf)
             {
                 return true;
             }

@@ -82,6 +82,13 @@ namespace BOA.OneDesigner.WpfControls
             }
 
 
+            var tabControl= DataContext as BTabBar;
+            if (tabControl != null)
+            {
+                Content = Host.Create<BDataGridEditor>(tabControl);
+                return;
+            }
+
 
             throw new ArgumentException();
         }

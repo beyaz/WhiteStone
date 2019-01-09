@@ -107,6 +107,7 @@
     <Compile Include="JsxElementModel\SizeInfo.cs" />
     <Compile Include="PropertyEditors\BCardEditor.cs" />
     <Compile Include="PropertyEditors\BDataGridColumnInfoEditor.cs" />
+    <Compile Include="PropertyEditors\TabControlEditor.cs" />
     <Compile Include="WpfControls\BDataGridColumnWpf.xaml.cs">
       <DependentUpon>BDataGridColumnWpf.xaml</DependentUpon>
     </Compile>
@@ -197,6 +198,7 @@
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
     <Compile Include="Helpers\TfsHelper.cs" />
+    <Compile Include="WpfControls\TabControlWpf.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
     <Compile Include="WpfControls\UIBuilderHelper.cs" />
     <Compile Include="WpfControls\WpfHelper.cs" />

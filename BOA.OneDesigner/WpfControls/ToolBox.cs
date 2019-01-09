@@ -45,10 +45,24 @@ namespace BOA.OneDesigner.WpfControls
 
             var stackPanel = new StackPanel();
 
-            var bCard = new BCardWpf
+
+            #region bInput
+            var bInput = new BInputWpf
             {
                 Host        = Host,
-                Height      = 100,
+                DataContext = new BInput { LabelInfo = LabelInfoHelper.CreateNewLabelInfo("Input"), BindingPath = "?" }
+            };
+
+            Host.DragHelper.MakeDraggable(bInput);
+
+            stackPanel.Children.Add(bInput);
+            #endregion
+
+            #region bCard
+            var bCard = new BCardWpf
+            {
+                Host = Host,
+                Height = 100,
                 IsInToolbox = true,
                 DataContext = new BCard
                 {
@@ -58,21 +72,15 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.DragHelper.MakeDraggable(bCard);
 
-            stackPanel.Children.Add(bCard);
+            stackPanel.Children.Add(bCard); 
+            #endregion
 
-            var bInput = new BInputWpf
-            {
-                Host        = Host,
-                DataContext = new BInput {LabelInfo = LabelInfoHelper.CreateNewLabelInfo("Input"), BindingPath = "?"}
-            };
+            
 
-            Host.DragHelper.MakeDraggable(bInput);
-
-            stackPanel.Children.Add(bInput);
-
+            #region BDataGrid
             var dataGridInfoWpf = new BDataGridInfoWpf
             {
-               
+
                 IsInToolbox = true,
                 Host = Host,
                 DataContext = new BDataGrid
@@ -90,7 +98,32 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.DragHelper.MakeDraggable(dataGridInfoWpf);
 
-            stackPanel.Children.Add(dataGridInfoWpf);
+            stackPanel.Children.Add(dataGridInfoWpf); 
+            #endregion
+
+
+            #region TabControl
+            var tabControlWpf = new BTabBarWpf()
+            {
+                Host        = Host,
+                Height      = 100,
+                IsInToolbox = true,
+                DataContext = new JsxElementModel.BTabBar
+                {
+                    Items = new List<TabPage>
+                    {
+                        new TabPage
+                        {
+                            TitleInfo = LabelInfoHelper.CreateNewLabelInfo("Tab Page Header")
+                        }
+                    }
+                }
+            };
+
+            Host.DragHelper.MakeDraggable(tabControlWpf);
+
+            stackPanel.Children.Add(tabControlWpf); 
+            #endregion
 
             Content = stackPanel;
         }

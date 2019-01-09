@@ -9,21 +9,8 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class BCardEditor : StackPanel, IHostItem
     {
-
-        public void FirePropertyChanged()
-        {
-            if (Host == null)
-            {
-                return;
-                // TODO:??
-                // throw Error.InvalidOperation();
-            }
-            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
-        }
-
         #region Fields
         public LabelEditor _labelEditor;
-        
         #endregion
 
         #region Constructors
@@ -37,8 +24,8 @@ namespace BOA.OneDesigner.PropertyEditors
 		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(BCard.TitleInfo) + @"}'},
         
         
-        {ui:'TextBox',Label:'Wide',MarginTop:10, Text:'{Binding "+ Model.AccessPathOf(m=>m.LayoutProps.Wide) +@", Converter="+typeof(LayoutPropWideConverter).FullName+@"}', KeyUp:'FirePropertyChanged' },
-        {ui:'TextBox',Label:'X',  MarginTop:10,  Text:'{Binding "+ Model.AccessPathOf(m=>m.LayoutProps.X)    +@", Converter="+typeof(LayoutPropWideConverter).FullName+@"}', KeyUp:'FirePropertyChanged' },
+        {ui:'TextBox',Label:'Wide',MarginTop:10, Text:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.Wide) + @", Converter=" + typeof(LayoutPropWideConverter).FullName + @"}', KeyUp:'FirePropertyChanged' },
+        {ui:'TextBox',Label:'X',  MarginTop:10,  Text:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.X) + @", Converter=" + typeof(LayoutPropWideConverter).FullName + @"}', KeyUp:'FirePropertyChanged' },
 
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
@@ -46,10 +33,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
 ");
 
-            Loaded += (s, e) =>
-            {
-                _labelEditor.Host = Host;
-            };
+            Loaded += (s, e) => { _labelEditor.Host = Host; };
         }
         #endregion
 
@@ -64,6 +48,18 @@ namespace BOA.OneDesigner.PropertyEditors
             Model.Container.RemoveItem(Model);
 
             Host.EventBus.Publish(EventBus.ComponentDeleted);
+        }
+
+        public void FirePropertyChanged()
+        {
+            if (Host == null)
+            {
+                return;
+                // TODO:??
+                // throw Error.InvalidOperation();
+            }
+
+            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
         }
         #endregion
     }

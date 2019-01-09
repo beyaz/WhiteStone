@@ -9,7 +9,7 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     Interaction logic for BDataGridInfoWpf.xaml
     /// </summary>
-    public partial class BDataGridInfoWpf :  IHostItem
+    public partial class BDataGridInfoWpf :  IHostItem,ISupportSizeInfo
     {
         #region Constructors
         /// <summary>
@@ -232,5 +232,7 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
         #endregion
+
+        public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
     }
 }
