@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.JsxElementModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -30,10 +29,17 @@ namespace BOA.OneDesigner.WpfControls
 
             tabBodies[0].Visibility.Should().Be(Visibility.Visible);
             tabBodies[1].Visibility.Should().Be(Visibility.Collapsed);
-            
 
-            // ((FrameworkElement)tabBodies[0]).Width.Should().BeGreaterThan(0);
 
+            host.DraggingElement = new BCardWpf();
+            host.EventBus.Publish(EventBus.OnDragStarted);
+
+
+            tabBodies[0].Visibility.Should().Be(Visibility.Visible);
+            tabBodies[1].Visibility.Should().Be(Visibility.Collapsed);
+
+            var tabPage0 = (DivAsCardContainerWpf)tabBodies[0];
+            tabPage0.IsEnteredDropLocationMode.Should().BeTrue();
 
         }
         #endregion
