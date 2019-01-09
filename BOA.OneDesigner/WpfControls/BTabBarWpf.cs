@@ -117,11 +117,25 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            foreach (var columnInfo in Model.Items)
+            foreach (var bTabBarPage in Model.Items)
             {
-                var uiElement = new BTabBarPageWpf(columnInfo, Host, this);
+                var uiElement = new BTabBarPageWpf(bTabBarPage, Host, this);
 
                 Host.DragHelper.MakeDraggable(uiElement);
+
+                var tabPageBody = Host.Create<DivAsCardContainerWpf>(bTabBarPage.DivAsCardContainer);
+
+                tabPageBody.Visibility = Visibility.Collapsed;
+
+                uiElement.PreviewMouseLeftButtonDown += (s, e) =>
+                {
+                    tabPageBody.Visibility = Visibility.Visible;
+                    tabPageBody.VerticalAlignment = VerticalAlignment.Stretch;
+                    tabPageBody.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    tabPageBody.Height = 300;
+                };
+
+                _stackPanel.Children.Add(tabPageBody);
 
                 HeadersContainersWrapPanel.Children.Add(uiElement);
             }
