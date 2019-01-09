@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
@@ -10,9 +8,15 @@ namespace BOA.OneDesigner.WpfControls
 {
     public class DivAsCardContainerWpf : Grid, IHostItem
     {
+        void ResetBackground()
+        {
+            Background = Brushes.WhiteSmoke;
+        }
         #region Constructors
         public DivAsCardContainerWpf()
         {
+            ResetBackground();
+
             Loaded   += (s, e) => { AttachToEventBus(); };
             Unloaded += (s, e) => { DeAttachToEventBus(); };
             Loaded   += (s, e) => { Refresh(); };
@@ -56,6 +60,8 @@ namespace BOA.OneDesigner.WpfControls
 
         void EnterDropLocationMode()
         {
+            Background = Brushes.AntiqueWhite;
+
             if (IsEnteredDropLocationMode)
             {
                 return;
@@ -90,17 +96,11 @@ namespace BOA.OneDesigner.WpfControls
             {
                 Host                = Host,
                 OnDropAction        = OnDrop,
-                TargetLocationIndex = items.Length,
+                TargetLocationIndex = items.Length
             };
             Children.Add(lastDropLocation);
 
-
-            
-
             CardLayout.ApplyWithDropLocationMode(this);
-
-            
-
         }
 
         void ExitDropLocationMode()
@@ -150,6 +150,8 @@ namespace BOA.OneDesigner.WpfControls
 
         void Refresh()
         {
+            ResetBackground();
+
             IsEnteredDropLocationMode = false;
 
             Children.RemoveAll();
@@ -158,9 +160,6 @@ namespace BOA.OneDesigner.WpfControls
             {
                 return;
             }
-
-
-            
 
             foreach (var bCard in Model.Items)
             {
@@ -176,10 +175,7 @@ namespace BOA.OneDesigner.WpfControls
 
                 Host.DragHelper.MakeDraggable(cardWpf);
 
-
                 Children.Add(cardWpf);
-
-
             }
 
             CardLayout.ApplyForCardsContainer(this);

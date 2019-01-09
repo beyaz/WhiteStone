@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
@@ -13,9 +14,6 @@ namespace BOA.OneDesigner.WpfControls
         {
             Header = "Tool Box";
 
-           
-            
-
             Loaded   += (s, e) => { AttachToEventBus(); };
             Unloaded += (s, e) => { DeAttachToEventBus(); };
 
@@ -23,34 +21,32 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
 
-
-        public void AttachToEventBus()
-        {
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-        }
-        public void DeAttachToEventBus()
-        {
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-        }
-
-
         #region Public Properties
         public Host Host { get; set; }
         #endregion
 
         #region Public Methods
+        public void AttachToEventBus()
+        {
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+        }
+
         public void Refresh()
         {
             (Content as StackPanel)?.Children.RemoveAll();
 
             var stackPanel = new StackPanel();
 
-
             #region bInput
             var bInput = new BInputWpf
             {
                 Host        = Host,
-                DataContext = new BInput { LabelInfo = LabelInfoHelper.CreateNewLabelInfo("Input"), BindingPath = "?" }
+                DataContext = new BInput {LabelInfo = LabelInfoHelper.CreateNewLabelInfo("Input"), BindingPath = "?"}
             };
 
             Host.DragHelper.MakeDraggable(bInput);
@@ -61,8 +57,9 @@ namespace BOA.OneDesigner.WpfControls
             #region bCard
             var bCard = new BCardWpf
             {
-                Host = Host,
-                Height = 100,
+                Margin      = new Thickness(0, 10, 0, 0),
+                Host        = Host,
+                Height      = 100,
                 IsInToolbox = true,
                 DataContext = new BCard
                 {
@@ -72,17 +69,15 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.DragHelper.MakeDraggable(bCard);
 
-            stackPanel.Children.Add(bCard); 
+            stackPanel.Children.Add(bCard);
             #endregion
-
-            
 
             #region BDataGrid
             var dataGridInfoWpf = new BDataGridInfoWpf
             {
-
+                Margin      = new Thickness(0, 10, 0, 0),
                 IsInToolbox = true,
-                Host = Host,
+                Host        = Host,
                 DataContext = new BDataGrid
                 {
                     DataSourceBindingPath = "Data Grid",
@@ -98,13 +93,13 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.DragHelper.MakeDraggable(dataGridInfoWpf);
 
-            stackPanel.Children.Add(dataGridInfoWpf); 
+            stackPanel.Children.Add(dataGridInfoWpf);
             #endregion
-
 
             #region TabControl
             var tabControlWpf = new BTabBarWpf
             {
+                Margin      = new Thickness(0, 10, 0, 0),
                 Host        = Host,
                 Height      = 100,
                 IsInToolbox = true,
@@ -113,15 +108,11 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.DragHelper.MakeDraggable(tabControlWpf);
 
-            stackPanel.Children.Add(tabControlWpf); 
+            stackPanel.Children.Add(tabControlWpf);
             #endregion
 
             Content = stackPanel;
         }
-        #endregion
-
-        #region Methods
-        
         #endregion
     }
 }

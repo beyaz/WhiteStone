@@ -50,18 +50,13 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-
             Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
         }
 
         public void DeAttachToEventBus()
         {
-            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
             Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
@@ -99,7 +94,8 @@ namespace BOA.OneDesigner.WpfControls
 
                 TabPageBodyList.Children.Add(new GroupBox
                 {
-                    Header = "Tab Bar"
+                    Header = "Tab Bar",
+                   VerticalAlignment = VerticalAlignment.Stretch
                 });
                 return;
             }
@@ -119,7 +115,7 @@ namespace BOA.OneDesigner.WpfControls
 
                 var tabPageBody = Host.Create<DivAsCardContainerWpf>(bTabBarPage.DivAsCardContainer);
                 
-                tabPageBody.MinHeight           = 100;
+                tabPageBody.MinHeight= 100;
                 tabPageBody.MinWidth = 150;
                 
 
@@ -137,7 +133,8 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     Model.Items.ForEach(page=>page.IsActiveInDesigner = false);
                     bTabBarPage.IsActiveInDesigner = true;
-                    tabPageBody.Visibility          = Visibility.Visible;
+                    Refresh();
+
                 };
 
                 TabPageBodyList.Children.Add(tabPageBody);
@@ -148,91 +145,6 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
-        /// <summary>
-        ///     Determines whether this instance can drop the specified drag element.
-        /// </summary>
-        bool CanDrop(UIElement dragElement)
-        {
-            return HeadersContainersWrapPanel.Children.ToArray().Contains(dragElement);
-        }
-
-        /// <summary>
-        ///     Enters the drop location mode.
-        /// </summary>
-        void EnterDropLocationMode()
-        {
-            if (IsInToolbox)
-            {
-                return;
-            }
-
-            if (!CanDrop(Host.DraggingElement))
-            {
-                return;
-            }
-
-            if (IsEnteredDropLocationMode)
-            {
-                return;
-            }
-
-            IsEnteredDropLocationMode = true;
-
-            var children = HeadersContainersWrapPanel.Children;
-
-            var items = children.ToArray();
-
-            children.Clear();
-
-            for (var i = 0; i < items.Length; i++)
-            {
-                var control = items[i];
-
-                var dropLocation = new DropLocation
-                {
-                    Host                = Host,
-                    OnDropAction        = OnDrop,
-                    TargetLocationIndex = i
-                };
-
-                children.Add(dropLocation);
-
-                children.Add(control);
-            }
-
-            children.Add(new DropLocation
-            {
-                Host                = Host,
-                OnDropAction        = OnDrop,
-                TargetLocationIndex = items.Length
-            });
-        }
-
-        void ExitDropLocationMode()
-        {
-            if (!IsEnteredDropLocationMode)
-            {
-                return;
-            }
-
-            IsEnteredDropLocationMode = false;
-
-            var children = HeadersContainersWrapPanel.Children;
-
-            var items = children.ToArray();
-
-            children.Clear();
-
-            foreach (var control in items)
-            {
-                if (control is DropLocation)
-                {
-                    continue;
-                }
-
-                children.Add(control);
-            }
-        }
 
         void OnTabPageRemoved()
         {
