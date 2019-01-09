@@ -10,25 +10,21 @@ namespace BOA.OneDesigner.WpfControls
     public sealed class BTabBarWpf : Border, IHostItem, ISupportSizeInfo
     {
         #region Fields
-        readonly WrapPanel HeadersContainersWrapPanel;
-        readonly StackPanel _stackPanel;
+        internal readonly WrapPanel  HeadersContainersWrapPanel = new WrapPanel();
+        internal readonly StackPanel TabPageBodyList            = new StackPanel();
         #endregion
 
         #region Constructors
         public BTabBarWpf()
         {
-
-            BorderBrush = Brushes.Black;
+            BorderBrush     = Brushes.Black;
             BorderThickness = new Thickness(3);
 
-            _stackPanel = new StackPanel();
+            var stackPanel = new StackPanel();
+            stackPanel.Children.Add(HeadersContainersWrapPanel);
+            stackPanel.Children.Add(TabPageBodyList);
 
-            Child = _stackPanel;
-
-
-            HeadersContainersWrapPanel = new WrapPanel();
-
-            _stackPanel.Children.Add(HeadersContainersWrapPanel);
+            Child = stackPanel;
 
             Loaded   += (s, e) => { AttachToEventBus(); };
             Unloaded += (s, e) => { DeAttachToEventBus(); };
@@ -99,15 +95,13 @@ namespace BOA.OneDesigner.WpfControls
         {
             if (IsInToolbox)
             {
-                _stackPanel.Children.Clear();
+                TabPageBodyList.Children.Clear();
 
-                _stackPanel.Children.Add(new GroupBox
+                TabPageBodyList.Children.Add(new GroupBox
                 {
-                    
-                    Header    = "Tab Bar"
+                    Header = "Tab Bar"
                 });
                 return;
-
             }
 
             HeadersContainersWrapPanel.Children.RemoveAll();
@@ -124,18 +118,29 @@ namespace BOA.OneDesigner.WpfControls
                 Host.DragHelper.MakeDraggable(uiElement);
 
                 var tabPageBody = Host.Create<DivAsCardContainerWpf>(bTabBarPage.DivAsCardContainer);
+                
+                tabPageBody.MinHeight           = 100;
+                tabPageBody.MinWidth = 150;
+                
 
-                tabPageBody.Visibility = Visibility.Collapsed;
+                if (bTabBarPage.IsActiveInDesigner)
+                {
+                    tabPageBody.Visibility = Visibility.Visible;    
+                }
+                else
+                {
+                    tabPageBody.Visibility = Visibility.Collapsed;
+                }
+                
 
                 uiElement.PreviewMouseLeftButtonDown += (s, e) =>
                 {
-                    tabPageBody.Visibility = Visibility.Visible;
-                    tabPageBody.VerticalAlignment = VerticalAlignment.Stretch;
-                    tabPageBody.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    tabPageBody.Height = 300;
+                    Model.Items.ForEach(page=>page.IsActiveInDesigner = false);
+                    bTabBarPage.IsActiveInDesigner = true;
+                    tabPageBody.Visibility          = Visibility.Visible;
                 };
 
-                _stackPanel.Children.Add(tabPageBody);
+                TabPageBodyList.Children.Add(tabPageBody);
 
                 HeadersContainersWrapPanel.Children.Add(uiElement);
             }
@@ -158,7 +163,6 @@ namespace BOA.OneDesigner.WpfControls
         {
             if (IsInToolbox)
             {
-               
                 return;
             }
 

@@ -15,6 +15,8 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BTabBarPage
     {
+        public bool IsActiveInDesigner { get; set; }
+
         public bool ShouldRemove { get; set; }
 
         #region Public Properties

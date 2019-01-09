@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Diagnostics.Contracts;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -83,14 +86,21 @@ namespace BOA.OneDesigner.WpfControls
                 Children.Add(control);
             }
 
-            Children.Add(new DropLocation
+            var lastDropLocation = new DropLocation
             {
                 Host                = Host,
                 OnDropAction        = OnDrop,
-                TargetLocationIndex = items.Length
-            });
+                TargetLocationIndex = items.Length,
+            };
+            Children.Add(lastDropLocation);
+
+
+            
 
             CardLayout.ApplyWithDropLocationMode(this);
+
+            
+
         }
 
         void ExitDropLocationMode()

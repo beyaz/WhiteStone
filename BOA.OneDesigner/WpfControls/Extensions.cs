@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace BOA.OneDesigner.WpfControls
@@ -32,6 +34,15 @@ namespace BOA.OneDesigner.WpfControls
         {
             element.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
         }
+        public static void RaisePreviewMouseLeftButtonDownEvent(this UIElement element)
+        {
+            element.RaiseEvent( new MouseButtonEventArgs( Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left )
+            {
+                RoutedEvent = UIElement.PreviewMouseLeftButtonDownEvent,
+                Source = element
+            });
+        }
+
 
         public static void RefreshDataContext(this FrameworkElement element)
         {
