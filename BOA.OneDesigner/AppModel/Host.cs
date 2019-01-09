@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using BOA.Common.Helpers;
+﻿using System.Windows;
 using BOA.OneDesigner.Helpers;
-using BOAPlugins.TypescriptModelGeneration;
 
 namespace BOA.OneDesigner.AppModel
 {
@@ -11,8 +8,6 @@ namespace BOA.OneDesigner.AppModel
         #region Constructors
         public Host()
         {
-            
-
             DragHelper = new DragHelper(this);
 
             Database = new JsonFile();
@@ -23,37 +18,26 @@ namespace BOA.OneDesigner.AppModel
             {
                 tfsFolderNames = TfsHelper.GetFolderNames();
 
-                (Database as JsonFile)?.SaveTfsFolderNames(tfsFolderNames);
+                ((JsonFile) Database).SaveTfsFolderNames(tfsFolderNames);
             }
         }
         #endregion
 
         #region Public Properties
-        public IDatabase  Database                  { get; }
-        public UIElement  DraggingElement           { get; set; }
-        public Point      DraggingElementStartPoint { get; set; }
-        public DragHelper DragHelper                { get; }
-        public EventBus   EventBus                  { get; } = new EventBus();
-        public UIElement  LastSelectedUIElement     { get; set; }
-
-        
-
-        public UIElement SelectedElement => DraggingElement;
-
+        public IDatabase  Database                                                { get; }
+        public UIElement  DraggingElement                                         { get; set; }
+        public Point      DraggingElementStartPoint                               { get; set; }
+        public DragHelper DragHelper                                              { get; }
+        public EventBus   EventBus                                                { get; } = new EventBus();
+        public UIElement  LastSelectedUIElement                                   { get; set; }
+        public string     LastSelectedUIElement_as_DataGrid_DataSourceBindingPath { get; set; }
 
         public RequestIntellisenseData RequestIntellisenseData { get; set; }
-        public string LastSelectedUIElement_as_DataGrid_DataSourceBindingPath { get; set; }
+
+        public UIElement SelectedElement => DraggingElement;
         #endregion
 
         #region Public Methods
-        public T Create<T>() where T : IHostItem, new()
-        {
-            return new T
-            {
-                Host = this
-            };
-        }
-
         public T Create<T>(object dataContext) where T : FrameworkElement, IHostItem, new()
         {
             return new T
