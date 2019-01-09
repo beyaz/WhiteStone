@@ -48,10 +48,10 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         internal void Refresh()
         {
+            TabPageBodyList.Children.Clear();
+
             if (IsInToolbox)
             {
-                TabPageBodyList.Children.Clear();
-
                 TabPageBodyList.Children.Add(new GroupBox
                 {
                     Header            = "Tab Bar",
