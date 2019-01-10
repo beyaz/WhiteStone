@@ -9,7 +9,7 @@ namespace BOA.OneDesigner.AppModel
     {
         public void DeAttachToEventBus()
         {
-            DragHelper.DeAttachToEventBus();
+            // TODO remove
         }
 
         #region Constructors

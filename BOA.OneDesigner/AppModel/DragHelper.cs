@@ -27,15 +27,7 @@ namespace BOA.OneDesigner.AppModel
         #endregion
 
         #region Public Methods
-        public void AttachToEventBus()
-        {
-            EventBus.Subscribe(EventBus.OnAfterDropOperation, ClearDraggingElement);
-        }
-
-        public void DeAttachToEventBus()
-        {
-            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ClearDraggingElement);
-        }
+      
 
         public void MakeDraggable(UIElement element)
         {
@@ -62,10 +54,7 @@ namespace BOA.OneDesigner.AppModel
             return false;
         }
 
-        void ClearDraggingElement()
-        {
-            Host.DraggingElement = null;
-        }
+       
 
         void OnMouseMove(object sender, MouseEventArgs e)
         {
