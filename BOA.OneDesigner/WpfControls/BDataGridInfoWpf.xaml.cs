@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
@@ -9,8 +10,47 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     Interaction logic for BDataGridInfoWpf.xaml
     /// </summary>
-    public partial class BDataGridInfoWpf :  IHostItem,ISupportSizeInfo
+    public partial class BDataGridInfoWpf :  IHostItem,ISupportSizeInfo,IEventBusListener
     {
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+
+        public void AttachToEventBus()
+        {
+            if (IsInToolbox)
+            {
+                return;
+            }
+
+            OnAttachToEventBus?.Invoke();
+
+            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.Subscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            if (IsInToolbox)
+            {
+                return;
+            }
+            OnDeAttachToEventBus?.Invoke();
+            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
+        }
+        #endregion
+
+
+
+
         #region Constructors
         /// <summary>
         ///     Initializes a new instance of the <see cref="BCardWpf" /> class.
@@ -19,9 +59,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             InitializeComponent();
 
-            Loaded += (s, e) =>{AttachToEventBus();};
-
-            Unloaded += (s, e) => { DeAttachToEventBus(); };
+            
 
             Loaded += (s, e) =>{ Refresh();};
         }
@@ -49,30 +87,9 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Methods
-        public void AttachToEventBus()
-        {
-            if (IsInToolbox)
-            {
-                return;
-            }
+       
 
-            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.Subscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
-        }
-
-        public void DeAttachToEventBus()
-        {
-           
-
-            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
-        }
+        
 
         /// <summary>
         ///     Called when [drop].
@@ -110,8 +127,10 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-           
-            _columnsContainer.Children.RemoveAll();
+
+            Host.DeAttachToEventBus(_columnsContainer.Children);
+
+            _columnsContainer.Children.Clear();
 
             if (Model == null)
             {
@@ -125,6 +144,8 @@ namespace BOA.OneDesigner.WpfControls
                 Host.DragHelper.MakeDraggable(uiElement);
 
                 _columnsContainer.Children.Add(uiElement);
+
+                Host.AttachToEventBus(uiElement,this);
             }
         }
         #endregion

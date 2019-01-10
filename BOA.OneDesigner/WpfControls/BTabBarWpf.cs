@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -7,8 +8,44 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public sealed class BTabBarWpf : Border, IHostItem, ISupportSizeInfo
+    public sealed class BTabBarWpf : Border, IHostItem, ISupportSizeInfo,IEventBusListener
     {
+
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+
+        public void AttachToEventBus()
+        {
+            if (IsInToolbox)
+            {
+                return;
+            }
+
+            OnAttachToEventBus?.Invoke();
+
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            if (IsInToolbox)
+            {
+                return;
+            }
+
+            OnDeAttachToEventBus?.Invoke();
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
+        }
+        #endregion
+
+
+
         #region Fields
         internal readonly WrapPanel  HeadersContainersWrapPanel = new WrapPanel();
         internal readonly StackPanel TabPageBodyList            = new StackPanel();
@@ -26,8 +63,7 @@ namespace BOA.OneDesigner.WpfControls
 
             Child = stackPanel;
 
-            Loaded   += (s, e) => { AttachToEventBus(); };
-            Unloaded += (s, e) => { DeAttachToEventBus(); };
+            
 
             Loaded += (s, e) => { Refresh(); };
         }
@@ -48,6 +84,8 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         internal void Refresh()
         {
+            Host.DeAttachToEventBus(TabPageBodyList.Children);
+
             TabPageBodyList.Children.Clear();
 
             if (IsInToolbox)
@@ -60,7 +98,9 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            HeadersContainersWrapPanel.Children.RemoveAll();
+            Host.DeAttachToEventBus(HeadersContainersWrapPanel.Children);
+
+            HeadersContainersWrapPanel.Children.Clear();
 
             if (Model == null)
             {
@@ -95,34 +135,16 @@ namespace BOA.OneDesigner.WpfControls
                 };
 
                 TabPageBodyList.Children.Add(tabPageBody);
-
                 HeadersContainersWrapPanel.Children.Add(uiElement);
+
+                Host.AttachToEventBus(tabPageBody,this);
+                Host.AttachToEventBus(uiElement,this);
             }
         }
 
-        void AttachToEventBus()
-        {
-            if (IsInToolbox)
-            {
-                return;
-            }
+        
 
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
-        }
-
-        void DeAttachToEventBus()
-        {
-            if (IsInToolbox)
-            {
-                return;
-            }
-
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
-        }
+        
 
         /// <summary>
         ///     Called when [drop].

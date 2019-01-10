@@ -32,6 +32,9 @@ namespace BOA.OneDesigner.MainForm
             _propertyEditorContainer.Host = Host;
             DesignSurface.Host            = Host;
             _toolBox.Host                 = Host;
+
+            DesignSurface.AttachToEventBus();
+            
         }
         #endregion
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
@@ -6,15 +7,41 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class JsxElementDesignerSurface : StackPanel, IHostItem
+    public class JsxElementDesignerSurface : StackPanel, IHostItem,IEventBusListener
     {
+
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+
+        public void AttachToEventBus()
+        {
+            OnAttachToEventBus?.Invoke();
+            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.Subscribe(EventBus.BeforeDragElementSelected, BeforeDragElementSelected);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            OnDeAttachToEventBus?.Invoke();
+            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.BeforeDragElementSelected, BeforeDragElementSelected);
+        }
+        #endregion
+
+
+
         #region Constructors
         public JsxElementDesignerSurface()
         {
             VerticalAlignment = VerticalAlignment.Stretch;
 
-            Loaded   += (s, e) => { AttachToEventBus(); };
-            Unloaded += (s, e) => { DeAttachToEventBus(); };
+            
         }
         #endregion
 
@@ -25,21 +52,9 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Methods
-        public void AttachToEventBus()
-        {
-            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.Subscribe(EventBus.BeforeDragElementSelected, BeforeDragElementSelected);
-        }
+       
 
-        public void DeAttachToEventBus()
-        {
-            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.BeforeDragElementSelected, BeforeDragElementSelected);
-        }
+       
         #endregion
 
         #region Methods
@@ -114,7 +129,9 @@ namespace BOA.OneDesigner.WpfControls
 
         void Refresh()
         {
-            Children.RemoveAll();
+            Host.DeAttachToEventBus(Children);
+
+            Children.Clear();
 
             if (DataContext == null)
             {
@@ -124,6 +141,8 @@ namespace BOA.OneDesigner.WpfControls
             var bCardSection = Host.Create<DivAsCardContainerWpf>(Model);
 
             Children.Add(bCardSection);
+
+            Host.AttachToEventBus(bCardSection,this);
         }
         #endregion
     }

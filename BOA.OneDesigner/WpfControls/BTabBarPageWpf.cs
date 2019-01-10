@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using BOA.OneDesigner.AppModel;
@@ -9,7 +10,7 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     Interaction logic for BDataGridColumnWpf.xaml
     /// </summary>
-    class BTabBarPageWpf : TextBlock, IHostItem
+    class BTabBarPageWpf : TextBlock, IHostItem,IEventBusListener
     {
         #region Constructors
         public BTabBarPageWpf(BTabBarPage dataContext, Host host, BTabBarWpf bTabBarWpf)
@@ -18,8 +19,7 @@ namespace BOA.OneDesigner.WpfControls
             Host        = host;
             BTabBarWpf  = bTabBarWpf;
 
-            Loaded   += (s, e) => { AttachToEventBus(); };
-            Unloaded += (s, e) => { DeAttachToEventBus(); };
+           
 
             Loaded += (s, e) => { UpdateLabel(); };
 
@@ -35,10 +35,7 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
-        void AttachToEventBus()
-        {
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-        }
+       
 
         void BInput_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -50,10 +47,7 @@ namespace BOA.OneDesigner.WpfControls
             Cursor = Cursors.Arrow;
         }
 
-        void DeAttachToEventBus()
-        {
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-        }
+        
 
         void UpdateLabel()
         {
@@ -62,5 +56,26 @@ namespace BOA.OneDesigner.WpfControls
             TextDecorations = System.Windows.TextDecorations.Underline;
         }
         #endregion
+
+
+
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+
+        public void AttachToEventBus()
+        {
+            OnAttachToEventBus?.Invoke();
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            OnDeAttachToEventBus?.Invoke();
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+        }
+        #endregion
+
     }
 }

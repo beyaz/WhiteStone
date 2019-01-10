@@ -206,6 +206,7 @@ namespace BOA.OneDesigner.WpfControls
                     Host.DragHelper.MakeDraggable(uiElement);
 
                     ChildrenContainer.Children.Add(uiElement);
+                    Host.AttachToEventBus(uiElement,this);
                     continue;
                 }
 
@@ -216,6 +217,8 @@ namespace BOA.OneDesigner.WpfControls
                     Host.DragHelper.MakeDraggable(uiElement);
 
                     ChildrenContainer.Children.Add(uiElement);
+
+                    Host.AttachToEventBus(uiElement,this);
                     continue;
                 }
 

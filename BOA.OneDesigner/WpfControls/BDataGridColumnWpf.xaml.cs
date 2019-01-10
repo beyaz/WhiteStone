@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -10,7 +11,7 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     Interaction logic for BDataGridColumnWpf.xaml
     /// </summary>
-    public partial class BDataGridColumnWpf : IHostItem
+    public partial class BDataGridColumnWpf : IHostItem,IEventBusListener
     {
         #region Constructors
         public BDataGridColumnWpf(BDataGridColumnInfo dataContext, Host host, BDataGridInfoWpf bDataGridInfoWpf)
@@ -23,8 +24,7 @@ namespace BOA.OneDesigner.WpfControls
             BorderThickness = new Thickness(1);
             BorderBrush     = Brushes.DarkBlue;
 
-            Loaded   += (s, e) => { AttachToEventBus(); };
-            Unloaded += (s, e) => { DeAttachToEventBus(); };
+         
 
             MouseEnter += BInput_MouseEnter;
             MouseLeave += BInput_MouseLeave;
@@ -38,11 +38,7 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
-        void AttachToEventBus()
-        {
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
-        }
+       
 
         void BInput_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -56,11 +52,7 @@ namespace BOA.OneDesigner.WpfControls
             BorderBrush = Brushes.DarkBlue;
         }
 
-        void DeAttachToEventBus()
-        {
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
-        }
+        
 
         void UpdateBindingPath()
         {
@@ -70,6 +62,29 @@ namespace BOA.OneDesigner.WpfControls
         void UpdateLabel()
         {
             _label.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+        }
+        #endregion
+
+
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+
+        public void AttachToEventBus()
+        {
+            OnAttachToEventBus?.Invoke();
+
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            OnDeAttachToEventBus?.Invoke();
+
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
         #endregion
     }
