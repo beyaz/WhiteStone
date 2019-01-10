@@ -121,6 +121,7 @@
     <Compile Include="WpfControls\BTabBarPageWpf.cs" />
     <Compile Include="WpfControls\CardLayout.cs" />
     <Compile Include="WpfControls\InsertHelper.cs" />
+    <Compile Include="WpfControls\ISupportSizeInfo.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
     <Compile Include="JsxElementModel\BAccountComponent.cs" />
     <Compile Include="JsxElementRender\BAccountComponentTemplate.cs">

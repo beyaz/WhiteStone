@@ -13,24 +13,34 @@ namespace BOA.OneDesigner
     {
         #region Public Methods
         [TestMethod]
+        public void DeAttachToEventBus_should_clear_EventBus()
+        {
+            var host = new Host();
+
+            var bCard = TestData.CreateBCardWithTwoInput();
+
+            var wpf = host.Create<BCardWpf>(bCard);
+            wpf.AttachToEventBus();
+
+            wpf.Refresh();
+            wpf.EnterDropLocationMode();
+            wpf.ExitDropLocationMode();
+            wpf.Refresh();
+            wpf.Refresh();
+            wpf.Refresh();
+
+            wpf.DeAttachToEventBus();
+            host.DeAttachToEventBus();
+
+            host.EventBus.CountOfListeningEventNames.Should().Be(0);
+        }
+
+        [TestMethod]
         public void Should_remove_when_item_property_changed()
         {
             var host = new Host();
 
-            var bCard = new BCard
-            {
-                Items = new List<BField>
-                {
-                    new BInput
-                    {
-                        BindingPath = "A"
-                    },
-                    new BInput
-                    {
-                        BindingPath = "B"
-                    }
-                }
-            };
+            var bCard = TestData.CreateBCardWithTwoInput();
 
             var cardWpf = host.Create<BCardWpf>(bCard);
 
@@ -68,6 +78,35 @@ namespace BOA.OneDesigner
 
             // ASSERT
             cardWpf._groupBox.Header.Should().Be("B");
+        }
+        #endregion
+    }
+
+    static class TestData
+    {
+        #region Public Methods
+        public static BCard CreateBCardWithTwoInput()
+        {
+            var bCard = new BCard
+            {
+                Items = new List<BField>
+                {
+                    new BInput
+                    {
+                        BindingPath = "A"
+                    },
+                    new BInput
+                    {
+                        BindingPath = "B"
+                    }
+                }
+            };
+            return bCard;
+        }
+
+        public static DivAsCardContainer CreateDivAsCardContainer()
+        {
+            return new DivAsCardContainer {Items = new List<BCard> {CreateBCardWithTwoInput(), CreateBCardWithTwoInput()}};
         }
         #endregion
     }

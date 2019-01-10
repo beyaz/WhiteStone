@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -12,8 +13,38 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     The b card WPF
     /// </summary>
-    public class BCardWpf : Grid, IHostItem
+    public class BCardWpf : Grid, IHostItem,IEventBusListener
     {
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+
+        public void AttachToEventBus()
+        {
+            OnAttachToEventBus?.Invoke();
+
+            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            OnDeAttachToEventBus?.Invoke();
+
+            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
+        }
+        #endregion
+
+
+
 
         public UIElement BChildrenAt(int index)
         {
@@ -55,8 +86,6 @@ namespace BOA.OneDesigner.WpfControls
 	
 }");
 
-            Loaded += (s, e) => { AttachToEventBus(); };
-            Unloaded += (s, e) => { DeAttachToEventBus(); };
 
             Loaded += (s, e) => { Refresh(); };
         }
@@ -87,17 +116,7 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Methods
-        /// <summary>
-        ///     Attaches to event bus.
-        /// </summary>
-        public void AttachToEventBus()
-        {
-            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
-        }
+      
 
         /// <summary>
         ///     Called when [drop].
@@ -156,7 +175,10 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public void Refresh()
         {
-            ChildrenContainer.Children.RemoveAll();
+
+            Host.DeAttachToEventBus(ChildrenContainer.Children);
+
+            ChildrenContainer.Children.Clear();
 
             if (Model == null)
             {
@@ -172,6 +194,8 @@ namespace BOA.OneDesigner.WpfControls
                     Host.DragHelper.MakeDraggable(uiElement);
 
                     ChildrenContainer.Children.Add(uiElement);
+                    Host.AttachToEventBus(uiElement,this);
+
                     continue;
                 }
 
@@ -201,18 +225,7 @@ namespace BOA.OneDesigner.WpfControls
             CardLayout.Apply(ChildrenContainer);
         }
 
-        /// <summary>
-        ///     Uns the subscribe from event bus.
-        /// </summary>
-        public void DeAttachToEventBus()
-        {
-
-            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
-        }
+        
         #endregion
 
         #region Methods
@@ -242,7 +255,7 @@ namespace BOA.OneDesigner.WpfControls
         /// <summary>
         ///     Enters the drop location mode.
         /// </summary>
-        void EnterDropLocationMode()
+        internal void EnterDropLocationMode()
         {
             if (IsInToolbox)
             {
@@ -260,6 +273,8 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             IsEnteredDropLocationMode = true;
+
+            Host.DeAttachToEventBus(ChildrenContainer.Children);
 
             var children = ChildrenContainer.Children;
 
@@ -291,6 +306,8 @@ namespace BOA.OneDesigner.WpfControls
                 TargetLocationIndex = items.Length
             });
 
+            Host.AttachToEventBus(children);
+
 
             CardLayout.ApplyWithDropLocationMode(ChildrenContainer);
         }
@@ -298,7 +315,7 @@ namespace BOA.OneDesigner.WpfControls
         /// <summary>
         ///     Exits the drop location mode.
         /// </summary>
-        void ExitDropLocationMode()
+        internal void ExitDropLocationMode()
         {
             if (!IsEnteredDropLocationMode)
             {
@@ -306,6 +323,8 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             IsEnteredDropLocationMode = false;
+
+            Host.DeAttachToEventBus(ChildrenContainer.Children);
 
             var children = ChildrenContainer.Children;
 
@@ -322,6 +341,8 @@ namespace BOA.OneDesigner.WpfControls
 
                 children.Add(control);
             }
+
+            Host.AttachToEventBus(ChildrenContainer.Children);
 
 
             CardLayout.Apply(ChildrenContainer);

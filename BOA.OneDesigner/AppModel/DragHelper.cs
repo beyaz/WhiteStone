@@ -8,12 +8,28 @@ namespace BOA.OneDesigner.AppModel
 {
     public class DragHelper
     {
-        #region Constructors
+        void ClearDraggingElement()
+        {
+            Host.DraggingElement = null;
+        }
+
+        public void AttachToEventBus()
+        {
+            EventBus.Subscribe(EventBus.OnAfterDropOperation, ClearDraggingElement);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            EventBus.UnSubscribe(EventBus.OnAfterDropOperation,ClearDraggingElement);
+        }
+
+        #region Constructors        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DragHelper"/> class.
+        /// </summary>
         public DragHelper(Host host)
         {
             Host = host;
-
-            EventBus.Subscribe(EventBus.OnAfterDropOperation, () => { Host.DraggingElement = null; });
         }
         #endregion
 

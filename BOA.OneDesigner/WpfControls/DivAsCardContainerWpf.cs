@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
@@ -6,8 +7,38 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class DivAsCardContainerWpf : Grid, IHostItem
+    public class DivAsCardContainerWpf : Grid, IHostItem,IEventBusListener
     {
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+
+        public void AttachToEventBus()
+        {
+            OnAttachToEventBus?.Invoke();
+
+            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            OnDeAttachToEventBus?.Invoke();
+
+            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
+        }
+        #endregion
+
+
+
         void ResetBackground()
         {
             Background = Brushes.WhiteSmoke;
@@ -16,9 +47,7 @@ namespace BOA.OneDesigner.WpfControls
         public DivAsCardContainerWpf()
         {
             ResetBackground();
-
-            Loaded   += (s, e) => { AttachToEventBus(); };
-            Unloaded += (s, e) => { DeAttachToEventBus(); };
+           
             Loaded   += (s, e) => { Refresh(); };
         }
         #endregion
@@ -40,25 +69,9 @@ namespace BOA.OneDesigner.WpfControls
             return false;
         }
 
-        void AttachToEventBus()
-        {
-            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-        }
+        
 
-        void DeAttachToEventBus()
-        {
-            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
-        }
-
-        void EnterDropLocationMode()
+        internal void EnterDropLocationMode()
         {
             Background = Brushes.AntiqueWhite;
 
@@ -103,7 +116,7 @@ namespace BOA.OneDesigner.WpfControls
             CardLayout.ApplyWithDropLocationMode(this);
         }
 
-        void ExitDropLocationMode()
+        internal void ExitDropLocationMode()
         {
             if (!(Host.DraggingElement is BCardWpf))
             {
@@ -148,13 +161,15 @@ namespace BOA.OneDesigner.WpfControls
             throw Error.InvalidOperation();
         }
 
-        void Refresh()
+        internal void Refresh()
         {
             ResetBackground();
 
             IsEnteredDropLocationMode = false;
 
-            Children.RemoveAll();
+            Host.DeAttachToEventBus(Children);
+
+            Children.Clear();
 
             if (Model == null)
             {
@@ -174,6 +189,8 @@ namespace BOA.OneDesigner.WpfControls
                 cardWpf.Margin = new Thickness(10);
 
                 Host.DragHelper.MakeDraggable(cardWpf);
+
+                Host.AttachToEventBus(cardWpf,this);
 
                 Children.Add(cardWpf);
             }

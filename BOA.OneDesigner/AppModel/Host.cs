@@ -1,10 +1,17 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using BOA.OneDesigner.Helpers;
 
 namespace BOA.OneDesigner.AppModel
 {
     public class Host
     {
+        public void DeAttachToEventBus()
+        {
+            DragHelper.DeAttachToEventBus();
+        }
+
         #region Constructors
         public Host()
         {
@@ -47,5 +54,54 @@ namespace BOA.OneDesigner.AppModel
             };
         }
         #endregion
+
+
+        public void AttachToEventBus(IEventBusListener listener, IEventBusListener parent=null)
+        {
+            if (listener == null)
+            {
+                return;
+            }
+
+            listener.AttachToEventBus();
+
+            if (parent != null)
+            {
+                parent.OnDeAttachToEventBus += listener.DeAttachToEventBus;    
+            }
+        }
+
+        public void DeAttachToEventBus(IEventBusListener listener)
+        {
+            listener?.DeAttachToEventBus();
+        }
+
+        public void DeAttachToEventBus(UIElementCollection uiElementCollection)
+        {
+            foreach (UIElement  element in uiElementCollection)
+            {
+                DeAttachToEventBus(element as IEventBusListener);
+            }
+        }
+
+        public void AttachToEventBus(UIElementCollection uiElementCollection)
+        {
+            foreach (UIElement  element in uiElementCollection)
+            {
+                AttachToEventBus(element as IEventBusListener);
+            }
+        }
+
+        
+    }
+
+
+    public interface IEventBusListener
+    {
+        event Action OnAttachToEventBus;
+        event Action OnDeAttachToEventBus;
+
+        void AttachToEventBus();
+        void DeAttachToEventBus();
     }
 }
