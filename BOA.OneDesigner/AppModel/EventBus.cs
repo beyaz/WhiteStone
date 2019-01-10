@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using BOA.Common.Helpers;
 
 namespace BOA.OneDesigner.AppModel
 {
@@ -24,15 +23,7 @@ namespace BOA.OneDesigner.AppModel
         readonly ConcurrentDictionary<string, List<Action>> Subscribers = new ConcurrentDictionary<string, List<Action>>();
         #endregion
 
-        public int CountOfListeningEventName(string eventName)
-        {
-            if (Subscribers.ContainsKey(eventName))
-            {
-                return Subscribers[eventName].Count;
-            }
-
-            return 0;
-        }
+        #region Public Properties
         public int CountOfListeningEventNames
         {
             get
@@ -46,31 +37,22 @@ namespace BOA.OneDesigner.AppModel
                 return count;
             }
         }
-
+        #endregion
 
         #region Public Methods
-        public void Publish(string eventName)
+        public int CountOfListeningEventName(string eventName)
         {
-            Log.Push("Publish started.@eventName:" + eventName);
-            Log.Indent++;
-
             if (Subscribers.ContainsKey(eventName))
             {
-                var actions = Subscribers[eventName].ToList();
-
-                foreach (var action in actions)
-                {
-                    if (Subscribers[eventName].Contains(action) == false)
-                    {
-                        continue;
-                    }
-
-                    action();
-                }
+                return Subscribers[eventName].Count;
             }
 
-            Log.Indent--;
-            Log.Push("Publish finished.@eventName:" + eventName);
+            return 0;
+        }
+
+        public void Publish(string eventName)
+        {
+            new Publisher(Subscribers).Publish(eventName);
         }
 
         public void Subscribe(string eventName, Action action)
@@ -89,9 +71,53 @@ namespace BOA.OneDesigner.AppModel
             if (Subscribers.ContainsKey(eventName))
             {
                 Subscribers[eventName].Remove(action);
-
             }
         }
         #endregion
+
+        class Publisher
+        {
+            #region Fields
+            readonly List<Action> CalledActions = new List<Action>();
+
+            readonly ConcurrentDictionary<string, List<Action>> Subscribers;
+            #endregion
+
+            #region Constructors
+            public Publisher(ConcurrentDictionary<string, List<Action>> subscribers)
+            {
+                Subscribers = subscribers;
+            }
+            #endregion
+
+            #region Public Methods
+            public void Publish(string eventName)
+            {
+                if (!Subscribers.ContainsKey(eventName))
+                {
+                    return;
+                }
+
+                while (TryCall(eventName))
+                {
+                }
+            }
+            #endregion
+
+            #region Methods
+            bool TryCall(string eventName)
+            {
+                var action = Subscribers[eventName].FirstOrDefault(x => CalledActions.Contains(x) == false);
+                if (action == null)
+                {
+                    return false;
+                }
+
+                CalledActions.Add(action);
+                action();
+                return true;
+            }
+            #endregion
+        }
     }
 }
