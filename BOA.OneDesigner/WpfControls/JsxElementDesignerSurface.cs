@@ -138,7 +138,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var bCardSection = Host.Create<DivAsCardContainerWpf>(Model);
+            var bCardSection = Host.CreateDivAsCardContainerWpf(Model);
 
             Children.Add(bCardSection);
 

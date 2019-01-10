@@ -14,7 +14,7 @@ namespace BOA.OneDesigner
         {
             var host = new Host();
 
-            var wpf = host.Create<DivAsCardContainerWpf>(TestData.CreateDivAsCardContainer());
+            var wpf = host.CreateDivAsCardContainerWpf(TestData.CreateDivAsCardContainer());
 
             wpf.AttachToEventBus();
 
@@ -30,7 +30,7 @@ namespace BOA.OneDesigner
         {
             var host = new Host();
 
-            var wpf = host.Create<DivAsCardContainerWpf>(TestData.CreateDivAsCardContainer());
+            var wpf = host.CreateDivAsCardContainerWpf(TestData.CreateDivAsCardContainer());
             wpf.AttachToEventBus();
 
             DoSomeInteractions(wpf);

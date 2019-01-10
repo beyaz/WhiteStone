@@ -76,7 +76,7 @@ namespace BOA.OneDesigner.WpfControls
 
                 Host.DragHelper.MakeDraggable(uiElement);
 
-                var tabPageBody = Host.Create<DivAsCardContainerWpf>(bTabBarPage.DivAsCardContainer);
+                var tabPageBody = Host.CreateDivAsCardContainerWpf(bTabBarPage.DivAsCardContainer);
 
                 tabPageBody.MinHeight = 100;
                 tabPageBody.MinWidth  = 150;

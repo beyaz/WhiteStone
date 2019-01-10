@@ -15,7 +15,6 @@ namespace BOA.OneDesigner.WpfControls
         {
             ResetBackground();
 
-            Loaded += (s, e) => { Refresh(); };
         }
         #endregion
 
