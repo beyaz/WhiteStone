@@ -14,9 +14,6 @@ namespace BOA.OneDesigner.WpfControls
         {
             Header = "Tool Box";
 
-            Loaded   += (s, e) => { AttachToEventBus(); };
-            Unloaded += (s, e) => { DeAttachToEventBus(); };
-
             Loaded += (s, e) => { Refresh(); };
         }
         #endregion
@@ -25,18 +22,8 @@ namespace BOA.OneDesigner.WpfControls
         public Host Host { get; set; }
         #endregion
 
-        #region Public Methods
-        public void AttachToEventBus()
-        {
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-        }
-
-        public void DeAttachToEventBus()
-        {
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-        }
-
-        public void Refresh()
+        #region Methods
+        void Refresh()
         {
             (Content as StackPanel)?.Children.RemoveAll();
 
