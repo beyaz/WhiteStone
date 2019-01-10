@@ -220,8 +220,9 @@ namespace BOA.OneDesigner.WpfControls
         {
             OnAttachToEventBus?.Invoke();
 
-            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, OnElementSelected);
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, OnElementSelected);
+            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, OnElementSelected);
             Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
             Host.EventBus.Subscribe(EventBus.ComponentDeleted, OnComponentDeleted);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
@@ -231,8 +232,10 @@ namespace BOA.OneDesigner.WpfControls
         {
             OnDeAttachToEventBus?.Invoke();
 
-            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, OnElementSelected);
+
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, OnElementSelected);
+            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, OnElementSelected);
             Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
             Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, OnComponentDeleted);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);

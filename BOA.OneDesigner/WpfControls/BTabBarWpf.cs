@@ -168,7 +168,7 @@ namespace BOA.OneDesigner.WpfControls
 
             OnAttachToEventBus?.Invoke();
 
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            //Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
             Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
         }
 
@@ -180,7 +180,7 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             OnDeAttachToEventBus?.Invoke();
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            //Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
             Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
         }
         #endregion
