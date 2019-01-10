@@ -26,10 +26,12 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Methods
-        public UIElement BChildAt(int index)
+        public BCardWpf BChildAt(int index)
         {
-            return Children[index];
+            return (BCardWpf)Children[index];
         }
+
+        internal int BChildCount => Children.Count;
         #endregion
 
         #region Methods
@@ -130,7 +132,7 @@ namespace BOA.OneDesigner.WpfControls
                     bCard.LayoutProps = new LayoutProps();
                 }
 
-                var cardWpf = Host.Create<BCardWpf>(bCard);
+                var cardWpf = Host.CreateBCardWpf(bCard);
 
                 cardWpf.Margin = new Thickness(10);
 
@@ -156,10 +158,15 @@ namespace BOA.OneDesigner.WpfControls
 
         void OnComponentDeleted()
         {
-            if (Model.Items.Any(x => x.ShouldBeDelete))
+            var willBeDeleteElement = Children.ToArray().FirstOrDefault(x=>x==Host.SelectedElement);
+            if (willBeDeleteElement == null)
             {
-                Refresh();
+                return;
             }
+
+            Model.Items.Remove(((BCardWpf) willBeDeleteElement).Model);
+
+            Refresh();
         }
 
         void OnDrop(DropLocation dropLocation)

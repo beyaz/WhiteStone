@@ -120,6 +120,7 @@
     <Compile Include="Helpers\CecilHelper.cs" />
     <Compile Include="WpfControls\BTabBarPageWpf.cs" />
     <Compile Include="WpfControls\CardLayout.cs" />
+    <Compile Include="WpfControls\Injector.cs" />
     <Compile Include="WpfControls\InsertHelper.cs" />
     <Compile Include="WpfControls\ISupportSizeInfo.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />

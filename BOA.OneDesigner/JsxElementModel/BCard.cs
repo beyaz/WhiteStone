@@ -16,7 +16,6 @@ namespace BOA.OneDesigner.JsxElementModel
         public string Title => TitleInfo.GetDesignerText();
 
         public LabelInfo TitleInfo { get; set; } = new LabelInfo();
-        public bool ShouldBeDelete { get; set; }
         #endregion
 
         #region Public Methods

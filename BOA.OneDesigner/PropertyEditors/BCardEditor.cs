@@ -45,8 +45,6 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Public Methods
         public void Delete()
         {
-            Model.ShouldBeDelete = true;
-
             Host.EventBus.Publish(EventBus.ComponentDeleted);
         }
 
