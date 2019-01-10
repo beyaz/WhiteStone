@@ -14,7 +14,12 @@ namespace BOA.OneDesigner.WpfControls
         {
             var host = new Host();
 
-            var bTabBarWpf = host.CreateAndLoadBTabBarWpfWithTwoTab();
+            var bTabBarWpf = host.CreateBTabBarWpfWithTwoTab();
+            bTabBarWpf.AttachToEventBus();
+            bTabBarWpf.Refresh();
+            bTabBarWpf.Refresh();
+            bTabBarWpf.Refresh();
+            bTabBarWpf.Refresh();
 
             bTabBarWpf.HeadersContainersWrapPanel.Children.Count.Should().Be(2);
 

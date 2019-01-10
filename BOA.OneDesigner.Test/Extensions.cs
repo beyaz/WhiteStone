@@ -9,20 +9,7 @@ namespace BOA.OneDesigner.WpfControls
 
 
 
-        public  static BTabBarWpf CreateAndLoadBTabBarWpfWithTwoTab( this Host host)
-        {
-
-            var bTabBar = new BTabBar
-            {
-                Items = new List<BTabBarPage> {new BTabBarPage(), new BTabBarPage()}
-            };
-
-            var tabBarWpf = host.Create<BTabBarWpf>(bTabBar);
-            
-            tabBarWpf.RaiseLoadedEvent();
-
-            return tabBarWpf;
-        }
+       
 
 
 

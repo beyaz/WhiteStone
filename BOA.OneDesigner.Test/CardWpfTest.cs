@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using BOA.OneDesigner.AppModel;
+﻿using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
@@ -78,35 +77,6 @@ namespace BOA.OneDesigner
 
             // ASSERT
             cardWpf._groupBox.Header.Should().Be("B");
-        }
-        #endregion
-    }
-
-    static class TestData
-    {
-        #region Public Methods
-        public static BCard CreateBCardWithTwoInput()
-        {
-            var bCard = new BCard
-            {
-                Items = new List<BField>
-                {
-                    new BInput
-                    {
-                        BindingPath = "A"
-                    },
-                    new BInput
-                    {
-                        BindingPath = "B"
-                    }
-                }
-            };
-            return bCard;
-        }
-
-        public static DivAsCardContainer CreateDivAsCardContainer()
-        {
-            return new DivAsCardContainer {Items = new List<BCard> {CreateBCardWithTwoInput(), CreateBCardWithTwoInput()}};
         }
         #endregion
     }
