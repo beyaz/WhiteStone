@@ -66,7 +66,7 @@ namespace BOA.OneDesigner.WpfControls
 
             if (Model == null)
             {
-                return;
+                throw Error.InvalidOperation();
             }
 
             foreach (var bTabBarPage in Model.Items)
