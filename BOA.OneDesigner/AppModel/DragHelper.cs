@@ -8,24 +8,9 @@ namespace BOA.OneDesigner.AppModel
 {
     public class DragHelper
     {
-        void ClearDraggingElement()
-        {
-            Host.DraggingElement = null;
-        }
-
-        public void AttachToEventBus()
-        {
-            EventBus.Subscribe(EventBus.OnAfterDropOperation, ClearDraggingElement);
-        }
-
-        public void DeAttachToEventBus()
-        {
-            EventBus.UnSubscribe(EventBus.OnAfterDropOperation,ClearDraggingElement);
-        }
-
-        #region Constructors        
+        #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="DragHelper"/> class.
+        ///     Initializes a new instance of the <see cref="DragHelper" /> class.
         /// </summary>
         public DragHelper(Host host)
         {
@@ -42,6 +27,16 @@ namespace BOA.OneDesigner.AppModel
         #endregion
 
         #region Public Methods
+        public void AttachToEventBus()
+        {
+            EventBus.Subscribe(EventBus.OnAfterDropOperation, ClearDraggingElement);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ClearDraggingElement);
+        }
+
         public void MakeDraggable(UIElement element)
         {
             element.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
@@ -53,6 +48,25 @@ namespace BOA.OneDesigner.AppModel
         #endregion
 
         #region Methods
+        static bool IsInDragDistance(Point startPoint, MouseEventArgs e)
+        {
+            var mousePosition = e.GetPosition(null);
+            var diff          = startPoint - mousePosition;
+
+            if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        void ClearDraggingElement()
+        {
+            Host.DraggingElement = null;
+        }
+
         void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton != MouseButtonState.Pressed)
@@ -65,17 +79,16 @@ namespace BOA.OneDesigner.AppModel
                 return;
             }
 
-            var mousePosition = e.GetPosition(null);
-            var diff          = Host.DraggingElementStartPoint - mousePosition;
-
-            if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
-                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+            if (!IsInDragDistance(Host.DraggingElementStartPoint, e))
             {
-                EventBus.Publish(EventBus.OnDragStarted);
-
-                var dragData = new DataObject(string.Empty);
-                DragDrop.DoDragDrop(Host.DraggingElement, dragData, DragDropEffects.Copy);
+                return;
             }
+
+            EventBus.Publish(EventBus.OnDragStarted);
+
+            var dragData = new DataObject(string.Empty);
+
+            DragDrop.DoDragDrop(Host.DraggingElement, dragData, DragDropEffects.Copy);
         }
 
         void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
