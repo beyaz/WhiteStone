@@ -19,7 +19,7 @@ namespace BOA.OneDesigner.WpfControls
 
             host.EventBus.Publish(EventBus.OnDragStarted);
 
-            host.DraggingElement = new BInputWpf();
+            host.SelectedElement = new BInputWpf();
 
             // ACT
             host.EventBus.Publish(EventBus.OnDragStarted);
@@ -27,7 +27,7 @@ namespace BOA.OneDesigner.WpfControls
             surface.Children.Count.Should().Be(0);
 
 
-            host.DraggingElement = new BCardWpf();
+            host.SelectedElement = new BCardWpf();
 
             // ACT
             host.EventBus.Publish(EventBus.OnDragStarted);

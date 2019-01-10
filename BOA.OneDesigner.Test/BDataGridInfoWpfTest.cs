@@ -18,7 +18,7 @@ namespace BOA.OneDesigner.WpfControls
 
             wpf.ColumnsCollection.Count.Should().Be(2);
 
-            host.DraggingElement = new BDataGridColumnWpf(new BDataGridColumnInfo(), host, wpf);
+            host.SelectedElement = new BDataGridColumnWpf(new BDataGridColumnInfo(), host, wpf);
 
             host.EventBus.Publish(EventBus.OnDragStarted);
 
@@ -36,7 +36,7 @@ namespace BOA.OneDesigner.WpfControls
 
             wpf.ColumnsCollection.Count.Should().Be(2);
 
-            host.DraggingElement = wpf.ColumnsCollection[0];
+            host.SelectedElement = wpf.ColumnsCollection[0];
 
             host.EventBus.Publish(EventBus.OnDragStarted);
 
@@ -57,7 +57,7 @@ namespace BOA.OneDesigner.WpfControls
 
             wpf.ColumnsCollection.Count.Should().Be(2);
 
-            host.DraggingElement = new BDataGridColumnWpf(new BDataGridColumnInfo(), host, wpf);
+            host.SelectedElement = new BDataGridColumnWpf(new BDataGridColumnInfo(), host, wpf);
 
             host.EventBus.Publish(EventBus.DataGridColumnRemoved);
 

@@ -35,7 +35,7 @@ namespace BOA.OneDesigner.WpfControls
         #region Methods
         internal void EnterDropLocationMode()
         {
-            if (!CanDrop(Host.DraggingElement))
+            if (!CanDrop(Host.SelectedElement))
             {
                 return;
             }
@@ -80,7 +80,7 @@ namespace BOA.OneDesigner.WpfControls
 
         internal void ExitDropLocationMode()
         {
-            if (!CanDrop(Host.DraggingElement))
+            if (!CanDrop(Host.SelectedElement))
             {
                 return;
             }
@@ -175,7 +175,7 @@ namespace BOA.OneDesigner.WpfControls
 
         void UpdateModel(int insertIndex)
         {
-            var bCardWpf = Host.DraggingElement as BCardWpf;
+            var bCardWpf = Host.SelectedElement as BCardWpf;
             if (bCardWpf != null)
             {
                 if (bCardWpf.IsInToolbox)

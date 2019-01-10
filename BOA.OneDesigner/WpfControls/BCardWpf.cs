@@ -166,7 +166,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            if (!CanDrop(Host.DraggingElement))
+            if (!CanDrop(Host.SelectedElement))
             {
                 return;
             }
@@ -283,7 +283,7 @@ namespace BOA.OneDesigner.WpfControls
 
         void UpdateModel(int insertIndex)
         {
-            var bInput = Host.DraggingElement as BInputWpf;
+            var bInput = Host.SelectedElement as BInputWpf;
             if (bInput != null)
             {
                 if (bInput.IsInToolbox)
@@ -299,7 +299,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var dataGridInfoWpf = Host.DraggingElement as BDataGridInfoWpf;
+            var dataGridInfoWpf = Host.SelectedElement as BDataGridInfoWpf;
             if (dataGridInfoWpf != null)
             {
                 if (dataGridInfoWpf.IsInToolbox)
@@ -315,7 +315,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var tabControlWpf = Host.DraggingElement as BTabBarWpf;
+            var tabControlWpf = Host.SelectedElement as BTabBarWpf;
             if (tabControlWpf != null)
             {
                 if (tabControlWpf.IsInToolbox)

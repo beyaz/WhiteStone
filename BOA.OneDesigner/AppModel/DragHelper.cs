@@ -63,7 +63,7 @@ namespace BOA.OneDesigner.AppModel
                 return;
             }
 
-            if (Host?.DraggingElement == null)
+            if (Host?.SelectedElement == null)
             {
                 return;
             }
@@ -77,13 +77,13 @@ namespace BOA.OneDesigner.AppModel
 
             var dragData = new DataObject(string.Empty);
 
-            DragDrop.DoDragDrop(Host.DraggingElement, dragData, DragDropEffects.Copy);
+            DragDrop.DoDragDrop(Host.SelectedElement, dragData, DragDropEffects.Copy);
         }
 
         void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Host.DraggingElementStartPoint = e.GetPosition(null);
-            Host.DraggingElement           = (UIElement) sender;
+            Host.SelectedElement           = (UIElement) sender;
             Host.LastSelectedUIElement     = (UIElement) sender;
 
             EventBus.Publish(EventBus.BeforeDragElementSelected);
@@ -93,7 +93,7 @@ namespace BOA.OneDesigner.AppModel
 
         void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (Host.DraggingElement == null)
+            if (Host.SelectedElement == null)
             {
                 return;
             }
@@ -104,7 +104,7 @@ namespace BOA.OneDesigner.AppModel
             
             EventBus.Publish(EventBus.OnAfterDropOperation);
 
-            Host.DraggingElement = null;
+            Host.SelectedElement = null;
         }
         #endregion
     }

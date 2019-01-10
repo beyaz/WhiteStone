@@ -112,7 +112,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             var insertIndex = dropLocation.TargetLocationIndex;
 
-            var bTabBarPageWpf = Host.DraggingElement as BTabBarPageWpf;
+            var bTabBarPageWpf = Host.SelectedElement as BTabBarPageWpf;
             if (bTabBarPageWpf != null)
             {
                 if (Model.Items.Contains(bTabBarPageWpf.Model))

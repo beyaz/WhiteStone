@@ -27,7 +27,7 @@ namespace BOA.OneDesigner.AppModel
 
         #region Public Properties
         public IDatabase  Database                                                { get; }
-        public UIElement  DraggingElement                                         { get; set; }
+        public UIElement  SelectedElement                                         { get; set; }
         public Point      DraggingElementStartPoint                               { get; set; }
         public DragHelper DragHelper                                              { get; }
         public EventBus   EventBus                                                { get; } = new EventBus();
@@ -36,7 +36,6 @@ namespace BOA.OneDesigner.AppModel
 
         public RequestIntellisenseData RequestIntellisenseData { get; set; }
 
-        public UIElement SelectedElement => DraggingElement;
         #endregion
 
         #region Public Methods

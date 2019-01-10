@@ -47,7 +47,7 @@ namespace BOA.OneDesigner
 
             DoSomeInteractions(wpf);
 
-            host.DraggingElement = ((BCardWpf) wpf.BChildAt(1)).BChildAt(0);
+            host.SelectedElement = ((BCardWpf) wpf.BChildAt(1)).BChildAt(0);
 
             var bChildAt_0 = wpf.BChildAt(0);
 

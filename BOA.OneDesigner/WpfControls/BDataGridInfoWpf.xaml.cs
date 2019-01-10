@@ -103,7 +103,7 @@ namespace BOA.OneDesigner.WpfControls
 
 
 
-            var dataGridColumnWpf = Host.DraggingElement as BDataGridColumnWpf;
+            var dataGridColumnWpf = Host.SelectedElement as BDataGridColumnWpf;
             if (dataGridColumnWpf != null)
             {
                 if (Model.Columns.Contains(dataGridColumnWpf.Model))
@@ -169,7 +169,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            if (!CanDrop(Host.DraggingElement))
+            if (!CanDrop(Host.SelectedElement))
             {
                 return;
             }

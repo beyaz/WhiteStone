@@ -67,7 +67,7 @@ namespace BOA.OneDesigner.WpfControls
 
         void EnterDropLocationMode()
         {
-            if (!(Host.DraggingElement is BCardWpf))
+            if (!(Host.SelectedElement is BCardWpf))
             {
                 return;
             }
@@ -106,7 +106,7 @@ namespace BOA.OneDesigner.WpfControls
 
         void OnDrop(DropLocation dropLocation)
         {
-            var card = (Host.DraggingElement as BCardWpf)?.Model;
+            var card = (Host.SelectedElement as BCardWpf)?.Model;
             if (card != null)
             {
                 card.RemoveFromParent();

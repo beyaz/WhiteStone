@@ -38,7 +38,7 @@ namespace BOA.OneDesigner.WpfControls
             tabBodies[1].Visibility.Should().Be(Visibility.Collapsed);
 
 
-            host.DraggingElement = new BCardWpf();
+            host.SelectedElement = new BCardWpf();
             host.EventBus.Publish(EventBus.OnDragStarted);
 
 
