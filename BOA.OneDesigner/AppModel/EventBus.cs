@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using BOA.Common.Helpers;
 
 namespace BOA.OneDesigner.AppModel
 {
@@ -52,7 +53,12 @@ namespace BOA.OneDesigner.AppModel
 
         public void Publish(string eventName)
         {
+            Log.Push("Publish Started. "+ eventName);
+            Log.Indent++;
             new Publisher(Subscribers).Publish(eventName);
+
+            Log.Indent++;
+            Log.Push("Publish Finished. "+ eventName);
         }
 
         public void Subscribe(string eventName, Action action)
