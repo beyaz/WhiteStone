@@ -91,6 +91,10 @@ namespace BOA.OneDesigner.WpfControls
 
                 uiElement.PreviewMouseLeftButtonDown += (s, e) =>
                 {
+                    if (bTabBarPage.IsActiveInDesigner)
+                    {
+                        return;
+                    }
                     Model.Items.ForEach(page => page.IsActiveInDesigner = false);
                     bTabBarPage.IsActiveInDesigner = true;
                     Refresh();
