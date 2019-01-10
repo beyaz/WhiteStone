@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -24,15 +25,22 @@ namespace BOA.OneDesigner.WpfControls
         public DivAsCardContainer Model                     => (DivAsCardContainer) DataContext;
         #endregion
 
+        #region Public Methods
+        public UIElement BChildAt(int index)
+        {
+            return Children[index];
+        }
+        #endregion
+
         #region Methods
         internal void EnterDropLocationMode()
         {
-            Background = Brushes.AntiqueWhite;
-
             if (!CanDrop(Host.DraggingElement))
             {
                 return;
             }
+
+            Background = Brushes.AntiqueWhite;
 
             if (IsEnteredDropLocationMode)
             {
@@ -72,8 +80,9 @@ namespace BOA.OneDesigner.WpfControls
 
         internal void ExitDropLocationMode()
         {
-            if (!(Host.DraggingElement is BCardWpf))
+            if (!CanDrop(Host.DraggingElement))
             {
+                return;
             }
 
             if (!IsEnteredDropLocationMode)
@@ -96,11 +105,6 @@ namespace BOA.OneDesigner.WpfControls
 
                 Children.Add(control);
             }
-        }
-
-        public UIElement BChildAt(int index)
-        {
-            return Children[index];
         }
 
         internal void Refresh()
@@ -150,10 +154,27 @@ namespace BOA.OneDesigner.WpfControls
             return false;
         }
 
+        void OnComponentDeleted()
+        {
+            if (Model.Items.Any(x => x.ShouldBeDelete))
+            {
+                Refresh();
+            }
+        }
+
         void OnDrop(DropLocation dropLocation)
         {
-            var insertIndex = dropLocation.TargetLocationIndex;
+            UpdateModel(dropLocation.TargetLocationIndex);
+            Refresh();
+        }
 
+        void ResetBackground()
+        {
+            Background = Brushes.WhiteSmoke;
+        }
+
+        void UpdateModel(int insertIndex)
+        {
             var bCardWpf = Host.DraggingElement as BCardWpf;
             if (bCardWpf != null)
             {
@@ -172,11 +193,6 @@ namespace BOA.OneDesigner.WpfControls
 
             throw Error.InvalidOperation();
         }
-
-        void ResetBackground()
-        {
-            Background = Brushes.WhiteSmoke;
-        }
         #endregion
 
         #region IEventBusListener
@@ -188,9 +204,8 @@ namespace BOA.OneDesigner.WpfControls
             OnAttachToEventBus?.Invoke();
 
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.Subscribe(EventBus.ComponentDeleted, OnComponentDeleted);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }
 
@@ -199,9 +214,8 @@ namespace BOA.OneDesigner.WpfControls
             OnDeAttachToEventBus?.Invoke();
 
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, OnComponentDeleted);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }
         #endregion

@@ -52,8 +52,6 @@ namespace BOA.OneDesigner
             wpf.Model.Items[1].Items.RemoveAt(0);
             host.EventBus.Publish(EventBus.ComponentDeleted);
 
-            DoSomeInteractions(wpf);
-
             (wpf.BChildAt(0) == bChildAt_0).Should().BeTrue();
         }
     }
