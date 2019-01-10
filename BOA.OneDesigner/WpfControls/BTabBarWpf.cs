@@ -118,6 +118,7 @@ namespace BOA.OneDesigner.WpfControls
                 if (Model.Items.Contains(bTabBarPageWpf.Model))
                 {
                     InsertHelper.Move(Model.Items, bTabBarPageWpf.Model, insertIndex);
+                    Refresh();
                 }
 
                 return;
@@ -154,7 +155,6 @@ namespace BOA.OneDesigner.WpfControls
 
             OnAttachToEventBus?.Invoke();
 
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
             Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
         }
@@ -167,7 +167,6 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             OnDeAttachToEventBus?.Invoke();
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
             Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
         }
