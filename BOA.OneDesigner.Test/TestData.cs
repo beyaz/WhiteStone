@@ -52,7 +52,10 @@ namespace BOA.OneDesigner
             return new DivAsCardContainer
             {
                 Items = new List<BCard>
-                    {CreateBCardWithTwoInput(), CreateBCardWithTwoInput()}
+                {
+                    CreateBCardWithTwoInput(),
+                    CreateBCardWithTwoInput()
+                }
             };
         }
         #endregion

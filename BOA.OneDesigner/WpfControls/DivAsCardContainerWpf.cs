@@ -98,6 +98,11 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
+        public UIElement BChildAt(int index)
+        {
+            return Children[index];
+        }
+
         internal void Refresh()
         {
             ResetBackground();
