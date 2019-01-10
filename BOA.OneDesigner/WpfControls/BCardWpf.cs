@@ -126,7 +126,7 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (bField is BDataGrid)
                 {
-                    var uiElement = Host.Create<BDataGridInfoWpf>(bField);
+                    var uiElement = Host.CreateBDataGridInfoWpf((BDataGrid)bField);
 
                     Host.DragHelper.MakeDraggable(uiElement);
 
@@ -137,7 +137,7 @@ namespace BOA.OneDesigner.WpfControls
 
                 if (bField is BTabBar)
                 {
-                    var uiElement = Host.Create<BTabBarWpf>(bField);
+                    var uiElement = Host.CreateBTabBarWpf((BTabBar)bField);
 
                     Host.DragHelper.MakeDraggable(uiElement);
 

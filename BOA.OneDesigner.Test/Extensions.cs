@@ -21,7 +21,7 @@ namespace BOA.OneDesigner.WpfControls
                 Columns = new List<BDataGridColumnInfo> {new BDataGridColumnInfo(), new BDataGridColumnInfo()}
             };
 
-            var dataGridInfoWpf = host.Create<BDataGridInfoWpf>(dataGrid);
+            var dataGridInfoWpf = host.CreateBDataGridInfoWpf(dataGrid);
             
             dataGridInfoWpf.RaiseLoadedEvent();
 
@@ -36,7 +36,7 @@ namespace BOA.OneDesigner.WpfControls
                 Columns = new List<BDataGridColumnInfo> {new BDataGridColumnInfo(), new BDataGridColumnInfo()}
             };
 
-            var dataGridInfoWpf = host.Create<BDataGridInfoWpf>(dataGrid);
+            var dataGridInfoWpf = host.CreateBDataGridInfoWpf(dataGrid);
             
 
             return dataGridInfoWpf;

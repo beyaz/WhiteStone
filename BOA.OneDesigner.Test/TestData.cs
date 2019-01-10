@@ -44,7 +44,7 @@ namespace BOA.OneDesigner
                 }
             };
 
-            return host.Create<BTabBarWpf>(bTabBar);
+            return host.CreateBTabBarWpf(bTabBar);
         }
 
         public static DivAsCardContainer CreateDivAsCardContainer()

@@ -61,7 +61,6 @@ namespace BOA.OneDesigner.WpfControls
 
             
 
-            Loaded += (s, e) =>{ Refresh();};
         }
         #endregion
 

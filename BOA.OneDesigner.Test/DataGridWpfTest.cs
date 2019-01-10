@@ -31,7 +31,7 @@ namespace BOA.OneDesigner
                 }
             };
 
-            var wpf = host.Create<BDataGridInfoWpf>(bDataGrid);
+            var wpf = host.CreateBDataGridInfoWpf(bDataGrid);
 
             wpf.AttachToEventBus();
 

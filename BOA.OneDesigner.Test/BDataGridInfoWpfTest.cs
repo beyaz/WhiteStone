@@ -65,20 +65,7 @@ namespace BOA.OneDesigner.WpfControls
             wpf.ColumnsCollection.Count.Should().Be(2);
         }
 
-        [TestMethod]
-        public void Should_be_zero_column_when_in_toolbox()
-        {
-            var host = new Host();
-
-            var wpf = host.CreateDataGridWpfWithTwoColumn();
-            wpf.IsInToolbox = true;
-
-            // ACT
-            wpf.RaiseLoadedEvent();
-
-            // ASSERT
-            wpf.ColumnsCollection.Count.Should().Be(0);
-        }
+        
         #endregion
     }
 }
