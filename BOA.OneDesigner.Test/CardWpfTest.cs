@@ -18,7 +18,7 @@ namespace BOA.OneDesigner
 
             var bCard = TestData.CreateBCardWithTwoInput();
 
-            var wpf = host.Create<BCardWpf>(bCard);
+            var wpf = host.CreateBCardWpf(bCard);
 
             wpf.AttachToEventBus();
 
@@ -46,7 +46,7 @@ namespace BOA.OneDesigner
 
             var bCard = TestData.CreateBCardWithTwoInput();
 
-            var wpf = host.Create<BCardWpf>(bCard);
+            var wpf = host.CreateBCardWpf(bCard);
             wpf.AttachToEventBus();
 
             DoSomeInteractions(wpf);
@@ -74,7 +74,7 @@ namespace BOA.OneDesigner
                 TitleInfo = LabelInfoHelper.CreateNewLabelInfo("?")
             };
 
-            var wpf = host.Create<BCardWpf>(bCard);
+            var wpf = host.CreateBCardWpf(bCard);
 
             wpf.AttachToEventBus();
 
