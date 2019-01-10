@@ -8,44 +8,8 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public sealed class BTabBarWpf : Border, IHostItem, ISupportSizeInfo,IEventBusListener
+    public sealed class BTabBarWpf : Border, IHostItem, ISupportSizeInfo, IEventBusListener
     {
-
-
-        #region IEventBusListener
-        public event Action OnAttachToEventBus;
-        public event Action OnDeAttachToEventBus;
-
-        public void AttachToEventBus()
-        {
-            if (IsInToolbox)
-            {
-                return;
-            }
-
-            OnAttachToEventBus?.Invoke();
-
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
-        }
-
-        public void DeAttachToEventBus()
-        {
-            if (IsInToolbox)
-            {
-                return;
-            }
-
-            OnDeAttachToEventBus?.Invoke();
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
-        }
-        #endregion
-
-
-
         #region Fields
         internal readonly WrapPanel  HeadersContainersWrapPanel = new WrapPanel();
         internal readonly StackPanel TabPageBodyList            = new StackPanel();
@@ -63,19 +27,18 @@ namespace BOA.OneDesigner.WpfControls
 
             Child = stackPanel;
 
-            
-
             Loaded += (s, e) => { Refresh(); };
         }
         #endregion
 
         #region Public Properties
-        public Host    Host                      { get; set; }
-        public bool    IsEnteredDropLocationMode { get; set; }
-        public bool    IsInToolbox               { get; set; }
-        public BTabBar Model                     => (BTabBar) DataContext;
+        public Host    Host        { get; set; }
+        public bool    IsInToolbox { get; set; }
+        public BTabBar Model       => (BTabBar) DataContext;
 
         public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
+
+        public int      TabCount => HeadersContainersWrapPanel.Children.Count;
         #endregion
 
         #region Methods
@@ -137,14 +100,10 @@ namespace BOA.OneDesigner.WpfControls
                 TabPageBodyList.Children.Add(tabPageBody);
                 HeadersContainersWrapPanel.Children.Add(uiElement);
 
-                Host.AttachToEventBus(tabPageBody,this);
-                Host.AttachToEventBus(uiElement,this);
+                Host.AttachToEventBus(tabPageBody, this);
+                Host.AttachToEventBus(uiElement, this);
             }
         }
-
-        
-
-        
 
         /// <summary>
         ///     Called when [drop].
@@ -179,6 +138,38 @@ namespace BOA.OneDesigner.WpfControls
                     Refresh();
                 }
             }
+        }
+        #endregion
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+
+        public void AttachToEventBus()
+        {
+            if (IsInToolbox)
+            {
+                return;
+            }
+
+            OnAttachToEventBus?.Invoke();
+
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            if (IsInToolbox)
+            {
+                return;
+            }
+
+            OnDeAttachToEventBus?.Invoke();
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
         }
         #endregion
     }

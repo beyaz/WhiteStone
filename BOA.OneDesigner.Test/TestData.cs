@@ -7,23 +7,6 @@ namespace BOA.OneDesigner
 {
     static class TestData
     {
-        public  static BTabBarWpf CreateBTabBarWpfWithTwoTab( this Host host)
-        {
-
-            var bTabBar = new BTabBar
-            {
-                Items = new List<BTabBarPage> {new BTabBarPage
-                {
-                    DivAsCardContainer = CreateDivAsCardContainer()
-                }, new BTabBarPage
-                {
-                    DivAsCardContainer = CreateDivAsCardContainer()
-                }}
-            };
-
-            return host.Create<BTabBarWpf>(bTabBar);
-        }
-
         #region Public Methods
         public static BCard CreateBCardWithTwoInput()
         {
@@ -44,10 +27,33 @@ namespace BOA.OneDesigner
             return bCard;
         }
 
+        public static BTabBarWpf CreateBTabBarWpfWithTwoTab(this Host host)
+        {
+            var bTabBar = new BTabBar
+            {
+                Items = new List<BTabBarPage>
+                {
+                    new BTabBarPage
+                    {
+                        DivAsCardContainer = CreateDivAsCardContainer()
+                    },
+                    new BTabBarPage
+                    {
+                        DivAsCardContainer = CreateDivAsCardContainer()
+                    }
+                }
+            };
+
+            return host.Create<BTabBarWpf>(bTabBar);
+        }
+
         public static DivAsCardContainer CreateDivAsCardContainer()
         {
-            return new DivAsCardContainer {Items = new List<BCard>
-                {CreateBCardWithTwoInput(), CreateBCardWithTwoInput()}};
+            return new DivAsCardContainer
+            {
+                Items = new List<BCard>
+                    {CreateBCardWithTwoInput(), CreateBCardWithTwoInput()}
+            };
         }
         #endregion
     }

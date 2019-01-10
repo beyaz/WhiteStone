@@ -21,7 +21,7 @@ namespace BOA.OneDesigner.WpfControls
             bTabBarWpf.Refresh();
             bTabBarWpf.Refresh();
 
-            bTabBarWpf.HeadersContainersWrapPanel.Children.Count.Should().Be(2);
+            bTabBarWpf.TabCount.Should().Be(2);
 
             bTabBarWpf.HeadersContainersWrapPanel.Children[0].RaisePreviewMouseLeftButtonDownEvent();
 
