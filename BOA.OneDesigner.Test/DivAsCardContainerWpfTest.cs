@@ -1,6 +1,7 @@
 ﻿using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.WpfControls;
 using FluentAssertions;
+using FluentAssertions.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.OneDesigner
@@ -53,7 +54,7 @@ namespace BOA.OneDesigner
 
             DoSomeInteractions(wpf);
 
-            wpf.BChildAt(0).Should().BeSameAs(bChildAt_0);
+            (wpf.BChildAt(0) == bChildAt_0).Should().BeTrue();
         }
     }
 }
