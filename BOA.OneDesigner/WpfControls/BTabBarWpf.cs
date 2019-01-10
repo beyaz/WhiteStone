@@ -11,15 +11,18 @@ namespace BOA.OneDesigner.WpfControls
     public sealed class BTabBarWpf : Border, IHostItem, ISupportSizeInfo, IEventBusListener
     {
         #region Fields
-        internal readonly WrapPanel  HeadersContainersWrapPanel = new WrapPanel();
-        internal readonly StackPanel TabPageBodyList            = new StackPanel();
+        internal readonly WrapPanel HeadersContainersWrapPanel = new WrapPanel
+        {
+            Background = Brushes.LightSkyBlue
+        };
+
+        internal readonly StackPanel TabPageBodyList = new StackPanel();
         #endregion
 
         #region Constructors
         public BTabBarWpf()
         {
-            BorderBrush     = Brushes.Black;
-            BorderThickness = new Thickness(3);
+            
 
             var stackPanel = new StackPanel();
             stackPanel.Children.Add(HeadersContainersWrapPanel);

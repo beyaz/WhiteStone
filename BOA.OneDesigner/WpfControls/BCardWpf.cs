@@ -154,6 +154,15 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
 
+
+        void OnElementSelected()
+        {
+            if (IsEnteredDropLocationMode)
+            {
+                ExitDropLocationMode();
+            }
+        }
+
         #region Methods
         /// <summary>
         ///     Enters the drop location mode.
@@ -351,6 +360,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             OnAttachToEventBus?.Invoke();
 
+            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, OnElementSelected);
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
@@ -361,6 +371,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             OnDeAttachToEventBus?.Invoke();
 
+            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, OnElementSelected);
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);

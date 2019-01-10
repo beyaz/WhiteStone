@@ -81,6 +81,7 @@ namespace BOA.OneDesigner.WpfControls
 
         internal void ExitDropLocationMode()
         {
+            ResetBackground();
             if (!CanDrop(Host.SelectedElement))
             {
                 return;
@@ -106,6 +107,8 @@ namespace BOA.OneDesigner.WpfControls
 
                 Children.Add(control);
             }
+
+            CardLayout.ApplyForCardsContainer(this);
         }
 
         internal void Refresh()
@@ -201,6 +204,14 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
 
+        void OnElementSelected()
+        {
+            if (IsEnteredDropLocationMode)
+            {
+                ExitDropLocationMode();
+            }
+        }
+
         #region IEventBusListener
         public event Action OnAttachToEventBus;
         public event Action OnDeAttachToEventBus;
@@ -209,6 +220,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             OnAttachToEventBus?.Invoke();
 
+            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, OnElementSelected);
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
             Host.EventBus.Subscribe(EventBus.ComponentDeleted, OnComponentDeleted);
@@ -219,6 +231,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             OnDeAttachToEventBus?.Invoke();
 
+            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, OnElementSelected);
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
             Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, OnComponentDeleted);

@@ -19,6 +19,9 @@ namespace BOA.OneDesigner.WpfControls
             Host        = host;
             BTabBarWpf  = bTabBarWpf;
 
+            Padding = new Thickness(5);
+
+
            
 
             Loaded += (s, e) => { UpdateLabel(); };
