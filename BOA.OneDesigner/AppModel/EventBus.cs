@@ -53,12 +53,12 @@ namespace BOA.OneDesigner.AppModel
 
         public void Publish(string eventName)
         {
-            Log.Push("Publish Started. "+ eventName);
+            Log.Push("Started. "+ eventName);
             Log.Indent++;
             new Publisher(Subscribers).Publish(eventName);
 
-            Log.Indent++;
-            Log.Push("Publish Finished. "+ eventName);
+            Log.Indent--;
+            Log.Push("Finished. "+ eventName);
         }
 
         public void Subscribe(string eventName, Action action)
