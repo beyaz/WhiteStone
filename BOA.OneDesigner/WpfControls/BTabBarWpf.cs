@@ -26,7 +26,6 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(TabPageBodyList);
 
             Child = stackPanel;
-
         }
         #endregion
 
@@ -37,7 +36,7 @@ namespace BOA.OneDesigner.WpfControls
 
         public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
 
-        public int      TabCount => HeadersContainersWrapPanel.Children.Count;
+        public int TabCount => HeadersContainersWrapPanel.Children.Count;
         #endregion
 
         #region Methods
@@ -95,6 +94,7 @@ namespace BOA.OneDesigner.WpfControls
                     {
                         return;
                     }
+
                     Model.Items.ForEach(page => page.IsActiveInDesigner = false);
                     bTabBarPage.IsActiveInDesigner = true;
                     Refresh();
@@ -113,21 +113,11 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         void OnDrop(DropLocation dropLocation)
         {
-            var insertIndex = dropLocation.TargetLocationIndex;
-
-            var bTabBarPageWpf = Host.SelectedElement as BTabBarPageWpf;
-            if (bTabBarPageWpf != null)
+            var isUpdated = UpdateModel(dropLocation.TargetLocationIndex);
+            if (isUpdated)
             {
-                if (Model.Items.Contains(bTabBarPageWpf.Model))
-                {
-                    InsertHelper.Move(Model.Items, bTabBarPageWpf.Model, insertIndex);
-                    Refresh();
-                }
-
-                return;
+                Refresh();
             }
-
-            throw Error.InvalidOperation();
         }
 
         void OnTabPageRemoved()
@@ -142,6 +132,23 @@ namespace BOA.OneDesigner.WpfControls
                     Refresh();
                 }
             }
+        }
+
+        bool UpdateModel(int insertIndex)
+        {
+            var bTabBarPageWpf = Host.SelectedElement as BTabBarPageWpf;
+            if (bTabBarPageWpf != null)
+            {
+                if (Model.Items.Contains(bTabBarPageWpf.Model))
+                {
+                    InsertHelper.Move(Model.Items, bTabBarPageWpf.Model, insertIndex);
+                    return true;
+                }
+
+                return false;
+            }
+
+            throw Error.InvalidOperation();
         }
         #endregion
 

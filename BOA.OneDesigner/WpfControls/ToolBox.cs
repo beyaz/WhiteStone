@@ -93,6 +93,7 @@ namespace BOA.OneDesigner.WpfControls
                 IsInToolbox = true,
                 DataContext = new BTabBar()
             };
+            tabControlWpf.Refresh();
 
             Host.DragHelper.MakeDraggable(tabControlWpf);
 
