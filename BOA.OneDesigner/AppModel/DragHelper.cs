@@ -93,6 +93,11 @@ namespace BOA.OneDesigner.AppModel
 
         void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (Host.DraggingElement == null)
+            {
+                return;
+            }
+
             Host.DraggingElement = null;
             EventBus.Publish(EventBus.OnAfterDropOperation);
         }
