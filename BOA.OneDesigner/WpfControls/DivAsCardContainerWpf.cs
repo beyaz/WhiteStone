@@ -75,17 +75,23 @@ namespace BOA.OneDesigner.WpfControls
         {
             Background = Brushes.AntiqueWhite;
 
-            if (IsEnteredDropLocationMode)
-            {
-                return;
-            }
-
-            IsEnteredDropLocationMode = true;
 
             if (!CanDrop(Host.DraggingElement))
             {
                 return;
             }
+
+
+            if (IsEnteredDropLocationMode)
+            {
+                return;
+            }
+
+            
+
+            
+
+            IsEnteredDropLocationMode = true;
 
             var items = Children.ToArray();
 
