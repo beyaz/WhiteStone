@@ -7,11 +7,6 @@ namespace BOA.OneDesigner.AppModel
 {
     public class Host
     {
-        public void DeAttachToEventBus()
-        {
-            // TODO remove
-        }
-
         #region Constructors
         public Host()
         {

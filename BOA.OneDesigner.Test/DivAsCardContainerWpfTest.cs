@@ -27,9 +27,6 @@ namespace BOA.OneDesigner
 
             wpf.DeAttachToEventBus();
 
-            host.DeAttachToEventBus();
-            
-
             host.EventBus.CountOfListeningEventNames.Should().Be(0);
         }
     }

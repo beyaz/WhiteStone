@@ -30,7 +30,6 @@ namespace BOA.OneDesigner
             wpf.Refresh();
 
             wpf.DeAttachToEventBus();
-            host.DeAttachToEventBus();
 
             host.EventBus.CountOfListeningEventNames.Should().Be(0);
         }

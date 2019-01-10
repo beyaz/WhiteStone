@@ -49,7 +49,6 @@ namespace BOA.OneDesigner.WpfControls
             tabPage0.IsEnteredDropLocationMode.Should().BeTrue();
 
             bTabBarWpf.DeAttachToEventBus();
-            host.DeAttachToEventBus();
 
             host.EventBus.CountOfListeningEventNames.Should().Be(0);
 
