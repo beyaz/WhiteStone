@@ -7,48 +7,14 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class DivAsCardContainerWpf : Grid, IHostItem,IEventBusListener
+    public class DivAsCardContainerWpf : Grid, IHostItem, IEventBusListener
     {
-
-        #region IEventBusListener
-        public event Action OnAttachToEventBus;
-        public event Action OnDeAttachToEventBus;
-
-        public void AttachToEventBus()
-        {
-            OnAttachToEventBus?.Invoke();
-
-            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-        }
-
-        public void DeAttachToEventBus()
-        {
-            OnDeAttachToEventBus?.Invoke();
-
-            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
-        }
-        #endregion
-
-
-
-        void ResetBackground()
-        {
-            Background = Brushes.WhiteSmoke;
-        }
         #region Constructors
         public DivAsCardContainerWpf()
         {
             ResetBackground();
-           
-            Loaded   += (s, e) => { Refresh(); };
+
+            Loaded += (s, e) => { Refresh(); };
         }
         #endregion
 
@@ -59,37 +25,19 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
-        static bool CanDrop(UIElement dragElement)
-        {
-            if (dragElement is BCardWpf)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        
-
         internal void EnterDropLocationMode()
         {
             Background = Brushes.AntiqueWhite;
-
 
             if (!CanDrop(Host.DraggingElement))
             {
                 return;
             }
 
-
             if (IsEnteredDropLocationMode)
             {
                 return;
             }
-
-            
-
-            
 
             IsEnteredDropLocationMode = true;
 
@@ -150,28 +98,6 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
-        void OnDrop(DropLocation dropLocation)
-        {
-            var insertIndex = dropLocation.TargetLocationIndex;
-
-            var bCardWpf = Host.DraggingElement as BCardWpf;
-            if (bCardWpf != null)
-            {
-                if (bCardWpf.IsInToolbox)
-                {
-                    Model.InsertItem(insertIndex,new BCard());
-                    return;
-                }
-                bCardWpf.Model.RemoveFromParent();
-
-                Model.InsertItem(insertIndex, bCardWpf.Model);
-
-                return;
-            }
-
-            throw Error.InvalidOperation();
-        }
-
         internal void Refresh()
         {
             ResetBackground();
@@ -201,12 +127,77 @@ namespace BOA.OneDesigner.WpfControls
 
                 Host.DragHelper.MakeDraggable(cardWpf);
 
-                Host.AttachToEventBus(cardWpf,this);
+                Host.AttachToEventBus(cardWpf, this);
 
                 Children.Add(cardWpf);
             }
 
             CardLayout.ApplyForCardsContainer(this);
+        }
+
+        static bool CanDrop(UIElement dragElement)
+        {
+            if (dragElement is BCardWpf)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        void OnDrop(DropLocation dropLocation)
+        {
+            var insertIndex = dropLocation.TargetLocationIndex;
+
+            var bCardWpf = Host.DraggingElement as BCardWpf;
+            if (bCardWpf != null)
+            {
+                if (bCardWpf.IsInToolbox)
+                {
+                    Model.InsertItem(insertIndex, new BCard());
+                    return;
+                }
+
+                bCardWpf.Model.RemoveFromParent();
+
+                Model.InsertItem(insertIndex, bCardWpf.Model);
+
+                return;
+            }
+
+            throw Error.InvalidOperation();
+        }
+
+        void ResetBackground()
+        {
+            Background = Brushes.WhiteSmoke;
+        }
+        #endregion
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+
+        public void AttachToEventBus()
+        {
+            OnAttachToEventBus?.Invoke();
+
+            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            OnDeAttachToEventBus?.Invoke();
+
+            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }
         #endregion
     }
