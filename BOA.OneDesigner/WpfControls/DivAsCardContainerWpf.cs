@@ -154,12 +154,17 @@ namespace BOA.OneDesigner.WpfControls
         {
             var insertIndex = dropLocation.TargetLocationIndex;
 
-            var bInput = Host.DraggingElement as BCardWpf;
-            if (bInput != null)
+            var bCardWpf = Host.DraggingElement as BCardWpf;
+            if (bCardWpf != null)
             {
-                bInput.Model.RemoveFromParent();
+                if (bCardWpf.IsInToolbox)
+                {
+                    Model.InsertItem(insertIndex,new BCard());
+                    return;
+                }
+                bCardWpf.Model.RemoveFromParent();
 
-                Model.InsertItem(insertIndex, bInput.Model);
+                Model.InsertItem(insertIndex, bCardWpf.Model);
 
                 return;
             }

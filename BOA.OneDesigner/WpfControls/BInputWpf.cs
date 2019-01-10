@@ -38,6 +38,7 @@ namespace BOA.OneDesigner.WpfControls
         public BInput Model => (BInput) DataContext;
 
         public SizeInfo SizeInfo => Model?.SizeInfo;
+        public bool IsInToolbox { get; set; }
         #endregion
 
         #region Methods

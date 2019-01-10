@@ -129,6 +129,12 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = Host.DraggingElement as BInputWpf;
             if (bInput != null)
             {
+                if (bInput.IsInToolbox)
+                {
+                    Model.InsertItem(insertIndex, new BInput());
+                    return;
+                }
+
                 bInput.Model.RemoveFromParent();
 
                 Model.InsertItem(insertIndex, bInput.Model);
@@ -139,6 +145,12 @@ namespace BOA.OneDesigner.WpfControls
             var dataGridInfoWpf = Host.DraggingElement as BDataGridInfoWpf;
             if (dataGridInfoWpf != null)
             {
+                if (dataGridInfoWpf.IsInToolbox)
+                {
+                    Model.InsertItem(insertIndex, new BDataGrid());
+                    return;
+                }
+
                 dataGridInfoWpf.Model.RemoveFromParent();
 
                 Model.InsertItem(insertIndex, dataGridInfoWpf.Model);

@@ -32,6 +32,7 @@ namespace BOA.OneDesigner.WpfControls
             #region bInput
             var bInput = new BInputWpf
             {
+                IsInToolbox = true,
                 Host        = Host,
                 DataContext = new BInput {LabelInfo = LabelInfoHelper.CreateNewLabelInfo("Input"), BindingPath = "?"}
             };
