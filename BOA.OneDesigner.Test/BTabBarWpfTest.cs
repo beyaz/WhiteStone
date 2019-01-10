@@ -26,6 +26,8 @@ namespace BOA.OneDesigner.WpfControls
 
             bTabBarWpf.Refresh();
             bTabBarWpf.Refresh();
+            bTabBarWpf.Refresh();
+            bTabBarWpf.Refresh();
 
             tabBodies[0].Visibility.Should().Be(Visibility.Visible);
             tabBodies[1].Visibility.Should().Be(Visibility.Collapsed);
@@ -40,6 +42,11 @@ namespace BOA.OneDesigner.WpfControls
 
             var tabPage0 = (DivAsCardContainerWpf)tabBodies[0];
             tabPage0.IsEnteredDropLocationMode.Should().BeTrue();
+
+            bTabBarWpf.DeAttachToEventBus();
+            host.DeAttachToEventBus();
+
+            host.EventBus.CountOfListeningEventNames.Should().Be(0);
 
         }
         #endregion
