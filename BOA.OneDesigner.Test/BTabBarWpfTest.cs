@@ -8,6 +8,11 @@ namespace BOA.OneDesigner.WpfControls
     [TestClass]
     public class BTabBarWpfTest
     {
+
+        
+
+
+
         #region Public Methods
         [TestMethod]
         public void Should_open_tab_body_when_tab_header_clicked()
