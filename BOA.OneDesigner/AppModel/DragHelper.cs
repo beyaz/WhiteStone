@@ -97,9 +97,14 @@ namespace BOA.OneDesigner.AppModel
             {
                 return;
             }
+            if (!IsInDragDistance(Host.DraggingElementStartPoint, e))
+            {
+                return;
+            }
+            
+            EventBus.Publish(EventBus.OnAfterDropOperation);
 
             Host.DraggingElement = null;
-            EventBus.Publish(EventBus.OnAfterDropOperation);
         }
         #endregion
     }
