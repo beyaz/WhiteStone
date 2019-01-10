@@ -22,16 +22,21 @@ namespace BOA.OneDesigner
 
             wpf.AttachToEventBus();
 
+            DoSomeInteractions(wpf);
+
+            wpf.DeAttachToEventBus();
+
+            host.EventBus.CountOfListeningEventNames.Should().Be(0);
+        }
+
+        static void DoSomeInteractions(BCardWpf wpf)
+        {
             wpf.Refresh();
             wpf.EnterDropLocationMode();
             wpf.ExitDropLocationMode();
             wpf.Refresh();
             wpf.Refresh();
             wpf.Refresh();
-
-            wpf.DeAttachToEventBus();
-
-            host.EventBus.CountOfListeningEventNames.Should().Be(0);
         }
 
         [TestMethod]
@@ -44,9 +49,7 @@ namespace BOA.OneDesigner
             var wpf = host.Create<BCardWpf>(bCard);
             wpf.AttachToEventBus();
 
-            wpf.Refresh();
-            wpf.Refresh();
-            wpf.Refresh();
+            DoSomeInteractions(wpf);
 
             wpf.BChildrenCount.Should().Be(2);
             var childAt_0 = wpf.BChildAt(0);
