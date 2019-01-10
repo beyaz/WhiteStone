@@ -31,11 +31,13 @@ namespace BOA.OneDesigner
                 }
             };
 
-            var bDataGridInfoWpf = host.Create<BDataGridInfoWpf>(bDataGrid);
+            var wpf = host.Create<BDataGridInfoWpf>(bDataGrid);
 
-            bDataGridInfoWpf.RaiseLoadedEvent();
+            wpf.AttachToEventBus();
 
-            var bDataGridColumnWpf = (BDataGridColumnWpf) bDataGridInfoWpf.ColumnsCollection[0];
+            wpf.RaiseLoadedEvent();
+
+            var bDataGridColumnWpf = (BDataGridColumnWpf) wpf.ColumnsCollection[0];
 
             bDataGridColumnWpf._label.Text.Should().Be("A");
 
@@ -43,7 +45,7 @@ namespace BOA.OneDesigner
 
             host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
 
-            bDataGridColumnWpf = (BDataGridColumnWpf) bDataGridInfoWpf.ColumnsCollection[0];
+            bDataGridColumnWpf = (BDataGridColumnWpf) wpf.ColumnsCollection[0];
 
             bDataGridColumnWpf._label.Text.Should().Be("B");
         }

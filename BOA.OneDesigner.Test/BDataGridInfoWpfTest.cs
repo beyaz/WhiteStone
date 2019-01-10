@@ -14,16 +14,16 @@ namespace BOA.OneDesigner.WpfControls
         {
             var host = new Host();
 
-            var dataGridInfoWpf = host.CreateAndLoadDataGridWpfWithTwoColumn();
+            var wpf = host.CreateAndLoadDataGridWpfWithTwoColumn();
 
-            dataGridInfoWpf.ColumnsCollection.Count.Should().Be(2);
+            wpf.ColumnsCollection.Count.Should().Be(2);
 
-            host.DraggingElement = new BDataGridColumnWpf(new BDataGridColumnInfo(), host, dataGridInfoWpf);
+            host.DraggingElement = new BDataGridColumnWpf(new BDataGridColumnInfo(), host, wpf);
 
             host.EventBus.Publish(EventBus.OnDragStarted);
 
             // ASSERT
-            dataGridInfoWpf.ColumnsCollection.Count.Should().Be(2);
+            wpf.ColumnsCollection.Count.Should().Be(2);
         }
 
         [TestMethod]
@@ -31,20 +31,21 @@ namespace BOA.OneDesigner.WpfControls
         {
             var host = new Host();
 
-            var dataGridInfoWpf = host.CreateAndLoadDataGridWpfWithTwoColumn();
+            var wpf = host.CreateAndLoadDataGridWpfWithTwoColumn();
+            wpf.AttachToEventBus();
 
-            dataGridInfoWpf.ColumnsCollection.Count.Should().Be(2);
+            wpf.ColumnsCollection.Count.Should().Be(2);
 
-            host.DraggingElement = dataGridInfoWpf.ColumnsCollection[0];
+            host.DraggingElement = wpf.ColumnsCollection[0];
 
             host.EventBus.Publish(EventBus.OnDragStarted);
 
             // ASSERT
-            dataGridInfoWpf.ColumnsCollection.Count.Should().Be(5);
+            wpf.ColumnsCollection.Count.Should().Be(5);
 
             host.EventBus.Publish(EventBus.OnAfterDropOperation);
 
-            dataGridInfoWpf.ColumnsCollection.Count.Should().Be(2);
+            wpf.ColumnsCollection.Count.Should().Be(2);
         }
 
         [TestMethod]
@@ -52,16 +53,16 @@ namespace BOA.OneDesigner.WpfControls
         {
             var host = new Host();
 
-            var dataGridInfoWpf = host.CreateAndLoadDataGridWpfWithTwoColumn();
+            var wpf = host.CreateAndLoadDataGridWpfWithTwoColumn();
 
-            dataGridInfoWpf.ColumnsCollection.Count.Should().Be(2);
+            wpf.ColumnsCollection.Count.Should().Be(2);
 
-            host.DraggingElement = new BDataGridColumnWpf(new BDataGridColumnInfo(), host, dataGridInfoWpf);
+            host.DraggingElement = new BDataGridColumnWpf(new BDataGridColumnInfo(), host, wpf);
 
             host.EventBus.Publish(EventBus.DataGridColumnRemoved);
 
             // ASSERT
-            dataGridInfoWpf.ColumnsCollection.Count.Should().Be(2);
+            wpf.ColumnsCollection.Count.Should().Be(2);
         }
 
         [TestMethod]
@@ -69,14 +70,14 @@ namespace BOA.OneDesigner.WpfControls
         {
             var host = new Host();
 
-            var dataGridInfoWpf = host.CreateDataGridWpfWithTwoColumn();
-            dataGridInfoWpf.IsInToolbox = true;
+            var wpf = host.CreateDataGridWpfWithTwoColumn();
+            wpf.IsInToolbox = true;
 
             // ACT
-            dataGridInfoWpf.RaiseLoadedEvent();
+            wpf.RaiseLoadedEvent();
 
             // ASSERT
-            dataGridInfoWpf.ColumnsCollection.Count.Should().Be(0);
+            wpf.ColumnsCollection.Count.Should().Be(0);
         }
         #endregion
     }

@@ -14,7 +14,7 @@ namespace BOA.OneDesigner.WpfControls
             var host = new Host();
 
             var surface = new JsxElementDesignerSurface {Host = host};
-
+            surface.AttachToEventBus();
             surface.RaiseLoadedEvent();
 
             host.EventBus.Publish(EventBus.OnDragStarted);

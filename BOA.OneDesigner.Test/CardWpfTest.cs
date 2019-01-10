@@ -19,6 +19,7 @@ namespace BOA.OneDesigner
             var bCard = TestData.CreateBCardWithTwoInput();
 
             var wpf = host.Create<BCardWpf>(bCard);
+
             wpf.AttachToEventBus();
 
             wpf.Refresh();
@@ -41,17 +42,18 @@ namespace BOA.OneDesigner
 
             var bCard = TestData.CreateBCardWithTwoInput();
 
-            var cardWpf = host.Create<BCardWpf>(bCard);
+            var wpf = host.Create<BCardWpf>(bCard);
+            wpf.AttachToEventBus();
 
-            cardWpf.RaiseLoadedEvent();
-            cardWpf.BChildrenCount.Should().Be(2);
+            wpf.RaiseLoadedEvent();
+            wpf.BChildrenCount.Should().Be(2);
 
             // ACT
             bCard.Items.RemoveAt(1);
             host.EventBus.Publish(EventBus.ComponentDeleted);
 
             // ASSERT
-            cardWpf.BChildrenCount.Should().Be(1);
+            wpf.BChildrenCount.Should().Be(1);
         }
 
         [TestMethod]
@@ -64,11 +66,11 @@ namespace BOA.OneDesigner
                 TitleInfo = LabelInfoHelper.CreateNewLabelInfo("?")
             };
 
-            var cardWpf = host.Create<BCardWpf>(bCard);
+            var wpf = host.Create<BCardWpf>(bCard);
 
-            cardWpf.RaiseLoadedEvent();
+            wpf.AttachToEventBus();
 
-            cardWpf._groupBox.Header.Should().Be("?");
+            wpf.HeaderAsString.Should().Be("?");
 
             // ACT
             bCard.TitleInfo.FreeTextValue = "B";
@@ -76,7 +78,7 @@ namespace BOA.OneDesigner
             host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
 
             // ASSERT
-            cardWpf._groupBox.Header.Should().Be("B");
+            wpf.HeaderAsString.Should().Be("B");
         }
         #endregion
     }

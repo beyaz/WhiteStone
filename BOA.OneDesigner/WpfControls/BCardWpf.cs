@@ -15,6 +15,7 @@ namespace BOA.OneDesigner.WpfControls
     /// </summary>
     public class BCardWpf : Grid, IHostItem,IEventBusListener
     {
+        internal string HeaderAsString => _groupBox.Header as string;
 
         #region IEventBusListener
         public event Action OnAttachToEventBus;
