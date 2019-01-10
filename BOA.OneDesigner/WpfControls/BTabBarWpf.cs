@@ -27,7 +27,6 @@ namespace BOA.OneDesigner.WpfControls
 
             Child = stackPanel;
 
-            Loaded += (s, e) => { Refresh(); };
         }
         #endregion
 

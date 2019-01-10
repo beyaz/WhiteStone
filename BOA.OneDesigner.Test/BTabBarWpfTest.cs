@@ -14,44 +14,47 @@ namespace BOA.OneDesigner.WpfControls
         {
             var host = new Host();
 
-            var bTabBarWpf = host.CreateBTabBarWpfWithTwoTab();
-            bTabBarWpf.AttachToEventBus();
-            bTabBarWpf.Refresh();
-            bTabBarWpf.Refresh();
-            bTabBarWpf.Refresh();
-            bTabBarWpf.Refresh();
+            var wpf = host.CreateBTabBarWpfWithTwoTab();
 
-            bTabBarWpf.TabCount.Should().Be(2);
+            wpf.AttachToEventBus();
 
-            bTabBarWpf.HeadersContainersWrapPanel.Children[0].RaisePreviewMouseLeftButtonDownEvent();
+            DoSomeInteractions(wpf);
 
-            var tabBodies = bTabBarWpf.TabPageBodyList.Children;
+            wpf.TabCount.Should().Be(2);
+
+            wpf.HeadersContainersWrapPanel.Children[0].RaisePreviewMouseLeftButtonDownEvent();
+
+            var tabBodies = wpf.TabPageBodyList.Children;
 
             tabBodies.Count.Should().Be(2);
 
-            bTabBarWpf.Refresh();
-            bTabBarWpf.Refresh();
-            bTabBarWpf.Refresh();
-            bTabBarWpf.Refresh();
+            DoSomeInteractions(wpf);
 
             tabBodies[0].Visibility.Should().Be(Visibility.Visible);
             tabBodies[1].Visibility.Should().Be(Visibility.Collapsed);
-
 
             host.SelectedElement = new BCardWpf();
             host.EventBus.Publish(EventBus.OnDragStarted);
 
-
             tabBodies[0].Visibility.Should().Be(Visibility.Visible);
             tabBodies[1].Visibility.Should().Be(Visibility.Collapsed);
 
-            var tabPage0 = (DivAsCardContainerWpf)tabBodies[0];
+            var tabPage0 = (DivAsCardContainerWpf) tabBodies[0];
             tabPage0.IsEnteredDropLocationMode.Should().BeTrue();
 
-            bTabBarWpf.DeAttachToEventBus();
+            wpf.DeAttachToEventBus();
 
             host.EventBus.CountOfListeningEventNames.Should().Be(0);
+        }
+        #endregion
 
+        #region Methods
+        static void DoSomeInteractions(BTabBarWpf wpf)
+        {
+            wpf.Refresh();
+            wpf.Refresh();
+            wpf.Refresh();
+            wpf.Refresh();
         }
         #endregion
     }
