@@ -35,7 +35,7 @@ namespace BOA.OneDesigner
         }
 
         [TestMethod]
-        public void Should_remove_when_item_property_changed()
+        public void Should_remove_when_item_deleted()
         {
             var host = new Host();
 
@@ -44,8 +44,12 @@ namespace BOA.OneDesigner
             var wpf = host.Create<BCardWpf>(bCard);
             wpf.AttachToEventBus();
 
-            wpf.RaiseLoadedEvent();
+            wpf.Refresh();
+            wpf.Refresh();
+            wpf.Refresh();
+
             wpf.BChildrenCount.Should().Be(2);
+            var childAt_0 = wpf.BChildAt(0);
 
             // ACT
             bCard.Items.RemoveAt(1);
@@ -53,6 +57,8 @@ namespace BOA.OneDesigner
 
             // ASSERT
             wpf.BChildrenCount.Should().Be(1);
+
+            wpf.BChildAt(0).Should().NotBeSameAs(childAt_0);
         }
 
         [TestMethod]

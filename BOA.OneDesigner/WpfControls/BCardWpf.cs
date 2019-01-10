@@ -55,6 +55,11 @@ namespace BOA.OneDesigner.WpfControls
         #region Public Properties
         public int BChildrenCount => ChildrenContainer.Children.Count;
 
+        public UIElement BChildAt(int index)
+        {
+            return ChildrenContainer.Children[index];
+        }
+
         /// <summary>
         ///     Gets or sets the host.
         /// </summary>
@@ -81,10 +86,7 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Methods
-        public UIElement BChildrenAt(int index)
-        {
-            return ChildrenContainer.Children[index];
-        }
+       
 
         /// <summary>
         ///     Called when [drop].
