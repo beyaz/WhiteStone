@@ -11,7 +11,14 @@ namespace BOA.OneDesigner.CodeGeneration
     {
         public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BAccountComponent data)
         {
-
+            sb.AppendLine($"<BAccountComponent  accountNumber = {{{data.BindingPathInTypeScript}}}");
+            sb.AppendLine($"                   onAccountSelect = {{(selectedAccount: any) => {{{data.BindingPathInTypeScript}}} = selectedAccount ? selectedAccount.accountNumber : null}}");
+            sb.AppendLine("                  isVisibleBalance = {false}");
+            sb.AppendLine("            isVisibleAccountSuffix = {false}");
+            sb.AppendLine("enableShowDialogMessagesInCallback = {false}");
+            sb.AppendLine("                     isVisibleIBAN = {false}");
+            // sb.AppendLine($"                               ref = {(r: any) => this.snaps.SnapName = r}");
+            sb.AppendLine("                           context = {context}/>");
         }
     }
 
