@@ -387,7 +387,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
         static string NormalizeBindingPath(string propertyNameInCSharp)
         {
-            return string.Join(".", propertyNameInCSharp.SplitAndClear(".").ToList().ConvertAll(TypescriptNaming.GetResolvedPropertyName));
+            return TypescriptNaming.NormalizeBindingPath(propertyNameInCSharp);
         }
         #endregion
     }
