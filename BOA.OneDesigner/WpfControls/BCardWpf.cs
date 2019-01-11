@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -15,6 +16,42 @@ namespace BOA.OneDesigner.WpfControls
     /// </summary>
     public class BCardWpf : Grid, IHostItem, IEventBusListener
     {
+
+        void Should_delete_and_refresh_if_my_child_selected()
+        {
+            var willBeDeleteElement = ChildrenContainer.Children.ToArray().FirstOrDefault(x=>x==Host.SelectedElement);
+            if (willBeDeleteElement == null)
+            {
+                return;
+            }
+
+
+            var bInput = Host.SelectedElement as BInputWpf;
+            var dataGridInfoWpf = Host.SelectedElement as BDataGridInfoWpf;
+            var tabControlWpf = Host.SelectedElement as BTabBarWpf;
+
+
+            if (bInput != null)
+            {
+                bInput.Model.RemoveFromParent();
+            }
+            else  if (dataGridInfoWpf != null)
+            {
+                dataGridInfoWpf.Model.RemoveFromParent();
+            }
+            else if (tabControlWpf != null)
+            {
+                tabControlWpf.Model.RemoveFromParent();
+            }
+            else
+            {
+                throw Error.InvalidOperation();
+            }
+
+            Refresh();
+        }
+
+
         #region Fields
         /// <summary>
         ///     The group box
@@ -155,13 +192,22 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
 
-        void OnElementSelected()
+        void Should_ExitDropLocationMode_when_any_component_selected()
         {
-            if (IsEnteredDropLocationMode)
+            ExitDropLocationMode();
+        }
+
+        void Should_refresh_when_any_my_child_component_moved_or_deleted()
+        {
+            var isMyChild = Children.Contains(Host.SelectedElement);
+            if (isMyChild)
             {
-                ExitDropLocationMode();
+                Refresh();
             }
         }
+
+
+
 
         #region Methods
         /// <summary>
@@ -360,10 +406,10 @@ namespace BOA.OneDesigner.WpfControls
         {
             OnAttachToEventBus?.Invoke();
 
-            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, OnElementSelected);
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Should_refresh_when_any_my_child_component_moved_or_deleted);
+            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Should_ExitDropLocationMode_when_any_component_selected);
+            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Should_delete_and_refresh_if_my_child_selected);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
         }
 
@@ -371,10 +417,10 @@ namespace BOA.OneDesigner.WpfControls
         {
             OnDeAttachToEventBus?.Invoke();
 
-            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, OnElementSelected);
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Should_refresh_when_any_my_child_component_moved_or_deleted);
+            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, Should_ExitDropLocationMode_when_any_component_selected);
+            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Should_delete_and_refresh_if_my_child_selected);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
         }
         #endregion

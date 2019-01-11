@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
@@ -82,6 +83,7 @@ namespace BOA.OneDesigner.WpfControls
         internal void ExitDropLocationMode()
         {
             ResetBackground();
+
             if (!CanDrop(Host.SelectedElement))
             {
                 return;
@@ -158,7 +160,7 @@ namespace BOA.OneDesigner.WpfControls
             return false;
         }
 
-        void OnComponentDeleted()
+        void Should_delete_and_refresh_if_my_child_selected()
         {
             var willBeDeleteElement = Children.ToArray().FirstOrDefault(x=>x==Host.SelectedElement);
             if (willBeDeleteElement == null)
@@ -167,9 +169,8 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             var bCard = ((BCardWpf) willBeDeleteElement).Model;
-            bCard.RemoveFromParent();
 
-            Model.Items.Remove(bCard);
+            bCard.RemoveFromParent();
 
             Refresh();
         }
@@ -187,18 +188,18 @@ namespace BOA.OneDesigner.WpfControls
 
         void UpdateModel(int insertIndex)
         {
-            var bCardWpf = Host.SelectedElement as BCardWpf;
-            if (bCardWpf != null)
+            var wpf = Host.SelectedElement as BCardWpf;
+            if (wpf != null)
             {
-                if (bCardWpf.IsInToolbox)
+                if (wpf.IsInToolbox)
                 {
-                    Model.InsertItem(insertIndex, new BCard());
+                    Model.InsertItem(insertIndex, new BCard{TitleInfo = LabelInfoHelper.CreateNewLabelInfo("Card")});
                     return;
                 }
 
-                bCardWpf.Model.RemoveFromParent();
+                wpf.Model.RemoveFromParent();
 
-                Model.InsertItem(insertIndex, bCardWpf.Model);
+                Model.InsertItem(insertIndex, wpf.Model);
 
                 return;
             }
@@ -207,13 +208,22 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
 
-        void OnElementSelected()
+       
+
+        void Should_ExitDropLocationMode_when_any_component_selected()
         {
-            if (IsEnteredDropLocationMode)
+            ExitDropLocationMode();
+        }
+
+        void Should_refresh_when_any_my_child_component_moved_or_deleted()
+        {
+            var isMyChild = Children.Contains(Host.SelectedElement);
+            if (isMyChild)
             {
-                ExitDropLocationMode();
+                Refresh();
             }
         }
+
 
         #region IEventBusListener
         public event Action OnAttachToEventBus;
@@ -224,10 +234,10 @@ namespace BOA.OneDesigner.WpfControls
             OnAttachToEventBus?.Invoke();
 
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, OnElementSelected);
-            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, OnElementSelected);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Should_refresh_when_any_my_child_component_moved_or_deleted);
+            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Should_ExitDropLocationMode_when_any_component_selected);
             Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.Subscribe(EventBus.ComponentDeleted, OnComponentDeleted);
+            Host.EventBus.Subscribe(EventBus.ComponentDeleted, Should_delete_and_refresh_if_my_child_selected);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }
 
@@ -237,10 +247,10 @@ namespace BOA.OneDesigner.WpfControls
 
 
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, OnElementSelected);
-            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, OnElementSelected);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Should_refresh_when_any_my_child_component_moved_or_deleted);
+            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, Should_ExitDropLocationMode_when_any_component_selected);
             Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, OnComponentDeleted);
+            Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Should_delete_and_refresh_if_my_child_selected);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
         }
         #endregion
