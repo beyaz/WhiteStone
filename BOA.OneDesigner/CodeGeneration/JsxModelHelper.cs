@@ -43,7 +43,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                var activeTabIndexBindingPathInJs = NormalizeBindingPath($"request.{data.ActiveTabIndexBindingPath}");
+                var activeTabIndexBindingPathInJs = TypescriptNaming.NormalizeBindingPath($"request.{data.ActiveTabIndexBindingPath}");
                 sb.AppendLine("value={"+activeTabIndexBindingPathInJs+"}");
                 sb.AppendLine($"onChange = {{(e: any, value: number) => {activeTabIndexBindingPathInJs} = value}}");
             }
@@ -281,7 +281,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var isString = propertyDefinition.PropertyType.FullName == typeof(string).FullName;
 
-            var bindingPathInJs = NormalizeBindingPath($"request.{data.BindingPath}");
+            var bindingPathInJs = TypescriptNaming.NormalizeBindingPath($"request.{data.BindingPath}");
 
             if (isString)
             {
@@ -316,12 +316,12 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (!string.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
             {
-                sb.AppendLine($"isVisible = {{{NormalizeBindingPath("request." + data.IsVisibleBindingPath)}}}");
+                sb.AppendLine($"isVisible = {{{TypescriptNaming.NormalizeBindingPath("request." + data.IsVisibleBindingPath)}}}");
             }
 
             if (!string.IsNullOrWhiteSpace(data.IsDisabledBindingPath))
             {
-                sb.AppendLine($"disabled = {{{NormalizeBindingPath("request." + data.IsDisabledBindingPath)}}}");
+                sb.AppendLine($"disabled = {{{TypescriptNaming.NormalizeBindingPath("request." + data.IsDisabledBindingPath)}}}");
             }
 
             if (data.SizeInfo != null && data.SizeInfo.IsEmpty == false)
@@ -374,7 +374,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsRequestBindingPath)
             {
-                return NormalizeBindingPath("request." + data.RequestBindingPath);
+                return TypescriptNaming.NormalizeBindingPath("request." + data.RequestBindingPath);
             }
 
             if (data.IsFromMessaging)
@@ -385,10 +385,7 @@ namespace BOA.OneDesigner.CodeGeneration
             throw Error.InvalidOperation();
         }
 
-        static string NormalizeBindingPath(string propertyNameInCSharp)
-        {
-            return TypescriptNaming.NormalizeBindingPath(propertyNameInCSharp);
-        }
+        
         #endregion
     }
 }
