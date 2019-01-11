@@ -94,6 +94,7 @@
     <Compile Include="AppModel\IHostItem.cs" />
     <Compile Include="AppModel\JsonFile.cs" />
     <Compile Include="CodeGeneration\JsxModelHelper.cs" />
+    <Compile Include="CodeGeneration\SnapNamingHelper.cs" />
     <Compile Include="CodeGeneration\TransactionPage.cs" />
     <Compile Include="Helpers\LayoutPropWideConverter.cs" />
     <Compile Include="Helpers\SizeEditor.cs" />
