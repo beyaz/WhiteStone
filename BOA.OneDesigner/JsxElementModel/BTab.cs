@@ -10,6 +10,8 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BTabBar : BField
     {
+        public string ActiveTabIndexBindingPath { get; set; }
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets the items.
@@ -20,6 +22,7 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets the size information.
         /// </summary>
         public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsLarge = true};
+
         #endregion
     }
 

@@ -24,6 +24,7 @@ namespace BOA.OneDesigner.Helpers
         public IReadOnlyList<string>                     RequestPropertyIntellisense           { get; set; }
         public IReadOnlyList<string>                     RequestStringPropertyIntellisense     { get; set; }
         public IReadOnlyList<string> RequestBooleanPropertyIntellisense { get; set; }
+        public IReadOnlyList<string> RequestNotNullInt32PropertyIntellisense { get; set; }
         #endregion
     }
 
@@ -191,6 +192,19 @@ namespace BOA.OneDesigner.Helpers
             return items;
         }
 
+        public static IReadOnlyList<string> GetAllNotNullInt32BindProperties(string assemblyPath, string typeFullName)
+        {
+            var items = new List<string>();
+
+            var typeDefinition = FindType(assemblyPath, typeFullName);
+            if (typeDefinition != null)
+            {
+                GetAllNotNullInt32BindProperties(string.Empty, items, typeDefinition);
+            }
+
+            return items;
+        }
+
         public static IReadOnlyList<string> GetAllTypeNames(string assemblyPath)
         {
             var items = new List<string>();
@@ -206,6 +220,8 @@ namespace BOA.OneDesigner.Helpers
             {
                 RequestPropertyIntellisense           = GetAllBindProperties(assemblyPath, requestTypeFullName),
                 RequestStringPropertyIntellisense     = GetAllStringBindProperties(assemblyPath, requestTypeFullName),
+                RequestNotNullInt32PropertyIntellisense = GetAllNotNullInt32BindProperties(assemblyPath, requestTypeFullName),
+                
                 RequestBooleanPropertyIntellisense = GetAllBooleanBindProperties(assemblyPath, requestTypeFullName),
                 RequestCollectionPropertyIntellisense = GetAllCollectionProperties(assemblyPath, requestTypeFullName),
                 Collections                           = new Dictionary<string, IReadOnlyList<string>>()
@@ -335,6 +351,42 @@ namespace BOA.OneDesigner.Helpers
                 }
             }
         }
+
+        
+
+            
+        static void GetAllNotNullInt32BindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
+        {
+            if (typeDefinition == null)
+            {
+                return;
+            }
+
+            foreach (var propertyDefinition in typeDefinition.Properties)
+            {
+                if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
+                {
+                    continue;
+                }
+
+                if (propertyDefinition.PropertyType.FullName == typeof(int).FullName)
+                {
+                    paths.Add(pathPrefix + propertyDefinition.Name);
+                    continue;
+                }
+
+                if (IsCollection(propertyDefinition.PropertyType))
+                {
+                    continue;
+                }
+
+                if (propertyDefinition.PropertyType.IsValueType == false)
+                {
+                    GetAllNotNullInt32BindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
+                }
+            }
+        }
+
 
         static void GetAllStringBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
         {

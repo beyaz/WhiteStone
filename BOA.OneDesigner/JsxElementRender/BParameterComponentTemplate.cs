@@ -80,7 +80,7 @@ if(Data.ValueTypeIsInt32){
                       ref = {(r: any) => this.snaps.");
             
             #line 17 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.SnapName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.SnapName2));
             
             #line default
             #line hidden
@@ -139,7 +139,7 @@ else
                       ref = {(r: any) => this.snaps.");
             
             #line 33 "D:\github\WhiteStone\BOA.OneDesigner\JsxElementRender\BParameterComponentTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Data.SnapName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Data.SnapName2));
             
             #line default
             #line hidden

@@ -11,8 +11,6 @@ namespace BOA.OneDesigner.WpfControls
 {
     class RequestIntellisenseTextBox : IntellisenseTextBox
     {
-        public bool SearchByCurrentSelectedDataGridDataSourceContract { get; set; }
-
         #region Constructors
         public RequestIntellisenseTextBox()
         {
@@ -21,11 +19,13 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Properties
-        public bool ShowOnlyStringProperties { get; set; }
+        public bool SearchByCurrentSelectedDataGridDataSourceContract { get; set; }
 
         public bool ShowOnlyBooleanProperties { get; set; }
 
         public bool ShowOnlyCollectionProperties { get; set; }
+        public bool ShowOnlyStringProperties     { get; set; }
+        public bool ShowOnlyNotNullInt32Properties { get; set; }
         #endregion
 
         class RequestPropertyIntellisenseProvider : IIntelliboxResultsProvider
@@ -43,49 +43,47 @@ namespace BOA.OneDesigner.WpfControls
 
             #region Public Properties
             public RequestIntellisenseData Data { get; set; } = SM.Get<Host>().RequestIntellisenseData;
-            public Host Host { get; set; } = SM.Get<Host>();
+            public Host                    Host { get; set; } = SM.Get<Host>();
             #endregion
 
             #region Public Methods
             public IEnumerable DoSearch(string searchTerm, int maxResults, object tag)
             {
-
                 if (_requestIntellisenseTextBox.SearchByCurrentSelectedDataGridDataSourceContract)
                 {
-
                     var bindingPath = Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath;
                     if (string.IsNullOrWhiteSpace(bindingPath))
                     {
-                        return new[] { "Önce gridin data source bilgisi  girilmelidir." };
+                        return new[] {"Önce gridin data source bilgisi  girilmelidir."};
                     }
 
                     if (Host.RequestIntellisenseData.Collections.ContainsKey(bindingPath) == false)
                     {
-                        return new[] { "ilgili data source path bulunamadı." };
+                        return new[] {"ilgili data source path bulunamadı."};
                     }
 
                     return Host.RequestIntellisenseData.Collections[bindingPath];
-
-
                 }
-
-                
 
                 if (_requestIntellisenseTextBox.ShowOnlyStringProperties)
                 {
                     return Data.RequestStringPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
                 }
-                
+
+                if (_requestIntellisenseTextBox.ShowOnlyNotNullInt32Properties)
+                {
+                    return Data.RequestNotNullInt32PropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                }
+
                 if (_requestIntellisenseTextBox.ShowOnlyBooleanProperties)
                 {
                     return Data.RequestBooleanPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
                 }
-                
+
                 if (_requestIntellisenseTextBox.ShowOnlyCollectionProperties)
                 {
                     return Data.RequestCollectionPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
                 }
-                
 
                 return Data.RequestPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
             }

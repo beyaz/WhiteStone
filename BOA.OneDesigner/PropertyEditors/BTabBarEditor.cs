@@ -2,6 +2,7 @@
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
@@ -15,6 +16,8 @@ namespace BOA.OneDesigner.PropertyEditors
 { 
     Margin:10,
 	Childs:[
+        
+        {ui:'RequestIntellisenseTextBox',  " + nameof(RequestIntellisenseTextBox.ShowOnlyNotNullInt32Properties) + @":true,  Margin:5, Text:'{Binding " + nameof(Model.ActiveTabIndexBindingPath) + @"}', Label:'Active Tab Index Binding Path' },
         {ui:'Button', Text:'Add Tab',Click:'" + nameof(AddTab) + @"'},
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]

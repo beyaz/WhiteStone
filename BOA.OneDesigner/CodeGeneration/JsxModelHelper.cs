@@ -21,20 +21,32 @@ namespace BOA.OneDesigner.CodeGeneration
         public static void Write(this PaddedStringBuilder sb, ScreenInfo screenInfo, BTabBar data)
         {
 
-     
-            
+            SnapNamingHelper.InitSnapName(data);
 
-            
-        
 
+
+
+
+          
             
 
 
             sb.AppendLine("<BTabBar context={context}");
             sb.PaddingCount++;
-            sb.AppendLine("value={this.state.activeTab}");
+
             sb.AppendLine("mode='secondary'");
-            sb.AppendLine("onChange={(event, value) => { this.setState( { activeTab: value} ); }}");
+
+            if (string.IsNullOrWhiteSpace(data.ActiveTabIndexBindingPath))
+            {
+                sb.AppendLine("value={this.state.activeTab}");
+                sb.AppendLine("onChange={(event, value) => { this.setState( { activeTab: value} ); }}");    
+            }
+            else
+            {
+                var activeTabIndexBindingPathInJs = NormalizeBindingPath($"request.{data.ActiveTabIndexBindingPath}");
+                sb.AppendLine("value={"+activeTabIndexBindingPathInJs+"}");
+                sb.AppendLine($"onChange = {{(e: any, value: number) => {activeTabIndexBindingPathInJs} = value}}");
+            }
 
             if (data.SizeInfo != null && data.SizeInfo.IsEmpty == false)
             {
@@ -378,5 +390,18 @@ namespace BOA.OneDesigner.CodeGeneration
             return string.Join(".", propertyNameInCSharp.SplitAndClear(".").ToList().ConvertAll(TypescriptNaming.GetResolvedPropertyName));
         }
         #endregion
+    }
+
+    public static class SnapNamingHelper
+    {
+        public static void InitSnapName(BTabBar data)
+        {
+            // TODO: snap  olayını hallet
+            if (string.IsNullOrWhiteSpace(data.ActiveTabIndexBindingPath))
+            {
+                
+            }
+
+        }
     }
 }

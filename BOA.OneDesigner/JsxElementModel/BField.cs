@@ -7,6 +7,8 @@ namespace BOA.OneDesigner.JsxElementModel
     public abstract class BField
     {
 
+        public string SnapName { get; set; }
+
         public Container Container { get; set; }
 
         public void RemoveFromParent()
@@ -22,7 +24,7 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public string Label       { get; set; }
 
-        public string SnapName
+        public string SnapName2
         {
             get
             {
