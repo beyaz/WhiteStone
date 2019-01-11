@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.WpfControls;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 
@@ -12,6 +14,130 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class JsxModelHelper
     {
+
+
+        
+        public static void Write(this PaddedStringBuilder sb, ScreenInfo screenInfo, BTabBar data)
+        {
+
+     
+            
+
+            
+        
+
+            
+
+
+            sb.AppendLine("<BTabBar context={context}");
+            sb.PaddingCount++;
+            sb.AppendLine("value={this.state.activeTab} mode='secondary'");
+            sb.AppendLine("mode='secondary'");
+            sb.AppendLine("onChange={(event, value) => { this.setState( { activeTab: value} ); }}");
+
+            if (data.SizeInfo != null && data.SizeInfo.IsEmpty == false)
+            {
+                sb.AppendLine("size = {"+ GetJsValue(data.SizeInfo) +"}");
+            }
+
+            sb.AppendLine("tabItems = {[");
+
+            sb.PaddingCount+=3;
+
+            for (var i = 0; i < data.Items.Count; i++)
+            {
+                var isLAstTab = i < data.Items.Count - 1;
+
+                var bTabBarPage = data.Items[i];
+
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                var title = GetLabelValue(screenInfo, bTabBarPage.TitleInfo);
+                if (title != null)
+                {
+                    sb.AppendLine($"text : {title},");
+                }
+                sb.AppendLine($"value : {i},");
+
+                sb.AppendLine("content : (");
+
+
+                #region Content
+                var divAsCardContainerWpf = new DivAsCardContainerWpf {DataContext = bTabBarPage.DivAsCardContainer};
+                divAsCardContainerWpf.Refresh();
+
+                sb.AppendLine("<div>");
+                sb.PaddingCount++;
+
+                int rowIndex = 0;
+                foreach (var dummy in divAsCardContainerWpf.RowDefinitions)
+                {
+                    sb.AppendLine("<div style={{flexWrap:'wrap',display:'flex'}}>");
+                    sb.PaddingCount++;
+
+                    var elementsInRow = divAsCardContainerWpf.Children.ToArray().Where(x => (int) x.GetValue(Grid.RowProperty) == rowIndex).ToList();
+                    foreach (var uiElement in elementsInRow)
+                    {
+                        var bCardWpf = ((BCardWpf) uiElement);
+
+                        var columnSpan = ((int) bCardWpf.GetValue(Grid.ColumnSpanProperty));
+
+                        var width = (columnSpan / 12) * 100;
+
+                        var bCard = bCardWpf.Model;
+
+                        sb.AppendLine("<div style={{ width: '" + width + "%', padding: '15px' }}>");
+
+                        sb.PaddingCount++;
+                        sb.Write(screenInfo, bCard);
+                        sb.PaddingCount--;
+
+                        sb.AppendLine("</div>");
+                    }
+
+                    sb.PaddingCount--;
+                    sb.AppendLine("</div>");
+
+                    rowIndex++;
+                }
+
+                sb.PaddingCount--;
+                sb.AppendLine("</div>");
+                #endregion
+
+
+                if (isLAstTab)
+                {
+                    sb.AppendLine(")");
+                }
+                else
+                {
+                    sb.AppendLine("),");
+                }
+
+                sb.AppendLine();
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+
+               
+
+            }
+
+            sb.AppendLine("]}");
+            sb.PaddingCount -= 3;
+
+            sb.PaddingCount--;
+            sb.AppendLine(" />");
+
+
+
+
+            
+        }
+
+
         #region Public Methods
         public static bool HasComponent<TComponentType>(this DivAsCardContainer divAsCardContainer)
         {
@@ -88,9 +214,23 @@ namespace BOA.OneDesigner.CodeGeneration
                 if (bInput != null)
                 {
                     var stringBuilder = new PaddedStringBuilder();
+
                     stringBuilder.Write(screenInfo, bInput);
 
                     subComponents.Add(stringBuilder.ToString());
+
+                    continue;
+                }
+
+                var bTabBar = item as BTabBar;
+                if (bTabBar != null)
+                {
+                    var stringBuilder = new PaddedStringBuilder();
+
+                    stringBuilder.Write(screenInfo, bTabBar);
+
+                    subComponents.Add(stringBuilder.ToString());
+
                     continue;
                 }
 
@@ -165,21 +305,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"disabled = {{{NormalizeBindingPath("request." + data.IsDisabledBindingPath)}}}");
             }
 
-            if (data.SizeInfo?.IsLarge == true)
+            if (data.SizeInfo != null && data.SizeInfo.IsEmpty == false)
             {
-                sb.AppendLine("size = {ComponentSize.LARGE}");
-            }
-            else if (data.SizeInfo?.IsMedium == true)
-            {
-                sb.AppendLine("size = {ComponentSize.MEDIUM}");
-            }
-            else if (data.SizeInfo?.IsSmall == true)
-            {
-                sb.AppendLine("size = {ComponentSize.SMALL}");
-            }
-            else if (data.SizeInfo?.IsExtraSmall == true)
-            {
-                sb.AppendLine("size = {ComponentSize.XSMALL}");
+                sb.AppendLine("size = {"+ GetJsValue(data.SizeInfo) +"}");
             }
 
             sb.AppendLine("context = {context}/>");
@@ -187,6 +315,30 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
         }
         #endregion
+
+        static string GetJsValue(SizeInfo size)
+        {
+			
+			
+            if (size.IsLarge)
+            {
+                return "ComponentSize.LARGE";
+            }
+            if (size.IsMedium)
+            {
+                return "ComponentSize.MEDIUM";
+            }
+            if(size.IsSmall)
+            {
+                return "ComponentSize.SMALL";
+            }
+            if(size.IsExtraSmall)
+            {
+                return "ComponentSize.XSMALL";
+            }
+
+            throw Error.InvalidOperation();
+        }
 
         #region Methods
         static string GetLabelValue(ScreenInfo screenInfo, LabelInfo data)
