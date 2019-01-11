@@ -6,6 +6,15 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
+
+    static class BAccountComponentRenderer
+    {
+        public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BAccountComponent data)
+        {
+
+        }
+    }
+
     static class BCardRenderer
     {
         public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BCard data)

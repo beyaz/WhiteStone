@@ -44,7 +44,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsRequestBindingPath)
             {
-                return TypescriptNaming.NormalizeBindingPath("request." + data.RequestBindingPath);
+                return TypescriptNaming.NormalizeBindingPath(BindingPrefix + data.RequestBindingPath);
             }
 
             if (data.IsFromMessaging)
@@ -54,5 +54,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             throw Error.InvalidOperation();
         }
+
+        public const string BindingPrefix = "Request.";
     }
 }

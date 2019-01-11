@@ -38,7 +38,8 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                var activeTabIndexBindingPathInJs = TypescriptNaming.NormalizeBindingPath($"request.{data.ActiveTabIndexBindingPath}");
+                var activeTabIndexBindingPathInJs = TypescriptNaming.NormalizeBindingPath(RenderHelper.BindingPrefix +data.ActiveTabIndexBindingPath);
+
                 sb.AppendLine("value={"+activeTabIndexBindingPathInJs+"}");
                 sb.AppendLine($"onChange = {{(e: any, value: number) => {activeTabIndexBindingPathInJs} = value}}");
             }

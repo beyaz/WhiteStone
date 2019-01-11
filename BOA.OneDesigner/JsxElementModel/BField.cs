@@ -1,5 +1,7 @@
 ﻿using System;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.CodeGeneration;
+using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -21,6 +23,10 @@ namespace BOA.OneDesigner.JsxElementModel
         #region Public Properties
 
         public string BindingPath { get; set; }
+
+        public string BindingPathInTypeScript=> TypescriptNaming.NormalizeBindingPath(RenderHelper.BindingPrefix + BindingPath);
+
+
 
         public string Label       { get; set; }
 

@@ -20,7 +20,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var isString = propertyDefinition.PropertyType.FullName == typeof(string).FullName;
 
-            var bindingPathInJs = TypescriptNaming.NormalizeBindingPath($"request.{data.BindingPath}");
+            var bindingPathInJs = data.BindingPathInTypeScript;
 
             if (isString)
             {
@@ -55,12 +55,12 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (!String.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
             {
-                sb.AppendLine($"isVisible = {{{TypescriptNaming.NormalizeBindingPath("request." + data.IsVisibleBindingPath)}}}");
+                sb.AppendLine($"isVisible = {{{TypescriptNaming.NormalizeBindingPath(RenderHelper.BindingPrefix + data.IsVisibleBindingPath)}}}");
             }
 
             if (!String.IsNullOrWhiteSpace(data.IsDisabledBindingPath))
             {
-                sb.AppendLine($"disabled = {{{TypescriptNaming.NormalizeBindingPath("request." + data.IsDisabledBindingPath)}}}");
+                sb.AppendLine($"disabled = {{{TypescriptNaming.NormalizeBindingPath(RenderHelper.BindingPrefix + data.IsDisabledBindingPath)}}}");
             }
 
             if (data.SizeInfo != null && data.SizeInfo.IsEmpty == false)
