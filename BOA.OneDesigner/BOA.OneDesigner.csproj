@@ -97,7 +97,7 @@
     <Compile Include="CodeGeneration\BInputRenderer.cs" />
     <Compile Include="CodeGeneration\BTabBarRenderer.cs" />
     <Compile Include="CodeGeneration\DivAsCardContainerRenderer.cs" />
-    <Compile Include="CodeGeneration\JsxModelHelper.cs" />
+    <Compile Include="CodeGeneration\Extensions.cs" />
     <Compile Include="CodeGeneration\RenderHelper.cs" />
     <Compile Include="CodeGeneration\SnapNamingHelper.cs" />
     <Compile Include="CodeGeneration\TransactionPage.cs" />

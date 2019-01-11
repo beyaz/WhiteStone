@@ -5,10 +5,8 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-    static class JsxModelHelper
+    static class Extensions
     {
-
-
         #region Public Methods
         public static bool HasComponent<TComponentType>(this DivAsCardContainer divAsCardContainer)
         {
@@ -37,20 +35,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 action(card);
             }
         }
-
-        
-
-        
-
-        
-        #endregion
-
-        
-
-        #region Methods
-         
-
-        
         #endregion
     }
 }
