@@ -408,6 +408,7 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Should_refresh_when_any_my_child_component_moved_or_deleted);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Should_ExitDropLocationMode_when_any_component_selected);
             Host.EventBus.Subscribe(EventBus.ComponentDeleted, Should_delete_and_refresh_if_my_child_selected);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
@@ -419,6 +420,7 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Should_refresh_when_any_my_child_component_moved_or_deleted);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, Should_ExitDropLocationMode_when_any_component_selected);
             Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Should_delete_and_refresh_if_my_child_selected);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);

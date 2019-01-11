@@ -28,6 +28,8 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("import { FormAssistant } from \"../utils/FormAssistant\";");
 
             sb.AppendLine("import { BCard } from \"b-card\"");
+            
+            sb.AppendLine("import { BInput } from \"b-input\"");
             sb.AppendLine("import { BInputNumeric } from \"b-input-numeric\";");
             sb.AppendLine("import { BTabBar } from \"b-tab-bar\";");
 

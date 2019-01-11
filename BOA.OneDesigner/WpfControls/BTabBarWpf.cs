@@ -80,6 +80,11 @@ namespace BOA.OneDesigner.WpfControls
                 tabPageBody.MinHeight = 100;
                 tabPageBody.MinWidth  = 150;
 
+                if (Model.Items.Count == 1)
+                {
+                    bTabBarPage.IsActiveInDesigner = true;
+                }
+
                 if (bTabBarPage.IsActiveInDesigner)
                 {
                     tabPageBody.Visibility = Visibility.Visible;
