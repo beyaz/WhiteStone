@@ -35,7 +35,7 @@ namespace BOA.OneDesigner.WpfControls
         public bool    IsInToolbox { get; set; }
         public BTabBar Model       => (BTabBar) DataContext;
 
-        public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
+        public SizeInfo SizeInfo => Model.SizeInfo;
 
         public int TabCount => HeadersContainersWrapPanel.Children.Count;
         #endregion
