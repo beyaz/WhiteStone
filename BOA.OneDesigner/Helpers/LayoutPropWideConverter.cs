@@ -36,6 +36,11 @@ namespace BOA.OneDesigner.Helpers
                     result = 12;
                 }
 
+                if (result <=0)
+                {
+                    result = 3;
+                }
+
                 return result;
             }
 

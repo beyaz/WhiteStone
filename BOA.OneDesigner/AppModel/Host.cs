@@ -61,8 +61,10 @@ namespace BOA.OneDesigner.AppModel
 
             if (parent != null)
             {
+                parent.OnAttachToEventBus += listener.AttachToEventBus;    
                 parent.OnDeAttachToEventBus += listener.DeAttachToEventBus;    
             }
+            
         }
 
         public void DeAttachToEventBus(IEventBusListener listener)

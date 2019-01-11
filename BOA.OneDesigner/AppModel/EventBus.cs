@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 
@@ -21,7 +21,7 @@ namespace BOA.OneDesigner.AppModel
         #endregion
 
         #region Fields
-        readonly ConcurrentDictionary<string, List<Action>> Subscribers = new ConcurrentDictionary<string, List<Action>>();
+        readonly ConcurrentDictionary<string, ArrayList> Subscribers = new ConcurrentDictionary<string, ArrayList>();
         #endregion
 
         #region Public Properties
@@ -53,23 +53,28 @@ namespace BOA.OneDesigner.AppModel
 
         public void Publish(string eventName)
         {
-            Log.Push("Started. "+ eventName);
+            Log.Push("Started. " + eventName);
             Log.Indent++;
             new Publisher(Subscribers).Publish(eventName);
 
             Log.Indent--;
-            Log.Push("Finished. "+ eventName);
+            Log.Push("Finished. " + eventName);
         }
 
         public void Subscribe(string eventName, Action action)
         {
-            if (Subscribers.ContainsKey(eventName))
+            if (Subscribers.ContainsKey(eventName) == false)
             {
-                Subscribers[eventName].Add(action);
+                Subscribers[eventName] = ArrayList.Synchronized(new ArrayList());
+            }
+
+            var concurrentBag = Subscribers[eventName];
+            if (concurrentBag.Contains(action))
+            {
                 return;
             }
 
-            Subscribers[eventName] = new List<Action> {action};
+            concurrentBag.Add(action);
         }
 
         public void UnSubscribe(string eventName, Action action)
@@ -84,13 +89,13 @@ namespace BOA.OneDesigner.AppModel
         class Publisher
         {
             #region Fields
-            readonly List<Action> CalledActions = new List<Action>();
+            readonly ConcurrentBag<Action> CalledActions = new ConcurrentBag<Action>();
 
-            readonly ConcurrentDictionary<string, List<Action>> Subscribers;
+            readonly ConcurrentDictionary<string, ArrayList> Subscribers;
             #endregion
 
             #region Constructors
-            public Publisher(ConcurrentDictionary<string, List<Action>> subscribers)
+            public Publisher(ConcurrentDictionary<string, ArrayList> subscribers)
             {
                 Subscribers = subscribers;
             }
@@ -113,15 +118,20 @@ namespace BOA.OneDesigner.AppModel
             #region Methods
             bool TryCall(string eventName)
             {
-                var action = Subscribers[eventName].FirstOrDefault(x => CalledActions.Contains(x) == false);
-                if (action == null)
+                var arrayList = Subscribers[eventName];
+                foreach (Action action in arrayList)
                 {
-                    return false;
+                    if (CalledActions.Contains(action))
+                    {
+                        continue;
+                    }
+
+                    CalledActions.Add(action);
+                    action();
+                    return true;
                 }
 
-                CalledActions.Add(action);
-                action();
-                return true;
+                return false;
             }
             #endregion
         }
