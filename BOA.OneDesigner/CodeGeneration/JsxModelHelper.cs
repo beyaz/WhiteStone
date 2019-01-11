@@ -9,6 +9,7 @@ using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
+using Host = BOA.OneDesigner.AppModel.Host;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -31,7 +32,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("<BTabBar context={context}");
             sb.PaddingCount++;
-            sb.AppendLine("value={this.state.activeTab} mode='secondary'");
+            sb.AppendLine("value={this.state.activeTab}");
             sb.AppendLine("mode='secondary'");
             sb.AppendLine("onChange={(event, value) => { this.setState( { activeTab: value} ); }}");
 
@@ -42,11 +43,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("tabItems = {[");
 
-            sb.PaddingCount+=3;
+            sb.PaddingCount+=2;
 
             for (var i = 0; i < data.Items.Count; i++)
             {
-                var isLAstTab = i < data.Items.Count - 1;
+                var isLAstTab = i == data.Items.Count - 1;
 
                 var bTabBarPage = data.Items[i];
 
@@ -64,7 +65,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
                 #region Content
-                var divAsCardContainerWpf = new DivAsCardContainerWpf {DataContext = bTabBarPage.DivAsCardContainer};
+                var divAsCardContainerWpf = new DivAsCardContainerWpf
+                {
+                    DataContext = bTabBarPage.DivAsCardContainer,
+                    Host        = new Host()
+                };
                 divAsCardContainerWpf.Refresh();
 
                 sb.AppendLine("<div>");
@@ -83,7 +88,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                         var columnSpan = ((int) bCardWpf.GetValue(Grid.ColumnSpanProperty));
 
-                        var width = (columnSpan / 12) * 100;
+                        decimal width = ((decimal)columnSpan / 12M) * 100M;
 
                         var bCard = bCardWpf.Model;
 
@@ -107,26 +112,28 @@ namespace BOA.OneDesigner.CodeGeneration
                 #endregion
 
 
-                if (isLAstTab)
-                {
-                    sb.AppendLine(")");
-                }
-                else
-                {
-                    sb.AppendLine("),");
-                }
+                sb.AppendLine(")");
 
                 sb.AppendLine();
 
                 sb.PaddingCount--;
-                sb.AppendLine("}");
+
+                if (isLAstTab)
+                {
+                    sb.AppendLine("}");
+                }
+                else
+                {
+                    sb.AppendLine("},");
+                }
+
 
                
 
             }
 
             sb.AppendLine("]}");
-            sb.PaddingCount -= 3;
+            sb.PaddingCount -= 2;
 
             sb.PaddingCount--;
             sb.AppendLine(" />");

@@ -166,7 +166,10 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            Model.Items.Remove(((BCardWpf) willBeDeleteElement).Model);
+            var bCard = ((BCardWpf) willBeDeleteElement).Model;
+            bCard.RemoveFromParent();
+
+            Model.Items.Remove(bCard);
 
             Refresh();
         }

@@ -29,6 +29,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("import { BCard } from \"b-card\"");
             sb.AppendLine("import { BInputNumeric } from \"b-input-numeric\";");
+            sb.AppendLine("import { BTabBar } from \"b-tab-bar\";");
 
             if (jsxModel.HasComponent<BInput>())
             {
