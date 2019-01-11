@@ -15,7 +15,8 @@ namespace BOA.OneDesigner.PropertyEditors
 { 
     Margin:10,
 	Childs:[
-        {ui:'Button', Text:'Add Tab',Click:'" + nameof(AddTab) + @"'}
+        {ui:'Button', Text:'Add Tab',Click:'" + nameof(AddTab) + @"'},
+        {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }
 
@@ -27,6 +28,13 @@ namespace BOA.OneDesigner.PropertyEditors
         public Host Host { get; set; }
 
         public BTabBar Model => (BTabBar) DataContext;
+        #endregion
+
+        #region Public Methods
+        public void Delete()
+        {
+            Host.EventBus.Publish(EventBus.ComponentDeleted);
+        }
         #endregion
 
         #region Methods

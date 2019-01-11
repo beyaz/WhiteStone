@@ -42,8 +42,6 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Public Methods
         public void RemoveTab()
         {
-            Model.ShouldRemove = true;
-
             Host.EventBus.Publish(EventBus.TabBarPageRemoved);
         }
         #endregion

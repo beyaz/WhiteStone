@@ -43,8 +43,6 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Public Methods
         public void RemoveColumn()
         {
-            Model.ShouldRemove = true;
-
             Host.EventBus.Publish(EventBus.DataGridColumnRemoved);
         }
         #endregion

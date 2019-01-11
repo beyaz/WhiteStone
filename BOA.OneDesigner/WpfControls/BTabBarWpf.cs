@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
+using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -128,15 +128,19 @@ namespace BOA.OneDesigner.WpfControls
 
         void OnTabPageRemoved()
         {
-            var column = Model.Items.FirstOrDefault(x => x.ShouldRemove);
-            if (column != null)
+            var bTabBarPage = (Host.SelectedElement as BTabBarPageWpf)?.Model;
+
+            if (Model.Items.Contains(bTabBarPage) && Model.Items.Count == 1)
             {
-                var index = Model.Items.IndexOf(column);
-                if (index >= 0)
-                {
-                    Model.Items.RemoveAt(index);
-                    Refresh();
-                }
+                App.ShowErrorNotification("En az bir tab olmalıdır.");
+                return;
+            }
+
+            var isRemoved = Model.Items.Remove(bTabBarPage);
+
+            if (isRemoved)
+            {
+                Refresh();
             }
         }
 

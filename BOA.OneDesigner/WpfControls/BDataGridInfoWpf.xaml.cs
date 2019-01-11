@@ -238,16 +238,15 @@ namespace BOA.OneDesigner.WpfControls
 
         void OnColumnRemoved()
         {
-            var column = Model.Columns.FirstOrDefault(x => x.ShouldRemove);
-            if (column != null)
+            if (ColumnsCollection.Contains(Host.SelectedElement) == false)
             {
-                var index = Model.Columns.IndexOf(column);
-                if (index >= 0)
-                {
-                    Model.Columns.RemoveAt(index);
-                    Refresh();
-                }
+                return;
             }
+
+            var bDataGridColumnInfo = ((BDataGridColumnWpf)Host.SelectedElement).Model;
+
+            Model.Columns.Remove(bDataGridColumnInfo);
+            Refresh();
         }
         #endregion
 
