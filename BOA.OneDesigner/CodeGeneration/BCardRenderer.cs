@@ -58,6 +58,18 @@ namespace BOA.OneDesigner.CodeGeneration
                     continue;
                 }
 
+                var bDataGrid = item as BDataGrid;
+                if (bDataGrid != null)
+                {
+                    var stringBuilder = new PaddedStringBuilder();
+
+                    BDataGridRenderer.Write(stringBuilder, screenInfo, bDataGrid);
+
+                    subComponents.Add(stringBuilder.ToString());
+
+                    continue;
+                }
+
                 throw Error.InvalidOperation();
             }
 

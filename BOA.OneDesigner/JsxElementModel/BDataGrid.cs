@@ -9,6 +9,8 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BDataGrid:BField
     {
+        public LabelInfo TitleInfo { get; set; } = new LabelInfo();
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets the columns.
