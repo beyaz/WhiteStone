@@ -8,7 +8,7 @@
     <ProjectGuid>{D8024A9B-A59E-4DE3-A3DF-6EBB2DB32047}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BOA.OneDesigner.Test</RootNamespace>
+    <RootNamespace>BOA.OneDesigner</RootNamespace>
     <AssemblyName>BOA.OneDesigner.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -112,7 +112,7 @@
     <Compile Include="BTabBarWpfTest.cs" />
     <Compile Include="CardLayoutTest.cs" />
     <Compile Include="CardWpfTest.cs" />
-    <Compile Include="CecilHelperTest.cs" />
+    <Compile Include="Helper\CecilHelperTest.cs" />
     <Compile Include="DataGridWpfTest.cs" />
     <Compile Include="DivAsCardContainerWpfTest.cs" />
     <Compile Include="Extensions.cs" />

@@ -2,21 +2,11 @@
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.OneDesigner
+namespace BOA.OneDesigner.Helper
 {
     [TestClass]
     public class CecilHelperTest
     {
-
-        [TestMethod]
-        public void GetAllBooleanBindProperties()
-        {
-            var bindProperties = CecilHelper.GetAllBooleanBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ForeignDebitClearingRequest");
-
-            bindProperties.Should().Contain("Account.HasKMH");
-        }
-
-
         #region Public Methods
         [TestMethod]
         public void GetAllBindProperties()
@@ -35,6 +25,13 @@ namespace BOA.OneDesigner
             bindProperties.Should().Contain("Foreign.KBBusinessKey");
         }
 
+        [TestMethod]
+        public void GetAllBooleanBindProperties()
+        {
+            var bindProperties = CecilHelper.GetAllBooleanBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ForeignDebitClearingRequest");
+
+            bindProperties.Should().Contain("Account.HasKMH");
+        }
 
         [TestMethod]
         public void GetPropertyInfo_should_get_cecil_property_info()
