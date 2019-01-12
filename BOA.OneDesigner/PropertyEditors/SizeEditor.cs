@@ -3,7 +3,7 @@ using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
-namespace BOA.OneDesigner.Helpers
+namespace BOA.OneDesigner.PropertyEditors
 {
     class SizeEditor : GroupBox, IHostItem
     {

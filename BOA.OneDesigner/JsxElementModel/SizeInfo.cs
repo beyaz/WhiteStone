@@ -13,13 +13,4 @@ namespace BOA.OneDesigner.JsxElementModel
         public bool IsSmall      { get; set; }
         #endregion
     }
-
-    [Serializable]
-    public class LayoutProps
-    {
-        #region Public Properties
-        public int Wide { get; set; }
-        public int X    { get; set; }
-        #endregion
-    }
 }

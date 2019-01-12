@@ -60,12 +60,12 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (!String.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
             {
-                sb.AppendLine($"isVisible = {{{TypescriptNaming.NormalizeBindingPath(RenderHelper.BindingPrefix + data.IsVisibleBindingPath)}}}");
+                sb.AppendLine($"isVisible = {{{TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.IsVisibleBindingPath)}}}");
             }
 
             if (!String.IsNullOrWhiteSpace(data.IsDisabledBindingPath))
             {
-                sb.AppendLine($"disabled = {{{TypescriptNaming.NormalizeBindingPath(RenderHelper.BindingPrefix + data.IsDisabledBindingPath)}}}");
+                sb.AppendLine($"disabled = {{{TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.IsDisabledBindingPath)}}}");
             }
 
             if (data.SizeInfo != null && data.SizeInfo.IsEmpty == false)

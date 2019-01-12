@@ -24,7 +24,7 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public string BindingPath { get; set; }
 
-        public string BindingPathInTypeScript=> TypescriptNaming.NormalizeBindingPath(RenderHelper.BindingPrefix + BindingPath);
+        public string BindingPathInTypeScript=> TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + BindingPath);
 
 
 

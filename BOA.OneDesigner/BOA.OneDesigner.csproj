@@ -107,10 +107,14 @@
     <Compile Include="CodeGeneration\SnapNamingHelper.cs" />
     <Compile Include="CodeGeneration\TransactionPage.cs" />
     <Compile Include="Helpers\LayoutPropWideConverter.cs" />
-    <Compile Include="Helpers\SizeEditor.cs" />
+    <Compile Include="JsxElementModel\BDataGrid.cs" />
+    <Compile Include="JsxElementModel\BindingPrefix.cs" />
+    <Compile Include="JsxElementModel\BTabBarPage.cs" />
+    <Compile Include="JsxElementModel\LayoutProps.cs" />
+    <Compile Include="PropertyEditors\SizeEditor.cs" />
     <Compile Include="JsxElementModel\ComponentSize.cs" />
     <Compile Include="JsxElementModel\Container.cs" />
-    <Compile Include="JsxElementModel\DataGridColumn.cs" />
+    <Compile Include="JsxElementModel\BDataGridColumnInfo.cs" />
     <Compile Include="JsxElementModel\DivAsCardContainer.cs" />
     <Compile Include="JsxElementModel\LabelInfo.cs" />
     <Compile Include="Helpers\LabelInfoHelper.cs" />
@@ -146,7 +150,7 @@
     <Compile Include="JsxElementModel\BInputMask.cs" />
     <Compile Include="JsxElementModel\BInputNumeric.cs" />
     <Compile Include="JsxElementModel\BParameterComponent.cs" />
-    <Compile Include="JsxElementModel\BTab.cs" />
+    <Compile Include="JsxElementModel\BTabBar.cs" />
     <Compile Include="MainForm\Controller.cs" />
     <Compile Include="MainForm\Model.cs" />
     <Compile Include="MainForm\View.cs" />

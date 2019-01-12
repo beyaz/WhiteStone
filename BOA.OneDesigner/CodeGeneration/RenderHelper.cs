@@ -2,6 +2,7 @@
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
 
+
 namespace BOA.OneDesigner.CodeGeneration
 {
     static class RenderHelper
@@ -44,7 +45,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsRequestBindingPath)
             {
-                return TypescriptNaming.NormalizeBindingPath(BindingPrefix + data.RequestBindingPath);
+                return TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.RequestBindingPath);
             }
 
             if (data.IsFromMessaging)
@@ -55,6 +56,6 @@ namespace BOA.OneDesigner.CodeGeneration
             throw Error.InvalidOperation();
         }
 
-        public const string BindingPrefix = "Request.";
+        
     }
 }
