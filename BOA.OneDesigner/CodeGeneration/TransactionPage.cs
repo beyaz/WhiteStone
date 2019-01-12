@@ -15,6 +15,8 @@ namespace BOA.OneDesigner.CodeGeneration
         public List<string>        Imports     { get; set; }
         public PaddedStringBuilder Output      { get; set; }
         public ScreenInfo          ScreenInfo  { get; set; }
+
+        public List<string> PageBodies { get; set; }
         #endregion
     }
 
@@ -53,57 +55,14 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (hasWorkflow)
             {
-                sb.AppendLine();
-                sb.AppendLine("executeWorkFlow: () => void;");
+                writerContext.PageBodies.Add("executeWorkFlow: () => void;");
             }
 
-            sb.AppendLine();
 
-            #region constructor
-            sb.AppendLine("constructor(props: BFramework.BasePageProps)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            WriteConstructor(writerContext);
+            WriteOnActionClick(writerContext);
 
-            sb.AppendLine("super(props);");
-            sb.AppendLine("this.connect(this);");
-            sb.AppendLine($"FormAssistant.initialize(this, \"{screenInfo.RequestName}\");");
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-            #endregion
 
-            sb.AppendLine();
-
-            if (hasWorkflow)
-            {
-                #region onActionClick
-                sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract, executeWorkFlow: () => void)");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine("this.executeWorkFlow = executeWorkFlow;");
-                sb.AppendLine("FormAssistant.executeWindowRequest(this,command.commandName);");
-                sb.AppendLine("return /*isCompleted*/false;");
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                #endregion
-            }
-            else
-            {
-                #region onActionClick
-                sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract)");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine("FormAssistant.executeWindowRequest(this,command.commandName);");
-                sb.AppendLine("return /*isCompleted*/true;");
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                #endregion
-            }
-
-            sb.AppendLine();
 
             #region componentDidMount
             sb.AppendLine("componentDidMount()");
@@ -174,6 +133,59 @@ namespace BOA.OneDesigner.CodeGeneration
             return 
                 string.Join(Environment.NewLine,writerContext.Imports.Distinct().ToList()) + Environment.NewLine + 
                 sb;
+        }
+
+        static void WriteOnActionClick(WriterContext writerContext)
+        {
+            PaddedStringBuilder sb = new PaddedStringBuilder();
+            if (writerContext.HasWorkflow)
+            {
+                #region onActionClick
+                sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract, executeWorkFlow: () => void)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine("this.executeWorkFlow = executeWorkFlow;");
+                sb.AppendLine("FormAssistant.executeWindowRequest(this,command.commandName);");
+                sb.AppendLine("return /*isCompleted*/false;");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                #endregion
+            }
+            else
+            {
+                #region onActionClick
+                sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine("FormAssistant.executeWindowRequest(this,command.commandName);");
+                sb.AppendLine("return /*isCompleted*/true;");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                #endregion
+            }
+
+            writerContext.PageBodies.Add(sb.ToString());
+        }
+
+        static void WriteConstructor( WriterContext writerContext)
+        {
+            PaddedStringBuilder sb = new PaddedStringBuilder();
+
+            sb.AppendLine("constructor(props: BFramework.BasePageProps)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("super(props);");
+            sb.AppendLine("this.connect(this);");
+            sb.AppendLine($"FormAssistant.initialize(this, \"{writerContext.ScreenInfo.RequestName}\");");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.PageBodies.Add(sb.ToString());
         }
         #endregion
     }
