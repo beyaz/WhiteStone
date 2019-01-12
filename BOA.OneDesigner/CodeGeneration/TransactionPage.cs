@@ -10,13 +10,14 @@ namespace BOA.OneDesigner.CodeGeneration
     class WriterContext
     {
         #region Public Properties
+        public List<string>        ClassBody   { get; set; }
         public string              ClassName   { get; set; }
         public bool                HasWorkflow { get; set; }
         public List<string>        Imports     { get; set; }
         public PaddedStringBuilder Output      { get; set; }
-        public ScreenInfo          ScreenInfo  { get; set; }
 
-        public List<string> PageBodies { get; set; }
+        public List<string> Page       { get; set; }
+        public ScreenInfo   ScreenInfo { get; set; }
         #endregion
     }
 
@@ -25,7 +26,6 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static string Generate(ScreenInfo screenInfo)
         {
-            var sb       = new PaddedStringBuilder();
             var jsxModel = (DivAsCardContainer) screenInfo.JsxModel;
 
             var hasWorkflow = screenInfo.FormType == FormType.TransactionPageWithWorkflow;
@@ -44,27 +44,30 @@ namespace BOA.OneDesigner.CodeGeneration
                 },
                 ClassName   = className,
                 HasWorkflow = hasWorkflow,
-                ScreenInfo  = screenInfo,
-                Output      = sb
+                ScreenInfo  = screenInfo
             };
 
-            sb.AppendLine();
-            sb.AppendLine($"class {className} extends TransactionPage");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            WriteClass(writerContext, jsxModel);
 
-            if (hasWorkflow)
+            writerContext.Page.Add($"export default TransactionPageComposer({className});");
+
+            writerContext.Page.Insert(0, string.Join(Environment.NewLine, writerContext.Imports.Distinct().ToList()));
+
+            var sb = new PaddedStringBuilder();
+            foreach (var item in writerContext.Page)
             {
-                writerContext.PageBodies.Add("executeWorkFlow: () => void;");
+                sb.AppendAll(item);
+                sb.AppendLine();
             }
 
+            return sb.ToString();
+        }
+        #endregion
 
-            WriteConstructor(writerContext);
-            WriteOnActionClick(writerContext);
-
-
-
-            #region componentDidMount
+        #region Methods
+        static void ComponentDidMount(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
             sb.AppendLine("componentDidMount()");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -74,11 +77,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.PaddingCount--;
             sb.AppendLine("}");
-            #endregion
 
-            sb.AppendLine();
+            writerContext.ClassBody.Add(sb.ToString());
+        }
 
-            #region proxyDidRespond
+        static void ProxyDidRespond(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
             sb.AppendLine("proxyDidRespond(proxyResponse: ProxyResponse)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -87,11 +92,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.PaddingCount--;
             sb.AppendLine("}");
-            #endregion
 
-            sb.AppendLine();
+            writerContext.ClassBody.Add(sb.ToString());
+        }
 
-            #region render
+        static void Render(WriterContext writerContext, DivAsCardContainer jsxModel)
+        {
+            var sb = new PaddedStringBuilder();
             sb.AppendLine("render()");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -110,34 +117,64 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("return (");
             sb.PaddingCount++;
+            writerContext.Output = sb;
             DivAsCardContainerRenderer.Write(writerContext, jsxModel);
             sb.PaddingCount--;
             sb.AppendLine(");");
 
             sb.PaddingCount--;
             sb.AppendLine("}");
-            #endregion
+
+            writerContext.ClassBody.Add(sb.ToString());
+        }
+
+        static void WriteClass(WriterContext writerContext, DivAsCardContainer jsxModel)
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"class {writerContext.ClassName} extends TransactionPage");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            WriteWorkflowFields(writerContext);
+            WriteConstructor(writerContext);
+            WriteOnActionClick(writerContext);
+            ComponentDidMount(writerContext);
+            ProxyDidRespond(writerContext);
+            Render(writerContext, jsxModel);
+
+            foreach (var member in writerContext.ClassBody)
+            {
+                sb.AppendAll(member);
+                sb.AppendLine();
+            }
 
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            sb.AppendLine();
+            writerContext.Page.Add(sb.ToString());
+        }
 
-            sb.AppendLine($"export default TransactionPageComposer({className});");
+        static void WriteConstructor(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
 
+            sb.AppendLine("constructor(props: BFramework.BasePageProps)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
 
-           
-            
+            sb.AppendLine("super(props);");
+            sb.AppendLine("this.connect(this);");
+            sb.AppendLine($"FormAssistant.initialize(this, \"{writerContext.ScreenInfo.RequestName}\");");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
 
-
-            return 
-                string.Join(Environment.NewLine,writerContext.Imports.Distinct().ToList()) + Environment.NewLine + 
-                sb;
+            writerContext.ClassBody.Add(sb.ToString());
         }
 
         static void WriteOnActionClick(WriterContext writerContext)
         {
-            PaddedStringBuilder sb = new PaddedStringBuilder();
+            var sb = new PaddedStringBuilder();
             if (writerContext.HasWorkflow)
             {
                 #region onActionClick
@@ -168,24 +205,15 @@ namespace BOA.OneDesigner.CodeGeneration
                 #endregion
             }
 
-            writerContext.PageBodies.Add(sb.ToString());
+            writerContext.ClassBody.Add(sb.ToString());
         }
 
-        static void WriteConstructor( WriterContext writerContext)
+        static void WriteWorkflowFields(WriterContext writerContext)
         {
-            PaddedStringBuilder sb = new PaddedStringBuilder();
-
-            sb.AppendLine("constructor(props: BFramework.BasePageProps)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("super(props);");
-            sb.AppendLine("this.connect(this);");
-            sb.AppendLine($"FormAssistant.initialize(this, \"{writerContext.ScreenInfo.RequestName}\");");
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            writerContext.PageBodies.Add(sb.ToString());
+            if (writerContext.HasWorkflow)
+            {
+                writerContext.ClassBody.Add("executeWorkFlow: () => void;");
+            }
         }
         #endregion
     }
