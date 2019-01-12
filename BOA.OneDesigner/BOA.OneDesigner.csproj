@@ -99,6 +99,7 @@
     <Compile Include="CodeGeneration\BCheckBoxRenderer.cs" />
     <Compile Include="CodeGeneration\BDateTimePickerRenderer.cs" />
     <Compile Include="CodeGeneration\BInputRenderer.cs" />
+    <Compile Include="CodeGeneration\BParameterComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BTabBarRenderer.cs" />
     <Compile Include="CodeGeneration\DivAsCardContainerRenderer.cs" />
     <Compile Include="CodeGeneration\Extensions.cs" />
@@ -145,13 +146,7 @@
     <Compile Include="JsxElementModel\BInputMask.cs" />
     <Compile Include="JsxElementModel\BInputNumeric.cs" />
     <Compile Include="JsxElementModel\BParameterComponent.cs" />
-    <Compile Include="JsxElementRender\BParameterComponentTemplate.cs">
-      <DependentUpon>BParameterComponentTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="JsxElementModel\BTab.cs" />
-    <Compile Include="JsxElementRender\Templates.Extensions.cs" />
     <Compile Include="MainForm\Controller.cs" />
     <Compile Include="MainForm\Model.cs" />
     <Compile Include="MainForm\View.cs" />
@@ -179,12 +174,6 @@
     <None Include="WhiteStone.UI.Container.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="JsxElementRender\BParameterComponentTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BParameterComponentTemplate.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

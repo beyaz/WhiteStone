@@ -7,6 +7,8 @@ namespace BOA.OneDesigner.JsxElementModel
     {
         public bool   ValueTypeIsInt32 { get; set; }
         public string ParamType        { get; set; }
+
+        public LabelInfo LabelInfo { get; set; } = new LabelInfo();
         
     }
 }
