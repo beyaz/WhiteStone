@@ -51,9 +51,10 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
 
 
-                var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(writerContext.ScreenInfo.TfsFolderName);
+                var solutionInfo = writerContext.SolutionInfo;
 
-                var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, writerContext.ScreenInfo.RequestName, data.BindingPath);
+
+                var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, writerContext.ScreenInfo.RequestName, bDataGridColumnInfo.BindingPath);
 
                 var isInt32 = propertyDefinition.PropertyType.FullName == typeof(int).FullName;
                 var isDecimal = propertyDefinition.PropertyType.FullName == typeof(decimal).FullName;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
- using BOA.OneDesigner.AppModel;
 using Mono.Cecil;
 
 namespace BOA.OneDesigner.Helpers
@@ -69,7 +68,6 @@ namespace BOA.OneDesigner.Helpers
         #region Public Methods
         public static PropertyDefinition FindPropertyInfo(string assemblyPath, string typeFullName, string propertyPath)
         {
-            var items = new List<string>();
 
             var typeDefinition = FindType(assemblyPath, typeFullName);
 

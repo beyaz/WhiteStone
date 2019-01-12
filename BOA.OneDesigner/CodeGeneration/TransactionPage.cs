@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOAPlugins.TypescriptModelGeneration;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
     class WriterContext
     {
+
+        public RequestIntellisenseData RequestIntellisenseData { get; set; }
+        public SolutionInfo SolutionInfo { get; set; }
+
+
         #region Public Properties
         public List<string>        ClassBody   { get; set; }
         public string              ClassName   { get; set; }
@@ -48,6 +55,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 HasWorkflow = hasWorkflow,
                 ScreenInfo  = screenInfo
             };
+
+            writerContext.SolutionInfo           = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
+            writerContext.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName);
 
             WriteClass(writerContext, jsxModel);
 
