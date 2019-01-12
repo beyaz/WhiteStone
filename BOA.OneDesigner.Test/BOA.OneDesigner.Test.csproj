@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BDataGridInfoWpfTest.cs" />
+    <Compile Include="BDataGridRendererTest.cs" />
     <Compile Include="BTabBarWpfTest.cs" />
     <Compile Include="CardLayoutTest.cs" />
     <Compile Include="CardWpfTest.cs" />

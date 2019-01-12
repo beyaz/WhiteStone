@@ -15,6 +15,9 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public string BindingPath { get; set; }
 
+
+        public string IsVisibleBindingPath { get; set; }
+
         /// <summary>
         ///     Gets or sets the label.
         /// </summary>
