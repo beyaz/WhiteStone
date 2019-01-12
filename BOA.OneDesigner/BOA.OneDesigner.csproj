@@ -86,7 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppModel\DragHelper.cs" />
-    <Compile Include="AppModel\Error.cs" />
+    <Compile Include="Helpers\Error.cs" />
     <Compile Include="AppModel\EventBus.cs" />
     <Compile Include="AppModel\FormType.cs" />
     <Compile Include="AppModel\Host.cs" />
@@ -160,7 +160,7 @@
     <Compile Include="WpfControls\BInputWpf.cs" />
     <Compile Include="WpfControls\Extensions.cs" />
     <Compile Include="WpfControls\DropLocation.cs" />
-    <Compile Include="Helpers\LabelEditor.cs" />
+    <Compile Include="PropertyEditors\LabelEditor.cs" />
     <Compile Include="Helpers\MessagingHelper.cs" />
     <Compile Include="WpfControls\MessagingIntellisenseTextBox.cs" />
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />

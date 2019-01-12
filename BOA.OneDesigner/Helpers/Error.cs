@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.OneDesigner.AppModel
+namespace BOA.OneDesigner.Helpers
 {
     public static class Error
     {

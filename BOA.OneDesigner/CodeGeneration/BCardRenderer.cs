@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration

@@ -4,7 +4,7 @@ using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 
-namespace BOA.OneDesigner.Helpers
+namespace BOA.OneDesigner.PropertyEditors
 {
     class LabelEditor : GroupBox,IHostItem
     {

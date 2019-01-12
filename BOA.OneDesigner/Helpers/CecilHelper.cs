@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
-using BOA.OneDesigner.AppModel;
+ using BOA.OneDesigner.AppModel;
 using Mono.Cecil;
 
 namespace BOA.OneDesigner.Helpers
