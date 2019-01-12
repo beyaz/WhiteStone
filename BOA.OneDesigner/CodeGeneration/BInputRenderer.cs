@@ -28,6 +28,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.PaddingCount++;
 
                 sb.AppendLine($"onChange = {{(e: any, value: string) => {bindingPathInJs} = value}}");
+
+                if (data.Mask.HasValue())
+                {
+                    sb.AppendLine($"mask = \"{data.Mask}\"");    
+                }
             }
             else if (isDecimal)
             {

@@ -93,7 +93,11 @@
     <Compile Include="AppModel\IDatabase.cs" />
     <Compile Include="AppModel\IHostItem.cs" />
     <Compile Include="AppModel\JsonFile.cs" />
+    <Compile Include="CodeGeneration\BAccountComponentRenderer.cs" />
+    <Compile Include="CodeGeneration\BBranchComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BCardRenderer.cs" />
+    <Compile Include="CodeGeneration\BCheckBoxRenderer.cs" />
+    <Compile Include="CodeGeneration\BDateTimePickerRenderer.cs" />
     <Compile Include="CodeGeneration\BInputRenderer.cs" />
     <Compile Include="CodeGeneration\BTabBarRenderer.cs" />
     <Compile Include="CodeGeneration\DivAsCardContainerRenderer.cs" />
@@ -131,60 +135,15 @@
     <Compile Include="WpfControls\ISupportSizeInfo.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
     <Compile Include="JsxElementModel\BAccountComponent.cs" />
-    <Compile Include="JsxElementRender\BAccountComponentTemplate.cs">
-      <DependentUpon>BAccountComponentTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="JsxElementModel\BBranchComponent.cs" />
-    <Compile Include="JsxElementRender\BBranchComponentTemplate.cs">
-      <DependentUpon>BBranchComponentTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="JsxElementModel\BCard.cs" />
     <Compile Include="JsxElementModel\CardContainer.cs" />
-    <Compile Include="JsxElementRender\BCardSectionTemplate.cs">
-      <DependentUpon>BCardSectionTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="JsxElementRender\BCardTemplate.cs">
-      <DependentUpon>BCardTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="JsxElementModel\BCheckBox.cs" />
-    <Compile Include="JsxElementRender\BCheckBoxTemplate.cs">
-      <DependentUpon>BCheckBoxTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="JsxElementModel\BDateTimePicker.cs" />
-    <Compile Include="JsxElementRender\BDateTimePickerTemplate.cs">
-      <DependentUpon>BDateTimePickerTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="JsxElementModel\BField.cs" />
     <Compile Include="JsxElementModel\BInput.cs" />
     <Compile Include="JsxElementModel\BInputMask.cs" />
-    <Compile Include="JsxElementRender\BInputMaskTemplate.cs">
-      <DependentUpon>BInputMaskTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="JsxElementModel\BInputNumeric.cs" />
-    <Compile Include="JsxElementRender\BInputNumericTemplate.cs">
-      <DependentUpon>BInputNumericTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="JsxElementRender\BInputTemplate.cs">
-      <DependentUpon>BInputTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="JsxElementModel\BParameterComponent.cs" />
     <Compile Include="JsxElementRender\BParameterComponentTemplate.cs">
       <DependentUpon>BParameterComponentTemplate.tt</DependentUpon>
@@ -222,42 +181,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="JsxElementRender\BAccountComponentTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BAccountComponentTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="JsxElementRender\BBranchComponentTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BBranchComponentTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="JsxElementRender\BCardSectionTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BCardSectionTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="JsxElementRender\BCardTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BCardTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="JsxElementRender\BCheckBoxTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BCheckBoxTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="JsxElementRender\BDateTimePickerTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BDateTimePickerTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="JsxElementRender\BInputMaskTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BInputMaskTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="JsxElementRender\BInputNumericTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BInputNumericTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="JsxElementRender\BInputTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BInputTemplate.cs</LastGenOutput>
-    </Content>
     <Content Include="JsxElementRender\BParameterComponentTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BParameterComponentTemplate.cs</LastGenOutput>
