@@ -13,8 +13,11 @@ namespace BOA.OneDesigner.CodeGeneration
         
 
         
-        public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BTabBar data)
+        public static void Write(WriterContext writerContext, BTabBar data)
         {
+
+            var        sb         = writerContext.Output;
+            ScreenInfo screenInfo = writerContext.ScreenInfo;
 
             SnapNamingHelper.InitSnapName(data);
 
@@ -23,7 +26,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
           
-            
+            writerContext.Imports.Add("import { BTabBar } from \"b-tab-bar\";");
 
 
             sb.AppendLine("<BTabBar context={context}");
@@ -103,7 +106,7 @@ namespace BOA.OneDesigner.CodeGeneration
                         sb.AppendLine("<div style={{ width: '" + width + "%', padding: '15px' }}>");
 
                         sb.PaddingCount++;
-                        BCardRenderer.Write(sb, screenInfo, bCard);
+                        BCardRenderer.Write(writerContext, bCard);
                         sb.PaddingCount--;
 
                         sb.AppendLine("</div>");

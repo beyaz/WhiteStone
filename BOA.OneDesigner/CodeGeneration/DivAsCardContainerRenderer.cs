@@ -1,27 +1,28 @@
-﻿using System;
-using BOA.Common.Helpers;
-using BOA.OneDesigner.JsxElementModel;
+﻿using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
     static class DivAsCardContainerRenderer
     {
-        public static void Write(this PaddedStringBuilder sb, ScreenInfo screenInfo, DivAsCardContainer data)
+        #region Public Methods
+        public static void Write(WriterContext writerContext, DivAsCardContainer data)
         {
+            var sb = writerContext.Output;
             sb.AppendLine("<div>");
 
             sb.PaddingCount++;
 
             foreach (var bCard in data.Items)
             {
-                BCardRenderer.Write(sb, screenInfo, bCard);
+                BCardRenderer.Write(writerContext, bCard);
 
-                sb.AppendLine(String.Empty);
+                sb.AppendLine(string.Empty);
             }
 
             sb.PaddingCount--;
 
             sb.AppendLine("</div>");
         }
+        #endregion
     }
 }

@@ -6,8 +6,12 @@ namespace BOA.OneDesigner.CodeGeneration
     static class BDataGridRenderer
     {
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BDataGrid data)
+        public static void Write(WriterContext writerContext, BDataGrid data)
         {
+
+            var        sb         = writerContext.Output;
+            ScreenInfo screenInfo = writerContext.ScreenInfo;
+
             SnapNamingHelper.InitSnapName(data);
 
             sb.AppendLine($"<BDataGrid  dataSource = {{{data.BindingPathInTypeScript}}}");

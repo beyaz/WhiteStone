@@ -103,7 +103,6 @@
     <Compile Include="CodeGeneration\BParameterComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BTabBarRenderer.cs" />
     <Compile Include="CodeGeneration\DivAsCardContainerRenderer.cs" />
-    <Compile Include="CodeGeneration\Extensions.cs" />
     <Compile Include="CodeGeneration\RenderHelper.cs" />
     <Compile Include="CodeGeneration\SnapNamingHelper.cs" />
     <Compile Include="CodeGeneration\TransactionPage.cs" />

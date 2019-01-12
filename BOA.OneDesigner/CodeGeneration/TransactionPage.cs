@@ -1,10 +1,23 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
+    class WriterContext
+    {
+        #region Public Properties
+        public string              ClassName   { get; set; }
+        public bool                HasWorkflow { get; set; }
+        public List<string>        Imports     { get; set; }
+        public PaddedStringBuilder Output      { get; set; }
+        public ScreenInfo          ScreenInfo  { get; set; }
+        #endregion
+    }
+
     static class TransactionPage
     {
         #region Public Methods
@@ -14,35 +27,29 @@ namespace BOA.OneDesigner.CodeGeneration
             var jsxModel = (DivAsCardContainer) screenInfo.JsxModel;
 
             var hasWorkflow = screenInfo.FormType == FormType.TransactionPageWithWorkflow;
+            var className   = screenInfo.RequestName.SplitAndClear(".").Last().RemoveFromEnd("Request");
 
-
-            // GeneralParametersFormRequest
-            var className = screenInfo.RequestName.SplitAndClear(".").Last().RemoveFromEnd("Request");
-
-            sb.AppendLine("import * as React from \"react\"");
-            sb.AppendLine("import { TransactionPage, TransactionPageComposer } from \"b-framework\"");
-            sb.AppendLine("import { getMessage } from \"b-framework\"");
-
-            sb.AppendLine("import { ComponentSize } from \"b-component\"");
-            
-            sb.AppendLine("import { FormAssistant } from \"../utils/FormAssistant\";");
-
-            sb.AppendLine("import { BCard } from \"b-card\"");
-            
-            sb.AppendLine("import { BInput } from \"b-input\"");
-            sb.AppendLine("import { BInputNumeric } from \"b-input-numeric\";");
-            sb.AppendLine("import { BTabBar } from \"b-tab-bar\";");
-
-            if (jsxModel.HasComponent<BInput>())
+            var writerContext = new WriterContext
             {
-                sb.AppendLine("import { BInput } from \"b-input\"");
-            }
+                Imports = new List<string>
+                {
+                    "import * as React from \"react\"",
+                    "import { TransactionPage, TransactionPageComposer } from \"b-framework\"",
+                    "import { getMessage } from \"b-framework\"",
+                    "import { ComponentSize } from \"b-component\"",
+                    "import { FormAssistant } from \"../utils/FormAssistant\";",
+                    "import { BCard } from \"b-card\""
+                },
+                ClassName   = className,
+                HasWorkflow = hasWorkflow,
+                ScreenInfo  = screenInfo,
+                Output      = sb
+            };
 
             sb.AppendLine();
             sb.AppendLine($"class {className} extends TransactionPage");
             sb.AppendLine("{");
             sb.PaddingCount++;
-
 
             if (hasWorkflow)
             {
@@ -50,10 +57,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("executeWorkFlow: () => void;");
             }
 
-
             sb.AppendLine();
-
-            
 
             #region constructor
             sb.AppendLine("constructor(props: BFramework.BasePageProps)");
@@ -98,7 +102,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("}");
                 #endregion
             }
-          
 
             sb.AppendLine();
 
@@ -129,9 +132,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine();
 
-
-           
-
             #region render
             sb.AppendLine("render()");
             sb.AppendLine("{");
@@ -151,7 +151,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("return (");
             sb.PaddingCount++;
-            sb.Write(screenInfo,jsxModel);
+            DivAsCardContainerRenderer.Write(writerContext, jsxModel);
             sb.PaddingCount--;
             sb.AppendLine(");");
 
@@ -166,7 +166,14 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine($"export default TransactionPageComposer({className});");
 
-            return sb.ToString();
+
+           
+            
+
+
+            return 
+                string.Join(Environment.NewLine,writerContext.Imports.Distinct().ToList()) + Environment.NewLine + 
+                sb;
         }
         #endregion
     }

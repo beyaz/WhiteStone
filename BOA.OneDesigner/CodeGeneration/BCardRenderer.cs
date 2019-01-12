@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using BOA.Common.Helpers;
-using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -9,8 +8,12 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class BCardRenderer
     {
-        public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BCard data)
+        public static void Write(WriterContext writerContext ,  BCard data)
         {
+
+            var sb = writerContext.Output;
+            ScreenInfo screenInfo = writerContext.ScreenInfo;
+
             sb.AppendWithPadding("<BCard context={context}");
 
             var labelValue = RenderHelper.GetLabelValue(screenInfo, data.TitleInfo);
@@ -37,11 +40,13 @@ namespace BOA.OneDesigner.CodeGeneration
                 var bInput = item as BInput;
                 if (bInput != null)
                 {
-                    var stringBuilder = new PaddedStringBuilder();
+                    writerContext.Output = new PaddedStringBuilder();
 
-                    BInputRenderer.Write(stringBuilder, screenInfo, bInput);
+                    BInputRenderer.Write(writerContext, bInput);
 
-                    subComponents.Add(stringBuilder.ToString());
+                    subComponents.Add(writerContext.Output.ToString());
+
+                    writerContext.Output = sb;
 
                     continue;
                 }
@@ -49,11 +54,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 var bTabBar = item as BTabBar;
                 if (bTabBar != null)
                 {
-                    var stringBuilder = new PaddedStringBuilder();
+                    writerContext.Output = new PaddedStringBuilder();
 
-                    BTabBarRenderer.Write(stringBuilder, screenInfo, bTabBar);
+                    BTabBarRenderer.Write(writerContext, bTabBar);
 
-                    subComponents.Add(stringBuilder.ToString());
+                    subComponents.Add(writerContext.Output.ToString());
 
                     continue;
                 }
@@ -61,11 +66,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 var bDataGrid = item as BDataGrid;
                 if (bDataGrid != null)
                 {
-                    var stringBuilder = new PaddedStringBuilder();
+                    writerContext.Output = new PaddedStringBuilder();
 
-                    BDataGridRenderer.Write(stringBuilder, screenInfo, bDataGrid);
+                    BDataGridRenderer.Write(writerContext, bDataGrid);
 
-                    subComponents.Add(stringBuilder.ToString());
+                    subComponents.Add(writerContext.Output.ToString());
 
                     continue;
                 }

@@ -9,8 +9,12 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class BInputRenderer
     {
-        public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BInput data)
+        public static void Write(WriterContext writerContext ,BInput data)
         {
+
+            var        sb         = writerContext.Output;
+            ScreenInfo screenInfo = writerContext.ScreenInfo;
+
             var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
 
             var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName, data.BindingPath);
@@ -24,6 +28,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (isString)
             {
+
+                writerContext.Imports.Add("import { BInput } from \"b-input\"");
+
                 sb.AppendLine($"<BInput value = {{{bindingPathInJs}}}");
                 sb.PaddingCount++;
 
@@ -36,6 +43,8 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else if (isDecimal)
             {
+                writerContext.Imports.Add("import { BInputNumeric } from \"b-input-numeric\";");
+
                 sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
                 sb.PaddingCount++;
 
@@ -45,6 +54,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
+                writerContext.Imports.Add("import { BInputNumeric } from \"b-input-numeric\";");
                 sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
                 sb.PaddingCount++;
 
