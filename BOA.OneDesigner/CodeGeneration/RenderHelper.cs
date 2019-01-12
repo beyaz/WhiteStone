@@ -54,7 +54,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 return $"getMessage(\"{screenInfo.MessagingGroupName}\", \"{data.MessagingValue}\")";
             }
 
-            throw Error.InvalidOperation();
+            return null;
         }
 
         

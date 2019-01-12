@@ -60,6 +60,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     subComponents.Add(writerContext.Output.ToString());
 
+                    writerContext.Output = sb;
                     continue;
                 }
 
@@ -71,6 +72,8 @@ namespace BOA.OneDesigner.CodeGeneration
                     BDataGridRenderer.Write(writerContext, bDataGrid);
 
                     subComponents.Add(writerContext.Output.ToString());
+
+                    writerContext.Output = sb;
 
                     continue;
                 }

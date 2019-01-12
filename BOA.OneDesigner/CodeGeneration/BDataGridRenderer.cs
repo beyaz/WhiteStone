@@ -1,5 +1,4 @@
-﻿using BOA.Common.Helpers;
-using BOA.OneDesigner.JsxElementModel;
+﻿using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -8,16 +7,17 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static void Write(WriterContext writerContext, BDataGrid data)
         {
+            writerContext.Imports.Add("import { BDataGrid } from \"b-data-grid\"");
 
-            var        sb         = writerContext.Output;
-            ScreenInfo screenInfo = writerContext.ScreenInfo;
+            var sb         = writerContext.Output;
+            var screenInfo = writerContext.ScreenInfo;
 
             SnapNamingHelper.InitSnapName(data);
 
-            sb.AppendLine($"<BDataGrid  dataSource = {{{data.BindingPathInTypeScript}}}");
+            sb.AppendLine($"<BDataGrid  dataSource = {{{data.DataSourceBindingPathInTypeScript}}}");
 
-            sb.AppendLine("  selectable={'single'}");
-            sb.AppendLine("                               ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
+            sb.AppendLine("selectable={'single'}");
+            sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
             sb.AppendLine("columns = {this.getGridColumns(request)}");
             sb.AppendLine("onRowSelectionChanged={this.onRowSelectionChanged}");

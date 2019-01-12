@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -21,6 +22,9 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets the data source binding path.
         /// </summary>
         public string DataSourceBindingPath { get; set; }
+
+
+        public  string DataSourceBindingPathInTypeScript => TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + DataSourceBindingPath);
         #endregion
     }
 }

@@ -15,15 +15,17 @@ namespace BOA.Common.Helpers
             };
 
             const string Data =
-                @" a
-  b";
+@"01a
+
+01234b";
 
 
             builder.AppendAll(Data);
 
             const string ExpectedResult=
-                @"       a
-        b";
+@"      01a
+
+      01234b";
 
             Assert.AreEqual(ExpectedResult, builder.ToString());
         }

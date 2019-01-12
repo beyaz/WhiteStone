@@ -64,6 +64,11 @@ namespace BOA.Common.Helpers
         /// </summary>
         public void AppendLine(string line)
         {
+            if (string.IsNullOrEmpty(line))
+            {
+                sb.AppendLine();
+                return;
+            }
             sb.Append(Padding);
             sb.AppendLine(line);
         }

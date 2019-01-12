@@ -33,6 +33,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var writerContext = new WriterContext
             {
+                ClassBody = new List<string>(),
+                Page = new List<string>(),
                 Imports = new List<string>
                 {
                     "import * as React from \"react\"",
@@ -56,11 +58,12 @@ namespace BOA.OneDesigner.CodeGeneration
             var sb = new PaddedStringBuilder();
             foreach (var item in writerContext.Page)
             {
+                sb.AppendLine();
                 sb.AppendAll(item);
                 sb.AppendLine();
             }
 
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
         #endregion
 
@@ -133,7 +136,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var sb = new PaddedStringBuilder();
 
             sb.AppendLine($"class {writerContext.ClassName} extends TransactionPage");
-            sb.AppendLine("{");
+            sb.Append("{");
             sb.PaddingCount++;
 
             WriteWorkflowFields(writerContext);
@@ -145,6 +148,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             foreach (var member in writerContext.ClassBody)
             {
+                sb.AppendLine();
                 sb.AppendAll(member);
                 sb.AppendLine();
             }
