@@ -53,9 +53,10 @@ namespace BOA.OneDesigner
 
             wpf.BChildrenCount.Should().Be(2);
             var childAt_0 = wpf.BChildAt(0);
+            host.SelectedElement = childAt_0;
 
             // ACT
-            bCard.Items.RemoveAt(1);
+            
             host.EventBus.Publish(EventBus.ComponentDeleted);
 
             // ASSERT

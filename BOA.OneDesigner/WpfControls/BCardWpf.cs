@@ -149,9 +149,11 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var bField in Model.Items)
             {
-                if (bField is BInput)
+                var bInput = bField as BInput;
+                if (bInput!= null)
                 {
-                    var uiElement = Host.Create<BInputWpf>(bField);
+                    bInput.Container = Model;
+                    var uiElement = Host.Create<BInputWpf>(bInput);
 
                     Host.DragHelper.MakeDraggable(uiElement);
 
@@ -161,9 +163,11 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-                if (bField is BDataGrid)
+                var bDataGrid = bField as BDataGrid;
+                if (bDataGrid != null)
                 {
-                    var uiElement = Host.CreateBDataGridInfoWpf((BDataGrid)bField);
+                    bDataGrid.Container = Model;
+                    var uiElement = Host.CreateBDataGridInfoWpf(bDataGrid);
 
                     Host.DragHelper.MakeDraggable(uiElement);
 
@@ -172,9 +176,11 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-                if (bField is BTabBar)
+                var bTabBar = bField as BTabBar;
+                if (bTabBar != null)
                 {
-                    var uiElement = Host.CreateBTabBarWpf((BTabBar)bField);
+                    bTabBar.Container = Model;
+                    var uiElement = Host.CreateBTabBarWpf(bTabBar);
 
                     Host.DragHelper.MakeDraggable(uiElement);
 

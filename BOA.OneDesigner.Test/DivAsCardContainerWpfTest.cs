@@ -49,7 +49,7 @@ namespace BOA.OneDesigner
             (wpf.BChildAt(1) == bChildAt_1).Should().BeTrue();
 
             wpf.BChildCount.Should().Be(childCount);
-            wpf.BChildAt(1).BChildrenCount.Should().Be(bChildCountOfCard);
+            wpf.BChildAt(1).BChildrenCount.Should().Be(bChildCountOfCard-1);
         }
         #endregion
 

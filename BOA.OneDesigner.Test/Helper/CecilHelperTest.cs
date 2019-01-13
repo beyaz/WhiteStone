@@ -11,10 +11,10 @@ namespace BOA.OneDesigner.Helper
         [TestMethod]
         public void GetAllBindProperties()
         {
-            var bindProperties = CecilHelper.GetAllBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ForeignDebitClearingRequest");
+            var data = CecilHelper.GetRequestIntellisenseData(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ForeignDebitClearingRequest");
 
-            bindProperties.Should().Contain("FileId");
-            bindProperties.Should().Contain("Account.IBAN");
+            data.RequestPropertyIntellisense.Should().Contain("FileId");
+            data.RequestPropertyIntellisense.Should().Contain("Account.IBAN");
         }
 
         [TestMethod]
@@ -25,13 +25,7 @@ namespace BOA.OneDesigner.Helper
             bindProperties.Should().Contain("Foreign.KBBusinessKey");
         }
 
-        [TestMethod]
-        public void GetAllBooleanBindProperties()
-        {
-            var bindProperties = CecilHelper.GetAllBooleanBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ForeignDebitClearingRequest");
-
-            bindProperties.Should().Contain("Account.HasKMH");
-        }
+    
 
         [TestMethod]
         public void GetPropertyInfo_should_get_cecil_property_info()

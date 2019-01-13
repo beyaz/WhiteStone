@@ -18,12 +18,15 @@ namespace BOA.OneDesigner.Helpers
     public class RequestIntellisenseData
     {
         #region Public Properties
-        public Dictionary<string, IReadOnlyList<string>> Collections                           { get; set; }
-        public IReadOnlyList<string>                     RequestCollectionPropertyIntellisense { get; set; }
-        public IReadOnlyList<string>                     RequestPropertyIntellisense           { get; set; }
-        public IReadOnlyList<string>                     RequestStringPropertyIntellisense     { get; set; }
-        public IReadOnlyList<string> RequestBooleanPropertyIntellisense { get; set; }
-        public IReadOnlyList<string> RequestNotNullInt32PropertyIntellisense { get; set; }
+        public string                                    AssemblyPath                            { get; set; }
+        public Dictionary<string, IReadOnlyList<string>> Collections                             { get; set; }
+        public List<string>                              RequestBooleanPropertyIntellisense      { get; set; }
+        public List<string>                              RequestCollectionPropertyIntellisense   { get; set; }
+        public List<string>                              RequestNotNullInt32PropertyIntellisense { get; set; }
+        public List<string>                              RequestPropertyIntellisense             { get; set; }
+        public List<string>                              RequestStringPropertyIntellisense       { get; set; }
+        public string                                    RequestTypeFullName                     { get; set; }
+        public TypeDefinition                            TypeDefinition                          { get; set; }
         #endregion
     }
 
@@ -55,11 +58,11 @@ namespace BOA.OneDesigner.Helpers
         #endregion
 
         #region Public Properties
+        public static string FullNameOfNullableBoolean  => "System.Nullable`1<" + typeof(bool).FullName + ">";
         public static string FullNameOfNullableByte     => "System.Nullable`1<" + typeof(byte).FullName + ">";
         public static string FullNameOfNullableDateTime => "System.Nullable`1<" + typeof(DateTime).FullName + ">";
         public static string FullNameOfNullableDecimal  => "System.Nullable`1<" + typeof(decimal).FullName + ">";
         public static string FullNameOfNullableInt      => "System.Nullable`1<" + typeof(int).FullName + ">";
-        public static string FullNameOfNullableBoolean => "System.Nullable`1<" + typeof(bool).FullName + ">";
         public static string FullNameOfNullableLong     => "System.Nullable`1<" + typeof(long).FullName + ">";
         public static string FullNameOfNullableSbyte    => "System.Nullable`1<" + typeof(sbyte).FullName + ">";
         public static string FullNameOfNullableShort    => "System.Nullable`1<" + typeof(short).FullName + ">";
@@ -68,7 +71,6 @@ namespace BOA.OneDesigner.Helpers
         #region Public Methods
         public static PropertyDefinition FindPropertyInfo(string assemblyPath, string typeFullName, string propertyPath)
         {
-
             var typeDefinition = FindType(assemblyPath, typeFullName);
 
             var list = propertyPath.SplitAndClear(".");
@@ -107,19 +109,6 @@ namespace BOA.OneDesigner.Helpers
 
             return items;
         }
-        public static IReadOnlyList<string> GetAllBooleanBindProperties(string assemblyPath, string typeFullName)
-        {
-            var items = new List<string>();
-
-            var typeDefinition = FindType(assemblyPath, typeFullName);
-            if (typeDefinition != null)
-            {
-                GetAllBooleanBindProperties(string.Empty, items, typeDefinition);
-            }
-
-            return items;
-        }
-        
 
         public static IReadOnlyList<string> GetAllBindProperties(string assemblyPath, string typeFullName, string propertyPath)
         {
@@ -159,48 +148,9 @@ namespace BOA.OneDesigner.Helpers
             return items;
         }
 
-        public static IReadOnlyList<string> GetAllCollectionProperties(string assemblyPath, string typeFullName)
-        {
-            var items = new List<string>();
-
-            var typeDefinition = FindType(assemblyPath, typeFullName);
-            if (typeDefinition != null)
-            {
-                GetAllCollectionProperties(string.Empty, items, typeDefinition);
-            }
-
-            return items;
-        }
-
         public static IReadOnlyList<string> GetAllRequestNames(string assemblyPath)
         {
             return GetAllTypeNames(assemblyPath).Where(t => t.EndsWith("Request")).ToList();
-        }
-
-        public static IReadOnlyList<string> GetAllStringBindProperties(string assemblyPath, string typeFullName)
-        {
-            var items = new List<string>();
-
-            var typeDefinition = FindType(assemblyPath, typeFullName);
-            if (typeDefinition != null)
-            {
-                GetAllStringBindProperties(string.Empty, items, typeDefinition);
-            }
-
-            return items;
-        }
-
-        public static IReadOnlyList<string> GetAllNotNullInt32BindProperties(string assemblyPath, string typeFullName)
-        {
-            var items = new List<string>();
-
-            var typeDefinition = FindType(assemblyPath, typeFullName);
-            if (typeDefinition != null)
-            {
-                GetAllNotNullInt32BindProperties(string.Empty, items, typeDefinition);
-            }
-
-            return items;
         }
 
         public static IReadOnlyList<string> GetAllTypeNames(string assemblyPath)
@@ -216,14 +166,20 @@ namespace BOA.OneDesigner.Helpers
         {
             var data = new RequestIntellisenseData
             {
-                RequestPropertyIntellisense           = GetAllBindProperties(assemblyPath, requestTypeFullName),
-                RequestStringPropertyIntellisense     = GetAllStringBindProperties(assemblyPath, requestTypeFullName),
-                RequestNotNullInt32PropertyIntellisense = GetAllNotNullInt32BindProperties(assemblyPath, requestTypeFullName),
-                
-                RequestBooleanPropertyIntellisense = GetAllBooleanBindProperties(assemblyPath, requestTypeFullName),
-                RequestCollectionPropertyIntellisense = GetAllCollectionProperties(assemblyPath, requestTypeFullName),
-                Collections                           = new Dictionary<string, IReadOnlyList<string>>()
+                AssemblyPath        = assemblyPath,
+                RequestTypeFullName = requestTypeFullName,
+
+                RequestPropertyIntellisense             = new List<string>(),
+                RequestStringPropertyIntellisense       = new List<string>(),
+                RequestNotNullInt32PropertyIntellisense = new List<string>(),
+
+                RequestBooleanPropertyIntellisense    = new List<string>(),
+                RequestCollectionPropertyIntellisense = new List<string>(),
+                Collections                           = new Dictionary<string, IReadOnlyList<string>>(),
+                TypeDefinition                        = FindType(assemblyPath, requestTypeFullName)
             };
+
+            CollectProperties(data, string.Empty, data.TypeDefinition);
 
             foreach (var path in data.RequestCollectionPropertyIntellisense)
             {
@@ -235,25 +191,7 @@ namespace BOA.OneDesigner.Helpers
         #endregion
 
         #region Methods
-        static TypeDefinition FindType(string assemblyPath, string typeFullName)
-        {
-            var typeDefinitions = new List<TypeDefinition>();
-
-            VisitAllTypes(assemblyPath, type =>
-            {
-                if (type.FullName == typeFullName)
-                {
-                    typeDefinitions.Add(type);
-                }
-            });
-
-            return typeDefinitions.FirstOrDefault();
-        }
-
-
-        
-
-        static void GetAllBooleanBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
+        static void CollectProperties(RequestIntellisenseData data, string pathPrefix, TypeDefinition typeDefinition)
         {
             if (typeDefinition == null)
             {
@@ -267,23 +205,53 @@ namespace BOA.OneDesigner.Helpers
                     continue;
                 }
 
+                if (PrimitiveTypes.Contains(propertyDefinition.PropertyType.FullName))
+                {
+                    data.RequestPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
+                }
+
                 if (propertyDefinition.PropertyType.FullName == typeof(bool).FullName ||
                     propertyDefinition.PropertyType.FullName == FullNameOfNullableBoolean)
                 {
-                    paths.Add(pathPrefix + propertyDefinition.Name);
-                    continue;
+                    data.RequestBooleanPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
+                }
+
+                if (propertyDefinition.PropertyType.FullName == typeof(string).FullName)
+                {
+                    data.RequestStringPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
+                }
+
+                if (propertyDefinition.PropertyType.FullName == typeof(int).FullName)
+                {
+                    data.RequestNotNullInt32PropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
                 }
 
                 if (IsCollection(propertyDefinition.PropertyType))
                 {
+                    data.RequestCollectionPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
                     continue;
                 }
 
                 if (propertyDefinition.PropertyType.IsValueType == false)
                 {
-                    GetAllBooleanBindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
+                    CollectProperties(data, pathPrefix + propertyDefinition.Name + ".", propertyDefinition.PropertyType.Resolve());
                 }
             }
+        }
+
+        static TypeDefinition FindType(string assemblyPath, string typeFullName)
+        {
+            var typeDefinitions = new List<TypeDefinition>();
+
+            VisitAllTypes(assemblyPath, type =>
+            {
+                if (type.FullName == typeFullName)
+                {
+                    typeDefinitions.Add(type);
+                }
+            });
+
+            return typeDefinitions.FirstOrDefault();
         }
 
         static void GetAllBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
@@ -314,106 +282,6 @@ namespace BOA.OneDesigner.Helpers
                 if (propertyDefinition.PropertyType.IsValueType == false)
                 {
                     GetAllBindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
-                }
-            }
-        }
-
-        static void GetAllCollectionProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
-        {
-            if (typeDefinition == null)
-            {
-                return;
-            }
-
-            foreach (var propertyDefinition in typeDefinition.Properties)
-            {
-                if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
-                {
-                    continue;
-                }
-
-                if (PrimitiveTypes.Contains(propertyDefinition.PropertyType.FullName))
-                {
-                    continue;
-                }
-
-                if (IsCollection(propertyDefinition.PropertyType))
-                {
-                    paths.Add(pathPrefix + propertyDefinition.Name);
-                    continue;
-                }
-
-                if (propertyDefinition.PropertyType.IsValueType == false)
-                {
-                    GetAllCollectionProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
-                }
-            }
-        }
-
-        
-
-            
-        static void GetAllNotNullInt32BindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
-        {
-            if (typeDefinition == null)
-            {
-                return;
-            }
-
-            foreach (var propertyDefinition in typeDefinition.Properties)
-            {
-                if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
-                {
-                    continue;
-                }
-
-                if (propertyDefinition.PropertyType.FullName == typeof(int).FullName)
-                {
-                    paths.Add(pathPrefix + propertyDefinition.Name);
-                    continue;
-                }
-
-                if (IsCollection(propertyDefinition.PropertyType))
-                {
-                    continue;
-                }
-
-                if (propertyDefinition.PropertyType.IsValueType == false)
-                {
-                    GetAllNotNullInt32BindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
-                }
-            }
-        }
-
-
-        static void GetAllStringBindProperties(string pathPrefix, List<string> paths, TypeDefinition typeDefinition)
-        {
-            if (typeDefinition == null)
-            {
-                return;
-            }
-
-            foreach (var propertyDefinition in typeDefinition.Properties)
-            {
-                if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
-                {
-                    continue;
-                }
-
-                if (propertyDefinition.PropertyType.FullName == typeof(string).FullName)
-                {
-                    paths.Add(pathPrefix + propertyDefinition.Name);
-                    continue;
-                }
-
-                if (IsCollection(propertyDefinition.PropertyType))
-                {
-                    continue;
-                }
-
-                if (propertyDefinition.PropertyType.IsValueType == false)
-                {
-                    GetAllStringBindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
                 }
             }
         }
