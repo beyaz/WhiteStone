@@ -20,7 +20,9 @@ namespace BOA.OneDesigner.Helper
         [TestMethod]
         public void GetAllBindPropertiesOfCollection()
         {
-            var bindProperties = CecilHelper.GetAllBindProperties(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ChargebackListFormRequest", "DataSource.DataGridRecords");
+            var data = CecilHelper.GetRequestIntellisenseData(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ChargebackListFormRequest");
+
+            var bindProperties = CecilHelper.GetAllBindProperties(data.TypeDefinition, "DataSource.DataGridRecords");
 
             bindProperties.Should().Contain("Foreign.KBBusinessKey");
         }

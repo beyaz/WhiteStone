@@ -110,36 +110,44 @@ namespace BOA.OneDesigner.Helpers
             return items;
         }
 
-        public static IReadOnlyList<string> GetAllBindProperties(string assemblyPath, string typeFullName, string propertyPath)
+
+        public static TypeReference FindTypeReferenceAtPath(TypeDefinition typeDefinition, string propertyPath)
         {
             var items = new List<string>();
-
-            var typeDefinition = FindType(assemblyPath, typeFullName);
 
             var list = propertyPath.SplitAndClear(".");
             for (var i = 0; i < list.Count; i++)
             {
+                
+
                 var propertyName = list[i];
                 if (typeDefinition == null)
                 {
-                    return items;
+                    return null;
                 }
 
                 var typeReference = typeDefinition.Properties.FirstOrDefault(p => p.Name == propertyName)?.PropertyType;
 
                 if (i == list.Count - 1)
                 {
-                    var genericInstanceType = typeReference as GenericInstanceType;
-                    if (genericInstanceType != null)
-                    {
-                        typeDefinition = genericInstanceType.GenericArguments.First().Resolve();
-                        break;
-                    }
+                    return typeReference;
                 }
 
                 typeDefinition = typeReference?.Resolve();
             }
 
+            return null;
+        }
+
+        public static IReadOnlyList<string> GetAllBindProperties(TypeDefinition typeDefinition, string propertyPath)
+        {
+            //TODO change name
+
+            var genericInstanceType = FindTypeReferenceAtPath(typeDefinition,propertyPath) as GenericInstanceType;
+
+            typeDefinition = genericInstanceType?.GenericArguments.First().Resolve();
+
+            var items = new List<string>();
             if (typeDefinition != null)
             {
                 GetAllBindProperties(string.Empty, items, typeDefinition);
@@ -183,7 +191,7 @@ namespace BOA.OneDesigner.Helpers
 
             foreach (var path in data.RequestCollectionPropertyIntellisense)
             {
-                data.Collections[path] = GetAllBindProperties(assemblyPath, requestTypeFullName, path);
+                data.Collections[path] = GetAllBindProperties(data.TypeDefinition, path);
             }
 
             return data;
