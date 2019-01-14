@@ -36,6 +36,7 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BComboBox:BField
     {
+        public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsMedium = true};
 
         public string IsVisibleBindingPath { get; set; }
 
