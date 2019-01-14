@@ -163,6 +163,20 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
+                var bComboBox = bField as BComboBox;
+                if (bComboBox!= null)
+                {
+                    bComboBox.Container = Model;
+                    var uiElement = Host.Create<BComboBoxInWpf>(bComboBox);
+
+                    Host.DragHelper.MakeDraggable(uiElement);
+
+                    ChildrenContainer.Children.Add(uiElement);
+                    Host.AttachToEventBus(uiElement, this);
+
+                    continue;
+                }
+
                 var bDataGrid = bField as BDataGrid;
                 if (bDataGrid != null)
                 {
@@ -316,6 +330,11 @@ namespace BOA.OneDesigner.WpfControls
         static bool CanDrop(UIElement dragElement)
         {
             if (dragElement is BInputWpf)
+            {
+                return true;
+            }
+
+            if (dragElement is BComboBoxInWpf)
             {
                 return true;
             }
