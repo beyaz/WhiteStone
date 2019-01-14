@@ -10,6 +10,10 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BDataGrid:BField
     {
+        public string SelectedRowDataBindingPath { get; set; }
+
+        public string OrchestrationMethod { get; set; }
+
         public LabelInfo TitleInfo { get; set; } = new LabelInfo();
 
         #region Public Properties
