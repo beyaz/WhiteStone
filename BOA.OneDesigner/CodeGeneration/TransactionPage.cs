@@ -25,6 +25,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
         public List<string> Page       { get; set; }
         public ScreenInfo   ScreenInfo { get; set; }
+        public List<string> ConstructorBody { get; set; }
         #endregion
     }
 
@@ -40,6 +41,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var writerContext = new WriterContext
             {
+                ConstructorBody = new List<string>(),
                 ClassBody = new List<string>(),
                 Page = new List<string>(),
                 Imports = new List<string>
@@ -150,11 +152,12 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             WriteWorkflowFields(writerContext);
-            WriteConstructor(writerContext);
+            
             WriteOnActionClick(writerContext);
             ComponentDidMount(writerContext);
             ProxyDidRespond(writerContext);
             Render(writerContext, jsxModel);
+            WriteConstructor(writerContext);
 
             foreach (var member in writerContext.ClassBody)
             {
@@ -165,6 +168,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.PaddingCount--;
             sb.AppendLine("}");
+
 
             writerContext.Page.Add(sb.ToString());
         }
@@ -180,10 +184,18 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("super(props);");
             sb.AppendLine("this.connect(this);");
             sb.AppendLine($"FormAssistant.initialize(this, \"{writerContext.ScreenInfo.RequestName}\");");
+
+            foreach (var line in writerContext.ConstructorBody)
+            {
+                sb.AppendLine(line);
+            }
+
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            writerContext.ClassBody.Add(sb.ToString());
+
+            writerContext.ClassBody.Insert(1,sb.ToString());    
+            
         }
 
         static void WriteOnActionClick(WriterContext writerContext)

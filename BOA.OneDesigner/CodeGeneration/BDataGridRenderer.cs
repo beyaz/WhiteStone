@@ -18,17 +18,44 @@ namespace BOA.OneDesigner.CodeGeneration
             return "getDataGridColumnsOf" + last;
         }
 
-        internal static string EvaluateMethodBodyOfGridColumns(string methodName, WriterContext writerContext, BDataGrid data)
+        internal static string EvaluateMethodNameOfGridRowSelectionChanged(WriterContext writerContext, BDataGrid data)
         {
-            var sb = writerContext.Output;
-            sb.AppendLine(methodName+"() : any[]");
+            var last = data?.DataSourceBindingPath?.SplitAndClear(".")?.LastOrDefault();
+
+            return "on"+last+"RowSelectionChanged";
+        }
+
+        internal static string EvaluateMethodBodyOfGridRowSelectionChanged(string methodName, WriterContext writerContext, BDataGrid data)
+        {
+            var sb = new PaddedStringBuilder();
+            sb.AppendLine(methodName+"()");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("let columns = [];");
+            sb.AppendLine("const request = FormAssistant.getWindowRequest(this);");
+            sb.AppendLine("request.data = request.dataSource.dataGridRecords.find(x => x.isSelected);");
+            sb.AppendLine("FormAssistant.executeWindowRequest(this,CommandName.SelectedRecordChanged);");
+
+         
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+
+
+        internal static string EvaluateMethodBodyOfGridColumns(string methodName, WriterContext writerContext, BDataGrid data)
+        {
+            var sb = new PaddedStringBuilder();
+            sb.AppendLine(methodName+"(request:any) : any[]");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("let columns: any[] = [];");
+            var isFirst = true;
             foreach (var bDataGridColumnInfo in data.Columns)
             {
-                
+                sb.AppendLine();
                 sb.AppendLine("// "+bDataGridColumnInfo.BindingPath);
 
                 if (bDataGridColumnInfo.IsVisibleBindingPath.HasValue())
@@ -40,14 +67,22 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("}");
                 }
 
-
-                sb.AppendLine("let column = {};");
+                if (isFirst)
+                {
+                    isFirst = false;
+                    sb.AppendLine("let column:any = {};");    
+                }
+                else
+                {
+                    sb.AppendLine("column = {};");
+                }
+                
                 sb.AppendLine($"column.key = \"{TypescriptNaming.NormalizeBindingPath(bDataGridColumnInfo.BindingPath)}\";");
 
                 var labelValue = RenderHelper.GetLabelValue(writerContext.ScreenInfo, bDataGridColumnInfo.Label);
                 if (labelValue != null)
                 {
-                    sb.AppendLine($"column.name = {labelValue}");
+                    sb.AppendLine($"column.name = {labelValue};");
                 }
 
                 var propertyInfo = writerContext.RequestIntellisenseData.FindPropertyInfoInCollectionFirstGenericArgumentType(data.DataSourceBindingPath,bDataGridColumnInfo.BindingPath);
@@ -71,11 +106,12 @@ namespace BOA.OneDesigner.CodeGeneration
                 
             }
 
-
+            sb.AppendLine();
+            sb.AppendLine("return columns;");
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            sb.AppendLine("return columns;");
+            
 
             return sb.ToString();
         }
@@ -94,6 +130,11 @@ namespace BOA.OneDesigner.CodeGeneration
             var methodNameOfGridColumns = EvaluateMethodNameOfGridColumns(writerContext,data);
             writerContext.ClassBody.Add(EvaluateMethodBodyOfGridColumns(methodNameOfGridColumns,writerContext,data));
 
+            var rowSelectionChangedMethodName = EvaluateMethodNameOfGridRowSelectionChanged(writerContext,data);
+            writerContext.ClassBody.Add(EvaluateMethodBodyOfGridRowSelectionChanged(rowSelectionChangedMethodName,writerContext,data));
+            writerContext.ConstructorBody.Add($"this.{rowSelectionChangedMethodName} = this.{rowSelectionChangedMethodName}.bind(this);");
+
+
 
             sb.AppendLine($"<BDataGrid  dataSource = {{{data.DataSourceBindingPathInTypeScript}}}");
 
@@ -105,7 +146,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
             sb.AppendLine("columns = {this."+methodNameOfGridColumns+"(request)}");
-            sb.AppendLine("onRowSelectionChanged={this.onRowSelectionChanged}");
+            sb.AppendLine("onRowSelectionChanged={this."+rowSelectionChangedMethodName+"}");
 
             sb.AppendLine("headerBarOptions={{");
 
