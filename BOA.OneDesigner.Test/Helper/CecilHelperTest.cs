@@ -22,9 +22,12 @@ namespace BOA.OneDesigner.Helper
         {
             var data = CecilHelper.GetRequestIntellisenseData(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ChargebackListFormRequest");
 
-            var bindProperties = CecilHelper.GetAllBindProperties(data.TypeDefinition, "DataSource.DataGridRecords");
+            data.Collections.Should().ContainKey("DataSource.DataGridRecords");
+            data.Collections["DataSource.DataGridRecords"].Should().Contain("Foreign.KBBusinessKey");
 
-            bindProperties.Should().Contain("Foreign.KBBusinessKey");
+            CecilPropertyInfo info= data.FindPropertyInfoInCollectionFirstGenericArgumentType("DataSource.DataGridRecords", "Foreign.KBBusinessKey");
+            info.Should().NotBeNull();
+
         }
 
     

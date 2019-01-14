@@ -50,28 +50,19 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine($"column.name = {labelValue}");
                 }
 
-
-                var solutionInfo = writerContext.SolutionInfo;
-
-
-                var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, writerContext.ScreenInfo.RequestName, bDataGridColumnInfo.BindingPath);
-
-                var isInt32 = propertyDefinition.PropertyType.FullName == typeof(int).FullName;
-                var isDecimal = propertyDefinition.PropertyType.FullName == typeof(decimal).FullName;
-                var isDate = propertyDefinition.PropertyType.FullName == typeof(DateTime).FullName;
-
-
-                if (isInt32)
-                {
-                    sb.AppendLine("column.type = 'number';");    
-                }
-                else if (isDecimal)
+                var propertyInfo = writerContext.RequestIntellisenseData.FindPropertyInfoInCollectionFirstGenericArgumentType(data.DataSourceBindingPath,bDataGridColumnInfo.BindingPath);
+                
+                if (propertyInfo.IsDecimal||propertyInfo.IsDecimalNullable)
                 {
                     sb.AppendLine("column.type = 'number';"); 
                     sb.AppendLine("column.numberFormat = 'M';"); 
                     
                 }
-                else if (isDate)
+                else if (propertyInfo.IsNumber)
+                {
+                    sb.AppendLine("column.type = 'number';");    
+                }
+                else if (propertyInfo.IsDate||propertyInfo.IsDateNullable)
                 {
                     sb.AppendLine("column.type = 'date';");    
                 }
