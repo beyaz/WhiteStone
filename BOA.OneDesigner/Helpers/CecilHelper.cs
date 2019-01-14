@@ -293,6 +293,11 @@ namespace BOA.OneDesigner.Helpers
                 CollectionDetails = new Dictionary<string, PropertyDefinition>()
             };
 
+            if (data.TypeDefinition == null)
+            {
+                return null;
+            }
+
             CollectProperties(data, string.Empty, data.TypeDefinition);
 
             foreach (var path in data.RequestCollectionPropertyIntellisense)
