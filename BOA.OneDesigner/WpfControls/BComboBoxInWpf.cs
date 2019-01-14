@@ -75,6 +75,8 @@ namespace BOA.OneDesigner.WpfControls
 
             var bDataGridInfoWpf = Host.CreateBDataGridInfoWpf(Model.DataGrid);
 
+            Host.DragHelper.MakeDraggable(bDataGridInfoWpf);
+
             GridContainer.Children.Clear();
             GridContainer.Children.Add(bDataGridInfoWpf);
         }
@@ -84,13 +86,25 @@ namespace BOA.OneDesigner.WpfControls
         void BInput_MouseEnter(object sender, MouseEventArgs e)
         {
             Cursor                   = Cursors.Hand;
-            GridContainer.Visibility = Visibility.Visible;
+           
         }
 
         void BInput_MouseLeave(object sender, MouseEventArgs e)
         {
             Cursor                   = Cursors.Arrow;
-            GridContainer.Visibility = Visibility.Collapsed;
+            
+        }
+
+        void Show_data_grid_is_this_component_selected()
+        {
+            if (Host.SelectedElement == this || Host.SelectedElement.FindParent<BComboBoxInWpf>()== this)
+            {
+                GridContainer.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                GridContainer.Visibility = Visibility.Collapsed;
+            }
         }
 
         void UpdateBindingPath()
@@ -117,6 +131,7 @@ namespace BOA.OneDesigner.WpfControls
 
             OnAttachToEventBus?.Invoke();
 
+            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Show_data_grid_is_this_component_selected);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
@@ -130,6 +145,7 @@ namespace BOA.OneDesigner.WpfControls
 
             OnDeAttachToEventBus?.Invoke();
 
+            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, Show_data_grid_is_this_component_selected);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
