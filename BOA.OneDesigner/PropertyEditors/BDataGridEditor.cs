@@ -21,7 +21,19 @@ namespace BOA.OneDesigner.PropertyEditors
    Margin:5,
 	Childs:[  
 		{ui:'RequestIntellisenseTextBox', ShowOnlyCollectionProperties:true, Text:'{Binding " + nameof(BDataGrid.DataSourceBindingPath) + @"}', Label:'Data Source Binding' },
-        {ui:'Button', Text:'Add Column',Click:'" + nameof(AddColumn) + @"'}
+
+{
+    ui:'Groupbox',Header:'Row Selection Changed',Margin:10,
+    Content:
+    {
+        ui:'Grid',rows:[
+            {ui:'RequestIntellisenseTextBox', ShowOnlyOrchestrationMethods:true, Text:'{Binding " + nameof(BDataGrid.RowSelectionChangedOrchestrationMethod) + @"}', Label:'Orchestration' },    
+            {ui:'RequestIntellisenseTextBox', Text:'{Binding " + nameof(BDataGrid.SelectedRowDataBindingPath) + @"}', Label:'Binding Path' }
+        ]
+    }
+},       
+
+        {ui:'Button',Margin:10, Text:'Add Column',Click:'" + nameof(AddColumn) + @"'}
 	]
 }
 
