@@ -86,6 +86,14 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
+            var bComboBox = DataContext as BComboBox;
+            if (bComboBox != null)
+            {
+                Content = Host.Create<BComboBoxEditor>(bComboBox);
+                return;
+            }
+            
+
             var tabControl = DataContext as BTabBar;
             if (tabControl != null)
             {

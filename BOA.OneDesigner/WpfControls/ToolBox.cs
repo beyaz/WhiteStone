@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.PropertyEditors;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -42,6 +43,19 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(bInput);
             #endregion
 
+
+            #region ComboBox
+            var bComboBoxInWpf = new BComboBoxInWpf
+            {
+                IsInToolbox = true,
+                Host        = Host,
+                DataContext = new BComboBox {LabelInfo = LabelInfoHelper.CreateNewLabelInfo("Combo"), BindingPath = "?"}
+            };
+
+            Host.DragHelper.MakeDraggable(bComboBoxInWpf);
+
+            stackPanel.Children.Add(bComboBoxInWpf);
+            #endregion
 
 
             #region bCard

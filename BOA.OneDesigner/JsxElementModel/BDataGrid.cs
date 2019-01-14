@@ -36,6 +36,11 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BComboBox:BField
     {
+
+        public string IsVisibleBindingPath { get; set; }
+
+        public string IsDisabledBindingPath { get; set; }
+
         public LabelInfo LabelInfo { get; set; } = new LabelInfo();
 
         public string ValueMemberPath { get; set; }
