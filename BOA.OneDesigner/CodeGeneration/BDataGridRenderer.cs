@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -32,9 +31,12 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+            var fieldPath=TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value+data.SelectedRowDataBindingPath);
+            var dataSourceBindingPath =TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value+data.DataSourceBindingPath);
+
             sb.AppendLine("const request = FormAssistant.getWindowRequest(this);");
-            sb.AppendLine("request.data = request.dataSource.dataGridRecords.find(x => x.isSelected);");
-            sb.AppendLine("FormAssistant.executeWindowRequest(this,CommandName.SelectedRecordChanged);");
+            sb.AppendLine(fieldPath+$" = {dataSourceBindingPath}.find(x => x.isSelected);");
+            sb.AppendLine($"FormAssistant.executeWindowRequest(this,{data.RowSelectionChangedOrchestrationMethod});");
 
          
             sb.PaddingCount--;
@@ -51,7 +53,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("let columns: any[] = [];");
+            sb.AppendLine("const columns: any[] = [];");
             var isFirst = true;
             foreach (var bDataGridColumnInfo in data.Columns)
             {

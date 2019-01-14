@@ -12,7 +12,7 @@ namespace BOA.OneDesigner.JsxElementModel
     {
         public string SelectedRowDataBindingPath { get; set; }
 
-        public string OrchestrationMethod { get; set; }
+        public string RowSelectionChangedOrchestrationMethod { get; set; }
 
         public LabelInfo TitleInfo { get; set; } = new LabelInfo();
 

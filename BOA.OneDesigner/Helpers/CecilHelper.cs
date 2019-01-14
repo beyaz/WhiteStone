@@ -10,27 +10,25 @@ namespace BOA.OneDesigner.Helpers
     public class CecilPropertyInfo
     {
         #region Public Properties
-        public bool IsDecimal { get; set; }
+        public bool IsBoolean         { get; set; }
+        public bool IsBooleanNullable { get; set; }
+        public bool IsByte            { get; set; }
+        public bool IsByteNullable    { get; set; }
+
+        public bool IsDate            { get; set; }
+        public bool IsDateNullable    { get; set; }
+        public bool IsDecimal         { get; set; }
         public bool IsDecimalNullable { get; set; }
 
-
-        public bool IsInt32{ get; set; }
+        public bool IsInt32         { get; set; }
         public bool IsInt32Nullable { get; set; }
-
-        
-        public bool IsDate         { get; set; }
-        public bool IsDateNullable { get; set; }
-
-        public string        Name       { get; set; }
-        public bool IsByte { get; set; }
-        public bool IsByteNullable { get; set; }
-        public bool IsShort { get; set; }
+        public bool IsLong          { get; set; }
+        public bool IsLongNullable  { get; set; }
+        public bool IsNumber        { get; set; }
+        public bool IsShort         { get; set; }
         public bool IsShortNullable { get; set; }
-        public bool IsLong { get; set; }
-        public bool IsLongNullable { get; set; }
-        public bool IsBoolean { get; set; }
-        public bool IsBooleanNullable { get; set; }
-        public bool IsNumber { get; set; }
+
+        public string Name { get; set; }
         #endregion
     }
 
@@ -38,7 +36,9 @@ namespace BOA.OneDesigner.Helpers
     {
         #region Public Properties
         public string                                    AssemblyPath                            { get; set; }
+        public Dictionary<string, PropertyDefinition>    CollectionDetails                       { get; set; }
         public Dictionary<string, IReadOnlyList<string>> Collections                             { get; set; }
+        public List<string>                              OrchestrationMethods                    { get; set; } = new List<string>();
         public List<string>                              RequestBooleanPropertyIntellisense      { get; set; }
         public List<string>                              RequestCollectionPropertyIntellisense   { get; set; }
         public List<string>                              RequestNotNullInt32PropertyIntellisense { get; set; }
@@ -46,34 +46,29 @@ namespace BOA.OneDesigner.Helpers
         public List<string>                              RequestStringPropertyIntellisense       { get; set; }
         public string                                    RequestTypeFullName                     { get; set; }
         public TypeDefinition                            TypeDefinition                          { get; set; }
-        public Dictionary<string, PropertyDefinition> CollectionDetails { get; set; }
-        
         #endregion
 
+        #region Public Methods
         public CecilPropertyInfo FindPropertyInfoInCollectionFirstGenericArgumentType(string dataSourceBindingPath, string bindingPath)
         {
-            var key = dataSourceBindingPath + bindingPath;
+            var                key                = dataSourceBindingPath + bindingPath;
             PropertyDefinition propertyDefinition = null;
             if (CollectionDetails.TryGetValue(key, out propertyDefinition))
             {
-
-                
-
-                var info= new CecilPropertyInfo
+                var info = new CecilPropertyInfo
                 {
-                    Name       = propertyDefinition.Name,
+                    Name = propertyDefinition.Name
                 };
 
-
-                if (propertyDefinition.PropertyType.FullName == CecilHelper.FullNameOfNullableDecimal )
+                if (propertyDefinition.PropertyType.FullName == CecilHelper.FullNameOfNullableDecimal)
                 {
                     info.IsDecimalNullable = true;
-                    info.IsNumber = true;
+                    info.IsNumber          = true;
                 }
                 else if (propertyDefinition.PropertyType.FullName == typeof(decimal).FullName)
                 {
                     info.IsDecimal = true;
-                    info.IsNumber = true;
+                    info.IsNumber  = true;
                 }
                 else if (propertyDefinition.PropertyType.FullName == typeof(DateTime).FullName)
                 {
@@ -85,43 +80,43 @@ namespace BOA.OneDesigner.Helpers
                 }
                 else if (propertyDefinition.PropertyType.FullName == typeof(int).FullName)
                 {
-                    info.IsInt32 = true;
+                    info.IsInt32  = true;
                     info.IsNumber = true;
                 }
                 else if (propertyDefinition.PropertyType.FullName == CecilHelper.FullNameOfNullableInt)
                 {
                     info.IsInt32Nullable = true;
-                    info.IsNumber = true;
+                    info.IsNumber        = true;
                 }
                 else if (propertyDefinition.PropertyType.FullName == typeof(byte).FullName)
                 {
-                    info.IsByte = true;
+                    info.IsByte   = true;
                     info.IsNumber = true;
                 }
                 else if (propertyDefinition.PropertyType.FullName == CecilHelper.FullNameOfNullableByte)
                 {
                     info.IsByteNullable = true;
-                    info.IsNumber = true;
+                    info.IsNumber       = true;
                 }
                 else if (propertyDefinition.PropertyType.FullName == typeof(short).FullName)
                 {
-                    info.IsShort = true;
+                    info.IsShort  = true;
                     info.IsNumber = true;
                 }
                 else if (propertyDefinition.PropertyType.FullName == CecilHelper.FullNameOfNullableShort)
                 {
                     info.IsShortNullable = true;
-                    info.IsNumber = true;
+                    info.IsNumber        = true;
                 }
                 else if (propertyDefinition.PropertyType.FullName == typeof(long).FullName)
                 {
-                    info.IsLong = true;
+                    info.IsLong   = true;
                     info.IsNumber = true;
                 }
                 else if (propertyDefinition.PropertyType.FullName == CecilHelper.FullNameOfNullableLong)
                 {
                     info.IsLongNullable = true;
-                    info.IsNumber = true;
+                    info.IsNumber       = true;
                 }
                 else if (propertyDefinition.PropertyType.FullName == typeof(bool).FullName)
                 {
@@ -130,14 +125,14 @@ namespace BOA.OneDesigner.Helpers
                 else if (propertyDefinition.PropertyType.FullName == CecilHelper.FullNameOfNullableBoolean)
                 {
                     info.IsBooleanNullable = true;
-                    
                 }
+
                 return info;
             }
 
             return null;
-
         }
+        #endregion
     }
 
     static class CecilHelper
@@ -211,20 +206,6 @@ namespace BOA.OneDesigner.Helpers
             return null;
         }
 
-        public static IReadOnlyList<string> GetAllBindProperties(string assemblyPath, string typeFullName)
-        {
-            var items = new List<string>();
-
-            var typeDefinition = FindType(assemblyPath, typeFullName);
-            if (typeDefinition != null)
-            {
-                GetAllBindProperties(string.Empty, items, typeDefinition);
-            }
-
-            return items;
-        }
-
-
         public static TypeReference FindTypeReferenceAtPath(TypeDefinition typeDefinition, string propertyPath)
         {
             var items = new List<string>();
@@ -232,8 +213,6 @@ namespace BOA.OneDesigner.Helpers
             var list = propertyPath.SplitAndClear(".");
             for (var i = 0; i < list.Count; i++)
             {
-                
-
                 var propertyName = list[i];
                 if (typeDefinition == null)
                 {
@@ -253,9 +232,22 @@ namespace BOA.OneDesigner.Helpers
             return null;
         }
 
+        public static IReadOnlyList<string> GetAllBindProperties(string assemblyPath, string typeFullName)
+        {
+            var items = new List<string>();
+
+            var typeDefinition = FindType(assemblyPath, typeFullName);
+            if (typeDefinition != null)
+            {
+                GetAllBindProperties(string.Empty, items, typeDefinition);
+            }
+
+            return items;
+        }
+
         public static IReadOnlyList<string> GetAllBindPropertiesOfCollectionPropertyFirstGenericArgumentType(TypeDefinition typeDefinition, string collectionPropertyPath)
         {
-            var genericInstanceType = FindTypeReferenceAtPath(typeDefinition,collectionPropertyPath) as GenericInstanceType;
+            var genericInstanceType = FindTypeReferenceAtPath(typeDefinition, collectionPropertyPath) as GenericInstanceType;
 
             typeDefinition = genericInstanceType?.GenericArguments.First().Resolve();
 
@@ -298,7 +290,7 @@ namespace BOA.OneDesigner.Helpers
                 Collections                           = new Dictionary<string, IReadOnlyList<string>>(),
                 TypeDefinition                        = FindType(assemblyPath, requestTypeFullName),
 
-                CollectionDetails = new Dictionary<string, PropertyDefinition>(),
+                CollectionDetails = new Dictionary<string, PropertyDefinition>()
             };
 
             CollectProperties(data, string.Empty, data.TypeDefinition);
@@ -307,11 +299,56 @@ namespace BOA.OneDesigner.Helpers
             {
                 data.Collections[path] = GetAllBindPropertiesOfCollectionPropertyFirstGenericArgumentType(data.TypeDefinition, path);
 
-                var typeDefinition = (FindTypeReferenceAtPath(data.TypeDefinition,path) as GenericInstanceType)?.GenericArguments?.FirstOrDefault()?.Resolve();
+                var typeDefinition = (FindTypeReferenceAtPath(data.TypeDefinition, path) as GenericInstanceType)?.GenericArguments?.FirstOrDefault()?.Resolve();
                 foreach (var propertyPath in data.Collections[path])
                 {
-                   data.CollectionDetails[path + propertyPath] =  FindPropertyInfo(typeDefinition, propertyPath);
+                    data.CollectionDetails[path + propertyPath] = FindPropertyInfo(typeDefinition, propertyPath);
                 }
+            }
+
+            var orchestrationAssemblyPath = assemblyPath.Replace(".Types.", ".Orchestration.");
+            var orchestrationTypeFullName = requestTypeFullName.Replace(".Types.", ".Orchestration.").RemoveFromEnd("Request");
+
+            var orchestrationTypeDefinition = FindType(orchestrationAssemblyPath, orchestrationTypeFullName);
+            foreach (var methodDefinition in orchestrationTypeDefinition.Methods)
+            {
+                if (!methodDefinition.IsPublic)
+                {
+                    continue;
+                }
+
+                if (methodDefinition.Parameters.Count != 2)
+                {
+                    continue;
+                }
+
+                if (methodDefinition.Parameters[0].ParameterType.FullName != requestTypeFullName)
+                {
+                    continue;
+                }
+
+                if (methodDefinition.Parameters[1].ParameterType.FullName != "BOA.Base.ObjectHelper")
+                {
+                    continue;
+                }
+
+                var returnType = methodDefinition.ReturnType as GenericInstanceType;
+                if (returnType == null)
+                {
+                    continue;
+                }
+
+                if (returnType.GenericArguments.Count != 1)
+                {
+                    continue;
+                }
+
+                if (returnType.GenericArguments[0].FullName != requestTypeFullName)
+                {
+                    continue;
+                }
+
+                data.OrchestrationMethods.Add(methodDefinition.Name);
             }
 
             return data;
