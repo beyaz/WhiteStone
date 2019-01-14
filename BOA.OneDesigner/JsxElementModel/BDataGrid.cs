@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BOA.OneDesigner.Helpers;
 using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.JsxElementModel
@@ -36,6 +37,8 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BComboBox:BField
     {
+        public new string Label => LabelInfoHelper.GetDesignerText(LabelInfo);
+
         public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsMedium = true};
 
         public string IsVisibleBindingPath { get; set; }

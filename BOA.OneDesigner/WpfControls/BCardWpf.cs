@@ -378,6 +378,24 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
+
+            var bComboBoxInWpf = Host.SelectedElement as BComboBoxInWpf;
+            if (bComboBoxInWpf != null)
+            {
+                if (bComboBoxInWpf.IsInToolbox)
+                {
+                    Model.InsertItem(insertIndex, new BComboBox());
+                    return;
+                }
+
+                bComboBoxInWpf.Model.RemoveFromParent();
+
+                Model.InsertItem(insertIndex, bComboBoxInWpf.Model);
+
+                return;
+            }
+
+
             var dataGridInfoWpf = Host.SelectedElement as BDataGridInfoWpf;
             if (dataGridInfoWpf != null)
             {

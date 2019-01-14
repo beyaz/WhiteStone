@@ -65,6 +65,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             if (IsInToolbox)
             {
+                _label.Text = "ComboBox";
                 return;
             }
 
