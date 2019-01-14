@@ -30,6 +30,13 @@ namespace BOA.OneDesigner.CodeGeneration
             var isFirst = true;
             foreach (var bDataGridColumnInfo in data.DataGrid.Columns)
             {
+                if (bDataGridColumnInfo.BindingPath == null)
+                {
+                    // TODO error here
+                    continue;
+                }
+
+
                 sb.AppendLine();
                 sb.AppendLine("// "+bDataGridColumnInfo.BindingPath);
 
