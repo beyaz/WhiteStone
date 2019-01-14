@@ -112,6 +112,7 @@
     <Compile Include="JsxElementModel\BindingPrefix.cs" />
     <Compile Include="JsxElementModel\BTabBarPage.cs" />
     <Compile Include="JsxElementModel\LayoutProps.cs" />
+    <Compile Include="PropertyEditors\BComboBoxEditor.cs" />
     <Compile Include="PropertyEditors\SizeEditor.cs" />
     <Compile Include="JsxElementModel\ComponentSize.cs" />
     <Compile Include="JsxElementModel\Container.cs" />

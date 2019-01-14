@@ -1,44 +1,63 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    class BComboBoxInWpf:StackPanel, IHostItem, ISupportSizeInfo, IEventBusListener
+    class BComboBoxInWpf : StackPanel, IHostItem, ISupportSizeInfo, IEventBusListener
     {
+        #region Fields
+        public TextBox   _bindingPath;
+        public TextBlock _label;
+
+        public StackPanel GridContainer;
+        #endregion
+
+        #region Constructors
+        public BComboBoxInWpf()
+        {
+            MouseEnter += BInput_MouseEnter;
+            MouseLeave += BInput_MouseLeave;
+
+            this.LoadJson(@"
+{
+    Margin:10,
+    Childrens:[
+        {
+            ui:'Grid',
+	        rows:
+	        [
+		        {view:'TextBlock', Name:'_label',        Text:'{Binding " + nameof(BComboBox.Label) + @",       Mode = OneWay}', MarginBottom:5, IsBold:true},
+                {view:'TextBox',   Name:'_bindingPath',  Text:'{Binding " + nameof(BComboBox.SelectedValueBindingPath) + @", Mode = OneWay}' , IsReadOnly:true}        
+	        ]
+	        
+        },
+        {ui:'StackPanel',Name:'GridContainer'}
+
+    ]
+
+}
+
+
+");
+        }
+        #endregion
+
+        #region Public Properties
         public Host Host                      { get; set; }
-        public bool IsInToolbox               { get; set; }
         public bool IsEnteredDropLocationMode { get; set; }
+        public bool IsInToolbox               { get; set; }
 
         public BComboBox Model => (BComboBox) DataContext;
 
         public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
+        #endregion
 
         #region Public Methods
-        /// <summary>
-        ///     Called when [drop].
-        /// </summary>
-        public void OnDrop(DropLocation dropLocation)
-        {
-            var insertIndex = dropLocation.TargetLocationIndex;
-
-            var dataGridColumnWpf = Host.SelectedElement as BDataGridColumnWpf;
-            if (dataGridColumnWpf != null)
-            {
-                if (Model.Columns.Contains(dataGridColumnWpf.Model))
-                {
-                    InsertHelper.Move(Model.Columns, dataGridColumnWpf.Model, insertIndex);
-                }
-
-                return;
-            }
-
-            throw Error.InvalidOperation();
-        }
-
         /// <summary>
         ///     Refreshes this instance.
         /// </summary>
@@ -49,126 +68,36 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            Host.DeAttachToEventBus(_columnsContainer.Children);
+            Host.DeAttachToEventBus(GridContainer.Children);
 
-            _columnsContainer.Children.Clear();
+            var bDataGridInfoWpf = Host.CreateBDataGridInfoWpf(Model.DataGrid);
 
-            if (Model == null)
-            {
-                return;
-            }
-
-            foreach (var columnInfo in Model.Columns)
-            {
-                var uiElement = new BDataGridColumnWpf(columnInfo, Host, this);
-
-                Host.DragHelper.MakeDraggable(uiElement);
-
-                _columnsContainer.Children.Add(uiElement);
-
-                Host.AttachToEventBus(uiElement, this);
-            }
+            GridContainer.Children.Clear();
+            GridContainer.Children.Add(bDataGridInfoWpf);
         }
         #endregion
 
         #region Methods
-        /// <summary>
-        ///     Determines whether this instance can drop the specified drag element.
-        /// </summary>
-        bool CanDrop(UIElement dragElement)
+        void BInput_MouseEnter(object sender, MouseEventArgs e)
         {
-            return _columnsContainer.Children.ToArray().Contains(dragElement);
+            Cursor                   = Cursors.Hand;
+            GridContainer.Visibility = Visibility.Visible;
         }
 
-        /// <summary>
-        ///     Enters the drop location mode.
-        /// </summary>
-        void EnterDropLocationMode()
+        void BInput_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (IsInToolbox)
-            {
-                return;
-            }
-
-            if (!CanDrop(Host.SelectedElement))
-            {
-                return;
-            }
-
-            if (IsEnteredDropLocationMode)
-            {
-                return;
-            }
-
-            IsEnteredDropLocationMode = true;
-
-            var children = _columnsContainer.Children;
-
-            var items = children.ToArray();
-
-            children.Clear();
-
-            for (var i = 0; i < items.Length; i++)
-            {
-                var control = items[i];
-
-                var dropLocation = new DropLocation
-                {
-                    Host                = Host,
-                    OnDropAction        = OnDrop,
-                    TargetLocationIndex = i
-                };
-
-                children.Add(dropLocation);
-
-                children.Add(control);
-            }
-
-            children.Add(new DropLocation
-            {
-                Host                = Host,
-                OnDropAction        = OnDrop,
-                TargetLocationIndex = items.Length
-            });
+            Cursor                   = Cursors.Arrow;
+            GridContainer.Visibility = Visibility.Collapsed;
         }
 
-        void ExitDropLocationMode()
+        void UpdateBindingPath()
         {
-            if (!IsEnteredDropLocationMode)
-            {
-                return;
-            }
-
-            IsEnteredDropLocationMode = false;
-
-            var children = _columnsContainer.Children;
-
-            var items = children.ToArray();
-
-            children.Clear();
-
-            foreach (var control in items)
-            {
-                if (control is DropLocation)
-                {
-                    continue;
-                }
-
-                children.Add(control);
-            }
+            _bindingPath.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
         }
 
-        void OnColumnRemoved()
+        void UpdateLabel()
         {
-            if (ColumnsCollection.Contains(Host.SelectedElement) == false)
-            {
-                return;
-            }
-
-            var bDataGridColumnInfo = ((BDataGridColumnWpf) Host.SelectedElement).Model;
-
-            Model.Columns.Remove(bDataGridColumnInfo);
-            Refresh();
+            _label.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
         }
         #endregion
 
@@ -185,11 +114,8 @@ namespace BOA.OneDesigner.WpfControls
 
             OnAttachToEventBus?.Invoke();
 
-            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.Subscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
 
         public void DeAttachToEventBus()
@@ -200,11 +126,9 @@ namespace BOA.OneDesigner.WpfControls
             }
 
             OnDeAttachToEventBus?.Invoke();
-            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
+
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
         #endregion
     }
