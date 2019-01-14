@@ -1,13 +1,11 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-    static class BDataGridRenderer
+    static class BComboBoxRenderer
     {
 
         internal static string EvaluateMethodNameOfGridColumns(WriterContext writerContext, BDataGrid data)
@@ -31,7 +29,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            var fieldPath=TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value+data.SelectedRowDataBindingPath);
+            var fieldPath             =TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value+data.SelectedRowDataBindingPath);
             var dataSourceBindingPath =TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value+data.DataSourceBindingPath);
 
             sb.AppendLine("const request:any = FormAssistant.getWindowRequest(this);");

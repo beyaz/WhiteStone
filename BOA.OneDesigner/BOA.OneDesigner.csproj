@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppModel\DragHelper.cs" />
+    <Compile Include="CodeGeneration\BComboBoxRenderer.cs" />
     <Compile Include="CodeGeneration\BDataGridRenderer.cs" />
     <Compile Include="Helpers\Error.cs" />
     <Compile Include="AppModel\EventBus.cs" />
