@@ -42,6 +42,8 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(bInput);
             #endregion
 
+
+
             #region bCard
             var bCard = new BCardWpf
             {

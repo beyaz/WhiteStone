@@ -4,9 +4,7 @@ using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
-    /// <summary>
-    ///     The data grid
-    /// </summary>
+
     [Serializable]
     public class BDataGrid:BField
     {
@@ -28,7 +26,25 @@ namespace BOA.OneDesigner.JsxElementModel
         public string DataSourceBindingPath { get; set; }
 
 
-        public  string DataSourceBindingPathInTypeScript => TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + DataSourceBindingPath);
+        public string DataSourceBindingPathInTypeScript => TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + DataSourceBindingPath);
         #endregion
+    }
+
+    /// <summary>
+    ///     The data grid
+    /// </summary>
+    [Serializable]
+    public class BComboBox:BField
+    {
+        public LabelInfo LabelInfo { get; set; } = new LabelInfo();
+
+        public string ValueMemberPath { get; set; }
+
+        public string DisplayMemberPath { get; set; }
+
+        public string SelectedValueBindingPath { get; set; }
+
+        public BDataGrid DataGrid { get; set; } = new BDataGrid();
+
     }
 }

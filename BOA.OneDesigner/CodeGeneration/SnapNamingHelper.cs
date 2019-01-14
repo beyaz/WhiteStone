@@ -23,7 +23,10 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
         }
-        
+        public static void InitSnapName(BComboBox data)
+        {
+            data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
+        }
         public static void InitSnapName(BAccountComponent data)
         {
             data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;

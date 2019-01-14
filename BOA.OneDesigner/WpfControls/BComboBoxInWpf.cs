@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
@@ -8,43 +7,15 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    /// <summary>
-    ///     Interaction logic for BDataGridInfoWpf.xaml
-    /// </summary>
-    public partial class BDataGridInfoWpf : IHostItem, ISupportSizeInfo, IEventBusListener
+    class BComboBoxInWpf:StackPanel, IHostItem, ISupportSizeInfo, IEventBusListener
     {
-        #region Constructors
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="BCardWpf" /> class.
-        /// </summary>
-        public BDataGridInfoWpf()
-        {
-            InitializeComponent();
-        }
-        #endregion
-
-        #region Public Properties
-        public UIElementCollection ColumnsCollection => _columnsContainer.Children;
-
-        public Host Host { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether this instance is entered drop location mode.
-        /// </summary>
+        public Host Host                      { get; set; }
+        public bool IsInToolbox               { get; set; }
         public bool IsEnteredDropLocationMode { get; set; }
 
-        /// <summary>
-        ///     Gets or sets a value indicating whether this instance is in toolbox.
-        /// </summary>
-        public bool IsInToolbox { get; set; }
-
-        /// <summary>
-        ///     Gets the data.
-        /// </summary>
-        public BDataGrid Model => (BDataGrid) DataContext;
+        public BComboBox Model => (BComboBox) DataContext;
 
         public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
-        #endregion
 
         #region Public Methods
         /// <summary>

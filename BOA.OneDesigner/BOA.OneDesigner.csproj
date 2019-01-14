@@ -125,6 +125,7 @@
     <Compile Include="PropertyEditors\BDataGridColumnInfoEditor.cs" />
     <Compile Include="PropertyEditors\BTabBarPageEditor.cs" />
     <Compile Include="PropertyEditors\BTabBarEditor.cs" />
+    <Compile Include="WpfControls\BComboBoxInWpf.cs" />
     <Compile Include="WpfControls\BDataGridColumnWpf.xaml.cs">
       <DependentUpon>BDataGridColumnWpf.xaml</DependentUpon>
     </Compile>

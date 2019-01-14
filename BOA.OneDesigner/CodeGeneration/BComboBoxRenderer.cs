@@ -8,43 +8,18 @@ namespace BOA.OneDesigner.CodeGeneration
     static class BComboBoxRenderer
     {
 
-        internal static string EvaluateMethodNameOfGridColumns(WriterContext writerContext, BDataGrid data)
+        internal static string EvaluateMethodNameOfGridColumns(WriterContext writerContext, BComboBox data)
         {
-            var last = data?.DataSourceBindingPath?.SplitAndClear(".")?.LastOrDefault();
+            var last = data?.SelectedValueBindingPath?.SplitAndClear(".")?.LastOrDefault();
 
-            return "getDataGridColumnsOf" + last;
+            return "getComboBoxColumnsOf" + last;
         }
 
-        internal static string EvaluateMethodNameOfGridRowSelectionChanged(WriterContext writerContext, BDataGrid data)
-        {
-            var last = data?.DataSourceBindingPath?.SplitAndClear(".")?.LastOrDefault();
-
-            return "on"+last+"RowSelectionChanged";
-        }
-
-        internal static string EvaluateMethodBodyOfGridRowSelectionChanged(string methodName, WriterContext writerContext, BDataGrid data)
-        {
-            var sb = new PaddedStringBuilder();
-            sb.AppendLine(methodName+"()");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            var fieldPath             =TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value+data.SelectedRowDataBindingPath);
-            var dataSourceBindingPath =TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value+data.DataSourceBindingPath);
-
-            sb.AppendLine("const request:any = FormAssistant.getWindowRequest(this);");
-            sb.AppendLine("("+fieldPath+$" = {dataSourceBindingPath} as any[]).find(x => x.isSelected);");
-            sb.AppendLine($"FormAssistant.executeWindowRequest(this,\"{data.RowSelectionChangedOrchestrationMethod}\");");
-
-         
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            return sb.ToString();
-        }
+      
+      
 
 
-        internal static string EvaluateMethodBodyOfGridColumns(string methodName, WriterContext writerContext, BDataGrid data)
+        internal static string EvaluateMethodBodyOfGridColumns(string methodName, WriterContext writerContext, BComboBox data)
         {
             var sb = new PaddedStringBuilder();
             sb.AppendLine(methodName+"(request:any) : any[]");
@@ -53,7 +28,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("const columns: any[] = [];");
             var isFirst = true;
-            foreach (var bDataGridColumnInfo in data.Columns)
+            foreach (var bDataGridColumnInfo in data.DataGrid.Columns)
             {
                 sb.AppendLine();
                 sb.AppendLine("// "+bDataGridColumnInfo.BindingPath);
@@ -85,7 +60,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine($"column.name = {labelValue};");
                 }
 
-                var propertyInfo = writerContext.RequestIntellisenseData.FindPropertyInfoInCollectionFirstGenericArgumentType(data.DataSourceBindingPath,bDataGridColumnInfo.BindingPath);
+                var propertyInfo = writerContext.RequestIntellisenseData.FindPropertyInfoInCollectionFirstGenericArgumentType(data.DataGrid.DataSourceBindingPath,bDataGridColumnInfo.BindingPath);
                 
                 if (propertyInfo.IsDecimal||propertyInfo.IsDecimalNullable)
                 {
@@ -117,9 +92,9 @@ namespace BOA.OneDesigner.CodeGeneration
         }
 
         #region Public Methods
-        public static void Write(WriterContext writerContext, BDataGrid data)
+        public static void Write(WriterContext writerContext, BComboBox data)
         {
-            writerContext.Imports.Add("import { BDataGrid } from \"b-data-grid\"");
+            writerContext.Imports.Add("import { BComboBox } from \"b-combo-box\"");
 
             var sb         = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
@@ -130,41 +105,51 @@ namespace BOA.OneDesigner.CodeGeneration
             var methodNameOfGridColumns = EvaluateMethodNameOfGridColumns(writerContext,data);
             writerContext.ClassBody.Add(EvaluateMethodBodyOfGridColumns(methodNameOfGridColumns,writerContext,data));
 
-            var rowSelectionChangedMethodName = EvaluateMethodNameOfGridRowSelectionChanged(writerContext,data);
-            writerContext.ClassBody.Add(EvaluateMethodBodyOfGridRowSelectionChanged(rowSelectionChangedMethodName,writerContext,data));
-            writerContext.ConstructorBody.Add($"this.{rowSelectionChangedMethodName} = this.{rowSelectionChangedMethodName}.bind(this);");
+           
+
+            var selectedValueBindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.SelectedValueBindingPath);
+            var valueMemberPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.ValueMemberPath);
+
+            sb.AppendLine($"<BComboBox  dataSource = {{{data.DataGrid.DataSourceBindingPathInTypeScript}}}");
+
+            sb.AppendLine($"value={selectedValueBindingPath}");
+            sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("if (selectedItems && selectedItems.length === 1)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine($"{selectedValueBindingPath} = selectedItems[0].{valueMemberPath};");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+            sb.AppendLine("else");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine($"{selectedValueBindingPath} = null;");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}}");
 
 
-
-            sb.AppendLine($"<BDataGrid  dataSource = {{{data.DataSourceBindingPathInTypeScript}}}");
-
-            sb.AppendLine("selectable={'single'}");
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
             
-
+            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
+            if (labelValue != null)
+            {
+                sb.Append($"labelText = {{{labelValue}}},");
+            }
 
 
             sb.AppendLine("columns = {this."+methodNameOfGridColumns+"(request)}");
-            sb.AppendLine("onRowSelectionChanged={this."+rowSelectionChangedMethodName+"}");
-
-            sb.AppendLine("headerBarOptions={{");
-
-            sb.PaddingCount++;
-
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.TitleInfo);
-            if (labelValue != null)
-            {
-                sb.Append("showTitle:true,");
-                sb.Append($"title = {{{labelValue}}},");
-            }
-
-            sb.AppendLine("show: true,");
-            sb.AppendLine("showMoreOptions: true,");
-            sb.AppendLine("showFiltering: true,");
-            sb.AppendLine("showGrouping: true");
-            sb.PaddingCount--;
-            sb.AppendLine("}}");
+            sb.AppendLine("multiColumn={true}");
+            sb.AppendLine("multiSelect={false}");
+            sb.AppendLine($"valueMemberPath={{{data.ValueMemberPath}}}");
+            sb.AppendLine($"displayMemberPath={{{data.DisplayMemberPath}}}");
+            
 
             sb.AppendLine("context = {context}/>");
         }

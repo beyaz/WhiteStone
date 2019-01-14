@@ -64,6 +64,21 @@ namespace BOA.OneDesigner.CodeGeneration
                     continue;
                 }
 
+                var bComboBox = item as BComboBox;
+                if (bComboBox != null)
+                {
+                    writerContext.Output = new PaddedStringBuilder();
+
+                    BComboBoxRenderer.Write(writerContext, bComboBox);
+
+                    subComponents.Add(writerContext.Output.ToString());
+
+                    writerContext.Output = sb;
+
+                    continue;
+                }
+                
+
                 var bDataGrid = item as BDataGrid;
                 if (bDataGrid != null)
                 {
