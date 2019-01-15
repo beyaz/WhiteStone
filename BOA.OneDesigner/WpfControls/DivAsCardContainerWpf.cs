@@ -217,13 +217,26 @@ namespace BOA.OneDesigner.WpfControls
 
         void Should_refresh_when_any_my_child_component_moved_or_deleted()
         {
-            var isMyChild = Children.Contains(Host.SelectedElement);
-            if (isMyChild)
+            if (!SelectedElementIsMyChild)
             {
-                Refresh();
+                return;
             }
+
+            Refresh();
         }
 
+        bool SelectedElementIsMyChild => Children.Contains(Host.SelectedElement);
+
+        void OnWideChanged()
+        {
+            if (!SelectedElementIsMyChild)
+            {
+                return;
+            }
+
+            CardLayout.ApplyForCardsContainer(this);
+        }
+        
 
         #region IEventBusListener
         public event Action OnAttachToEventBus;
@@ -240,6 +253,7 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
             Host.EventBus.Subscribe(EventBus.ComponentDeleted, Should_delete_and_refresh_if_my_child_selected);
             Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.Subscribe(EventBus.WideChanged, OnWideChanged);
         }
 
         public void DeAttachToEventBus()
@@ -254,6 +268,7 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
             Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Should_delete_and_refresh_if_my_child_selected);
             Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.WideChanged, OnWideChanged);
         }
         #endregion
     }

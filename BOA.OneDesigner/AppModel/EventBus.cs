@@ -19,6 +19,8 @@ namespace BOA.OneDesigner.AppModel
         public const string OnDragStarted              = nameof(OnDragStarted);
         public const string RefreshFromDataContext     = nameof(RefreshFromDataContext);
         public const string TabBarPageRemoved          = nameof(TabBarPageRemoved);
+
+        public const string WideChanged = nameof(WideChanged);
         #endregion
 
         #region Fields
@@ -39,6 +41,8 @@ namespace BOA.OneDesigner.AppModel
                 return count;
             }
         }
+
+        
         #endregion
 
         #region Public Methods

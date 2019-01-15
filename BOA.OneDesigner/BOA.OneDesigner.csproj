@@ -107,12 +107,12 @@
     <Compile Include="CodeGeneration\RenderHelper.cs" />
     <Compile Include="CodeGeneration\SnapNamingHelper.cs" />
     <Compile Include="CodeGeneration\TransactionPage.cs" />
-    <Compile Include="Helpers\LayoutPropWideConverter.cs" />
     <Compile Include="JsxElementModel\BDataGrid.cs" />
     <Compile Include="JsxElementModel\BindingPrefix.cs" />
     <Compile Include="JsxElementModel\BTabBarPage.cs" />
     <Compile Include="JsxElementModel\LayoutProps.cs" />
     <Compile Include="PropertyEditors\BComboBoxEditor.cs" />
+    <Compile Include="PropertyEditors\HorizontalLocationEditor.cs" />
     <Compile Include="PropertyEditors\SizeEditor.cs" />
     <Compile Include="JsxElementModel\ComponentSize.cs" />
     <Compile Include="JsxElementModel\Container.cs" />
@@ -126,6 +126,8 @@
     <Compile Include="PropertyEditors\BDataGridColumnInfoEditor.cs" />
     <Compile Include="PropertyEditors\BTabBarPageEditor.cs" />
     <Compile Include="PropertyEditors\BTabBarEditor.cs" />
+    <Compile Include="PropertyEditors\WideEditor.cs" />
+    <Compile Include="PropertyEditors\WideEditorBase.cs" />
     <Compile Include="WpfControls\BComboBoxInWpf.cs" />
     <Compile Include="WpfControls\BDataGridColumnWpf.xaml.cs">
       <DependentUpon>BDataGridColumnWpf.xaml</DependentUpon>

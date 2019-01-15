@@ -1,7 +1,6 @@
 ﻿using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
@@ -20,14 +19,15 @@ namespace BOA.OneDesigner.PropertyEditors
 
 { 
     Margin:10,
-	Childs:[  
+	Childs:[
+
 		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(BCard.TitleInfo) + @"}'},
         
         
-        {ui:'TextBox',Label:'Wide',MarginTop:10, Text:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.Wide) + @", Converter=" + typeof(LayoutPropWideConverter).FullName + @"}', KeyUp:'FirePropertyChanged' },
-        {ui:'TextBox',Label:'X',  MarginTop:10,  Text:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.X) + @", Converter=" + typeof(LayoutPropWideConverter).FullName + @"}', KeyUp:'FirePropertyChanged' },
+        {ui:'WideEditor',               MarginTop:10, Value:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.Wide) + @"}' },
+        {ui:'HorizontalLocationEditor', MarginTop:10, Value:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.X)    + @"}' },
 
-        {ui:'Slider',Maximum:12,TickPlacement:'BottomRight',TickFrequency:3,IsSnapToTickEnabled:true,Margin:10},
+        
 
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
