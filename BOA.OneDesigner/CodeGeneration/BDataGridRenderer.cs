@@ -35,7 +35,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var dataSourceBindingPath =TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value+data.DataSourceBindingPath);
 
             sb.AppendLine("const request:any = FormAssistant.getWindowRequest(this);");
-            sb.AppendLine("("+fieldPath+$" = {dataSourceBindingPath} as any[]).find(x => x.isSelected);");
+            sb.AppendLine(fieldPath+$" = ({dataSourceBindingPath} as any[]).find(x => x.isSelected);");
             sb.AppendLine($"FormAssistant.executeWindowRequest(this,\"{data.RowSelectionChangedOrchestrationMethod}\");");
 
          
@@ -88,21 +88,25 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
 
                 var propertyInfo = writerContext.RequestIntellisenseData.FindPropertyInfoInCollectionFirstGenericArgumentType(data.DataSourceBindingPath,bDataGridColumnInfo.BindingPath);
-                
-                if (propertyInfo.IsDecimal||propertyInfo.IsDecimalNullable)
+
+                if (propertyInfo != null)
                 {
-                    sb.AppendLine("column.type = 'number';"); 
-                    sb.AppendLine("column.numberFormat = 'M';"); 
+                    if (propertyInfo.IsDecimal||propertyInfo.IsDecimalNullable)
+                    {
+                        sb.AppendLine("column.type = 'number';"); 
+                        sb.AppendLine("column.numberFormat = 'M';"); 
                     
+                    }
+                    else if (propertyInfo.IsNumber)
+                    {
+                        sb.AppendLine("column.type = 'number';");    
+                    }
+                    else if (propertyInfo.IsDate||propertyInfo.IsDateNullable)
+                    {
+                        sb.AppendLine("column.type = 'date';");    
+                    }
                 }
-                else if (propertyInfo.IsNumber)
-                {
-                    sb.AppendLine("column.type = 'number';");    
-                }
-                else if (propertyInfo.IsDate||propertyInfo.IsDateNullable)
-                {
-                    sb.AppendLine("column.type = 'date';");    
-                }
+                
 
                 sb.AppendLine("columns.push(column);"); 
                 

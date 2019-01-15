@@ -112,6 +112,7 @@
     <Compile Include="BTabBarWpfTest.cs" />
     <Compile Include="CardLayoutTest.cs" />
     <Compile Include="CardWpfTest.cs" />
+    <Compile Include="CodeGeneration\SnapNamingHelperTest.cs" />
     <Compile Include="Helper\CecilHelperTest.cs" />
     <Compile Include="DataGridWpfTest.cs" />
     <Compile Include="DivAsCardContainerWpfTest.cs" />

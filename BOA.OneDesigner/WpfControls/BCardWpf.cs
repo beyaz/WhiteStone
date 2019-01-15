@@ -29,6 +29,7 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = Host.SelectedElement as BInputWpf;
             var dataGridInfoWpf = Host.SelectedElement as BDataGridInfoWpf;
             var tabControlWpf = Host.SelectedElement as BTabBarWpf;
+            var bComboBoxInWpf = Host.SelectedElement as BComboBoxInWpf;
 
 
             if (bInput != null)
@@ -42,6 +43,10 @@ namespace BOA.OneDesigner.WpfControls
             else if (tabControlWpf != null)
             {
                 tabControlWpf.Model.RemoveFromParent();
+            }
+            else if (bComboBoxInWpf != null)
+            {
+                bComboBoxInWpf.Model.RemoveFromParent();
             }
             else
             {

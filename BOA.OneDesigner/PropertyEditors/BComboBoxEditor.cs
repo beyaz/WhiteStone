@@ -27,6 +27,9 @@ namespace BOA.OneDesigner.PropertyEditors
         {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true, Margin:5, Text:'{Binding " + nameof(BComboBox.IsVisibleBindingPath) + @"}', Label:'Is Visible' },
         {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true, Margin:5, Text:'{Binding " + nameof(BComboBox.IsDisabledBindingPath) + @"}', Label:'Is Disabled' },
 
+        {ui:'RequestIntellisenseTextBox', SearchByCurrentSelectedDataGridDataSourceContract:true, Margin:5, Text:'{Binding " + nameof(BComboBox.ValueMemberPath) + @"}', Label:'Value Member Path' },
+        {ui:'RequestIntellisenseTextBox', SearchByCurrentSelectedDataGridDataSourceContract:true, Margin:5, Text:'{Binding " + nameof(BComboBox.DisplayMemberPath) + @"}', Label:'Display Member Path' },
+
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }

@@ -108,18 +108,18 @@ namespace BOA.OneDesigner.CodeGeneration
 
             SnapNamingHelper.InitSnapName(data);
 
-            
-            var methodNameOfGridColumns = EvaluateMethodNameOfGridColumns(writerContext,data);
-            writerContext.ClassBody.Add(EvaluateMethodBodyOfGridColumns(methodNameOfGridColumns,writerContext,data));
+
+            writerContext.ClassBody.Add(EvaluateMethodBodyOfGridColumns(data.TypeScriptMethodNameOfGetGridColumns,writerContext,data));
 
            
 
             var selectedValueBindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.SelectedValueBindingPath);
-            var valueMemberPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.ValueMemberPath);
+            var valueMemberPath = TypescriptNaming.NormalizeBindingPath( data.ValueMemberPath);
+            var displayMemberPath = TypescriptNaming.NormalizeBindingPath( data.DisplayMemberPath);
 
             sb.AppendLine($"<BComboBox  dataSource = {{{data.DataGrid.DataSourceBindingPathInTypeScript}}}");
 
-            sb.AppendLine($"value={selectedValueBindingPath}");
+            sb.AppendLine($"value={{{selectedValueBindingPath}}}");
             sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -147,15 +147,15 @@ namespace BOA.OneDesigner.CodeGeneration
             var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
             if (labelValue != null)
             {
-                sb.Append($"labelText = {{{labelValue}}},");
+                sb.Append($"labelText = {{{labelValue}}}");
             }
 
 
-            sb.AppendLine("columns = {this."+methodNameOfGridColumns+"(request)}");
+            sb.AppendLine("columns = {this."+data.TypeScriptMethodNameOfGetGridColumns+"(request)}");
             sb.AppendLine("multiColumn={true}");
             sb.AppendLine("multiSelect={false}");
-            sb.AppendLine($"valueMemberPath={{{data.ValueMemberPath}}}");
-            sb.AppendLine($"displayMemberPath={{{data.DisplayMemberPath}}}");
+            sb.AppendLine($"valueMemberPath=\"{valueMemberPath}\"");
+            sb.AppendLine($"displayMemberPath=\"{displayMemberPath}\"");
             
 
             sb.AppendLine("context = {context}/>");

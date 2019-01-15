@@ -17,12 +17,23 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
 
+            var isString = true;
+            var isDecimal = false;
+
+
+
             var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName, data.BindingPath);
 
-            var isDecimal = CecilHelper.FullNameOfNullableDecimal == propertyDefinition.PropertyType.FullName ||
-                            propertyDefinition.PropertyType.FullName == typeof(decimal).FullName;
+            if (propertyDefinition != null)
+            {
+                
+                isDecimal = CecilHelper.FullNameOfNullableDecimal == propertyDefinition.PropertyType.FullName ||
+                                propertyDefinition.PropertyType.FullName == typeof(decimal).FullName;
 
-            var isString = propertyDefinition.PropertyType.FullName == typeof(string).FullName;
+                isString = propertyDefinition.PropertyType.FullName == typeof(string).FullName;
+
+            }
+           
 
             var bindingPathInJs = data.BindingPathInTypeScript;
 

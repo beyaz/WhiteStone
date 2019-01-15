@@ -13,6 +13,23 @@ namespace BOA.OneDesigner.WpfControls
     /// </summary>
     public partial class BDataGridInfoWpf : IHostItem, ISupportSizeInfo, IEventBusListener
     {
+
+        void OnDataGridColumnAdded()
+        {
+            if (Host.SelectedElement != this)
+            {
+                return;
+            }
+
+            Model.Columns.Add(new BDataGridColumnInfo
+            {
+                Label = LabelInfoHelper.CreateNewLabelInfo()
+            });
+
+            Refresh();
+
+        }
+
         #region Constructors
         /// <summary>
         ///     Initializes a new instance of the <see cref="BCardWpf" /> class.
@@ -43,7 +60,7 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         public BDataGrid Model => (BDataGrid) DataContext;
 
-        public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
+        public SizeInfo SizeInfo => Model.SizeInfo;
         #endregion
 
         #region Public Methods
@@ -60,6 +77,7 @@ namespace BOA.OneDesigner.WpfControls
                 if (Model.Columns.Contains(dataGridColumnWpf.Model))
                 {
                     InsertHelper.Move(Model.Columns, dataGridColumnWpf.Model, insertIndex);
+                    Refresh();
                 }
 
                 return;
@@ -216,8 +234,7 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.Subscribe(EventBus.DataGridColumnAdded, OnDataGridColumnAdded);
             Host.EventBus.Subscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
         }
 
@@ -231,8 +248,7 @@ namespace BOA.OneDesigner.WpfControls
             OnDeAttachToEventBus?.Invoke();
             Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.DataGridColumnAdded, OnDataGridColumnAdded);
             Host.EventBus.UnSubscribe(EventBus.DataGridColumnRemoved, OnColumnRemoved);
         }
         #endregion

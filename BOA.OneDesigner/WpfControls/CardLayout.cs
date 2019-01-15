@@ -93,7 +93,8 @@ namespace BOA.OneDesigner.WpfControls
                 var sizeInfo = (item as ISupportSizeInfo)?.SizeInfo;
                 if (sizeInfo == null )
                 {
-                    throw Error.InvalidOperation();
+                    sizeInfo = new SizeInfo{ IsLarge = true};
+                    //throw Error.InvalidOperation();
                 }
 
                 var isLast = item == elements.Last();

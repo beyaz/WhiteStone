@@ -9,6 +9,7 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BDataGrid:BField
     {
+        public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsMedium = true};
         public string SelectedRowDataBindingPath { get; set; }
 
         public string RowSelectionChangedOrchestrationMethod { get; set; }
@@ -55,5 +56,6 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public BDataGrid DataGrid { get; set; } = new BDataGrid();
 
+        internal string TypeScriptMethodNameOfGetGridColumns { get; set; }
     }
 }

@@ -64,6 +64,12 @@ namespace BOA.OneDesigner.WpfControls
             var column = Host.LastSelectedUIElement as BDataGridColumnWpf;
 
             Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath = column?.BDataGridInfoWpf?.Model?.DataSourceBindingPath;
+
+            var bComboBoxInWpf = Host.LastSelectedUIElement  as BComboBoxInWpf;
+            if (bComboBoxInWpf != null)
+            {
+                Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath = bComboBoxInWpf.Model.DataGrid.DataSourceBindingPath;
+            }
         }
 
         void EnterDropLocationMode()

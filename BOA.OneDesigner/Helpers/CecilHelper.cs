@@ -315,45 +315,48 @@ namespace BOA.OneDesigner.Helpers
             var orchestrationTypeFullName = requestTypeFullName.Replace(".Types.", ".Orchestration.").RemoveFromEnd("Request");
 
             var orchestrationTypeDefinition = FindType(orchestrationAssemblyPath, orchestrationTypeFullName);
-            foreach (var methodDefinition in orchestrationTypeDefinition.Methods)
+            if (orchestrationTypeDefinition != null)
             {
-                if (!methodDefinition.IsPublic)
+                foreach (var methodDefinition in orchestrationTypeDefinition.Methods)
                 {
-                    continue;
-                }
+                    if (!methodDefinition.IsPublic)
+                    {
+                        continue;
+                    }
 
-                if (methodDefinition.Parameters.Count != 2)
-                {
-                    continue;
-                }
+                    if (methodDefinition.Parameters.Count != 2)
+                    {
+                        continue;
+                    }
 
-                if (methodDefinition.Parameters[0].ParameterType.FullName != requestTypeFullName)
-                {
-                    continue;
-                }
+                    if (methodDefinition.Parameters[0].ParameterType.FullName != requestTypeFullName)
+                    {
+                        continue;
+                    }
 
-                if (methodDefinition.Parameters[1].ParameterType.FullName != "BOA.Base.ObjectHelper")
-                {
-                    continue;
-                }
+                    if (methodDefinition.Parameters[1].ParameterType.FullName != "BOA.Base.ObjectHelper")
+                    {
+                        continue;
+                    }
 
-                var returnType = methodDefinition.ReturnType as GenericInstanceType;
-                if (returnType == null)
-                {
-                    continue;
-                }
+                    var returnType = methodDefinition.ReturnType as GenericInstanceType;
+                    if (returnType == null)
+                    {
+                        continue;
+                    }
 
-                if (returnType.GenericArguments.Count != 1)
-                {
-                    continue;
-                }
+                    if (returnType.GenericArguments.Count != 1)
+                    {
+                        continue;
+                    }
 
-                if (returnType.GenericArguments[0].FullName != requestTypeFullName)
-                {
-                    continue;
-                }
+                    if (returnType.GenericArguments[0].FullName != requestTypeFullName)
+                    {
+                        continue;
+                    }
 
-                data.OrchestrationMethods.Add(methodDefinition.Name);
+                    data.OrchestrationMethods.Add(methodDefinition.Name);
+                }
             }
 
             return data;
@@ -404,6 +407,7 @@ namespace BOA.OneDesigner.Helpers
 
                 if (propertyDefinition.PropertyType.IsValueType == false)
                 {
+                    data.RequestPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
                     CollectProperties(data, pathPrefix + propertyDefinition.Name + ".", propertyDefinition.PropertyType.Resolve());
                 }
             }

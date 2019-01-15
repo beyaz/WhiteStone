@@ -15,6 +15,7 @@ namespace BOA.OneDesigner.Helper
 
             data.RequestPropertyIntellisense.Should().Contain("FileId");
             data.RequestPropertyIntellisense.Should().Contain("Account.IBAN");
+            data.RequestPropertyIntellisense.Should().Contain("Account");
         }
 
         [TestMethod]

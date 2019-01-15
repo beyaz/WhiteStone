@@ -11,6 +11,7 @@ namespace BOA.OneDesigner.AppModel
         #region Constants
         public const string BeforeDragElementSelected  = nameof(BeforeDragElementSelected);
         public const string ComponentDeleted           = nameof(ComponentDeleted);
+        public const string DataGridColumnAdded        = nameof(DataGridColumnAdded);
         public const string DataGridColumnRemoved      = nameof(DataGridColumnRemoved);
         public const string OnAfterDropOperation       = nameof(OnAfterDropOperation);
         public const string OnComponentPropertyChanged = nameof(OnComponentPropertyChanged);

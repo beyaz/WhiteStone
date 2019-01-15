@@ -56,7 +56,7 @@ namespace BOA.OneDesigner.WpfControls
 
         public BComboBox Model => (BComboBox) DataContext;
 
-        public SizeInfo SizeInfo { get; } = new SizeInfo {IsMedium = true};
+        public SizeInfo SizeInfo => Model.SizeInfo;
         #endregion
 
         #region Public Methods
@@ -74,6 +74,8 @@ namespace BOA.OneDesigner.WpfControls
             Host.DeAttachToEventBus(GridContainer.Children);
 
             var bDataGridInfoWpf = Host.CreateBDataGridInfoWpf(Model.DataGrid);
+
+            Host.AttachToEventBus(bDataGridInfoWpf,this);
 
             Host.DragHelper.MakeDraggable(bDataGridInfoWpf);
 

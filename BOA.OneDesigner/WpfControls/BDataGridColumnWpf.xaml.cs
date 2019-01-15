@@ -56,11 +56,20 @@ namespace BOA.OneDesigner.WpfControls
 
         void UpdateBindingPath()
         {
+            if (Host.SelectedElement != this)
+            {
+                return;
+            }
+
             _bindingPath.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
         }
 
         void UpdateLabel()
         {
+            if (Host.SelectedElement != this)
+            {
+                return;
+            }
             _label.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
         }
         #endregion
