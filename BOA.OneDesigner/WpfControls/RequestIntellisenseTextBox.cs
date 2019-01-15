@@ -65,7 +65,7 @@ namespace BOA.OneDesigner.WpfControls
                         return new[] {"ilgili data source path bulunamadı."};
                     }
 
-                    return Host.RequestIntellisenseData.Collections[bindingPath];
+                    return Host.RequestIntellisenseData.Collections[bindingPath].Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
                 }
 
                 if (_requestIntellisenseTextBox.ShowOnlyOrchestrationMethods)

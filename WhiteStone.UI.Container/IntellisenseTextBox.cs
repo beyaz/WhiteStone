@@ -52,6 +52,8 @@ namespace WhiteStone.UI.Container
                 return;
             }
 
+            IntellisenseBox.MaxResults = 5;
+
             EdiTextBox.KeyUp += (s, e) => { UpdateTextFromEditBox(); };
 
             IntellisenseBox.SearchCompleted += UpdateTextFromEditBox;
