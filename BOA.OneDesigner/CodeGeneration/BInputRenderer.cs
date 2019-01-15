@@ -76,7 +76,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
             if (labelValue != null)
             {
-                sb.AppendLine($"floatingLabelText = {labelValue}");
+                sb.AppendLine($"floatingLabelText = {{{labelValue}}}");
             }
 
             if (!String.IsNullOrWhiteSpace(data.IsVisibleBindingPath))

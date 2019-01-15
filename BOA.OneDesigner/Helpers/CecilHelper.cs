@@ -477,6 +477,11 @@ namespace BOA.OneDesigner.Helpers
                 return true;
             }
 
+            if (typeReference.FullName.StartsWith("System.Collections.Generic.IReadOnlyCollection`1<"))
+            {
+                return true;
+            }
+
             if (typeReference.FullName.StartsWith("System.Array"))
             {
                 return true;
