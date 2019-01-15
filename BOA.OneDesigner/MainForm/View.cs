@@ -1,8 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.WpfControls;
+using BOA.UnitTestHelper;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container.Mvc;
 
@@ -34,7 +38,17 @@ namespace BOA.OneDesigner.MainForm
             _toolBox.Host                 = Host;
 
             DesignSurface.AttachToEventBus();
-            
+
+            new Thread(StartAuthenticate).Start();
+
+        }
+
+        static BOATestContextDev Dev => new BOATestContextDev();
+        static void StartAuthenticate()
+        {
+            Dev.AuthenticateUser();
+
+            SM.Set(Dev);
         }
         #endregion
 

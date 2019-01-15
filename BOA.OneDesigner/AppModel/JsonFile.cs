@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
@@ -9,6 +10,25 @@ using BOAPlugins.Messaging;
 
 namespace BOA.OneDesigner.AppModel
 {
+
+    [Serializable]
+    public class Aut_Resource
+    {
+        public string Name { get; set; }
+        public string ResourceCode { get; set; }
+        public override string ToString()
+        {
+            return ResourceCode;
+        }
+    }
+
+    [Serializable]
+    public class Aut_ResourceAction
+    {
+        public string Name         { get; set; }
+        public string ResourceCode { get; set; }
+    }
+
     class JsonFile : IDatabase
     {
         #region Properties
@@ -40,6 +60,8 @@ namespace BOA.OneDesigner.AppModel
 
             return items;
         }
+
+       
 
         public IList<PropertyInfo> GetPropertyNames(string groupName)
         {

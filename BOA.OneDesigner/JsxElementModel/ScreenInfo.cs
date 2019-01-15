@@ -10,5 +10,6 @@ namespace BOA.OneDesigner.JsxElementModel
         public string FormType      { get; set; }
         public string MessagingGroupName { get; set; }
         public object JsxModel      { get; set; }
+        public string ResourceCode { get; set; }
     }
 }

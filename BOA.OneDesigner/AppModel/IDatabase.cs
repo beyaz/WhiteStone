@@ -15,6 +15,7 @@ namespace BOA.OneDesigner.AppModel
         void                  Save(ScreenInfo screenInfo);
 
         IList<PropertyInfo> GetPropertyNames(string groupName);
+
         #endregion
     }
 }

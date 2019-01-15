@@ -16,6 +16,7 @@
             "Content": {
 
               "ui": "StackPanel",
+              "Width": 500,
               "vAlignIsCenter": true,
               "Margin": 20,
               "rows": [
@@ -25,18 +26,17 @@
                   "IntellisenseSource": "{Binding TfsFolderNames}",
                   "Text": "{Binding ScreenInfo.TfsFolderName}",
                   "vAlignIsCenter": true,
-                  "hAlignIsCenter": true,
-                  "MinWidth": 500,
+                  
                   "TextChanged": "this.FireAction('TfsFolderNameChanged')"
                 },
                 {
                   "ui": "TextBox",
+                  "MarginTop": 10,
                   "Label": "Select Request",
                   "IntellisenseSource": "{Binding RequestNames}",
                   "Text": "{Binding ScreenInfo.RequestName}",
                   "vAlignIsCenter": true,
-                  "hAlignIsCenter": true,
-                  "MinWidth": 500,
+                  
                   "TextChanged": "this.FireAction('RequestNameChanged')"
 
                 },
@@ -46,8 +46,8 @@
                   "IntellisenseSource": "{Binding FormTypes}",
                   "Text": "{Binding ScreenInfo.FormType}",
                   "vAlignIsCenter": true,
-                  "hAlignIsCenter": true,
-                  "MinWidth": 500
+                  
+                  "MarginTop": 10
                 },
                 {
                   "ui": "TextBox",
@@ -55,8 +55,16 @@
                   "IntellisenseSource": "{Binding MessagingGroupNames}",
                   "Text": "{Binding ScreenInfo.MessagingGroupName}",
                   "vAlignIsCenter": true,
-                  "hAlignIsCenter": true,
-                  "MinWidth": 500
+                  
+                  "MarginTop": 10
+                },
+                {
+                  "ui": "ResourceCodeTextBox",
+                  "Label": "Ekran Kodu",
+                  "Text": "{Binding ScreenInfo.ResourceCode}",
+                  "vAlignIsCenter": true,
+                  
+                  "MarginTop": 10
                 }
 
               ]

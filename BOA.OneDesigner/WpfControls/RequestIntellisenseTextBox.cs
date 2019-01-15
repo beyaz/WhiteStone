@@ -9,7 +9,10 @@ using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    class RequestIntellisenseTextBox : IntellisenseTextBox
+
+
+
+        class RequestIntellisenseTextBox : IntellisenseTextBox
     {
         #region Constructors
         public RequestIntellisenseTextBox()
