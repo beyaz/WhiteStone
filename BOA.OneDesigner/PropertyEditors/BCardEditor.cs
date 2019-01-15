@@ -27,6 +27,8 @@ namespace BOA.OneDesigner.PropertyEditors
         {ui:'TextBox',Label:'Wide',MarginTop:10, Text:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.Wide) + @", Converter=" + typeof(LayoutPropWideConverter).FullName + @"}', KeyUp:'FirePropertyChanged' },
         {ui:'TextBox',Label:'X',  MarginTop:10,  Text:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.X) + @", Converter=" + typeof(LayoutPropWideConverter).FullName + @"}', KeyUp:'FirePropertyChanged' },
 
+        {ui:'Slider',Maximum:12,TickPlacement:'BottomRight',TickFrequency:3,IsSnapToTickEnabled:true,Margin:10},
+
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }
