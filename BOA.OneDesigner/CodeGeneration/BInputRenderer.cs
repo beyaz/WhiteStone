@@ -19,6 +19,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var isString = true;
             var isDecimal = false;
+            var isBoolean = false;
 
 
 
@@ -31,6 +32,10 @@ namespace BOA.OneDesigner.CodeGeneration
                                 propertyDefinition.PropertyType.FullName == typeof(decimal).FullName;
 
                 isString = propertyDefinition.PropertyType.FullName == typeof(string).FullName;
+
+
+                isBoolean = CecilHelper.FullNameOfNullableBoolean == propertyDefinition.PropertyType.FullName ||
+                            propertyDefinition.PropertyType.FullName == typeof(bool).FullName;
 
             }
            
@@ -63,6 +68,15 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("format = {\"D\"}");
                 sb.AppendLine("maxLength = {22}");
             }
+            else if (isBoolean)
+            {
+                writerContext.Imports.Add("import { BCheckBox } from \"b-check-box\"");
+
+                sb.AppendLine($"<BCheckBox checked = {{{bindingPathInJs}}}");
+                sb.PaddingCount++;
+
+                sb.AppendLine($"onCheck = {{(e: any, value: boolean) => {bindingPathInJs} = value}}");
+            }
             else
             {
                 writerContext.Imports.Add("import { BInputNumeric } from \"b-input-numeric\";");
@@ -76,7 +90,14 @@ namespace BOA.OneDesigner.CodeGeneration
             var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
             if (labelValue != null)
             {
-                sb.AppendLine($"floatingLabelText = {{{labelValue}}}");
+                if (isBoolean)
+                {
+                    sb.AppendLine($"label = {{{labelValue}}}");
+                }
+                else
+                {
+                    sb.AppendLine($"floatingLabelText = {{{labelValue}}}");
+                }
             }
 
             if (!String.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
