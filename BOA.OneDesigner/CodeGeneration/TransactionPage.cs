@@ -29,9 +29,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 {
                     "import * as React from \"react\"",
                     "import { TransactionPage, TransactionPageComposer } from \"b-framework\"",
+                    "import { BFormManager } from \"b-form-manager\"",
                     "import { getMessage } from \"b-framework\"",
                     "import { ComponentSize } from \"b-component\"",
-                    "import { FormAssistant } from \"../utils/FormAssistant\";",
                     "import { BCard } from \"b-card\""
                 },
                 ClassName   = className,
@@ -69,13 +69,198 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             sb.AppendLine("super.componentDidMount();");
-            sb.AppendLine("FormAssistant.componentDidMount(this);");
+
+            sb.AppendLine();
+            sb.AppendLine("if (this.state.$isInitialStateEvaluated)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine("return;");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("if (!this.isReadyToRender())");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine("this.loadData();");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+
 
             sb.PaddingCount--;
             sb.AppendLine("}");
 
             writerContext.AddClassBody(sb.ToString());
         }
+
+
+        static void LoadData(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Evaluates initial states of form.");
+            sb.AppendLine("  *  Invokes 'LoadData' metod in Orchestration class.");
+            sb.AppendLine("  */");
+            sb.AppendLine("loadData()");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("const clonedWindowRequest:any = Object.assign({}, this.getWindowRequest().body); ");
+
+            sb.AppendLine();
+            sb.AppendLine("const formData = this.state.pageParams.data;");
+
+            sb.AppendLine("if (formData != null)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine($"clonedWindowRequest.{writerContext.DataContractAccessPathInWindowRequest} = formData;");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
+            
+
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
+        }
+
+        static void UpdateState(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
+            
+            
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Clones window request object and sets states with this new cloned window request object.");
+            sb.AppendLine("  */");
+            sb.AppendLine("updateState(callback?: () => void)");
+            sb.AppendLine("{");
+            sb.AppendLine("    this.setState({ windowRequest: Object.assign({}, this.state.windowRequest) }, callback);");
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
+        }
+
+        static void IsReadyToRender(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
+            
+            
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Returns true if form is ready to render.");
+            sb.AppendLine("  */");
+            sb.AppendLine("isReadyToRender(): boolean");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+           
+
+            sb.AppendLine("if (this.state.$isWaitingResponse)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("return false;");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("if (this.state.$isInitialStateEvaluated)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("return true;");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+
+            sb.AppendLine();
+
+            sb.AppendLine("return false;");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
+        }
+        static void ExecuteWindowRequest(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
+            
+            
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Sends given requests to server.");
+            sb.AppendLine("  */");
+            sb.AppendLine("executeWindowRequest(orchestrationMethodName: string)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("const windowRequest = this.state.windowRequest;");
+            sb.AppendLine();
+            sb.AppendLine("// form should be re render because form component value changes must be handled");
+
+            sb.AppendLine("this.updateState(() =>");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("const clonedWindowRequest = Object.assign({}, windowRequest);");
+            sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, orchestrationMethodName);");
+
+            sb.PaddingCount--;
+            sb.AppendLine("});");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
+        }
+
+        static void SendWindowRequestToServer(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
+            
+            
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Sends given requests to server.");
+            sb.AppendLine("  */");
+            sb.AppendLine("sendRequestToServer(request: any, orchestrationMethodName: string)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("this.state.$isWaitingResponse = true;");
+            sb.AppendLine();
+            sb.AppendLine("request.methodName = orchestrationMethodName;");
+
+            sb.AppendLine("const proxyRequest:any =");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine($"requestClass:\"{writerContext.ScreenInfo.RequestName}\",");
+            sb.AppendLine("key: orchestrationMethodName,");
+            sb.AppendLine("requestBody: request,");
+            sb.AppendLine("showProgress: false");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.AppendLine("this.proxyTransactionExecute(proxyRequest);");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
+        }
+
 
         static void ProxyDidRespond(WriterContext writerContext)
         {
@@ -84,7 +269,89 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("return FormAssistant.receiveResponse(this,proxyResponse);");
+            
+
+            sb.AppendLine("let isSuccess: boolean = true;");
+
+            sb.AppendLine();
+            sb.AppendLine("if (!proxyResponse.response.success)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+
+            sb.AppendLine("isSuccess = false;");
+            sb.AppendLine();
+            sb.AppendLine("const results = proxyResponse.response.results;");
+            sb.AppendLine();
+            sb.AppendLine("if (results == null)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine("this.showStatusMessage(\"DeveloperError: Genellikle type dll'inin 'd:\\boa\\one\\' folderında olmamasından kaynaklı olabilir. Build eventleri check edin. Check request headers from Developer Tools -> Network tab.\");");
+            sb.AppendLine("return false;");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("const businessResult = results.find(r => r.severity === BOA.Common.Types.Severity.BusinessError);");
+            sb.AppendLine("if (businessResult != undefined)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine("this.showStatusMessage(businessResult.errorMessage);");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+            sb.AppendLine("else");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine("BFormManager.showStatusErrorMessage(`Beklenmedik bir hata oluştu.${JSON.stringify(results, null, 2)}`, []);");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("const incomingRequest = (proxyResponse.response as any).value;");
+            sb.AppendLine("if (incomingRequest == null)");
+            sb.AppendLine("{");
+            sb.AppendLine("    throw new Error(`Orch method:${proxyResponse.key} should return GenericResponse<"+writerContext.ScreenInfo.RequestName+">`);");
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("const state =");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("windowRequest: incomingRequest,");
+            sb.AppendLine("$isInitialStateEvaluated: true,");
+            sb.AppendLine("$isWaitingResponse: false");
+            sb.PaddingCount--;
+            sb.AppendLine("};");
+
+            sb.AppendLine();
+            sb.AppendLine("if (incomingRequest.statusMessage)");
+            sb.AppendLine("{");
+            sb.AppendLine("    BFormManager.showStatusMessage(incomingRequest.statusMessage);");
+            sb.AppendLine("    incomingRequest.statusMessage = null;");
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("this.setWindowRequest(");
+            sb.AppendLine("{");
+            sb.AppendLine("    body: incomingRequest,");
+            sb.AppendLine($"    type:\"{writerContext.ScreenInfo.RequestName}\"");
+            sb.AppendLine("});");
+            sb.AppendLine();
+            sb.AppendLine("this.setState(state);");
+
+            if (writerContext.CanWriteEvaluateActionStates)
+            {
+                sb.AppendLine();
+                sb.AppendLine("this.evaluateActionStates();");    
+            }
+            
+            sb.AppendLine();
+            sb.AppendLine("return isSuccess;");
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -92,16 +359,47 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
-        static void EvaluateActionStates(WriterContext writerContext)
+        static void CalculateEvaluatedActionStates(WriterContext writerContext)
         {
             var resourceActions = writerContext.ScreenInfo.ResourceActions;
             if (resourceActions == null )
             {
+                writerContext.CanWriteEvaluateActionStates = false;
                 return;
             }
 
-            resourceActions = resourceActions.Where(x => x.IsEnabledBindingPath.HasValue()).ToList();
-            if ( resourceActions.Count == 0)
+            writerContext.EvaluatedActionStates = resourceActions.Where(x => x.IsEnabledBindingPath.HasValue()).ToList();
+            if ( writerContext.EvaluatedActionStates.Count == 0)
+            {
+                writerContext.CanWriteEvaluateActionStates = false;
+                return;
+            }
+
+            writerContext.CanWriteEvaluateActionStates = true;
+        }
+
+        static void CalculateDataField(WriterContext writerContext)
+        {
+
+            if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("Data"))
+            {
+                writerContext.DataContractAccessPathInWindowRequest = "data";
+            }
+            else  if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("DataContract"))
+            {
+                writerContext.DataContractAccessPathInWindowRequest = "dataContract";
+            }
+            else
+            {
+                writerContext.DataContractAccessPathInWindowRequest = "?";
+            }
+
+        }
+
+        static void EvaluateActionStates(WriterContext writerContext)
+        {
+            
+            if ( writerContext.EvaluatedActionStates.Count == 0)
             {
                 return;
             }
@@ -111,14 +409,29 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const request: any = FormAssistant.getWindowRequest(this);");
+            sb.AppendLine("const request = this.state.windowRequest;");
 
-            sb.AppendLine();
+            
 
-            foreach (var resourceAction in resourceActions)
+            foreach (var resourceAction in writerContext.EvaluatedActionStates)
             {
+                sb.AppendLine();
+
                 var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsEnabledBindingPath);
-                sb.AppendLine($"FormAssistant.setActionState(this,\"{resourceAction.CommandName}\", {bindingPath});");
+
+
+                sb.AppendLine($"if ({bindingPath})");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine($"this.enableAction(\"{resourceAction.CommandName}\");");
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                sb.AppendLine("else");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine($"this.disableAction(\"{resourceAction.CommandName}\");");
+                sb.PaddingCount--;
+                sb.AppendLine("}");
             }
            
             
@@ -136,7 +449,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("if (!FormAssistant.isReadyToRender(this))");
+            sb.AppendLine("if (!this.isReadyToRender())");
             sb.AppendLine("{");
             sb.PaddingCount++;
             sb.AppendLine("return <div/>;");
@@ -146,7 +459,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine();
             sb.AppendLine("const context = this.state.context;");
 
-            sb.AppendLine("const request: any = FormAssistant.getWindowRequest(this);");
+            sb.AppendLine("const request = this.state.windowRequest;");
 
             sb.AppendLine("return (");
             sb.PaddingCount++;
@@ -165,6 +478,9 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = new PaddedStringBuilder();
 
+            CalculateEvaluatedActionStates(writerContext);
+            CalculateDataField(writerContext);
+
             sb.AppendLine($"class {writerContext.ClassName} extends TransactionPage");
             sb.Append("{");
             sb.PaddingCount++;
@@ -173,8 +489,13 @@ namespace BOA.OneDesigner.CodeGeneration
             
             WriteOnActionClick(writerContext);
             ComponentDidMount(writerContext);
+            LoadData(writerContext);
             ProxyDidRespond(writerContext);
             EvaluateActionStates(writerContext);
+            UpdateState(writerContext);
+            SendWindowRequestToServer(writerContext);
+            ExecuteWindowRequest(writerContext);
+            IsReadyToRender(writerContext);
             Render(writerContext, jsxModel);
             WriteConstructor(writerContext);
 
@@ -205,9 +526,9 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             sb.AppendLine("super(props);");
+            sb.AppendLine();
             sb.AppendLine("this.connect(this);");
-            sb.AppendLine($"FormAssistant.initialize(this, \"{writerContext.ScreenInfo.RequestName}\");");
-
+            sb.AppendLine();
             foreach (var line in writerContext.ConstructorBody)
             {
                 sb.AppendLine(line);
@@ -246,7 +567,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine("FormAssistant.executeWindowRequest(this,command.commandName);");
+                sb.AppendLine("this.executeWindowRequest(command.commandName);");
+                sb.AppendLine();
                 sb.AppendLine("return /*isCompleted*/true;");
 
                 sb.PaddingCount--;

@@ -27,6 +27,11 @@ namespace BOA.OneDesigner.CodeGeneration
         internal static string EvaluateMethodBodyOfGridRowSelectionChanged(string methodName, WriterContext writerContext, BDataGrid data)
         {
             var sb = new PaddedStringBuilder();
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Occurs when the component of '"+data.SnapName+"' row selection changed.");
+            sb.AppendLine("  */");
+
             sb.AppendLine(methodName+"()");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -34,9 +39,11 @@ namespace BOA.OneDesigner.CodeGeneration
             var fieldPath=TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value+data.SelectedRowDataBindingPath);
             var dataSourceBindingPath =TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value+data.DataSourceBindingPath);
 
-            sb.AppendLine("const request:any = FormAssistant.getWindowRequest(this);");
+            sb.AppendLine("const request = this.state.windowRequest;");
+            sb.AppendLine();
             sb.AppendLine(fieldPath+$" = ({dataSourceBindingPath} as any[]).find(x => x.isSelected);");
-            sb.AppendLine($"FormAssistant.executeWindowRequest(this,\"{data.RowSelectionChangedOrchestrationMethod}\");");
+            sb.AppendLine();
+            sb.AppendLine($"this.executeWindowRequest(\"{data.RowSelectionChangedOrchestrationMethod}\");");
 
          
             sb.PaddingCount--;
@@ -53,7 +60,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const columns: any[] = [];");
+            sb.AppendLine("const columns = [];");
             var isFirst = true;
             foreach (var bDataGridColumnInfo in data.Columns)
             {

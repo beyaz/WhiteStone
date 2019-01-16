@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
@@ -75,6 +76,9 @@ namespace BOA.OneDesigner.CodeGeneration
         public RequestIntellisenseData RequestIntellisenseData { get; set; }
         public ScreenInfo              ScreenInfo              { get; set; }
         public SolutionInfo            SolutionInfo            { get; set; }
+        public List<Aut_ResourceAction> EvaluatedActionStates { get; set; }
+        public bool CanWriteEvaluateActionStates { get; set; }
+        public string DataContractAccessPathInWindowRequest { get; set; }
         #endregion
 
         #region Public Methods
