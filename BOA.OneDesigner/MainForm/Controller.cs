@@ -128,6 +128,22 @@ namespace BOA.OneDesigner.MainForm
             }
         }
 
+        public void ResourceCodeChanged()
+        {
+            var screenInfo = Database.GetScreenInfo(Model.ScreenInfo.ResourceCode);
+            if (screenInfo != null)
+            {
+                Model.ScreenInfo   = screenInfo;
+                Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
+            }
+
+            if (Model.SolutionInfo != null)
+            {
+                Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
+            }
+        }
+        
+
         public void Save()
         {
             if (Model.ScreenInfo.JsxModel == null)

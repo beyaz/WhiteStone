@@ -202,7 +202,7 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Returns rows as given type.
         /// </summary>
-        public static IList<T> ToList<T>(this DataTable dt) where T : class, new()
+        public static List<T> ToList<T>(this DataTable dt) where T : class, new()
         {
             if (dt == null)
             {

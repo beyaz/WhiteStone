@@ -38,18 +38,9 @@ namespace BOA.OneDesigner.MainForm
             _toolBox.Host                 = Host;
 
             DesignSurface.AttachToEventBus();
-
-            new Thread(StartAuthenticate).Start();
-
         }
 
-        static BOATestContextDev Dev => new BOATestContextDev();
-        static void StartAuthenticate()
-        {
-            Dev.AuthenticateUser();
-
-            SM.Set(Dev);
-        }
+        
         #endregion
 
         #region Public Properties

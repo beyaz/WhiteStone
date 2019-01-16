@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
+using WhiteStone.Helpers;
 
 namespace BOA.DatabaseAccess
 {
@@ -9,6 +12,29 @@ namespace BOA.DatabaseAccess
     public static class Extensions
     {
         #region Public Methods
+        /// <summary>
+        ///     Gets the records.
+        /// </summary>
+        public static List<TContract> GetRecords<TContract>(this Database database, string sql, params object[] parameters) where TContract : class, new()
+        {
+            database.CommandText = sql;
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                var parameterName = parameters[i] as string;
+                if (parameterName == null)
+                {
+                    const string InvalidParameterName = "InvalidParameterName at index ";
+                    throw new ArgumentException(InvalidParameterName + i);
+                }
+
+                var parameterValue = parameters[i + 1];
+
+                database[parameterName] = parameterValue;
+            }
+
+            return database.ExecuteReader().ToList<TContract>();
+        }
+
         /// <summary>
         ///     Runs the script.
         /// </summary>

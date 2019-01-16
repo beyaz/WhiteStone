@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOA.DatabaseAccess;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.WpfControls;
 using BOA.UI.Types;
 using BOA.UnitTestHelper;
 using BOAPlugins.Messaging;
@@ -33,7 +35,7 @@ namespace BOA.OneDesigner.AppModel
     {
         #region Properties
         static string            CacheDirectory => Log.Directory + "Cache" + Path.DirectorySeparatorChar;
-        static BOATestContextDev Dev            => new BOATestContextDev();
+        static DevelopmentDatabase Dev            => new DevelopmentDatabase();
         static string            FilePath       => CacheDirectory + $"{nameof(GetTfsFolderNames)}.json";
         #endregion
 
@@ -102,6 +104,14 @@ namespace BOA.OneDesigner.AppModel
         public void Save(ScreenInfo screenInfo)
         {
             var path = GetSaveFilePath(screenInfo.RequestName);
+
+            FileHelper.CreateDirectoryIfNotExists(path);
+
+            File.WriteAllBytes(path, BinarySerialization.Serialize(screenInfo));
+
+
+
+            path = GetSaveFilePath(screenInfo.ResourceCode);
 
             FileHelper.CreateDirectoryIfNotExists(path);
 

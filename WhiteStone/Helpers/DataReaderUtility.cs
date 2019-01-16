@@ -49,7 +49,7 @@ namespace WhiteStone.Helpers
         /// <summary>
         ///     Converts <paramref name="dataReader" /> parameter to list of <code>TContract</code>
         /// </summary>
-        public static IList<TContract> ToList<TContract>(this IDataReader dataReader) where TContract : class, new()
+        public static List<TContract> ToList<TContract>(this IDataReader dataReader) where TContract : class, new()
         {
             return ToDataTable(dataReader).ToList<TContract>();
         }

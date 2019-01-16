@@ -21,13 +21,20 @@
               "Margin": 20,
               "rows": [
                 {
+                  "ui": "ResourceCodeTextBox",
+                  "Label": "Ekran Kodu",
+                  "Text": "{Binding ScreenInfo.ResourceCode}",
+                  "TextChanged": "this.FireAction('ResourceCodeChanged')",
+                  "vAlignIsCenter": true
+                },
+                {
                   "ui": "TextBox",
                   "Label": "Select Tfs Project",
                   "IntellisenseSource": "{Binding TfsFolderNames}",
                   "Text": "{Binding ScreenInfo.TfsFolderName}",
                   "vAlignIsCenter": true,
-                  
-                  "TextChanged": "this.FireAction('TfsFolderNameChanged')"
+                  "TextChanged": "this.FireAction('TfsFolderNameChanged')",
+                  "MarginTop": 10
                 },
                 {
                   "ui": "TextBox",
@@ -36,7 +43,7 @@
                   "IntellisenseSource": "{Binding RequestNames}",
                   "Text": "{Binding ScreenInfo.RequestName}",
                   "vAlignIsCenter": true,
-                  
+
                   "TextChanged": "this.FireAction('RequestNameChanged')"
 
                 },
@@ -46,7 +53,7 @@
                   "IntellisenseSource": "{Binding FormTypes}",
                   "Text": "{Binding ScreenInfo.FormType}",
                   "vAlignIsCenter": true,
-                  
+
                   "MarginTop": 10
                 },
                 {
@@ -55,18 +62,9 @@
                   "IntellisenseSource": "{Binding MessagingGroupNames}",
                   "Text": "{Binding ScreenInfo.MessagingGroupName}",
                   "vAlignIsCenter": true,
-                  
-                  "MarginTop": 10
-                },
-                {
-                  "ui": "ResourceCodeTextBox",
-                  "Label": "Ekran Kodu",
-                  "Text": "{Binding ScreenInfo.ResourceCode}",
-                  "vAlignIsCenter": true,
-                  
+
                   "MarginTop": 10
                 }
-
               ]
             }
 
