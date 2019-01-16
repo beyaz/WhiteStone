@@ -115,7 +115,7 @@ namespace BOA.OneDesigner.CodeGeneration
             SnapNamingHelper.InitSnapName(data);
 
 
-            writerContext.ClassBody.Add(EvaluateMethodBodyOfGridColumns(data.TypeScriptMethodNameOfGetGridColumns,writerContext,data));
+            writerContext.AddClassBody(EvaluateMethodBodyOfGridColumns(data.TypeScriptMethodNameOfGetGridColumns,writerContext,data));
 
            
 

@@ -23,7 +23,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var writerContext = new WriterContext
             {
                 ConstructorBody = new List<string>(),
-                ClassBody = new List<string>(),
+                ClassBody = new List<TypeScriptMemberInfo>(),
                 Page = new List<string>(),
                 Imports = new List<string>
                 {
@@ -74,7 +74,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            writerContext.ClassBody.Add(sb.ToString());
+            writerContext.AddClassBody(sb.ToString());
         }
 
         static void ProxyDidRespond(WriterContext writerContext)
@@ -89,7 +89,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            writerContext.ClassBody.Add(sb.ToString());
+            writerContext.AddClassBody(sb.ToString());
         }
 
         static void EvaluateActionStates(WriterContext writerContext)
@@ -126,7 +126,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            writerContext.ClassBody.Add(sb.ToString());
+            writerContext.AddClassBody(sb.ToString());
         }
 
         static void Render(WriterContext writerContext, DivAsCardContainer jsxModel)
@@ -158,7 +158,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            writerContext.ClassBody.Add(sb.ToString());
+            writerContext.AddClassBody(new TypeScriptMemberInfo{Code = sb.ToString(),IsRender = true});
         }
 
         static void WriteClass(WriterContext writerContext, DivAsCardContainer jsxModel)
@@ -179,12 +179,13 @@ namespace BOA.OneDesigner.CodeGeneration
             WriteConstructor(writerContext);
 
 
-
+            // reorder
+            writerContext.ClassBody.Sort(TypeScriptMemberInfo.Compare);
 
             foreach (var member in writerContext.ClassBody)
             {
                 sb.AppendLine();
-                sb.AppendAll(member);
+                sb.AppendAll(member.Code);
                 sb.AppendLine();
             }
 
@@ -216,7 +217,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("}");
 
 
-            writerContext.ClassBody.Insert(1,sb.ToString());   
+            writerContext.AddClassBody(new TypeScriptMemberInfo{Code = sb.ToString(),IsConstructor = true});   
             
         }
 
@@ -253,14 +254,14 @@ namespace BOA.OneDesigner.CodeGeneration
                 #endregion
             }
 
-            writerContext.ClassBody.Add(sb.ToString());
+            writerContext.AddClassBody(sb.ToString());
         }
 
         static void WriteWorkflowFields(WriterContext writerContext)
         {
             if (writerContext.HasWorkflow)
             {
-                writerContext.ClassBody.Add("executeWorkFlow: () => void;");
+                writerContext.AddClassBody(new TypeScriptMemberInfo{Code = "executeWorkFlow: () => void;",IsField = true});
             }
         }
         #endregion

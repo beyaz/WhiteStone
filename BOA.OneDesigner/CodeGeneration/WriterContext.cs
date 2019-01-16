@@ -15,12 +15,54 @@ namespace BOA.OneDesigner.CodeGeneration
         public bool   IsMethod      { get; set; }
         public bool   IsRender      { get; set; }
         #endregion
+
+        #region Public Methods
+        public static int Compare(TypeScriptMemberInfo left, TypeScriptMemberInfo right)
+        {
+            if (left.IsRender && right.IsRender)
+            {
+                return 0;
+            }
+
+            if (left.IsConstructor && right.IsConstructor)
+            {
+                return 0;
+            }
+
+            if (left.IsField && right.IsField)
+            {
+                return 0;
+            }
+
+            if (left.IsMethod && right.IsMethod)
+            {
+                return 0;
+            }
+
+            if (left.IsField)
+            {
+                return -1;
+            }
+
+            if (left.IsConstructor)
+            {
+                return -1;
+            }
+
+            if (left.IsMethod)
+            {
+                return -1;
+            }
+
+            return 1;
+        }
+        #endregion
     }
 
     class WriterContext
     {
         #region Public Properties
-        public List<string> ClassBody { get; set; }
+        public List<TypeScriptMemberInfo> ClassBody { get; set; }
 
         public string              ClassName       { get; set; }
         public List<string>        ConstructorBody { get; set; }
@@ -33,6 +75,18 @@ namespace BOA.OneDesigner.CodeGeneration
         public RequestIntellisenseData RequestIntellisenseData { get; set; }
         public ScreenInfo              ScreenInfo              { get; set; }
         public SolutionInfo            SolutionInfo            { get; set; }
+        #endregion
+
+        #region Public Methods
+        public void AddClassBody(TypeScriptMemberInfo info)
+        {
+            ClassBody.Add(info);
+        }
+
+        public void AddClassBody(string code)
+        {
+            ClassBody.Add(new TypeScriptMemberInfo {Code = code, IsMethod = true});
+        }
         #endregion
     }
 }

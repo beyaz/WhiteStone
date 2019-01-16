@@ -134,10 +134,10 @@ namespace BOA.OneDesigner.CodeGeneration
 
             
             var methodNameOfGridColumns = EvaluateMethodNameOfGridColumns(writerContext,data);
-            writerContext.ClassBody.Add(EvaluateMethodBodyOfGridColumns(methodNameOfGridColumns,writerContext,data));
+            writerContext.AddClassBody(EvaluateMethodBodyOfGridColumns(methodNameOfGridColumns,writerContext,data));
 
             var rowSelectionChangedMethodName = EvaluateMethodNameOfGridRowSelectionChanged(writerContext,data);
-            writerContext.ClassBody.Add(EvaluateMethodBodyOfGridRowSelectionChanged(rowSelectionChangedMethodName,writerContext,data));
+            writerContext.AddClassBody(EvaluateMethodBodyOfGridRowSelectionChanged(rowSelectionChangedMethodName,writerContext,data));
             writerContext.ConstructorBody.Add($"this.{rowSelectionChangedMethodName} = this.{rowSelectionChangedMethodName}.bind(this);");
 
 
