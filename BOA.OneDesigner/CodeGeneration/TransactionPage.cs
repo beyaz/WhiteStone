@@ -10,26 +10,6 @@ using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-    class WriterContext
-    {
-
-        public RequestIntellisenseData RequestIntellisenseData { get; set; }
-        public SolutionInfo SolutionInfo { get; set; }
-
-
-        #region Public Properties
-        public List<string>        ClassBody   { get; set; }
-        public string              ClassName   { get; set; }
-        public bool                HasWorkflow { get; set; }
-        public List<string>        Imports     { get; set; }
-        public PaddedStringBuilder Output      { get; set; }
-
-        public List<string> Page       { get; set; }
-        public ScreenInfo   ScreenInfo { get; set; }
-        public List<string> ConstructorBody { get; set; }
-        #endregion
-    }
-
     static class TransactionPage
     {
         #region Public Methods
@@ -197,6 +177,9 @@ namespace BOA.OneDesigner.CodeGeneration
             EvaluateActionStates(writerContext);
             Render(writerContext, jsxModel);
             WriteConstructor(writerContext);
+
+
+
 
             foreach (var member in writerContext.ClassBody)
             {

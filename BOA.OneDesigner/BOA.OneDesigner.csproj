@@ -89,6 +89,7 @@
     <Compile Include="CodeGeneration\BComboBoxRenderer.cs" />
     <Compile Include="CodeGeneration\BDataGridRenderer.cs" />
     <Compile Include="CodeGeneration\FileNamingHelper.cs" />
+    <Compile Include="CodeGeneration\WriterContext.cs" />
     <Compile Include="Helpers\Error.cs" />
     <Compile Include="AppModel\EventBus.cs" />
     <Compile Include="AppModel\FormType.cs" />
