@@ -76,36 +76,51 @@
             "Content": {
 
               "ui": "Grid",
-              "columns": [
+              "rows": [
                 {
-                  "view": "Toolbox",
+                  "view": "StackPanel",
                   "Margin": 5,
-                  "Name": "_toolBox",
-                  "gravity": 1
+                  "gravity": 1,
+                  "Name": "_screenActionsContainer"
                 },
                 { "view": "GridSplitter" },
                 {
-                  "ui": "Grid",
-                  "rows": [
-                    {
-                      "ui": "ScrollViewer",
-                      "VerticalScrollBarVisibility": "Auto",
 
-                      "Content": {
-                        "ui": "Surface",
-                        "Name": "DesignSurface"
-                      }
+                  "ui": "Grid",
+                  "gravity": 10,
+                  "columns": [
+                    {
+                      "view": "Toolbox",
+                      "Margin": 5,
+                      "Name": "_toolBox",
+                      "gravity": 1
+                    },
+                    { "view": "GridSplitter" },
+                    {
+                      "ui": "Grid",
+                      "rows": [
+                        {
+                          "ui": "ScrollViewer",
+                          "VerticalScrollBarVisibility": "Auto",
+
+                          "Content": {
+                            "ui": "Surface",
+                            "Name": "DesignSurface"
+                          }
+                        }
+
+                      ],
+                      "gravity": 8
+                    },
+                    { "view": "GridSplitter" },
+                    {
+                      "ui": "PropertyEditorContainer",
+                      "Name": "_propertyEditorContainer",
+                      "gravity": 2
                     }
-                    
-                  ],
-                  "gravity": 8
-                },
-                { "view": "GridSplitter" },
-                {
-                  "ui": "PropertyEditorContainer",
-                  "Name": "_propertyEditorContainer",
-                  "gravity": 2
+                  ]
                 }
+
               ]
             }
           }

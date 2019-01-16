@@ -5,6 +5,7 @@ using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.WpfControls;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 using WhiteStone.UI.Container.Mvc;
@@ -115,6 +116,10 @@ namespace BOA.OneDesigner.MainForm
 
         public void RequestNameChanged()
         {
+            if (Model.ScreenInfoGottenFromCache )
+            {
+                return;
+            }
             var screenInfo = Database.GetScreenInfo(Model.ScreenInfo.RequestName);
             if (screenInfo != null)
             {
@@ -126,6 +131,8 @@ namespace BOA.OneDesigner.MainForm
             {
                 Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
             }
+
+            UpdateResourceActions();
         }
 
         public void ResourceCodeChanged()
@@ -133,6 +140,7 @@ namespace BOA.OneDesigner.MainForm
             var screenInfo = Database.GetScreenInfo(Model.ScreenInfo.ResourceCode);
             if (screenInfo != null)
             {
+                Model.ScreenInfoGottenFromCache = true;
                 Model.ScreenInfo   = screenInfo;
                 Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
             }
@@ -141,8 +149,48 @@ namespace BOA.OneDesigner.MainForm
             {
                 Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
             }
+
+            UpdateResourceActions();
+
         }
-        
+
+        void UpdateResourceActions()
+        {
+            var resourceCode = Model.ScreenInfo.ResourceCode;
+            if (string.IsNullOrWhiteSpace(resourceCode))
+            {
+                return;
+            }
+
+            var resourceActions = DEV.GetResourceActions(resourceCode);
+            if (resourceActions.Count == 0)
+            {
+                return;
+            }
+
+
+            if (Model.ScreenInfo.ResourceActions == null)
+            {
+                Model.ScreenInfo.ResourceActions = resourceActions;
+                return;
+            }
+            
+            // merge
+            foreach (var resourceAction in Model.ScreenInfo.ResourceActions)
+            {
+                var existingRecord = resourceActions.FirstOrDefault(x => x.CommandName == resourceAction.CommandName);
+                if (existingRecord == null)
+                {
+                    continue;
+                }
+                existingRecord.IsEnabledBindingPath = resourceAction .IsEnabledBindingPath;
+            }
+
+            Model.ScreenInfo.ResourceActions = resourceActions;
+
+        }
+
+        static readonly DevelopmentDatabase DEV = new DevelopmentDatabase();
 
         public void Save()
         {
@@ -160,6 +208,11 @@ namespace BOA.OneDesigner.MainForm
 
         public void TfsFolderNameChanged()
         {
+            if (Model.ScreenInfoGottenFromCache )
+            {
+                return;
+            }
+
             if (Model.ScreenInfo.TfsFolderName != null)
             {
                 Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using BOA.OneDesigner.AppModel;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -11,5 +13,7 @@ namespace BOA.OneDesigner.JsxElementModel
         public string MessagingGroupName { get; set; }
         public object JsxModel      { get; set; }
         public string ResourceCode { get; set; }
+
+        public List<Aut_ResourceAction> ResourceActions { get; set; }
     }
 }

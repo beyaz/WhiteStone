@@ -14,6 +14,9 @@ namespace BOA.OneDesigner.MainForm
     [Serializable]
     public class Model : ModelBase
     {
+
+        public bool ScreenInfoGottenFromCache { get; set; }
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets a value indicating whether [design tab is visible].

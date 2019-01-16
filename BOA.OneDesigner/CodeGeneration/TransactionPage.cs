@@ -6,6 +6,7 @@ using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
+using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -111,6 +112,43 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.ClassBody.Add(sb.ToString());
         }
 
+        static void EvaluateActionStates(WriterContext writerContext)
+        {
+            var resourceActions = writerContext.ScreenInfo.ResourceActions;
+            if (resourceActions == null )
+            {
+                return;
+            }
+
+            resourceActions = resourceActions.Where(x => x.IsEnabledBindingPath.HasValue()).ToList();
+            if ( resourceActions.Count == 0)
+            {
+                return;
+            }
+
+            var sb = new PaddedStringBuilder();
+            sb.AppendLine("evaluateActionStates()");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("const request: any = FormAssistant.getWindowRequest(this);");
+
+            sb.AppendLine();
+
+            foreach (var resourceAction in resourceActions)
+            {
+                var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsEnabledBindingPath);
+                sb.AppendLine($"FormAssistant.setActionState(this,\"{resourceAction.CommandName}\", {bindingPath});");
+            }
+           
+            
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.ClassBody.Add(sb.ToString());
+        }
+
         static void Render(WriterContext writerContext, DivAsCardContainer jsxModel)
         {
             var sb = new PaddedStringBuilder();
@@ -156,6 +194,7 @@ namespace BOA.OneDesigner.CodeGeneration
             WriteOnActionClick(writerContext);
             ComponentDidMount(writerContext);
             ProxyDidRespond(writerContext);
+            EvaluateActionStates(writerContext);
             Render(writerContext, jsxModel);
             WriteConstructor(writerContext);
 

@@ -20,6 +20,12 @@ namespace BOA.OneDesigner.WpfControls
         {
         }
         #endregion
+
+
+        public List<Aut_ResourceAction> GetResourceActions(string resourceCode)
+        {
+            return this.GetRecords<Aut_ResourceAction>("SELECT Name,CommandName from AUT.ResourceAction WHERE ResourceId = (SELECT  ResourceId from AUT.Resource WITH(NOLOCK) WHERE ResourceCode = @resourceCode OR Name = @resourceCode)", nameof(resourceCode), resourceCode);
+        }
     }
 
     class ResourceCodeTextBox : IntellisenseTextBox

@@ -18,7 +18,7 @@ namespace BOA.DatabaseAccess
         public static List<TContract> GetRecords<TContract>(this Database database, string sql, params object[] parameters) where TContract : class, new()
         {
             database.CommandText = sql;
-            for (var i = 0; i < parameters.Length; i++)
+            for (var i = 0; i < parameters.Length; i+=2)
             {
                 var parameterName = parameters[i] as string;
                 if (parameterName == null)

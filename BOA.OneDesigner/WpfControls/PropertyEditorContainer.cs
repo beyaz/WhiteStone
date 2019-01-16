@@ -41,9 +41,23 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
-        void Refresh()
+        public void Refresh()
         {
+            var resourceAction = DataContext as Aut_ResourceAction;
+            if ( resourceAction != null)
+            {
+
+                Content = new ResourceActionEditor
+                {
+                    DataContext = resourceAction
+                };
+                return;
+            }
+
+
             Content = null;
+
+
 
             if (Host.SelectedElement == null)
             {

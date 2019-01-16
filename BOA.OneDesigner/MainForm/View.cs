@@ -1,12 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Threading;
+﻿using System.IO;
 using System.Windows;
-using System.Windows.Threading;
+using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.WpfControls;
-using BOA.UnitTestHelper;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container.Mvc;
 
@@ -18,6 +15,7 @@ namespace BOA.OneDesigner.MainForm
         public PropertyEditorContainer   _propertyEditorContainer;
         public ToolBox                   _toolBox;
         public JsxElementDesignerSurface DesignSurface;
+        public StackPanel _screenActionsContainer;
         #endregion
 
         #region Constructors
@@ -87,12 +85,60 @@ namespace BOA.OneDesigner.MainForm
             base.FireAction(controllerPublicMethodName);
 
             Refresh();
+
+            EvaluateScreenActions();
         }
 
+        void EvaluateScreenActions()
+        {
+            _screenActionsContainer.Children.Clear();
+
+            if (Model?.ScreenInfo?.ResourceCode == null || Model.ScreenInfo.ResourceActions == null)
+            {
+                return;
+            }
+
+            _screenActionsContainer.Orientation = Orientation.Horizontal;
+
+            var resourceActions = Model.ScreenInfo.ResourceActions;
+
+            foreach (var resourceAction in resourceActions)
+            {
+                var button = new ActionButton(resourceAction);
+
+                button.Click += (s, e) =>
+                {
+                    _propertyEditorContainer.DataContext = resourceAction;
+                    _propertyEditorContainer.Refresh();
+                };
+
+                _screenActionsContainer.Children.Add(button);
+
+            }
+        }
+
+        
+
+        static readonly DevelopmentDatabase Database = new DevelopmentDatabase();
         public void Refresh()
         {
             Refresh(Host, Model, DesignSurface);
         }
         #endregion
+    }
+
+    class ActionButton:Button
+    {
+
+        public ActionButton(Aut_ResourceAction action)
+        {
+
+            Content = action.Name;
+
+            Padding = new Thickness(5);
+            
+
+            Margin = new Thickness(5);
+        }
     }
 }
