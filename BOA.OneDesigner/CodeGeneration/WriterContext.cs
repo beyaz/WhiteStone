@@ -6,12 +6,21 @@ using BOAPlugins.TypescriptModelGeneration;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
+    class TypeScriptMemberInfo
+    {
+        #region Public Properties
+        public string Code          { get; set; }
+        public bool   IsConstructor { get; set; }
+        public bool   IsField       { get; set; }
+        public bool   IsMethod      { get; set; }
+        public bool   IsRender      { get; set; }
+        #endregion
+    }
+
     class WriterContext
     {
         #region Public Properties
-        public List<string>        ClassBody       { get; set; }
-
-
+        public List<string> ClassBody { get; set; }
 
         public string              ClassName       { get; set; }
         public List<string>        ConstructorBody { get; set; }
@@ -20,8 +29,6 @@ namespace BOA.OneDesigner.CodeGeneration
         public PaddedStringBuilder Output          { get; set; }
 
         public List<string> Page { get; set; }
-
-        
 
         public RequestIntellisenseData RequestIntellisenseData { get; set; }
         public ScreenInfo              ScreenInfo              { get; set; }

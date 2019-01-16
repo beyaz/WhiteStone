@@ -15,13 +15,13 @@ namespace BOA.OneDesigner.WpfControls
         {
             var host = new Host();
 
-            var screenInfo = host.Database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.GeneralParametersFormRequest");
+            var screenInfo = host.Database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.MccDefinitionFormRequest");
 
             var tsxCode = TransactionPage.Generate(screenInfo);
 
             tsxCode.Should().NotBeNullOrEmpty();
 
-            Util.WriteFileIfContentNotEqual(@"D:\Work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\One\BOA.One.CardGeneral.DebitCard\ClientApp\pages\GeneralParametersForm.tsx", tsxCode);
+            Util.WriteFileIfContentNotEqual(@"D:\Work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\One\BOA.One.CardGeneral.DebitCard\ClientApp\pages\MccDefinitionForm.tsx", tsxCode);
         }
         #endregion
     }

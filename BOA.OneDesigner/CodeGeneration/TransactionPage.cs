@@ -216,7 +216,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("}");
 
 
-            writerContext.ClassBody.Insert(1,sb.ToString());    
+            writerContext.ClassBody.Insert(1,sb.ToString());   
             
         }
 
