@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
+using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -30,9 +32,9 @@ namespace BOA.OneDesigner.CodeGeneration
             var isFirst = true;
             foreach (var bDataGridColumnInfo in data.DataGrid.Columns)
             {
-                if (bDataGridColumnInfo.BindingPath == null)
+                if (string.IsNullOrWhiteSpace(bDataGridColumnInfo.BindingPath))
                 {
-                    // TODO error here
+                    App.ShowErrorNotification($"{data.SelectedValueBindingPath} ismindeki combonun grid colonlarındaki binding path bilgisi bulunamadı.@labelValue: {bDataGridColumnInfo.LabelText}");
                     continue;
                 }
 
@@ -68,7 +70,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
 
                 var propertyInfo = writerContext.RequestIntellisenseData.FindPropertyInfoInCollectionFirstGenericArgumentType(data.DataGrid.DataSourceBindingPath,bDataGridColumnInfo.BindingPath);
-                
+                if (propertyInfo == null)
+                {
+                    throw Error.InvalidOperation();
+                }
+
                 if (propertyInfo.IsDecimal||propertyInfo.IsDecimalNullable)
                 {
                     sb.AppendLine("column.type = 'number';"); 

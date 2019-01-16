@@ -109,6 +109,7 @@ namespace BOA.OneDesigner.MainForm
                 button.Click += (s, e) =>
                 {
                     _propertyEditorContainer.DataContext = resourceAction;
+                    Host.SelectedElement = button;
                     _propertyEditorContainer.Refresh();
                 };
 
@@ -129,9 +130,11 @@ namespace BOA.OneDesigner.MainForm
 
     class ActionButton:Button
     {
+        public Aut_ResourceAction Model { get; }
 
         public ActionButton(Aut_ResourceAction action)
         {
+            Model = action;
 
             Content = action.Name;
 

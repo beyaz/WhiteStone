@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.MainForm;
 using BOA.OneDesigner.PropertyEditors;
 
 namespace BOA.OneDesigner.WpfControls
@@ -29,7 +30,6 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Refresh);
             Host.EventBus.Subscribe(EventBus.ComponentDeleted, Refresh);
             Host.EventBus.Subscribe(EventBus.OnDragElementSelected, UpdateHeader);
-            
         }
 
         public void DeAttachToEventBus()
@@ -38,26 +38,21 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Refresh);
             Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, UpdateHeader);
         }
-        #endregion
 
-        #region Methods
         public void Refresh()
         {
-            var resourceAction = DataContext as Aut_ResourceAction;
-            if ( resourceAction != null)
-            {
+            Content = null;
 
+            var actionButton = Host.SelectedElement as ActionButton;
+            if (actionButton != null)
+            {
+                DataContext = actionButton.Model;
                 Content = new ResourceActionEditor
                 {
-                    DataContext = resourceAction
+                    DataContext = actionButton.Model
                 };
                 return;
             }
-
-
-            Content = null;
-
-
 
             if (Host.SelectedElement == null)
             {
@@ -106,7 +101,6 @@ namespace BOA.OneDesigner.WpfControls
                 Content = Host.Create<BComboBoxEditor>(bComboBox);
                 return;
             }
-            
 
             var tabControl = DataContext as BTabBar;
             if (tabControl != null)
@@ -124,7 +118,9 @@ namespace BOA.OneDesigner.WpfControls
 
             throw new ArgumentException();
         }
+        #endregion
 
+        #region Methods
         void UpdateHeader()
         {
             if (DataContext == null)
