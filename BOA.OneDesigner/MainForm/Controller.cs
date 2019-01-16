@@ -35,7 +35,7 @@ namespace BOA.OneDesigner.MainForm
 
             var tsxCode = TransactionPage.Generate(Model.ScreenInfo);
 
-            var filePath = Model.SolutionInfo.OneProjectFolder + @"ClientApp\pages\" + Model.ScreenInfo.RequestName.SplitAndClear(".").Last().RemoveFromEnd("Request") + ".tsx";
+            var filePath = Model.SolutionInfo.OneProjectFolder + @"ClientApp\pages\" + Model.ScreenInfo.OutputTypeScriptFileName + ".tsx";
 
             Util.WriteFileIfContentNotEqual(filePath, tsxCode);
         }
@@ -156,6 +156,9 @@ namespace BOA.OneDesigner.MainForm
 
         void UpdateResourceActions()
         {
+
+            FileNamingHelper.InitDefaultOutputTypeScriptFileName(Model.ScreenInfo);
+
             var resourceCode = Model.ScreenInfo.ResourceCode;
             if (string.IsNullOrWhiteSpace(resourceCode))
             {

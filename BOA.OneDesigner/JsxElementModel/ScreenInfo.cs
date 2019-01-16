@@ -15,5 +15,6 @@ namespace BOA.OneDesigner.JsxElementModel
         public string ResourceCode { get; set; }
 
         public List<Aut_ResourceAction> ResourceActions { get; set; }
+        public string OutputTypeScriptFileName { get; set; }
     }
 }

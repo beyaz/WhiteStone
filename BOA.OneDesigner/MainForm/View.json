@@ -64,6 +64,14 @@
                   "vAlignIsCenter": true,
 
                   "MarginTop": 10
+                },
+                {
+                  "ui": "TextBox",
+                  "Label": "Output TypeScript File Name",
+                  "Text": "{Binding ScreenInfo.OutputTypeScriptFileName}",
+                  "vAlignIsCenter": true,
+
+                  "MarginTop": 10
                 }
               ]
             }

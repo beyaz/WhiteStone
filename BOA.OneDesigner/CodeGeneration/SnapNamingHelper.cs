@@ -4,13 +4,10 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-
-    
-
     public static class SnapNamingHelper
     {
 
-        static string GetLastPropertyName(string propertyPath)
+        public static string GetLastPropertyName(string propertyPath)
         {
             return propertyPath.SplitAndClear(".").Last();
         }
