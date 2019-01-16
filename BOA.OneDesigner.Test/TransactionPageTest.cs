@@ -1,8 +1,8 @@
-﻿using System.IO;
-using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.CodeGeneration;
+﻿using BOA.OneDesigner.CodeGeneration;
+using BOAPlugins.Utility;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Host = BOA.OneDesigner.AppModel.Host;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -13,7 +13,7 @@ namespace BOA.OneDesigner.WpfControls
         [TestMethod]
         public void Generate()
         {
-            var host       = new Host();
+            var host = new Host();
 
             var screenInfo = host.Database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.GeneralParametersFormRequest");
 
@@ -21,8 +21,7 @@ namespace BOA.OneDesigner.WpfControls
 
             tsxCode.Should().NotBeNullOrEmpty();
 
-
-            File.WriteAllText(@"D:\Work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\One\BOA.One.CardGeneral.DebitCard\ClientApp\pages\GeneralParametersForm.tsx",tsxCode);
+            Util.WriteFileIfContentNotEqual(@"D:\Work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\One\BOA.One.CardGeneral.DebitCard\ClientApp\pages\GeneralParametersForm.tsx", tsxCode);
         }
         #endregion
     }

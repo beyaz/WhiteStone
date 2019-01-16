@@ -144,6 +144,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine($"<BDataGrid  dataSource = {{{data.DataSourceBindingPathInTypeScript}}}");
 
+            sb.PaddingCount++;
             sb.AppendLine("selectable={'single'}");
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 

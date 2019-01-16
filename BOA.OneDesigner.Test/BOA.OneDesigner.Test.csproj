@@ -131,6 +131,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BOA.HelperTools\BOAPlugins\BOAPlugins.csproj">
+      <Project>{92502F72-D2A3-4B2F-AA82-3E4F286599AA}</Project>
+      <Name>BOAPlugins</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BOA.OneDesigner\BOA.OneDesigner.csproj">
       <Project>{8a56c904-32b1-41a8-a690-d39a7604beb3}</Project>
       <Name>BOA.OneDesigner</Name>
