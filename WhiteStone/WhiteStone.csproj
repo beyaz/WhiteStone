@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="BOA.Common.Helpers\BinarySerialization.cs" />
     <Compile Include="BOA.Common.Helpers\BindingPathExpressionHelper.cs" />
+    <Compile Include="BOA.Common.Helpers\CompressionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\DateTimeExtensions.cs" />
     <Compile Include="BOA.Common.Helpers\ExceptionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\FileHelper.cs" />

@@ -14,7 +14,7 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static object Deserialize(byte[] byteArray)
         {
-            if (byteArray == null)
+            if (byteArray == null || byteArray.Length == 0)
             {
                 return null;
             }

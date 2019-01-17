@@ -114,6 +114,7 @@
     <Compile Include="CardWpfTest.cs" />
     <Compile Include="CodeGeneration\FileNamingHelperTest.cs" />
     <Compile Include="CodeGeneration\SnapNamingHelperTest.cs" />
+    <Compile Include="DevelopmentDatabaseTest.cs" />
     <Compile Include="Helper\CecilHelperTest.cs" />
     <Compile Include="DataGridWpfTest.cs" />
     <Compile Include="DivAsCardContainerWpfTest.cs" />
