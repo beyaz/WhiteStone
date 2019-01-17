@@ -5,7 +5,7 @@ namespace BOA.OneDesigner.Helpers
 {
     static class LabelInfoHelper
     {
-
+        #region Public Methods
         public static LabelInfo CreateNewLabelInfo(string freeText = null)
         {
             return new LabelInfo
@@ -22,12 +22,13 @@ namespace BOA.OneDesigner.Helpers
             {
                 return "?";
             }
-            if (labelInfo?.IsFreeText == true)
+
+            if (labelInfo.IsFreeText)
             {
                 return labelInfo.FreeTextValue;
             }
 
-            if (labelInfo?.IsFromMessaging == true)
+            if (labelInfo.IsFromMessaging)
             {
                 var propertyInfo = MessagingHelper.MessagingPropertyNames?.FirstOrDefault(x => x.PropertyName == labelInfo.MessagingValue);
                 if (propertyInfo != null)
@@ -38,13 +39,13 @@ namespace BOA.OneDesigner.Helpers
                 return labelInfo.MessagingValue;
             }
 
-            if (labelInfo?.IsRequestBindingPath == true)
+            if (labelInfo.IsRequestBindingPath)
             {
                 return labelInfo.RequestBindingPath;
             }
 
             return "?";
-
         }
+        #endregion
     }
 }
