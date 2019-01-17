@@ -1,4 +1,6 @@
-﻿using BOA.OneDesigner.CodeGeneration;
+﻿using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.CodeGeneration;
+using BOA.OneDesigner.MainForm;
 using BOAPlugins.Utility;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,15 +15,12 @@ namespace BOA.OneDesigner.WpfControls
         [TestMethod]
         public void Generate()
         {
-            var host = new Host();
+            DevelopmentDatabase database = new DevelopmentDatabase();
 
-            var screenInfo = host.Database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.MccDefinitionFormRequest");
+            var screenInfo = database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.MccDefinitionFormRequest");
 
-            var tsxCode = TransactionPage.Generate(screenInfo);
-
-            tsxCode.Should().NotBeNullOrEmpty();
-
-            Util.WriteFileIfContentNotEqual(@"D:\Work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\One\BOA.One.CardGeneral.DebitCard\ClientApp\pages\MccDefinitionForm.tsx", tsxCode);
+            Controller.Generate(screenInfo);
+            
         }
         #endregion
     }

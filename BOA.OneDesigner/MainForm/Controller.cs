@@ -16,6 +16,20 @@ namespace BOA.OneDesigner.MainForm
 {
     public class Controller : ControllerBase<Model>
     {
+
+        public static void Generate(ScreenInfo screenInfo)
+        {
+            var tsxCode = TransactionPage.Generate(screenInfo);
+
+            var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
+
+            var filePath = solutionInfo.OneProjectFolder + @"ClientApp\pages\" + screenInfo.OutputTypeScriptFileName + ".tsx";
+
+            Util.WriteFileIfContentNotEqual(filePath, tsxCode);
+
+            App.ShowSuccessNotification("Dosya güncellendi.@filePath: "+filePath);
+        }
+
         #region Public Properties
         public Host Host { get; set; }
         #endregion
@@ -34,13 +48,8 @@ namespace BOA.OneDesigner.MainForm
                 return;
             }
 
-            var tsxCode = TransactionPage.Generate(Model.ScreenInfo);
 
-            var filePath = Model.SolutionInfo.OneProjectFolder + @"ClientApp\pages\" + Model.ScreenInfo.OutputTypeScriptFileName + ".tsx";
-
-            Util.WriteFileIfContentNotEqual(filePath, tsxCode);
-
-            App.ShowSuccessNotification("Dosya güncellendi.@filePath: "+filePath);
+            Generate(Model.ScreenInfo);
         }
 
         public void Next()
