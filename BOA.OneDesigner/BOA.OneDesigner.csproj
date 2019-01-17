@@ -85,6 +85,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppModel\Aut_Resource.cs" />
+    <Compile Include="AppModel\Aut_ResourceAction.cs" />
     <Compile Include="AppModel\DragHelper.cs" />
     <Compile Include="CodeGeneration\BComboBoxRenderer.cs" />
     <Compile Include="CodeGeneration\BDataGridRenderer.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Helpers\CecilHelper.cs" />
     <Compile Include="WpfControls\BTabBarPageWpf.cs" />
     <Compile Include="WpfControls\CardLayout.cs" />
+    <Compile Include="AppModel\DevelopmentDatabase.cs" />
     <Compile Include="WpfControls\Injector.cs" />
     <Compile Include="WpfControls\InsertHelper.cs" />
     <Compile Include="WpfControls\ISupportSizeInfo.cs" />
