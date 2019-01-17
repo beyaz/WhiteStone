@@ -27,6 +27,7 @@ namespace BOA.OneDesigner.PropertyEditors
         {ui:'WideEditor',               MarginTop:10, Value:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.Wide) + @"}' },
         {ui:'HorizontalLocationEditor', MarginTop:10, Value:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.X)    + @"}' },
 
+        {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true, Margin:5, Text:'{Binding " + nameof(Model.IsVisibleBindingPath) + @"}', Label:'Is Visible Binding Path' },
         
 
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}

@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
     static class BCardRenderer
     {
-        public static void Write(WriterContext writerContext ,  BCard data)
+        #region Public Methods
+        public static void Write(WriterContext writerContext, BCard data)
         {
+            var sb         = writerContext.Output;
+            var screenInfo = writerContext.ScreenInfo;
 
-            var sb = writerContext.Output;
-            ScreenInfo screenInfo = writerContext.ScreenInfo;
+            if (data.IsVisibleBindingPath.HasValue())
+            {
+                var isVisibleBindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.IsVisibleBindingPath);
+
+                sb.AppendLine("{ " + isVisibleBindingPath + " &&");
+                sb.PaddingCount++;
+            }
 
             sb.AppendWithPadding("<BCard context={context}");
 
@@ -24,9 +33,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.LayoutProps != null)
             {
-                sb.Append(" layoutProps = {{w:"+data.LayoutProps.Wide+", x:"+data.LayoutProps.X+"}}");
+                sb.Append(" layoutProps = {{w:" + data.LayoutProps.Wide + ", x:" + data.LayoutProps.X + "}}");
             }
-
 
             sb.Append(">");
             sb.Append(Environment.NewLine);
@@ -77,7 +85,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     continue;
                 }
-                
 
                 var bDataGrid = item as BDataGrid;
                 if (bDataGrid != null)
@@ -96,7 +103,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 throw Error.InvalidOperation();
             }
 
-            
             foreach (var subComponent in subComponents)
             {
                 sb.AppendLine();
@@ -104,10 +110,16 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine();
             }
 
-
-
             sb.PaddingCount--;
             sb.AppendLine("</BCard>");
+
+            if (data.IsVisibleBindingPath.HasValue())
+            {
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+
+            }
         }
+        #endregion
     }
 }
