@@ -96,7 +96,6 @@
     <Compile Include="AppModel\EventBus.cs" />
     <Compile Include="AppModel\FormType.cs" />
     <Compile Include="AppModel\Host.cs" />
-    <Compile Include="AppModel\IDatabase.cs" />
     <Compile Include="AppModel\IHostItem.cs" />
     <Compile Include="AppModel\JsonFile.cs" />
     <Compile Include="CodeGeneration\BAccountComponentRenderer.cs" />

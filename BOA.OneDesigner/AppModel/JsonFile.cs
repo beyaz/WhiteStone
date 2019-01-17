@@ -11,8 +11,8 @@ using BOAPlugins.Messaging;
 
 namespace BOA.OneDesigner.AppModel
 {
-
-    class JsonFile : IDatabase
+    // TODO remove class
+    class JsonFile 
     {
         #region Properties
         static string            CacheDirectory => Log.Directory + "Cache" + Path.DirectorySeparatorChar;

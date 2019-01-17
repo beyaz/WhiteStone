@@ -195,5 +195,21 @@ WHERE {nameof(data.RequestName)} = @{nameof(data.RequestName)}
 
             return this.GetRecords<Pair>("SELECT RequestName AS [Key] FROM BOA.DBT.OneDesigner WITH(NOLOCK)").Select(x=>x.Key).ToList();
         }
+
+        public ScreenInfo GetScreenInfo(string requestName)
+        {
+            var screenInfo = new ScreenInfo
+            {
+                RequestName = requestName
+            };
+
+            var exists = Load(screenInfo);
+            if (exists)
+            {
+                return screenInfo;
+            }
+
+            return null;
+        }
     }
 }

@@ -30,9 +30,9 @@ namespace BOA.OneDesigner.AppModel
 
             (dataInDb.JsxModel as ScreenInfo)?.RequestName.Should().Be("Aloha");
 
-
-
-
+            //var jsonFile = new JsonFile();
+            //data= jsonFile.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.RestrictedMCCRequest");
+            //database.Save(data);
         }
         #endregion
     }
