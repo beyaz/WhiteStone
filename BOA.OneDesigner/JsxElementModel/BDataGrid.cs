@@ -9,6 +9,9 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BDataGrid:BField
     {
+
+        public bool ParentIsComboBox { get; set; }
+
         public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsMedium = true};
         public string SelectedRowDataBindingPath { get; set; }
 
@@ -54,7 +57,7 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public string SelectedValueBindingPath { get; set; }
 
-        public BDataGrid DataGrid { get; set; } = new BDataGrid();
+        public BDataGrid DataGrid { get; set; } = new BDataGrid {ParentIsComboBox = true};
 
         internal string TypeScriptMethodNameOfGetGridColumns { get; set; }
     }

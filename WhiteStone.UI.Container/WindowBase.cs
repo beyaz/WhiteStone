@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using MahApps.Metro.Controls;
@@ -40,6 +41,8 @@ namespace WhiteStone.UI.Container
             {
                 Resources.MergedDictionaries.Add(dictionary);
             }
+
+            Closed += KillAllContainer;
         }
         #endregion
 
@@ -51,6 +54,18 @@ namespace WhiteStone.UI.Container
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        void KillAllContainer(object sender, EventArgs e)
+        {
+            foreach (var process in Process.GetProcesses())
+            {
+                var name = typeof(WindowBase).Assembly.GetName().Name;
+                if (process.ProcessName == name)
+                {
+                    process.Kill();
+                }
+            }
         }
         #endregion
     }

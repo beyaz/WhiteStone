@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
@@ -10,6 +11,7 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Fields
         public SizeEditor _sizeEditor;
         public Button _removeButton;
+        public GroupBox _rowSelectionChangedGroupBox;
         #endregion
 
         #region Constructors
@@ -23,7 +25,7 @@ namespace BOA.OneDesigner.PropertyEditors
 		{ui:'RequestIntellisenseTextBox', ShowOnlyCollectionProperties:true, Text:'{Binding " + nameof(BDataGrid.DataSourceBindingPath) + @"}', Label:'Data Source Binding' },
 
         {
-            ui:'Groupbox',Header:'Row Selection Changed',Margin:10,
+            ui:'Groupbox',Header:'Row Selection Changed',Margin:10,Name:'_rowSelectionChangedGroupBox',
             Content:
             {
                 ui:'Grid',rows:[
@@ -51,6 +53,12 @@ namespace BOA.OneDesigner.PropertyEditors
                     };
                 }
                 _sizeEditor.Host  = Host;
+
+                if (Model?.ParentIsComboBox == true)
+                {
+                    _sizeEditor.Visibility = Visibility.Collapsed;
+                    _rowSelectionChangedGroupBox.Visibility = Visibility.Collapsed;
+                }
 
             };
 

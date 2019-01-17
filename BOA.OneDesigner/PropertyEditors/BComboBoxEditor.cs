@@ -50,7 +50,7 @@ namespace BOA.OneDesigner.PropertyEditors
         #endregion
 
         #region Properties
-        BInput Model => (BInput) DataContext;
+        BComboBox Model => (BComboBox) DataContext;
         #endregion
 
         #region Public Methods
