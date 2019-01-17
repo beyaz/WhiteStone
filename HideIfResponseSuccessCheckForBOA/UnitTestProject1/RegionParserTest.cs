@@ -34,6 +34,32 @@ namespace UnitTestProject1
             Assert.AreEqual("var x = boCardStatusChecker.CheckCardStatus(data).GetValueOrDefault();", data.Regions?[0]?.Text);
         }
 
+        [TestMethod]
+        public void SimpleCallWithEqualityComparison()
+        {
+            const string sourceText = @"
+            
+            var checkResponse =   boCardStatusChecker.CheckCardStatus(data);
+            if (!checkResponse.Success)
+            {
+                returnObject.Results.AddRange(checkResponse.Results);
+                return returnObject;
+            }
+
+            var x = checkResponse.Value != null;
+
+";
+            var data = new RegionParserTestData
+            {
+                SourceText = sourceText
+            };
+
+            RegionParser.Parse(data);
+
+            Assert.AreEqual("var x = boCardStatusChecker.CheckCardStatus(data) != null;", data.Regions?[0]?.Text);
+        }
+
+
         #region Public Methods
         [TestMethod]
         public void LongCall()

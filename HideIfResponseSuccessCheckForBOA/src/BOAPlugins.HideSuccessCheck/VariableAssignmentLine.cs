@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.OLE.Interop;
 
 namespace BOAPlugins.HideSuccessCheck
 {
@@ -20,7 +21,8 @@ namespace BOAPlugins.HideSuccessCheck
                 return true;
             }
 
-            if (responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName + "."))
+            if (responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName + ".") ||
+                responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName + " "))
             {
                 var extraExtension = responseValueAssignmentToAnotherVariable.AssignedValue.RemoveFromStart(variableName);
 
@@ -31,6 +33,7 @@ namespace BOAPlugins.HideSuccessCheck
 
                 return true;
             }
+            
 
             return false;
         }
@@ -47,6 +50,16 @@ namespace BOAPlugins.HideSuccessCheck
             if (arr.Length < 2)
             {
                 return null;
+            }
+
+            if (arr.Length>2)
+            {
+                arr = new string[2]
+                {
+                    arr[0],
+                    string.Join("=", arr.Skip(1).Take(arr.Length - 1))
+                };
+
             }
 
             var namePart = arr[0]?.Trim().Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();

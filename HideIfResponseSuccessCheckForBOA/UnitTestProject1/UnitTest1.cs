@@ -70,6 +70,16 @@ namespace UnitTestProject1
             Assert.IsNull(info.VariableTypeName);
             Assert.AreEqual("responseAvailableBalance.Value.GetValueOrDefault()", info.AssignedValue);
         }
+
+        [TestMethod]
+        public void Parse5()
+        {
+            var info = VariableAssignmentLine.Parse(" provisionContext.AvailableBalance = responseAvailableBalance.Value.GetValueOrDefault() != null; ");
+
+            Assert.AreEqual("provisionContext.AvailableBalance", info.VariableName);
+            Assert.IsNull(info.VariableTypeName);
+            Assert.AreEqual("responseAvailableBalance.Value.GetValueOrDefault() != null", info.AssignedValue);
+        }
         #endregion
     }
 }
