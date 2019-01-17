@@ -72,7 +72,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 var propertyInfo = writerContext.RequestIntellisenseData.FindPropertyInfoInCollectionFirstGenericArgumentType(data.DataGrid.DataSourceBindingPath,bDataGridColumnInfo.BindingPath);
                 if (propertyInfo == null)
                 {
-                    throw Error.InvalidOperation();
+                    throw Error.InvalidBindingPath(data.DataGrid.DataSourceBindingPath,bDataGridColumnInfo.BindingPath);
                 }
 
                 if (propertyInfo.IsDecimal||propertyInfo.IsDecimalNullable)

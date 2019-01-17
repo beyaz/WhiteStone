@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.UIBuilding;
+using MahApps.Metro.Controls;
 using Notifications.Wpf;
 
 namespace WhiteStone.UI.Container
@@ -10,42 +12,53 @@ namespace WhiteStone.UI.Container
     /// <summary>
     ///     Interaction logic for App.xaml
     /// </summary>
-    public partial class App:System.Windows.Application
+    public class App : Application
     {
+        #region Static Fields
+        /// <summary>
+        ///     The notification manager
+        /// </summary>
+        static readonly NotificationManager notificationManager = new NotificationManager();
+        #endregion
 
-          public static void InitializeBuilder()
+        #region Public Methods
+        /// <summary>
+        ///     Handles the exception.
+        /// </summary>
+        public static void HandleException(Exception exception)
+        {
+            var messages = new List<string>();
+            while (true)
+            {
+                if (exception == null)
+                {
+                    break;
+                }
+
+                messages.Add(exception.Message);
+
+                exception = exception.InnerException;
+            }
+
+            ShowErrorNotification(string.Join(Environment.NewLine, messages));
+        }
+
+        /// <summary>
+        ///     Initializes the builder.
+        /// </summary>
+        public static void InitializeBuilder()
         {
             Builder.RegisterElementCreation(IntellisenseTextBox.On);
 
             Builder.RegisterElementCreation(LabeledTextBox.On);
             Builder.RegisterElementCreation(LabeledComboBox.On);
-            
-            
 
-            Builder.RegisterElementCreation("Tile",typeof(MahApps.Metro.Controls.Tile));
-            
+            Builder.RegisterElementCreation("Tile", typeof(Tile));
         }
 
-        static Window StartupMainWindow()
-        {
-            var startupMainWindow = ConfigurationManager.AppSettings[nameof(StartupMainWindow)];
-            if (string.IsNullOrWhiteSpace(startupMainWindow))
-            {
-                Log.IsNull(nameof(StartupMainWindow));
-                return null;
-            }
-
-            var type = Type.GetType(startupMainWindow);
-            if (type == null)
-            {
-                Log.IsNull(startupMainWindow);
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            return (Window) Activator.CreateInstance(type);
-
-        }
-
+        /// <summary>
+        ///     Defines the entry point of the application.
+        /// </summary>
         [STAThread]
         public static void Main()
         {
@@ -59,14 +72,6 @@ namespace WhiteStone.UI.Container
             application.Run();
         }
 
-        #region Static Fields
-        /// <summary>
-        ///     The notification manager
-        /// </summary>
-        static readonly NotificationManager notificationManager = new NotificationManager();
-        #endregion
-
-        #region Public Methods
         /// <summary>
         ///     Shows the error notification.
         /// </summary>
@@ -112,6 +117,28 @@ namespace WhiteStone.UI.Container
                 Message = message,
                 Type    = notificationType
             });
+        }
+
+        /// <summary>
+        ///     Startups the main window.
+        /// </summary>
+        static Window StartupMainWindow()
+        {
+            var startupMainWindow = ConfigurationManager.AppSettings[nameof(StartupMainWindow)];
+            if (string.IsNullOrWhiteSpace(startupMainWindow))
+            {
+                Log.IsNull(nameof(StartupMainWindow));
+                return null;
+            }
+
+            var type = Type.GetType(startupMainWindow);
+            if (type == null)
+            {
+                Log.IsNull(startupMainWindow);
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            return (Window) Activator.CreateInstance(type);
         }
         #endregion
     }

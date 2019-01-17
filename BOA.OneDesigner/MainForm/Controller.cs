@@ -8,6 +8,7 @@ using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
+using WhiteStone.UI.Container;
 using WhiteStone.UI.Container.Mvc;
 using Host = BOA.OneDesigner.AppModel.Host;
 
@@ -38,6 +39,8 @@ namespace BOA.OneDesigner.MainForm
             var filePath = Model.SolutionInfo.OneProjectFolder + @"ClientApp\pages\" + Model.ScreenInfo.OutputTypeScriptFileName + ".tsx";
 
             Util.WriteFileIfContentNotEqual(filePath, tsxCode);
+
+            App.ShowSuccessNotification("Dosya güncellendi.@filePath: "+filePath);
         }
 
         public void Next()

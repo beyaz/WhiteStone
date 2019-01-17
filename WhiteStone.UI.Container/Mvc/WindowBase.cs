@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -76,7 +75,7 @@ namespace WhiteStone.UI.Container.Mvc
             }
             catch (Exception e)
             {
-                App.ShowErrorNotification(e.Message);
+                App.HandleException(e);
                 Log.Push(e);
                 return;
             }
