@@ -1,13 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.UI.Types;
+using BOAPlugins.Messaging;
 
 namespace BOA.OneDesigner.AppModel
 {
-    class DevelopmentDatabase : SqlDatabase
+    public class DevelopmentDatabase : SqlDatabase
     {
+
+        public IReadOnlyList<string> GetTfsFolderNames()
+        {
+            return TfsHelper.GetFolderNames();
+        }
+        public IList<PropertyInfo> GetPropertyNames(string groupName)
+        {
+            return BOAPlugins.Messaging.DataSource.GetPropertyNames(groupName);
+        }
+
+        public IReadOnlyList<string> GetMessagingGroupNames()
+        {
+            return this.GetRecords<Pair>("select DISTINCT(Name) as [Key] from BOA.COR.MessagingGroup WITH(NOLOCK)").Select(x => x.Key).ToList();
+        }
+
+
         #region Constants
         const string ConnectionString = "server=srvdev\\ATLAS;database =BOA;integrated security=true";
         #endregion
@@ -24,18 +45,25 @@ namespace BOA.OneDesigner.AppModel
             return this.GetRecords<Aut_ResourceAction>("SELECT Name,CommandName from AUT.ResourceAction WHERE ResourceId = (SELECT  ResourceId from AUT.Resource WITH(NOLOCK) WHERE ResourceCode = @resourceCode OR Name = @resourceCode)", nameof(resourceCode), resourceCode);
         }
 
-        public void Load(ScreenInfo data)
+        public bool Load(ScreenInfo data)
         {
             CommandText = $@"
 SELECT TOP 1 *
  FROM  BOA.DBT.OneDesigner 
-WHERE {nameof(data.RequestName)} = @{nameof(data.RequestName)}
+WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.ResourceCode)} = @{nameof(data.ResourceCode)})
+  
 ";
 
             this[nameof(data.RequestName)] = data.RequestName;
+            this[nameof(data.ResourceCode)] = data.ResourceCode;
 
             var reader = ExecuteReader();
-            reader.Read();
+            var success = reader.Read();
+            if (success == false)
+            {
+                reader.Close();
+                return false;
+            }
 
             data.ResourceCode = Convert.ToString(reader[nameof(data.ResourceCode)]);
             data.RequestName              =Convert.ToString( reader[nameof(data.RequestName)]);
@@ -48,6 +76,10 @@ WHERE {nameof(data.RequestName)} = @{nameof(data.RequestName)}
 
             data.JsxModel        = BinarySerialization.Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.JsxModel)]));
             data.ResourceActions = (List<Aut_ResourceAction>) BinarySerialization.Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.ResourceActions)]));
+
+
+            reader.Close();
+            return true;
         }
 
         public void Save(ScreenInfo data)
@@ -88,10 +120,11 @@ WHERE {nameof(data.RequestName)} = @{nameof(data.RequestName)}
             CommandText = $@"
 SELECT TOP 1 1
  FROM  BOA.DBT.OneDesigner 
-WHERE {nameof(data.RequestName)} = @{nameof(data.RequestName)}
+WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.ResourceCode)} = @{nameof(data.ResourceCode)})
 ";
 
             this[nameof(data.RequestName)] = data.RequestName;
+            this[nameof(data.ResourceCode)] = data.ResourceCode;
 
             return (int?) ExecuteScalar() == 1;
         }
@@ -156,5 +189,11 @@ WHERE {nameof(data.RequestName)} = @{nameof(data.RequestName)}
             ExecuteNonQuery();
         }
         #endregion
+
+        public IReadOnlyList<string> GetDefaultRequestNames()
+        {
+
+            return this.GetRecords<Pair>("SELECT RequestName AS [Key] FROM BOA.DBT.OneDesigner WITH(NOLOCK)").Select(x=>x.Key).ToList();
+        }
     }
 }

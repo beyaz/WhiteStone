@@ -12,21 +12,12 @@ namespace BOA.OneDesigner.AppModel
         {
             DragHelper = new DragHelper(this);
 
-            Database = new JsonFile();
-
-            var tfsFolderNames = Database.GetTfsFolderNames();
-
-            if (tfsFolderNames == null)
-            {
-                tfsFolderNames = TfsHelper.GetFolderNames();
-
-                ((JsonFile) Database).SaveTfsFolderNames(tfsFolderNames);
-            }
+            Database = new DevelopmentDatabase();
         }
         #endregion
 
         #region Public Properties
-        public IDatabase  Database                                                { get; }
+        public DevelopmentDatabase  Database                                                { get; }
         public UIElement  SelectedElement                                         { get; set; }
         public Point      DraggingElementStartPoint                               { get; set; }
         public DragHelper DragHelper                                              { get; }

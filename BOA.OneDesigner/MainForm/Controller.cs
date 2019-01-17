@@ -21,7 +21,7 @@ namespace BOA.OneDesigner.MainForm
         #endregion
 
         #region Properties
-        IDatabase Database => Host.Database;
+        DevelopmentDatabase Database => Host.Database;
         #endregion
 
         #region Public Methods
@@ -123,10 +123,9 @@ namespace BOA.OneDesigner.MainForm
             {
                 return;
             }
-            var screenInfo = Database.GetScreenInfo(Model.ScreenInfo.RequestName);
-            if (screenInfo != null)
+            var exist = Database.Load(Model.ScreenInfo);
+            if (exist)
             {
-                Model.ScreenInfo   = screenInfo;
                 Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
             }
 
@@ -140,11 +139,10 @@ namespace BOA.OneDesigner.MainForm
 
         public void ResourceCodeChanged()
         {
-            var screenInfo = Database.GetScreenInfo(Model.ScreenInfo.ResourceCode);
-            if (screenInfo != null)
+            var exist = Database.Load(Model.ScreenInfo);
+            if (exist)
             {
                 Model.ScreenInfoGottenFromCache = true;
-                Model.ScreenInfo   = screenInfo;
                 Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
             }
 
