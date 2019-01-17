@@ -16,11 +16,20 @@ namespace BOA.OneDesigner.CodeGeneration
                 SelectedValueBindingPath = "A.Bbb.UserId"
             };
 
-            SnapNamingHelper.InitSnapName(data);
+            var writerContext = new WriterContext();
+
+            SnapNamingHelper.InitSnapName(writerContext,data);
 
             data.SnapName.Should().Be("userIdComboBox");
 
             data.TypeScriptMethodNameOfGetGridColumns.Should().Be("getUserIdComboBoxColumns");
+
+
+            SnapNamingHelper.InitSnapName(writerContext,data);
+
+            data.SnapName.Should().Be("userIdComboBox1");
+
+            data.TypeScriptMethodNameOfGetGridColumns.Should().Be("getUserIdComboBox1Columns");
         }
         #endregion
     }

@@ -7,7 +7,7 @@ using BOAPlugins.TypescriptModelGeneration;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-    class TypeScriptMemberInfo
+    public class TypeScriptMemberInfo
     {
         #region Public Properties
         public string Code          { get; set; }
@@ -60,8 +60,11 @@ namespace BOA.OneDesigner.CodeGeneration
         #endregion
     }
 
-    class WriterContext
+    public class WriterContext
     {
+
+        public Dictionary<string,bool> AllNames { get; set; } = new Dictionary<string, bool>();
+
         #region Public Properties
         public List<TypeScriptMemberInfo> ClassBody { get; set; }
 

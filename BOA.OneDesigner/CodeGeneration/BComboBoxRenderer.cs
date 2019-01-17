@@ -10,12 +10,7 @@ namespace BOA.OneDesigner.CodeGeneration
     static class BComboBoxRenderer
     {
 
-        internal static string EvaluateMethodNameOfGridColumns(WriterContext writerContext, BComboBox data)
-        {
-            var last = data?.SelectedValueBindingPath?.SplitAndClear(".")?.LastOrDefault();
-
-            return "getComboBoxColumnsOf" + last;
-        }
+       
 
       
       
@@ -112,7 +107,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var sb         = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
 
-            SnapNamingHelper.InitSnapName(data);
+            SnapNamingHelper.InitSnapName(writerContext, data);
 
 
             writerContext.AddClassBody(EvaluateMethodBodyOfGridColumns(data.TypeScriptMethodNameOfGetGridColumns,writerContext,data));

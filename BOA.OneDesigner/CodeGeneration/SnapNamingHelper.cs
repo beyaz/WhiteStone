@@ -6,13 +6,43 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     public static class SnapNamingHelper
     {
+        #region Public Methods
+        public static string ForceUniqueName(this WriterContext writerContext, string name)
+        {
+
+            bool useCount = false;
+            var count = 1;
+            while (true)
+            {
+                if (writerContext.AllNames.ContainsKey(name) == false)
+                {
+                    break;
+                }
+
+                if (writerContext.AllNames.ContainsKey(name  + count) == false)
+                {
+                    useCount = true;
+                    break;
+                }
+
+                count++;
+            }
+
+            if (useCount)
+            {
+                name += count;
+            }
+
+            writerContext.AllNames[name] = true;
+
+            return name;
+        }
 
         public static string GetLastPropertyName(string propertyPath)
         {
             return propertyPath.SplitAndClear(".").Last();
         }
 
-        #region Public Methods
         public static void InitSnapName(BTabBar data)
         {
             // TODO: snap  olayını hallet
@@ -20,38 +50,42 @@ namespace BOA.OneDesigner.CodeGeneration
             {
             }
         }
+
         public static void InitSnapName(BParameterComponent data)
         {
             data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
         }
-        public static void InitSnapName(BComboBox data)
+
+        public static void InitSnapName(WriterContext writerContext,BComboBox data)
         {
             var lastPropertyName = GetLastPropertyName(data.SelectedValueBindingPath);
 
-            data.SnapName =  lastPropertyName.MakeLowerCaseFirstCharacter() + data.GetType().Name.RemoveFromStart("B");
+            data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + data.GetType().Name.RemoveFromStart("B");
+            data.SnapName = writerContext.ForceUniqueName(data.SnapName);
 
-            data.TypeScriptMethodNameOfGetGridColumns = $"get{lastPropertyName}Columns";
+            data.TypeScriptMethodNameOfGetGridColumns = $"get{data.SnapName.MakeUpperCaseFirstCharacter()}Columns";
         }
+
         public static void InitSnapName(BAccountComponent data)
         {
             data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
         }
-        
+
         public static void InitSnapName(BBranchComponent data)
         {
             data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
         }
+
         public static void InitSnapName(BDataGrid data)
         {
             data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
         }
-        
 
         public static void InitSnapName(BCheckBox data)
         {
             data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
         }
-        
+
         public static void InitSnapName(BDateTimePicker data)
         {
             data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
@@ -69,6 +103,10 @@ namespace BOA.OneDesigner.CodeGeneration
         static string MakeLowerCaseFirstCharacter(this string value)
         {
             return value[0].ToString().ToLowerTR() + value.Substring(1);
+        }
+        static string MakeUpperCaseFirstCharacter(this string value)
+        {
+            return value[0].ToString().ToUpperEN() + value.Substring(1);
         }
         #endregion
     }
