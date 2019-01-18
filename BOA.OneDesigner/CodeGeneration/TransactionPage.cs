@@ -368,7 +368,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 return;
             }
 
-            writerContext.EvaluatedActions = resourceActions.Where(x => x.IsEnabledBindingPath.HasValue()).ToList();
+            writerContext.EvaluatedActions = resourceActions.Where(x => x.IsVisibleBindingPath.HasValue()).ToList();
             if ( writerContext.EvaluatedActions.Count == 0)
             {
                 writerContext.CanWriteEvaluateActions = false;
@@ -417,7 +417,7 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 sb.AppendLine();
 
-                var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsEnabledBindingPath);
+                var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsVisibleBindingPath);
 
 
                 sb.AppendLine($"if ({bindingPath})");

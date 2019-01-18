@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2002
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F3FD5023-BCE8-4068-B3C0-5B16CA1649E4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.CodeGeneration", "BOA.HelperTools\BOA.CodeGeneration\BOA.CodeGeneration.csproj", "{A51D1954-365F-4F98-8492-F8841FBAD5BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins", "BOA.HelperTools\BOAPlugins\BOAPlugins.csproj", "{92502F72-D2A3-4B2F-AA82-3E4F286599AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.VSIntegration", "BOA.HelperTools\BOAPlugins.VSIntegration\BOAPlugins.VSIntegration.csproj", "{63A30D6E-5BF3-4320-B1F7-22E87BD5EF52}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F3FD5023-BCE8-4068-B3C0-5B16CA1649E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.Test", "BOA.HelperTools\Tests\BOAPlugins.Test\BOAPlugins.Test.csproj", "{3BA245FB-B218-441D-BEFB-17CC7BD71454}"
 EndProject

@@ -1,5 +1,4 @@
-﻿using System;
-using BOA.OneDesigner.JsxElementModel;
+﻿using BOA.OneDesigner.JsxElementModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,7 +7,7 @@ namespace BOA.OneDesigner.AppModel
     [TestClass]
     public class DevelopmentDatabaseTest
     {
-       
+
 
         #region Public Methods
         [TestMethod]
@@ -18,16 +17,14 @@ namespace BOA.OneDesigner.AppModel
             var data = new ScreenInfo
             {
                 RequestName = "A,b",
-                JsxModel = new ScreenInfo { RequestName = "Aloha"}
+                JsxModel = new ScreenInfo { RequestName = "Aloha" }
             };
 
             database.Save(data);
             database.Save(data);
             database.Save(data);
 
-            
-
-            var dataInDb = new ScreenInfo {RequestName = data.RequestName};
+            var dataInDb = new ScreenInfo { RequestName = data.RequestName };
             database.Load(dataInDb);
 
             (dataInDb.JsxModel as ScreenInfo)?.RequestName.Should().Be("Aloha");
@@ -37,19 +34,21 @@ namespace BOA.OneDesigner.AppModel
             //database.Save(data);
 
 
-            foreach (var screenInfo in database.GetAllScreens())
-            {
-                if (screenInfo.ResourceActions == null)
-                {
-                    continue;
-                }
-                foreach (var resourceAction in screenInfo.ResourceActions)
-                {
-                    resourceAction.IsVisibleBindingPath = resourceAction.IsEnabledBindingPath;
-                }
+            //foreach (var screenInfo in database.GetAllScreens())
+            //{
+            //    if (screenInfo.ResourceActions == null)
+            //    {
+            //        continue;
+            //    }
+            //    foreach (var resourceAction in screenInfo.ResourceActions)
+            //    {
+            //        resourceAction.IsVisibleBindingPath = resourceAction.IsEnabledBindingPath;
 
-                database.Save(screenInfo);
-            }
+            //        resourceAction.IsEnabledBindingPath = null;
+            //    }
+
+            //    database.Save(screenInfo);
+            //}
         }
 
 
