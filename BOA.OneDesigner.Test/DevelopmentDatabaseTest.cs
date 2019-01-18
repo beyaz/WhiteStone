@@ -1,6 +1,8 @@
-﻿using BOA.OneDesigner.JsxElementModel;
+﻿using BOA.Common.Helpers;
+using BOA.OneDesigner.JsxElementModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
 
 namespace BOA.OneDesigner.AppModel
 {
@@ -14,41 +16,49 @@ namespace BOA.OneDesigner.AppModel
         public void Save_should_be_insert_or_update_database()
         {
             var database = new DevelopmentDatabase();
-            var data = new ScreenInfo
-            {
-                RequestName = "A,b",
-                JsxModel = new ScreenInfo { RequestName = "Aloha" }
-            };
 
-            database.Save(data);
-            database.Save(data);
-            database.Save(data);
 
-            var dataInDb = new ScreenInfo { RequestName = data.RequestName };
-            database.Load(dataInDb);
+            File.WriteAllBytes($"d:\\temp\\{nameof(database.GetAllScreens)}.binary", BinarySerialization.Serialize(database.GetAllScreens()));
+            File.WriteAllBytes($"d:\\temp\\{nameof(database.GetTfsFolderNames)}.binary", BinarySerialization.Serialize(database.GetTfsFolderNames()));
+            File.WriteAllBytes($"d:\\temp\\{nameof(database.GetDefaultRequestNames)}.binary", BinarySerialization.Serialize(database.GetDefaultRequestNames()));
 
-            (dataInDb.JsxModel as ScreenInfo)?.RequestName.Should().Be("Aloha");
 
-            //var jsonFile = new JsonFile();
-            //data= jsonFile.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.RestrictedMCCRequest");
+
+            //var data = new ScreenInfo
+            //{
+            //    RequestName = "A,b",
+            //    JsxModel = new ScreenInfo { RequestName = "Aloha" }
+            //};
+
+            //database.Save(data);
+            //database.Save(data);
             //database.Save(data);
 
+            //var dataInDb = new ScreenInfo { RequestName = data.RequestName };
+            //database.Load(dataInDb);
 
-            //foreach (var screenInfo in database.GetAllScreens())
-            //{
-            //    if (screenInfo.ResourceActions == null)
-            //    {
-            //        continue;
-            //    }
-            //    foreach (var resourceAction in screenInfo.ResourceActions)
-            //    {
-            //        resourceAction.IsVisibleBindingPath = resourceAction.IsEnabledBindingPath;
+            //(dataInDb.JsxModel as ScreenInfo)?.RequestName.Should().Be("Aloha");
 
-            //        resourceAction.IsEnabledBindingPath = null;
-            //    }
+            ////var jsonFile = new JsonFile();
+            ////data= jsonFile.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.RestrictedMCCRequest");
+            ////database.Save(data);
 
-            //    database.Save(screenInfo);
-            //}
+
+            ////foreach (var screenInfo in database.GetAllScreens())
+            ////{
+            ////    if (screenInfo.ResourceActions == null)
+            ////    {
+            ////        continue;
+            ////    }
+            ////    foreach (var resourceAction in screenInfo.ResourceActions)
+            ////    {
+            ////        resourceAction.IsVisibleBindingPath = resourceAction.IsEnabledBindingPath;
+
+            ////        resourceAction.IsEnabledBindingPath = null;
+            ////    }
+
+            ////    database.Save(screenInfo);
+            ////}
         }
 
 
