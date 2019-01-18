@@ -9,5 +9,8 @@ namespace BOA.OneDesigner.AppModel
         public string CommandName { get; set; }
 
         public string IsEnabledBindingPath { get; set; }
+
+        public string IsVisibleBindingPath { get; set; }
+
     }
 }

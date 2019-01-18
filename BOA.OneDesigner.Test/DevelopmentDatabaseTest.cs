@@ -25,6 +25,8 @@ namespace BOA.OneDesigner.AppModel
             database.Save(data);
             database.Save(data);
 
+            
+
             var dataInDb = new ScreenInfo {RequestName = data.RequestName};
             database.Load(dataInDb);
 
@@ -33,7 +35,24 @@ namespace BOA.OneDesigner.AppModel
             //var jsonFile = new JsonFile();
             //data= jsonFile.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.RestrictedMCCRequest");
             //database.Save(data);
+
+
+            foreach (var screenInfo in database.GetAllScreens())
+            {
+                if (screenInfo.ResourceActions == null)
+                {
+                    continue;
+                }
+                foreach (var resourceAction in screenInfo.ResourceActions)
+                {
+                    resourceAction.IsVisibleBindingPath = resourceAction.IsEnabledBindingPath;
+                }
+
+                database.Save(screenInfo);
+            }
         }
+
+
         #endregion
     }
 }

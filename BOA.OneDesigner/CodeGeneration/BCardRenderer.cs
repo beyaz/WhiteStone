@@ -15,15 +15,14 @@ namespace BOA.OneDesigner.CodeGeneration
             var sb         = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
 
+            sb.AppendWithPadding("<BCard context={context}");
+
             if (data.IsVisibleBindingPath.HasValue())
             {
                 var isVisibleBindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.IsVisibleBindingPath);
 
-                sb.AppendLine("{ " + isVisibleBindingPath + " &&");
-                sb.PaddingCount++;
+                sb.Append(" style={{ display: " + isVisibleBindingPath + " ? 'inherit' : 'none' }} ");
             }
-
-            sb.AppendWithPadding("<BCard context={context}");
 
             var labelValue = RenderHelper.GetLabelValue(screenInfo, data.TitleInfo);
             if (labelValue != null)
@@ -112,13 +111,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.PaddingCount--;
             sb.AppendLine("</BCard>");
-
-            if (data.IsVisibleBindingPath.HasValue())
-            {
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-
-            }
         }
         #endregion
     }

@@ -119,8 +119,9 @@ namespace BOA.OneDesigner.CodeGeneration
             var displayMemberPath = TypescriptNaming.NormalizeBindingPath( data.DisplayMemberPath);
 
             sb.AppendLine($"<BComboBox  dataSource = {{{data.DataGrid.DataSourceBindingPathInTypeScript}}}");
+            sb.PaddingCount++;
 
-            sb.AppendLine($"value={{{selectedValueBindingPath}}}");
+            sb.AppendLine($"value={{[{selectedValueBindingPath}]}}");
             sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -148,7 +149,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
             if (labelValue != null)
             {
-                sb.Append($"labelText = {{{labelValue}}}");
+                sb.AppendLine($"labelText = {{{labelValue}}}");
             }
 
 
@@ -160,6 +161,8 @@ namespace BOA.OneDesigner.CodeGeneration
             
 
             sb.AppendLine("context = {context}/>");
+
+            sb.PaddingCount--;
         }
         #endregion
     }

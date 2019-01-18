@@ -344,10 +344,10 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine();
             sb.AppendLine("this.setState(state);");
 
-            if (writerContext.CanWriteEvaluateActionStates)
+            if (writerContext.CanWriteEvaluateActions)
             {
                 sb.AppendLine();
-                sb.AppendLine("this.evaluateActionStates();");    
+                sb.AppendLine("this.evaluateActions();");    
             }
             
             sb.AppendLine();
@@ -364,18 +364,18 @@ namespace BOA.OneDesigner.CodeGeneration
             var resourceActions = writerContext.ScreenInfo.ResourceActions;
             if (resourceActions == null )
             {
-                writerContext.CanWriteEvaluateActionStates = false;
+                writerContext.CanWriteEvaluateActions = false;
                 return;
             }
 
-            writerContext.EvaluatedActionStates = resourceActions.Where(x => x.IsEnabledBindingPath.HasValue()).ToList();
-            if ( writerContext.EvaluatedActionStates.Count == 0)
+            writerContext.EvaluatedActions = resourceActions.Where(x => x.IsEnabledBindingPath.HasValue()).ToList();
+            if ( writerContext.EvaluatedActions.Count == 0)
             {
-                writerContext.CanWriteEvaluateActionStates = false;
+                writerContext.CanWriteEvaluateActions = false;
                 return;
             }
 
-            writerContext.CanWriteEvaluateActionStates = true;
+            writerContext.CanWriteEvaluateActions = true;
         }
 
         static void CalculateDataField(WriterContext writerContext)
@@ -396,16 +396,16 @@ namespace BOA.OneDesigner.CodeGeneration
 
         }
 
-        static void EvaluateActionStates(WriterContext writerContext)
+        static void EvaluateActions(WriterContext writerContext)
         {
             
-            if ( writerContext.EvaluatedActionStates.Count == 0)
+            if ( writerContext.EvaluatedActions.Count == 0)
             {
                 return;
             }
 
             var sb = new PaddedStringBuilder();
-            sb.AppendLine("evaluateActionStates()");
+            sb.AppendLine("evaluateActions()");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -413,7 +413,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             
 
-            foreach (var resourceAction in writerContext.EvaluatedActionStates)
+            foreach (var resourceAction in writerContext.EvaluatedActions)
             {
                 sb.AppendLine();
 
@@ -423,13 +423,13 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"if ({bindingPath})");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine($"this.enableAction(\"{resourceAction.CommandName}\");");
+                sb.AppendLine($"this.visibleAction(\"{resourceAction.CommandName}\");");
                 sb.PaddingCount--;
                 sb.AppendLine("}");
                 sb.AppendLine("else");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine($"this.disableAction(\"{resourceAction.CommandName}\");");
+                sb.AppendLine($"this.hideAction(\"{resourceAction.CommandName}\");");
                 sb.PaddingCount--;
                 sb.AppendLine("}");
             }
@@ -491,7 +491,7 @@ namespace BOA.OneDesigner.CodeGeneration
             ComponentDidMount(writerContext);
             LoadData(writerContext);
             ProxyDidRespond(writerContext);
-            EvaluateActionStates(writerContext);
+            EvaluateActions(writerContext);
             UpdateState(writerContext);
             SendWindowRequestToServer(writerContext);
             ExecuteWindowRequest(writerContext);

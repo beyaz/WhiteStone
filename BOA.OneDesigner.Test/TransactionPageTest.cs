@@ -1,10 +1,6 @@
 ﻿using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.MainForm;
-using BOAPlugins.Utility;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Host = BOA.OneDesigner.AppModel.Host;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -15,12 +11,11 @@ namespace BOA.OneDesigner.WpfControls
         [TestMethod]
         public void Generate()
         {
-            DevelopmentDatabase database = new DevelopmentDatabase();
+            var database = new DevelopmentDatabase();
 
-            var screenInfo = database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.MccDefinitionFormRequest");
+            var screenInfo = database.GetScreenInfo("BOA.Types.Card.Parameter.DppKeyFormRequest");
 
             Controller.Generate(screenInfo);
-            
         }
         #endregion
     }

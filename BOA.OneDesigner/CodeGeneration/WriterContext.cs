@@ -79,8 +79,8 @@ namespace BOA.OneDesigner.CodeGeneration
         public RequestIntellisenseData RequestIntellisenseData { get; set; }
         public ScreenInfo              ScreenInfo              { get; set; }
         public SolutionInfo            SolutionInfo            { get; set; }
-        public List<Aut_ResourceAction> EvaluatedActionStates { get; set; }
-        public bool CanWriteEvaluateActionStates { get; set; }
+        public List<Aut_ResourceAction> EvaluatedActions { get; set; }
+        public bool CanWriteEvaluateActions { get; set; }
         public string DataContractAccessPathInWindowRequest { get; set; }
         #endregion
 

@@ -45,7 +45,11 @@ namespace BOA.OneDesigner.WpfControls
 
 ");
 
-            Loaded += (s, e) => { Refresh(); };
+            Loaded += (s, e) =>
+            {
+                Refresh();
+                GridContainer.Visibility = Visibility.Collapsed;
+            };
         }
         #endregion
 

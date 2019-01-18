@@ -45,6 +45,18 @@ namespace BOA.OneDesigner.AppModel
             return this.GetRecords<Aut_ResourceAction>("SELECT Name,CommandName from AUT.ResourceAction WHERE ResourceId = (SELECT  ResourceId from AUT.Resource WITH(NOLOCK) WHERE ResourceCode = @resourceCode OR Name = @resourceCode)", nameof(resourceCode), resourceCode);
         }
 
+        public List<ScreenInfo> GetAllScreens()
+        {
+            var records = this.GetRecords<ScreenInfo>("SELECT RequestName from BOA.DBT.OneDesigner ");
+            foreach (var screenInfo in records)
+            {
+
+                Load(screenInfo);
+            }
+
+            return records;
+        }
+
         public bool Load(ScreenInfo data)
         {
             CommandText = $@"
