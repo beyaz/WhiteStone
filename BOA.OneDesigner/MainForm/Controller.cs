@@ -196,7 +196,7 @@ namespace BOA.OneDesigner.MainForm
                 {
                     continue;
                 }
-                existingRecord.IsVisibleBindingPath = resourceAction .IsVisibleBindingPath;
+                resourceAction.CopyTo(existingRecord);
             }
 
             Model.ScreenInfo.ResourceActions = resourceActions;

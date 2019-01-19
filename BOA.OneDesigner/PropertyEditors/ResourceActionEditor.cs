@@ -19,8 +19,11 @@ namespace BOA.OneDesigner.PropertyEditors
  {
     ui:'StackPanel',
 	    rows:[
-		    {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true, Margin:5, Text:'{Binding " + nameof(Aut_ResourceAction.IsVisibleBindingPath) + @"}', Label:'Is Visible Binding Path' }
+		    {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true,    Margin:5, Text:'{Binding " + nameof(Aut_ResourceAction.IsVisibleBindingPath) + @"}',    Label:'Is Visible Binding Path' },
+            {ui:'RequestIntellisenseTextBox', ShowOnlyOrchestrationMethods:true, Margin:5, Text:'{Binding " + nameof(Aut_ResourceAction.OrchestrationMethodName) + @"}', Label:'Orchestration Method Name' }
+
 		    
+
 	    ]
  }
 

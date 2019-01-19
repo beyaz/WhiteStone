@@ -566,10 +566,22 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
+              
 
-                sb.AppendLine("this.executeWindowRequest(command.commandName);");
+                var resourceActions = writerContext.ScreenInfo.ResourceActions;
+                foreach (var resourceAction in resourceActions)
+                {
+                    sb.AppendLine($"if (command.commandName ===\"{resourceAction.CommandName}\")"); 
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");
+                    sb.AppendLine("return /*isCompleted*/true;");
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                }
+
                 sb.AppendLine();
-                sb.AppendLine("return /*isCompleted*/true;");
+                sb.AppendLine("throw new Error('Orchestration method should be specify for command. Command name is '+command.commandName);");
 
                 sb.PaddingCount--;
                 sb.AppendLine("}");

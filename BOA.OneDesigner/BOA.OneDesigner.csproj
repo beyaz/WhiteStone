@@ -88,6 +88,7 @@
     <Compile Include="AppModel\Aut_Resource.cs" />
     <Compile Include="AppModel\Aut_ResourceAction.cs" />
     <Compile Include="AppModel\DragHelper.cs" />
+    <Compile Include="AppModel\Extensions.cs" />
     <Compile Include="CodeGeneration\BComboBoxRenderer.cs" />
     <Compile Include="CodeGeneration\BDataGridRenderer.cs" />
     <Compile Include="CodeGeneration\FileNamingHelper.cs" />
