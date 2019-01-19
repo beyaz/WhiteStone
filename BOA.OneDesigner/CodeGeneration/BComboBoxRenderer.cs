@@ -141,6 +141,10 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine($"valueMemberPath=\"{valueMemberPath}\"");
             sb.AppendLine($"displayMemberPath=\"{displayMemberPath}\"");
 
+            if (data.SizeInfo.HasValue())
+            {
+                sb.AppendLine("size = {"+ RenderHelper.GetJsValue(data.SizeInfo) +"}");
+            }
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;

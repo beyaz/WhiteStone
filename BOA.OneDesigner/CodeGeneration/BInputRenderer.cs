@@ -110,7 +110,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"disabled = {{{TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.IsDisabledBindingPath)}}}");
             }
 
-            if (data.SizeInfo != null && data.SizeInfo.IsEmpty == false)
+            if (data.SizeInfo.HasValue())
             {
                 sb.AppendLine("size = {"+ RenderHelper.GetJsValue(data.SizeInfo) +"}");
             }

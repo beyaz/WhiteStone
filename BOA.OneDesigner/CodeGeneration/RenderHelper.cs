@@ -1,30 +1,30 @@
-﻿using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
+﻿using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
-
 
 namespace BOA.OneDesigner.CodeGeneration
 {
     static class RenderHelper
     {
+        #region Public Methods
         public static string GetJsValue(SizeInfo size)
         {
-			
-			
             if (size.IsLarge)
             {
                 return "ComponentSize.LARGE";
             }
+
             if (size.IsMedium)
             {
                 return "ComponentSize.MEDIUM";
             }
-            if(size.IsSmall)
+
+            if (size.IsSmall)
             {
                 return "ComponentSize.SMALL";
             }
-            if(size.IsExtraSmall)
+
+            if (size.IsExtraSmall)
             {
                 return "ComponentSize.XSMALL";
             }
@@ -57,6 +57,10 @@ namespace BOA.OneDesigner.CodeGeneration
             return null;
         }
 
-        
+        public static bool HasValue(this SizeInfo size)
+        {
+            return size != null && size.IsEmpty == false;
+        }
+        #endregion
     }
 }
