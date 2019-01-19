@@ -1,4 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using BOA.Common.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
 
 namespace BOAPlugins.DocumentFile
 {
@@ -52,9 +58,6 @@ F
                 , data.CSharpCode);
         }
         #endregion
-
-
-
 
         [TestMethod]
         public void Must_Indent_When_In_Summary()

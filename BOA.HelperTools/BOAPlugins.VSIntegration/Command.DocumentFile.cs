@@ -1,5 +1,5 @@
-﻿using System;
-using BOAPlugins.DocumentFile;
+﻿using BOAPlugins.DocumentFile;
+using System;
 
 namespace BOASpSearch
 {
@@ -9,9 +9,17 @@ namespace BOASpSearch
     internal sealed partial class Command1
     {
         #region Methods
+
         void DocumentFile(object sender, EventArgs e)
         {
-            VisualStudio.DocumentActiveFile();
+            try
+            {
+                VisualStudio.DocumentActiveFile();
+            }
+            catch (Exception)
+            {
+            }
+
             VisualStudio.ActiveDocument_SelectAll();
 
             var selectedText = VisualStudio.CursorSelectedText;
@@ -45,6 +53,7 @@ namespace BOASpSearch
 
             VisualStudio.UpdateStatusBarText("Successfully documented.");
         }
-        #endregion
+
+        #endregion Methods
     }
 }

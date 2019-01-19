@@ -90,6 +90,7 @@
     <Compile Include="BOA.Tools.Translator\UI.MessagesExcelResultUpdate\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DocumentFile\AssignmentAligner.cs" />
     <Compile Include="TypescriptModelGeneration\GenerateFilePathInfo.cs" />
     <Compile Include="ViewClassDependency\ViewTypeDependency.cs" />
     <Compile Include="VSIntegration\FormAssistantProjectInitializer.cs" />

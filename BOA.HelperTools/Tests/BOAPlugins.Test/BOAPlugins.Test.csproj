@@ -93,6 +93,7 @@
     <Compile Include="BOA.Tools.Translator\GoogleTranslatorTest.cs" />
     <Compile Include="BoaCodeGenerator\Util\TFSAccessForBOATest.cs" />
     <Compile Include="ConfigurationTest.cs" />
+    <Compile Include="DocumentFile\AssignmentAlignerTest.cs" />
     <Compile Include="ExportingModel\ExporterTest.cs" />
     <Compile Include="ExportingModel\HandlerTest.cs" />
     <Compile Include="DocumentFile\HandlerTest.cs" />

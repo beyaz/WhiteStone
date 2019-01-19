@@ -12,20 +12,19 @@ namespace BOA.Tools.Translator
         [TestMethod]
         public void CreatePropertyNameFromSentence()
         {
-            var result = GoogleTranslator.CreatePropertyNameFromSentence("Music lesson");
+            var result     = GoogleTranslator.CreatePropertyNameFromSentence("Music lesson");
 
             Assert.AreEqual("MusicLesson", result);
         }
 
         void TranslateEnglishToGerman_TranslateExistingFile(string path)
         {
-            var data = File.ReadAllText(path);
+            var data       = File.ReadAllText(path);
+            var ttttttt    = data.Split(Environment.NewLine.ToCharArray()).Where(x => x.IsNullOrWhiteSpace() == false).ToList();
 
-            var list = data.Split(Environment.NewLine.ToCharArray()).Where(x => x.IsNullOrWhiteSpace() == false).ToList();
+            var convertAll    = ttttttt.ConvertAll(GoogleTranslator.ReplaceEmbeddedEnglishStringsWithGermanVersions);
 
-            var convertAll = list.ConvertAll(GoogleTranslator.ReplaceEmbeddedEnglishStringsWithGermanVersions);
-
-            var @join = string.Join(Environment.NewLine, convertAll);
+            var @join      = string.Join(Environment.NewLine, convertAll);
 
             File.WriteAllText(path + ".German.txt", join);
         }
