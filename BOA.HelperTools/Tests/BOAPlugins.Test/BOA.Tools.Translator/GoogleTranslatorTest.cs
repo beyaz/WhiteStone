@@ -1,15 +1,14 @@
-﻿using System;
+﻿using BOA.Common.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BOA.Common.Helpers;
 
 namespace BOA.Tools.Translator
 {
     [TestClass]
     public class GoogleTranslatorTest
     {
-        #region Public Methods
         [TestMethod]
         public void CreatePropertyNameFromSentence()
         {
@@ -17,8 +16,6 @@ namespace BOA.Tools.Translator
 
             Assert.AreEqual("MusicLesson", result);
         }
-
-       
 
         void TranslateEnglishToGerman_TranslateExistingFile(string path)
         {
@@ -30,14 +27,7 @@ namespace BOA.Tools.Translator
 
             var @join = string.Join(Environment.NewLine, convertAll);
 
-            File.WriteAllText(path+".German.txt",join);
+            File.WriteAllText(path + ".German.txt", join);
         }
-
-
-
-       
-
-      
-        #endregion
     }
 }
