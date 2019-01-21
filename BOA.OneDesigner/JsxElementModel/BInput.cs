@@ -21,6 +21,8 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public string IsDisabledBindingPath { get; set; }
 
+        public bool IsAccountComponent { get; set; }
+
         #endregion
     }
 }

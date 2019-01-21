@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
@@ -10,7 +9,7 @@ namespace BOA.OneDesigner.PropertyEditors
     {
         #region Fields
         public LabelEditor _labelEditor;
-        public SizeEditor _sizeEditor;
+        public SizeEditor  _sizeEditor;
         #endregion
 
         #region Constructors
@@ -28,6 +27,16 @@ namespace BOA.OneDesigner.PropertyEditors
         {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true, Margin:5, Text:'{Binding " + nameof(BInput.IsVisibleBindingPath) + @"}', Label:'Is Visible' },
         {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true, Margin:5, Text:'{Binding " + nameof(BInput.IsDisabledBindingPath) + @"}', Label:'Is Disabled' },
 
+
+       {   
+            ui       :'CheckBox', 
+            Content  :'Is Bold', 
+            MarginTop: 10, 
+            IsChecked: '{Binding " + nameof(Model.IsAccountComponent) + @"}', 
+            Checked  : '" + nameof(OnIsAccountComponentChanged) + @"',
+            Unchecked: '" + nameof(OnIsAccountComponentChanged) + @"'
+        },
+
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }
@@ -37,8 +46,7 @@ namespace BOA.OneDesigner.PropertyEditors
             Loaded += (s, e) =>
             {
                 _labelEditor.Host = Host;
-                _sizeEditor.Host = Host;
-
+                _sizeEditor.Host  = Host;
             };
         }
         #endregion
@@ -55,6 +63,10 @@ namespace BOA.OneDesigner.PropertyEditors
         public void Delete()
         {
             Host.EventBus.Publish(EventBus.ComponentDeleted);
+        }
+
+        public void OnIsAccountComponentChanged()
+        {
         }
         #endregion
     }
