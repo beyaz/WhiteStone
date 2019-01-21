@@ -1,4 +1,5 @@
-﻿using BOA.Common.Helpers;
+﻿using System;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
@@ -19,6 +20,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var isString  = true;
             var isDecimal = false;
             var isBoolean = false;
+            var isDateTime = false;
 
             var bindingPathInJs = data.ValueBindingPathInTypeScript;
 
@@ -47,6 +49,10 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     isBoolean = CecilHelper.FullNameOfNullableBoolean == propertyDefinition.PropertyType.FullName ||
                                 propertyDefinition.PropertyType.FullName == typeof(bool).FullName;
+
+
+                    isDateTime = CecilHelper.FullNameOfNullableDateTime == propertyDefinition.PropertyType.FullName ||
+                                propertyDefinition.PropertyType.FullName == typeof(DateTime).FullName;
                 }
 
                 if (isString)
@@ -83,6 +89,16 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     sb.AppendLine($"onCheck = {{(e: any, value: boolean) => {bindingPathInJs} = value}}");
                 }
+                else if (isDateTime)
+                {
+                    writerContext.Imports.Add("import { BDateTimePicker } from \"b-datetime-picker\"");
+
+                    sb.AppendLine($"<BDateTimePicker value = {{{bindingPathInJs}}}");
+                    sb.PaddingCount++;
+
+                    sb.AppendLine($"dateOnChange = {{(e: any, value: Date) => {bindingPathInJs} = value}}");
+                    sb.AppendLine("format = \"DDMMYYYY\"");
+                }
                 else
                 {
                     writerContext.Imports.Add("import { BInputNumeric } from \"b-input-numeric\";");
@@ -93,21 +109,29 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("maxLength = {10}");
                 }
 
+
+
+                var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
+                if (labelValue != null)
+                {
+                    if (isBoolean)
+                    {
+                        sb.AppendLine($"label = {{{labelValue}}}");
+                    }
+                    else if (isDateTime)
+                    {
+                        sb.AppendLine($"floatingLabelTextDate = {{{labelValue}}}");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"floatingLabelText = {{{labelValue}}}");
+                    }
+                }
+
                 
             }
 
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
-            if (labelValue != null)
-            {
-                if (isBoolean)
-                {
-                    sb.AppendLine($"label = {{{labelValue}}}");
-                }
-                else
-                {
-                    sb.AppendLine($"floatingLabelText = {{{labelValue}}}");
-                }
-            }
+            
 
             if (!string.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
             {

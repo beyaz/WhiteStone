@@ -56,7 +56,11 @@ namespace BOA.Common.Helpers
                 AppendLine(strings[i]);
             }
 
-            AppendWithPadding(strings[length]);
+            if (length >=0)
+            {
+                AppendWithPadding(strings[length]);
+            }
+           
         }
 
         /// <summary>

@@ -132,7 +132,11 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static void Write(WriterContext writerContext, BDataGrid data)
         {
-            writerContext.Imports.Add("import { BDataGrid } from \"b-data-grid\"");
+
+           
+
+
+            
 
             var sb         = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
@@ -147,6 +151,17 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(EvaluateMethodBodyOfGridRowSelectionChanged(rowSelectionChangedMethodName,writerContext,data));
             writerContext.ConstructorBody.Add($"this.{rowSelectionChangedMethodName} = this.{rowSelectionChangedMethodName}.bind(this);");
 
+            if ((data.Container as BCard)?.IsBrowsePageDataGridContainer == true)
+            {
+
+                writerContext.AddBeforeRenderReturn($"this.state.dataSource = {data.DataSourceBindingPathInTypeScript};");
+                writerContext.AddBeforeRenderReturn($"this.state.columns = this.{methodNameOfGridColumns}(request);");
+
+                return;
+            }
+
+
+            writerContext.Imports.Add("import { BDataGrid } from \"b-data-grid\"");
 
 
             sb.AppendLine($"<BDataGrid  dataSource = {{{data.DataSourceBindingPathInTypeScript}}}");

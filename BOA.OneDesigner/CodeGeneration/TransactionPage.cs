@@ -473,6 +473,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
         static void Render(WriterContext writerContext, DivAsCardContainer jsxModel)
         {
+            var temp = writerContext.Output;
+
             var sb = new PaddedStringBuilder();
             sb.AppendLine("render()");
             sb.AppendLine("{");
@@ -490,17 +492,37 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("const request = this.state.windowRequest;");
 
-            sb.AppendLine("return (");
-            sb.PaddingCount++;
-            writerContext.Output = sb;
+
+
+
+
+
+            var sb2 = new PaddedStringBuilder {PaddingCount = sb.PaddingCount};
+            sb2.AppendLine("return (");
+            sb2.PaddingCount++;
+            writerContext.Output = sb2;
             DivAsCardContainerRenderer.Write(writerContext, jsxModel);
-            sb.PaddingCount--;
-            sb.AppendLine(");");
+            sb2.PaddingCount--;
+            sb2.AppendLine(");");
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb2.PaddingCount--;
+            sb2.AppendLine("}");
 
-            writerContext.AddClassBody(new TypeScriptMemberInfo{Code = sb.ToString(),IsRender = true});
+
+            if (writerContext.BeforeRenderReturn?.Count>0)
+            {
+                sb.AppendLine();
+                foreach (var line in writerContext.BeforeRenderReturn)
+                {
+                    sb.AppendLine(line);
+                }
+                sb.AppendLine();
+            }
+
+
+            writerContext.Output = temp;
+
+            writerContext.AddClassBody(new TypeScriptMemberInfo{Code = sb +  sb2.ToString(),IsRender = true});
         }
 
         static void WriteClass(WriterContext writerContext, DivAsCardContainer jsxModel)

@@ -18,11 +18,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.AppendLine(string.Empty);
 
-                if (writerContext.IsBrowsePage)
-                {
-                    // write Only Criteria columns
-                    break;
-                }
+                
             }
 
             sb.PaddingCount--;

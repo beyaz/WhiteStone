@@ -180,6 +180,11 @@ namespace BOA.OneDesigner.Helpers
             return FindPropertyInfo(typeDefinition, propertyPath);
         }
 
+        static bool IsObjectType(this TypeReference typeReference)
+        {
+            return typeReference.FullName == "System.Object";
+        }
+
         public static PropertyDefinition FindPropertyInfo(TypeDefinition typeDefinition, string propertyPath)
         {
             var list = propertyPath.SplitAndClear(".");
@@ -195,6 +200,22 @@ namespace BOA.OneDesigner.Helpers
 
                 if (i == list.Count - 1)
                 {
+                    while (true)
+                    {
+                        var propertyDefinition = typeDefinition.Properties.FirstOrDefault(p => p.Name == propertyName);
+                        if (propertyDefinition != null)
+                        {
+                            return propertyDefinition;
+                        }
+
+                        if (typeDefinition.BaseType.IsObjectType())
+                        {
+                            return null;
+                        }
+
+                        typeDefinition = typeDefinition.BaseType.Resolve();
+                    }
+
                     return typeDefinition.Properties.FirstOrDefault(p => p.Name == propertyName);
                 }
 
@@ -296,7 +317,12 @@ namespace BOA.OneDesigner.Helpers
                 var typeDefinition = (FindTypeReferenceAtPath(data.TypeDefinition, path) as GenericInstanceType)?.GenericArguments?.FirstOrDefault()?.Resolve();
                 foreach (var propertyPath in data.Collections[path])
                 {
-                    data.CollectionDetails[path + propertyPath] = FindPropertyInfo(typeDefinition, propertyPath);
+                    var propertyInfo = FindPropertyInfo(typeDefinition, propertyPath);
+                    if (propertyInfo == null)
+                    {
+                        throw Error.InvalidOperation();
+                    }
+                    data.CollectionDetails[path + propertyPath] = propertyInfo;
                 }
             }
 
@@ -360,6 +386,11 @@ namespace BOA.OneDesigner.Helpers
                 return;
             }
 
+            if (typeDefinition.FullName == "System.Object")
+            {
+                return;
+            }
+
             foreach (var propertyDefinition in typeDefinition.Properties)
             {
                 if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
@@ -400,6 +431,8 @@ namespace BOA.OneDesigner.Helpers
                     CollectProperties(data, pathPrefix + propertyDefinition.Name + ".", propertyDefinition.PropertyType.Resolve());
                 }
             }
+
+            CollectProperties(data,pathPrefix, typeDefinition.BaseType.Resolve());
         }
 
         static TypeDefinition FindType(string assemblyPath, string typeFullName)

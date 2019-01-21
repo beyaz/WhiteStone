@@ -103,7 +103,6 @@
     <Compile Include="CodeGeneration\BBranchComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BCardRenderer.cs" />
     <Compile Include="CodeGeneration\BCheckBoxRenderer.cs" />
-    <Compile Include="CodeGeneration\BDateTimePickerRenderer.cs" />
     <Compile Include="CodeGeneration\BInputRenderer.cs" />
     <Compile Include="CodeGeneration\BParameterComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BTabBarRenderer.cs" />
@@ -157,7 +156,6 @@
     <Compile Include="JsxElementModel\BCard.cs" />
     <Compile Include="JsxElementModel\CardContainer.cs" />
     <Compile Include="JsxElementModel\BCheckBox.cs" />
-    <Compile Include="JsxElementModel\BDateTimePicker.cs" />
     <Compile Include="JsxElementModel\BField.cs" />
     <Compile Include="JsxElementModel\BInput.cs" />
     <Compile Include="JsxElementModel\BInputMask.cs" />

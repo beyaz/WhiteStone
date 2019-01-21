@@ -15,30 +15,37 @@ namespace BOA.OneDesigner.CodeGeneration
             var sb         = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
 
-            sb.AppendWithPadding("<BCard context={context}");
 
-            if (data.IsVisibleBindingPath.HasValue())
+            var doNotWriteTag = data.IsBrowsePageDataGridContainer || data.IsBrowsePageCriteria;
+
+            if (doNotWriteTag == false)
             {
-                var isVisibleBindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.IsVisibleBindingPath);
+                sb.AppendWithPadding("<BCard context={context}");
 
-                sb.Append(" style={{ display: " + isVisibleBindingPath + " ? 'inherit' : 'none' }} ");
+                if (data.IsVisibleBindingPath.HasValue())
+                {
+                    var isVisibleBindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.IsVisibleBindingPath);
+
+                    sb.Append(" style={{ display: " + isVisibleBindingPath + " ? 'inherit' : 'none' }} ");
+                }
+
+                var labelValue = RenderHelper.GetLabelValue(screenInfo, data.TitleInfo);
+                if (labelValue != null)
+                {
+                    sb.Append($" title = {{{labelValue}}}");
+                }
+
+                if (data.LayoutProps != null)
+                {
+                    sb.Append(" layoutProps = {{w:" + data.LayoutProps.Wide + ", x:" + data.LayoutProps.X + "}}");
+                }
+
+                sb.Append(">");
+                sb.Append(Environment.NewLine);
+
+                sb.PaddingCount++;
             }
 
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.TitleInfo);
-            if (labelValue != null)
-            {
-                sb.Append($" title = {{{labelValue}}}");
-            }
-
-            if (data.LayoutProps != null)
-            {
-                sb.Append(" layoutProps = {{w:" + data.LayoutProps.Wide + ", x:" + data.LayoutProps.X + "}}");
-            }
-
-            sb.Append(">");
-            sb.Append(Environment.NewLine);
-
-            sb.PaddingCount++;
 
             var subComponents = new List<string>();
 
@@ -126,8 +133,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine();
             }
 
-            sb.PaddingCount--;
-            sb.AppendLine("</BCard>");
+            if (doNotWriteTag == false)
+            {
+                sb.PaddingCount--;
+                sb.AppendLine("</BCard>");
+            }
         }
         #endregion
     }

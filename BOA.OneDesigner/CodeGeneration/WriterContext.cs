@@ -63,6 +63,20 @@ namespace BOA.OneDesigner.CodeGeneration
     public class WriterContext
     {
 
+
+        public List<string> BeforeRenderReturn { get; set; }
+
+        public void AddBeforeRenderReturn(string line)
+        {
+            if (BeforeRenderReturn == null)
+            {
+                BeforeRenderReturn = new List<string>();
+            }
+
+            BeforeRenderReturn.Add(line);
+        }
+
+
         public Dictionary<string,bool> AllNames { get; set; } = new Dictionary<string, bool>();
 
         #region Public Properties

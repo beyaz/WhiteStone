@@ -83,10 +83,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
         
 
-        public static void InitSnapName(BDateTimePicker data)
-        {
-            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
-        }
+       
         #endregion
 
         #region Methods
