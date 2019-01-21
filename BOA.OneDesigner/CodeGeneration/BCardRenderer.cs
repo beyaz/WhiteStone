@@ -20,6 +20,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (doNotWriteTag == false)
             {
+                writerContext.Imports.Add("import { BCard } from \"b-card\""); 
+
                 sb.AppendWithPadding("<BCard context={context}");
 
                 if (data.IsVisibleBindingPath.HasValue())

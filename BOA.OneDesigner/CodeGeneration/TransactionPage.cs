@@ -32,7 +32,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     "import { BFormManager } from \"b-form-manager\"",
                     "import { getMessage } from \"b-framework\"",
                     "import { ComponentSize } from \"b-component\"",
-                    "import { BCard } from \"b-card\""
+                    
                 },
                 ClassName    = className,
                 HasWorkflow  = hasWorkflow,
@@ -47,7 +47,10 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                writerContext.Imports.Add("import { TransactionPage, TransactionPageComposer } from \"b-framework\"");    
+                writerContext.Imports.Add("import { TransactionPage, TransactionPageComposer } from \"b-framework\""); 
+
+                
+                
             }
 
 

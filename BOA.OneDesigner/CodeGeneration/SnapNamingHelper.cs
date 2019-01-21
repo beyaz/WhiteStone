@@ -103,5 +103,13 @@ namespace BOA.OneDesigner.CodeGeneration
             return value[0].ToString().ToUpperEN() + value.Substring(1);
         }
         #endregion
+
+        public static void InitSnapName(WriterContext writerContext, BInput data)
+        {
+            var lastPropertyName = GetLastPropertyName(data.ValueBindingPath);
+
+            data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + data.GetType().Name.RemoveFromStart("B");
+            data.SnapName = writerContext.ForceUniqueName(data.SnapName);
+        }
     }
 }

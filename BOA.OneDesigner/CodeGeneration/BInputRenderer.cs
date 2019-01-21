@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -15,6 +16,9 @@ namespace BOA.OneDesigner.CodeGeneration
             var sb         = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
 
+            SnapNamingHelper.InitSnapName(writerContext,data);
+
+
             var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
 
             var isString  = true;
@@ -26,6 +30,16 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsAccountComponent)
             {
+
+                writerContext.AddBeforeRenderReturn($"if (this.snaps.{data.SnapName} && 0 === ({bindingPathInJs}|0))"+
+                                                    Environment.NewLine+
+                                                    "    {"+
+                                                    Environment.NewLine+
+                                                    $"        this.snaps.{data.SnapName}.resetValue();"+
+                                                    Environment.NewLine+
+                                                    "    }"
+                                                    );
+
                 writerContext.Imports.Add("import { BAccountComponent } from \"b-account-component\"");
                 sb.AppendLine($"<BAccountComponent accountNumber = {{{bindingPathInJs}}}");
                 sb.PaddingCount++;
@@ -33,7 +47,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"onAccountSelect = {{(selectedAccount: any) => {bindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null}}");
                 sb.AppendLine("isVisibleBalance={false}");
                 sb.AppendLine("isVisibleAccountSuffix={false}");
-                sb.AppendLine("enableShowDialogMessagesInCallback={false}");
+                // sb.AppendLine("enableShowDialogMessagesInCallback={false}");
                 sb.AppendLine("isVisibleIBAN={false}");
             }
             else
@@ -147,6 +161,8 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 sb.AppendLine("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
             }
+
+            sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
             sb.AppendLine("context = {context}/>");
 
