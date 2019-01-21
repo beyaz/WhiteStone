@@ -14,6 +14,8 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Constructors
         public BLabelEditor()
         {
+
+            
             this.LoadJson(@"
 
 { 
@@ -21,7 +23,10 @@ namespace BOA.OneDesigner.PropertyEditors
 	Childs:[
 
 		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(Model.TextInto) + @"}'},
-        {ui:'CheckBox', Content:'Is Bold', MarginTop:10, IsChecked:'{Binding " + nameof(Model.IsBold) + @"}', Checked:'"+nameof(OnIsBoldChanged)+@"'}
+        {ui:'CheckBox', Content:'Is Bold', MarginTop:10, IsChecked:'{Binding " + nameof(Model.IsBold) + @"}', 
+            Checked  :'"+nameof(OnIsBoldChanged)+@"',
+            Unchecked:'"+nameof(OnIsBoldChanged)+@"'
+        }
         
         
 
@@ -47,7 +52,7 @@ namespace BOA.OneDesigner.PropertyEditors
             {
                 return;
             }
-            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            Host.EventBus.Publish(EventBus.LabelChanged);
         }
 
     }

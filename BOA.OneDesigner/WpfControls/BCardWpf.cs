@@ -172,7 +172,7 @@ namespace BOA.OneDesigner.WpfControls
                 if (bLabel!= null)
                 {
                     bLabel.Container = Model;
-                    var uiElement = Host.Create<BLabelInWpf>(bLabel);
+                    var uiElement = Host.Create<BLabelWpf>(bLabel);
 
                     Host.DragHelper.MakeDraggable(uiElement);
 
@@ -354,7 +354,7 @@ namespace BOA.OneDesigner.WpfControls
                 return true;
             }
 
-            if (dragElement is BLabelInWpf)
+            if (dragElement is BLabelWpf)
             {
                 return true;
             }
@@ -403,7 +403,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var bLabelInWpf = Host.SelectedElement as BLabelInWpf;
+            var bLabelInWpf = Host.SelectedElement as BLabelWpf;
             if (bLabelInWpf != null)
             {
 
@@ -483,6 +483,18 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
 
+        bool SelectedElementIsMyChild => ChildrenContainer.Children.Contains(Host.SelectedElement);
+
+        void OnSizeChanged()
+        {
+            if (!SelectedElementIsMyChild)
+            {
+                return;
+            }
+
+            CardLayout.Apply(ChildrenContainer);
+        }
+
         #region IEventBusListener
         public event Action OnAttachToEventBus;
         public event Action OnDeAttachToEventBus;
@@ -496,7 +508,8 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Should_ExitDropLocationMode_when_any_component_selected);
             Host.EventBus.Subscribe(EventBus.ComponentDeleted, Should_delete_and_refresh_if_my_child_selected);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
+            Host.EventBus.Subscribe(EventBus.LabelChanged, RefreshTitle);
+            Host.EventBus.Subscribe(EventBus.SizeChanged, OnSizeChanged);
         }
 
         public void DeAttachToEventBus()
@@ -508,7 +521,8 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
             Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, Should_ExitDropLocationMode_when_any_component_selected);
             Host.EventBus.UnSubscribe(EventBus.ComponentDeleted, Should_delete_and_refresh_if_my_child_selected);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, RefreshTitle);
+            Host.EventBus.UnSubscribe(EventBus.LabelChanged, RefreshTitle);
+            Host.EventBus.UnSubscribe(EventBus.SizeChanged, OnSizeChanged);
         }
         #endregion
     }

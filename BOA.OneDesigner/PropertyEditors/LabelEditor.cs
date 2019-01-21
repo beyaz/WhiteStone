@@ -6,7 +6,7 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
 {
-    class LabelEditor : GroupBox,IHostItem
+    class LabelEditor : GroupBox, IHostItem
     {
         #region Constructors
         public LabelEditor()
@@ -48,16 +48,19 @@ namespace BOA.OneDesigner.PropertyEditors
         }
         #endregion
 
+        #region Public Properties
+        public Host Host { get; set; }
+        #endregion
+
         #region Public Methods
         public void FirePropertyChanged()
         {
-            if (Host == null)
+            if (!IsLoaded)
             {
                 return;
-                 // TODO:??
-                // throw Error.InvalidOperation();
             }
-            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+
+            Host.EventBus.Publish(EventBus.LabelChanged);
         }
 
         public void OnCheckedChanged()
@@ -66,11 +69,10 @@ namespace BOA.OneDesigner.PropertyEditors
             {
                 return;
             }
+
             this.RefreshDataContext();
-            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            Host.EventBus.Publish(EventBus.LabelChanged);
         }
         #endregion
-
-        public Host Host { get; set; }
     }
 }

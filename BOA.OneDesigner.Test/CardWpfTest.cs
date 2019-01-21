@@ -84,7 +84,7 @@ namespace BOA.OneDesigner
             // ACT
             bCard.TitleInfo.FreeTextValue = "B";
 
-            host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            host.EventBus.Publish(EventBus.LabelChanged);
 
             // ASSERT
             wpf.HeaderAsString.Should().Be("B");

@@ -9,10 +9,7 @@ using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls
 {
-
-
-
-        class RequestIntellisenseTextBox : IntellisenseTextBox
+    class RequestIntellisenseTextBox : IntellisenseTextBox
     {
         #region Constructors
         public RequestIntellisenseTextBox()
@@ -26,12 +23,11 @@ namespace BOA.OneDesigner.WpfControls
 
         public bool ShowOnlyBooleanProperties { get; set; }
 
-        public bool ShowOnlyCollectionProperties { get; set; }
-        public bool ShowOnlyOrchestrationMethods { get; set; }
-
-        
-        public bool ShowOnlyStringProperties     { get; set; }
+        public bool ShowOnlyCollectionProperties   { get; set; }
         public bool ShowOnlyNotNullInt32Properties { get; set; }
+        public bool ShowOnlyOrchestrationMethods   { get; set; }
+
+        public bool ShowOnlyStringProperties { get; set; }
         #endregion
 
         class RequestPropertyIntellisenseProvider : IIntelliboxResultsProvider

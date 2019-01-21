@@ -51,17 +51,7 @@ namespace BOA.OneDesigner.PropertyEditors
             Host.EventBus.Publish(EventBus.ComponentDeleted);
         }
 
-        public void FirePropertyChanged()
-        {
-            if (Host == null)
-            {
-                return;
-                // TODO:??
-                // throw Error.InvalidOperation();
-            }
-
-            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
-        }
+       
         #endregion
     }
 }

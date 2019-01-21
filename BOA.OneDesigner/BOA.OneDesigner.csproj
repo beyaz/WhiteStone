@@ -144,7 +144,7 @@
     </Compile>
     <Compile Include="PropertyEditors\BInputEditor.cs" />
     <Compile Include="Helpers\CecilHelper.cs" />
-    <Compile Include="WpfControls\BLabelInWpf.cs" />
+    <Compile Include="WpfControls\BLabelWpf.cs" />
     <Compile Include="WpfControls\BTabBarPageWpf.cs" />
     <Compile Include="WpfControls\CardLayout.cs" />
     <Compile Include="AppModel\DevelopmentDatabase.cs" />

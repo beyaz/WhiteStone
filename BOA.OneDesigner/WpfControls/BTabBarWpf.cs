@@ -145,6 +145,25 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
+        void OnTabPageAdded()
+        {
+
+            if (Host.SelectedElement != this)
+            {
+                return;
+            }
+
+            Model.Items.Add(new BTabBarPage
+            {
+                TitleInfo = LabelInfoHelper.CreateNewLabelInfo("Page " + Model.Items.Count)
+            });
+
+            Refresh();
+        }
+
+        
+
+
         bool UpdateModel(int insertIndex)
         {
             var bTabBarPageWpf = Host.SelectedElement as BTabBarPageWpf;
@@ -177,6 +196,8 @@ namespace BOA.OneDesigner.WpfControls
             OnAttachToEventBus?.Invoke();
 
             Host.EventBus.Subscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
+            Host.EventBus.Subscribe(EventBus.TabBarPageAdded, OnTabPageAdded);
+            
         }
 
         public void DeAttachToEventBus()
@@ -188,6 +209,7 @@ namespace BOA.OneDesigner.WpfControls
 
             OnDeAttachToEventBus?.Invoke();
             Host.EventBus.UnSubscribe(EventBus.TabBarPageRemoved, OnTabPageRemoved);
+            Host.EventBus.UnSubscribe(EventBus.TabBarPageAdded, OnTabPageAdded);
         }
         #endregion
     }

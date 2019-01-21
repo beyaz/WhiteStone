@@ -70,13 +70,13 @@ namespace BOA.OneDesigner.WpfControls
         public void AttachToEventBus()
         {
             OnAttachToEventBus?.Invoke();
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.Subscribe(EventBus.LabelChanged, UpdateLabel);
         }
 
         public void DeAttachToEventBus()
         {
             OnDeAttachToEventBus?.Invoke();
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.UnSubscribe(EventBus.LabelChanged, UpdateLabel);
         }
         #endregion
 

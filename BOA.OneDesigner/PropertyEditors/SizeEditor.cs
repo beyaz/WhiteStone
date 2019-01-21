@@ -45,7 +45,7 @@ namespace BOA.OneDesigner.PropertyEditors
                 return;
             }
 
-            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            Host.EventBus.Publish(EventBus.SizeChanged);
         }
         #endregion
     }

@@ -84,16 +84,16 @@ namespace BOA.OneDesigner.WpfControls
         {
             OnAttachToEventBus?.Invoke();
 
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+            Host.EventBus.Subscribe(EventBus.LabelChanged, UpdateLabel);
+            //Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
 
         public void DeAttachToEventBus()
         {
             OnDeAttachToEventBus?.Invoke();
 
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
+            Host.EventBus.UnSubscribe(EventBus.LabelChanged, UpdateLabel);
+            //Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
         #endregion
     }

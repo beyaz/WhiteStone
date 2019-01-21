@@ -43,7 +43,7 @@ namespace BOA.OneDesigner
 
             bDataGrid.Columns[0].Label.FreeTextValue = "B";
 
-            host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            host.EventBus.Publish(EventBus.LabelChanged);
 
             bDataGridColumnWpf = (BDataGridColumnWpf) wpf.ColumnsCollection[0];
 

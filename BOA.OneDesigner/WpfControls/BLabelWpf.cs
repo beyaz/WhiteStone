@@ -6,12 +6,13 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    class BLabelInWpf : TextBlock, IHostItem, ISupportSizeInfo, IEventBusListener
+    class BLabelWpf : TextBlock, IHostItem, ISupportSizeInfo, IEventBusListener
     {
         #region Constructors
-        public BLabelInWpf()
+        public BLabelWpf()
         {
             Loaded += (s, e) => { UpdateTextProperty(); };
+            Margin = new Thickness(10);
         }
         #endregion
 
@@ -63,14 +64,14 @@ namespace BOA.OneDesigner.WpfControls
         {
             OnAttachToEventBus?.Invoke();
 
-            Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.Subscribe(EventBus.LabelChanged, UpdateLabel);
         }
 
         public void DeAttachToEventBus()
         {
             OnDeAttachToEventBus?.Invoke();
 
-            Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateLabel);
+            Host.EventBus.UnSubscribe(EventBus.LabelChanged, UpdateLabel);
         }
         #endregion
     }

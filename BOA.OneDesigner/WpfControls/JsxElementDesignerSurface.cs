@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -54,15 +53,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             get
             {
-                try
-                {
-                    return (DivAsCardContainer) DataContext;
-                }
-                catch (Exception exception)
-                {
-                    App.HandleException(exception);
-                    throw;
-                }
+                return  DataContext as DivAsCardContainer;
             }
         }
         #endregion
@@ -155,7 +146,7 @@ namespace BOA.OneDesigner.WpfControls
 
             Children.Clear();
 
-            if (DataContext == null)
+            if (Model == null)
             {
                 return;
             }

@@ -56,7 +56,7 @@ namespace BOA.OneDesigner.WpfControls
             #endregion
 
             #region Label
-            var bLabelInWpf = new BLabelInWpf
+            var bLabelInWpf = new BLabelWpf
             {
                 Text        = "Label",
                 FontWeight  = FontWeight.FromOpenTypeWeight(700),

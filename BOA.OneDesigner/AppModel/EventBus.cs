@@ -14,13 +14,16 @@ namespace BOA.OneDesigner.AppModel
         public const string DataGridColumnAdded        = nameof(DataGridColumnAdded);
         public const string DataGridColumnRemoved      = nameof(DataGridColumnRemoved);
         public const string OnAfterDropOperation       = nameof(OnAfterDropOperation);
-        public const string OnComponentPropertyChanged = nameof(OnComponentPropertyChanged);
+        
         public const string OnDragElementSelected      = nameof(OnDragElementSelected);
         public const string OnDragStarted              = nameof(OnDragStarted);
         public const string RefreshFromDataContext     = nameof(RefreshFromDataContext);
         public const string TabBarPageRemoved          = nameof(TabBarPageRemoved);
+        public const string TabBarPageAdded = nameof(TabBarPageAdded);
 
         public const string WideChanged = nameof(WideChanged);
+        public const string SizeChanged = nameof(SizeChanged);
+        public const string LabelChanged = nameof(LabelChanged);
         #endregion
 
         #region Fields
@@ -42,7 +45,6 @@ namespace BOA.OneDesigner.AppModel
             }
         }
 
-        
         #endregion
 
         #region Public Methods

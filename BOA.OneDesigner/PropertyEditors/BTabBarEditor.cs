@@ -42,12 +42,7 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Methods
         void AddTab()
         {
-            Model.Items.Add(new BTabBarPage
-            {
-                TitleInfo = LabelInfoHelper.CreateNewLabelInfo("Page " + Model.Items.Count)
-            });
-
-            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+            Host.EventBus.Publish(EventBus.TabBarPageAdded);
         }
         #endregion
     }
