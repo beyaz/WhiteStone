@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
@@ -7,8 +8,16 @@ namespace BOA.OneDesigner.WpfControls
 {
     class BLabelInWpf : TextBlock, IHostItem, ISupportSizeInfo, IEventBusListener
     {
+        #region Constructors
+        public BLabelInWpf()
+        {
+            Loaded += (s, e) => { UpdateTextProperty(); };
+        }
+        #endregion
+
         #region Public Properties
-        public Host Host { get; set; }
+        public Host Host        { get; set; }
+        public bool IsInToolbox { get; set; }
 
         public BLabel Model => (BLabel) DataContext;
 
@@ -16,6 +25,18 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
+        void UpdateFontWeight()
+        {
+            if (Model.IsBold)
+            {
+                FontWeight = FontWeights.Bold;
+            }
+            else
+            {
+                FontWeight = FontWeights.Normal;
+            }
+        }
+
         void UpdateLabel()
         {
             if (Host.SelectedElement != this)
@@ -23,7 +44,14 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            GetBindingExpression(TextProperty)?.UpdateTarget();
+            UpdateTextProperty();
+
+            UpdateFontWeight();
+        }
+
+        void UpdateTextProperty()
+        {
+            Text = Model?.Text;
         }
         #endregion
 

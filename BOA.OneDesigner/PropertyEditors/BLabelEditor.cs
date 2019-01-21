@@ -20,7 +20,8 @@ namespace BOA.OneDesigner.PropertyEditors
     Margin:10,
 	Childs:[
 
-		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(Model.TextInto) + @"}'}
+		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(Model.TextInto) + @"}'},
+        {ui:'CheckBox', Content:'Is Bold', MarginTop:10, IsChecked:'{Binding " + nameof(Model.IsBold) + @"}', Checked:'"+nameof(OnIsBoldChanged)+@"'}
         
         
 
@@ -39,5 +40,15 @@ namespace BOA.OneDesigner.PropertyEditors
         public Host   Host  { get; set; }
         public BLabel Model => (BLabel) DataContext;
         #endregion
+
+        public void OnIsBoldChanged()
+        {
+            if (!IsLoaded)
+            {
+                return;
+            }
+            Host.EventBus.Publish(EventBus.OnComponentPropertyChanged);
+        }
+
     }
 }

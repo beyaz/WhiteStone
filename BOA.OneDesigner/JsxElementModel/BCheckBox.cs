@@ -4,21 +4,7 @@ using BOA.OneDesigner.WpfControls;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
-    /// <summary>
-    ///     The b CheckBox
-    /// </summary>
-    [Serializable]
-    public class BCheckBox : BField, ISupportSizeInfo
-    {
-        #region Public Properties
-        /// <summary>
-        ///     Gets or sets the label information.
-        /// </summary>
-        public LabelInfo LabelInfo { get; set; } = new LabelInfo();
-
-        public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsLarge = true};
-        #endregion
-    }
+   
 
     /// <summary>
     ///     The b label
@@ -39,7 +25,7 @@ namespace BOA.OneDesigner.JsxElementModel
         /// <summary>
         ///     Gets or sets the text into.
         /// </summary>
-        public LabelInfo TextInto { get; set; } = new LabelInfo();
+        public LabelInfo TextInto { get; set; } = new LabelInfo {IsFreeText = true, FreeTextValue = "Label"};
         #endregion
     }
 }

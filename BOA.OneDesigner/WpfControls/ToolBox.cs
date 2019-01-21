@@ -55,13 +55,14 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(bComboBoxInWpf);
             #endregion
 
-
             #region Label
             var bLabelInWpf = new BLabelInWpf
             {
-                Text = "Label",
+                Text        = "Label",
+                FontWeight  = FontWeight.FromOpenTypeWeight(700),
                 Host        = Host,
-                DataContext = new BLabel()
+                DataContext = new BLabel(),
+                IsInToolbox = true
             };
 
             Host.DragHelper.MakeDraggable(bLabelInWpf);

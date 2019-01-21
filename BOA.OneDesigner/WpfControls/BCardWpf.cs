@@ -406,6 +406,13 @@ namespace BOA.OneDesigner.WpfControls
             var bLabelInWpf = Host.SelectedElement as BLabelInWpf;
             if (bLabelInWpf != null)
             {
+
+                if (bLabelInWpf.IsInToolbox)
+                {
+                    Model.InsertItem(insertIndex, new BLabel());
+                    return;
+                }
+
                 bLabelInWpf.Model.RemoveFromParent();
 
                 Model.InsertItem(insertIndex, bLabelInWpf.Model);
