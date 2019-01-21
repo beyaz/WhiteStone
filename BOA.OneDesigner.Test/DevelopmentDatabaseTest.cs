@@ -11,38 +11,7 @@ namespace BOA.OneDesigner.AppModel
     public class DevelopmentDatabaseTest
     {
 
-        [TestMethod]
-        public void UpdateDataModel()
-        {
-            var database = new DevelopmentDatabase();
-
-
-            foreach (var screenInfo in database.GetAllScreens())
-            {
-                var divAsCardContainer =  screenInfo.JsxModel as DivAsCardContainer;
-                VisitAll(divAsCardContainer, (field) =>
-                {
-                    ((BComponent) field).ValueBindingPath = field.ValueBindingPath;
-                });
-
-                database.Save(screenInfo);
-            }
-        }
-
-        static void VisitAll(DivAsCardContainer divAsCardContainer, Action<BField> action)
-        {
-            if (divAsCardContainer == null)
-            {
-                return;
-            }
-            foreach (var bCard in divAsCardContainer.Items)
-            {
-                foreach (var field in bCard.Items)
-                {
-                    action(field);
-                }
-            }
-        }
+      
 
 
 

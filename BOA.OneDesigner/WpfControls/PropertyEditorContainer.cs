@@ -74,6 +74,15 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
+
+            var bLabel = DataContext as BLabel;
+            if (bLabel != null)
+            {
+                Content = Host.Create<BLabelEditor>(DataContext);
+                return;
+            }
+            
+
             var dataGridColumnInfo = DataContext as BDataGridColumnInfo;
             if (dataGridColumnInfo != null)
             {

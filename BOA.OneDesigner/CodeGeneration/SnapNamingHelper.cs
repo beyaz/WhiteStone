@@ -81,10 +81,7 @@ namespace BOA.OneDesigner.CodeGeneration
             data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
 
-        public static void InitSnapName(BCheckBox data)
-        {
-            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
-        }
+        
 
         public static void InitSnapName(BDateTimePicker data)
         {

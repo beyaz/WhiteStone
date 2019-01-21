@@ -58,6 +58,23 @@ namespace BOA.OneDesigner.CodeGeneration
                     continue;
                 }
 
+                var bLabel = item as BLabel;
+                if (bLabel != null)
+                {
+                    writerContext.Output = new PaddedStringBuilder();
+
+                    BLabelRenderer.Write(writerContext, bLabel);
+
+                    subComponents.Add(writerContext.Output.ToString());
+
+                    writerContext.Output = sb;
+
+                    continue;
+                }
+
+                
+
+
                 var bTabBar = item as BTabBar;
                 if (bTabBar != null)
                 {

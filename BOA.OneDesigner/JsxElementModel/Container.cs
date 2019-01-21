@@ -12,12 +12,12 @@ namespace BOA.OneDesigner.JsxElementModel
         /// <summary>
         ///     Inserts the item.
         /// </summary>
-        public abstract void InsertItem(int index, BComponent item);
+        public abstract void InsertItem(int index, BField item);
 
         /// <summary>
         ///     Removes the item.
         /// </summary>
-        public abstract void RemoveItem(BComponent field);
+        public abstract void RemoveItem(BField field);
         #endregion
     }
 }

@@ -168,6 +168,21 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
+                var bLabel = bField as BLabel;
+                if (bLabel!= null)
+                {
+                    bLabel.Container = Model;
+                    var uiElement = Host.Create<BLabelInWpf>(bLabel);
+
+                    Host.DragHelper.MakeDraggable(uiElement);
+
+                    ChildrenContainer.Children.Add(uiElement);
+                    Host.AttachToEventBus(uiElement, this);
+
+                    continue;
+                }
+
+
                 var bComboBox = bField as BComboBox;
                 if (bComboBox!= null)
                 {
@@ -339,6 +354,11 @@ namespace BOA.OneDesigner.WpfControls
                 return true;
             }
 
+            if (dragElement is BLabelInWpf)
+            {
+                return true;
+            }
+
             if (dragElement is BComboBoxInWpf)
             {
                 return true;
@@ -379,6 +399,16 @@ namespace BOA.OneDesigner.WpfControls
                 bInput.Model.RemoveFromParent();
 
                 Model.InsertItem(insertIndex, bInput.Model);
+
+                return;
+            }
+
+            var bLabelInWpf = Host.SelectedElement as BLabelInWpf;
+            if (bLabelInWpf != null)
+            {
+                bLabelInWpf.Model.RemoveFromParent();
+
+                Model.InsertItem(insertIndex, bLabelInWpf.Model);
 
                 return;
             }

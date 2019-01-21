@@ -41,7 +41,7 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BComboBox:BField
     {
-        public new string Label => LabelInfo.GetDesignerText();
+        public  string Label => LabelInfo.GetDesignerText();
 
         public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsMedium = true};
 

@@ -1,25 +1,33 @@
-﻿using BOA.Common.Helpers;
-using BOA.OneDesigner.JsxElementModel;
+﻿using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-    static class BCheckBoxRenderer
+    static class BLabelRenderer
     {
-        public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BCheckBox data)
+        #region Public Methods
+        public static void Write(WriterContext writerContext, BLabel data)
         {
-            SnapNamingHelper.InitSnapName(data);
+            writerContext.Imports.Add("import { BLabel } from \"b-label\"");
 
-            sb.AppendLine($"<BCheckBox  checked = {{{data.ValueBindingPathInTypeScript}}}");
-            sb.AppendLine($"            onCheck = {{(e: any, isChecked: boolean) => {{{data.ValueBindingPathInTypeScript}}} = isChecked}}");
-            sb.AppendLine("             ref = {(r: any) => this.snaps."+data.SnapName+" = r}");
+            var sb = writerContext.Output;
 
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
-            if (labelValue != null)
+            sb.Append($"<BLabel = {{{data.ValueBindingPathInTypeScript}}}");
+
+            var textValue = RenderHelper.GetLabelValue(writerContext.ScreenInfo, data.TextInto);
+            if (textValue != null)
             {
-                sb.AppendLine($"label = {labelValue}");
+                sb.Append($" text = {{{textValue}}}");
             }
 
-            sb.AppendLine("             context = {context}/>");
+            if (data.IsBold)
+            {
+                sb.Append(" style = {{ fontWeight:\"bold\" }}");
+            }
+
+            sb.AppendLine(" />");
         }
+        #endregion
     }
+
+    
 }

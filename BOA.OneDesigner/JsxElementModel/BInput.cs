@@ -9,10 +9,10 @@ namespace BOA.OneDesigner.JsxElementModel
         // TODO string propertiler için editörden set et
         public string Mask { get; set; }
 
-        public SizeInfo SizeInfo { get; set; } = new SizeInfo();
+        public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsLarge = true};
 
         #region Public Properties
-        public new string Label => LabelInfo.GetDesignerText();
+        public  string Label => LabelInfo.GetDesignerText();
 
         public LabelInfo LabelInfo { get; set; } = new LabelInfo();
 

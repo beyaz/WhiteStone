@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -49,7 +50,21 @@ namespace BOA.OneDesigner.WpfControls
         #region Public Properties
         public Host Host { get; set; }
 
-        public DivAsCardContainer Model => (DivAsCardContainer) DataContext;
+        public DivAsCardContainer Model
+        {
+            get
+            {
+                try
+                {
+                    return (DivAsCardContainer) DataContext;
+                }
+                catch (Exception exception)
+                {
+                    App.HandleException(exception);
+                    throw;
+                }
+            }
+        }
         #endregion
 
         #region Public Methods
