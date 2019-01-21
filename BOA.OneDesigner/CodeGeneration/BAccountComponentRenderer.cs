@@ -9,8 +9,8 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             SnapNamingHelper.InitSnapName(data);
 
-            sb.AppendLine($"<BAccountComponent  accountNumber = {{{data.BindingPathInTypeScript}}}");
-            sb.AppendLine($"                   onAccountSelect = {{(selectedAccount: any) => {{{data.BindingPathInTypeScript}}} = selectedAccount ? selectedAccount.accountNumber : null}}");
+            sb.AppendLine($"<BAccountComponent  accountNumber = {{{data.ValueBindingPathInTypeScript}}}");
+            sb.AppendLine($"                   onAccountSelect = {{(selectedAccount: any) => {{{data.ValueBindingPathInTypeScript}}} = selectedAccount ? selectedAccount.accountNumber : null}}");
             sb.AppendLine("                  isVisibleBalance = {false}");
             sb.AppendLine("            isVisibleAccountSuffix = {false}");
             sb.AppendLine("enableShowDialogMessagesInCallback = {false}");

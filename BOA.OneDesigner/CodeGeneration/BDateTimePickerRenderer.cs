@@ -9,8 +9,8 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             SnapNamingHelper.InitSnapName(data);
 
-            sb.AppendLine($"<BDateTimePicker  value = {{{data.BindingPathInTypeScript}}}");
-            sb.AppendLine($"            dateOnChange = {{(e: any, value: Date) => {{{data.BindingPathInTypeScript}}} = value}}");
+            sb.AppendLine($"<BDateTimePicker  value = {{{data.ValueBindingPathInTypeScript}}}");
+            sb.AppendLine($"            dateOnChange = {{(e: any, value: Date) => {{{data.ValueBindingPathInTypeScript}}} = value}}");
             sb.AppendLine("             ref = {(r: any) => this.snaps."+data.SnapName+" = r}");
             sb.AppendLine("format = \"DDMMYYYY\"");
             var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);

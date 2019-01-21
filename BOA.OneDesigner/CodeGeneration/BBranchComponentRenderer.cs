@@ -9,8 +9,8 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             SnapNamingHelper.InitSnapName(data);
 
-            sb.AppendLine($"<BBranchComponent  selectedBranchId = {{{data.BindingPathInTypeScript}}}");
-            sb.AppendLine($"                   onBranchSelect = {{(selectedBranch: BOA.Common.Types.BranchContract) => {{{data.BindingPathInTypeScript}}} = selectedBranch ? selectedBranch.branchId : null}}");
+            sb.AppendLine($"<BBranchComponent  selectedBranchId = {{{data.ValueBindingPathInTypeScript}}}");
+            sb.AppendLine($"                   onBranchSelect = {{(selectedBranch: BOA.Common.Types.BranchContract) => {{{data.ValueBindingPathInTypeScript}}} = selectedBranch ? selectedBranch.branchId : null}}");
             sb.AppendLine("                  mode = {\"horizontal\"}");
             sb.AppendLine("            sortOption = {BBranchComponent.name}");
             sb.AppendLine("                               ref = {(r: any) => this.snaps."+data.SnapName+" = r}");

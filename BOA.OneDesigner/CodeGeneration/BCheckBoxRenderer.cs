@@ -9,8 +9,8 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             SnapNamingHelper.InitSnapName(data);
 
-            sb.AppendLine($"<BCheckBox  checked = {{{data.BindingPathInTypeScript}}}");
-            sb.AppendLine($"            onCheck = {{(e: any, isChecked: boolean) => {{{data.BindingPathInTypeScript}}} = isChecked}}");
+            sb.AppendLine($"<BCheckBox  checked = {{{data.ValueBindingPathInTypeScript}}}");
+            sb.AppendLine($"            onCheck = {{(e: any, isChecked: boolean) => {{{data.ValueBindingPathInTypeScript}}} = isChecked}}");
             sb.AppendLine("             ref = {(r: any) => this.snaps."+data.SnapName+" = r}");
 
             var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);

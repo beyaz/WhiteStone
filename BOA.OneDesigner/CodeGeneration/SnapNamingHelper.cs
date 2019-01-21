@@ -53,7 +53,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
         public static void InitSnapName(BParameterComponent data)
         {
-            data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
+            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
 
         public static void InitSnapName(WriterContext writerContext,BComboBox data)
@@ -68,27 +68,27 @@ namespace BOA.OneDesigner.CodeGeneration
 
         public static void InitSnapName(BAccountComponent data)
         {
-            data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
+            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
 
         public static void InitSnapName(BBranchComponent data)
         {
-            data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
+            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
 
         public static void InitSnapName(BDataGrid data)
         {
-            data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
+            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
 
         public static void InitSnapName(BCheckBox data)
         {
-            data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
+            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
 
         public static void InitSnapName(BDateTimePicker data)
         {
-            data.SnapName = GetComponentTypeName(data) + data.BindingPathInTypeScript;
+            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
         #endregion
 

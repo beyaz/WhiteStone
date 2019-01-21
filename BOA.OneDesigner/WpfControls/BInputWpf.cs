@@ -26,7 +26,7 @@ namespace BOA.OneDesigner.WpfControls
 	rows:
 	[
 		{view:'TextBlock', Name:'_label',        Text:'{Binding " + nameof(BInput.Label) + @",       Mode = OneWay}', MarginBottom:5, IsBold:true},
-        {view:'TextBox',   Name:'_bindingPath',  Text:'{Binding " + nameof(BInput.BindingPath) + @", Mode = OneWay}' , IsReadOnly:true}        
+        {view:'TextBox',   Name:'_bindingPath',  Text:'{Binding " + nameof(BInput.ValueBindingPath) + @", Mode = OneWay}' , IsReadOnly:true}        
 	]
 	
 }");

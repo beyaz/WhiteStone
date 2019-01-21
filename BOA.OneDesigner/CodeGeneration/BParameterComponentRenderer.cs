@@ -9,14 +9,14 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             SnapNamingHelper.InitSnapName(data);
 
-            sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{data.BindingPathInTypeScript}}}");
+            sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{data.ValueBindingPathInTypeScript}}}");
             if (data.ValueTypeIsInt32)
             {
-                sb.AppendLine($"            onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{data.BindingPathInTypeScript}}} = selectedParameter ? selectedParameter.paramCode|0 : null}}");    
+                sb.AppendLine($"            onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{data.ValueBindingPathInTypeScript}}} = selectedParameter ? selectedParameter.paramCode|0 : null}}");    
             }
             else
             {
-                sb.AppendLine($"            onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{data.BindingPathInTypeScript}}} = selectedParameter ? selectedParameter.paramCode : null}}");
+                sb.AppendLine($"            onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{data.ValueBindingPathInTypeScript}}} = selectedParameter ? selectedParameter.paramCode : null}}");
             }
             
             sb.AppendLine("             ref = {(r: any) => this.snaps."+data.SnapName+" = r}");

@@ -23,7 +23,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
 
-            var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName, data.BindingPath);
+            var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName, data.ValueBindingPath);
 
             if (propertyDefinition != null)
             {
@@ -40,7 +40,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
            
 
-            var bindingPathInJs = data.BindingPathInTypeScript;
+            var bindingPathInJs = data.ValueBindingPathInTypeScript;
 
             if (isString)
             {

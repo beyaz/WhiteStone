@@ -2,12 +2,22 @@
 
 namespace BOA.OneDesigner.JsxElementModel
 {
+    /// <summary>
+    ///     The container
+    /// </summary>
     [Serializable]
     public abstract class Container
     {
         #region Public Methods
-        public abstract void InsertItem(int    index, BField item);
-        public abstract void RemoveItem(BField field);
+        /// <summary>
+        ///     Inserts the item.
+        /// </summary>
+        public abstract void InsertItem(int index, BComponent item);
+
+        /// <summary>
+        ///     Removes the item.
+        /// </summary>
+        public abstract void RemoveItem(BComponent field);
         #endregion
     }
 }

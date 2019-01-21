@@ -21,7 +21,7 @@ namespace BOA.OneDesigner.PropertyEditors
 { 
     Margin:10,
 	Childs:[
-		{ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BInput.BindingPath) + @"}', Label:'Binding Path' },
+		{ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BInput.ValueBindingPath) + @"}', Label:'Binding Path' },
 		{ui:'LabelEditor', Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(BInput.LabelInfo) + @"}'},
         {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BInput.SizeInfo) + @"}'},
 

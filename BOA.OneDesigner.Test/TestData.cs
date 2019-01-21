@@ -16,11 +16,11 @@ namespace BOA.OneDesigner
                 {
                     new BInput
                     {
-                        BindingPath = "A"
+                        ValueBindingPath = "A"
                     },
                     new BInput
                     {
-                        BindingPath = "B"
+                        ValueBindingPath = "B"
                     }
                 }
             };
