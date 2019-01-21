@@ -81,11 +81,9 @@ namespace BOA.OneDesigner.AppModel
 
         void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+
             Host.DraggingElementStartPoint = e.GetPosition(null);
             Host.SelectedElement           = (UIElement) sender;
-            Host.LastSelectedUIElement     = (UIElement) sender;
-
-            EventBus.Publish(EventBus.BeforeDragElementSelected);
 
             EventBus.Publish(EventBus.OnDragElementSelected);
         }

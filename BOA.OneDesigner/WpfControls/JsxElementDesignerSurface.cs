@@ -8,41 +8,12 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class JsxElementDesignerSurface : StackPanel, IHostItem,IEventBusListener
+    public class JsxElementDesignerSurface : StackPanel, IHostItem, IEventBusListener
     {
-
-
-        #region IEventBusListener
-        public event Action OnAttachToEventBus;
-        public event Action OnDeAttachToEventBus;
-
-        public void AttachToEventBus()
-        {
-            OnAttachToEventBus?.Invoke();
-            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.Subscribe(EventBus.BeforeDragElementSelected, BeforeDragElementSelected);
-        }
-
-        public void DeAttachToEventBus()
-        {
-            OnDeAttachToEventBus?.Invoke();
-            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
-            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
-            Host.EventBus.UnSubscribe(EventBus.BeforeDragElementSelected, BeforeDragElementSelected);
-        }
-        #endregion
-
-
-
         #region Constructors
         public JsxElementDesignerSurface()
         {
             VerticalAlignment = VerticalAlignment.Stretch;
-
-            
         }
         #endregion
 
@@ -51,27 +22,20 @@ namespace BOA.OneDesigner.WpfControls
 
         public DivAsCardContainer Model
         {
-            get
-            {
-                return  DataContext as DivAsCardContainer;
-            }
+            get { return DataContext as DivAsCardContainer; }
         }
-        #endregion
-
-        #region Public Methods
-       
-
-       
         #endregion
 
         #region Methods
         void BeforeDragElementSelected()
         {
-            var column = Host.LastSelectedUIElement as BDataGridColumnWpf;
+            var column = Host.SelectedElement as BDataGridColumnWpf;
+            if (column != null)
+            {
+                Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath = column.BDataGridInfoWpf?.Model?.DataSourceBindingPath;
+            }
 
-            Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath = column?.BDataGridInfoWpf?.Model?.DataSourceBindingPath;
-
-            var bComboBoxInWpf = Host.LastSelectedUIElement  as BComboBoxInWpf;
+            var bComboBoxInWpf = Host.SelectedElement as BComboBoxInWpf;
             if (bComboBoxInWpf != null)
             {
                 Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath = bComboBoxInWpf.Model.DataGrid.DataSourceBindingPath;
@@ -155,7 +119,30 @@ namespace BOA.OneDesigner.WpfControls
 
             Children.Add(bCardSection);
 
-            Host.AttachToEventBus(bCardSection,this);
+            Host.AttachToEventBus(bCardSection, this);
+        }
+        #endregion
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+
+        public void AttachToEventBus()
+        {
+            OnAttachToEventBus?.Invoke();
+            Host.EventBus.Subscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            Host.EventBus.Subscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.Subscribe(EventBus.OnDragElementSelected, BeforeDragElementSelected);
+        }
+
+        public void DeAttachToEventBus()
+        {
+            OnDeAttachToEventBus?.Invoke();
+            Host.EventBus.UnSubscribe(EventBus.OnDragStarted, EnterDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.OnAfterDropOperation, ExitDropLocationMode);
+            Host.EventBus.UnSubscribe(EventBus.RefreshFromDataContext, Refresh);
+            Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, BeforeDragElementSelected);
         }
         #endregion
     }

@@ -9,7 +9,6 @@ namespace BOA.OneDesigner.AppModel
     public sealed class EventBus
     {
         #region Constants
-        public const string BeforeDragElementSelected  = nameof(BeforeDragElementSelected);
         public const string ComponentDeleted           = nameof(ComponentDeleted);
         public const string DataGridColumnAdded        = nameof(DataGridColumnAdded);
         public const string DataGridColumnRemoved      = nameof(DataGridColumnRemoved);

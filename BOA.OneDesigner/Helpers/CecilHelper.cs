@@ -232,18 +232,7 @@ namespace BOA.OneDesigner.Helpers
             return null;
         }
 
-        public static IReadOnlyList<string> GetAllBindProperties(string assemblyPath, string typeFullName)
-        {
-            var items = new List<string>();
-
-            var typeDefinition = FindType(assemblyPath, typeFullName);
-            if (typeDefinition != null)
-            {
-                GetAllBindProperties(string.Empty, items, typeDefinition);
-            }
-
-            return items;
-        }
+       
 
         public static IReadOnlyList<string> GetAllBindPropertiesOfCollectionPropertyFirstGenericArgumentType(TypeDefinition typeDefinition, string collectionPropertyPath)
         {
@@ -435,6 +424,11 @@ namespace BOA.OneDesigner.Helpers
                 return;
             }
 
+            if (  typeDefinition.FullName == "System.Object")
+            {
+                return;
+            }
+
             foreach (var propertyDefinition in typeDefinition.Properties)
             {
                 if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
@@ -458,6 +452,11 @@ namespace BOA.OneDesigner.Helpers
                     GetAllBindProperties(pathPrefix + propertyDefinition.Name + ".", paths, propertyDefinition.PropertyType.Resolve());
                 }
             }
+
+
+            GetAllBindProperties(pathPrefix, paths, typeDefinition.BaseType.Resolve());
+
+
         }
 
         static bool IsCollection(TypeReference typeReference)

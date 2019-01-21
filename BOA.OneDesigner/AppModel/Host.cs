@@ -22,7 +22,6 @@ namespace BOA.OneDesigner.AppModel
         public Point      DraggingElementStartPoint                               { get; set; }
         public DragHelper DragHelper                                              { get; }
         public EventBus   EventBus                                                { get; } = new EventBus();
-        public UIElement  LastSelectedUIElement                                   { get; set; }
         public string     LastSelectedUIElement_as_DataGrid_DataSourceBindingPath { get; set; }
 
         public RequestIntellisenseData RequestIntellisenseData { get; set; }

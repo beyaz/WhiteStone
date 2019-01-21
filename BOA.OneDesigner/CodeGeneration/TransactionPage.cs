@@ -18,33 +18,54 @@ namespace BOA.OneDesigner.CodeGeneration
             var jsxModel = (DivAsCardContainer) screenInfo.JsxModel;
 
             var hasWorkflow = screenInfo.FormType == FormType.TransactionPageWithWorkflow;
+            var isBrowseForm = screenInfo.FormType == FormType.BrowsePage;
             var className   = screenInfo.RequestName.SplitAndClear(".").Last().RemoveFromEnd("Request");
 
             var writerContext = new WriterContext
             {
                 ConstructorBody = new List<string>(),
-                ClassBody = new List<TypeScriptMemberInfo>(),
-                Page = new List<string>(),
+                ClassBody       = new List<TypeScriptMemberInfo>(),
+                Page            = new List<string>(),
                 Imports = new List<string>
                 {
                     "import * as React from \"react\"",
-                    "import { TransactionPage, TransactionPageComposer } from \"b-framework\"",
                     "import { BFormManager } from \"b-form-manager\"",
                     "import { getMessage } from \"b-framework\"",
                     "import { ComponentSize } from \"b-component\"",
                     "import { BCard } from \"b-card\""
                 },
-                ClassName   = className,
-                HasWorkflow = hasWorkflow,
-                ScreenInfo  = screenInfo
+                ClassName    = className,
+                HasWorkflow  = hasWorkflow,
+                ScreenInfo   = screenInfo,
+                IsBrowsePage = isBrowseForm,
+                SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName)
             };
 
-            writerContext.SolutionInfo           = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
+            if (isBrowseForm)
+            {
+                writerContext.Imports.Add("import { BrowsePage, BrowsePageComposer } from \"b-framework\"");    
+            }
+            else
+            {
+                writerContext.Imports.Add("import { TransactionPage, TransactionPageComposer } from \"b-framework\"");    
+            }
+
+
             writerContext.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName);
 
             WriteClass(writerContext, jsxModel);
 
-            writerContext.Page.Add($"export default TransactionPageComposer({className});");
+
+            if (isBrowseForm)
+            {
+                writerContext.Page.Add($"export default BrowsePageComposer({className});");
+            }
+            else
+            {
+                writerContext.Page.Add($"export default TransactionPageComposer({className});");
+            }
+
+            
 
             writerContext.Page.Insert(0, string.Join(Environment.NewLine, writerContext.Imports.Distinct().ToList()));
 
@@ -253,7 +274,15 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            sb.AppendLine("this.proxyTransactionExecute(proxyRequest);");
+            if (writerContext.IsBrowsePage)
+            {
+                sb.AppendLine("this.proxyExecute(proxyRequest);");
+            }
+            else
+            {
+                sb.AppendLine("this.proxyTransactionExecute(proxyRequest);");
+            }
+            
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -481,7 +510,16 @@ namespace BOA.OneDesigner.CodeGeneration
             CalculateEvaluatedActionStates(writerContext);
             CalculateDataField(writerContext);
 
-            sb.AppendLine($"class {writerContext.ClassName} extends TransactionPage");
+            if (writerContext.IsBrowsePage)
+            {
+                sb.AppendLine($"class {writerContext.ClassName} extends BrowsePage");
+            }
+            else
+            {
+                sb.AppendLine($"class {writerContext.ClassName} extends TransactionPage");
+            }
+            
+
             sb.Append("{");
             sb.PaddingCount++;
 

@@ -93,17 +93,19 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("maxLength = {10}");
                 }
 
-                var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
-                if (labelValue != null)
+                
+            }
+
+            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
+            if (labelValue != null)
+            {
+                if (isBoolean)
                 {
-                    if (isBoolean)
-                    {
-                        sb.AppendLine($"label = {{{labelValue}}}");
-                    }
-                    else
-                    {
-                        sb.AppendLine($"floatingLabelText = {{{labelValue}}}");
-                    }
+                    sb.AppendLine($"label = {{{labelValue}}}");
+                }
+                else
+                {
+                    sb.AppendLine($"floatingLabelText = {{{labelValue}}}");
                 }
             }
 

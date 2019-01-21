@@ -70,7 +70,9 @@ namespace BOA.OneDesigner.WpfControls
             {
                 return;
             }
-            _label.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+
+
+            _label.Text = Model.LabelText;
         }
         #endregion
 

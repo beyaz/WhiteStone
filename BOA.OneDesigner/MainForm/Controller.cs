@@ -101,6 +101,34 @@ namespace BOA.OneDesigner.MainForm
             };
 
             MessagingHelper.MessagingPropertyNames = Database.GetPropertyNames(Model.ScreenInfo.MessagingGroupName);
+            if (Model.ScreenInfo.FormType == FormType.BrowsePage)
+            {
+                if (Model.ScreenInfo.JsxModel == null)
+                {
+                    Model.ScreenInfo.JsxModel = new DivAsCardContainer
+                    {
+                        Items = new List<BCard>
+                        {
+                            new BCard
+                            {
+                                TitleInfo = new LabelInfo {IsFreeText = true, FreeTextValue = "Kriterler"}
+                            },
+                            new BCard
+                            {
+                               
+                                TitleInfo = new LabelInfo {IsFreeText = true, FreeTextValue = "Sonuç Listesi"},
+                                Items = new List<BField>
+                                {
+                                    new BDataGrid
+                                    {
+                                        SizeInfo = new SizeInfo{IsLarge = true}
+                                    }
+                                }
+                            }
+                        }
+                    };
+                }
+            }
         }
 
         public override void OnViewLoaded()

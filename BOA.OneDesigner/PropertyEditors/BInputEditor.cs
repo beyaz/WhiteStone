@@ -30,7 +30,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
        {   
             ui       :'CheckBox', 
-            Content  :'Is Bold', 
+            Content  :'Is Account Number', 
             MarginTop: 10, 
             IsChecked: '{Binding " + nameof(Model.IsAccountComponent) + @"}', 
             Checked  : '" + nameof(OnIsAccountComponentChanged) + @"',
@@ -67,6 +67,8 @@ namespace BOA.OneDesigner.PropertyEditors
 
         public void OnIsAccountComponentChanged()
         {
+
+            Model.LabelInfo = new LabelInfo();
         }
         #endregion
     }
