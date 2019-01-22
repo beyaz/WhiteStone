@@ -7,6 +7,7 @@ using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
+using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -17,9 +18,9 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var jsxModel = (DivAsCardContainer) screenInfo.JsxModel;
 
-            var hasWorkflow = screenInfo.FormType == FormType.TransactionPageWithWorkflow;
+            var hasWorkflow  = screenInfo.FormType == FormType.TransactionPageWithWorkflow;
             var isBrowseForm = screenInfo.FormType == FormType.BrowsePage;
-            var className   = screenInfo.RequestName.SplitAndClear(".").Last().RemoveFromEnd("Request");
+            var className    = screenInfo.RequestName.SplitAndClear(".").Last().RemoveFromEnd("Request");
 
             var writerContext = new WriterContext
             {
@@ -31,8 +32,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     "import * as React from \"react\"",
                     "import { BFormManager } from \"b-form-manager\"",
                     "import { getMessage } from \"b-framework\"",
-                    "import { ComponentSize } from \"b-component\"",
-                    
+                    "import { ComponentSize } from \"b-component\""
                 },
                 ClassName    = className,
                 HasWorkflow  = hasWorkflow,
@@ -43,21 +43,16 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (isBrowseForm)
             {
-                writerContext.Imports.Add("import { BrowsePage, BrowsePageComposer } from \"b-framework\"");    
+                writerContext.Imports.Add("import { BrowsePage, BrowsePageComposer } from \"b-framework\"");
             }
             else
             {
-                writerContext.Imports.Add("import { TransactionPage, TransactionPageComposer } from \"b-framework\""); 
-
-                
-                
+                writerContext.Imports.Add("import { TransactionPage, TransactionPageComposer } from \"b-framework\"");
             }
-
 
             writerContext.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName);
 
             WriteClass(writerContext, jsxModel);
-
 
             if (isBrowseForm)
             {
@@ -67,8 +62,6 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 writerContext.Page.Add($"export default TransactionPageComposer({className});");
             }
-
-            
 
             writerContext.Page.Insert(0, string.Join(Environment.NewLine, writerContext.Imports.Distinct().ToList()));
 
@@ -84,8 +77,42 @@ namespace BOA.OneDesigner.CodeGeneration
         }
         #endregion
 
-        #region Methods        
-     
+        #region Methods
+        static void CalculateDataField(WriterContext writerContext)
+        {
+            if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("Data"))
+            {
+                writerContext.DataContractAccessPathInWindowRequest = "data";
+            }
+            else if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("DataContract"))
+            {
+                writerContext.DataContractAccessPathInWindowRequest = "dataContract";
+            }
+            else
+            {
+                writerContext.DataContractAccessPathInWindowRequest = "?";
+            }
+        }
+
+        static void CalculateEvaluatedActionStates(WriterContext writerContext)
+        {
+            var resourceActions = writerContext.ScreenInfo.ResourceActions;
+            if (resourceActions == null)
+            {
+                writerContext.CanWriteEvaluateActions = false;
+                return;
+            }
+
+            writerContext.EvaluatedActions = resourceActions.Where(x => x.IsVisibleBindingPath.HasValue()).ToList();
+            if (writerContext.EvaluatedActions.Count == 0)
+            {
+                writerContext.CanWriteEvaluateActions = false;
+                return;
+            }
+
+            writerContext.CanWriteEvaluateActions = true;
+        }
+
         static void ComponentDidMount(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
@@ -106,12 +133,25 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-
             sb.AppendLine();
             sb.AppendLine("// Evaluates initial states of form.");
             sb.AppendLine("// Invokes 'LoadData' metod in Orchestration class.");
             sb.AppendLine();
             sb.AppendLine("const clonedWindowRequest:any = Object.assign({}, this.getWindowRequest().body); ");
+
+            if (writerContext.HasWorkflow)
+            {
+                sb.AppendLine();
+                sb.AppendLine("const hasWorkflow = clonedWindowRequest.workFlowInternalData && clonedWindowRequest.workFlowInternalData.instanceId > 0;");
+                sb.AppendLine("if (hasWorkflow)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine("clonedWindowRequest.hasWorkflow = false;");
+                sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
+                sb.AppendLine("return;");
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
 
             sb.AppendLine();
             sb.AppendLine("const formData = this.state.pageParams.data;");
@@ -126,7 +166,45 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine();
             sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
 
+            sb.PaddingCount--;
+            sb.AppendLine("}");
 
+            writerContext.AddClassBody(sb.ToString());
+        }
+
+        static void EvaluateActions(WriterContext writerContext)
+        {
+            if (writerContext.EvaluatedActions.Count == 0)
+            {
+                return;
+            }
+
+            var sb = new PaddedStringBuilder();
+            sb.AppendLine("evaluateActions()");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("const request = this.state.windowRequest;");
+
+            foreach (var resourceAction in writerContext.EvaluatedActions)
+            {
+                sb.AppendLine();
+
+                var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsVisibleBindingPath);
+
+                sb.AppendLine($"if ({bindingPath})");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine($"this.visibleAction(\"{resourceAction.CommandName}\");");
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                sb.AppendLine("else");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine($"this.hideAction(\"{resourceAction.CommandName}\");");
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -134,30 +212,9 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
-
-       
-
-        static void UpdateState(WriterContext writerContext)
-        {
-            var sb = new PaddedStringBuilder();
-            
-            
-
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Clones window request object and sets states with this new cloned window request object.");
-            sb.AppendLine("  */");
-            sb.AppendLine("updateState(callback?: () => void)");
-            sb.AppendLine("{");
-            sb.AppendLine("    this.setState({ windowRequest: Object.assign({}, this.state.windowRequest) }, callback);");
-            sb.AppendLine("}");
-
-            writerContext.AddClassBody(sb.ToString());
-        }
         static void ExecuteWindowRequest(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
-            
-            
 
             sb.AppendLine("/**");
             sb.AppendLine("  *  Sends given requests to server.");
@@ -175,6 +232,20 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             sb.AppendLine("const clonedWindowRequest = Object.assign({}, windowRequest);");
+
+            if (writerContext.HasWorkflow)
+            {
+                sb.AppendLine();
+                sb.AppendLine("const hasWorkflow = clonedWindowRequest.workFlowInternalData && clonedWindowRequest.workFlowInternalData.instanceId > 0;");
+                sb.AppendLine("if (hasWorkflow)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine("clonedWindowRequest.hasWorkflow = false;");
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
+
+            sb.AppendLine();
             sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, orchestrationMethodName);");
 
             sb.PaddingCount--;
@@ -186,52 +257,6 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
-        static void SendWindowRequestToServer(WriterContext writerContext)
-        {
-            var sb = new PaddedStringBuilder();
-            
-            
-
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Sends given requests to server.");
-            sb.AppendLine("  */");
-            sb.AppendLine("sendRequestToServer(request: any, orchestrationMethodName: string)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("this.state.$isWaitingResponse = true;");
-            sb.AppendLine();
-            sb.AppendLine("request.methodName = orchestrationMethodName;");
-
-            sb.AppendLine("const proxyRequest:any =");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine($"requestClass:\"{writerContext.ScreenInfo.RequestName}\",");
-            sb.AppendLine("key: orchestrationMethodName,");
-            sb.AppendLine("requestBody: request,");
-            sb.AppendLine("showProgress: false");
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            if (writerContext.IsBrowsePage)
-            {
-                sb.AppendLine("this.proxyExecute(proxyRequest);");
-            }
-            else
-            {
-                sb.AppendLine("this.proxyTransactionExecute(proxyRequest);");
-            }
-            
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            writerContext.AddClassBody(sb.ToString());
-        }
-
-        
         static void ProxyDidRespond(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
@@ -242,15 +267,12 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            
-
             sb.AppendLine("let isSuccess: boolean = true;");
 
             sb.AppendLine();
             sb.AppendLine("if (!proxyResponse.response.success)");
             sb.AppendLine("{");
             sb.PaddingCount++;
-
 
             sb.AppendLine("isSuccess = false;");
             sb.AppendLine();
@@ -279,7 +301,6 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            
             sb.PaddingCount--;
             sb.AppendLine("}");
 
@@ -287,8 +308,28 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("const incomingRequest = (proxyResponse.response as any).value;");
             sb.AppendLine("if (incomingRequest == null)");
             sb.AppendLine("{");
-            sb.AppendLine("    throw new Error(`Orch method:${proxyResponse.key} should return GenericResponse<"+writerContext.ScreenInfo.RequestName+">`);");
+            sb.AppendLine("    throw new Error(`Orch method:${proxyResponse.key} should return GenericResponse<" + writerContext.ScreenInfo.RequestName + ">`);");
             sb.AppendLine("}");
+
+            if (writerContext.HasWorkflow)
+            {
+                sb.AppendLine();
+                sb.AppendLine("const hasWorkflow = incomingRequest.workFlowInternalData && incomingRequest.workFlowInternalData.instanceId > 0;");
+                sb.AppendLine("if (hasWorkflow)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine("const windowRequestInForm = this.getWindowRequest().body;");
+                sb.AppendLine();
+                sb.AppendLine("incomingRequest.hasWorkflow = windowRequestInForm.hasWorkflow;");
+                sb.AppendLine();
+                sb.AppendLine("if (incomingRequest.methodName === proxyResponse.key)");
+                sb.AppendLine("{");
+                sb.AppendLine("    incomingRequest.methodName = windowRequestInForm.methodName;");
+                sb.AppendLine("}");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
 
             sb.AppendLine();
             sb.AppendLine("const state =");
@@ -296,8 +337,8 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             sb.AppendLine("windowRequest: incomingRequest,");
-            sb.AppendLine("$isInitialStateEvaluated: true,");
-            sb.AppendLine("$isWaitingResponse: false");
+            sb.AppendLine("$isInitialStateEvaluated: true");
+
             sb.PaddingCount--;
             sb.AppendLine("};");
 
@@ -320,9 +361,15 @@ namespace BOA.OneDesigner.CodeGeneration
             if (writerContext.CanWriteEvaluateActions)
             {
                 sb.AppendLine();
-                sb.AppendLine("this.evaluateActions();");    
+                sb.AppendLine("this.evaluateActions();");
             }
-            
+
+            sb.AppendLine();
+            sb.AppendLine("if (isSuccess && this.executeWorkFlow)");
+            sb.AppendLine("{");
+            sb.AppendLine("    this.executeWorkFlow();");
+            sb.AppendLine("}");
+
             sb.AppendLine();
             sb.AppendLine("return isSuccess;");
 
@@ -332,91 +379,8 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
-        static void CalculateEvaluatedActionStates(WriterContext writerContext)
-        {
-            var resourceActions = writerContext.ScreenInfo.ResourceActions;
-            if (resourceActions == null )
-            {
-                writerContext.CanWriteEvaluateActions = false;
-                return;
-            }
-
-            writerContext.EvaluatedActions = resourceActions.Where(x => x.IsVisibleBindingPath.HasValue()).ToList();
-            if ( writerContext.EvaluatedActions.Count == 0)
-            {
-                writerContext.CanWriteEvaluateActions = false;
-                return;
-            }
-
-            writerContext.CanWriteEvaluateActions = true;
-        }
-
-        static void CalculateDataField(WriterContext writerContext)
-        {
-
-            if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("Data"))
-            {
-                writerContext.DataContractAccessPathInWindowRequest = "data";
-            }
-            else  if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("DataContract"))
-            {
-                writerContext.DataContractAccessPathInWindowRequest = "dataContract";
-            }
-            else
-            {
-                writerContext.DataContractAccessPathInWindowRequest = "?";
-            }
-
-        }
-
-        static void EvaluateActions(WriterContext writerContext)
-        {
-            
-            if ( writerContext.EvaluatedActions.Count == 0)
-            {
-                return;
-            }
-
-            var sb = new PaddedStringBuilder();
-            sb.AppendLine("evaluateActions()");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("const request = this.state.windowRequest;");
-
-            
-
-            foreach (var resourceAction in writerContext.EvaluatedActions)
-            {
-                sb.AppendLine();
-
-                var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsVisibleBindingPath);
-
-
-                sb.AppendLine($"if ({bindingPath})");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                sb.AppendLine($"this.visibleAction(\"{resourceAction.CommandName}\");");
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                sb.AppendLine("else");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                sb.AppendLine($"this.hideAction(\"{resourceAction.CommandName}\");");
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-            }
-           
-            
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            writerContext.AddClassBody(sb.ToString());
-        }
-
         /// <summary>
-        /// Renders the specified writer context.
+        ///     Renders the specified writer context.
         /// </summary>
         static void Render(WriterContext writerContext, DivAsCardContainer jsxModel)
         {
@@ -443,13 +407,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("const request = this.state.windowRequest;");
 
-
-
-
-
-
             var sb2 = new PaddedStringBuilder {PaddingCount = sb.PaddingCount};
-            
 
             sb2.AppendLine("return (");
             sb2.PaddingCount++;
@@ -461,21 +419,75 @@ namespace BOA.OneDesigner.CodeGeneration
             sb2.PaddingCount--;
             sb2.AppendLine("}");
 
-
-            if (writerContext.BeforeRenderReturn?.Count>0)
+            if (writerContext.BeforeRenderReturn?.Count > 0)
             {
                 sb.AppendLine();
                 foreach (var line in writerContext.BeforeRenderReturn)
                 {
                     sb.AppendLine(line);
                 }
+
                 sb.AppendLine();
             }
 
-
             writerContext.Output = temp;
 
-            writerContext.AddClassBody(new TypeScriptMemberInfo{Code = sb +  sb2.ToString(),IsRender = true});
+            writerContext.AddClassBody(new TypeScriptMemberInfo {Code = sb + sb2.ToString(), IsRender = true});
+        }
+
+        static void SendWindowRequestToServer(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Sends given requests to server.");
+            sb.AppendLine("  */");
+            sb.AppendLine("sendRequestToServer(request: any, orchestrationMethodName: string)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("request.methodName = orchestrationMethodName;");
+
+            sb.AppendLine("const proxyRequest:any =");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine($"requestClass:\"{writerContext.ScreenInfo.RequestName}\",");
+            sb.AppendLine("key: orchestrationMethodName,");
+            sb.AppendLine("requestBody: request,");
+            sb.AppendLine("showProgress: false");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            if (writerContext.IsBrowsePage)
+            {
+                sb.AppendLine("this.proxyExecute(proxyRequest);");
+            }
+            else
+            {
+                sb.AppendLine("this.proxyTransactionExecute(proxyRequest);");
+            }
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
+        }
+
+        static void UpdateState(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Clones window request object and sets states with this new cloned window request object.");
+            sb.AppendLine("  */");
+            sb.AppendLine("updateState(callback?: () => void)");
+            sb.AppendLine("{");
+            sb.AppendLine("    this.setState({ windowRequest: Object.assign({}, this.state.windowRequest) }, callback);");
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
         }
 
         static void WriteClass(WriterContext writerContext, DivAsCardContainer jsxModel)
@@ -485,11 +497,8 @@ namespace BOA.OneDesigner.CodeGeneration
             CalculateEvaluatedActionStates(writerContext);
             CalculateDataField(writerContext);
 
-
-            
-
             sb.AppendLine("/**");
-            sb.AppendLine("  *  The " + string.Join(" ",FileNamingHelper.GetWords(writerContext.ClassName)));
+            sb.AppendLine("  *  The " + string.Join(" ", FileNamingHelper.GetWords(writerContext.ClassName)));
             sb.AppendLine("  */");
 
             if (writerContext.IsBrowsePage)
@@ -500,13 +509,12 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 sb.AppendLine($"class {writerContext.ClassName} extends TransactionPage");
             }
-            
 
             sb.Append("{");
             sb.PaddingCount++;
 
             WriteWorkflowFields(writerContext);
-            
+
             WriteOnActionClick(writerContext);
             ComponentDidMount(writerContext);
             ProxyDidRespond(writerContext);
@@ -516,7 +524,6 @@ namespace BOA.OneDesigner.CodeGeneration
             ExecuteWindowRequest(writerContext);
             Render(writerContext, jsxModel);
             WriteConstructor(writerContext);
-
 
             // reorder
             writerContext.ClassBody.Sort(TypeScriptMemberInfo.Compare);
@@ -530,7 +537,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.PaddingCount--;
             sb.AppendLine("}");
-
 
             writerContext.Page.Add(sb.ToString());
         }
@@ -558,14 +564,21 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-
-            writerContext.AddClassBody(new TypeScriptMemberInfo{Code = sb.ToString(),IsConstructor = true});   
-            
+            writerContext.AddClassBody(new TypeScriptMemberInfo {Code = sb.ToString(), IsConstructor = true});
         }
 
-        
         static void WriteOnActionClick(WriterContext writerContext)
         {
+            foreach (var resourceAction in writerContext.ScreenInfo.ResourceActions)
+            {
+                if (resourceAction.OrchestrationMethodName.IsNullOrWhiteSpace())
+                {
+                    App.ShowErrorNotification("Related Orch method should be define. Action name: " + resourceAction.CommandName);
+                }
+            }
+
+            var resourceActions = writerContext.ScreenInfo.ResourceActions.Where(x => x.OrchestrationMethodName.HasValue());
+
             var sb = new PaddedStringBuilder();
             if (writerContext.HasWorkflow)
             {
@@ -578,8 +591,22 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.PaddingCount++;
 
                 sb.AppendLine("this.executeWorkFlow = executeWorkFlow;");
-                sb.AppendLine("FormAssistant.executeWindowRequest(this,command.commandName);");
-                sb.AppendLine("return /*isCompleted*/false;");
+                sb.AppendLine();
+
+                foreach (var resourceAction in resourceActions)
+                {
+                    sb.AppendLine($"if (command.commandName === \"{resourceAction.CommandName}\")");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");
+                    sb.AppendLine("return /*isCompleted*/false;");
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+
+                    sb.AppendLine();
+                }
+
+                sb.AppendLine("throw new Error('Orchestration method should be specify for command. Command name is '+command.commandName);");
 
                 sb.PaddingCount--;
                 sb.AppendLine("}");
@@ -594,12 +621,10 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-              
 
-                var resourceActions = writerContext.ScreenInfo.ResourceActions;
                 foreach (var resourceAction in resourceActions)
                 {
-                    sb.AppendLine($"if (command.commandName ===\"{resourceAction.CommandName}\")"); 
+                    sb.AppendLine($"if (command.commandName === \"{resourceAction.CommandName}\")");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
                     sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");
@@ -610,7 +635,6 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
                 }
 
-                
                 sb.AppendLine("throw new Error('Orchestration method should be specify for command. Command name is '+command.commandName);");
 
                 sb.PaddingCount--;
@@ -625,7 +649,7 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             if (writerContext.HasWorkflow)
             {
-                writerContext.AddClassBody(new TypeScriptMemberInfo{Code = "executeWorkFlow: () => void;",IsField = true});
+                writerContext.AddClassBody(new TypeScriptMemberInfo {Code = "executeWorkFlow: () => void;", IsField = true});
             }
         }
         #endregion

@@ -40,14 +40,26 @@ namespace BOA.OneDesigner.CodeGeneration
                 return 0;
             }
 
+            
+
             if (left.IsField)
             {
                 return -1;
             }
 
+            if ( right.IsField)
+            {
+                return 1;
+            }
+
             if (left.IsConstructor)
             {
                 return -1;
+            }
+
+            if (right.IsConstructor)
+            {
+                return 1;
             }
 
             if (left.IsMethod)
