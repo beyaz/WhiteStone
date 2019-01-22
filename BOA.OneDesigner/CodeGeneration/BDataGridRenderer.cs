@@ -209,7 +209,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var labelValue = RenderHelper.GetLabelValue(screenInfo, data.TitleInfo);
             if (labelValue != null)
             {
-                sb.Append($"title = {{{labelValue}}},");
+                sb.AppendLine($"title: {labelValue}");
             }
 
             sb.PaddingCount--;

@@ -1,4 +1,5 @@
-﻿using BOA.OneDesigner.Helpers;
+﻿using BOA.Common.Helpers;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
 
@@ -41,6 +42,10 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsFreeText)
             {
+                if (data.FreeTextValue.IsNullOrWhiteSpace())
+                {
+                    return null;
+                }
                 return '"' + data.FreeTextValue + '"';
             }
 
