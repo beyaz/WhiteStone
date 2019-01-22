@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Speech.Synthesis;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,6 +38,8 @@ namespace WpfApp2
             _imageBrowser.RenderProcessMessageHandler = new RenderProcessMessageHandler_For_Google_Image();
 
             Loaded += (s, e) => { FireAction(Action.Loaded); };
+
+            Closed += KillAllContainer;
         }
         #endregion
 
@@ -53,7 +55,17 @@ namespace WpfApp2
         #endregion
 
         #region Methods
-        
+        static void KillAllContainer(object sender, EventArgs e)
+        {
+            foreach (var process in Process.GetProcesses())
+            {
+                var name = typeof(MainWindow).Assembly.GetName().Name;
+                if (process.ProcessName == name)
+                {
+                    process.Kill();
+                }
+            }
+        }
 
         void _currentWord_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -144,10 +156,10 @@ namespace WpfApp2
 
             OnPropertyChanged(nameof(Model));
 
-            var renderer = _longManWebBrowser.RenderProcessMessageHandler  as  RenderProcessMessageHandler_For_Longman;
+            var renderer = _longManWebBrowser.RenderProcessMessageHandler as RenderProcessMessageHandler_For_Longman;
             if (renderer != null)
             {
-                renderer.InitialJsScript  = Model.LongManInitialJsScript;
+                renderer.InitialJsScript = Model.LongManInitialJsScript;
             }
         }
 
