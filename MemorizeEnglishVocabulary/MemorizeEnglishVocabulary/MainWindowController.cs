@@ -18,7 +18,7 @@ namespace WpfApp2
             {
                 try
                 {
-                    StartToInitializeCache(words);
+                    StartToInitializeCache(words.Clone());
                 }
                 catch (Exception e)
                 {
