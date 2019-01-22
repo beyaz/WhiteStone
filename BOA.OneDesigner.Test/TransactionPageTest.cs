@@ -13,7 +13,8 @@ namespace BOA.OneDesigner.WpfControls
         {
             var database = new DevelopmentDatabase();
 
-            var screenInfo = database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.BatchPrintingDetailListFormRequest");
+            // var screenInfo = database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.BatchPrintingDetailListFormRequest");
+            var screenInfo = database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.GeneralParametersFormRequest");
 
             Controller.Generate(screenInfo);
         }
