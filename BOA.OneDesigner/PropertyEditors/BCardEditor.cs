@@ -21,7 +21,7 @@ namespace BOA.OneDesigner.PropertyEditors
     Margin:10,
 	Childs:[
 
-		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(BCard.TitleInfo) + @"}'},
+		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(Model.TitleInfo) + @"}'},
         
         
         {ui:'WideEditor',               MarginTop:10, Value:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.Wide) + @"}' },

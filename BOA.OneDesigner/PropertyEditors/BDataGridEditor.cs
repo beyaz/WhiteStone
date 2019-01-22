@@ -12,6 +12,7 @@ namespace BOA.OneDesigner.PropertyEditors
         public SizeEditor _sizeEditor;
         public Button _removeButton;
         public GroupBox _rowSelectionChangedGroupBox;
+        public LabelEditor _labelEditor;
         #endregion
 
         #region Constructors
@@ -37,6 +38,8 @@ namespace BOA.OneDesigner.PropertyEditors
 
         {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BDataGrid.SizeInfo) + @"}'},
 
+        {ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(Model.TitleInfo) + @"}'},
+
         {ui:'Button',Margin:10, Text:'Add Column',Click:'" + nameof(AddColumn) + @"'}
 	]
 }
@@ -45,6 +48,8 @@ namespace BOA.OneDesigner.PropertyEditors
 
             Loaded += (s, e) =>
             {
+                
+
                 if (Model.SizeInfo == null)
                 {
                     Model.SizeInfo = new SizeInfo
@@ -52,7 +57,9 @@ namespace BOA.OneDesigner.PropertyEditors
                         IsMedium = true
                     };
                 }
+
                 _sizeEditor.Host  = Host;
+                _labelEditor.Host = Host; 
 
                 if (Model?.ParentIsComboBox == true)
                 {

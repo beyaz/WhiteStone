@@ -137,7 +137,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("// Evaluates initial states of form.");
             sb.AppendLine("// Invokes 'LoadData' metod in Orchestration class.");
             sb.AppendLine();
-            sb.AppendLine("const clonedWindowRequest:any = Object.assign({}, this.getWindowRequest().body); ");
+            sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, this.getWindowRequest().body); ");
 
             if (writerContext.HasWorkflow)
             {
@@ -231,7 +231,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const clonedWindowRequest = Object.assign({}, windowRequest);");
+            sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, windowRequest);");
 
             if (writerContext.HasWorkflow)
             {
@@ -364,11 +364,14 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("this.evaluateActions();");
             }
 
-            sb.AppendLine();
-            sb.AppendLine("if (isSuccess && this.executeWorkFlow)");
-            sb.AppendLine("{");
-            sb.AppendLine("    this.executeWorkFlow();");
-            sb.AppendLine("}");
+            if (writerContext.HasWorkflow)
+            {
+                sb.AppendLine();
+                sb.AppendLine("if (isSuccess && this.executeWorkFlow)");
+                sb.AppendLine("{");
+                sb.AppendLine("    this.executeWorkFlow();");
+                sb.AppendLine("}");
+            }
 
             sb.AppendLine();
             sb.AppendLine("return isSuccess;");
@@ -606,7 +609,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
                 }
 
-                sb.AppendLine("throw new Error('Orchestration method should be specify for command. Command name is '+command.commandName);");
+                
 
                 sb.PaddingCount--;
                 sb.AppendLine("}");
@@ -635,7 +638,6 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
                 }
 
-                sb.AppendLine("throw new Error('Orchestration method should be specify for command. Command name is '+command.commandName);");
 
                 sb.PaddingCount--;
                 sb.AppendLine("}");

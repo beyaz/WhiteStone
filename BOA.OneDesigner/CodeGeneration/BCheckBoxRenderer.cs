@@ -11,7 +11,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var sb = writerContext.Output;
 
-            sb.Append($"<BLabel = {{{data.ValueBindingPathInTypeScript}}}");
+            sb.Append($"<BLabel");
 
             var textValue = RenderHelper.GetLabelValue(writerContext.ScreenInfo, data.TextInto);
             if (textValue != null)

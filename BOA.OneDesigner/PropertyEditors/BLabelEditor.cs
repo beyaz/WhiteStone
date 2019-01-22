@@ -9,6 +9,7 @@ namespace BOA.OneDesigner.PropertyEditors
     {
         #region Fields
         public LabelEditor _labelEditor;
+        public SizeEditor _sizeEditor;
         #endregion
 
         #region Constructors
@@ -23,6 +24,7 @@ namespace BOA.OneDesigner.PropertyEditors
 	Childs:[
 
 		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(Model.TextInto) + @"}'},
+        {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(Model.SizeInfo) + @"}'},
         {   
             ui       :'CheckBox', 
             Content  :'Is Bold', 
@@ -41,7 +43,11 @@ namespace BOA.OneDesigner.PropertyEditors
 
 ");
 
-            Loaded += (s, e) => { _labelEditor.Host = Host; };
+            Loaded += (s, e) =>
+            {
+                _labelEditor.Host = Host;
+                _sizeEditor.Host = Host;
+            };
         }
         #endregion
 

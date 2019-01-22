@@ -182,7 +182,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
 
-            writerContext.Imports.Add("import { BDataGrid } from \"b-data-grid\"");
+            writerContext.Imports.Add("import { BDataGrid } from \"b-data-grid-dx\"");
 
 
             sb.AppendLine($"<BDataGrid  dataSource = {{{data.DataSourceBindingPathInTypeScript}}}");
@@ -209,16 +209,16 @@ namespace BOA.OneDesigner.CodeGeneration
             var labelValue = RenderHelper.GetLabelValue(screenInfo, data.TitleInfo);
             if (labelValue != null)
             {
-                sb.Append("showTitle:true,");
                 sb.Append($"title = {{{labelValue}}},");
             }
 
-            sb.AppendLine("show: true,");
-            sb.AppendLine("showMoreOptions: true,");
-            sb.AppendLine("showFiltering: true,");
-            sb.AppendLine("showGrouping: true");
             sb.PaddingCount--;
             sb.AppendLine("}}");
+
+            if (data.SizeInfo.HasValue())
+            {
+                sb.AppendLine("size = {"+ RenderHelper.GetJsValue(data.SizeInfo) +"}");
+            }
 
             sb.AppendLine("context = {context}/>");
         }

@@ -40,7 +40,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
         public static string GetLastPropertyName(string propertyPath)
         {
-            return propertyPath.SplitAndClear(".").Last();
+            return propertyPath.SplitAndClear(".")?.Last();
         }
 
         public static void InitSnapName(BTabBar data)

@@ -16,6 +16,12 @@ namespace BOA.OneDesigner.CodeGeneration
             var sb         = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
 
+
+            if (data.ValueBindingPath.IsNullOrWhiteSpace())
+            {
+                throw Error.InvalidBindingPath((data.Container as BCard)?.Title, data.Label);
+            }
+
             SnapNamingHelper.InitSnapName(writerContext,data);
 
 
