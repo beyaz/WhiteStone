@@ -119,6 +119,7 @@
     <Compile Include="DataGridWpfTest.cs" />
     <Compile Include="DivAsCardContainerWpfTest.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Helper\TsxCodeBeautifierTest.cs" />
     <Compile Include="InsertHelperTest.cs" />
     <Compile Include="JsxElementDesignerSurfaceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

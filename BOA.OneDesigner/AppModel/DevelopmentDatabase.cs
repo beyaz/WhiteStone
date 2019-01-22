@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
@@ -13,22 +12,6 @@ namespace BOA.OneDesigner.AppModel
 {
     public class DevelopmentDatabase : SqlDatabase
     {
-
-        public IReadOnlyList<string> GetTfsFolderNames()
-        {
-            return TfsHelper.GetFolderNames();
-        }
-        public IList<PropertyInfo> GetPropertyNames(string groupName)
-        {
-            return BOAPlugins.Messaging.DataSource.GetPropertyNames(groupName);
-        }
-
-        public IReadOnlyList<string> GetMessagingGroupNames()
-        {
-            return this.GetRecords<Pair>("select DISTINCT(Name) as [Key] from BOA.COR.MessagingGroup WITH(NOLOCK)").Select(x => x.Key).ToList();
-        }
-
-
         #region Constants
         const string ConnectionString = "server=srvdev\\ATLAS;database =BOA;integrated security=true";
         #endregion
@@ -40,21 +23,56 @@ namespace BOA.OneDesigner.AppModel
         #endregion
 
         #region Public Methods
-        public List<Aut_ResourceAction> GetResourceActions(string resourceCode)
-        {
-            return this.GetRecords<Aut_ResourceAction>("SELECT Name,CommandName from AUT.ResourceAction WHERE ResourceId = (SELECT  ResourceId from AUT.Resource WITH(NOLOCK) WHERE ResourceCode = @resourceCode OR Name = @resourceCode)", nameof(resourceCode), resourceCode);
-        }
-
         public List<ScreenInfo> GetAllScreens()
         {
             var records = this.GetRecords<ScreenInfo>("SELECT RequestName from BOA.DBT.OneDesigner ");
             foreach (var screenInfo in records)
             {
-
                 Load(screenInfo);
             }
 
             return records;
+        }
+
+        public IReadOnlyList<string> GetDefaultRequestNames()
+        {
+            return this.GetRecords<Pair>("SELECT RequestName AS [Key] FROM BOA.DBT.OneDesigner WITH(NOLOCK)").Select(x => x.Key).ToList();
+        }
+
+        public IReadOnlyList<string> GetMessagingGroupNames()
+        {
+            return this.GetRecords<Pair>("select DISTINCT(Name) as [Key] from BOA.COR.MessagingGroup WITH(NOLOCK)").Select(x => x.Key).ToList();
+        }
+
+        public IList<PropertyInfo> GetPropertyNames(string groupName)
+        {
+            return DataSource.GetPropertyNames(groupName);
+        }
+
+        public List<Aut_ResourceAction> GetResourceActions(string resourceCode)
+        {
+            return this.GetRecords<Aut_ResourceAction>("SELECT Name,CommandName from AUT.ResourceAction WHERE ResourceId = (SELECT  ResourceId from AUT.Resource WITH(NOLOCK) WHERE ResourceCode = @resourceCode OR Name = @resourceCode)", nameof(resourceCode), resourceCode);
+        }
+
+        public ScreenInfo GetScreenInfo(string requestName)
+        {
+            var screenInfo = new ScreenInfo
+            {
+                RequestName = requestName
+            };
+
+            var exists = Load(screenInfo);
+            if (exists)
+            {
+                return screenInfo;
+            }
+
+            return null;
+        }
+
+        public IReadOnlyList<string> GetTfsFolderNames()
+        {
+            return TfsHelper.GetFolderNames();
         }
 
         public bool Load(ScreenInfo data)
@@ -66,10 +84,10 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
   
 ";
 
-            this[nameof(data.RequestName)] = data.RequestName;
+            this[nameof(data.RequestName)]  = data.RequestName;
             this[nameof(data.ResourceCode)] = data.ResourceCode;
 
-            var reader = ExecuteReader();
+            var reader  = ExecuteReader();
             var success = reader.Read();
             if (success == false)
             {
@@ -77,18 +95,17 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
                 return false;
             }
 
-            data.ResourceCode = Convert.ToString(reader[nameof(data.ResourceCode)]);
-            data.RequestName              =Convert.ToString( reader[nameof(data.RequestName)]);
-            data.FormType                 =Convert.ToString( reader[nameof(data.FormType)]);
-            data.MessagingGroupName       =Convert.ToString( reader[nameof(data.MessagingGroupName)]);
-            data.OutputTypeScriptFileName =Convert.ToString( reader[nameof(data.OutputTypeScriptFileName)]);
-            data.TfsFolderName            =Convert.ToString( reader[nameof(data.TfsFolderName)]);
-            data.UserName                 =Convert.ToString( reader[nameof(data.UserName)]);
-            data.SystemDate               = Convert.ToDateTime( reader[nameof(data.SystemDate)]);
+            data.ResourceCode             = Convert.ToString(reader[nameof(data.ResourceCode)]);
+            data.RequestName              = Convert.ToString(reader[nameof(data.RequestName)]);
+            data.FormType                 = Convert.ToString(reader[nameof(data.FormType)]);
+            data.MessagingGroupName       = Convert.ToString(reader[nameof(data.MessagingGroupName)]);
+            data.OutputTypeScriptFileName = Convert.ToString(reader[nameof(data.OutputTypeScriptFileName)]);
+            data.TfsFolderName            = Convert.ToString(reader[nameof(data.TfsFolderName)]);
+            data.UserName                 = Convert.ToString(reader[nameof(data.UserName)]);
+            data.SystemDate               = Convert.ToDateTime(reader[nameof(data.SystemDate)]);
 
             data.JsxModel        = BinarySerialization.Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.JsxModel)]));
             data.ResourceActions = (List<Aut_ResourceAction>) BinarySerialization.Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.ResourceActions)]));
-
 
             reader.Close();
             return true;
@@ -113,8 +130,6 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
             data.SystemDate = DateTime.Now;
             data.UserName   = Environment.UserName;
 
-            
-
             this[nameof(data.ResourceCode)]             = data.ResourceCode;
             this[nameof(data.RequestName)]              = data.RequestName;
             this[nameof(data.FormType)]                 = data.FormType;
@@ -135,7 +150,7 @@ SELECT TOP 1 1
 WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.ResourceCode)} = @{nameof(data.ResourceCode)})
 ";
 
-            this[nameof(data.RequestName)] = data.RequestName;
+            this[nameof(data.RequestName)]  = data.RequestName;
             this[nameof(data.ResourceCode)] = data.ResourceCode;
 
             return (int?) ExecuteScalar() == 1;
@@ -201,27 +216,5 @@ WHERE {nameof(data.RequestName)} = @{nameof(data.RequestName)}
             ExecuteNonQuery();
         }
         #endregion
-
-        public IReadOnlyList<string> GetDefaultRequestNames()
-        {
-
-            return this.GetRecords<Pair>("SELECT RequestName AS [Key] FROM BOA.DBT.OneDesigner WITH(NOLOCK)").Select(x=>x.Key).ToList();
-        }
-
-        public ScreenInfo GetScreenInfo(string requestName)
-        {
-            var screenInfo = new ScreenInfo
-            {
-                RequestName = requestName
-            };
-
-            var exists = Load(screenInfo);
-            if (exists)
-            {
-                return screenInfo;
-            }
-
-            return null;
-        }
     }
 }

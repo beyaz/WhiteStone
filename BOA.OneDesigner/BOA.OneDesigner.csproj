@@ -110,6 +110,7 @@
     <Compile Include="CodeGeneration\RenderHelper.cs" />
     <Compile Include="CodeGeneration\SnapNamingHelper.cs" />
     <Compile Include="CodeGeneration\TransactionPage.cs" />
+    <Compile Include="Helpers\TsxCodeBeautifier.cs" />
     <Compile Include="JsxElementModel\BDataGrid.cs" />
     <Compile Include="JsxElementModel\BindingPrefix.cs" />
     <Compile Include="JsxElementModel\BTabBarPage.cs" />

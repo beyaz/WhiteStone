@@ -84,10 +84,14 @@ namespace BOA.OneDesigner.CodeGeneration
         }
         #endregion
 
-        #region Methods
+        #region Methods        
+     
         static void ComponentDidMount(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Components the did mount.");
+            sb.AppendLine("  */");
             sb.AppendLine("componentDidMount()");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -102,35 +106,11 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
+
             sb.AppendLine();
-            sb.AppendLine("if (!this.isReadyToRender())");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-            sb.AppendLine("this.loadData();");
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            writerContext.AddClassBody(sb.ToString());
-        }
-
-
-        static void LoadData(WriterContext writerContext)
-        {
-            var sb = new PaddedStringBuilder();
-
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Evaluates initial states of form.");
-            sb.AppendLine("  *  Invokes 'LoadData' metod in Orchestration class.");
-            sb.AppendLine("  */");
-            sb.AppendLine("loadData()");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
+            sb.AppendLine("// Evaluates initial states of form.");
+            sb.AppendLine("// Invokes 'LoadData' metod in Orchestration class.");
+            sb.AppendLine();
             sb.AppendLine("const clonedWindowRequest:any = Object.assign({}, this.getWindowRequest().body); ");
 
             sb.AppendLine();
@@ -145,7 +125,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine();
             sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
-            
+
 
 
             sb.PaddingCount--;
@@ -153,6 +133,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.AddClassBody(sb.ToString());
         }
+
+
+       
 
         static void UpdateState(WriterContext writerContext)
         {
@@ -166,51 +149,6 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("updateState(callback?: () => void)");
             sb.AppendLine("{");
             sb.AppendLine("    this.setState({ windowRequest: Object.assign({}, this.state.windowRequest) }, callback);");
-            sb.AppendLine("}");
-
-            writerContext.AddClassBody(sb.ToString());
-        }
-
-        static void IsReadyToRender(WriterContext writerContext)
-        {
-            var sb = new PaddedStringBuilder();
-            
-            
-
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Returns true if form is ready to render.");
-            sb.AppendLine("  */");
-            sb.AppendLine("isReadyToRender(): boolean");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-           
-
-            sb.AppendLine("if (this.state.$isWaitingResponse)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("return false;");
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            sb.AppendLine();
-            sb.AppendLine("if (this.state.$isInitialStateEvaluated)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("return true;");
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-
-            sb.AppendLine();
-
-            sb.AppendLine("return false;");
-
-            sb.PaddingCount--;
             sb.AppendLine("}");
 
             writerContext.AddClassBody(sb.ToString());
@@ -293,10 +231,13 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
-
+        
         static void ProxyDidRespond(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Proxies the did respond.");
+            sb.AppendLine("  */");
             sb.AppendLine("proxyDidRespond(proxyResponse: ProxyResponse)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -474,16 +415,23 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
+        /// <summary>
+        /// Renders the specified writer context.
+        /// </summary>
         static void Render(WriterContext writerContext, DivAsCardContainer jsxModel)
         {
             var temp = writerContext.Output;
 
             var sb = new PaddedStringBuilder();
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Renders the component.");
+            sb.AppendLine("  */");
+
             sb.AppendLine("render()");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("if (!this.isReadyToRender())");
+            sb.AppendLine("if (!this.state.$isInitialStateEvaluated)");
             sb.AppendLine("{");
             sb.PaddingCount++;
             sb.AppendLine("return <div/>;");
@@ -501,6 +449,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
             var sb2 = new PaddedStringBuilder {PaddingCount = sb.PaddingCount};
+            
+
             sb2.AppendLine("return (");
             sb2.PaddingCount++;
             writerContext.Output = sb2;
@@ -535,6 +485,13 @@ namespace BOA.OneDesigner.CodeGeneration
             CalculateEvaluatedActionStates(writerContext);
             CalculateDataField(writerContext);
 
+
+            
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  The " + string.Join(" ",FileNamingHelper.GetWords(writerContext.ClassName)));
+            sb.AppendLine("  */");
+
             if (writerContext.IsBrowsePage)
             {
                 sb.AppendLine($"class {writerContext.ClassName} extends BrowsePage");
@@ -552,13 +509,11 @@ namespace BOA.OneDesigner.CodeGeneration
             
             WriteOnActionClick(writerContext);
             ComponentDidMount(writerContext);
-            LoadData(writerContext);
             ProxyDidRespond(writerContext);
             EvaluateActions(writerContext);
             UpdateState(writerContext);
             SendWindowRequestToServer(writerContext);
             ExecuteWindowRequest(writerContext);
-            IsReadyToRender(writerContext);
             Render(writerContext, jsxModel);
             WriteConstructor(writerContext);
 
@@ -584,6 +539,9 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = new PaddedStringBuilder();
 
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Creates a new instance of this class.");
+            sb.AppendLine("  */");
             sb.AppendLine("constructor(props: BFramework.BasePageProps)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -605,12 +563,16 @@ namespace BOA.OneDesigner.CodeGeneration
             
         }
 
+        
         static void WriteOnActionClick(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
             if (writerContext.HasWorkflow)
             {
                 #region onActionClick
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Handle click actions of page commands.");
+                sb.AppendLine("  */");
                 sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract, executeWorkFlow: () => void)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -626,6 +588,9 @@ namespace BOA.OneDesigner.CodeGeneration
             else
             {
                 #region onActionClick
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Handle click actions of page commands.");
+                sb.AppendLine("  */");
                 sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -641,9 +606,11 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("return /*isCompleted*/true;");
                     sb.PaddingCount--;
                     sb.AppendLine("}");
+
+                    sb.AppendLine();
                 }
 
-                sb.AppendLine();
+                
                 sb.AppendLine("throw new Error('Orchestration method should be specify for command. Command name is '+command.commandName);");
 
                 sb.PaddingCount--;

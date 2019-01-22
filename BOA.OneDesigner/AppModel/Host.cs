@@ -12,12 +12,10 @@ namespace BOA.OneDesigner.AppModel
         {
             DragHelper = new DragHelper(this);
 
-            Database = new DevelopmentDatabase();
         }
         #endregion
 
         #region Public Properties
-        public DevelopmentDatabase  Database                                                { get; }
         public UIElement  SelectedElement                                         { get; set; }
         public Point      DraggingElementStartPoint                               { get; set; }
         public DragHelper DragHelper                                              { get; }

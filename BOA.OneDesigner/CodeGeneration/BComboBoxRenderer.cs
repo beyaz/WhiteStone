@@ -8,9 +8,14 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     internal static class BComboBoxRenderer
     {
+
+       
         internal static string EvaluateMethodBodyOfGridColumns(string methodName, WriterContext writerContext, BComboBox data)
         {
             var sb = new PaddedStringBuilder();
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Gets the column definition of "+ data.SnapName+".");
+            sb.AppendLine("  */");
             sb.AppendLine(methodName + "(request:any) : any[]");
             sb.AppendLine("{");
             sb.PaddingCount++;

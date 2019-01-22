@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -22,12 +23,16 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var fileName = SnapNamingHelper.GetLastPropertyName(data.RequestName.RemoveFromEnd("Request"));
 
-            var words =
-                Regex.Matches(fileName, @"([A-Z][a-z]+)")
-                     .Cast<Match>()
-                     .Select(m => m.Value);
+            var words = GetWords(fileName);
 
             data.OutputTypeScriptFileName = string.Join("-", words.Select(x => x.ToLowerEN()));
+        }
+
+        public static List<string> GetWords(string camelCaseString)
+        {
+            return  Regex.Matches(camelCaseString, @"([A-Z][a-z]+)")
+                     .Cast<Match>()
+                     .Select(m => m.Value).ToList();
         }
         #endregion
     }

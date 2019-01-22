@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.WpfControls;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 using WhiteStone.UI.Container;
@@ -21,6 +19,8 @@ namespace BOA.OneDesigner.MainForm
         {
             var tsxCode = TransactionPage.Generate(screenInfo);
 
+            tsxCode =  TsxCodeBeautifier.Beautify(tsxCode); 
+
             var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
 
             var filePath = solutionInfo.OneProjectFolder + @"ClientApp\pages\" + screenInfo.OutputTypeScriptFileName + ".tsx";
@@ -34,9 +34,7 @@ namespace BOA.OneDesigner.MainForm
         public Host Host { get; set; }
         #endregion
 
-        #region Properties
-        DevelopmentDatabase Database => Host.Database;
-        #endregion
+        
 
         #region Public Methods
         public void GenerateCodes()
@@ -100,7 +98,12 @@ namespace BOA.OneDesigner.MainForm
                 }
             };
 
-            MessagingHelper.MessagingPropertyNames = Database.GetPropertyNames(Model.ScreenInfo.MessagingGroupName);
+            
+            using (var database = new DevelopmentDatabase())
+            {
+                MessagingHelper.MessagingPropertyNames = database.GetPropertyNames(Model.ScreenInfo.MessagingGroupName);
+            }
+
             if (Model.ScreenInfo.FormType == FormType.BrowsePage)
             {
                 if (Model.ScreenInfo.JsxModel == null)
@@ -140,10 +143,10 @@ namespace BOA.OneDesigner.MainForm
             Model = new Model
             {
                 ScreenInfo          = new ScreenInfo(),
-                TfsFolderNames      = Database.GetTfsFolderNames(),
+                
                 SearchIsVisible     = true,
                 FormTypes           = FormType.GetAll(),
-                MessagingGroupNames = Database.GetMessagingGroupNames(),
+               
 
                 ActionButtons = new List<ActionButtonInfo>
                 {
@@ -154,8 +157,18 @@ namespace BOA.OneDesigner.MainForm
                     }
                 },
 
-                RequestNames = Database.GetDefaultRequestNames()
+                
             };
+
+            using (var database = new DevelopmentDatabase())
+            {
+                Model.TfsFolderNames      = database.GetTfsFolderNames();
+                Model.MessagingGroupNames = database.GetMessagingGroupNames();
+                Model.RequestNames        = database.GetDefaultRequestNames();
+            }
+
+            
+
         }
 
         public void RequestNameChanged()
@@ -164,7 +177,13 @@ namespace BOA.OneDesigner.MainForm
             {
                 return;
             }
-            var exist = Database.Load(Model.ScreenInfo);
+
+            bool exist = false;
+            using (var database = new DevelopmentDatabase())
+            {
+                exist = database.Load(Model.ScreenInfo);
+            }
+
             if (exist)
             {
                 Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
@@ -180,7 +199,12 @@ namespace BOA.OneDesigner.MainForm
 
         public void ResourceCodeChanged()
         {
-            var exist = Database.Load(Model.ScreenInfo);
+            var exist = false;
+            using (var database = new DevelopmentDatabase())
+            {
+                exist = database.Load(Model.ScreenInfo);
+            }
+
             if (exist)
             {
                 Model.ScreenInfoGottenFromCache = true;
@@ -207,7 +231,14 @@ namespace BOA.OneDesigner.MainForm
                 return;
             }
 
-            var resourceActions = DEV.GetResourceActions(resourceCode);
+
+            List<Aut_ResourceAction> resourceActions = null;
+
+            using (DevelopmentDatabase  database = new DevelopmentDatabase())
+            {
+                resourceActions = database.GetResourceActions(resourceCode);
+            }
+
             if (resourceActions.Count == 0)
             {
                 return;
@@ -235,7 +266,6 @@ namespace BOA.OneDesigner.MainForm
 
         }
 
-        static readonly DevelopmentDatabase DEV = new DevelopmentDatabase();
 
         public void Save()
         {
@@ -246,7 +276,11 @@ namespace BOA.OneDesigner.MainForm
                 return;
             }
 
-            Database.Save(Model.ScreenInfo);
+            using (var database = new DevelopmentDatabase())
+            {
+                database.Save(Model.ScreenInfo);    
+            }
+            
 
             Model.ViewMessage = "Kaydedildi.";
         }

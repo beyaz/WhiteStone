@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -7,6 +8,7 @@ using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
+    
     static class BDataGridRenderer
     {
 
@@ -56,6 +58,10 @@ namespace BOA.OneDesigner.CodeGeneration
         internal static string EvaluateMethodBodyOfGridColumns(string methodName, WriterContext writerContext, BDataGrid data)
         {
             var sb = new PaddedStringBuilder();
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Gets the column definition of "+ data.SnapName+".");
+            sb.AppendLine("  */");
             sb.AppendLine(methodName+"(request:any) : any[]");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -135,7 +141,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
            
 
-
+            var isBrowsePageDataGrid = (data.Container as BCard)?.IsBrowsePageDataGridContainer == true;
             
 
             var sb         = writerContext.Output;
@@ -147,11 +153,26 @@ namespace BOA.OneDesigner.CodeGeneration
             var methodNameOfGridColumns = EvaluateMethodNameOfGridColumns(writerContext,data);
             writerContext.AddClassBody(EvaluateMethodBodyOfGridColumns(methodNameOfGridColumns,writerContext,data));
 
-            var rowSelectionChangedMethodName = EvaluateMethodNameOfGridRowSelectionChanged(writerContext,data);
-            writerContext.AddClassBody(EvaluateMethodBodyOfGridRowSelectionChanged(rowSelectionChangedMethodName,writerContext,data));
-            writerContext.ConstructorBody.Add($"this.{rowSelectionChangedMethodName} = this.{rowSelectionChangedMethodName}.bind(this);");
+            var canWriteRowSelectionChangedMethod = string.IsNullOrWhiteSpace(data.RowSelectionChangedOrchestrationMethod) == false;
 
-            if ((data.Container as BCard)?.IsBrowsePageDataGridContainer == true)
+            var rowSelectionChangedMethodName = EvaluateMethodNameOfGridRowSelectionChanged(writerContext,data);
+
+            if (canWriteRowSelectionChangedMethod)
+            {
+                writerContext.AddClassBody(EvaluateMethodBodyOfGridRowSelectionChanged(rowSelectionChangedMethodName, writerContext, data));
+
+                if (isBrowsePageDataGrid)
+                {
+                    writerContext.ConstructorBody.Add($"this.onRowSelectionChanged = this.{rowSelectionChangedMethodName}.bind(this);");
+                }
+                else
+                {
+                    writerContext.ConstructorBody.Add($"this.{rowSelectionChangedMethodName} = this.{rowSelectionChangedMethodName}.bind(this);");
+                }
+            }
+
+
+            if (isBrowsePageDataGrid)
             {
 
                 writerContext.AddBeforeRenderReturn($"this.state.dataSource = {data.DataSourceBindingPathInTypeScript};");
@@ -175,7 +196,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
             sb.AppendLine("columns = {this."+methodNameOfGridColumns+"(request)}");
-            sb.AppendLine("onRowSelectionChanged={this."+rowSelectionChangedMethodName+"}");
+            if (canWriteRowSelectionChangedMethod)
+            {
+                sb.AppendLine("onRowSelectionChanged={this."+rowSelectionChangedMethodName+"}");    
+            }
+            
 
             sb.AppendLine("headerBarOptions={{");
 
