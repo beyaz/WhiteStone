@@ -7,6 +7,8 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class ResourceActionEditor : GroupBox
     {
+        Aut_ResourceAction Model => (Aut_ResourceAction)DataContext;
+
         #region Constructors
         public ResourceActionEditor()
         {
@@ -19,10 +21,11 @@ namespace BOA.OneDesigner.PropertyEditors
  {
     ui:'StackPanel',
 	    rows:[
-		    {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true,    Margin:5, Text:'{Binding " + nameof(Aut_ResourceAction.IsVisibleBindingPath) + @"}',    Label:'Is Visible Binding Path' },
-            {ui:'RequestIntellisenseTextBox', ShowOnlyOrchestrationMethods:true, Margin:5, Text:'{Binding " + nameof(Aut_ResourceAction.OrchestrationMethodName) + @"}', Label:'Orchestration Method Name' }
+		    {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true,    Margin:5, Text:'{Binding " + nameof(Model.IsVisibleBindingPath) + @"}',     Label:'Is Visible Binding Path' },
+            {ui:'RequestIntellisenseTextBox', ShowOnlyOrchestrationMethods:true, Margin:5, Text:'{Binding " + nameof(Model.OrchestrationMethodName) + @"}',  Label:'Orchestration Method Name' },
 
-		    
+            {ui:'ResourceCodeTextBox',                                           Margin:5, Text:'{Binding " + nameof(Model.OpenFormWithResourceCode) + @"}', Label:'Open Form With Resource Code'},
+		    {ui:'RequestIntellisenseTextBox', ShowOnlyClassProperties:true,      Margin:5, Text:'{Binding " + nameof(Model.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  Label:'Open Form With Data' }
 
 	    ]
  }

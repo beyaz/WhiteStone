@@ -40,6 +40,8 @@ namespace BOA.OneDesigner.Helpers
         public Dictionary<string, IReadOnlyList<string>> Collections                             { get; set; }
         public List<string>                              OrchestrationMethods                    { get; set; } = new List<string>();
         public List<string>                              RequestBooleanPropertyIntellisense      { get; set; }
+
+        public List<string> RequestClassPropertyIntellisense { get; set; }
         public List<string>                              RequestCollectionPropertyIntellisense   { get; set; }
         public List<string>                              RequestNotNullInt32PropertyIntellisense { get; set; }
         public List<string>                              RequestPropertyIntellisense             { get; set; }
@@ -296,6 +298,7 @@ namespace BOA.OneDesigner.Helpers
                 RequestNotNullInt32PropertyIntellisense = new List<string>(),
 
                 RequestBooleanPropertyIntellisense    = new List<string>(),
+                RequestClassPropertyIntellisense = new List<string>(),
                 RequestCollectionPropertyIntellisense = new List<string>(),
                 Collections                           = new Dictionary<string, IReadOnlyList<string>>(),
                 TypeDefinition                        = FindType(assemblyPath, requestTypeFullName),
@@ -427,6 +430,8 @@ namespace BOA.OneDesigner.Helpers
 
                 if (propertyDefinition.PropertyType.IsValueType == false)
                 {
+                    data.RequestClassPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
+
                     data.RequestPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
                     CollectProperties(data, pathPrefix + propertyDefinition.Name + ".", propertyDefinition.PropertyType.Resolve());
                 }

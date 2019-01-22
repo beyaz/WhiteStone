@@ -25,12 +25,19 @@ namespace BOA.OneDesigner.AppModel
         public string Name { get; set; }
 
         /// <summary>
+        ///     Gets or sets the open form with resource code.
+        /// </summary>
+        public string OpenFormWithResourceCode { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the open form with resource code data parameter binding path.
+        /// </summary>
+        public string OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
+
+        /// <summary>
         ///     Gets or sets the name of the orchestration method.
         /// </summary>
         public string OrchestrationMethodName { get; set; }
-
         #endregion
-
-       
     }
 }

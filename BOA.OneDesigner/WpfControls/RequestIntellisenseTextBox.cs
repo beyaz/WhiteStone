@@ -23,6 +23,8 @@ namespace BOA.OneDesigner.WpfControls
 
         public bool ShowOnlyBooleanProperties { get; set; }
 
+        public bool ShowOnlyClassProperties { get; set; }
+
         public bool ShowOnlyCollectionProperties   { get; set; }
         public bool ShowOnlyNotNullInt32Properties { get; set; }
         public bool ShowOnlyOrchestrationMethods   { get; set; }
@@ -71,6 +73,12 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     return Data.OrchestrationMethods.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
                 }
+
+                if (_requestIntellisenseTextBox.ShowOnlyClassProperties)
+                {
+                    return Data.RequestClassPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                }
+                
 
                 if (_requestIntellisenseTextBox.ShowOnlyStringProperties)
                 {
