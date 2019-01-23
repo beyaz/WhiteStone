@@ -5,7 +5,7 @@ namespace BOA.OneDesigner.AppModel
     public static class FormType
     {
         #region Constants
-        public const string BrowsePage                  = "Browse Page (Listelme)";
+        public const string BrowsePage                  = "Browse Page (Listeleme)";
         public const string TransactionPage             = "Transaction Page";
         public const string TransactionPageWithWorkflow = "TransactionPage with Workflow";
         #endregion

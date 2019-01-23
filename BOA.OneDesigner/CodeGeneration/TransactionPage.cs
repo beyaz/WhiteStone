@@ -126,7 +126,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("super.componentDidMount();");
 
             sb.AppendLine();
-            sb.AppendLine("if (this.state.$isInitialStateEvaluated)");
+            sb.AppendLine("if (this.state.$isLoaded)");
             sb.AppendLine("{");
             sb.PaddingCount++;
             sb.AppendLine("return;");
@@ -337,7 +337,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             sb.AppendLine("windowRequest: incomingRequest,");
-            sb.AppendLine("$isInitialStateEvaluated: true");
+            sb.AppendLine("$isLoaded: true");
 
             sb.PaddingCount--;
             sb.AppendLine("};");
@@ -398,7 +398,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("if (!this.state.$isInitialStateEvaluated)");
+            sb.AppendLine("if (!this.state.$isLoaded)");
             sb.AppendLine("{");
             sb.PaddingCount++;
             sb.AppendLine("return <div/>;");
