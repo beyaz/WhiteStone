@@ -70,7 +70,13 @@
                   "Label": "Output TypeScript File Name",
                   "Text": "{Binding ScreenInfo.OutputTypeScriptFileName}",
                   "vAlignIsCenter": true,
-
+                  "MarginTop": 10
+                },
+                {
+                  "ui": "TextBlock",
+				  "TextWrapping":"WrapWithOverflow",
+                  "Text": "Yazılımcı için Not:\n\nForm ilk açıldığında orchestrationdaki 'LoadData' metodu çağrılır.\nLoadData metodu içinde comboların datasource'ları default gelmesi gereken değerler ve benzeri form ilk açıldığında lazım olan ne varsa hepsi tek seferde bu metod içinde ayarlanıp WindowResuest ona göre doldurmalıdır.\n\nWindowRequest'i orchestration'a gidip gelen bir nesne (mvc deki Model) gibi düşünün.\nHer bir orchestration metodu WindowRequest'i döner. Client tarafına geri gelen WindowRequest nesnesi state içine tekrar set edilir ve render tetiklenir.\n\nBu sayede Logic orc tarafında olur\nData WindowRequest içinde olur.\nUI yani typescript tarafı ise dummy olmuş olur.\n\n'n adet kayıt getirildi' gibi mesajların çıkması için Request içinde 'string StatusMessage' alanı olmalıdır.",
+                  "vAlignIsCenter": true,
                   "MarginTop": 10
                 }
               ]
