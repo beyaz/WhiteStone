@@ -572,15 +572,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
         static void WriteOnActionClick(WriterContext writerContext)
         {
-            foreach (var resourceAction in writerContext.ScreenInfo.ResourceActions)
-            {
-                if (resourceAction.OrchestrationMethodName.IsNullOrWhiteSpace())
-                {
-                    App.ShowErrorNotification("Related Orch method should be define. Action name: " + resourceAction.CommandName);
-                }
-            }
+            
 
-            var resourceActions = writerContext.ScreenInfo.ResourceActions.Where(x => x.OrchestrationMethodName.HasValue());
+            var resourceActions = writerContext.ScreenInfo.ResourceActions;
 
             var sb = new PaddedStringBuilder();
             if (writerContext.HasWorkflow)
@@ -601,7 +595,38 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine($"if (command.commandName === \"{resourceAction.CommandName}\")");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
-                    sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");
+                    
+                    #region action body
+                    if (resourceAction.OpenFormWithResourceCode.HasValue() && resourceAction.OrchestrationMethodName.HasValue())
+                    {
+                        throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz.");
+                    }
+
+                    if (resourceAction.OpenFormWithResourceCode.IsNullOrWhiteSpace() && resourceAction.OrchestrationMethodName.IsNullOrWhiteSpace())
+                    {
+                        throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır.");
+                    }
+
+                    if (resourceAction.OpenFormWithResourceCode.HasValue())
+                    {
+                        if (resourceAction.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
+                        {
+                            var bindingPathForDataParameter = "this.getWindowRequest().body."+TypescriptNaming.NormalizeBindingPath(resourceAction.OpenFormWithResourceCodeDataParameterBindingPath);
+
+                            sb.AppendLine($"BFormManager.show(\"{resourceAction.OpenFormWithResourceCode.Trim()}\", /*data*/{bindingPathForDataParameter}, true,null);");
+                        }
+                        else
+                        {
+                            sb.AppendLine($"BFormManager.show(\"{resourceAction.OpenFormWithResourceCode.Trim()}\", /*data*/null, true,null);");
+                        }
+                    }
+                    else
+                    {
+                        sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");
+                    } 
+                    #endregion
+
+
                     sb.AppendLine("return /*isCompleted*/false;");
                     sb.PaddingCount--;
                     sb.AppendLine("}");
@@ -631,9 +656,15 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
+                    #region action body
                     if (resourceAction.OpenFormWithResourceCode.HasValue() && resourceAction.OrchestrationMethodName.HasValue())
                     {
-                        throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz.");
+                        throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz."+resourceAction.CommandName);
+                    }
+
+                    if (resourceAction.OpenFormWithResourceCode.IsNullOrWhiteSpace() && resourceAction.OrchestrationMethodName.IsNullOrWhiteSpace())
+                    {
+                        throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır."+resourceAction.CommandName);
                     }
 
                     if (resourceAction.OpenFormWithResourceCode.HasValue())
@@ -641,8 +672,6 @@ namespace BOA.OneDesigner.CodeGeneration
                         if (resourceAction.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
                         {
                             var bindingPathForDataParameter = "this.getWindowRequest().body."+TypescriptNaming.NormalizeBindingPath(resourceAction.OpenFormWithResourceCodeDataParameterBindingPath);
-
-
 
                             sb.AppendLine($"BFormManager.show(\"{resourceAction.OpenFormWithResourceCode.Trim()}\", /*data*/{bindingPathForDataParameter}, true,null);");
                         }
@@ -653,10 +682,11 @@ namespace BOA.OneDesigner.CodeGeneration
                     }
                     else
                     {
-                        sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");    
-                    }
+                        sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");
+                    } 
+                    #endregion
 
-                    
+
                     sb.AppendLine("return /*isCompleted*/true;");
                     sb.PaddingCount--;
                     sb.AppendLine("}");

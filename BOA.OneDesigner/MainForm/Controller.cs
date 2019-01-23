@@ -114,11 +114,13 @@ namespace BOA.OneDesigner.MainForm
                         {
                             new BCard
                             {
+                                IsBrowsePageCriteria = true,
                                 TitleInfo = new LabelInfo {IsFreeText = true, FreeTextValue = "Kriterler"}
                             },
                             new BCard
                             {
-                               
+                                IsBrowsePageDataGridContainer = true,
+                                LayoutProps = new LayoutProps{Wide = 12},
                                 TitleInfo = new LabelInfo {IsFreeText = true, FreeTextValue = "Sonuç Listesi"},
                                 Items = new List<BField>
                                 {

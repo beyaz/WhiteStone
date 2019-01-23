@@ -9,10 +9,10 @@ namespace BOA.OneDesigner.PropertyEditors
     class BDataGridEditor : StackPanel, IHostItem
     {
         #region Fields
-        public SizeEditor _sizeEditor;
-        public Button _removeButton;
-        public GroupBox _rowSelectionChangedGroupBox;
         public LabelEditor _labelEditor;
+        public Button      _removeButton;
+        public GroupBox    _rowSelectionChangedGroupBox;
+        public SizeEditor  _sizeEditor;
         #endregion
 
         #region Constructors
@@ -40,7 +40,8 @@ namespace BOA.OneDesigner.PropertyEditors
 
         {ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(Model.TitleInfo) + @"}'},
 
-        {ui:'Button',Margin:10, Text:'Add Column',Click:'" + nameof(AddColumn) + @"'}
+        {ui:'Button',Margin:10, Text:'Add Column',Click:'" + nameof(AddColumn) + @"'},
+        {ui:'Button',Margin:10, Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
 }
 
@@ -48,8 +49,6 @@ namespace BOA.OneDesigner.PropertyEditors
 
             Loaded += (s, e) =>
             {
-                
-
                 if (Model.SizeInfo == null)
                 {
                     Model.SizeInfo = new SizeInfo
@@ -59,16 +58,14 @@ namespace BOA.OneDesigner.PropertyEditors
                 }
 
                 _sizeEditor.Host  = Host;
-                _labelEditor.Host = Host; 
+                _labelEditor.Host = Host;
 
                 if (Model?.ParentIsComboBox == true)
                 {
-                    _sizeEditor.Visibility = Visibility.Collapsed;
+                    _sizeEditor.Visibility                  = Visibility.Collapsed;
                     _rowSelectionChangedGroupBox.Visibility = Visibility.Collapsed;
                 }
-
             };
-
         }
         #endregion
 
@@ -84,6 +81,11 @@ namespace BOA.OneDesigner.PropertyEditors
         public void AddColumn()
         {
             Host.EventBus.Publish(EventBus.DataGridColumnAdded);
+        }
+
+        public void Delete()
+        {
+            Host.EventBus.Publish(EventBus.ComponentDeleted);
         }
         #endregion
     }
