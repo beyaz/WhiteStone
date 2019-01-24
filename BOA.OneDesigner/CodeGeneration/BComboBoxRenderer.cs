@@ -108,6 +108,16 @@ namespace BOA.OneDesigner.CodeGeneration
             var valueMemberPath = TypescriptNaming.NormalizeBindingPath(data.ValueMemberPath);
             var displayMemberPath = TypescriptNaming.NormalizeBindingPath(data.DisplayMemberPath);
 
+            if (valueMemberPath.IsNullOrWhiteSpace())
+            {
+                throw Error.BindingPathShouldHaveValue(data.Label, nameof(valueMemberPath));
+            }
+
+            if (displayMemberPath.IsNullOrWhiteSpace())
+            {
+                throw Error.BindingPathShouldHaveValue(data.Label, nameof(displayMemberPath));
+            }
+
             sb.AppendLine($"<BComboBox  dataSource = {{{data.DataGrid.DataSourceBindingPathInTypeScript}}}");
             sb.PaddingCount++;
 
