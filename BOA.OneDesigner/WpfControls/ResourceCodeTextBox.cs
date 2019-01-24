@@ -32,16 +32,15 @@ namespace BOA.OneDesigner.WpfControls
 
         class RequestPropertyIntellisenseProvider : IIntelliboxResultsProvider
         {
-            #region Static Fields
-            static readonly DevelopmentDatabase Database = new DevelopmentDatabase();
-            #endregion
-
             #region Public Methods
             public IEnumerable DoSearch(string searchTerm, int maxResults, object tag)
             {
-                var items = Database.GetRecords<Aut_Resource>("SELECT TOP 5 Name,ResourceCode from AUT.Resource WITH(NOLOCK) WHERE Name LIKE '%" + searchTerm + "%' OR ResourceCode = '" + searchTerm + "'");
+                using (var database = new DevelopmentDatabase())
+                {
+                    var items = database.GetRecords<Aut_Resource>("SELECT TOP 5 Name,ResourceCode from AUT.Resource WITH(NOLOCK) WHERE Name LIKE '%" + searchTerm + "%' OR ResourceCode = '" + searchTerm + "'");
 
-                return items.Where(x => IsMatch(x, searchTerm)).Select(t => t).Take(maxResults);
+                    return items.Where(x => IsMatch(x, searchTerm)).Select(t => t).Take(maxResults);
+                }
             }
             #endregion
 

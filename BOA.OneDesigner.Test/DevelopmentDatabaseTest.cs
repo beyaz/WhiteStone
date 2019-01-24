@@ -11,9 +11,15 @@ namespace BOA.OneDesigner.AppModel
     public class DevelopmentDatabaseTest
     {
 
-      
 
 
+        [TestMethod]
+        public void SaveToFile()
+        {
+            var database = new DevelopmentDatabase();
+
+            File.WriteAllBytes(nameof(SaveToFile)+".bin",BinarySerialization.Serialize(database.GetAllScreens()));
+        }
 
 
 

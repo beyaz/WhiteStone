@@ -13,9 +13,9 @@ namespace BOA.OneDesigner.MainForm
     {
         #region Fields
         public PropertyEditorContainer   _propertyEditorContainer;
+        public StackPanel                _screenActionsContainer;
         public ToolBox                   _toolBox;
         public JsxElementDesignerSurface DesignSurface;
-        public StackPanel _screenActionsContainer;
         #endregion
 
         #region Constructors
@@ -37,8 +37,6 @@ namespace BOA.OneDesigner.MainForm
 
             DesignSurface.AttachToEventBus();
         }
-
-        
         #endregion
 
         #region Public Properties
@@ -89,6 +87,13 @@ namespace BOA.OneDesigner.MainForm
             EvaluateScreenActions();
         }
 
+        public void Refresh()
+        {
+            Refresh(Host, Model, DesignSurface);
+        }
+        #endregion
+
+        #region Methods
         void EvaluateScreenActions()
         {
             _screenActionsContainer.Children.Clear();
@@ -109,29 +114,19 @@ namespace BOA.OneDesigner.MainForm
                 button.Click += (s, e) =>
                 {
                     _propertyEditorContainer.DataContext = resourceAction;
-                    Host.SelectedElement = button;
+                    Host.SelectedElement                 = button;
                     _propertyEditorContainer.Refresh();
                 };
 
                 _screenActionsContainer.Children.Add(button);
-
             }
-        }
-
-        
-
-        static readonly DevelopmentDatabase Database = new DevelopmentDatabase();
-        public void Refresh()
-        {
-            Refresh(Host, Model, DesignSurface);
         }
         #endregion
     }
 
-    class ActionButton:Button
+    class ActionButton : Button
     {
-        public Aut_ResourceAction Model { get; }
-
+        #region Constructors
         public ActionButton(Aut_ResourceAction action)
         {
             Model = action;
@@ -139,9 +134,13 @@ namespace BOA.OneDesigner.MainForm
             Content = action.Name;
 
             Padding = new Thickness(5);
-            
 
             Margin = new Thickness(5);
         }
+        #endregion
+
+        #region Public Properties
+        public Aut_ResourceAction Model { get; }
+        #endregion
     }
 }
