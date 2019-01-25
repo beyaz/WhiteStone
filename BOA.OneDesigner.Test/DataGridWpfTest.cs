@@ -10,7 +10,7 @@ namespace BOA.OneDesigner
     [TestClass]
     public class DataGridWpfTest
     {
-        
+        #region Public Methods
         [TestMethod]
         public void Should_update_data_grid_column_when_property_changed()
         {
@@ -35,20 +35,19 @@ namespace BOA.OneDesigner
 
             wpf.AttachToEventBus();
 
-            wpf.RaiseLoadedEvent();
-
             var bDataGridColumnWpf = (BDataGridColumnWpf) wpf.ColumnsCollection[0];
 
             bDataGridColumnWpf._label.Text.Should().Be("A");
 
             bDataGrid.Columns[0].Label.FreeTextValue = "B";
 
+            host.SelectedElement = bDataGridColumnWpf;
             host.EventBus.Publish(EventBus.LabelChanged);
 
             bDataGridColumnWpf = (BDataGridColumnWpf) wpf.ColumnsCollection[0];
 
             bDataGridColumnWpf._label.Text.Should().Be("B");
         }
-
+        #endregion
     }
 }

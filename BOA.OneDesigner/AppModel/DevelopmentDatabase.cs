@@ -14,6 +14,8 @@ namespace BOA.OneDesigner.AppModel
     {
         #region Constants
         const string ConnectionString = "server=srvdev\\ATLAS;database =BOA;integrated security=true";
+
+        const string TableName = "BOA.DBT.OneDesigner";
         #endregion
 
         #region Constructors
@@ -23,9 +25,18 @@ namespace BOA.OneDesigner.AppModel
         #endregion
 
         #region Public Methods
+        public int DeleteByRequestName(string requestName)
+        {
+            CommandText = $"DELETE FROM {TableName} WHERE {nameof(ScreenInfo.RequestName)} = @{nameof(requestName)}";
+
+            this[nameof(requestName)] = requestName;
+
+            return ExecuteNonQuery();
+        }
+
         public List<ScreenInfo> GetAllScreens()
         {
-            var records = this.GetRecords<ScreenInfo>("SELECT RequestName from BOA.DBT.OneDesigner ");
+            var records = this.GetRecords<ScreenInfo>($"SELECT RequestName from {TableName} ");
             foreach (var screenInfo in records)
             {
                 Load(screenInfo);

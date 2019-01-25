@@ -23,6 +23,9 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public bool IsAccountComponent { get; set; }
 
+
+        
+
         #endregion
     }
 }
