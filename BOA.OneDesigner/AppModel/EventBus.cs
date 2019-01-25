@@ -23,6 +23,7 @@ namespace BOA.OneDesigner.AppModel
         public const string WideChanged = nameof(WideChanged);
         public const string SizeChanged = nameof(SizeChanged);
         public const string LabelChanged = nameof(LabelChanged);
+        public const string RowCountChanged = nameof(RowCountChanged);
         #endregion
 
         #region Fields
@@ -44,6 +45,7 @@ namespace BOA.OneDesigner.AppModel
             }
         }
 
+        
         #endregion
 
         #region Public Methods

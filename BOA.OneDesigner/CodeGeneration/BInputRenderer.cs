@@ -88,6 +88,13 @@ namespace BOA.OneDesigner.CodeGeneration
                     {
                         sb.AppendLine($"mask = \"{data.Mask}\"");
                     }
+
+                    if (data.RowCount>0)
+                    {
+                        sb.AppendLine("type={\"textarea\"}");
+                        sb.AppendLine("multiLine={true}");
+                        sb.AppendLine("rows={"+data.RowCount+"}");
+                    }
                 }
                 else if (isDecimal)
                 {

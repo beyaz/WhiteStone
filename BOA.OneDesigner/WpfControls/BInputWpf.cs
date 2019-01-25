@@ -30,15 +30,17 @@ namespace BOA.OneDesigner.WpfControls
 	]
 	
 }");
+
+            Loaded += (s, e) => { EvaluateRowCount(); };
         }
         #endregion
 
         #region Public Properties
-        public Host   Host  { get; set; }
-        public BInput Model => (BInput) DataContext;
+        public Host   Host        { get; set; }
+        public bool   IsInToolbox { get; set; }
+        public BInput Model       => (BInput) DataContext;
 
         public SizeInfo SizeInfo => Model?.SizeInfo;
-        public bool IsInToolbox { get; set; }
         #endregion
 
         #region Methods
@@ -52,6 +54,32 @@ namespace BOA.OneDesigner.WpfControls
             Cursor = Cursors.Arrow;
         }
 
+        bool SelectedElementIsNotThisElement => Host.SelectedElement != this;
+
+
+        void OnRowCountChanged()
+        {
+            if (SelectedElementIsNotThisElement)
+            {
+                return;
+            }
+
+            EvaluateRowCount();
+
+        }
+
+        void EvaluateRowCount()
+        {
+            if (Model.RowCount > 0)
+            {
+                _bindingPath.MinHeight = Model.RowCount.Value * 10;
+            }
+            else
+            {
+                _bindingPath.MinHeight = 10;
+            }
+        }
+
         void UpdateBindingPath() // TODO check
         {
             _bindingPath.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
@@ -59,6 +87,11 @@ namespace BOA.OneDesigner.WpfControls
 
         void UpdateLabel()
         {
+            if (SelectedElementIsNotThisElement)
+            {
+                return;
+            }
+
             _label.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
         }
         #endregion
@@ -72,6 +105,7 @@ namespace BOA.OneDesigner.WpfControls
             OnAttachToEventBus?.Invoke();
 
             Host.EventBus.Subscribe(EventBus.LabelChanged, UpdateLabel);
+            Host.EventBus.Subscribe(EventBus.RowCountChanged, OnRowCountChanged);
         }
 
         public void DeAttachToEventBus()
@@ -79,7 +113,7 @@ namespace BOA.OneDesigner.WpfControls
             OnDeAttachToEventBus?.Invoke();
 
             Host.EventBus.UnSubscribe(EventBus.LabelChanged, UpdateLabel);
-            
+            Host.EventBus.UnSubscribe(EventBus.RowCountChanged, OnRowCountChanged);
         }
         #endregion
     }

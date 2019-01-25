@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="IntellisenseTextBox.cs" />
     <Compile Include="LabeledComboBox.cs" />
+    <Compile Include="StringToNullableInt32Converter.cs" />
     <Compile Include="WindowBase.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Designer.cs" />

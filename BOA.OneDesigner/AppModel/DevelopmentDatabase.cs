@@ -62,7 +62,12 @@ namespace BOA.OneDesigner.AppModel
 
         public List<Aut_ResourceAction> GetResourceActions(string resourceCode)
         {
-            return this.GetRecords<Aut_ResourceAction>("SELECT Name,CommandName from AUT.ResourceAction WHERE ResourceId = (SELECT  ResourceId from AUT.Resource WITH(NOLOCK) WHERE ResourceCode = @resourceCode OR Name = @resourceCode)", nameof(resourceCode), resourceCode);
+            return this.GetRecords<Aut_ResourceAction>(@"
+ SELECT Name,CommandName 
+   FROM AUT.ResourceAction     as b WITH(NOLOCK) INNER JOIN 
+        BOA.ONE.ResourceAction as o WITH(NOLOCK) ON b.ResourceId = o.ResourceId AND b.ActionId = o.ResourceActionId
+  WHERE b.ResourceId = (SELECT  ResourceId from AUT.Resource WITH(NOLOCK) WHERE ResourceCode = @resourceCode OR Name = @resourceCode)", 
+                                                       nameof(resourceCode), resourceCode);
         }
 
         public ScreenInfo GetScreenInfo(string requestName)

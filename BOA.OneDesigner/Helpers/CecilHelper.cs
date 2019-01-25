@@ -48,6 +48,7 @@ namespace BOA.OneDesigner.Helpers
         public List<string>                              RequestStringPropertyIntellisense       { get; set; }
         public string                                    RequestTypeFullName                     { get; set; }
         public TypeDefinition                            TypeDefinition                          { get; set; }
+        public List<string> RequestNullableInt32PropertyIntellisense { get; set; }
         #endregion
 
         #region Public Methods
@@ -296,6 +297,7 @@ namespace BOA.OneDesigner.Helpers
                 RequestPropertyIntellisense             = new List<string>(),
                 RequestStringPropertyIntellisense       = new List<string>(),
                 RequestNotNullInt32PropertyIntellisense = new List<string>(),
+                RequestNullableInt32PropertyIntellisense = new List<string>(),
 
                 RequestBooleanPropertyIntellisense    = new List<string>(),
                 RequestClassPropertyIntellisense = new List<string>(),
@@ -420,6 +422,11 @@ namespace BOA.OneDesigner.Helpers
                 if (propertyDefinition.PropertyType.FullName == typeof(int).FullName)
                 {
                     data.RequestNotNullInt32PropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
+                }
+
+                if (propertyDefinition.PropertyType.FullName == FullNameOfNullableInt)
+                {
+                    data.RequestNullableInt32PropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
                 }
 
                 if (IsCollection(propertyDefinition.PropertyType))

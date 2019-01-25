@@ -6,7 +6,7 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class BInput : BField
     {
-        // TODO string propertiler için editörden set et
+        
         public string Mask { get; set; }
 
         public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsLarge = true};
@@ -23,6 +23,8 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public bool IsAccountComponent { get; set; }
 
+
+        public int? RowCount { get; set; }
 
         
 
