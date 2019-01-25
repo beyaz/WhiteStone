@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using FluentAssertions;
@@ -38,7 +39,7 @@ namespace BOA.OneDesigner.AppModel
         {
             var database = new DevelopmentDatabase();
 
-            File.WriteAllBytes(nameof(SaveToFile) + ".bin", BinarySerialization.Serialize(database.GetAllScreens()));
+            File.WriteAllBytes(nameof(SaveToFile)+ DateTime.Now.Month+"." +DateTime.Now.Day+ ".bin", BinarySerialization.Serialize(database.GetAllScreens()));
         }
         #endregion
     }
