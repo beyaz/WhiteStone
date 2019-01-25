@@ -700,6 +700,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
 
 
+                sb.AppendLine("return /*isCompleted*/true;");
                 sb.PaddingCount--;
                 sb.AppendLine("}");
                 #endregion

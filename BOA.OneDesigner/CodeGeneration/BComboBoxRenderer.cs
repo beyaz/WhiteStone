@@ -139,6 +139,12 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
+
+            if (data.ValueChangedOrchestrationMethod.HasValue())
+            {
+                sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+            }
+
             sb.PaddingCount--;
             sb.AppendLine("}}");
 

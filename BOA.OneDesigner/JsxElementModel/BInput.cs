@@ -26,6 +26,9 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public int? RowCount { get; set; }
 
+
+        public string ValueChangedOrchestrationMethod { get; set; }
+
         
 
         #endregion

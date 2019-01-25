@@ -50,7 +50,21 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"<BAccountComponent accountNumber = {{{bindingPathInJs}}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onAccountSelect = {{(selectedAccount: any) => {bindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null}}");
+                if (data.ValueChangedOrchestrationMethod.HasValue())
+                {
+                        sb.AppendLine($"onAccountSelect = {{(selectedAccount: any) =>");    
+                        sb.AppendLine("{");
+                        sb.PaddingCount++;
+                        sb.AppendLine($"{bindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null;");
+                        sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+                        sb.PaddingCount--;
+                        sb.AppendLine("}}");    
+                }
+                else
+                {
+                    sb.AppendLine($"onAccountSelect = {{(selectedAccount: any) => {bindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null}}");    
+                }
+                
                 sb.AppendLine("isVisibleBalance={false}");
                 sb.AppendLine("isVisibleAccountSuffix={false}");
                 // sb.AppendLine("enableShowDialogMessagesInCallback={false}");

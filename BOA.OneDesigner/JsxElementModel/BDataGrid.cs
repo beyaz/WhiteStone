@@ -60,5 +60,8 @@ namespace BOA.OneDesigner.JsxElementModel
         public BDataGrid DataGrid { get; set; } = new BDataGrid {ParentIsComboBox = true};
 
         internal string TypeScriptMethodNameOfGetGridColumns { get; set; }
+
+
+        public string ValueChangedOrchestrationMethod { get; set; }
     }
 }

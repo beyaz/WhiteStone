@@ -21,6 +21,9 @@ namespace BOA.OneDesigner.PropertyEditors
             {
                 _rowCount.Visibility = Visibility.Collapsed;
                 _mask.Visibility     = Visibility.Collapsed;
+
+                _rowCount.Text = null;
+                _mask.Text = null;
             }
 
             var isNullableInt = Host.RequestIntellisenseData.RequestNullableInt32PropertyIntellisense.Contains(Model.ValueBindingPath);
@@ -34,6 +37,7 @@ namespace BOA.OneDesigner.PropertyEditors
             else
             {
                 _isAccountNumber.Visibility = Visibility.Collapsed;
+                _isAccountNumber.IsChecked = false;
             }
 
         }
@@ -50,6 +54,7 @@ namespace BOA.OneDesigner.PropertyEditors
         public CheckBox _isAccountNumber;
         #endregion
 
+        public UIElement _valueChanged;
         #region Constructors
         public BInputEditor()
         {
@@ -91,6 +96,8 @@ namespace BOA.OneDesigner.PropertyEditors
             Unchecked: '" + nameof(OnIsAccountComponentChanged) + @"',
             Name     : '"+nameof(_isAccountNumber)+@"'
         },
+        
+        {ui:'RequestIntellisenseTextBox',Name : '"+nameof(_valueChanged)+@"', ShowOnlyOrchestrationMethods:true, Text:'{Binding " + nameof(Model.ValueChangedOrchestrationMethod) + @"}', Label:'On Value Changed' },    
 
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
@@ -122,8 +129,19 @@ namespace BOA.OneDesigner.PropertyEditors
 
         public void OnIsAccountComponentChanged()
         {
+            if (_isAccountNumber.IsChecked == true)
+            {
+                _valueChanged.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                _valueChanged.Visibility = Visibility.Collapsed;
+                Model.ValueChangedOrchestrationMethod = null;
+            }
+
+
             // clear label
-            Model.LabelInfo = new LabelInfo();
+            Model.LabelInfo = new LabelInfo {IsFreeText = true, FreeTextValue = "Hesap No"};
         }
         #endregion
     }
