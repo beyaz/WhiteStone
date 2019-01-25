@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using BOA.Common.Helpers;
 
 namespace BOA.OneDesigner.Helpers
 {
@@ -8,7 +9,6 @@ namespace BOA.OneDesigner.Helpers
         #region Public Methods
         public static InvalidOperationException BindingPathShouldHaveValue(string location, string pathName)
         {
-            ;
             return new InvalidOperationException(string.Join(Environment.NewLine,
                                                              nameof(BindingPathShouldHaveValue),
                                                              nameof(location) + Path.AltDirectorySeparatorChar + location,
@@ -26,6 +26,16 @@ namespace BOA.OneDesigner.Helpers
         public static InvalidOperationException InvalidOperation(string message = null)
         {
             return new InvalidOperationException(message);
+        }
+
+        public static InvalidOperationException RequestNotFound(string requestName,string assemblyPath=null)
+        {
+            if (assemblyPath.HasValue())
+            {
+                throw new InvalidOperationException($@"{requestName} not found in {assemblyPath}");    
+            }
+
+            throw new InvalidOperationException($@"{requestName} not found in d:\boa\server\bin\");
         }
         #endregion
     }

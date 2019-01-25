@@ -194,6 +194,10 @@ namespace BOA.OneDesigner.MainForm
             if (Model.SolutionInfo != null)
             {
                 Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
+                if (Host.RequestIntellisenseData == null)
+                {
+                    throw Error.RequestNotFound(Model.ScreenInfo.RequestName,Model.SolutionInfo.TypeAssemblyPathInServerBin);
+                }
             }
 
             UpdateResourceActions();
@@ -216,6 +220,10 @@ namespace BOA.OneDesigner.MainForm
             if (Model.SolutionInfo != null)
             {
                 Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
+                if (Host.RequestIntellisenseData == null)
+                {
+                    throw Error.RequestNotFound(Model.ScreenInfo.RequestName,Model.SolutionInfo.TypeAssemblyPathInServerBin);
+                }
             }
 
             UpdateResourceActions();

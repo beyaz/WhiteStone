@@ -51,6 +51,11 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
             writerContext.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName);
+            if (writerContext.RequestIntellisenseData == null)
+            {
+                throw Error.RequestNotFound(screenInfo.RequestName);
+            }
+
 
             WriteClass(writerContext, jsxModel);
 
