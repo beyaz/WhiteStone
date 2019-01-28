@@ -136,9 +136,10 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine($"<BComboBox  dataSource = {{{data.DataGrid.DataSourceBindingPathInTypeScript}}}");
             sb.PaddingCount++;
 
-            sb.AppendLine($"value={{[{selectedValueBindingPath}]}}");
+            
             if (data.IsMultiSelect)
             {
+                sb.AppendLine($"value={{{selectedValueBindingPath}}}");
                 sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -155,6 +156,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
+                sb.AppendLine($"value={{[{selectedValueBindingPath}]}}");
                 sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
