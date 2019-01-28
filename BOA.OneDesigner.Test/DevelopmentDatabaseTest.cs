@@ -39,7 +39,8 @@ namespace BOA.OneDesigner.AppModel
         {
             var database = new DevelopmentDatabase();
 
-            File.WriteAllBytes(nameof(SaveToFile)+ DateTime.Now.Month+"." +DateTime.Now.Day+ ".bin", BinarySerialization.Serialize(database.GetAllScreens()));
+            var path = nameof(SaveToFile) + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + ".bin";
+            File.WriteAllBytes(path, BinarySerialization.Serialize(database.GetAllScreens()));
         }
         #endregion
     }

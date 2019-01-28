@@ -49,6 +49,7 @@ namespace BOA.OneDesigner.Helpers
         public string                                    RequestTypeFullName                     { get; set; }
         public TypeDefinition                            TypeDefinition                          { get; set; }
         public List<string> RequestNullableInt32PropertyIntellisense { get; set; }
+        public List<string> ProcessedClassNames { get; set; }
         #endregion
 
         #region Public Methods
@@ -291,6 +292,7 @@ namespace BOA.OneDesigner.Helpers
         {
             var data = new RequestIntellisenseData
             {
+                ProcessedClassNames = new List<string>{requestTypeFullName},
                 AssemblyPath        = assemblyPath,
                 RequestTypeFullName = requestTypeFullName,
 
@@ -437,9 +439,15 @@ namespace BOA.OneDesigner.Helpers
 
                 if (propertyDefinition.PropertyType.IsValueType == false)
                 {
+
                     data.RequestClassPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
 
                     data.RequestPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
+
+                    if (data.ProcessedClassNames.Contains(propertyDefinition.PropertyType.FullName) )
+                    {
+                        continue;
+                    }
                     CollectProperties(data, pathPrefix + propertyDefinition.Name + ".", propertyDefinition.PropertyType.Resolve());
                 }
             }

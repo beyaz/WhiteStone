@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.Helpers;
@@ -205,28 +207,36 @@ namespace BOA.OneDesigner.MainForm
 
         public void ResourceCodeChanged()
         {
-            var exist = false;
-            using (var database = new DevelopmentDatabase())
+            try
             {
-                exist = database.Load(Model.ScreenInfo);
-            }
-
-            if (exist)
-            {
-                Model.ScreenInfoGottenFromCache = true;
-                Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
-            }
-
-            if (Model.SolutionInfo != null)
-            {
-                Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
-                if (Host.RequestIntellisenseData == null)
+                var exist = false;
+                using (var database = new DevelopmentDatabase())
                 {
-                    throw Error.RequestNotFound(Model.ScreenInfo.RequestName,Model.SolutionInfo.TypeAssemblyPathInServerBin);
+                    exist = database.Load(Model.ScreenInfo);
                 }
-            }
 
-            UpdateResourceActions();
+                if (exist)
+                {
+                    Model.ScreenInfoGottenFromCache = true;
+                    Model.SolutionInfo              = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
+                }
+
+                if (Model.SolutionInfo != null)
+                {
+                    Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
+                    if (Host.RequestIntellisenseData == null)
+                    {
+                        throw Error.RequestNotFound(Model.ScreenInfo.RequestName,Model.SolutionInfo.TypeAssemblyPathInServerBin);
+                    }
+                }
+
+                UpdateResourceActions();
+            }
+            catch (Exception e)
+            {
+               Log.Push(e);
+            }
+           
 
         }
 

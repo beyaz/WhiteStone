@@ -68,6 +68,9 @@ namespace WhiteStone.UI.Container
             {
                 MainWindow = StartupMainWindow()
             };
+
+            AppDomain.CurrentDomain.UnhandledException += MyHandler;
+
             application.MainWindow.Show();
             application.Run();
         }
@@ -106,6 +109,11 @@ namespace WhiteStone.UI.Container
         #endregion
 
         #region Methods
+        static void MyHandler(object sender, UnhandledExceptionEventArgs args)
+        {
+            Log.Push((Exception) args.ExceptionObject);
+        }
+
         /// <summary>
         ///     Shows the notification.
         /// </summary>
