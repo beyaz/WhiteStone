@@ -8,10 +8,16 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class BComboBoxEditor : StackPanel, IHostItem
     {
+        public void OnIsMultiSelectChanged()
+        {
+            
+        }
+
         #region Fields
         public UIElement _valueChanged;
         public LabelEditor _labelEditor;
         public SizeEditor  _sizeEditor;
+        public CheckBox _isMultiSelect;
         #endregion
 
         #region Constructors
@@ -34,7 +40,17 @@ namespace BOA.OneDesigner.PropertyEditors
 
         {ui:'RequestIntellisenseTextBox', Margin:5, ShowOnlyOrchestrationMethods:true, Name : '"+nameof(_valueChanged)+@"', Text:'{Binding " + nameof(Model.ValueChangedOrchestrationMethod) + @"}', Label:'On Value Changed' },    
 
-        {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
+{   
+            ui       :'CheckBox', 
+            Content  :'Is Multi Select', 
+            MarginTop: 10, 
+            IsChecked: '{Binding " + nameof(Model.IsMultiSelect) + @"}', 
+            Checked  : '" + nameof(OnIsMultiSelectChanged) + @"',
+            Unchecked: '" + nameof(OnIsMultiSelectChanged) + @"',
+            Name     : '" + nameof(_isMultiSelect)+@"'
+        },
+
+        {ui:'Button', Text:'Delete', MarginTop: 10, Click:'" + nameof(Delete) + @"'}
 	]
 }
 

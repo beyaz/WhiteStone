@@ -1,9 +1,6 @@
 ﻿using System.Linq;
-using System.Text;
 using BOA.Common.Helpers;
-using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
@@ -97,7 +94,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 var labelValue = RenderHelper.GetLabelValue(writerContext.ScreenInfo, bDataGridColumnInfo.Label);
                 if (labelValue != null)
                 {
-                    sb.AppendLine($"column.name = {labelValue};");
+                    sb.AppendLine($"column.name  = {labelValue};");
+                    // sb.AppendLine( "column.width = Math.max(60,column.name.length * 10);");
+                    
+
+
                 }
 
                 var propertyInfo = writerContext.RequestIntellisenseData.FindPropertyInfoInCollectionFirstGenericArgumentType(data.DataSourceBindingPath,bDataGridColumnInfo.BindingPath);

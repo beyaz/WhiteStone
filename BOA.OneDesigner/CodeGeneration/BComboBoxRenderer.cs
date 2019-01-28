@@ -100,9 +100,24 @@ namespace BOA.OneDesigner.CodeGeneration
             var sb = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
 
+            if (data.SelectedValueBindingPath.IsNullOrWhiteSpace())
+            {
+                throw Error.BindingPathShouldHaveValue(data.Label, nameof(data.SelectedValueBindingPath));
+            }
             SnapNamingHelper.InitSnapName(writerContext, data);
 
             writerContext.AddClassBody(EvaluateMethodBodyOfGridColumns(data.TypeScriptMethodNameOfGetGridColumns, writerContext, data));
+
+            var propertyDefinition = CecilHelper.FindPropertyInfo(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName, data.SelectedValueBindingPath);
+
+            if (data.IsMultiSelect)
+            {
+                if (CecilHelper.IsCollection(propertyDefinition?.PropertyType) == false)
+                {
+                    throw Error.InvalidOperation($"Is Multi Select true  ise {data.SelectedValueBindingPath} değeri collection tipinde olmalıdır.");
+                }
+            }
+            
 
             var selectedValueBindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.SelectedValueBindingPath);
             var valueMemberPath = TypescriptNaming.NormalizeBindingPath(data.ValueMemberPath);
@@ -122,31 +137,52 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             sb.AppendLine($"value={{[{selectedValueBindingPath}]}}");
-            sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("if (selectedItems && selectedItems.length === 1)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-            sb.AppendLine($"{selectedValueBindingPath} = selectedItems[0].{valueMemberPath};");
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-            sb.AppendLine("else");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-            sb.AppendLine($"{selectedValueBindingPath} = null;");
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-
-            if (data.ValueChangedOrchestrationMethod.HasValue())
+            if (data.IsMultiSelect)
             {
-                sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+                sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine($"{selectedValueBindingPath} = selectedValues;");
+
+                if (data.ValueChangedOrchestrationMethod.HasValue())
+                {
+                    sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+                }
+
+                sb.PaddingCount--;
+                sb.AppendLine("}}");
+            }
+            else
+            {
+                sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine("if (selectedItems && selectedItems.length === 1)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine($"{selectedValueBindingPath} = selectedItems[0].{valueMemberPath};");
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                sb.AppendLine("else");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine($"{selectedValueBindingPath} = null;");
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+
+
+                if (data.ValueChangedOrchestrationMethod.HasValue())
+                {
+                    sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+                }
+
+                sb.PaddingCount--;
+                sb.AppendLine("}}");
             }
 
-            sb.PaddingCount--;
-            sb.AppendLine("}}");
+           
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
@@ -158,7 +194,14 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("columns = {this." + data.TypeScriptMethodNameOfGetGridColumns + "(request)}");
             sb.AppendLine("multiColumn={true}");
-            sb.AppendLine("multiSelect={false}");
+            if (data.IsMultiSelect)
+            {
+                sb.AppendLine("multiSelect={true}");
+            }
+            else
+            {
+                sb.AppendLine("multiSelect={false}");
+            }
             sb.AppendLine($"valueMemberPath=\"{valueMemberPath}\"");
             sb.AppendLine($"displayMemberPath=\"{displayMemberPath}\"");
 

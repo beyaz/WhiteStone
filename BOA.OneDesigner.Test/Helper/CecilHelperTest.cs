@@ -19,6 +19,14 @@ namespace BOA.OneDesigner.Helper
         }
 
         [TestMethod]
+        public void GetAllBindProperties_should_contains_collection_properties()
+        {
+            var data = CecilHelper.GetRequestIntellisenseData(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.CardTransactionListFormRequest");
+
+            data.RequestPropertyIntellisense.Should().Contain("Data.ExternalResponseCodes");
+        }
+
+        [TestMethod]
         public void GetAllBindPropertiesOfCollection()
         {
             var data = CecilHelper.GetRequestIntellisenseData(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ChargebackListFormRequest");

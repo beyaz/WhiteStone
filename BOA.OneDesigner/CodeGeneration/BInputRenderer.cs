@@ -91,9 +91,21 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (isString)
                 {
-                    writerContext.Imports.Add("import { BInput } from \"b-input\"");
 
-                    sb.AppendLine($"<BInput value = {{{bindingPathInJs}}}");
+                    var tag = "BInput";
+                    if (data.Mask.HasValue())
+                    {
+                        writerContext.Imports.Add("import { BInputMask } from \"b-input-mask\"");
+                        tag = "BInputMask";
+                    }
+                    else
+                    {
+                        writerContext.Imports.Add("import { BInput } from \"b-input\"");
+                    }
+
+                 
+
+                    sb.AppendLine($"<{tag} value = {{{bindingPathInJs}}}");
                     sb.PaddingCount++;
 
                     sb.AppendLine($"onChange = {{(e: any, value: string) => {bindingPathInJs} = value}}");

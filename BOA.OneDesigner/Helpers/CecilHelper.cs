@@ -433,6 +433,7 @@ namespace BOA.OneDesigner.Helpers
 
                 if (IsCollection(propertyDefinition.PropertyType))
                 {
+                    data.RequestPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
                     data.RequestCollectionPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
                     continue;
                 }
@@ -512,8 +513,12 @@ namespace BOA.OneDesigner.Helpers
 
         }
 
-        static bool IsCollection(TypeReference typeReference)
+        public static bool IsCollection(TypeReference typeReference)
         {
+            if (typeReference == null)
+            {
+                return false;
+            }
             if (typeReference.FullName.StartsWith("System.Collections.Generic.List`1<"))
             {
                 return true;
