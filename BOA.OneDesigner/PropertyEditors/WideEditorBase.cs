@@ -37,6 +37,10 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Methods
         void SliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (!IsLoaded)
+            {
+                return;
+            }
             UpdateLabel();
             SM.Get<Host>().EventBus.Publish(EventBus.WideChanged);
         }

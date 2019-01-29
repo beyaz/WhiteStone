@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -267,6 +268,13 @@ namespace BOA.OneDesigner.WpfControls
 
             if (IsEnteredDropLocationMode)
             {
+                var containsDropLocationItem = ChildrenContainer.Children.ToArray().Any(x=>x is DropLocation);
+
+                if (containsDropLocationItem == false)
+                {
+                    Log.Push("true");    // TODO??
+                }
+                
                 return;
             }
 
