@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 
@@ -59,14 +60,20 @@ namespace BOA.OneDesigner.AppModel
             return 0;
         }
 
+        public string CurrentExecutingEventName { get; set; }
+
         public void Publish(string eventName)
         {
+            CurrentExecutingEventName = eventName;
+
             Log.Push("Started. " + eventName);
             Log.Indent++;
             new Publisher(Subscribers).Publish(eventName);
 
             Log.Indent--;
             Log.Push("Finished. " + eventName);
+
+            CurrentExecutingEventName = null;
         }
 
         public void Subscribe(string eventName, Action action)

@@ -70,6 +70,11 @@ namespace BOA.OneDesigner.AppModel
                 return;
             }
 
+            if (EventBus.CurrentExecutingEventName ==EventBus.OnDragStarted)
+            {
+                return;
+            }
+
             EventBus.Publish(EventBus.OnDragStarted);
 
             var dragData = new DataObject(string.Empty);

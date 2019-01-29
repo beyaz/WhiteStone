@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
@@ -314,7 +315,9 @@ namespace BOA.OneDesigner.WpfControls
 
             // Host.AttachToEventBus(children);
 
-            CardLayout.ApplyWithDropLocationMode(ChildrenContainer);
+            Action action = () => { CardLayout.ApplyWithDropLocationMode(ChildrenContainer); };
+            Dispatcher.BeginInvoke(action, DispatcherPriority.Normal);
+            // CardLayout.ApplyWithDropLocationMode(ChildrenContainer);
         }
 
         /// <summary>
