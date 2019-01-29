@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-
+using System.Windows.Media.Effects;
 
 namespace BOA.OneDesigner.AppModel
 {
@@ -81,9 +81,19 @@ namespace BOA.OneDesigner.AppModel
 
         void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Host.SelectedElement != null)
+            {
+                Host.SelectedElement.Effect = null;    
+            }
+            
 
             Host.DraggingElementStartPoint = e.GetPosition(null);
             Host.SelectedElement           = (UIElement) sender;
+
+            Host.SelectedElement.Effect = new DropShadowEffect
+            {
+                ShadowDepth = 0.2
+            };
 
             EventBus.Publish(EventBus.OnDragElementSelected);
         }

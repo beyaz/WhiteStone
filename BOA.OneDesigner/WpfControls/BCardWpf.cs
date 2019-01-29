@@ -280,7 +280,7 @@ namespace BOA.OneDesigner.WpfControls
 
             IsEnteredDropLocationMode = true;
 
-            Host.DeAttachToEventBus(ChildrenContainer.Children);
+            // Host.DeAttachToEventBus(ChildrenContainer.Children);
 
             var children = ChildrenContainer.Children;
 
@@ -312,7 +312,7 @@ namespace BOA.OneDesigner.WpfControls
                 TargetLocationIndex = items.Length
             });
 
-            Host.AttachToEventBus(children);
+            // Host.AttachToEventBus(children);
 
             CardLayout.ApplyWithDropLocationMode(ChildrenContainer);
         }
@@ -329,7 +329,7 @@ namespace BOA.OneDesigner.WpfControls
 
             IsEnteredDropLocationMode = false;
 
-            Host.DeAttachToEventBus(ChildrenContainer.Children);
+            //Host.DeAttachToEventBus(ChildrenContainer.Children);
 
             var children = ChildrenContainer.Children;
 
@@ -347,7 +347,7 @@ namespace BOA.OneDesigner.WpfControls
                 children.Add(control);
             }
 
-            Host.AttachToEventBus(ChildrenContainer.Children);
+            // Host.AttachToEventBus(ChildrenContainer.Children);
 
             CardLayout.Apply(ChildrenContainer);
         }
