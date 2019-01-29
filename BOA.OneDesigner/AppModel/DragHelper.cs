@@ -8,6 +8,10 @@ namespace BOA.OneDesigner.AppModel
 {
     public class DragHelper
     {
+        #region Fields
+        readonly Host Host;
+        #endregion
+
         #region Constructors
         /// <summary>
         ///     Initializes a new instance of the <see cref="DragHelper" /> class.
@@ -18,17 +22,11 @@ namespace BOA.OneDesigner.AppModel
         }
         #endregion
 
-        #region Public Properties
-        public Host Host { get; set; }
-        #endregion
-
         #region Properties
         EventBus EventBus => Host.EventBus;
         #endregion
 
         #region Public Methods
-      
-
         public void MakeDraggable(UIElement element)
         {
             element.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
@@ -43,7 +41,8 @@ namespace BOA.OneDesigner.AppModel
         static bool IsInDragDistance(Point startPoint, MouseEventArgs e)
         {
             var mousePosition = e.GetPosition(null);
-            var diff          = startPoint - mousePosition;
+
+            var diff = startPoint - mousePosition;
 
             if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
@@ -53,8 +52,6 @@ namespace BOA.OneDesigner.AppModel
 
             return false;
         }
-
-       
 
         void OnMouseMove(object sender, MouseEventArgs e)
         {
@@ -84,9 +81,8 @@ namespace BOA.OneDesigner.AppModel
         {
             if (Host.SelectedElement != null)
             {
-                Host.SelectedElement.Effect = null;    
+                Host.SelectedElement.Effect = null;
             }
-            
 
             Host.DraggingElementStartPoint = e.GetPosition(null);
             Host.SelectedElement           = (UIElement) sender;
@@ -94,7 +90,7 @@ namespace BOA.OneDesigner.AppModel
             Host.SelectedElement.Effect = new DropShadowEffect
             {
                 ShadowDepth = 0.2,
-                Color = Colors.GreenYellow
+                Color       = Colors.GreenYellow
             };
 
             EventBus.Publish(EventBus.OnDragElementSelected);
@@ -106,11 +102,12 @@ namespace BOA.OneDesigner.AppModel
             {
                 return;
             }
+
             if (!IsInDragDistance(Host.DraggingElementStartPoint, e))
             {
                 return;
             }
-            
+
             EventBus.Publish(EventBus.OnAfterDropOperation);
 
             Host.SelectedElement = null;
