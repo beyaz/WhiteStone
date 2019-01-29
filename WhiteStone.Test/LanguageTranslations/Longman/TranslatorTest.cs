@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.LanguageTranslations.Longman
 {
@@ -7,11 +8,16 @@ namespace BOA.LanguageTranslations.Longman
     {
         #region Public Methods
         [TestMethod]
-        public void GetWordInfo()
+        public void Load()
         {
-            var info = Translator.GetWordInfo("fly");
+            var wordInfo = new WordInfo
+            {
+                Word                  = "fly",
+                SkipInitializeTurkish = true
+            };
+            Translator.Load(wordInfo);
 
-            Assert.AreEqual("Insects", info.Dictentries[0].Topics[2]);
+            wordInfo.Dictentries[0].Topics[2].Should().Be("Insects");
         }
         #endregion
     }

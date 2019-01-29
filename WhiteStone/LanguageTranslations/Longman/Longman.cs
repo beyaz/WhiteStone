@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using BOA.Common.Helpers;
+using BOA.LanguageTranslations.Google;
 using HtmlAgilityPack;
 
 namespace BOA.LanguageTranslations.Longman
@@ -18,23 +18,38 @@ namespace BOA.LanguageTranslations.Longman
         /// </summary>
         public static WordInfo GetWordInfo(string englishWord)
         {
-            if (englishWord.IsNullOrWhiteSpace())
-            {
-                throw new ArgumentException(nameof(englishWord));
-            }
-
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            var url = "https://www.ldoceonline.com/dictionary/" + englishWord;
-            var web = new HtmlWeb();
-            var doc = web.Load(url);
-
-            return InitializeTurkish(new WordInfo
-            {
-                Dictentries = doc.DocumentNode.GetElementByClass("dictentry").Select(ParseDictentry).ToList()
-            });
+            var wordInfo = new WordInfo {Word = englishWord};
+            Load(wordInfo);
+            return wordInfo;
         }
 
-        static WordInfo InitializeTurkish(WordInfo info)
+        /// <summary>
+        ///     Loads the specified word information.
+        /// </summary>
+        public static void Load(WordInfo wordInfo)
+        {
+            if (wordInfo.Word.IsNullOrWhiteSpace())
+            {
+                throw new ArgumentException(nameof(wordInfo.Word));
+            }
+
+            var url = "https://www.ldoceonline.com/dictionary/" + wordInfo.Word;
+
+            var htmlDocument = Helper.GetHtmlDocument(url);
+
+            wordInfo.Dictentries = htmlDocument.DocumentNode.GetElementByClass("dictentry").Select(ParseDictentry).ToList();
+            if (wordInfo.SkipInitializeTurkish == false)
+            {
+                InitializeTurkish(wordInfo);
+            }
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        ///     Initializes the turkish.
+        /// </summary>
+        static void InitializeTurkish(WordInfo info)
         {
             foreach (var entry in info.Dictentries)
             {
@@ -42,34 +57,29 @@ namespace BOA.LanguageTranslations.Longman
 
                 for (var i = 0; i < topics.Count; i++)
                 {
-                    topics[i] += " - "+ Google.EnglishToTurkishTranslator.Translate(topics[i]);
+                    topics[i] += " - " + EnglishToTurkishTranslator.Translate(topics[i]);
                 }
-
 
                 foreach (var usage in entry.Usages)
                 {
                     if (usage.FullDefinition.HasValue())
                     {
-                        usage.FullDefinitionTR  = Google.EnglishToTurkishTranslator.Translate(usage.FullDefinition);
+                        usage.FullDefinitionTR = EnglishToTurkishTranslator.Translate(usage.FullDefinition);
                     }
 
                     if (usage.ShortDefinition.HasValue())
                     {
-                        usage.ShortDefinitionTR =  Google.EnglishToTurkishTranslator.Translate(usage.ShortDefinition);
+                        usage.ShortDefinitionTR = EnglishToTurkishTranslator.Translate(usage.ShortDefinition);
                     }
 
                     foreach (var example in usage.Examples)
                     {
-                        example.TextTR = Google.EnglishToTurkishTranslator.Translate(example.Text); 
+                        example.TextTR = EnglishToTurkishTranslator.Translate(example.Text);
                     }
                 }
             }
-
-            return info;
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         ///     Parses the dictentry.
         /// </summary>
@@ -148,16 +158,14 @@ namespace BOA.LanguageTranslations.Longman
         public string FullDefinition { get; set; }
 
         /// <summary>
-        ///     Gets or sets the short definition.
-        /// </summary>
-        public string ShortDefinition { get; set; }
-
-
-
-        /// <summary>
         ///     Gets or sets the full definition.
         /// </summary>
         public string FullDefinitionTR { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the short definition.
+        /// </summary>
+        public string ShortDefinition { get; set; }
 
         /// <summary>
         ///     Gets or sets the short definition.
@@ -201,6 +209,16 @@ namespace BOA.LanguageTranslations.Longman
         ///     Gets or sets the dictentries.
         /// </summary>
         public List<Entry> Dictentries { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether [skip initialize turkish].
+        /// </summary>
+        public bool SkipInitializeTurkish { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the word.
+        /// </summary>
+        public string Word { get; set; }
         #endregion
     }
 }

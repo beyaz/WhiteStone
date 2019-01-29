@@ -174,6 +174,9 @@ namespace RavSoft
 
             using (var wc = new WebClient())
             {
+                wc.Proxy = new WebProxy(new Uri("http://10.13.50.100:8080"));
+
+                // ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
                 wc.Encoding = Encoding.UTF8;
                 wc.Headers.Add("Accept", "application/json");
                 this.m_strContent = wc.DownloadString(url);
