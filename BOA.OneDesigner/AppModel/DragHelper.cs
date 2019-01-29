@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Effects;
 
 namespace BOA.OneDesigner.AppModel
@@ -92,7 +93,8 @@ namespace BOA.OneDesigner.AppModel
 
             Host.SelectedElement.Effect = new DropShadowEffect
             {
-                ShadowDepth = 0.2
+                ShadowDepth = 0.2,
+                Color = Colors.GreenYellow
             };
 
             EventBus.Publish(EventBus.OnDragElementSelected);
