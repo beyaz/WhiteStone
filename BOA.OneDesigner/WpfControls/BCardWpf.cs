@@ -315,9 +315,9 @@ namespace BOA.OneDesigner.WpfControls
 
             // Host.AttachToEventBus(children);
 
+            
             Action action = () => { CardLayout.ApplyWithDropLocationMode(ChildrenContainer); };
             Dispatcher.BeginInvoke(action, DispatcherPriority.Normal);
-            // CardLayout.ApplyWithDropLocationMode(ChildrenContainer);
         }
 
         /// <summary>
