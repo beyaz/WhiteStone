@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Windows.Controls;
-using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
 using BOAPlugins.Utility;
@@ -100,6 +99,8 @@ namespace BOA.OneDesigner.CodeGeneration
                         var columnSpan = ((int) bCardWpf.GetValue(Grid.ColumnSpanProperty));
 
                         decimal width = (columnSpan / 12M) * 100M;
+
+                        width = System.Math.Round(width, 3);
 
                         var bCard = bCardWpf.Model;
 
