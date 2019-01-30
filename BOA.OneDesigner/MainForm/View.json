@@ -1,7 +1,7 @@
 {
   "Title": "BOA One Designer",
-  "Width": 1800,
-  "Height": 980,
+  "Width": 900,
+  "Height": 800,
   "Content": {
     "ui": "Grid",
     "rows": [
