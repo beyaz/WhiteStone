@@ -30,12 +30,17 @@ namespace BOA.OneDesigner.Helpers
 
         public static InvalidOperationException RequestNotFound(string requestName,string assemblyPath=null)
         {
+            throw new InvalidOperationException(GetMessageRequestNotFound(requestName,assemblyPath));    
+        }
+
+        public static string GetMessageRequestNotFound(string requestName, string assemblyPath =null)
+        {
             if (assemblyPath.HasValue())
             {
-                throw new InvalidOperationException($@"{requestName} not found in {assemblyPath}");    
+                return ($@"{requestName} not found in {assemblyPath}");    
             }
 
-            throw new InvalidOperationException($@"{requestName} not found in d:\boa\server\bin\");
+            return ($@"{requestName} not found in d:\boa\server\bin\");
         }
         #endregion
     }

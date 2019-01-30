@@ -124,6 +124,11 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
             data.ResourceActions = (List<Aut_ResourceAction>) BinarySerialization.Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.ResourceActions)]));
 
             reader.Close();
+
+            if (data.ResourceCode.IsNullOrWhiteSpace())
+            {
+                data.ResourceCode = null;
+            }
             return true;
         }
 

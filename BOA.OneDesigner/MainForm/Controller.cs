@@ -198,7 +198,8 @@ namespace BOA.OneDesigner.MainForm
                 Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
                 if (Host.RequestIntellisenseData == null)
                 {
-                    throw Error.RequestNotFound(Model.ScreenInfo.RequestName,Model.SolutionInfo.TypeAssemblyPathInServerBin);
+                    Model.ViewMessage            = Error.GetMessageRequestNotFound(Model.ScreenInfo.RequestName,Model.SolutionInfo.TypeAssemblyPathInServerBin);
+                    Model.ViewMessageTypeIsError = true;
                 }
             }
 
@@ -209,24 +210,35 @@ namespace BOA.OneDesigner.MainForm
         {
             try
             {
+                var screenInfo = Model.ScreenInfo;
+
+                var resourceCode = screenInfo.ResourceCode;
+
+                if (resourceCode.IsNullOrWhiteSpace())
+                {
+                   return;
+                }
+
                 var exist = false;
                 using (var database = new DevelopmentDatabase())
                 {
-                    exist = database.Load(Model.ScreenInfo);
+                    exist = database.Load(screenInfo);
                 }
 
                 if (exist)
                 {
                     Model.ScreenInfoGottenFromCache = true;
-                    Model.SolutionInfo              = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
+                    Model.SolutionInfo              = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
+                    screenInfo.ResourceCode = resourceCode.Trim();
                 }
 
                 if (Model.SolutionInfo != null)
                 {
-                    Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, Model.ScreenInfo.RequestName);
+                    Host.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(Model.SolutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName);
                     if (Host.RequestIntellisenseData == null)
                     {
-                        throw Error.RequestNotFound(Model.ScreenInfo.RequestName,Model.SolutionInfo.TypeAssemblyPathInServerBin);
+                        Model.ViewMessage            = Error.GetMessageRequestNotFound(screenInfo.RequestName,Model.SolutionInfo.TypeAssemblyPathInServerBin);
+                        Model.ViewMessageTypeIsError = true;
                     }
                 }
 
