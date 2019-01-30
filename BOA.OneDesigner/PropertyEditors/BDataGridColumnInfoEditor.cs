@@ -20,9 +20,10 @@ namespace BOA.OneDesigner.PropertyEditors
 { 
     Margin:10,
 	Childs:[
-		{ui:'RequestIntellisenseTextBox', SearchByCurrentSelectedDataGridDataSourceContract:true, Margin:5, Text:'{Binding " + nameof(BDataGridColumnInfo.BindingPath) + @"}', Label:'Binding Path' },
-		{ui:'LabelEditor', Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(BDataGridColumnInfo.Label) + @"}'},
-        {ui:'Button', Text:'Remove Column',Click:'" + nameof(RemoveColumn) + @"'}
+		{ui:'RequestIntellisenseTextBox', Margin:10, SearchByCurrentSelectedDataGridDataSourceContract:true,  Text:'{Binding " + nameof(Model.BindingPath) + @"}', Label:'Binding Path' },
+		{ui:'LabelEditor',                Margin:10, Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(Model.Label) + @"}'},
+        {ui:'RequestIntellisenseTextBox', Margin:10, ShowOnlyBooleanProperties:true,  Text:'{Binding " + nameof(Model.IsVisibleBindingPath) + @"}', Label:'Is Visible' },
+        {ui:'Button',                     Margin:10, Text:'Remove Column', Click:'" + nameof(RemoveColumn) + @"'}
 	]
 }
 

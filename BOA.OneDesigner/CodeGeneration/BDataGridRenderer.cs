@@ -64,31 +64,27 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             sb.AppendLine("const columns = [];");
-            var isFirst = true;
+            sb.AppendLine("let column:any = null;");
             foreach (var bDataGridColumnInfo in data.Columns)
             {
                 sb.AppendLine();
                 sb.AppendLine("// "+bDataGridColumnInfo.BindingPath);
 
-                if (bDataGridColumnInfo.IsVisibleBindingPath.HasValue())
+
+
+
+                var writeVisibleCondition = bDataGridColumnInfo.IsVisibleBindingPath.HasValue();
+                if (writeVisibleCondition)
                 {
                     var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + bDataGridColumnInfo.IsVisibleBindingPath);
-                    sb.AppendLine($"if( !{bindingPath} )");
+                    sb.AppendLine($"if( {bindingPath} )");
                     sb.AppendLine("{");
-                    sb.AppendLine("    continue;");
-                    sb.AppendLine("}");
-                }
 
-                if (isFirst)
-                {
-                    isFirst = false;
-                    sb.AppendLine("let column:any = {};");    
-                }
-                else
-                {
-                    sb.AppendLine("column = {};");
+                    sb.PaddingCount++;
                 }
                 
+                sb.AppendLine("column = {};");
+
                 sb.AppendLine($"column.key = \"{TypescriptNaming.NormalizeBindingPath(bDataGridColumnInfo.BindingPath)}\";");
 
                 var labelValue = RenderHelper.GetLabelValue(writerContext.ScreenInfo, bDataGridColumnInfo.Label);
@@ -123,6 +119,12 @@ namespace BOA.OneDesigner.CodeGeneration
                 
 
                 sb.AppendLine("columns.push(column);"); 
+
+                if (writeVisibleCondition)
+                {
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                }
                 
             }
 
