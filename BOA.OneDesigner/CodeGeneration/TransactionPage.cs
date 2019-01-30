@@ -108,7 +108,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 return;
             }
 
-            writerContext.EvaluatedActions = resourceActions.Where(x => x.IsVisibleBindingPath.HasValue()).ToList();
+            writerContext.EvaluatedActions = resourceActions.Where(x => x.IsVisibleBindingPath.HasValue() ||  x.IsEnableBindingPath.HasValue()).ToList();
             if (writerContext.EvaluatedActions.Count == 0)
             {
                 writerContext.CanWriteEvaluateActions = false;
@@ -193,22 +193,48 @@ namespace BOA.OneDesigner.CodeGeneration
 
             foreach (var resourceAction in writerContext.EvaluatedActions)
             {
-                sb.AppendLine();
 
-                var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsVisibleBindingPath);
+                if (resourceAction.IsVisibleBindingPath.HasValue())
+                {
+                    sb.AppendLine();
 
-                sb.AppendLine($"if ({bindingPath})");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                sb.AppendLine($"this.visibleAction(\"{resourceAction.CommandName}\");");
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                sb.AppendLine("else");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                sb.AppendLine($"this.hideAction(\"{resourceAction.CommandName}\");");
-                sb.PaddingCount--;
-                sb.AppendLine("}");
+
+                    var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsVisibleBindingPath);
+
+                    sb.AppendLine($"if ({bindingPath})");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    sb.AppendLine($"this.visibleAction(\"{resourceAction.CommandName}\");");
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                    sb.AppendLine("else");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    sb.AppendLine($"this.hideAction(\"{resourceAction.CommandName}\");");
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                }
+
+                if (resourceAction.IsEnableBindingPath.HasValue())
+                {
+                    sb.AppendLine();
+
+
+                    var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsEnableBindingPath);
+
+                    sb.AppendLine($"if ({bindingPath})");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    sb.AppendLine($"this.enableAction(\"{resourceAction.CommandName}\");");
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                    sb.AppendLine("else");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    sb.AppendLine($"this.disableAction(\"{resourceAction.CommandName}\");");
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                }
             }
 
             sb.PaddingCount--;

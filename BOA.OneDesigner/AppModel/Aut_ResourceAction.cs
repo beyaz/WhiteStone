@@ -19,6 +19,12 @@ namespace BOA.OneDesigner.AppModel
         /// </summary>
         public string IsVisibleBindingPath { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the is enable binding path.
+        /// </summary>
+        public string IsEnableBindingPath { get; set; }
+
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>

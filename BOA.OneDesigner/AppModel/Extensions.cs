@@ -6,6 +6,7 @@
         public static void CopyTo(this Aut_ResourceAction from, Aut_ResourceAction to)
         {
             to.IsVisibleBindingPath                             = from.IsVisibleBindingPath;
+            to.IsEnableBindingPath                              = from.IsEnableBindingPath;
             to.OrchestrationMethodName                          = from.OrchestrationMethodName;
             to.OpenFormWithResourceCode                         = from.OpenFormWithResourceCode;
             to.OpenFormWithResourceCodeDataParameterBindingPath = from.OpenFormWithResourceCodeDataParameterBindingPath;
