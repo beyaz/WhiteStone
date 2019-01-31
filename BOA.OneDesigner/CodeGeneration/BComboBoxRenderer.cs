@@ -156,7 +156,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                sb.AppendLine($"value={{[{selectedValueBindingPath}]}}");
+                sb.AppendLine($"value={{[({selectedValueBindingPath}||'')+'']}}");
                 sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;

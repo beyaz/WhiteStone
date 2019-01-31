@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using BOA.Common.Helpers;
 
@@ -50,26 +51,29 @@ namespace BOA.Tools.Translator
 
         public static string TranslateEnglishToGerman(string sourceText)
         {
-            var t = new RavSoft.GoogleTranslator.Translator
-            {
-                SourceLanguage = "English",
-                TargetLanguage = "German",
-                SourceText = sourceText
-            };
-            t.Translate();
-            return t.Translation;
+            throw new NotImplementedException();
+            //var t = new RavSoft.GoogleTranslator.Translator
+            //{
+            //    SourceLanguage = "English",
+            //    TargetLanguage = "German",
+            //    SourceText = sourceText
+            //};
+            //t.Translate();
+            //return t.Translation;
         }
 
         public static string TranslateTurkishToEnglish(string sourceText)
         {
-            var t = new RavSoft.GoogleTranslator.Translator
-            {
-                SourceLanguage = "Turkish",
-                TargetLanguage = "English",
-                SourceText = sourceText
-            };
-            t.Translate();
-            return t.Translation;
+            throw new NotImplementedException();
+
+            //var t = new RavSoft.GoogleTranslator.Translator
+            //{
+            //    SourceLanguage = "Turkish",
+            //    TargetLanguage = "English",
+            //    SourceText = sourceText
+            //};
+            //t.Translate();
+            //return t.Translation;
         }
         #endregion
 
