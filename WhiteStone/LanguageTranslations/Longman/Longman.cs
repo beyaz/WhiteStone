@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
-using BOA.LanguageTranslations.Google;
 using HtmlAgilityPack;
 
 namespace BOA.LanguageTranslations.Longman
@@ -57,24 +56,24 @@ namespace BOA.LanguageTranslations.Longman
 
                 for (var i = 0; i < topics.Count; i++)
                 {
-                    topics[i] += " - " + EnglishToTurkishTranslator.Translate(topics[i]);
+                    topics[i] += " - " + Google.Translator.TranslateEnglishToTurkish(topics[i]);
                 }
 
                 foreach (var usage in entry.Usages)
                 {
                     if (usage.FullDefinition.HasValue())
                     {
-                        usage.FullDefinitionTR = EnglishToTurkishTranslator.Translate(usage.FullDefinition);
+                        usage.FullDefinitionTR = Google.Translator.TranslateEnglishToTurkish(usage.FullDefinition);
                     }
 
                     if (usage.ShortDefinition.HasValue())
                     {
-                        usage.ShortDefinitionTR = EnglishToTurkishTranslator.Translate(usage.ShortDefinition);
+                        usage.ShortDefinitionTR = Google.Translator.TranslateEnglishToTurkish(usage.ShortDefinition);
                     }
 
                     foreach (var example in usage.Examples)
                     {
-                        example.TextTR = EnglishToTurkishTranslator.Translate(example.Text);
+                        example.TextTR = Google.Translator.TranslateEnglishToTurkish(example.Text);
                     }
                 }
             }

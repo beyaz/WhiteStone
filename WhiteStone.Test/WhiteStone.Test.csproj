@@ -68,7 +68,7 @@
     <Compile Include="Helpers\ReflectionUtilityTest.cs" />
     <Compile Include="Common.Helpers\IConvertibleUtilityTest.cs" />
     <Compile Include="LanguageTranslations\EnglishBank\ParserTest.cs" />
-    <Compile Include="LanguageTranslations\Google\TurkishToEnglishTranslatorTest.cs" />
+    <Compile Include="LanguageTranslations\Google\TranslatorTest.cs" />
     <Compile Include="LanguageTranslations\Longman\TranslatorTest.cs" />
     <Compile Include="LanguageTranslations\SesliSözlükTest.cs" />
     <Compile Include="LanguageTranslations\TedTalksSubtitle\NormalizerTest.cs" />

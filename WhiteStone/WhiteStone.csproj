@@ -91,8 +91,7 @@
     <Compile Include="LanguageTranslations\Dependencies\RavSoft\WebResourceProvider.cs" />
     <Compile Include="LanguageTranslations\EnglishBank\Parser.cs" />
     <Compile Include="LanguageTranslations\Extensions.cs" />
-    <Compile Include="LanguageTranslations\Google\EnglishToTurkishTranslator.cs" />
-    <Compile Include="LanguageTranslations\Google\TurkishToEnglishTranslator.cs" />
+    <Compile Include="LanguageTranslations\Google\Translator.cs" />
     <Compile Include="LanguageTranslations\Longman\Longman.cs" />
     <Compile Include="LanguageTranslations\Longman\WordInfoViewBuilder.cs" />
     <Compile Include="LanguageTranslations\SesliSözlük.cs" />
