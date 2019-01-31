@@ -87,8 +87,6 @@
     <Compile Include="BOA.Common\CacheManager.cs" />
     <Compile Include="BOA.Common\Proxy.cs" />
     <Compile Include="HtmlAgilityPack\Helper.cs" />
-    <Compile Include="LanguageTranslations\Dependencies\RavSoft\Translator.cs" />
-    <Compile Include="LanguageTranslations\Dependencies\RavSoft\WebResourceProvider.cs" />
     <Compile Include="LanguageTranslations\EnglishBank\Parser.cs" />
     <Compile Include="LanguageTranslations\Extensions.cs" />
     <Compile Include="LanguageTranslations\Google\Translator.cs" />
