@@ -9,6 +9,9 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     public class TypeScriptMemberInfo
     {
+
+        
+
         #region Public Properties
         public string Code          { get; set; }
         public bool   IsConstructor { get; set; }

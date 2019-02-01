@@ -113,6 +113,7 @@
     <Compile Include="CardLayoutTest.cs" />
     <Compile Include="CardWpfTest.cs" />
     <Compile Include="CodeGeneration\FileNamingHelperTest.cs" />
+    <Compile Include="CodeGeneration\JsObjectInfoSingleLineWriterTest.cs" />
     <Compile Include="CodeGeneration\SnapNamingHelperTest.cs" />
     <Compile Include="DevelopmentDatabaseTest.cs" />
     <Compile Include="Helper\CecilHelperTest.cs" />
