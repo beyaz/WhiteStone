@@ -60,7 +60,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             
 
-            var selectedValueBindingPath = TypescriptNaming.NormalizeBindingPath(Config.Value + data.SelectedValueBindingPath);
+            var selectedValueBindingPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.SelectedValueBindingPath);
             var valueMemberPath = TypescriptNaming.NormalizeBindingPath(data.ValueMemberPath);
             var displayMemberPath = TypescriptNaming.NormalizeBindingPath(data.DisplayMemberPath);
 

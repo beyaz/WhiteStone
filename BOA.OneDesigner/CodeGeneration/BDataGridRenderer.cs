@@ -36,8 +36,8 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            var fieldPath=TypescriptNaming.NormalizeBindingPath(Config.Value+data.SelectedRowDataBindingPath);
-            var dataSourceBindingPath =TypescriptNaming.NormalizeBindingPath(Config.Value+data.DataSourceBindingPath);
+            var fieldPath=TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp+data.SelectedRowDataBindingPath);
+            var dataSourceBindingPath =TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp+data.DataSourceBindingPath);
 
             sb.AppendLine("const request = this.state.windowRequest;");
             sb.AppendLine();
@@ -67,7 +67,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 var writeVisibleCondition = bDataGridColumnInfo.IsVisibleBindingPath.HasValue();
                 if (writeVisibleCondition)
                 {
-                    var bindingPath = TypescriptNaming.NormalizeBindingPath(Config.Value + bDataGridColumnInfo.IsVisibleBindingPath);
+                    var bindingPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + bDataGridColumnInfo.IsVisibleBindingPath);
                     sb.AppendLine($"if( {bindingPath} )");
                     sb.AppendLine("{");
 

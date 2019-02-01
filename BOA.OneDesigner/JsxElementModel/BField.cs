@@ -28,7 +28,7 @@ namespace BOA.OneDesigner.JsxElementModel
         /// <summary>
         ///     Gets the value binding path in type script.
         /// </summary>
-        public virtual string ValueBindingPathInTypeScript => TypescriptNaming.NormalizeBindingPath(Config.Value + ValueBindingPath);
+        public virtual string ValueBindingPathInTypeScript => TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + ValueBindingPath);
         #endregion
 
         #region Public Methods
