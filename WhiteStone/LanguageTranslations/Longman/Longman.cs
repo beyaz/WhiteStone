@@ -56,24 +56,24 @@ namespace BOA.LanguageTranslations.Longman
 
                 for (var i = 0; i < topics.Count; i++)
                 {
-                    topics[i] += " - " + Google.Translator.TranslateEnglishToTurkish(topics[i]);
+                    topics[i] += " - " + TranslateEnglishToTurkish(topics[i]);
                 }
 
                 foreach (var usage in entry.Usages)
                 {
                     if (usage.FullDefinition.HasValue())
                     {
-                        usage.FullDefinitionTR = Google.Translator.TranslateEnglishToTurkish(usage.FullDefinition);
+                        usage.FullDefinitionTR = TranslateEnglishToTurkish(usage.FullDefinition);
                     }
 
                     if (usage.ShortDefinition.HasValue())
                     {
-                        usage.ShortDefinitionTR = Google.Translator.TranslateEnglishToTurkish(usage.ShortDefinition);
+                        usage.ShortDefinitionTR = TranslateEnglishToTurkish(usage.ShortDefinition);
                     }
 
                     foreach (var example in usage.Examples)
                     {
-                        example.TextTR = Google.Translator.TranslateEnglishToTurkish(example.Text);
+                        example.TextTR = TranslateEnglishToTurkish(example.Text);
                     }
                 }
             }
@@ -116,6 +116,11 @@ namespace BOA.LanguageTranslations.Longman
                 FullDefinition  = newline_Sense.GetElementByClass("DEF").FirstOrDefault()?.InnerText,
                 Examples        = newline_Sense.GetElementByClass("EXAMPLE").Select(ParseExample).ToList()
             };
+        }
+
+        static string TranslateEnglishToTurkish(string sourceTextInEnglish)
+        {
+            return Yandex.Translator.TranslateEnglishToTurkish(sourceTextInEnglish);
         }
         #endregion
     }

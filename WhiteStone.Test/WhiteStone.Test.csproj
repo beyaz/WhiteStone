@@ -72,6 +72,7 @@
     <Compile Include="LanguageTranslations\Longman\TranslatorTest.cs" />
     <Compile Include="LanguageTranslations\SesliSözlükTest.cs" />
     <Compile Include="LanguageTranslations\TedTalksSubtitle\NormalizerTest.cs" />
+    <Compile Include="LanguageTranslations\Yandex\TranslatorTest.cs" />
     <Compile Include="Lang\Test.cs" />
     <Compile Include="ListUtilityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

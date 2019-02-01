@@ -104,6 +104,7 @@
     <Compile Include="BOA.Office.Excel\CopyPasteStringHelper.cs" />
     <Compile Include="LanguageTranslations\TedTalksSubtitle\Normalizer.cs" />
     <Compile Include="LanguageTranslations\WordInfo.cs" />
+    <Compile Include="LanguageTranslations\Yandex\Translator.cs" />
     <Compile Include="Lang\Data\Token.cs" />
     <Compile Include="Lang\Data\TokenType.cs" />
     <Compile Include="Lang\Exceptions\InvalidSyntax.cs" />
