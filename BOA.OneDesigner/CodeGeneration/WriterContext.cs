@@ -77,7 +77,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
     public class WriterContext
     {
-
+        public JsObject StateObjectWhenIncomingRequestIsSuccess { get; set; } = new JsObject();
 
         public List<string> BeforeRenderReturn { get; set; }
 

@@ -364,14 +364,16 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine();
             sb.AppendLine("const state =");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
 
-            sb.AppendLine("windowRequest: incomingRequest,");
-            sb.AppendLine("$isLoaded: true");
-
-            sb.PaddingCount--;
-            sb.AppendLine("};");
+            
+            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest","incomingRequest");
+            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("$isLoaded","true");
+            
+            JsObjectInfoMultiLineWriter.Write(sb,writerContext.StateObjectWhenIncomingRequestIsSuccess);
+            sb.Append(";");
+            sb.Append(Environment.NewLine);
+            
+            
 
             sb.AppendLine();
             sb.AppendLine("if (incomingRequest.statusMessage)");
@@ -551,12 +553,14 @@ namespace BOA.OneDesigner.CodeGeneration
 
             WriteOnActionClick(writerContext);
             ComponentDidMount(writerContext);
-            ProxyDidRespond(writerContext);
+            
             EvaluateActions(writerContext);
             UpdateState(writerContext);
             SendWindowRequestToServer(writerContext);
             ExecuteWindowRequest(writerContext);
             Render(writerContext, jsxModel);
+            ProxyDidRespond(writerContext);
+
             WriteConstructor(writerContext);
 
             // reorder
