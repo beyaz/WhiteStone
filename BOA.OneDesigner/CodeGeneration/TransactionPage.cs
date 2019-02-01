@@ -199,7 +199,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
 
 
-                    var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsVisibleBindingPath);
+                    var bindingPath = TypescriptNaming.NormalizeBindingPath(Config.Value + resourceAction.IsVisibleBindingPath);
 
                     sb.AppendLine($"if ({bindingPath})");
                     sb.AppendLine("{");
@@ -220,7 +220,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
 
 
-                    var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + resourceAction.IsEnableBindingPath);
+                    var bindingPath = TypescriptNaming.NormalizeBindingPath(Config.Value + resourceAction.IsEnableBindingPath);
 
                     sb.AppendLine($"if ({bindingPath})");
                     sb.AppendLine("{");

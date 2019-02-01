@@ -30,7 +30,7 @@ namespace BOA.OneDesigner.JsxElementModel
         public string DataSourceBindingPath { get; set; }
 
 
-        public string DataSourceBindingPathInTypeScript => TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + DataSourceBindingPath);
+        public string DataSourceBindingPathInTypeScript => TypescriptNaming.NormalizeBindingPath(Config.Value + DataSourceBindingPath);
         #endregion
     }
 }

@@ -51,7 +51,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsRequestBindingPath)
             {
-                return TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.RequestBindingPath);
+                return TypescriptNaming.NormalizeBindingPath(Config.Value + data.RequestBindingPath);
             }
 
             if (data.IsFromMessaging)

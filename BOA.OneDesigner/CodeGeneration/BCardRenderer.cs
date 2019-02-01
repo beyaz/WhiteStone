@@ -26,7 +26,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (data.IsVisibleBindingPath.HasValue())
                 {
-                    var isVisibleBindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + data.IsVisibleBindingPath);
+                    var isVisibleBindingPath = TypescriptNaming.NormalizeBindingPath(Config.Value + data.IsVisibleBindingPath);
 
                     sb.Append(" style={{ display: " + isVisibleBindingPath + " ? 'inherit' : 'none' }} ");
                 }
