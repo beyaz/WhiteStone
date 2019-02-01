@@ -6,6 +6,8 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     public class JsObject : Dictionary<string, string>
     {
+
+       
     }
 
     static class JsObjectInfoSingleLineWriter

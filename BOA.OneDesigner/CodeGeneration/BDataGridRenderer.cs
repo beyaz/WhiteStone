@@ -63,15 +63,13 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const columns = [];");
-            sb.AppendLine("let column:any = null;");
+            sb.AppendLine("const columns: any[] = [];");
+            
             foreach (var bDataGridColumnInfo in data.Columns)
             {
                 sb.AppendLine();
-                sb.AppendLine("// "+bDataGridColumnInfo.BindingPath);
 
-
-
+                var jsObject = new JsObject();
 
                 var writeVisibleCondition = bDataGridColumnInfo.IsVisibleBindingPath.HasValue();
                 if (writeVisibleCondition)
@@ -82,19 +80,14 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     sb.PaddingCount++;
                 }
-                
-                sb.AppendLine("column = {};");
 
-                sb.AppendLine($"column.key = \"{TypescriptNaming.NormalizeBindingPath(bDataGridColumnInfo.BindingPath)}\";");
+                jsObject.Add("key",$"\"{TypescriptNaming.NormalizeBindingPath(bDataGridColumnInfo.BindingPath)}\"");
+
 
                 var labelValue = RenderHelper.GetLabelValue(writerContext.ScreenInfo, bDataGridColumnInfo.Label);
                 if (labelValue != null)
                 {
-                    sb.AppendLine($"column.name  = {labelValue};");
-                    // sb.AppendLine( "column.width = Math.max(60,column.name.length * 10);");
-                    
-
-
+                    jsObject.Add("name",labelValue);
                 }
 
                 var propertyInfo = writerContext.RequestIntellisenseData.FindPropertyInfoInCollectionFirstGenericArgumentType(data.DataSourceBindingPath,bDataGridColumnInfo.BindingPath);
@@ -103,22 +96,21 @@ namespace BOA.OneDesigner.CodeGeneration
                 {
                     if (propertyInfo.IsDecimal||propertyInfo.IsDecimalNullable)
                     {
-                        sb.AppendLine("column.type = 'number';"); 
-                        sb.AppendLine("column.numberFormat = 'M';"); 
-                    
+                        jsObject.Add("type","\"number\"");
+                        jsObject.Add("numberFormat","\"M\"");
                     }
                     else if (propertyInfo.IsNumber)
                     {
-                        sb.AppendLine("column.type = 'number';");    
+                        jsObject.Add("type","\"number\"");  
                     }
                     else if (propertyInfo.IsDate||propertyInfo.IsDateNullable)
                     {
-                        sb.AppendLine("column.type = 'date';");    
+                        jsObject.Add("type","\"date\"");
                     }
                 }
                 
 
-                sb.AppendLine("columns.push(column);"); 
+                sb.AppendLine($"columns.push({JsObjectInfoSingleLineWriter.ToString(jsObject)});"); 
 
                 if (writeVisibleCondition)
                 {
