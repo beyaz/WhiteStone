@@ -177,9 +177,8 @@ namespace BOA.OneDesigner.CodeGeneration
             if (isBrowsePageDataGrid)
             {
 
-                // todo make const
-                writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("dataSource",data.DataSourceBindingPathInTypeScript.Replace("request.","incomingRequest."));
-                writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("columns",$"this.{methodNameOfGridColumns}(incomingRequest)");
+                writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("dataSource",data.DataSourceBindingPathInTypeScript.Replace(Config.BindingPrefixInJs, Config.IncomingRequestVariableName + "."));
+                writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("columns",$"this.{methodNameOfGridColumns}({Config.IncomingRequestVariableName})");
 
                 return;
             }
