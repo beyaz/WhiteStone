@@ -79,16 +79,16 @@ namespace BOA.OneDesigner.CodeGeneration
     {
         public JsObject StateObjectWhenIncomingRequestIsSuccess { get; set; } = new JsObject();
 
-        public List<string> BeforeRenderReturn { get; set; }
+        public List<string> BeforeSetStateOnProxyDidResponse { get; set; }
 
-        public void AddBeforeRenderReturn(string line)
+        public void AddToBeforeSetStateOnProxyDidResponse(string line)
         {
-            if (BeforeRenderReturn == null)
+            if (BeforeSetStateOnProxyDidResponse == null)
             {
-                BeforeRenderReturn = new List<string>();
+                BeforeSetStateOnProxyDidResponse = new List<string>();
             }
 
-            BeforeRenderReturn.Add(line);
+            BeforeSetStateOnProxyDidResponse.Add(line);
         }
 
 

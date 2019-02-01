@@ -10,6 +10,26 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class BInputRenderer
     {
+
+        static string GetAccountComponentValueCorrection(string snapName, string bindingPathInJs)
+        {
+
+            bindingPathInJs = RenderHelper.ConvertBindingPathToIncomingRequest(bindingPathInJs);
+
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"if (this.snaps.{snapName} && 0 === ({bindingPathInJs}|0))");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine($"this.snaps.{snapName}.resetValue();");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+
         #region Public Methods
         public static void Write(WriterContext writerContext, BInput data)
         {
@@ -36,15 +56,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsAccountComponent)
             {
-
-                writerContext.AddBeforeRenderReturn($"if (this.snaps.{data.SnapName} && 0 === ({bindingPathInJs}|0))"+
-                                                    Environment.NewLine+
-                                                    "    {"+
-                                                    Environment.NewLine+
-                                                    $"        this.snaps.{data.SnapName}.resetValue();"+
-                                                    Environment.NewLine+
-                                                    "    }"
-                                                    );
+                writerContext.AddToBeforeSetStateOnProxyDidResponse(GetAccountComponentValueCorrection(data.SnapName,bindingPathInJs));
 
                 writerContext.Imports.Add("import { BAccountComponent } from \"b-account-component\"");
                 sb.AppendLine($"<BAccountComponent accountNumber = {{{bindingPathInJs}}}");

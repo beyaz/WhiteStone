@@ -7,6 +7,12 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class RenderHelper
     {
+
+        public static string ConvertBindingPathToIncomingRequest(string bindingPathInJs)
+        {
+            return bindingPathInJs.Replace(Config.BindingPrefixInJs, Config.IncomingRequestVariableName + ".");
+        }
+
         #region Public Methods
         public static string GetJsValue(SizeInfo size)
         {

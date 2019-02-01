@@ -388,6 +388,19 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("    body: incomingRequest,");
             sb.AppendLine($"    type:\"{writerContext.ScreenInfo.RequestName}\"");
             sb.AppendLine("});");
+            
+
+
+            if (writerContext.BeforeSetStateOnProxyDidResponse?.Count > 0)
+            {
+                sb.AppendLine();
+                foreach (var line in writerContext.BeforeSetStateOnProxyDidResponse)
+                {
+                    sb.AppendAll(line);
+                    sb.AppendLine();
+                }
+            }
+
             sb.AppendLine();
             sb.AppendLine("this.setState(state);");
 
@@ -455,16 +468,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb2.PaddingCount--;
             sb2.AppendLine("}");
 
-            if (writerContext.BeforeRenderReturn?.Count > 0)
-            {
-                sb.AppendLine();
-                foreach (var line in writerContext.BeforeRenderReturn)
-                {
-                    sb.AppendLine(line);
-                }
-
-                sb.AppendLine();
-            }
+           
 
             writerContext.Output = temp;
 
