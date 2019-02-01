@@ -92,7 +92,6 @@
     <Compile Include="AppModel\FormType.cs" />
     <Compile Include="AppModel\Host.cs" />
     <Compile Include="AppModel\IHostItem.cs" />
-    <Compile Include="CodeGeneration\BAccountComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BBranchComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BCardRenderer.cs" />
     <Compile Include="CodeGeneration\BCheckBoxRenderer.cs" />
