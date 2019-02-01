@@ -2,7 +2,6 @@
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
-using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -20,68 +19,10 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const columns: any[] = [];");
-            var isFirst = true;
-            foreach (var bDataGridColumnInfo in data.DataGrid.Columns)
-            {
-                if (string.IsNullOrWhiteSpace(bDataGridColumnInfo.BindingPath))
-                {
-                    App.ShowErrorNotification($"{data.SelectedValueBindingPath} ismindeki combonun grid colonlarındaki binding path bilgisi bulunamadı.@labelValue: {bDataGridColumnInfo.LabelText}");
-                    continue;
-                }
 
-                sb.AppendLine();
-                sb.AppendLine("// " + bDataGridColumnInfo.BindingPath);
+            BDataGridRenderer.WriteColumns(writerContext,sb,data.DataGrid);
 
-                if (bDataGridColumnInfo.IsVisibleBindingPath.HasValue())
-                {
-                    var bindingPath = TypescriptNaming.NormalizeBindingPath(BindingPrefix.Value + bDataGridColumnInfo.IsVisibleBindingPath);
-                    sb.AppendLine($"if( !{bindingPath} )");
-                    sb.AppendLine("{");
-                    sb.AppendLine("    continue;");
-                    sb.AppendLine("}");
-                }
-
-                if (isFirst)
-                {
-                    isFirst = false;
-                    sb.AppendLine("let column:any = {};");
-                }
-                else
-                {
-                    sb.AppendLine("column = {};");
-                }
-
-                sb.AppendLine($"column.key = \"{TypescriptNaming.NormalizeBindingPath(bDataGridColumnInfo.BindingPath)}\";");
-
-                var labelValue = RenderHelper.GetLabelValue(writerContext.ScreenInfo, bDataGridColumnInfo.Label);
-                if (labelValue != null)
-                {
-                    sb.AppendLine($"column.name = {labelValue};");
-                }
-
-                var propertyInfo = writerContext.RequestIntellisenseData.FindPropertyInfoInCollectionFirstGenericArgumentType(data.DataGrid.DataSourceBindingPath, bDataGridColumnInfo.BindingPath);
-                if (propertyInfo == null)
-                {
-                    throw Error.InvalidBindingPath(data.DataGrid.DataSourceBindingPath, bDataGridColumnInfo.BindingPath);
-                }
-
-                if (propertyInfo.IsDecimal || propertyInfo.IsDecimalNullable)
-                {
-                    sb.AppendLine("column.type = 'number';");
-                    sb.AppendLine("column.numberFormat = 'M';");
-                }
-                else if (propertyInfo.IsNumber)
-                {
-                    sb.AppendLine("column.type = 'number';");
-                }
-                else if (propertyInfo.IsDate || propertyInfo.IsDateNullable)
-                {
-                    sb.AppendLine("column.type = 'date';");
-                }
-
-                sb.AppendLine("columns.push(column);");
-            }
+            
 
             sb.AppendLine();
             sb.AppendLine("return columns;");

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
@@ -52,18 +53,10 @@ namespace BOA.OneDesigner.CodeGeneration
         }
 
 
-        internal static string EvaluateMethodBodyOfGridColumns(string methodName, WriterContext writerContext, BDataGrid data)
+
+        public static void WriteColumns(WriterContext writerContext,  PaddedStringBuilder sb, BDataGrid data)
         {
-            var sb = new PaddedStringBuilder();
-
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Gets the column definition of "+ data.SnapName+".");
-            sb.AppendLine("  */");
-            sb.AppendLine(methodName+"(request:any) : any[]");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("const columns: any[] = [];");
+             sb.AppendLine("const columns: any[] = [];");
             
             foreach (var bDataGridColumnInfo in data.Columns)
             {
@@ -119,6 +112,20 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
                 
             }
+        }
+
+        internal static string EvaluateMethodBodyOfGridColumns(string methodName, WriterContext writerContext, BDataGrid data)
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine("/**");
+            sb.AppendLine("  *  Gets the column definition of "+ data.SnapName+".");
+            sb.AppendLine("  */");
+            sb.AppendLine(methodName+"(request:any) : any[]");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            WriteColumns(writerContext,sb,data);
 
             sb.AppendLine();
             sb.AppendLine("return columns;");
