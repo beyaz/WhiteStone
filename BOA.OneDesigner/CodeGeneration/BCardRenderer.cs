@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -26,7 +25,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (data.IsVisibleBindingPath.HasValue())
                 {
-                    var isVisibleBindingPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.IsVisibleBindingPath);
+                    var isVisibleBindingPath = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.IsVisibleBindingPath);
 
                     sb.Append(" style={{ display: " + isVisibleBindingPath + " ? 'inherit' : 'none' }} ");
                 }

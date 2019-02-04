@@ -60,7 +60,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             
 
-            var selectedValueBindingPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.SelectedValueBindingPath);
+            var selectedValueBindingPath = RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.SelectedValueBindingPath);
             var valueMemberPath = TypescriptNaming.NormalizeBindingPath(data.ValueMemberPath);
             var displayMemberPath = TypescriptNaming.NormalizeBindingPath(data.DisplayMemberPath);
 
@@ -74,7 +74,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 throw Error.BindingPathShouldHaveValue(data.Label, nameof(displayMemberPath));
             }
 
-            sb.AppendLine($"<BComboBox  dataSource = {{{data.DataGrid.DataSourceBindingPathInTypeScript}}}");
+            var dataSourceBindingPathInTypeScript = RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.DataGrid.DataSourceBindingPath);
+
+            sb.AppendLine($"<BComboBox  dataSource = {{{dataSourceBindingPathInTypeScript}}}");
             sb.PaddingCount++;
 
             

@@ -200,12 +200,12 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (!string.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
             {
-                sb.AppendLine($"isVisible = {{{TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.IsVisibleBindingPath)}}}");
+                sb.AppendLine($"isVisible = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext,data.IsVisibleBindingPath)}}}");
             }
 
             if (!string.IsNullOrWhiteSpace(data.IsDisabledBindingPath))
             {
-                sb.AppendLine($"disabled = {{{TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.IsDisabledBindingPath)}}}");
+                sb.AppendLine($"disabled = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.IsDisabledBindingPath)}}}");
             }
 
             if (data.SizeInfo.HasValue())

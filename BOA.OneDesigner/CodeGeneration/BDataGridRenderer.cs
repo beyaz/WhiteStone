@@ -174,10 +174,12 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
 
+            var dataSourceBindingPathInTypeScript = RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.DataSourceBindingPath);
+
             if (isBrowsePageDataGrid)
             {
 
-                writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("dataSource", RenderHelper.ConvertBindingPathToIncomingRequest( data.DataSourceBindingPathInTypeScript));
+                writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("dataSource", RenderHelper.ConvertBindingPathToIncomingRequest( dataSourceBindingPathInTypeScript ));
                 writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("columns",$"this.{methodNameOfGridColumns}({Config.IncomingRequestVariableName})");
 
                 return;
@@ -187,7 +189,7 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.Imports.Add("import { BDataGrid } from \"b-data-grid-dx\"");
 
 
-            sb.AppendLine($"<BDataGrid  dataSource = {{{data.DataSourceBindingPathInTypeScript}}}");
+            sb.AppendLine($"<BDataGrid  dataSource = {{{dataSourceBindingPathInTypeScript}}}");
 
             sb.PaddingCount++;
             sb.AppendLine("selectable={'single'}");

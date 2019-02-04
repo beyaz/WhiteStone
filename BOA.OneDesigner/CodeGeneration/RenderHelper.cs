@@ -73,5 +73,12 @@ namespace BOA.OneDesigner.CodeGeneration
             return size != null && size.IsEmpty == false;
         }
         #endregion
+
+        public static string NormalizeBindingPathInRenderMethod(WriterContext writerContext, string bindingPathInCSharp)
+        {
+            var bindingPathInJs = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + bindingPathInCSharp);
+
+            return bindingPathInJs;
+        }
     }
 }
