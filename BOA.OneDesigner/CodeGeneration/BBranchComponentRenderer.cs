@@ -1,5 +1,6 @@
 ﻿using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -8,6 +9,10 @@ namespace BOA.OneDesigner.CodeGeneration
         public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BBranchComponent data)
         {
             SnapNamingHelper.InitSnapName(data);
+
+            // TODO fix here
+            // RenderHelper.NormalizeBindingPathInRenderMethod(writerContext,data.ValueBindingPath)
+            TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.ValueBindingPath);
 
             sb.AppendLine($"<BBranchComponent  selectedBranchId = {{{data.ValueBindingPathInTypeScript}}}");
             sb.AppendLine($"                   onBranchSelect = {{(selectedBranch: BOA.Common.Types.BranchContract) => {{{data.ValueBindingPathInTypeScript}}} = selectedBranch ? selectedBranch.branchId : null}}");

@@ -174,7 +174,9 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
 
-            var dataSourceBindingPathInTypeScript = RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.DataSourceBindingPath);
+            
+
+            var dataSourceBindingPathInTypeScript =TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.DataSourceBindingPath);
 
             if (isBrowsePageDataGrid)
             {
@@ -184,6 +186,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 return;
             }
+
+            dataSourceBindingPathInTypeScript = RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.DataSourceBindingPath);
 
 
             writerContext.Imports.Add("import { BDataGrid } from \"b-data-grid-dx\"");

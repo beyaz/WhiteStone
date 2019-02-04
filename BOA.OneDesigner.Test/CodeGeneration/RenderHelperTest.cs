@@ -16,7 +16,19 @@ namespace BOA.OneDesigner.CodeGeneration
 
             bindingPath.Should().Be("dataContract.userName");
 
-            writerContext.RenderMethodRequestRelatedVariables.Should().BeSameAs(new[] {"const dataContract = request.dataContract;"});
+            writerContext.RenderMethodRequestRelatedVariables.Should().BeEquivalentTo("const dataContract = request.dataContract||{};");
+
+
+
+            bindingPath = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, "dataContract.User.Info.UserName");
+
+            bindingPath.Should().Be("info.userName");
+
+            writerContext.RenderMethodRequestRelatedVariables.Should().BeEquivalentTo("const dataContract = request.dataContract||{};",
+                                                                                      "const user = dataContract.user||{};",
+                                                                                      "const info = user.info||{};");
+
+
         }
         #endregion
     }

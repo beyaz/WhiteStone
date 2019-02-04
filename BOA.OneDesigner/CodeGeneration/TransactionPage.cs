@@ -450,6 +450,30 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var temp = writerContext.Output;
 
+         
+
+            
+
+           
+
+            
+
+            var jsxBuilder = new PaddedStringBuilder {PaddingCount = 1};
+
+            jsxBuilder.AppendLine("return (");
+            jsxBuilder.PaddingCount++;
+            writerContext.Output = jsxBuilder;
+            DivAsCardContainerRenderer.Write(writerContext, jsxModel);
+            jsxBuilder.PaddingCount--;
+            jsxBuilder.AppendLine(");");
+
+            jsxBuilder.PaddingCount--;
+            jsxBuilder.AppendLine("}");
+
+
+
+
+
             var sb = new PaddedStringBuilder();
             sb.AppendLine("/**");
             sb.AppendLine("  *  Renders the component.");
@@ -459,37 +483,21 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const request = this.getWindowRequest().body;");
-
-            sb.AppendLine("if ( request == null )");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-            sb.AppendLine("return null;");
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.AppendLine("const request = this.getWindowRequest().body||{};");
+            foreach (var line in writerContext.RenderMethodRequestRelatedVariables)
+            {
+                sb.AppendLine();
+                sb.AppendLine(line);
+            }
 
             sb.AppendLine();
             sb.AppendLine("const context = this.state.context;");
 
-            
 
-            var sb2 = new PaddedStringBuilder {PaddingCount = sb.PaddingCount};
-
-            sb2.AppendLine("return (");
-            sb2.PaddingCount++;
-            writerContext.Output = sb2;
-            DivAsCardContainerRenderer.Write(writerContext, jsxModel);
-            sb2.PaddingCount--;
-            sb2.AppendLine(");");
-
-            sb2.PaddingCount--;
-            sb2.AppendLine("}");
-
-           
 
             writerContext.Output = temp;
 
-            writerContext.AddClassBody(new TypeScriptMemberInfo {Code = sb + sb2.ToString(), IsRender = true});
+            writerContext.AddClassBody(new TypeScriptMemberInfo {Code = sb + jsxBuilder.ToString(), IsRender = true});
         }
 
         static void SendWindowRequestToServer(WriterContext writerContext)

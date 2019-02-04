@@ -1,4 +1,6 @@
-﻿using BOA.Common.Helpers;
+﻿using System;
+using System.Linq;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
@@ -7,13 +9,12 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class RenderHelper
     {
-
+        #region Public Methods
         public static string ConvertBindingPathToIncomingRequest(string bindingPathInJs)
         {
             return bindingPathInJs.Replace(Config.BindingPrefixInJs, Config.IncomingRequestVariableName + ".");
         }
 
-        #region Public Methods
         public static string GetJsValue(SizeInfo size)
         {
             if (size.IsLarge)
@@ -52,6 +53,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 {
                     return null;
                 }
+
                 return '"' + data.FreeTextValue + '"';
             }
 
@@ -72,13 +74,39 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             return size != null && size.IsEmpty == false;
         }
-        #endregion
 
         public static string NormalizeBindingPathInRenderMethod(WriterContext writerContext, string bindingPathInCSharp)
         {
             var bindingPathInJs = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + bindingPathInCSharp);
 
-            return bindingPathInJs;
+            var list = bindingPathInJs.SplitAndClear(".");
+
+            if (list.Count <= 2)
+            {
+                return bindingPathInJs;
+            }
+
+            var len = list.Count - 2;
+
+            for (var i = 0; i < len; i++)
+            {
+                var assignments = new string[2];
+
+                Array.Copy(list.ToArray(), i, assignments, 0, 2);
+
+                var assignmentValue = string.Join(".", assignments);
+
+                var variable = $"const {list[i + 1]} = {assignmentValue}||{{}};";
+
+                if (writerContext.RenderMethodRequestRelatedVariables.Contains(variable)==false)
+                {
+                    writerContext.RenderMethodRequestRelatedVariables.Add(variable);    
+                }
+                
+            }
+
+            return string.Join(".", list.Reverse().Take(2).Reverse());
         }
+        #endregion
     }
 }

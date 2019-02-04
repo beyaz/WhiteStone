@@ -9,6 +9,10 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             SnapNamingHelper.InitSnapName(data);
 
+            // TODO fix here
+            // RenderHelper.NormalizeBindingPathInRenderMethod(writerContext,data.ValueBindingPath)
+
+
             sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{data.ValueBindingPathInTypeScript}}}");
             if (data.ValueTypeIsInt32)
             {

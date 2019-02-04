@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Windows;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
-using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -52,11 +50,11 @@ namespace BOA.OneDesigner.CodeGeneration
             var isBoolean = false;
             var isDateTime = false;
 
-            var bindingPathInJs = data.ValueBindingPathInTypeScript;
+            var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
 
             if (data.IsAccountComponent)
             {
-                writerContext.AddToBeforeSetStateOnProxyDidResponse(GetAccountComponentValueCorrection(data.SnapName,bindingPathInJs));
+                writerContext.AddToBeforeSetStateOnProxyDidResponse(GetAccountComponentValueCorrection(data.SnapName, data.ValueBindingPathInTypeScript));
 
                 writerContext.Imports.Add("import { BAccountComponent } from \"b-account-component\"");
                 sb.AppendLine($"<BAccountComponent accountNumber = {{{bindingPathInJs}}}");

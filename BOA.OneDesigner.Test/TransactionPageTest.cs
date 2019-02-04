@@ -9,14 +9,14 @@ namespace BOA.OneDesigner.WpfControls
     {
         #region Public Methods
         [TestMethod]
-        public void Generate()
+        public void GenerateAll()
         {
             var database = new DevelopmentDatabase();
 
-            // var screenInfo = database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.BatchPrintingDetailListFormRequest");
-            var screenInfo = database.GetScreenInfo("BOA.Types.CardGeneral.DebitCard.GeneralParametersFormRequest");
-
-            Controller.Generate(screenInfo);
+            foreach (var screen in database.GetAllScreens())
+            {
+                Controller.Generate(screen);
+            }
         }
         #endregion
     }
