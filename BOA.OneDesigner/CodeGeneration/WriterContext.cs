@@ -112,6 +112,7 @@ namespace BOA.OneDesigner.CodeGeneration
         public bool CanWriteEvaluateActions { get; set; }
         public string DataContractAccessPathInWindowRequest { get; set; }
         public bool IsBrowsePage { get; set; }
+        public List<string> RenderMethodRequestRelatedVariables { get; set; } = new List<string>();
         #endregion
 
         #region Public Methods
