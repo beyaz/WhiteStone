@@ -117,58 +117,79 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.CanWriteEvaluateActions = true;
         }
 
-        static void ComponentDidMount(WriterContext writerContext)
+        static void ComponentWillMount(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
             sb.AppendLine("/**");
-            sb.AppendLine("  *  Components the did mount.");
+            sb.AppendLine("  *  Evaluates initial states of form.");
             sb.AppendLine("  */");
-            sb.AppendLine("componentDidMount()");
+            sb.AppendLine("componentWillMount()");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("super.componentDidMount();");
+            sb.AppendLine("super.componentWillMount();");
 
             sb.AppendLine();
-            sb.AppendLine("if (this.state.$isLoaded)");
+            sb.AppendLine("// on tab changed no need to go to orchestration");
+            sb.AppendLine("if ( this.state.windowRequest )");
             sb.AppendLine("{");
             sb.PaddingCount++;
+
+            sb.AppendLine("this.setWindowRequest(");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine("body: this.state.windowRequest,");
+            sb.AppendLine($"type:\"{writerContext.ScreenInfo.RequestName}\"");
+            sb.PaddingCount--;
+            sb.AppendLine("});");
+
             sb.AppendLine("return;");
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            sb.AppendLine();
-            sb.AppendLine("// Evaluates initial states of form.");
-            sb.AppendLine("// Invokes 'LoadData' metod in Orchestration class.");
-            sb.AppendLine();
-            sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, this.getWindowRequest().body); ");
 
             if (writerContext.HasWorkflow)
             {
+
+
+
+
                 sb.AppendLine();
-                sb.AppendLine("const hasWorkflow = clonedWindowRequest.workFlowInternalData && clonedWindowRequest.workFlowInternalData.instanceId > 0;");
-                sb.AppendLine("if (hasWorkflow)");
+                sb.AppendLine("const formData = this.state.pageParams.data;");
+                sb.AppendLine();
+                sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, (formData && formData.windowRequest && formData.windowRequest.body) ); ");
+
+               
+                    sb.AppendLine();
+                    sb.AppendLine("const hasWorkflow = clonedWindowRequest.workFlowInternalData && clonedWindowRequest.workFlowInternalData.instanceId > 0;");
+                    sb.AppendLine("if (hasWorkflow)");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    sb.AppendLine("clonedWindowRequest.hasWorkflow = false;");
+                    sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
+                    sb.AppendLine("return;");
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                
+
+                sb.AppendLine();
+                sb.AppendLine("// is opening from another form with data parameter");
+                sb.AppendLine("if (formData)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine("clonedWindowRequest.hasWorkflow = false;");
-                sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
-                sb.AppendLine("return;");
+                sb.AppendLine($"clonedWindowRequest.{writerContext.DataContractAccessPathInWindowRequest} = formData;");
                 sb.PaddingCount--;
                 sb.AppendLine("}");
+
+                sb.AppendLine();
+                sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
+
             }
-
-            sb.AppendLine();
-            sb.AppendLine("const formData = this.state.pageParams.data;");
-
-            sb.AppendLine("if (formData != null)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-            sb.AppendLine($"clonedWindowRequest.{writerContext.DataContractAccessPathInWindowRequest} = formData;");
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            sb.AppendLine();
-            sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
+            else
+            {
+                sb.AppendLine();
+                sb.AppendLine("this.sendRequestToServer({"+writerContext.DataContractAccessPathInWindowRequest+": this.state.pageParams.data}, \"LoadData\" );");
+            }
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -253,15 +274,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const windowRequest = this.state.windowRequest;");
-            sb.AppendLine();
-            sb.AppendLine("// form should be re render because form component value changes must be handled");
-
-            sb.AppendLine("this.updateState(() =>");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, windowRequest);");
+            sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, this.getWindowRequest().body);");
 
             if (writerContext.HasWorkflow)
             {
@@ -277,9 +290,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine();
             sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, orchestrationMethodName);");
-
-            sb.PaddingCount--;
-            sb.AppendLine("});");
+            
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -297,15 +308,13 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("let isSuccess: boolean = true;");
+            sb.AppendLine("const isSuccess = proxyResponse.response.success;");
 
             sb.AppendLine();
-            sb.AppendLine("if (!proxyResponse.response.success)");
+            sb.AppendLine("if (!isSuccess)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("isSuccess = false;");
-            sb.AppendLine();
             sb.AppendLine("const results = proxyResponse.response.results;");
             sb.AppendLine();
             sb.AppendLine("if (results == null)");
@@ -327,7 +336,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("else");
             sb.AppendLine("{");
             sb.PaddingCount++;
-            sb.AppendLine("BFormManager.showStatusErrorMessage(`Beklenmedik bir hata oluştu.${JSON.stringify(results, null, 2)}`, []);");
+            sb.AppendLine("BFormManager.showStatusErrorMessage(`Beklenmedik bir hata oluştu.${JSON.stringify(results, null, 2)}`, null);");
             sb.PaddingCount--;
             sb.AppendLine("}");
 
@@ -338,7 +347,10 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("const incomingRequest = (proxyResponse.response as any).value;");
             sb.AppendLine("if (incomingRequest == null)");
             sb.AppendLine("{");
-            sb.AppendLine("    throw new Error(`Orch method:${proxyResponse.key} should return GenericResponse<" + writerContext.ScreenInfo.RequestName + ">`);");
+            sb.PaddingCount++;
+            sb.AppendLine("BFormManager.showStatusErrorMessage(`Orch method:${proxyResponse.key} should return GenericResponse<" + writerContext.ScreenInfo.RequestName + ">`, null);");
+            sb.AppendLine("return false;");
+            sb.PaddingCount--;
             sb.AppendLine("}");
 
             if (writerContext.HasWorkflow)
@@ -361,18 +373,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("}");
             }
 
-            sb.AppendLine();
-            sb.AppendLine("const state =");
-
-            
-            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest","incomingRequest");
-            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("$isLoaded","true");
-            
-            JsObjectInfoMultiLineWriter.Write(sb,writerContext.StateObjectWhenIncomingRequestIsSuccess);
-            sb.Append(";");
-            sb.Append(Environment.NewLine);
-            
-            
 
             sb.AppendLine();
             sb.AppendLine("if (incomingRequest.statusMessage)");
@@ -380,6 +380,22 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("    BFormManager.showStatusMessage(incomingRequest.statusMessage);");
             sb.AppendLine("    incomingRequest.statusMessage = null;");
             sb.AppendLine("}");
+
+
+
+            sb.AppendLine();
+            sb.AppendLine("const state =");
+
+            
+            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest","incomingRequest");
+            
+            JsObjectInfoMultiLineWriter.Write(sb,writerContext.StateObjectWhenIncomingRequestIsSuccess);
+            sb.Append(";");
+            sb.Append(Environment.NewLine);
+            
+            
+
+           
 
             sb.AppendLine();
             sb.AppendLine("this.setWindowRequest(");
@@ -443,17 +459,19 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("if (!this.state.$isLoaded)");
+            sb.AppendLine("const request = this.getWindowRequest().body;");
+
+            sb.AppendLine("if ( request == null )");
             sb.AppendLine("{");
             sb.PaddingCount++;
-            sb.AppendLine("return <div/>;");
+            sb.AppendLine("return null;");
             sb.PaddingCount--;
             sb.AppendLine("}");
 
             sb.AppendLine();
             sb.AppendLine("const context = this.state.context;");
 
-            sb.AppendLine("const request = this.state.windowRequest;");
+            
 
             var sb2 = new PaddedStringBuilder {PaddingCount = sb.PaddingCount};
 
@@ -514,21 +532,6 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
-        static void UpdateState(WriterContext writerContext)
-        {
-            var sb = new PaddedStringBuilder();
-
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Clones window request object and sets states with this new cloned window request object.");
-            sb.AppendLine("  */");
-            sb.AppendLine("updateState(callback?: () => void)");
-            sb.AppendLine("{");
-            sb.AppendLine("    this.setState({ windowRequest: Object.assign({}, this.state.windowRequest) }, callback);");
-            sb.AppendLine("}");
-
-            writerContext.AddClassBody(sb.ToString());
-        }
-
         static void WriteClass(WriterContext writerContext, DivAsCardContainer jsxModel)
         {
             var sb = new PaddedStringBuilder();
@@ -555,10 +558,9 @@ namespace BOA.OneDesigner.CodeGeneration
             WriteWorkflowFields(writerContext);
 
             WriteOnActionClick(writerContext);
-            ComponentDidMount(writerContext);
+            ComponentWillMount(writerContext);
             
             EvaluateActions(writerContext);
-            UpdateState(writerContext);
             SendWindowRequestToServer(writerContext);
             ExecuteWindowRequest(writerContext);
             Render(writerContext, jsxModel);
