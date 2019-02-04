@@ -7,7 +7,6 @@ using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
-using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -673,7 +672,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
                 }
 
-                
+                sb.AppendLine("return /*isCompleted*/true;");
 
                 sb.PaddingCount--;
                 sb.AppendLine("}");
