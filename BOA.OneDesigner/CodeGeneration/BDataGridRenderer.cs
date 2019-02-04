@@ -100,6 +100,11 @@ namespace BOA.OneDesigner.CodeGeneration
                     {
                         jsObject.Add("type","\"date\"");
                     }
+                    else if (propertyInfo.IsBoolean||propertyInfo.IsBooleanNullable)
+                    {
+                        jsObject.Add("type","\"boolean\"");
+                    }
+
                 }
                 
 
