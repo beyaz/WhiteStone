@@ -115,7 +115,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                  
 
-                    sb.AppendLine($"<{tag} value = {{{bindingPathInJs}}}");
+                    sb.AppendLine($"<{tag} value = {{{bindingPathInJs}||\"\"}}");
                     sb.PaddingCount++;
 
                     sb.AppendLine($"onChange = {{(e: any, value: string) => {bindingPathInJs} = value}}");
