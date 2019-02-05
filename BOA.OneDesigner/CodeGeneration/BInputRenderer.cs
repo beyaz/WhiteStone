@@ -46,8 +46,14 @@ namespace BOA.OneDesigner.CodeGeneration
             var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
 
             var isString  = true;
+
             var isDecimal = false;
+            var isDecimalNullable = false;
+
+            var isNullableNumber = false;
+
             var isBoolean = false;
+
             var isDateTime = false;
 
             var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
@@ -86,10 +92,19 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (propertyDefinition != null)
                 {
-                    isDecimal = CecilHelper.FullNameOfNullableDecimal == propertyDefinition.PropertyType.FullName ||
-                                propertyDefinition.PropertyType.FullName == typeof(decimal).FullName;
-
                     isString = propertyDefinition.PropertyType.FullName == typeof(string).FullName;
+
+                    isDecimal = propertyDefinition.PropertyType.FullName == typeof(decimal).FullName;
+                    isDecimalNullable = CecilHelper.FullNameOfNullableDecimal == propertyDefinition.PropertyType.FullName;
+
+
+                    isNullableNumber = CecilHelper.FullNameOfNullableByte == propertyDefinition.PropertyType.FullName||
+                                        CecilHelper.FullNameOfNullableInt == propertyDefinition.PropertyType.FullName||
+                                        CecilHelper.FullNameOfNullableLong == propertyDefinition.PropertyType.FullName||
+                                        CecilHelper.FullNameOfNullableSbyte == propertyDefinition.PropertyType.FullName||
+                                        CecilHelper.FullNameOfNullableShort == propertyDefinition.PropertyType.FullName;
+
+                    
 
                     isBoolean = CecilHelper.FullNameOfNullableBoolean == propertyDefinition.PropertyType.FullName ||
                                 propertyDefinition.PropertyType.FullName == typeof(bool).FullName;
@@ -132,11 +147,19 @@ namespace BOA.OneDesigner.CodeGeneration
                         sb.AppendLine("rows={"+data.RowCount+"}");
                     }
                 }
-                else if (isDecimal)
+                else if (isDecimal || isDecimalNullable)
                 {
                     writerContext.Imports.Add("import { BInputNumeric } from \"b-input-numeric\";");
 
-                    sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
+                    if (isDecimal)
+                    {
+                        sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");    
+                    }
+                    else
+                    {
+                        sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}||\"\"}}");
+                    }
+                    
                     sb.PaddingCount++;
 
                     sb.AppendLine($"onChange = {{(e: any, value: number) => {bindingPathInJs} = value}}");
@@ -165,7 +188,17 @@ namespace BOA.OneDesigner.CodeGeneration
                 else
                 {
                     writerContext.Imports.Add("import { BInputNumeric } from \"b-input-numeric\";");
-                    sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
+
+                    if (isNullableNumber)
+                    {
+                        sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}||\"\"}}");    
+                    }
+                    else
+                    {
+                        sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
+                    }
+
+                    
                     sb.PaddingCount++;
 
                     sb.AppendLine($"onChange = {{(e: any, value: number) => {bindingPathInJs} = value}}");
