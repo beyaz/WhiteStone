@@ -105,13 +105,16 @@
     <Compile Include="Helpers\TsxCodeBeautifier.cs" />
     <Compile Include="JsxElementModel\BComboBox.cs" />
     <Compile Include="JsxElementModel\BDataGrid.cs" />
-    <Compile Include="JsxElementModel\Component.cs" />
+    <Compile Include="JsxElementModel\ComponentInfo.cs" />
     <Compile Include="JsxElementModel\ComponentType.cs" />
     <Compile Include="JsxElementModel\Config.cs" />
     <Compile Include="JsxElementModel\BTabBarPage.cs" />
     <Compile Include="JsxElementModel\LayoutProps.cs" />
     <Compile Include="PropertyEditors\BComboBoxEditor.cs" />
     <Compile Include="PropertyEditors\BLabelEditor.cs" />
+    <Compile Include="PropertyEditors\ComponentEditor.xaml.cs">
+      <DependentUpon>ComponentEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PropertyEditors\HorizontalLocationEditor.cs" />
     <Compile Include="PropertyEditors\ResourceActionEditor.cs" />
     <Compile Include="PropertyEditors\SizeEditor.cs" />
@@ -143,6 +146,9 @@
     <Compile Include="WpfControls\BTabBarPageWpf.cs" />
     <Compile Include="WpfControls\CardLayout.cs" />
     <Compile Include="AppModel\DevelopmentDatabase.cs" />
+    <Compile Include="WpfControls\Component.xaml.cs">
+      <DependentUpon>Component.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfControls\Injector.cs" />
     <Compile Include="WpfControls\InsertHelper.cs" />
     <Compile Include="WpfControls\ISupportSizeInfo.cs" />
@@ -201,11 +207,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="PropertyEditors\ComponentEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WpfControls\BDataGridColumnWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WpfControls\BDataGridInfoWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WpfControls\Component.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

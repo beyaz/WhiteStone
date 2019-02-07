@@ -70,6 +70,19 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(bLabelInWpf);
             #endregion
 
+            #region divider
+            var divider = new Component
+            {
+                Host        = Host,
+                DataContext = new ComponentInfo(),
+                IsInToolbox = true
+            };
+
+            Host.DragHelper.MakeDraggable(divider);
+
+            stackPanel.Children.Add(divider);
+            #endregion
+
             #region bCard
             var bCard = new BCardWpf
             {

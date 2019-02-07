@@ -385,6 +385,11 @@ namespace BOA.OneDesigner.WpfControls
                 return true;
             }
 
+            if (dragElement is Component)
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -427,6 +432,26 @@ namespace BOA.OneDesigner.WpfControls
                 bLabelInWpf.Model.RemoveFromParent();
 
                 Model.InsertItem(insertIndex, bLabelInWpf.Model);
+
+                return;
+            }
+
+
+            var component = Host.SelectedElement as Component;
+            if (component != null)
+            {
+                if (component.IsInToolbox)
+                {
+                    if (component.Info.Type.IsDivider)
+                    {
+                        Model.InsertItem(insertIndex, new ComponentInfo{Type = new ComponentType{IsDivider = true}});    
+                        return;
+                    }
+                }
+                
+                component.Info.RemoveFromParent();
+
+                Model.InsertItem(insertIndex, component.Info);
 
                 return;
             }

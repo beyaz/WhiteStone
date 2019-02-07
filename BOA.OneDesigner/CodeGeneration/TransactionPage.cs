@@ -348,7 +348,16 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("if (incomingRequest == null)");
             sb.AppendLine("{");
             sb.PaddingCount++;
+
+            sb.AppendLine("if (isSuccess)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
             sb.AppendLine("BFormManager.showStatusErrorMessage(`Orch method:${proxyResponse.key} should return GenericResponse<" + writerContext.ScreenInfo.RequestName + ">`, null);");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}"); 
+
             sb.AppendLine("return false;");
             sb.PaddingCount--;
             sb.AppendLine("}");

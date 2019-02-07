@@ -74,14 +74,12 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-
             var bLabel = DataContext as BLabel;
             if (bLabel != null)
             {
                 Content = Host.Create<BLabelEditor>(DataContext);
                 return;
             }
-            
 
             var dataGridColumnInfo = DataContext as BDataGridColumnInfo;
             if (dataGridColumnInfo != null)
@@ -122,6 +120,17 @@ namespace BOA.OneDesigner.WpfControls
             if (bTabBarPage != null)
             {
                 Content = Host.Create<BTabBarPageEditor>(DataContext);
+                return;
+            }
+
+            var componentInfo = DataContext as ComponentInfo;
+            if (componentInfo != null)
+            {
+                Content = new ComponentEditor
+                {
+                    Info = componentInfo,
+                    Host = Host
+                };
                 return;
             }
 
