@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 using System.Windows;
 
@@ -35,6 +37,10 @@ namespace WpfApp2
         public static string GetScript(string word)
         {
             var enToTrMap = GetMapAsJsObject(EnToTrCache.TryGetForWord(word));
+
+
+            var PlaybackRate = ConfigurationManager.AppSettings.Get("PlaybackRate").ToDecimal();
+            var WaitMillisecondBetweenSamples = ConfigurationManager.AppSettings.Get("WaitMillisecondBetweenSamples").ToDecimal();
 
 
 
@@ -148,11 +154,11 @@ var tryPlay = function(index)
     var src_mp3 = element.attr('data-src-mp3');
     var audio   = new Audio(src_mp3);
     
-    audio.playbackRate = 0.7;
+    audio.playbackRate = " + PlaybackRate + @";
     audio.play();
     audio.addEventListener('ended', function()
 	{
-        setTimeout( function(){ tryPlay(++index); },2000);
+        setTimeout( function(){ tryPlay(++index); }, " + WaitMillisecondBetweenSamples + @" );
     });	
 }
 
