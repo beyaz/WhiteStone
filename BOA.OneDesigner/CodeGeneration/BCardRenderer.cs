@@ -124,6 +124,27 @@ namespace BOA.OneDesigner.CodeGeneration
                     continue;
                 }
 
+
+                var componentInfo = item as ComponentInfo;
+                if (componentInfo != null)
+                {
+
+                    if (componentInfo.Type.IsDivider)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                        BDividerRenderer.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
+
+                    
+                }
+
                 throw Error.InvalidOperation();
             }
 

@@ -84,6 +84,7 @@
     <Compile Include="AppModel\Extensions.cs" />
     <Compile Include="CodeGeneration\BComboBoxRenderer.cs" />
     <Compile Include="CodeGeneration\BDataGridRenderer.cs" />
+    <Compile Include="CodeGeneration\BDividerRenderer.cs" />
     <Compile Include="CodeGeneration\FileNamingHelper.cs" />
     <Compile Include="CodeGeneration\JsObjectInfo.cs" />
     <Compile Include="CodeGeneration\WriterContext.cs" />

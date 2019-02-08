@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -7,8 +8,11 @@ namespace BOA.OneDesigner.WpfControls
     /// <summary>
     ///     Interaction logic for Component.xaml
     /// </summary>
-    public partial class Component
+    public partial class Component:IEventBusListener,ISupportSizeInfo
     {
+
+        public SizeInfo SizeInfo => Info?.SizeInfo;
+
         #region Constructors
         public Component()
         {
@@ -39,6 +43,18 @@ namespace BOA.OneDesigner.WpfControls
             get { return (bool) GetValue(IsInToolboxProperty); }
             set { SetValue(IsInToolboxProperty, value); }
         }
+        #endregion
+
+        #region IEventBusListener
+        public event Action OnAttachToEventBus;
+        public event Action OnDeAttachToEventBus;
+        public void AttachToEventBus()
+        {
+        }
+
+        public void DeAttachToEventBus()
+        {
+        } 
         #endregion
     }
 }

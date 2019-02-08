@@ -17,7 +17,7 @@
     <StackPanel>
         <StackPanel
             Visibility = "{Binding Info.Type.IsDivider,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter}}" >
-            <local:SizeEditor DataContext = "{Binding Path=Info.SizeInfo,Mode=OneWay}" />
+            <local:SizeEditor x:Name="sizeEditor" DataContext = "{Binding Path=Info.SizeInfo,Mode=OneWay}" />
         </StackPanel>
 
     </StackPanel>

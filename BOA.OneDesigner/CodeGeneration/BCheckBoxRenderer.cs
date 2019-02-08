@@ -28,6 +28,4 @@ namespace BOA.OneDesigner.CodeGeneration
         }
         #endregion
     }
-
-    
 }

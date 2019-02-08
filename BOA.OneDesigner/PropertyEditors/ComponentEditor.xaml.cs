@@ -14,6 +14,7 @@ namespace BOA.OneDesigner.PropertyEditors
         public ComponentEditor()
         {
             InitializeComponent();
+            Loaded += (s, e) => { sizeEditor.Host = Host; };
         }
         #endregion
 

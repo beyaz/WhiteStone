@@ -123,12 +123,12 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var componentInfo = DataContext as ComponentInfo;
-            if (componentInfo != null)
+            var component = Host.SelectedElement as Component;
+            if (component != null)
             {
                 Content = new ComponentEditor
                 {
-                    Info = componentInfo,
+                    Info = component.Info,
                     Host = Host
                 };
                 return;

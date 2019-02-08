@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
@@ -110,11 +111,24 @@ namespace BOAPlugins.TypescriptModelGeneration
         {
             var namespaceName = GetSolutionNamespaceName(solutionFilePath);
 
-            var paths = new[]
+            var paths = new List<string>
             {
                 Path.GetDirectoryName(solutionFilePath) + Path.DirectorySeparatorChar + @"One\BOA.One.Office." + namespaceName + Path.DirectorySeparatorChar,
                 Path.GetDirectoryName(solutionFilePath) + Path.DirectorySeparatorChar + @"One\BOA.One." + namespaceName + Path.DirectorySeparatorChar
             };
+
+            var packages = namespaceName.SplitAndClear(".");
+            // Card.Clearing.Visa
+            if (packages.Count == 3)
+            {
+                var namespaceName2 = packages[0] + "." + packages[1] + packages[2];
+
+                paths.AddRange(new[]
+                {
+                    Path.GetDirectoryName(solutionFilePath) + Path.DirectorySeparatorChar + @"One\BOA.One.Office." + namespaceName2 + Path.DirectorySeparatorChar,
+                    Path.GetDirectoryName(solutionFilePath) + Path.DirectorySeparatorChar + @"One\BOA.One." + namespaceName2 + Path.DirectorySeparatorChar
+                });
+            }
 
             foreach (var path in paths)
             {

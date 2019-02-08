@@ -74,7 +74,7 @@ namespace BOA.OneDesigner.WpfControls
             var divider = new Component
             {
                 Host        = Host,
-                DataContext = new ComponentInfo(),
+                Info = new ComponentInfo{Type = new ComponentType{IsDivider = true}},
                 IsInToolbox = true
             };
 

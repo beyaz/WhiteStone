@@ -184,6 +184,24 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
+                var componentInfo = bField as ComponentInfo;
+                if (componentInfo!= null)
+                {
+                    componentInfo.Container = Model;
+                    var uiElement = new Component
+                    {
+                        Host = Host,
+                        Info = componentInfo
+                    };
+
+                    Host.DragHelper.MakeDraggable(uiElement);
+
+                    ChildrenContainer.Children.Add(uiElement);
+                    Host.AttachToEventBus(uiElement, this);
+
+                    continue;
+                }
+
 
                 var bComboBox = bField as BComboBox;
                 if (bComboBox!= null)
