@@ -77,10 +77,10 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.DeAttachToEventBus(GridContainer.Children);
 
-            Model.DataGrid.ParentIsComboBox = true;// TODO ilerde kaldırılmalı binary serilize olsun diye
+            Model.DataGrid.ParentIsComboBox = true; // TODO ilerde kaldırılmalı binary serilize olsun diye
             var bDataGridInfoWpf = Host.CreateBDataGridInfoWpf(Model.DataGrid);
 
-            Host.AttachToEventBus(bDataGridInfoWpf,this);
+            Host.AttachToEventBus(bDataGridInfoWpf, this);
 
             Host.DragHelper.MakeDraggable(bDataGridInfoWpf);
 
@@ -92,19 +92,17 @@ namespace BOA.OneDesigner.WpfControls
         #region Methods
         void BInput_MouseEnter(object sender, MouseEventArgs e)
         {
-            Cursor                   = Cursors.Hand;
-           
+            Cursor = Cursors.Hand;
         }
 
         void BInput_MouseLeave(object sender, MouseEventArgs e)
         {
-            Cursor                   = Cursors.Arrow;
-            
+            Cursor = Cursors.Arrow;
         }
 
         void Show_data_grid_is_this_component_selected()
         {
-            if (Host.SelectedElement == this || Host.SelectedElement.FindParent<BComboBoxInWpf>()== this)
+            if (Host.SelectedElement == this || Host.SelectedElement.FindParent<BComboBoxInWpf>() == this)
             {
                 GridContainer.Visibility = Visibility.Visible;
             }

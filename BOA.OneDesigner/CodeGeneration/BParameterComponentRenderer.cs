@@ -1,47 +1,52 @@
-﻿using BOA.Common.Helpers;
-using BOA.OneDesigner.JsxElementModel;
+﻿using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
     static class BParameterComponentRenderer
     {
-        public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BParameterComponent data)
+        #region Public Methods
+        public static void Write(WriterContext writerContext, ComponentInfo data)
         {
+            var sb         = writerContext.Output;
+            var screenInfo = writerContext.ScreenInfo;
+
+            writerContext.Imports.Add("import { BParameterComponent } from \"b-parameter-component\"");
+
             SnapNamingHelper.InitSnapName(data);
 
-            // TODO fix here
-            // RenderHelper.NormalizeBindingPathInRenderMethod(writerContext,data.ValueBindingPath)
+            var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
 
+            sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{bindingPathInJs}}}");
+            sb.PaddingCount++;
+            sb.AppendLine($" onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{bindingPathInJs}}} = selectedParameter ? selectedParameter.paramCode : null}}");
+            sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
+            sb.AppendLine("paramType = \"" + data.ParamType + "\"");
 
-            sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{data.ValueBindingPathInTypeScript}}}");
-            if (data.ValueTypeIsInt32)
-            {
-                sb.AppendLine($"            onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{data.ValueBindingPathInTypeScript}}} = selectedParameter ? selectedParameter.paramCode|0 : null}}");    
-            }
-            else
-            {
-                sb.AppendLine($"            onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{data.ValueBindingPathInTypeScript}}} = selectedParameter ? selectedParameter.paramCode : null}}");
-            }
-            
-            sb.AppendLine("             ref = {(r: any) => this.snaps."+data.SnapName+" = r}");
-            sb.AppendLine("paramType = \""+data.ParamType+"\"");
-
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
+            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelTextInfo);
             if (labelValue != null)
             {
                 sb.AppendLine($"hintText = {labelValue}");
                 sb.AppendLine($"labelText = {labelValue}");
             }
 
-            sb.AppendLine("isAllOptionIncluded={true}");
+            if (data.IsAllOptionIncluded)
+            {
+                sb.AppendLine("isAllOptionIncluded={true}");
+            }
+            else
+            {
+                sb.AppendLine("isAllOptionIncluded={false}");
+            }
 
             sb.AppendLine("paramColumns={[");
-            sb.AppendLine("{ name: \"paramCode\",        header: Message.Code,        visible: false },");
-            sb.AppendLine("{ name: \"paramDescription\", header: Message.Description, width:   200 }");
+            //sb.AppendLine("{ name: \"paramCode\",        header: Message.Code,        visible: false },");
+            sb.AppendLine("{ name: \"paramDescription\", header: 'Açıklama',  width:   200 }");
             sb.AppendLine("]}");
 
+            sb.AppendLine("context = {context}/>");
 
-            sb.AppendLine("             context = {context}/>");
+            sb.PaddingCount--;
         }
+        #endregion
     }
 }

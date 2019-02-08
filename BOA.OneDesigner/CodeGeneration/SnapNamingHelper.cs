@@ -51,7 +51,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
         }
 
-        public static void InitSnapName(BParameterComponent data)
+        public static void InitSnapName(ComponentInfo data)
         {
             data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }

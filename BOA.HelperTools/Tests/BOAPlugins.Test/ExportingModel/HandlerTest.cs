@@ -1,5 +1,6 @@
 ﻿using BOAPlugins.Messaging;
 using BOAPlugins.TypescriptModelGeneration;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOAPlugins.ExportingModel
@@ -14,7 +15,7 @@ namespace BOAPlugins.ExportingModel
             var path   = @"D:\work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\BOA.CardGeneral.DebitCard.sln";
             var result = Handler.Handle(path);
 
-            Assert.IsNull(result.ErrorMessage);
+            result.ErrorMessage.Should().BeNull();
 
             var data = new MessagingExporterData
             {

@@ -7,6 +7,8 @@ namespace BOA.OneDesigner.JsxElementModel
     {
         #region Public Properties
         public bool IsDivider { get; set; }
+
+        public bool IsParameterComponent { get; set; }
         #endregion
     }
 }

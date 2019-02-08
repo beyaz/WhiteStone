@@ -163,7 +163,6 @@
     <Compile Include="JsxElementModel\BInput.cs" />
     <Compile Include="JsxElementModel\BInputMask.cs" />
     <Compile Include="JsxElementModel\BInputNumeric.cs" />
-    <Compile Include="JsxElementModel\BParameterComponent.cs" />
     <Compile Include="JsxElementModel\BTabBar.cs" />
     <Compile Include="MainForm\Controller.cs" />
     <Compile Include="MainForm\Model.cs" />
