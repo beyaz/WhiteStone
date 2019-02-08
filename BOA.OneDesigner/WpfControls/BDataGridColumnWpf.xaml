@@ -5,9 +5,9 @@
              xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
              xmlns:jsxElementModel = "clr-namespace:BOA.OneDesigner.JsxElementModel"
              mc:Ignorable = "d"
+             Margin="5"
              d:DataContext = "{d:DesignInstance jsxElementModel:BDataGridColumnInfo, IsDesignTimeCreatable=True}"
-             Background = "LightBlue"
-             Margin = "10,0,0,0" >
+             Background = "LightBlue">
     <StackPanel MinWidth = "50" MinHeight = "50" >
 
         <TextBlock HorizontalAlignment = "Center" Padding="5"
