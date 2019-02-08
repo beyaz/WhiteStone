@@ -5,7 +5,7 @@
         #region Constants
         public const string BindingPrefixInCSharp       = "Request.";
         public const string BindingPrefixInJs           = "request.";
-        public const string IncomingRequestVariableName = "incomingRequest";
+        public const string IncomingRequestVariableName = "value";
         #endregion
     }
 }

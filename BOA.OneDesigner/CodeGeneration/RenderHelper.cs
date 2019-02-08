@@ -9,6 +9,9 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class RenderHelper
     {
+
+        public static bool IsCommentEnabled => false;
+
         #region Public Methods
         public static string ConvertBindingPathToIncomingRequest(string bindingPathInJs)
         {

@@ -12,6 +12,7 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class TransactionPage
     {
+        
         #region Public Methods
         public static string Generate(ScreenInfo screenInfo)
         {
@@ -69,6 +70,10 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.Page.Insert(0, string.Join(Environment.NewLine, writerContext.Imports.Distinct().ToList()));
 
+            writerContext.Page.Insert(1, "import RequestBase = BOA.Common.Types.RequestBase;");
+
+            writerContext.Page.Insert(2, $"const WindowRequestFullName = \"{writerContext.ScreenInfo.RequestName}\";");
+
             var sb = new PaddedStringBuilder();
             foreach (var item in writerContext.Page)
             {
@@ -120,6 +125,7 @@ namespace BOA.OneDesigner.CodeGeneration
         static void ComponentWillMount(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
+            
             sb.AppendLine("/**");
             sb.AppendLine("  *  Evaluates initial states of form.");
             sb.AppendLine("  */");
@@ -139,7 +145,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
             sb.AppendLine("body: this.state.windowRequest,");
-            sb.AppendLine($"type:\"{writerContext.ScreenInfo.RequestName}\"");
+            sb.AppendLine("type: WindowRequestFullName");
             sb.PaddingCount--;
             sb.AppendLine("});");
 
@@ -304,19 +310,18 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("/**");
             sb.AppendLine("  *  Proxies the did respond.");
             sb.AppendLine("  */");
-            sb.AppendLine("proxyDidRespond(proxyResponse: ProxyResponse)");
+            sb.AppendLine("proxyDidRespond(proxyResponse: GenericProxyResponse<RequestBase>)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const isSuccess = proxyResponse.response.success;");
+            sb.AppendLine("const { success, results } = proxyResponse.response;");
+            sb.AppendLine("const value: any           = proxyResponse.response.value;");
 
             sb.AppendLine();
-            sb.AppendLine("if (!isSuccess)");
+            sb.AppendLine("if (!success)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const results = proxyResponse.response.results;");
-            sb.AppendLine();
             sb.AppendLine("if (results == null)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -327,7 +332,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine();
             sb.AppendLine("const businessResult = results.find(r => r.severity === BOA.Common.Types.Severity.BusinessError);");
-            sb.AppendLine("if (businessResult != undefined)");
+            sb.AppendLine("if (businessResult)");
             sb.AppendLine("{");
             sb.PaddingCount++;
             sb.AppendLine("this.showStatusMessage(businessResult.errorMessage);");
@@ -344,16 +349,15 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("}");
 
             sb.AppendLine();
-            sb.AppendLine("const incomingRequest = (proxyResponse.response as any).value;");
-            sb.AppendLine("if (incomingRequest == null)");
+            sb.AppendLine("if (value == null)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("if (isSuccess)");
+            sb.AppendLine("if (success)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("BFormManager.showStatusErrorMessage(`Orch method:${proxyResponse.key} should return GenericResponse<" + writerContext.ScreenInfo.RequestName + ">`, null);");
+            sb.AppendLine("BFormManager.showStatusErrorMessage(`Orch method:${proxyResponse.key} should return GenericResponse<${WindowRequestFullName}>`, null);");
 
             sb.PaddingCount--;
             sb.AppendLine("}"); 
@@ -365,17 +369,17 @@ namespace BOA.OneDesigner.CodeGeneration
             if (writerContext.HasWorkflow)
             {
                 sb.AppendLine();
-                sb.AppendLine("const hasWorkflow = incomingRequest.workFlowInternalData && incomingRequest.workFlowInternalData.instanceId > 0;");
+                sb.AppendLine("const hasWorkflow = value.workFlowInternalData && value.workFlowInternalData.instanceId > 0;");
                 sb.AppendLine("if (hasWorkflow)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
                 sb.AppendLine("const windowRequestInForm = this.getWindowRequest().body;");
                 sb.AppendLine();
-                sb.AppendLine("incomingRequest.hasWorkflow = windowRequestInForm.hasWorkflow;");
+                sb.AppendLine("value.hasWorkflow = windowRequestInForm.hasWorkflow;");
                 sb.AppendLine();
-                sb.AppendLine("if (incomingRequest.methodName === proxyResponse.key)");
+                sb.AppendLine("if (value.methodName === proxyResponse.key)");
                 sb.AppendLine("{");
-                sb.AppendLine("    incomingRequest.methodName = windowRequestInForm.methodName;");
+                sb.AppendLine("    value.methodName = windowRequestInForm.methodName;");
                 sb.AppendLine("}");
 
                 sb.PaddingCount--;
@@ -384,23 +388,15 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
             sb.AppendLine();
-            sb.AppendLine("if (incomingRequest.statusMessage)");
+            sb.AppendLine("if (value.statusMessage)");
             sb.AppendLine("{");
-            sb.AppendLine("    BFormManager.showStatusMessage(incomingRequest.statusMessage);");
-            sb.AppendLine("    incomingRequest.statusMessage = null;");
+            sb.AppendLine("    BFormManager.showStatusMessage(value.statusMessage);");
+            sb.AppendLine("    value.statusMessage = null;");
             sb.AppendLine("}");
 
 
 
-            sb.AppendLine();
-            sb.AppendLine("const state =");
-
-            
-            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest","incomingRequest");
-            
-            JsObjectInfoMultiLineWriter.Write(sb,writerContext.StateObjectWhenIncomingRequestIsSuccess);
-            sb.Append(";");
-            sb.Append(Environment.NewLine);
+           
             
             
 
@@ -409,8 +405,8 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine();
             sb.AppendLine("this.setWindowRequest(");
             sb.AppendLine("{");
-            sb.AppendLine("    body: incomingRequest,");
-            sb.AppendLine($"    type:\"{writerContext.ScreenInfo.RequestName}\"");
+            sb.AppendLine("    body: value,");
+            sb.AppendLine("    type: WindowRequestFullName");
             sb.AppendLine("});");
             
 
@@ -425,8 +421,16 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
             }
 
+            
             sb.AppendLine();
-            sb.AppendLine("this.setState(state);");
+            sb.AppendLine("this.setState(");
+
+            
+            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest","value");
+            
+            JsObjectInfoMultiLineWriter.Write(sb,writerContext.StateObjectWhenIncomingRequestIsSuccess);
+            sb.Append(");");
+            sb.Append(Environment.NewLine);
 
             if (writerContext.CanWriteEvaluateActions)
             {
@@ -437,14 +441,14 @@ namespace BOA.OneDesigner.CodeGeneration
             if (writerContext.HasWorkflow)
             {
                 sb.AppendLine();
-                sb.AppendLine("if (isSuccess && this.executeWorkFlow)");
+                sb.AppendLine("if (success && this.executeWorkFlow)");
                 sb.AppendLine("{");
                 sb.AppendLine("    this.executeWorkFlow();");
                 sb.AppendLine("}");
             }
 
             sb.AppendLine();
-            sb.AppendLine("return isSuccess;");
+            sb.AppendLine("return success;");
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -526,7 +530,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"requestClass:\"{writerContext.ScreenInfo.RequestName}\",");
+            sb.AppendLine("requestClass: WindowRequestFullName,");
             sb.AppendLine("key: orchestrationMethodName,");
             sb.AppendLine("requestBody: request,");
             sb.AppendLine("showProgress: false");
