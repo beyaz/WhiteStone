@@ -28,9 +28,12 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Occurs when the component of '"+data.SnapName+"' row selection changed.");
-            sb.AppendLine("  */");
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Occurs when the component of '"+data.SnapName+"' row selection changed.");
+                sb.AppendLine("  */");
+            }
 
             sb.AppendLine(methodName+"()");
             sb.AppendLine("{");
@@ -57,10 +60,11 @@ namespace BOA.OneDesigner.CodeGeneration
         public static void WriteColumns(WriterContext writerContext,  PaddedStringBuilder sb, BDataGrid data)
         {
              sb.AppendLine("const columns: any[] = [];");
+             sb.AppendLine();
             
             foreach (var bDataGridColumnInfo in data.Columns)
             {
-                sb.AppendLine();
+                
 
                 var jsObject = new JsObject();
 
@@ -123,9 +127,12 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Gets the column definition of "+ data.SnapName+".");
-            sb.AppendLine("  */");
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Gets the column definition of "+ data.SnapName+".");
+                sb.AppendLine("  */");
+            }
             sb.AppendLine(methodName+"(request:any) : any[]");
             sb.AppendLine("{");
             sb.PaddingCount++;

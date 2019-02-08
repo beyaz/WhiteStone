@@ -70,9 +70,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.Page.Insert(0, string.Join(Environment.NewLine, writerContext.Imports.Distinct().ToList()));
 
-            writerContext.Page.Insert(1, "import RequestBase = BOA.Common.Types.RequestBase;");
-
-            writerContext.Page.Insert(2, $"const WindowRequestFullName = \"{writerContext.ScreenInfo.RequestName}\";");
+            writerContext.Page.Insert(1, $"const WindowRequestFullName = \"{writerContext.ScreenInfo.RequestName}\";");
 
             var sb = new PaddedStringBuilder();
             foreach (var item in writerContext.Page)
@@ -125,10 +123,13 @@ namespace BOA.OneDesigner.CodeGeneration
         static void ComponentWillMount(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
-            
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Evaluates initial states of form.");
-            sb.AppendLine("  */");
+
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Evaluates initial states of form.");
+                sb.AppendLine("  */");
+            }
             sb.AppendLine("componentWillMount()");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -273,9 +274,12 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Sends given requests to server.");
-            sb.AppendLine("  */");
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Sends given requests to server.");
+                sb.AppendLine("  */");
+            }
             sb.AppendLine("executeWindowRequest(orchestrationMethodName: string)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -307,15 +311,18 @@ namespace BOA.OneDesigner.CodeGeneration
         static void ProxyDidRespond(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Proxies the did respond.");
-            sb.AppendLine("  */");
-            sb.AppendLine("proxyDidRespond(proxyResponse: GenericProxyResponse<RequestBase>)");
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Proxies the did respond.");
+                sb.AppendLine("  */");
+            }
+            sb.AppendLine("proxyDidRespond(proxyResponse: ProxyResponse)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
             sb.AppendLine("const { success, results } = proxyResponse.response;");
-            sb.AppendLine("const value: any           = proxyResponse.response.value;");
+            sb.AppendLine("const value: any           = (proxyResponse.response as any).value;");
 
             sb.AppendLine();
             sb.AppendLine("if (!success)");
@@ -325,7 +332,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("if (results == null)");
             sb.AppendLine("{");
             sb.PaddingCount++;
-            sb.AppendLine("this.showStatusMessage(\"DeveloperError: Genellikle type dll'inin 'd:\\boa\\one\\' folderında olmamasından kaynaklı olabilir. Build eventleri check edin. Check request headers from Developer Tools -> Network tab.\");");
+            sb.AppendLine("this.showStatusMessage(\"DeveloperError: Check incoming data from Developer Tools -> Network.\");");
             sb.AppendLine("return false;");
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -488,9 +495,12 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
             var sb = new PaddedStringBuilder();
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Renders the component.");
-            sb.AppendLine("  */");
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Renders the component.");
+                sb.AppendLine("  */");
+            }
 
             sb.AppendLine("render()");
             sb.AppendLine("{");
@@ -517,9 +527,12 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Sends given requests to server.");
-            sb.AppendLine("  */");
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Sends given requests to server.");
+                sb.AppendLine("  */");
+            }
             sb.AppendLine("sendRequestToServer(request: any, orchestrationMethodName: string)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -560,9 +573,12 @@ namespace BOA.OneDesigner.CodeGeneration
             CalculateEvaluatedActionStates(writerContext);
             CalculateDataField(writerContext);
 
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  The " + string.Join(" ", FileNamingHelper.GetWords(writerContext.ClassName)));
-            sb.AppendLine("  */");
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  The " + string.Join(" ", FileNamingHelper.GetWords(writerContext.ClassName)));
+                sb.AppendLine("  */");
+            }
 
             if (writerContext.IsBrowsePage)
             {
@@ -609,9 +625,12 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine("/**");
-            sb.AppendLine("  *  Creates a new instance of this class.");
-            sb.AppendLine("  */");
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Creates a new instance of this class.");
+                sb.AppendLine("  */");
+            }
             sb.AppendLine("constructor(props: BFramework.BasePageProps)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -641,9 +660,12 @@ namespace BOA.OneDesigner.CodeGeneration
             if (writerContext.HasWorkflow)
             {
                 #region onActionClick
-                sb.AppendLine("/**");
-                sb.AppendLine("  *  Handle click actions of page commands.");
-                sb.AppendLine("  */");
+                if (RenderHelper.IsCommentEnabled)
+                {
+                    sb.AppendLine("/**");
+                    sb.AppendLine("  *  Handle click actions of page commands.");
+                    sb.AppendLine("  */");
+                }
                 sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract, executeWorkFlow: () => void)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -688,14 +710,14 @@ namespace BOA.OneDesigner.CodeGeneration
                     #endregion
 
 
-                    sb.AppendLine("return /*isCompleted*/false;");
+                    sb.AppendLine("return false;");
                     sb.PaddingCount--;
                     sb.AppendLine("}");
 
                     sb.AppendLine();
                 }
 
-                sb.AppendLine("return /*isCompleted*/true;");
+                sb.AppendLine("return true;");
 
                 sb.PaddingCount--;
                 sb.AppendLine("}");
@@ -704,9 +726,12 @@ namespace BOA.OneDesigner.CodeGeneration
             else
             {
                 #region onActionClick
-                sb.AppendLine("/**");
-                sb.AppendLine("  *  Handle click actions of page commands.");
-                sb.AppendLine("  */");
+                if (RenderHelper.IsCommentEnabled)
+                {
+                    sb.AppendLine("/**");
+                    sb.AppendLine("  *  Handle click actions of page commands.");
+                    sb.AppendLine("  */");
+                }
                 sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -748,7 +773,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     #endregion
 
 
-                    sb.AppendLine("return /*isCompleted*/true;");
+                    sb.AppendLine("return true;");
                     sb.PaddingCount--;
                     sb.AppendLine("}");
 
@@ -756,7 +781,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
 
 
-                sb.AppendLine("return /*isCompleted*/true;");
+                sb.AppendLine("return true;");
                 sb.PaddingCount--;
                 sb.AppendLine("}");
                 #endregion
