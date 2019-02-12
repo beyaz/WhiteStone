@@ -146,9 +146,7 @@
     <Compile Include="WpfControls\BTabBarPageWpf.cs" />
     <Compile Include="WpfControls\CardLayout.cs" />
     <Compile Include="AppModel\DevelopmentDatabase.cs" />
-    <Compile Include="WpfControls\Component.xaml.cs">
-      <DependentUpon>Component.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="WpfControls\Component2.cs" />
     <Compile Include="WpfControls\Injector.cs" />
     <Compile Include="WpfControls\InsertHelper.cs" />
     <Compile Include="WpfControls\ISupportSizeInfo.cs" />
@@ -210,10 +208,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WpfControls\BDataGridInfoWpf.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WpfControls\Component.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

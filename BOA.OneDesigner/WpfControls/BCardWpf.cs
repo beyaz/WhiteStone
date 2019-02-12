@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -188,11 +187,7 @@ namespace BOA.OneDesigner.WpfControls
                 if (componentInfo!= null)
                 {
                     componentInfo.Container = Model;
-                    var uiElement = new Component
-                    {
-                        Host = Host,
-                        Info = componentInfo
-                    };
+                    var uiElement = Component2.Create(Host, componentInfo);
 
                     Host.DragHelper.MakeDraggable(uiElement);
 
@@ -397,7 +392,7 @@ namespace BOA.OneDesigner.WpfControls
                 return true;
             }
 
-            if (dragElement is Component)
+            if (dragElement is Component2)
             {
                 return true;
             }
@@ -449,21 +444,21 @@ namespace BOA.OneDesigner.WpfControls
             }
 
 
-            var component = Host.SelectedElement as Component;
+            var component = Host.SelectedElement as Component2;
             if (component != null)
             {
-                if (component.IsInToolbox)
+                if (component.Model.IsInToolbox)
                 {
-                    if (component.Info.Type.IsDivider)
+                    if (component.Model.Info.Type.IsDivider)
                     {
                         Model.InsertItem(insertIndex, new ComponentInfo{Type = new ComponentType{IsDivider = true}});    
                         return;
                     }
                 }
                 
-                component.Info.RemoveFromParent();
+                component.Model.Info.RemoveFromParent();
 
-                Model.InsertItem(insertIndex, component.Info);
+                Model.InsertItem(insertIndex, component.Model.Info);
 
                 return;
             }

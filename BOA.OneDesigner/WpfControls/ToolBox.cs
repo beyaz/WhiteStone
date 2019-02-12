@@ -71,11 +71,15 @@ namespace BOA.OneDesigner.WpfControls
             #endregion
 
             #region divider
-            var divider = new Component
+            var divider = new Component2
             {
                 Host        = Host,
-                Info = new ComponentInfo{Type = new ComponentType{IsDivider = true}},
-                IsInToolbox = true
+                DataContext = new ComponentModel
+                {
+                    Info        = new ComponentInfo{Type = new ComponentType{IsDivider = true}},
+                    IsInToolbox = true
+                }
+                
             };
 
             Host.DragHelper.MakeDraggable(divider);

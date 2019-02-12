@@ -123,10 +123,10 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var component = Host.SelectedElement as Component;
+            var component = Host.SelectedElement as Component2;
             if (component != null)
             {
-                Content = ComponentEditor.Create(component.Info);
+                Content = ComponentEditor.Create(component.Model.Info);
 
                 return;
             }
