@@ -1,32 +1,23 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Controls;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
-using BOAPlugins.Utility;
-using Host = BOA.OneDesigner.AppModel.Host;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
     static class BTabBarRenderer
     {
-        
-
-        
+        #region Public Methods
         public static void Write(WriterContext writerContext, BTabBar data)
         {
+            var sb         = writerContext.Output;
+            var screenInfo = writerContext.ScreenInfo;
 
-            var        sb         = writerContext.Output;
-            ScreenInfo screenInfo = writerContext.ScreenInfo;
+            SnapNamingHelper.InitSnapName(writerContext, data);
 
-            SnapNamingHelper.InitSnapName(data);
-
-
-
-
-
-          
             writerContext.Imports.Add("import { BTabBar } from \"b-tab-bar\";");
-
 
             sb.AppendLine("<BTabBar context={context}");
             sb.PaddingCount++;
@@ -36,19 +27,19 @@ namespace BOA.OneDesigner.CodeGeneration
             if (string.IsNullOrWhiteSpace(data.ActiveTabIndexBindingPath))
             {
                 sb.AppendLine("value={this.state.activeTab}");
-                sb.AppendLine("onChange={(event, value) => { this.setState( { activeTab: value} ); }}");    
+                sb.AppendLine("onChange={(event, value) => { this.setState( { activeTab: value} ); }}");
             }
             else
             {
-                var activeTabIndexBindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod( writerContext,data.ActiveTabIndexBindingPath);
+                var activeTabIndexBindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ActiveTabIndexBindingPath);
 
-                sb.AppendLine("value={"+activeTabIndexBindingPathInJs+"}");
+                sb.AppendLine("value={" + activeTabIndexBindingPathInJs + "}");
                 sb.AppendLine($"onChange = {{(e: any, value: number) => {activeTabIndexBindingPathInJs} = value}}");
             }
 
             if (data.SizeInfo != null && data.SizeInfo.IsEmpty == false)
             {
-                sb.AppendLine("size = {"+ RenderHelper.GetJsValue(data.SizeInfo) +"}");
+                sb.AppendLine("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
             }
 
             sb.AppendLine("tabItems = {[");
@@ -69,10 +60,10 @@ namespace BOA.OneDesigner.CodeGeneration
                 {
                     sb.AppendLine($"text : {title},");
                 }
+
                 sb.AppendLine($"value : {i},");
 
                 sb.AppendLine("content : (");
-
 
                 #region Content
                 var divAsCardContainerWpf = new DivAsCardContainerWpf
@@ -85,7 +76,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("<div>");
                 sb.PaddingCount++;
 
-                int rowIndex = 0;
+                var rowIndex = 0;
                 foreach (var dummy in divAsCardContainerWpf.RowDefinitions)
                 {
                     sb.AppendLine("<div style={{flexWrap:'wrap',display:'flex'}}>");
@@ -94,13 +85,13 @@ namespace BOA.OneDesigner.CodeGeneration
                     var elementsInRow = divAsCardContainerWpf.Children.ToArray().Where(x => (int) x.GetValue(Grid.RowProperty) == rowIndex).ToList();
                     foreach (var uiElement in elementsInRow)
                     {
-                        var bCardWpf = ((BCardWpf) uiElement);
+                        var bCardWpf = (BCardWpf) uiElement;
 
-                        var columnSpan = ((int) bCardWpf.GetValue(Grid.ColumnSpanProperty));
+                        var columnSpan = (int) bCardWpf.GetValue(Grid.ColumnSpanProperty);
 
-                        decimal width = (columnSpan / 12M) * 100M;
+                        var width = columnSpan / 12M * 100M;
 
-                        width = System.Math.Round(width, 3);
+                        width = Math.Round(width, 3);
 
                         var bCard = bCardWpf.Model;
 
@@ -123,7 +114,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("</div>");
                 #endregion
 
-
                 sb.AppendLine(")");
 
                 sb.AppendLine();
@@ -138,10 +128,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 {
                     sb.AppendLine("},");
                 }
-
-
-               
-
             }
 
             sb.AppendLine("]}");
@@ -149,12 +135,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.PaddingCount--;
             sb.AppendLine(" />");
-
-
-
-
-            
         }
-
+        #endregion
     }
 }

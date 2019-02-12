@@ -287,12 +287,6 @@ namespace BOA.OneDesigner.WpfControls
 
             if (IsEnteredDropLocationMode)
             {
-                var containsDropLocationItem = ChildrenContainer.Children.ToArray().Any(x=>x is DropLocation);
-
-                if (containsDropLocationItem == false)
-                {
-                    Log.Push("true");    // TODO??
-                }
                 
                 return;
             }

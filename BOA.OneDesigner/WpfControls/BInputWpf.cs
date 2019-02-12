@@ -80,10 +80,7 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
-        void UpdateBindingPath() // TODO check
-        {
-            _bindingPath.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
-        }
+      
 
         void UpdateLabel()
         {

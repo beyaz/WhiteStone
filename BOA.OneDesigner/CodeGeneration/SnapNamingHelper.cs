@@ -9,9 +9,8 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static string ForceUniqueName(this WriterContext writerContext, string name)
         {
-
-            bool useCount = false;
-            var count = 1;
+            var useCount = false;
+            var count    = 1;
             while (true)
             {
                 if (writerContext.AllNames.ContainsKey(name) == false)
@@ -19,7 +18,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     break;
                 }
 
-                if (writerContext.AllNames.ContainsKey(name  + count) == false)
+                if (writerContext.AllNames.ContainsKey(name + count) == false)
                 {
                     useCount = true;
                     break;
@@ -43,12 +42,10 @@ namespace BOA.OneDesigner.CodeGeneration
             return propertyPath.SplitAndClear(".")?.Last();
         }
 
-        public static void InitSnapName(BTabBar data)
+        public static void InitSnapName(WriterContext writerContext, BTabBar data)
         {
-            // TODO: snap  olayını hallet
-            if (string.IsNullOrWhiteSpace(data.ActiveTabIndexBindingPath))
-            {
-            }
+            data.SnapName = GetComponentTypeName(data);
+            data.SnapName = writerContext.ForceUniqueName(data.SnapName);
         }
 
         public static void InitSnapName(ComponentInfo data)
@@ -56,7 +53,7 @@ namespace BOA.OneDesigner.CodeGeneration
             data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
 
-        public static void InitSnapName(WriterContext writerContext,BComboBox data)
+        public static void InitSnapName(WriterContext writerContext, BComboBox data)
         {
             var lastPropertyName = GetLastPropertyName(data.SelectedValueBindingPath);
 
@@ -81,9 +78,13 @@ namespace BOA.OneDesigner.CodeGeneration
             data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
 
-        
+        public static void InitSnapName(WriterContext writerContext, BInput data)
+        {
+            var lastPropertyName = GetLastPropertyName(data.ValueBindingPath);
 
-       
+            data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + data.GetType().Name.RemoveFromStart("B");
+            data.SnapName = writerContext.ForceUniqueName(data.SnapName);
+        }
         #endregion
 
         #region Methods
@@ -98,18 +99,11 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             return value[0].ToString().ToLowerTR() + value.Substring(1);
         }
+
         static string MakeUpperCaseFirstCharacter(this string value)
         {
             return value[0].ToString().ToUpperEN() + value.Substring(1);
         }
         #endregion
-
-        public static void InitSnapName(WriterContext writerContext, BInput data)
-        {
-            var lastPropertyName = GetLastPropertyName(data.ValueBindingPath);
-
-            data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + data.GetType().Name.RemoveFromStart("B");
-            data.SnapName = writerContext.ForceUniqueName(data.SnapName);
-        }
     }
 }
