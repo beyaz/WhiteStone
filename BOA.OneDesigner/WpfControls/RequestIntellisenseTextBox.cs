@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
@@ -9,8 +10,10 @@ using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    class RequestIntellisenseTextBox : IntellisenseTextBox
+    public class RequestIntellisenseTextBox : IntellisenseTextBox
     {
+       
+
         #region Constructors
         public RequestIntellisenseTextBox()
         {

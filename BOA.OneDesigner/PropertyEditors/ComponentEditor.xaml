@@ -4,6 +4,8 @@
              xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local = "clr-namespace:BOA.OneDesigner.PropertyEditors"
+             xmlns:wpfControls = "clr-namespace:BOA.OneDesigner.WpfControls"
+             xmlns:container = "clr-namespace:WhiteStone.UI.Container;assembly=WhiteStone.UI.Container"
 
              x:Name = "CodeBehind"
              DataContext = "{Binding ElementName=CodeBehind}"
@@ -15,10 +17,21 @@
     </UserControl.Resources>
 
     <StackPanel>
+
         <StackPanel
-            Visibility = "{Binding Info.Type.IsDivider,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter}}" >
-            <local:SizeEditor x:Name="sizeEditor" DataContext = "{Binding Path=Info.SizeInfo,Mode=OneWay}" />
+            Visibility = "{Binding IsSizeEditorVisible,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter}}" >
+            <local:SizeEditor x:Name = "sizeEditor" DataContext = "{Binding Info.SizeInfo,Mode=OneWay}" />
         </StackPanel>
 
+
+        <StackPanel>
+            <!--<wpfControls:RequestIntellisenseTextBox   Text="{Binding Info.ValueBindingPath,Mode=TwoWay}"  
+                                                     Label="Binding Path"  />-->
+            
+            
+
+        </StackPanel>
+
+        
     </StackPanel>
 </UserControl>
