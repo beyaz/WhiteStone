@@ -87,6 +87,28 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(divider);
             #endregion
 
+
+            #region branchComponent
+            var branchComponent = new ComponentWpf
+            {
+                Host = Host,
+                DataContext = new ComponentWpfModel
+                {
+                    Info        = new ComponentInfo
+                    {
+                        Type = new ComponentType{IsBranchComponent = true},
+                        LabelTextInfo = new LabelInfo{ FreeTextValue = "Branch Component",IsFreeText = true}
+                    },
+                    IsInToolbox = true
+                }
+                
+            };
+
+            Host.DragHelper.MakeDraggable(branchComponent);
+
+            stackPanel.Children.Add(branchComponent);
+            #endregion
+
             #region bCard
             var bCard = new BCardWpf
             {
