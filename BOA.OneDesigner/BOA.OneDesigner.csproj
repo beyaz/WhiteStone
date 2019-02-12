@@ -114,9 +114,7 @@
     <Compile Include="JsxElementModel\LayoutProps.cs" />
     <Compile Include="PropertyEditors\BComboBoxEditor.cs" />
     <Compile Include="PropertyEditors\BLabelEditor.cs" />
-    <Compile Include="PropertyEditors\ComponentEditor.xaml.cs">
-      <DependentUpon>ComponentEditor.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="PropertyEditors\ComponentEditor.cs" />
     <Compile Include="PropertyEditors\HorizontalLocationEditor.cs" />
     <Compile Include="PropertyEditors\ResourceActionEditor.cs" />
     <Compile Include="PropertyEditors\SizeEditor.cs" />
@@ -207,10 +205,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="PropertyEditors\ComponentEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="WpfControls\BDataGridColumnWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
