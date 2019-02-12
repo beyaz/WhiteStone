@@ -454,6 +454,11 @@ namespace BOA.OneDesigner.WpfControls
                         Model.InsertItem(insertIndex, new ComponentInfo{Type = new ComponentType{IsDivider = true}});    
                         return;
                     }
+                    if (component.Model.Info.Type.IsBranchComponent)
+                    {
+                        Model.InsertItem(insertIndex, new ComponentInfo{Type = new ComponentType{IsBranchComponent = true}});    
+                        return;
+                    }
                 }
                 
                 component.Model.Info.RemoveFromParent();

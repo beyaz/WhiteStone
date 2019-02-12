@@ -73,13 +73,12 @@ namespace BOA.OneDesigner.WpfControls
             #region divider
             var divider = new ComponentWpf
             {
-                Host        = Host,
+                Host = Host,
                 DataContext = new ComponentWpfModel
                 {
-                    Info        = new ComponentInfo{Type = new ComponentType{IsDivider = true}},
+                    Info        = new ComponentInfo {Type = new ComponentType {IsDivider = true}},
                     IsInToolbox = true
                 }
-                
             };
 
             Host.DragHelper.MakeDraggable(divider);
@@ -87,22 +86,20 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(divider);
             #endregion
 
-
             #region branchComponent
-            var branchComponent = new ComponentWpf
+            var branchComponent = ComponentWpf.Create(Host, new ComponentInfo
             {
-                Host = Host,
-                DataContext = new ComponentWpfModel
+                Type = new ComponentType
                 {
-                    Info        = new ComponentInfo
-                    {
-                        Type = new ComponentType{IsBranchComponent = true},
-                        LabelTextInfo = new LabelInfo{ FreeTextValue = "Branch Component",IsFreeText = true}
-                    },
-                    IsInToolbox = true
+                    IsBranchComponent = true
+                },
+                LabelTextInfo = new LabelInfo
+                {
+                    FreeTextValue = "Branch Component",
+                    IsFreeText    = true
                 }
-                
-            };
+            });
+            branchComponent.Model.IsInToolbox = true;
 
             Host.DragHelper.MakeDraggable(branchComponent);
 
@@ -112,7 +109,6 @@ namespace BOA.OneDesigner.WpfControls
             #region bCard
             var bCard = new BCardWpf
             {
-                Margin      = new Thickness(0, 10, 0, 0),
                 Host        = Host,
                 Height      = 100,
                 IsInToolbox = true,
@@ -130,7 +126,6 @@ namespace BOA.OneDesigner.WpfControls
             #region BDataGrid
             var dataGridInfoWpf = new BDataGridInfoWpf
             {
-                Margin      = new Thickness(0, 10, 0, 0),
                 IsInToolbox = true,
                 Host        = Host,
                 DataContext = new BDataGrid
@@ -154,7 +149,6 @@ namespace BOA.OneDesigner.WpfControls
             #region TabControl
             var tabControlWpf = new BTabBarWpf
             {
-                Margin      = new Thickness(0, 10, 0, 0),
                 Host        = Host,
                 Height      = 100,
                 IsInToolbox = true,
@@ -166,6 +160,12 @@ namespace BOA.OneDesigner.WpfControls
 
             stackPanel.Children.Add(tabControlWpf);
             #endregion
+
+
+            foreach (var uiElement in stackPanel.Children.ToArray())
+            {
+                ((FrameworkElement)uiElement).Margin = new Thickness(0, 20, 0, 0);
+            }
 
             Content = stackPanel;
         }

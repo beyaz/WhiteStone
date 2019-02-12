@@ -1,4 +1,5 @@
 ﻿using System;
+using BOA.OneDesigner.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -25,6 +26,8 @@ namespace BOA.OneDesigner.JsxElementModel
         public ComponentType Type { get; set; }
 
         public LabelInfo LabelTextInfo { get; set; }
+
+        public string LabelText => LabelTextInfo.GetDesignerText();
 
         public bool IsAllOptionIncluded { get; set; }
         #endregion

@@ -48,7 +48,7 @@ namespace BOA.OneDesigner.WpfControls
                 
                 {
                     view        :'TextBlock',
-                    Text        :'{Binding " + Model.AccessPathOf(m=>m.Info.LabelTextInfo.DesignerText) + @",Mode = OneWay}', 
+                    Text        :'{Binding " + Model.AccessPathOf(m=>m.Info.LabelText) + @",Mode = OneWay}', 
                     MarginBottom:5, 
                     IsBold      :true
                 }
