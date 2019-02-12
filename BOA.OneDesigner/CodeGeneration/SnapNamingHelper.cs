@@ -68,10 +68,7 @@ namespace BOA.OneDesigner.CodeGeneration
             data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
 
-        public static void InitSnapName(BBranchComponent data)
-        {
-            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
-        }
+        
 
         public static void InitSnapName(BDataGrid data)
         {

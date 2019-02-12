@@ -155,7 +155,6 @@
     <Compile Include="WpfControls\ISupportSizeInfo.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
     <Compile Include="JsxElementModel\BAccountComponent.cs" />
-    <Compile Include="JsxElementModel\BBranchComponent.cs" />
     <Compile Include="JsxElementModel\BCard.cs" />
     <Compile Include="JsxElementModel\CardContainer.cs" />
     <Compile Include="JsxElementModel\BCheckBox.cs" />

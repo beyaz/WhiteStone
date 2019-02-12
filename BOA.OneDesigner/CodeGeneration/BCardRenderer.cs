@@ -155,6 +155,19 @@ namespace BOA.OneDesigner.CodeGeneration
                         continue;
                     }
 
+                    if (componentInfo.Type.IsBranchComponent)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                        BBranchComponentRenderer.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
+
                     
                 }
 

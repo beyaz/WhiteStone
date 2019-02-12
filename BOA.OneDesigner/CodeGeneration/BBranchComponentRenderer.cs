@@ -1,32 +1,39 @@
-﻿using BOA.Common.Helpers;
-using BOA.OneDesigner.JsxElementModel;
-using BOAPlugins.Utility;
+﻿using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
     static class BBranchComponentRenderer
     {
-        public static void Write(PaddedStringBuilder sb, ScreenInfo screenInfo, BBranchComponent data)
+        #region Public Methods
+        public static void Write(WriterContext writerContext, ComponentInfo data)
         {
+            var sb         = writerContext.Output;
+            var screenInfo = writerContext.ScreenInfo;
+
             SnapNamingHelper.InitSnapName(data);
 
-            // TODO fix here
-            // RenderHelper.NormalizeBindingPathInRenderMethod(writerContext,data.ValueBindingPath)
-            TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.ValueBindingPath);
+            writerContext.Imports.Add("import { BBranchComponent } from \"b-branchComponent\"");
 
-            sb.AppendLine($"<BBranchComponent  selectedBranchId = {{{data.ValueBindingPathInTypeScript}}}");
-            sb.AppendLine($"                   onBranchSelect = {{(selectedBranch: BOA.Common.Types.BranchContract) => {{{data.ValueBindingPathInTypeScript}}} = selectedBranch ? selectedBranch.branchId : null}}");
-            sb.AppendLine("                  mode = {\"horizontal\"}");
-            sb.AppendLine("            sortOption = {BBranchComponent.name}");
-            sb.AppendLine("                               ref = {(r: any) => this.snaps."+data.SnapName+" = r}");
+            var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
 
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
+            sb.AppendLine($"<BBranchComponent  selectedBranchId = {{{bindingPathInJs}}}");
+            sb.PaddingCount++;
+
+            sb.AppendLine($"onBranchSelect = {{(selectedBranch: BOA.Common.Types.BranchContract) => {{{bindingPathInJs}}} = selectedBranch ? selectedBranch.branchId : null}}");
+            sb.AppendLine("mode = {\"horizontal\"}");
+            sb.AppendLine("sortOption = {BBranchComponent.name}");
+            sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
+
+            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelTextInfo);
             if (labelValue != null)
             {
                 sb.AppendLine($"label = {labelValue}");
             }
 
-            sb.AppendLine("                           context = {context}/>");
+            sb.AppendLine("context = {context}/>");
+
+            sb.PaddingCount--;
         }
+        #endregion
     }
 }
