@@ -180,9 +180,6 @@
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
     <Compile Include="Helpers\TfsHelper.cs" />
     <Compile Include="WpfControls\BTabBarWpf.cs" />
-    <Compile Include="WpfControls\RequestIntellisenseTextBox2.xaml.cs">
-      <DependentUpon>RequestIntellisenseTextBox2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WpfControls\ResourceCodeTextBox.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
     <Compile Include="WpfControls\UIBuilderHelper.cs" />
@@ -223,10 +220,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WpfControls\Component.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WpfControls\RequestIntellisenseTextBox2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

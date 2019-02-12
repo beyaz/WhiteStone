@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
@@ -43,6 +44,11 @@ namespace BOA.OneDesigner.PropertyEditors
             if (!IsLoaded)
             {
                 return;
+            }
+
+            if (Host == null)
+            {
+                Host = SM.Get<Host>();
             }
 
             Host.EventBus.Publish(EventBus.SizeChanged);

@@ -41,14 +41,14 @@ namespace WhiteStone.UI.Container
 
             if (DesignerProperties.GetIsInDesignMode(this))
             {
-                Builder.RegisterElementCreation(IntellisenseTextBox.On);
+                Builder.RegisterElementCreation(On);
             }
 
             this.LoadJson(UITemplate);
 
             if (DesignerProperties.GetIsInDesignMode(this))
             {
-                Builder.RegisterElementCreation(IntellisenseTextBox.On);
+                Builder.RegisterElementCreation(On);
                 return;
             }
 
@@ -59,10 +59,9 @@ namespace WhiteStone.UI.Container
             IntellisenseBox.SearchCompleted += UpdateTextFromEditBox;
 
             IntellisenseBox.SingleClickToSelectResult = true;
-            IntellisenseBox.MinimumPrefixLength = 0;
+            IntellisenseBox.MinimumPrefixLength       = 0;
 
             // https://github.com/joefeser/intellibox
-
         }
         #endregion
 

@@ -44,7 +44,7 @@
     </Reference>
     <Reference Include="Intellibox">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\Lib\Intellibox.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>$(SolutionDir)packages\MahApps.Metro.2.0.0-alpha0170\lib\net46\MahApps.Metro.dll</HintPath>

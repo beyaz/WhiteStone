@@ -1,15 +1,64 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
+using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
 {
+
+    class ComponentEditorModel
+    {
+        public ComponentInfo Info { get; set; }
+        public bool IsSizeEditorVisible { get; set; }
+    }
+
+    class ComponentEditor2:StackPanel
+    {
+        public static ComponentEditorModel CreateDataContext(ComponentInfo info)
+        {
+            return new ComponentEditorModel
+            {
+                Info                = info,
+                IsSizeEditorVisible = info.Type.IsDivider
+            };
+        }
+
+
+        public ComponentEditorModel Model => (ComponentEditorModel) DataContext;
+
+        public ComponentEditor2()
+        {
+            var template = @"
+{
+    Childs:
+    [
+        {
+            ui         :'SizeEditor',
+            IsVisible  :'{Binding " + Model.AccessPathOf(m=>m.IsSizeEditorVisible) + @"}'
+            Header     : 'Size', 
+            MarginTop  : 10, 
+            DataContext: '{Binding " + Model.AccessPathOf(m=>m.Info.SizeInfo) + @"}'
+        }
+    ]
+}
+
+";
+            this.LoadJson(template);
+
+        }
+    }
+
+
     /// <summary>
     ///     Interaction logic for ComponentEditor.xaml
     /// </summary>
     public partial class ComponentEditor
     {
         public Host Host { get; set; }
+
+
         #region Constructors
         public ComponentEditor()
         {
@@ -17,7 +66,7 @@ namespace BOA.OneDesigner.PropertyEditors
             Loaded += (s, e) =>
             {
                 sizeEditor.Host = Host;
-                _valueBindingPathEditor.
+                
             };
         }
         #endregion
