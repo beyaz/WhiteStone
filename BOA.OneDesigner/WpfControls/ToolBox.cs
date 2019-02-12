@@ -71,10 +71,10 @@ namespace BOA.OneDesigner.WpfControls
             #endregion
 
             #region divider
-            var divider = new Component2
+            var divider = new ComponentWpf
             {
                 Host        = Host,
-                DataContext = new ComponentModel
+                DataContext = new ComponentWpfModel
                 {
                     Info        = new ComponentInfo{Type = new ComponentType{IsDivider = true}},
                     IsInToolbox = true

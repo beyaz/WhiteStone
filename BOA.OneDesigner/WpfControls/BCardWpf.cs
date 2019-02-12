@@ -187,7 +187,7 @@ namespace BOA.OneDesigner.WpfControls
                 if (componentInfo!= null)
                 {
                     componentInfo.Container = Model;
-                    var uiElement = Component2.Create(Host, componentInfo);
+                    var uiElement = ComponentWpf.Create(Host, componentInfo);
 
                     Host.DragHelper.MakeDraggable(uiElement);
 
@@ -392,7 +392,7 @@ namespace BOA.OneDesigner.WpfControls
                 return true;
             }
 
-            if (dragElement is Component2)
+            if (dragElement is ComponentWpf)
             {
                 return true;
             }
@@ -444,7 +444,7 @@ namespace BOA.OneDesigner.WpfControls
             }
 
 
-            var component = Host.SelectedElement as Component2;
+            var component = Host.SelectedElement as ComponentWpf;
             if (component != null)
             {
                 if (component.Model.IsInToolbox)

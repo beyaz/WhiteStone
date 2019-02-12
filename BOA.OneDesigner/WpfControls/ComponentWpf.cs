@@ -7,7 +7,7 @@ using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    class ComponentModel
+    class ComponentWpfModel
     {
         #region Public Properties
         public ComponentInfo Info        { get; set; }
@@ -15,23 +15,10 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
     }
 
-    class Component2 : StackPanel, IEventBusListener, ISupportSizeInfo
+    class ComponentWpf : StackPanel, IEventBusListener, ISupportSizeInfo
     {
-
-        public static Component2 Create(Host host, ComponentInfo info)
-        {
-            return new Component2
-            {
-                Host = host,
-                DataContext = new ComponentModel
-                {
-                    Info = info
-                }
-            };
-        }
-
         #region Constructors
-        public Component2()
+        public ComponentWpf()
         {
             var template = @"
 {
@@ -61,10 +48,24 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Properties
-        public Host           Host  { get; set; }
-        public ComponentModel Model => (ComponentModel) DataContext;
+        public Host              Host  { get; set; }
+        public ComponentWpfModel Model => (ComponentWpfModel) DataContext;
 
         public SizeInfo SizeInfo => Model.Info?.SizeInfo;
+        #endregion
+
+        #region Public Methods
+        public static ComponentWpf Create(Host host, ComponentInfo info)
+        {
+            return new ComponentWpf
+            {
+                Host = host,
+                DataContext = new ComponentWpfModel
+                {
+                    Info = info
+                }
+            };
+        }
         #endregion
 
         #region IEventBusListener
