@@ -77,7 +77,7 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.DeAttachToEventBus(GridContainer.Children);
 
-            Model.DataGrid.ParentIsComboBox = true; // TODO ilerde kaldırılmalı binary serilize olsun diye
+            
             var bDataGridInfoWpf = Host.CreateBDataGridInfoWpf(Model.DataGrid);
 
             Host.AttachToEventBus(bDataGridInfoWpf, this);
