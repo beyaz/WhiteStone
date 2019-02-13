@@ -148,7 +148,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     IsAccountComponent = true
                 },
-                LabelTextInfo =  LabelInfoHelper.CreateNewLabelInfo("Hesap No")
+                LabelTextInfo =  LabelInfoHelper.CreateNewLabelInfo("Müşteri No, TCKN, VKN")
             }, isInToolbox: true);
 
             Host.DragHelper.MakeDraggable(accountComponent);
