@@ -80,7 +80,28 @@ namespace BOA.OneDesigner.WpfControls
                 
                 {
                     view        :'TextBlock',
-                    Text        :'{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @",Mode = OneWay}', 
+                    Text        :'{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @", Mode = OneWay}', 
+                    MarginBottom:5, 
+                    IsBold      :true
+                }
+                ,                
+                {
+                    view        :'TextBox', 
+                    Text        :'{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @", Mode = OneWay}', 
+                    IsReadOnly  :true
+                }    
+            ]
+        }
+        ,
+        {
+            ui          : 'StackPanel',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsAccountComponent) + @"}',
+            Childs      :
+            [
+                
+                {
+                    view        :'TextBlock',
+                    Text        :'{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @", Mode = OneWay}', 
                     MarginBottom:5, 
                     IsBold      :true
                 }

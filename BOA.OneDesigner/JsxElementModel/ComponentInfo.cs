@@ -9,6 +9,9 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class ComponentInfo : BField
     {
+
+        public string ValueChangedOrchestrationMethod { get; set; }
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets the information text.

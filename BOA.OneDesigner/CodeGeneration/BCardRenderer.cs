@@ -181,6 +181,18 @@ namespace BOA.OneDesigner.CodeGeneration
                         continue;
                     }
 
+                    if (componentInfo.Type.IsAccountComponent)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                        AccountComponentRenderer.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
                     
                 }
 

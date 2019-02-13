@@ -10,14 +10,15 @@ namespace BOA.OneDesigner.PropertyEditors
     class ComponentEditorModel
     {
         #region Public Properties
-        public ComponentInfo Info                            { get; set; }
-        public bool          IsDisabledEditorVisible         { get; set; }
-        public bool          IsInfoTextVisible               { get; set; }
-        public bool          IsLLabelEditorVisible           { get; set; }
-        public bool          IsParamTypeVisible              { get; set; }
-        public bool          IsSizeEditorVisible             { get; set; }
-        public bool          IsValueBindingPathEditorVisible { get; set; }
-        public bool          IsVisibleEditorVisible          { get; set; }
+        public ComponentInfo Info                                     { get; set; }
+        public bool          IsDisabledEditorVisible                  { get; set; }
+        public bool          IsInfoTextVisible                        { get; set; }
+        public bool          IsLLabelEditorVisible                    { get; set; }
+        public bool          IsParamTypeVisible                       { get; set; }
+        public bool          IsSizeEditorVisible                      { get; set; }
+        public bool          IsValueBindingPathEditorVisible          { get; set; }
+        public bool          IsValueChangedOrchestrationMethodVisible { get; set; }
+        public bool          IsVisibleEditorVisible                   { get; set; }
         #endregion
     }
 
@@ -48,14 +49,15 @@ namespace BOA.OneDesigner.PropertyEditors
                 Host = host,
                 DataContext = new ComponentEditorModel
                 {
-                    Info                            = info,
-                    IsSizeEditorVisible             = info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent,
-                    IsValueBindingPathEditorVisible = info.Type.IsParameterComponent || info.Type.IsBranchComponent,
-                    IsLLabelEditorVisible           = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText,
-                    IsParamTypeVisible              = info.Type.IsParameterComponent,
-                    IsInfoTextVisible               = info.Type.IsInformationText,
-                    IsVisibleEditorVisible          = info.Type.IsParameterComponent || info.Type.IsBranchComponent,
-                    IsDisabledEditorVisible         = info.Type.IsParameterComponent || info.Type.IsBranchComponent
+                    Info                                     = info,
+                    IsSizeEditorVisible                      = info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent,
+                    IsValueBindingPathEditorVisible          = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent,
+                    IsLLabelEditorVisible                    = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
+                    IsParamTypeVisible                       = info.Type.IsParameterComponent,
+                    IsInfoTextVisible                        = info.Type.IsInformationText,
+                    IsVisibleEditorVisible                   = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent,
+                    IsDisabledEditorVisible                  = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent,
+                    IsValueChangedOrchestrationMethodVisible = info.Type.IsAccountComponent
                 }
             }.LoadUI();
         }
@@ -122,6 +124,14 @@ namespace BOA.OneDesigner.PropertyEditors
             Label                       : 'Is Disabled',
             IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsDisabledEditorVisible) + @"}'
         }
+        ,
+        {
+            ui                           : 'RequestIntellisenseTextBox',
+            IsVisible                    : '{Binding " + Model.AccessPathOf(m => m.IsValueChangedOrchestrationMethodVisible) + @"}',
+            ShowOnlyOrchestrationMethods : true, 
+            Text                         : '{Binding " + Model.AccessPathOf(m => m.Info.ValueChangedOrchestrationMethod) + @"}', 
+            Label                        : 'On Account Number Changed'
+        }
         ,        
         {
             ui      : 'Button',
@@ -137,13 +147,12 @@ namespace BOA.OneDesigner.PropertyEditors
 
             infoTextEditor.Header = "Info Text";
 
-
             foreach (var child in Children)
             {
                 var frameworkElement = child as FrameworkElement;
-                if (frameworkElement!= null)
+                if (frameworkElement != null)
                 {
-                    frameworkElement.Margin = new Thickness(5,10,5,0);
+                    frameworkElement.Margin = new Thickness(5, 10, 5, 0);
                 }
             }
 

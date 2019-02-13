@@ -10,6 +10,11 @@ namespace BOA.OneDesigner.JsxElementModel
     {
         #region Public Properties
         /// <summary>
+        ///     Gets or sets a value indicating whether this instance is account component.
+        /// </summary>
+        public bool IsAccountComponent { get; set; }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether this instance is branch component.
         /// </summary>
         public bool IsBranchComponent { get; set; }
@@ -20,11 +25,14 @@ namespace BOA.OneDesigner.JsxElementModel
         public bool IsDivider { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether this instance is information text.
+        /// </summary>
+        public bool IsInformationText { get; set; }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether this instance is parameter component.
         /// </summary>
         public bool IsParameterComponent { get; set; }
-
-        public bool IsInformationText { get; set; }
         #endregion
     }
 }

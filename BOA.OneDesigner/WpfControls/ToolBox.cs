@@ -140,6 +140,22 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(informationText);
             #endregion
 
+
+            #region accountComponent
+            var accountComponent = ComponentWpf.Create(Host, new ComponentInfo
+            {
+                Type = new ComponentType
+                {
+                    IsAccountComponent = true
+                },
+                LabelTextInfo =  LabelInfoHelper.CreateNewLabelInfo("Hesap No")
+            }, isInToolbox: true);
+
+            Host.DragHelper.MakeDraggable(accountComponent);
+
+            stackPanel.Children.Add(accountComponent);
+            #endregion
+
             #region bCard
             var bCard = new BCardWpf
             {
