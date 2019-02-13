@@ -126,7 +126,7 @@ namespace BOA.OneDesigner.WpfControls
             var component = Host.SelectedElement as ComponentWpf;
             if (component != null)
             {
-                Content = ComponentEditor.Create(component.Model.Info);
+                Content = ComponentEditor.Create(Host,component.Model.Info);
 
                 return;
             }

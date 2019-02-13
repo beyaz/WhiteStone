@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
@@ -22,11 +24,50 @@ namespace BOA.OneDesigner.PropertyEditors
     class ComponentEditor : StackPanel
     {
         #region Fields
-        public LabelEditor infoTextEditor;
+        #pragma warning disable 649
+        LabelEditor infoTextEditor;
+        #pragma warning restore 649
         #endregion
 
         #region Constructors
-        public ComponentEditor()
+        ComponentEditor()
+        {
+        }
+        #endregion
+
+        #region Public Properties
+        public Host                 Host  { get; set; }
+        public ComponentEditorModel Model => (ComponentEditorModel) DataContext;
+        #endregion
+
+        #region Public Methods
+        public static ComponentEditor Create(Host host, ComponentInfo info)
+        {
+            return new ComponentEditor
+            {
+                Host = host,
+                DataContext = new ComponentEditorModel
+                {
+                    Info                            = info,
+                    IsSizeEditorVisible             = info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent,
+                    IsValueBindingPathEditorVisible = info.Type.IsParameterComponent || info.Type.IsBranchComponent,
+                    IsLLabelEditorVisible           = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText,
+                    IsParamTypeVisible              = info.Type.IsParameterComponent,
+                    IsInfoTextVisible               = info.Type.IsInformationText,
+                    IsVisibleEditorVisible          = info.Type.IsParameterComponent || info.Type.IsBranchComponent,
+                    IsDisabledEditorVisible         = info.Type.IsParameterComponent || info.Type.IsBranchComponent
+                }
+            }.LoadUI();
+        }
+
+        public void Delete()
+        {
+            Host.EventBus.Publish(EventBus.ComponentDeleted);
+        }
+        #endregion
+
+        #region Methods
+        ComponentEditor LoadUI()
         {
             var template = @"
 {
@@ -88,6 +129,12 @@ namespace BOA.OneDesigner.PropertyEditors
             Label                       : 'Is Disabled',
             IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsDisabledEditorVisible) + @"}'
         }
+        ,        
+        {
+            ui      : 'Button',
+            Text    : 'Delete',
+            Click   : '" + nameof(Delete) + @"'
+        }
 
     ]
 }
@@ -96,30 +143,18 @@ namespace BOA.OneDesigner.PropertyEditors
             this.LoadJson(template);
 
             infoTextEditor.Header = "Info Text";
-        }
-        #endregion
 
-        #region Public Properties
-        public ComponentEditorModel Model => (ComponentEditorModel) DataContext;
-        #endregion
 
-        #region Public Methods
-        public static ComponentEditor Create(ComponentInfo info)
-        {
-            return new ComponentEditor
+            foreach (var child in Children)
             {
-                DataContext = new ComponentEditorModel
+                var frameworkElement = child as FrameworkElement;
+                if (frameworkElement!= null)
                 {
-                    Info                            = info,
-                    IsSizeEditorVisible             = info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent,
-                    IsValueBindingPathEditorVisible = info.Type.IsParameterComponent || info.Type.IsBranchComponent,
-                    IsLLabelEditorVisible           = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText,
-                    IsParamTypeVisible              = info.Type.IsParameterComponent,
-                    IsInfoTextVisible               = info.Type.IsInformationText,
-                    IsVisibleEditorVisible          = info.Type.IsParameterComponent || info.Type.IsBranchComponent,
-                    IsDisabledEditorVisible         = info.Type.IsParameterComponent || info.Type.IsBranchComponent
+                    frameworkElement.Margin = new Thickness(5,10,5,0);
                 }
-            };
+            }
+
+            return this;
         }
         #endregion
     }
