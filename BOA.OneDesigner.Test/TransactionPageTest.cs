@@ -22,7 +22,9 @@ namespace BOA.OneDesigner.WpfControls
 
                 foreach (var screen in screens)
                 {
-                    VisitHelper.VisitAllChildren(screen, VisitHelper.ConvertToAccountComponent);
+                    
+
+                     VisitHelper.VisitAllChildren(screen, VisitHelper.ConvertToAccountComponent);
                     Controller.Generate(screen);
                 }
             }

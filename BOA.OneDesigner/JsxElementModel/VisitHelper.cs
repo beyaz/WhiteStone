@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using BOA.OneDesigner.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -36,7 +37,7 @@ namespace BOA.OneDesigner.JsxElementModel
                     IsAccountComponent = true
                 },
                 SizeInfo                        = input.SizeInfo,
-                LabelTextInfo                   = input.LabelInfo,
+                LabelTextInfo                   = LabelInfoHelper.CreateNewLabelInfo("Müşteri No, TCKN, VKN"),
                 ValueBindingPath                = input.ValueBindingPath,
                 ValueChangedOrchestrationMethod = input.ValueChangedOrchestrationMethod,
                 IsDisabledBindingPath           = input.IsDisabledBindingPath,

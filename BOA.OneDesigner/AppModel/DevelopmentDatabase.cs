@@ -129,6 +129,10 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
             {
                 data.ResourceCode = null;
             }
+
+            // TODO: eski sisteme destek verebilmek için. Bütün ekranlarda bir kez denenip sonrasında bu satır kaldırılmalı.
+            VisitHelper.VisitAllChildren(data, VisitHelper.ConvertToAccountComponent);
+
             return true;
         }
 
