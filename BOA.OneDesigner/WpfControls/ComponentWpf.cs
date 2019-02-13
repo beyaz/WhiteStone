@@ -17,11 +17,43 @@ namespace BOA.OneDesigner.WpfControls
 
     class ComponentWpf : StackPanel, IEventBusListener, ISupportSizeInfo
     {
-        #region Constructors
-        public ComponentWpf()
+        #region Public Properties
+        public Host Host { get; set; }
+
+        public ComponentWpfModel Model => (ComponentWpfModel) DataContext;
+
+        public SizeInfo SizeInfo => Model.Info?.SizeInfo;
+        #endregion
+
+        #region Properties
+        bool SelectedElementIsNotThisElement => Host.SelectedElement != this;
+        #endregion
+
+        #region Public Methods
+        public static ComponentWpf Create(Host host, ComponentInfo info, bool isInToolbox = false)
+        {
+            var wpf = new ComponentWpf
+            {
+                Host = host,
+                DataContext = new ComponentWpfModel
+                {
+                    Info        = info,
+                    IsInToolbox = isInToolbox
+                }
+            };
+
+            wpf.LoadUI();
+
+            return wpf;
+        }
+        #endregion
+
+        #region Methods
+        void LoadUI()
         {
             var template = @"
 {
+    Margin: 10,
     Childs:
     [
         {
@@ -48,14 +80,14 @@ namespace BOA.OneDesigner.WpfControls
                 
                 {
                     view        :'TextBlock',
-                    Text        :'{Binding " + Model.AccessPathOf(m=>m.Info.LabelText) + @",Mode = OneWay}', 
+                    Text        :'{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @",Mode = OneWay}', 
                     MarginBottom:5, 
                     IsBold      :true
                 }
                 ,                
                 {
                     view        :'TextBox', 
-                    Text        :'{Binding " + Model.AccessPathOf(m=>m.Info.ValueBindingPath) + @", Mode = OneWay}', 
+                    Text        :'{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @", Mode = OneWay}', 
                     IsReadOnly  :true
                 }    
             ]
@@ -68,16 +100,16 @@ namespace BOA.OneDesigner.WpfControls
             [
                 
                 {
-                    view        :'TextBlock',
-                    Text        :'{Binding " + Model.AccessPathOf(m=>m.Info.LabelText) + @",Mode = OneWay}', 
-                    MarginBottom:5, 
-                    IsBold      :true
+                    view        : 'TextBlock',
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @",Mode = OneWay}', 
+                    MarginBottom: 5, 
+                    IsBold      : true
                 }
                 ,                
                 {
-                    view        :'TextBox', 
-                    Text        :'{Binding " + Model.AccessPathOf(m=>m.Info.ValueBindingPath) + @", Mode = OneWay}', 
-                    IsReadOnly  :true
+                    view        : 'TextBox', 
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @", Mode = OneWay}', 
+                    IsReadOnly  : true
                 }    
             ]
         }
@@ -87,26 +119,18 @@ namespace BOA.OneDesigner.WpfControls
 ";
             this.LoadJson(template);
         }
-        #endregion
 
-        #region Public Properties
-        public Host              Host  { get; set; }
-        public ComponentWpfModel Model => (ComponentWpfModel) DataContext;
-
-        public SizeInfo SizeInfo => Model.Info?.SizeInfo;
-        #endregion
-
-        #region Public Methods
-        public static ComponentWpf Create(Host host, ComponentInfo info)
+        void UpdateLabel()
         {
-            return new ComponentWpf
+            if (SelectedElementIsNotThisElement)
             {
-                Host = host,
-                DataContext = new ComponentWpfModel
-                {
-                    Info = info
-                }
-            };
+                return;
+            }
+
+            foreach (var textBlock in this.FindChildren<TextBlock>())
+            {
+                textBlock.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
+            }
         }
         #endregion
 
@@ -116,10 +140,16 @@ namespace BOA.OneDesigner.WpfControls
 
         public void AttachToEventBus()
         {
+            OnAttachToEventBus?.Invoke();
+
+            Host.EventBus.Subscribe(EventBus.LabelChanged, UpdateLabel);
         }
 
         public void DeAttachToEventBus()
         {
+            OnDeAttachToEventBus?.Invoke();
+
+            Host.EventBus.UnSubscribe(EventBus.LabelChanged, UpdateLabel);
         }
         #endregion
     }

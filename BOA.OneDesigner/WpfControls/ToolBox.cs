@@ -77,8 +77,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     IsDivider = true
                 }
-            });
-            divider.Model.IsInToolbox = true;
+            }, isInToolbox: true);
 
             Host.DragHelper.MakeDraggable(divider);
 
@@ -97,14 +96,13 @@ namespace BOA.OneDesigner.WpfControls
                     FreeTextValue = "Branch Component",
                     IsFreeText    = true
                 }
-            });
+            }, isInToolbox: true);
             branchComponent.Model.IsInToolbox = true;
 
             Host.DragHelper.MakeDraggable(branchComponent);
 
             stackPanel.Children.Add(branchComponent);
             #endregion
-
 
             #region parameterComponent
             var parameterComponent = ComponentWpf.Create(Host, new ComponentInfo
@@ -118,8 +116,7 @@ namespace BOA.OneDesigner.WpfControls
                     FreeTextValue = "Parameter Component",
                     IsFreeText    = true
                 }
-            });
-            parameterComponent.Model.IsInToolbox = true;
+            }, isInToolbox: true);
 
             Host.DragHelper.MakeDraggable(parameterComponent);
 
@@ -181,10 +178,9 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(tabControlWpf);
             #endregion
 
-
             foreach (var uiElement in stackPanel.Children.ToArray())
             {
-                ((FrameworkElement)uiElement).Margin = new Thickness(0, 20, 0, 0);
+                ((FrameworkElement) uiElement).Margin = new Thickness(0, 20, 0, 0);
             }
 
             Content = stackPanel;

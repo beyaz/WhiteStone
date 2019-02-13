@@ -37,8 +37,7 @@ namespace BOA.OneDesigner.PropertyEditors
             ui          : 'LabelEditor',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsLLabelEditorVisible) + @"}',
             MarginTop   : 10,
-            DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.LabelTextInfo) + @"}', 
-            Label       : 'Binding Path' 
+            DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.LabelTextInfo) + @"}'
         }
         ,
         {
@@ -76,8 +75,8 @@ namespace BOA.OneDesigner.PropertyEditors
                 DataContext = new ComponentEditorModel
                 {
                     Info                            = info,
-                    IsSizeEditorVisible             = info.Type.IsDivider || info.Type.IsBranchComponent,
-                    IsValueBindingPathEditorVisible = info.Type.IsBranchComponent,
+                    IsSizeEditorVisible             = info.Type.IsDivider || info.Type.IsBranchComponent|| info.Type.IsParameterComponent,
+                    IsValueBindingPathEditorVisible = info.Type.IsParameterComponent || info.Type.IsBranchComponent,
                     IsLLabelEditorVisible           = info.Type.IsParameterComponent || info.Type.IsBranchComponent,
                     IsParamTypeVisible              = info.Type.IsParameterComponent
                 }
