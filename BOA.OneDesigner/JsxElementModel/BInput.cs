@@ -27,6 +27,7 @@ namespace BOA.OneDesigner.JsxElementModel
         public int? RowCount { get; set; }
 
 
+        // TODO component mapiing bitince bunu da kaldırmak gerek 
         public string ValueChangedOrchestrationMethod { get; set; }
 
         

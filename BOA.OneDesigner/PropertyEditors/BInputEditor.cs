@@ -9,52 +9,14 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class BInputEditor : StackPanel, IHostItem
     {
-        public void OnValueBindingPathChanged()
-        {
-            var isStringProperty = Host.RequestIntellisenseData.RequestStringPropertyIntellisense.Contains(Model.ValueBindingPath);
-            if (isStringProperty)
-            {
-                _rowCount.Visibility= Visibility.Visible;
-                _mask.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                _rowCount.Visibility = Visibility.Collapsed;
-                _mask.Visibility     = Visibility.Collapsed;
-
-                _rowCount.Text = null;
-                _mask.Text = null;
-            }
-
-            var isNullableInt = Host.RequestIntellisenseData.RequestNullableInt32PropertyIntellisense.Contains(Model.ValueBindingPath);
-            var isInt = Host.RequestIntellisenseData.RequestNotNullInt32PropertyIntellisense.Contains(Model.ValueBindingPath);
-
-
-            if (isNullableInt || isInt)
-            {
-                _isAccountNumber.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                _isAccountNumber.Visibility = Visibility.Collapsed;
-                _isAccountNumber.IsChecked = false;
-            }
-
-        }
-
-        public void OnRowCountChanged()
-        {
-            Host.EventBus.Publish(EventBus.RowCountChanged);
-        }
-
         #region Fields
-        public LabeledTextBox _rowCount,_mask;
-        public LabelEditor _labelEditor;
-        public SizeEditor  _sizeEditor;
-        public CheckBox _isAccountNumber;
-        #endregion
+        public LabelEditor    _labelEditor;
+        public LabeledTextBox _rowCount, _mask;
+        public SizeEditor     _sizeEditor;
 
         public UIElement _valueChanged;
+        #endregion
+
         #region Constructors
         public BInputEditor()
         {
@@ -63,7 +25,7 @@ namespace BOA.OneDesigner.PropertyEditors
 { 
     Margin:10,
 	Childs:[
-		{ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BInput.ValueBindingPath) + @"}', Label:'Binding Path', TextChanged:'"+nameof(OnValueBindingPathChanged)+@"' },
+		{ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BInput.ValueBindingPath) + @"}', Label:'Binding Path', TextChanged:'" + nameof(OnValueBindingPathChanged) + @"' },
 		{ui:'LabelEditor', Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(BInput.LabelInfo) + @"}'},
         {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BInput.SizeInfo) + @"}'},
 
@@ -76,28 +38,16 @@ namespace BOA.OneDesigner.PropertyEditors
             Label    :'Row Count', 
             MarginTop: 10, 
             Text     : '{Binding " + nameof(Model.RowCount) + @",Converter=WhiteStone.UI.Container.StringToNullableInt32Converter}',
-            Name     :'"+nameof(_rowCount)+@"',
-          TextChanged:'"+nameof(OnRowCountChanged)+@"'
+            Name     :'" + nameof(_rowCount) + @"',
+          TextChanged:'" + nameof(OnRowCountChanged) + @"'
         },
         {   
             ui       :'LabeledTextBox', 
             Label    :'Mask', 
             MarginTop: 10, 
             Text     : '{Binding " + nameof(Model.Mask) + @"}',
-            Name     :'"+nameof(_mask)+@"'          
+            Name     :'" + nameof(_mask) + @"'          
         },
-
-       {   
-            ui       :'CheckBox', 
-            Content  :'Is Account Number', 
-            MarginTop: 10, 
-            IsChecked: '{Binding " + nameof(Model.IsAccountComponent) + @"}', 
-            Checked  : '" + nameof(OnIsAccountComponentChanged) + @"',
-            Unchecked: '" + nameof(OnIsAccountComponentChanged) + @"',
-            Name     : '"+nameof(_isAccountNumber)+@"'
-        },
-        
-        {ui:'RequestIntellisenseTextBox',Name : '"+nameof(_valueChanged)+@"', ShowOnlyOrchestrationMethods:true, Text:'{Binding " + nameof(Model.ValueChangedOrchestrationMethod) + @"}', Label:'On Value Changed' },    
 
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
 	]
@@ -127,21 +77,27 @@ namespace BOA.OneDesigner.PropertyEditors
             Host.EventBus.Publish(EventBus.ComponentDeleted);
         }
 
-        public void OnIsAccountComponentChanged()
+        public void OnRowCountChanged()
         {
-            if (_isAccountNumber.IsChecked == true)
+            Host.EventBus.Publish(EventBus.RowCountChanged);
+        }
+
+        public void OnValueBindingPathChanged()
+        {
+            var isStringProperty = Host.RequestIntellisenseData.RequestStringPropertyIntellisense.Contains(Model.ValueBindingPath);
+            if (isStringProperty)
             {
-                _valueChanged.Visibility = Visibility.Visible;
+                _rowCount.Visibility = Visibility.Visible;
+                _mask.Visibility     = Visibility.Visible;
             }
             else
             {
-                _valueChanged.Visibility = Visibility.Collapsed;
-                Model.ValueChangedOrchestrationMethod = null;
+                _rowCount.Visibility = Visibility.Collapsed;
+                _mask.Visibility     = Visibility.Collapsed;
+
+                _rowCount.Text = null;
+                _mask.Text     = null;
             }
-
-
-            // clear label
-            Model.LabelInfo = new LabelInfo {IsFreeText = true, FreeTextValue = "Hesap No"};
         }
         #endregion
     }
