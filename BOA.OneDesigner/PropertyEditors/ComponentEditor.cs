@@ -76,7 +76,6 @@ namespace BOA.OneDesigner.PropertyEditors
         {
             ui          : 'RequestIntellisenseTextBox',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsValueBindingPathEditorVisible) + @"}',
-            MarginTop   : 10,
             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @"}', 
             Label       : 'Binding Path' 
         }
@@ -84,14 +83,12 @@ namespace BOA.OneDesigner.PropertyEditors
         {
             ui          : 'LabelEditor',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsLLabelEditorVisible) + @"}',
-            MarginTop   : 10,
             DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.LabelTextInfo) + @"}'
         }
         ,
         {
             ui          : 'LabelEditor',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsInfoTextVisible) + @"}',
-            MarginTop   : 10,
             DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.InfoText) + @"}',
             Name        : 'infoTextEditor'
         }
@@ -99,7 +96,6 @@ namespace BOA.OneDesigner.PropertyEditors
         {
             ui          : 'TextBox',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsParamTypeVisible) + @"}',
-            MarginTop   : 10,
             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ParamType) + @"}', 
             Label       : 'Param Type'
         }
@@ -108,14 +104,12 @@ namespace BOA.OneDesigner.PropertyEditors
             ui          : 'SizeEditor',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsSizeEditorVisible) + @"}',
             Header      : 'Size', 
-            MarginTop   : 10,
             DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.SizeInfo) + @"}'
         }
         ,
          {
             ui                          : 'RequestIntellisenseTextBox', 
             ShowOnlyBooleanProperties   : true, 
-            Margin                      : 5, 
             Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.IsVisibleBindingPath) + @"}', 
             Label                       : 'Is Visible',
             IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsVisibleEditorVisible) + @"}'
@@ -124,7 +118,6 @@ namespace BOA.OneDesigner.PropertyEditors
         {
             ui                          : 'RequestIntellisenseTextBox', 
             ShowOnlyBooleanProperties   : true, 
-            Margin                      : 5, 
             Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.IsDisabledBindingPath) + @"}', 
             Label                       : 'Is Disabled',
             IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsDisabledEditorVisible) + @"}'
