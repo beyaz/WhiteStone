@@ -12,7 +12,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             SnapNamingHelper.InitSnapName(data);
 
-            writerContext.Imports.Add("import { BBranchComponent } from \"b-branchComponent\"");
+            writerContext.Imports.Add("import { BBranchComponent } from \"b-branch-component\"");
 
             var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
 

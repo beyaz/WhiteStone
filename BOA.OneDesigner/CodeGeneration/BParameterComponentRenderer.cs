@@ -16,7 +16,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
 
-            sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{bindingPathInJs}}}");
+            sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{bindingPathInJs}+\"\"}}");
             sb.PaddingCount++;
             sb.AppendLine($" onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{bindingPathInJs}}} = selectedParameter ? selectedParameter.paramCode : null}}");
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");

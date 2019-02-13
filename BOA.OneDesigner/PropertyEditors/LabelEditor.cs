@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
@@ -52,6 +53,7 @@ namespace BOA.OneDesigner.PropertyEditors
         public Host Host { get; set; }
         #endregion
 
+       
         #region Public Methods
         public void FirePropertyChanged()
         {
@@ -60,7 +62,9 @@ namespace BOA.OneDesigner.PropertyEditors
                 return;
             }
 
-            Host.EventBus.Publish(EventBus.LabelChanged);
+            var host = Host ?? SM.Get<Host>();
+
+            host.EventBus.Publish(EventBus.LabelChanged);
         }
 
         public void OnCheckedChanged()
@@ -71,7 +75,9 @@ namespace BOA.OneDesigner.PropertyEditors
             }
 
             this.RefreshDataContext();
-            Host.EventBus.Publish(EventBus.LabelChanged);
+
+            var host = Host ?? SM.Get<Host>();
+            host.EventBus.Publish(EventBus.LabelChanged);
         }
         #endregion
     }

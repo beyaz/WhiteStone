@@ -71,15 +71,14 @@ namespace BOA.OneDesigner.WpfControls
             #endregion
 
             #region divider
-            var divider = new ComponentWpf
+            var divider = ComponentWpf.Create(Host, new ComponentInfo
             {
-                Host = Host,
-                DataContext = new ComponentWpfModel
+                Type = new ComponentType
                 {
-                    Info        = new ComponentInfo {Type = new ComponentType {IsDivider = true}},
-                    IsInToolbox = true
+                    IsDivider = true
                 }
-            };
+            });
+            divider.Model.IsInToolbox = true;
 
             Host.DragHelper.MakeDraggable(divider);
 
@@ -104,6 +103,27 @@ namespace BOA.OneDesigner.WpfControls
             Host.DragHelper.MakeDraggable(branchComponent);
 
             stackPanel.Children.Add(branchComponent);
+            #endregion
+
+
+            #region parameterComponent
+            var parameterComponent = ComponentWpf.Create(Host, new ComponentInfo
+            {
+                Type = new ComponentType
+                {
+                    IsParameterComponent = true
+                },
+                LabelTextInfo = new LabelInfo
+                {
+                    FreeTextValue = "Parameter Component",
+                    IsFreeText    = true
+                }
+            });
+            parameterComponent.Model.IsInToolbox = true;
+
+            Host.DragHelper.MakeDraggable(parameterComponent);
+
+            stackPanel.Children.Add(parameterComponent);
             #endregion
 
             #region bCard

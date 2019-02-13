@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -449,16 +450,8 @@ namespace BOA.OneDesigner.WpfControls
             {
                 if (component.Model.IsInToolbox)
                 {
-                    if (component.Model.Info.Type.IsDivider)
-                    {
-                        Model.InsertItem(insertIndex, new ComponentInfo{Type = new ComponentType{IsDivider = true}});    
-                        return;
-                    }
-                    if (component.Model.Info.Type.IsBranchComponent)
-                    {
-                        Model.InsertItem(insertIndex, new ComponentInfo{Type = new ComponentType{IsBranchComponent = true}});    
-                        return;
-                    }
+                    Model.InsertItem(insertIndex, component.Model.Info.Clone());    
+                    return;
                 }
                 
                 component.Model.Info.RemoveFromParent();

@@ -60,6 +60,27 @@ namespace BOA.OneDesigner.WpfControls
                 }    
             ]
         }
+        ,
+        {
+            ui          : 'StackPanel',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsParameterComponent) + @"}',
+            Childs      :
+            [
+                
+                {
+                    view        :'TextBlock',
+                    Text        :'{Binding " + Model.AccessPathOf(m=>m.Info.LabelText) + @",Mode = OneWay}', 
+                    MarginBottom:5, 
+                    IsBold      :true
+                }
+                ,                
+                {
+                    view        :'TextBox', 
+                    Text        :'{Binding " + Model.AccessPathOf(m=>m.Info.ValueBindingPath) + @", Mode = OneWay}', 
+                    IsReadOnly  :true
+                }    
+            ]
+        }
     ]
 }
 
