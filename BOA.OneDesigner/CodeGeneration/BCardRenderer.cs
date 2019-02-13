@@ -168,6 +168,19 @@ namespace BOA.OneDesigner.CodeGeneration
                         continue;
                     }
 
+                    if (componentInfo.Type.IsInformationText)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                        BInformationTextRenderer.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
+
                     
                 }
 

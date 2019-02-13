@@ -30,10 +30,65 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"label = {labelValue}");
             }
 
+
+            if (!string.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
+            {
+                sb.AppendLine($"isVisible = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext,data.IsVisibleBindingPath)}}}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(data.IsDisabledBindingPath))
+            {
+                sb.AppendLine($"disabled = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.IsDisabledBindingPath)}}}");
+            }
+
+            if (data.SizeInfo.HasValue())
+            {
+                sb.AppendLine("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
+            }
+
+
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;
         }
         #endregion
     }
+
+
+    static class BInformationTextRenderer
+    {
+        #region Public Methods
+        public static void Write(WriterContext writerContext, ComponentInfo data)
+        {
+            var sb         = writerContext.Output;
+            var screenInfo = writerContext.ScreenInfo;
+
+            writerContext.Imports.Add("import { BInformationText } from \"b-information-text\"");
+
+            var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
+
+            sb.AppendWithPadding($"<BInformationText ");
+
+            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelTextInfo);
+            if (labelValue != null)
+            {
+                sb.Append($"labelText = {labelValue}");
+            }
+
+            var infoTextValue = RenderHelper.GetLabelValue(screenInfo, data.InfoText);
+            if (infoTextValue != null)
+            {
+                sb.Append($"infoText = {infoTextValue}");
+            }
+
+            sb.Append("context = {context} />");
+            sb.AppendLine();
+
+            
+        }
+        #endregion
+    }
+
+
+    
 }

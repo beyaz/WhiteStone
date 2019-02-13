@@ -23,6 +23,8 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets a value indicating whether this instance is parameter component.
         /// </summary>
         public bool IsParameterComponent { get; set; }
+
+        public bool IsInformationText { get; set; }
         #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -123,6 +124,22 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(parameterComponent);
             #endregion
 
+            #region informationText
+            var informationText = ComponentWpf.Create(Host, new ComponentInfo
+            {
+                Type = new ComponentType
+                {
+                    IsInformationText = true
+                },
+                LabelTextInfo = LabelInfoHelper.CreateNewLabelInfo("Information"),
+                InfoText      = LabelInfoHelper.CreateNewLabelInfo("Text")
+            }, isInToolbox: true);
+
+            Host.DragHelper.MakeDraggable(informationText);
+
+            stackPanel.Children.Add(informationText);
+            #endregion
+
             #region bCard
             var bCard = new BCardWpf
             {
@@ -180,7 +197,17 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var uiElement in stackPanel.Children.ToArray())
             {
-                ((FrameworkElement) uiElement).Margin = new Thickness(0, 20, 0, 0);
+                var frameworkElement = uiElement as FrameworkElement;
+                if (frameworkElement != null)
+                {
+                    frameworkElement.Margin = new Thickness(0, 20, 0, 0);
+                }
+
+                var panel = uiElement as Panel;
+                if (panel != null)
+                {
+                    panel.Background = Brushes.Cyan;
+                }
             }
 
             Content = stackPanel;

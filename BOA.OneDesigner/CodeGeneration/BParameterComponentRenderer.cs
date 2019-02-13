@@ -43,6 +43,24 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{ name: \"paramDescription\", header: 'Açıklama',  width:   200 }");
             sb.AppendLine("]}");
 
+
+
+            if (!string.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
+            {
+                sb.AppendLine($"isVisible = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext,data.IsVisibleBindingPath)}}}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(data.IsDisabledBindingPath))
+            {
+                sb.AppendLine($"disabled = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.IsDisabledBindingPath)}}}");
+            }
+
+            if (data.SizeInfo.HasValue())
+            {
+                sb.AppendLine("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
+            }
+
+
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;

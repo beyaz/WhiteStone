@@ -113,6 +113,34 @@ namespace BOA.OneDesigner.WpfControls
                 }    
             ]
         }
+        ,
+        {
+            ui          : 'WrapPanel',
+            MarginTop   : 20,
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsInformationText) + @"}',
+            Childs      :
+            [
+                
+                {
+                    view        : 'TextBlock',
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @",Mode = OneWay}', 
+                    IsBold      : true
+                }
+                ,
+                {
+                    view        : 'TextBlock',
+                    Text        : ' : ', 
+                    MarginLeft  : 5,
+                    IsBold      : true
+                }
+                ,                
+                {
+                    view        : 'TextBlock', 
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.InfoTextValue) + @", Mode = OneWay}', 
+                    MarginLeft  : 5
+                }    
+            ]
+        }
     ]
 }
 
