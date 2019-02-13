@@ -10,7 +10,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var sb         = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
 
-            SnapNamingHelper.InitSnapName(data);
+            SnapNamingHelper.InitSnapName(writerContext,data);
 
             writerContext.Imports.Add("import { BBranchComponent } from \"b-branch-component\"");
 

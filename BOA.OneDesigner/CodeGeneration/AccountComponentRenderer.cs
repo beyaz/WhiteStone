@@ -29,7 +29,7 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb         = writerContext.Output;
 
-            SnapNamingHelper.InitSnapName(data);
+            SnapNamingHelper.InitSnapName(writerContext,data);
 
             writerContext.Imports.Add("import { BAccountComponent } from \"b-account-component\"");
 

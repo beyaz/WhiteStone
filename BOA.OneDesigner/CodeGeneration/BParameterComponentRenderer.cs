@@ -12,7 +12,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.Imports.Add("import { BParameterComponent } from \"b-parameter-component\"");
 
-            SnapNamingHelper.InitSnapName(data);
+            SnapNamingHelper.InitSnapName(writerContext,data);
 
             var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
 

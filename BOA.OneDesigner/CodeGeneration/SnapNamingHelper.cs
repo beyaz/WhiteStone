@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
@@ -48,9 +49,39 @@ namespace BOA.OneDesigner.CodeGeneration
             data.SnapName = writerContext.ForceUniqueName(data.SnapName);
         }
 
-        public static void InitSnapName(ComponentInfo data)
+        public static void InitSnapName(WriterContext writerContext,ComponentInfo data)
         {
-            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
+
+            var lastPropertyName = GetLastPropertyName(data.ValueBindingPathInTypeScript);
+
+            if (data.Type.IsAccountComponent)
+            {
+                data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "AccountComponent";
+            }
+            else  if (data.Type.IsBranchComponent)
+            {
+                data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "BranchComponent";
+            }
+            else  if (data.Type.IsParameterComponent)
+            {
+                data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "ParameterComponent";
+            }
+            else  if (data.Type.IsInformationText)
+            {
+                data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "InformationText";
+            }
+            else  if (data.Type.IsDivider)
+            {
+                data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "Divider";
+            }
+            else
+            {
+                throw Error.InvalidOperation();
+            }
+
+            data.SnapName = writerContext.ForceUniqueName(data.SnapName);
+
+            
         }
 
         public static void InitSnapName(WriterContext writerContext, BComboBox data)
