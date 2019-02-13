@@ -63,10 +63,7 @@ namespace BOA.OneDesigner.CodeGeneration
             data.TypeScriptMethodNameOfGetGridColumns = $"get{data.SnapName.MakeUpperCaseFirstCharacter()}Columns";
         }
 
-        public static void InitSnapName(BAccountComponent data)
-        {
-            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
-        }
+        
 
         
 

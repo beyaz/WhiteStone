@@ -113,6 +113,7 @@
     <Compile Include="JsxElementModel\Config.cs" />
     <Compile Include="JsxElementModel\BTabBarPage.cs" />
     <Compile Include="JsxElementModel\LayoutProps.cs" />
+    <Compile Include="JsxElementModel\VisitHelper.cs" />
     <Compile Include="PropertyEditors\BComboBoxEditor.cs" />
     <Compile Include="PropertyEditors\BLabelEditor.cs" />
     <Compile Include="PropertyEditors\ComponentEditor.cs" />
@@ -152,7 +153,6 @@
     <Compile Include="WpfControls\InsertHelper.cs" />
     <Compile Include="WpfControls\ISupportSizeInfo.cs" />
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
-    <Compile Include="JsxElementModel\BAccountComponent.cs" />
     <Compile Include="JsxElementModel\BCard.cs" />
     <Compile Include="JsxElementModel\CardContainer.cs" />
     <Compile Include="JsxElementModel\BCheckBox.cs" />

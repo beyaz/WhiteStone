@@ -42,6 +42,17 @@ namespace BOA.OneDesigner.AppModel
             var path = nameof(SaveToFile) + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + ".bin";
             File.WriteAllBytes(path, BinarySerialization.Serialize(database.GetAllScreens()));
         }
+
+        [TestMethod]
+        public void VisitAllAndConvertToAccountComponent()
+        {
+            var database = new DevelopmentDatabase();
+
+            foreach (var screenInfo in database.GetAllScreens())
+            {
+                VisitHelper.VisitAllChildren(screenInfo, VisitHelper.ConvertToAccountComponent);
+            }
+        }
         #endregion
     }
 }
