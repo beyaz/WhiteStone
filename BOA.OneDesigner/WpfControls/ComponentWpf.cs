@@ -172,7 +172,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     view        : 'TextBlock',
                     Text        : '{Binding " + Model.AccessPathOf(m => m.Info.Text) + @",Mode = OneWay}', 
-                    Margin      : 10,
+                    MarginTop   : 20,
                     IsBold      : '{Binding " + Model.AccessPathOf(m => m.Info.IsBold) + @",Mode = OneWay}'
                 }
             ]
