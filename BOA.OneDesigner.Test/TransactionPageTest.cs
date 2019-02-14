@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
@@ -14,11 +15,16 @@ namespace BOA.OneDesigner.WpfControls
         [TestMethod]
         public void GenerateAll()
         {
+            var excepts = new List<string>
+            {
+                "BOA.Types.Card.Parameter.InboundTranMappingRequest",// göknur 
+                "BOA.Types.Card.Switch.BKM.GetTransactionLogDetailRequest",// fidan 
+            };
             using (var database = new DevelopmentDatabase())
             {
                 var screens = database.GetAllScreens();
 
-                screens = screens.Where(x => x.UserName == Environment.UserName).ToList();
+                screens = screens.Where(x => excepts.Contains(x.RequestName) == false).ToList();
 
                 foreach (var screen in screens)
                 {

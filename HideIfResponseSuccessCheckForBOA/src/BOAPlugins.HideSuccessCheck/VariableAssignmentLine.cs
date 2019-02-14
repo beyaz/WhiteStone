@@ -22,6 +22,7 @@ namespace BOAPlugins.HideSuccessCheck
             }
 
             if (responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName + ".") ||
+                responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName + "?.") ||
                 responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName + " "))
             {
                 var extraExtension = responseValueAssignmentToAnotherVariable.AssignedValue.RemoveFromStart(variableName);
