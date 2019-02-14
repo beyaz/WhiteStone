@@ -57,14 +57,17 @@ namespace BOA.OneDesigner.WpfControls
             #endregion
 
             #region Label
-            var bLabelInWpf = new BLabelWpf
+
+
+            var bLabelInWpf = ComponentWpf.Create(Host, new ComponentInfo
             {
-                Text        = "Label",
-                FontWeight  = FontWeight.FromOpenTypeWeight(700),
-                Host        = Host,
-                DataContext = new BLabel(),
-                IsInToolbox = true
-            };
+                Type = new ComponentType
+                {
+                    IsLabel = true
+                },
+                TextInto =  LabelInfoHelper.CreateNewLabelInfo("Label"),
+                
+            }, isInToolbox: true);
 
             Host.DragHelper.MakeDraggable(bLabelInWpf);
 

@@ -115,7 +115,6 @@
     <Compile Include="JsxElementModel\LayoutProps.cs" />
     <Compile Include="JsxElementModel\VisitHelper.cs" />
     <Compile Include="PropertyEditors\BComboBoxEditor.cs" />
-    <Compile Include="PropertyEditors\BLabelEditor.cs" />
     <Compile Include="PropertyEditors\ComponentEditor.cs" />
     <Compile Include="PropertyEditors\HorizontalLocationEditor.cs" />
     <Compile Include="PropertyEditors\ResourceActionEditor.cs" />
@@ -144,7 +143,6 @@
     </Compile>
     <Compile Include="PropertyEditors\BInputEditor.cs" />
     <Compile Include="Helpers\CecilHelper.cs" />
-    <Compile Include="WpfControls\BLabelWpf.cs" />
     <Compile Include="WpfControls\BTabBarPageWpf.cs" />
     <Compile Include="WpfControls\CardLayout.cs" />
     <Compile Include="AppModel\DevelopmentDatabase.cs" />

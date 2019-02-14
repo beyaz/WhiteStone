@@ -5,7 +5,7 @@ namespace BOA.OneDesigner.CodeGeneration
     static class BLabelRenderer
     {
         #region Public Methods
-        public static void Write(WriterContext writerContext, BLabel data)
+        public static void Write(WriterContext writerContext, ComponentInfo data)
         {
             writerContext.Imports.Add("import { BLabel } from \"b-label\"");
 

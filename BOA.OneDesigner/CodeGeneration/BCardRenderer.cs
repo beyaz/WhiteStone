@@ -66,19 +66,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     continue;
                 }
 
-                var bLabel = item as BLabel;
-                if (bLabel != null)
-                {
-                    writerContext.Output = new PaddedStringBuilder();
-
-                    BLabelRenderer.Write(writerContext, bLabel);
-
-                    subComponents.Add(writerContext.Output.ToString());
-
-                    writerContext.Output = sb;
-
-                    continue;
-                }
+               
 
                 
 
@@ -193,6 +181,21 @@ namespace BOA.OneDesigner.CodeGeneration
 
                         continue;
                     }
+
+                    if (componentInfo.Type.IsLabel)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                        BLabelRenderer.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
+
+                    
                     
                 }
 

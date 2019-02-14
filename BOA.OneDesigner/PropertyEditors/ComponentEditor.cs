@@ -11,6 +11,7 @@ namespace BOA.OneDesigner.PropertyEditors
     {
         #region Public Properties
         public ComponentInfo Info                                     { get; set; }
+        public bool          IsBoldVisible                            { get; set; }
         public bool          IsDisabledEditorVisible                  { get; set; }
         public bool          IsInfoTextVisible                        { get; set; }
         public bool          IsLLabelEditorVisible                    { get; set; }
@@ -19,6 +20,7 @@ namespace BOA.OneDesigner.PropertyEditors
         public bool          IsValueBindingPathEditorVisible          { get; set; }
         public bool          IsValueChangedOrchestrationMethodVisible { get; set; }
         public bool          IsVisibleEditorVisible                   { get; set; }
+        public bool IsTextIntoVisible { get; set; }
         #endregion
     }
 
@@ -50,14 +52,16 @@ namespace BOA.OneDesigner.PropertyEditors
                 DataContext = new ComponentEditorModel
                 {
                     Info                                     = info,
-                    IsSizeEditorVisible                      = info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent,
+                    IsSizeEditorVisible                      = info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent||info.Type.IsLabel,
                     IsValueBindingPathEditorVisible          = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent,
                     IsLLabelEditorVisible                    = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
                     IsParamTypeVisible                       = info.Type.IsParameterComponent,
                     IsInfoTextVisible                        = info.Type.IsInformationText,
                     IsVisibleEditorVisible                   = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent,
                     IsDisabledEditorVisible                  = info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent,
-                    IsValueChangedOrchestrationMethodVisible = info.Type.IsAccountComponent
+                    IsValueChangedOrchestrationMethodVisible = info.Type.IsAccountComponent,
+                    IsBoldVisible                            = info.Type.IsLabel,
+                    IsTextIntoVisible = info.Type.IsLabel
                 }
             }.LoadUI();
         }
@@ -65,6 +69,11 @@ namespace BOA.OneDesigner.PropertyEditors
         public void Delete()
         {
             Host.EventBus.Publish(EventBus.ComponentDeleted);
+        }
+
+        public void OnIsBoldChanged()
+        {
+            Host.EventBus.Publish(EventBus.LabelChanged);
         }
         #endregion
 
@@ -93,6 +102,12 @@ namespace BOA.OneDesigner.PropertyEditors
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsInfoTextVisible) + @"}',
             DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.InfoText) + @"}',
             Name        : 'infoTextEditor'
+        }
+        ,
+        {
+            ui          : 'LabelEditor',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsTextIntoVisible) + @"}',
+            DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.TextInto) + @"}'
         }
         ,
         {
@@ -131,6 +146,15 @@ namespace BOA.OneDesigner.PropertyEditors
             ShowOnlyOrchestrationMethods : true, 
             Text                         : '{Binding " + Model.AccessPathOf(m => m.Info.ValueChangedOrchestrationMethod) + @"}', 
             Label                        : 'On Account Number Changed'
+        }
+        ,
+        {   
+            ui          : 'CheckBox',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsBoldVisible) + @"}',
+            Content     : 'Is Bold', 
+            IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.IsBold) + @"}', 
+            Checked     : '" + nameof(OnIsBoldChanged) + @"',
+            Unchecked   : '" + nameof(OnIsBoldChanged) + @"'
         }
         ,        
         {

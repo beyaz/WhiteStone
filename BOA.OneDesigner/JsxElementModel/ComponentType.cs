@@ -30,6 +30,11 @@ namespace BOA.OneDesigner.JsxElementModel
         public bool IsInformationText { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether this instance is label.
+        /// </summary>
+        public bool IsLabel { get; set; }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether this instance is parameter component.
         /// </summary>
         public bool IsParameterComponent { get; set; }

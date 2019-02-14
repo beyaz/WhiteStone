@@ -13,10 +13,12 @@ namespace BOA.OneDesigner.JsxElementModel
     public class BLabel : BField, ISupportSizeInfo
     {
         #region Public Properties
-        public bool IsBold { get; set; }
+        
 
         public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsLarge = true};
 
+
+        public bool IsBold { get; set; }
         /// <summary>
         ///     Gets the text.
         /// </summary>

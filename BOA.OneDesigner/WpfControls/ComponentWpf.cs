@@ -162,6 +162,21 @@ namespace BOA.OneDesigner.WpfControls
                 }    
             ]
         }
+        ,
+        {
+            ui          : 'StackPanel',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsLabel) + @"}',
+            Childs      :
+            [
+                
+                {
+                    view        : 'TextBlock',
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.Text) + @",Mode = OneWay}', 
+                    Margin      : 10,
+                    IsBold      : '{Binding " + Model.AccessPathOf(m => m.Info.IsBold) + @",Mode = OneWay}'
+                }
+            ]
+        }
     ]
 }
 
@@ -179,6 +194,8 @@ namespace BOA.OneDesigner.WpfControls
             foreach (var textBlock in this.FindChildren<TextBlock>())
             {
                 textBlock.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
+
+                textBlock.GetBindingExpression(TextBlock.FontWeightProperty)?.UpdateTarget();
             }
         }
         #endregion

@@ -9,9 +9,6 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class ComponentInfo : BField
     {
-
-        public string ValueChangedOrchestrationMethod { get; set; }
-
         #region Public Properties
         /// <summary>
         ///     Gets or sets the information text.
@@ -27,6 +24,11 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets a value indicating whether this instance is all option included.
         /// </summary>
         public bool IsAllOptionIncluded { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is bold.
+        /// </summary>
+        public bool IsBold { get; set; }
 
         /// <summary>
         ///     Gets or sets the is disabled binding path.
@@ -59,9 +61,24 @@ namespace BOA.OneDesigner.JsxElementModel
         public SizeInfo SizeInfo { get; set; } = new SizeInfo {IsLarge = true};
 
         /// <summary>
+        ///     Gets the text.
+        /// </summary>
+        public string Text => TextInto.GetDesignerText();
+
+        /// <summary>
+        ///     Gets or sets the text into.
+        /// </summary>
+        public LabelInfo TextInto { get; set; } = new LabelInfo {IsFreeText = true, FreeTextValue = "Label"};
+
+        /// <summary>
         ///     Gets or sets the type.
         /// </summary>
         public ComponentType Type { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value changed orchestration method.
+        /// </summary>
+        public string ValueChangedOrchestrationMethod { get; set; }
         #endregion
     }
 }

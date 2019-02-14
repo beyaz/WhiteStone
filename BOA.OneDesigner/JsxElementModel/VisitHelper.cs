@@ -22,34 +22,54 @@ namespace BOA.OneDesigner.JsxElementModel
     public static class VisitHelper
     {
         #region Public Methods
-        public static void ConvertToAccountComponent(VisitContext context)
+        public static void ConvertToNewComponent(VisitContext context)
         {
             var input = context.ValueAtIndex as BInput;
-            if (input == null || input.IsAccountComponent == false)
+            if (input?.IsAccountComponent == true)
             {
-                return;
-            }
-
-            var componentInfo = new ComponentInfo
-            {
-                Type = new ComponentType
+                var componentInfo = new ComponentInfo
                 {
-                    IsAccountComponent = true
-                },
-                SizeInfo                        = input.SizeInfo,
-                LabelTextInfo                   = LabelInfoHelper.CreateNewLabelInfo("Müşteri No, TCKN, VKN"),
-                ValueBindingPath                = input.ValueBindingPath,
-                ValueChangedOrchestrationMethod = input.ValueChangedOrchestrationMethod,
-                IsDisabledBindingPath           = input.IsDisabledBindingPath,
-                IsVisibleBindingPath            = input.IsVisibleBindingPath
-            };
+                    Type = new ComponentType
+                    {
+                        IsAccountComponent = true
+                    },
+                    SizeInfo                        = input.SizeInfo,
+                    LabelTextInfo                   = LabelInfoHelper.CreateNewLabelInfo("Müşteri No, TCKN, VKN"),
+                    ValueBindingPath                = input.ValueBindingPath,
+                    ValueChangedOrchestrationMethod = input.ValueChangedOrchestrationMethod,
+                    IsDisabledBindingPath           = input.IsDisabledBindingPath,
+                    IsVisibleBindingPath            = input.IsVisibleBindingPath
+                };
 
-            if (context.Index == null)
-            {
-                throw new InvalidOperationException();
+                if (context.Index == null)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
             }
 
-            ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
+            var label = context.ValueAtIndex as BLabel;
+            if (label != null)
+            {
+                var componentInfo = new ComponentInfo
+                {
+                    Type = new ComponentType
+                    {
+                        IsLabel = true
+                    },
+                    SizeInfo = label.SizeInfo,
+                    TextInto = label.TextInto,
+                    IsBold   = label.IsBold
+                };
+
+                if (context.Index == null)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
+            }
         }
 
         public static void VisitAllChildren(object instance, Action<VisitContext> on)

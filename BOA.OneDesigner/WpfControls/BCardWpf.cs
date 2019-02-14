@@ -174,19 +174,7 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-                var bLabel = bField as BLabel;
-                if (bLabel!= null)
-                {
-                    bLabel.Container = Model;
-                    var uiElement = Host.Create<BLabelWpf>(bLabel);
-
-                    Host.DragHelper.MakeDraggable(uiElement);
-
-                    ChildrenContainer.Children.Add(uiElement);
-                    Host.AttachToEventBus(uiElement, this);
-
-                    continue;
-                }
+                
 
                 var componentInfo = bField as ComponentInfo;
                 if (componentInfo!= null)
@@ -377,10 +365,7 @@ namespace BOA.OneDesigner.WpfControls
                 return true;
             }
 
-            if (dragElement is BLabelWpf)
-            {
-                return true;
-            }
+            
 
             if (dragElement is BComboBoxInWpf)
             {
@@ -431,22 +416,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var bLabelInWpf = Host.SelectedElement as BLabelWpf;
-            if (bLabelInWpf != null)
-            {
-
-                if (bLabelInWpf.IsInToolbox)
-                {
-                    Model.InsertItem(insertIndex, new BLabel());
-                    return;
-                }
-
-                bLabelInWpf.Model.RemoveFromParent();
-
-                Model.InsertItem(insertIndex, bLabelInWpf.Model);
-
-                return;
-            }
+            
 
 
             var component = Host.SelectedElement as ComponentWpf;

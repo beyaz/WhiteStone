@@ -50,7 +50,7 @@ namespace BOA.OneDesigner.AppModel
 
             foreach (var screenInfo in database.GetAllScreens())
             {
-                VisitHelper.VisitAllChildren(screenInfo, VisitHelper.ConvertToAccountComponent);
+                VisitHelper.VisitAllChildren(screenInfo, VisitHelper.ConvertToNewComponent);
             }
         }
         #endregion

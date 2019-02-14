@@ -24,7 +24,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     
 
-                     VisitHelper.VisitAllChildren(screen, VisitHelper.ConvertToAccountComponent);
+                     VisitHelper.VisitAllChildren(screen, VisitHelper.ConvertToNewComponent);
                     Controller.Generate(screen);
                 }
             }

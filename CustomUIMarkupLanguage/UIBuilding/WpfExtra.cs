@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using CustomUIMarkupLanguage.Markup;
 
 namespace CustomUIMarkupLanguage.UIBuilding
@@ -10,6 +12,44 @@ namespace CustomUIMarkupLanguage.UIBuilding
     /// </summary>
     class WpfExtra
     {
+
+        class IsBoldConverter : IValueConverter
+        {
+            #region IValueConverter Members
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                if (value == null)
+                {
+                    return null;
+                }
+
+
+                if (System.Convert.ToBoolean(value))
+                {
+                    return FontWeights.Bold;
+                }
+
+                return FontWeights.Normal;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                if (value == null)
+                {
+                    return null;
+                }
+
+                if (value is FontWeight )
+                {
+                    return ((FontWeight) value) == FontWeights.Bold;
+                }
+
+                return false;
+            }
+            #endregion
+        }
+
+
         #region Public Methods
         public static bool Button_Text(Builder builder, UIElement element, Node node)
         {
@@ -197,6 +237,14 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 {
                     textBlock.FontWeight = FontWeights.Bold;
                     return true;
+                }
+
+                if (node.ValueIsBindingExpression)
+                {
+                    node.ValueAsBindingInfo.ConverterTypeFullName = typeof(IsBoldConverter).FullName;
+
+                    node.Name = nameof(TextBlock.FontWeight);
+                    return false;
                 }
 
                 throw new ArgumentException(node.ToString());
