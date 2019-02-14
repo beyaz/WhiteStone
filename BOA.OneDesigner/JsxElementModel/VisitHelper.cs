@@ -17,6 +17,20 @@ namespace BOA.OneDesigner.JsxElementModel
         public object       PropertyValue { get; set; }
         public object       ValueAtIndex  { get; set; }
         #endregion
+
+        public VisitContext Clone()
+        {
+            return new VisitContext
+            {
+                History       = History,
+                Index         = Index,
+                Instance      = Instance,
+                PropertyInfo  = PropertyInfo,
+                PropertyValue = PropertyValue,
+                ValueAtIndex  = ValueAtIndex
+            };
+        }
+       
     }
 
     public static class VisitHelper
@@ -25,28 +39,57 @@ namespace BOA.OneDesigner.JsxElementModel
         public static void ConvertToNewComponent(VisitContext context)
         {
             var input = context.ValueAtIndex as BInput;
-            if (input?.IsAccountComponent == true)
+            if (input != null)
             {
-                var componentInfo = new ComponentInfo
+                if (input.IsAccountComponent)
                 {
-                    Type = new ComponentType
+                    var componentInfo = new ComponentInfo
                     {
-                        IsAccountComponent = true
-                    },
-                    SizeInfo                        = input.SizeInfo,
-                    LabelTextInfo                   = LabelInfoHelper.CreateNewLabelInfo("Müşteri No, TCKN, VKN"),
-                    ValueBindingPath                = input.ValueBindingPath,
-                    ValueChangedOrchestrationMethod = input.ValueChangedOrchestrationMethod,
-                    IsDisabledBindingPath           = input.IsDisabledBindingPath,
-                    IsVisibleBindingPath            = input.IsVisibleBindingPath
-                };
+                        Type = new ComponentType
+                        {
+                            IsAccountComponent = true
+                        },
+                        SizeInfo                        = input.SizeInfo,
+                        LabelTextInfo                   = LabelInfoHelper.CreateNewLabelInfo("Müşteri No, TCKN, VKN"),
+                        ValueBindingPath                = input.ValueBindingPath,
+                        ValueChangedOrchestrationMethod = input.ValueChangedOrchestrationMethod,
+                        IsDisabledBindingPath           = input.IsDisabledBindingPath,
+                        IsVisibleBindingPath            = input.IsVisibleBindingPath
+                    };
 
-                if (context.Index == null)
-                {
-                    throw new InvalidOperationException();
+                    if (context.Index == null)
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
                 }
 
-                ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
+                else
+                {
+                    var componentInfo = new ComponentInfo
+                    {
+                        Type = new ComponentType
+                        {
+                            IsInput = true
+                        },
+                        SizeInfo              = input.SizeInfo,
+                        LabelTextInfo         = input.LabelInfo,
+                        ValueBindingPath      = input.ValueBindingPath,
+                        IsDisabledBindingPath = input.IsDisabledBindingPath,
+                        IsVisibleBindingPath  = input.IsVisibleBindingPath,
+                        Mask                  = input.Mask,
+                        RowCount              = input.RowCount
+                    };
+
+                    if (context.Index == null)
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
+                    
+                }
             }
 
             var label = context.ValueAtIndex as BLabel;
@@ -139,15 +182,16 @@ namespace BOA.OneDesigner.JsxElementModel
 
                         on(context);
 
-                        VisitAllChildren(context, obj, on);
-
-                        i++;
+                        if (list[i] == obj)
+                        {
+                            VisitAllChildren(context.Clone(), obj, on);
+                        }
                     }
 
                     continue;
                 }
 
-                VisitAllChildren(context, value, on);
+                VisitAllChildren(context.Clone(), value, on);
             }
         }
         #endregion

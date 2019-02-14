@@ -58,7 +58,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
 
-            if (data.IsAccountComponent)
+            if (data.IsAccountComponent) // TODO remove
             {
                 writerContext.AddToBeforeSetStateOnProxyDidResponse(GetAccountComponentValueCorrection(data.SnapName, data.ValueBindingPathInTypeScript));
 

@@ -34,6 +34,8 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public bool IsLabel { get; set; }
 
+        public bool IsInput { get; set; }
+
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is parameter component.
         /// </summary>

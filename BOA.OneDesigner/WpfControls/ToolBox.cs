@@ -31,12 +31,15 @@ namespace BOA.OneDesigner.WpfControls
             var stackPanel = new StackPanel();
 
             #region bInput
-            var bInput = new BInputWpf
+            var bInput = ComponentWpf.Create(Host, new ComponentInfo
             {
-                IsInToolbox = true,
-                Host        = Host,
-                DataContext = new BInput {LabelInfo = LabelInfoHelper.CreateNewLabelInfo("Input"), ValueBindingPath = "?"}
-            };
+                Type = new ComponentType
+                {
+                    IsInput = true
+                },
+                LabelTextInfo    = LabelInfoHelper.CreateNewLabelInfo("Input"),
+                ValueBindingPath = "?"
+            }, isInToolbox: true);
 
             Host.DragHelper.MakeDraggable(bInput);
 
@@ -57,16 +60,13 @@ namespace BOA.OneDesigner.WpfControls
             #endregion
 
             #region Label
-
-
             var bLabelInWpf = ComponentWpf.Create(Host, new ComponentInfo
             {
                 Type = new ComponentType
                 {
                     IsLabel = true
                 },
-                TextInto =  LabelInfoHelper.CreateNewLabelInfo("Label"),
-                
+                TextInto = LabelInfoHelper.CreateNewLabelInfo("Label")
             }, isInToolbox: true);
 
             Host.DragHelper.MakeDraggable(bLabelInWpf);
@@ -143,7 +143,6 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(informationText);
             #endregion
 
-
             #region accountComponent
             var accountComponent = ComponentWpf.Create(Host, new ComponentInfo
             {
@@ -151,7 +150,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     IsAccountComponent = true
                 },
-                LabelTextInfo =  LabelInfoHelper.CreateNewLabelInfo("Müşteri No, TCKN, VKN")
+                LabelTextInfo = LabelInfoHelper.CreateNewLabelInfo("Müşteri No, TCKN, VKN")
             }, isInToolbox: true);
 
             Host.DragHelper.MakeDraggable(accountComponent);

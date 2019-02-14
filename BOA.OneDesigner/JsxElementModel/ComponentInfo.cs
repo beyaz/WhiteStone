@@ -51,9 +51,19 @@ namespace BOA.OneDesigner.JsxElementModel
         public LabelInfo LabelTextInfo { get; set; }
 
         /// <summary>
+        ///     Gets or sets the mask.
+        /// </summary>
+        public string Mask { get; set; }
+
+        /// <summary>
         ///     Gets or sets the type of the parameter.
         /// </summary>
         public string ParamType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the row count.
+        /// </summary>
+        public int? RowCount { get; set; }
 
         /// <summary>
         ///     Gets or sets the size information.

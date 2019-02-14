@@ -74,6 +74,10 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "Divider";
             }
+            else  if (data.Type.IsInput)
+            {
+                data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "Input";
+            }
             else
             {
                 throw Error.InvalidOperation();

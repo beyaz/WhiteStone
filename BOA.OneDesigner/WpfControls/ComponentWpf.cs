@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Input;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
@@ -10,13 +11,24 @@ namespace BOA.OneDesigner.WpfControls
     class ComponentWpfModel
     {
         #region Public Properties
-        public ComponentInfo Info        { get; set; }
-        public bool          IsInToolbox { get; set; }
+        public ComponentInfo Info { get; set; }
+
+        public bool IsInToolbox { get; set; }
+
+        public double ValueBindingPathTextBoxMinHeight { get; set; }
         #endregion
     }
 
     class ComponentWpf : StackPanel, IEventBusListener, ISupportSizeInfo
     {
+        #region Constructors
+        ComponentWpf()
+        {
+            MouseEnter += (s, e) => { Cursor = Cursors.Hand; };
+            MouseLeave += (s, e) => { Cursor = Cursors.Arrow; };
+        }
+        #endregion
+
         #region Public Properties
         public Host Host { get; set; }
 
@@ -49,6 +61,20 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
+        void EvaluateRowCount()
+        {
+            var rowCount = Model.Info.RowCount;
+
+            if (rowCount > 0)
+            {
+                Model.ValueBindingPathTextBoxMinHeight = rowCount.Value * 10;
+            }
+            else
+            {
+                Model.ValueBindingPathTextBoxMinHeight = 10;
+            }
+        }
+
         void LoadUI()
         {
             var template = @"
@@ -177,11 +203,47 @@ namespace BOA.OneDesigner.WpfControls
                 }
             ]
         }
+        ,
+        {
+            ui          : 'StackPanel', Background:'Yellow',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsInput) + @"}',
+            Childs      :
+            [   
+                {
+                    view        : 'TextBlock',
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @", Mode = OneWay}', 
+                    IsBold      : true
+                }
+                ,
+                {
+                    view        : 'TextBox',
+                    MarginTop   : 5,
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @", Mode = OneWay}', 
+                    IsReadOnly  : true,
+                    MinHeight   : '{Binding " + Model.AccessPathOf(m => m.ValueBindingPathTextBoxMinHeight) + @", Mode = OneWay}'
+                }
+            ]
+        }
     ]
 }
 
 ";
             this.LoadJson(template);
+        }
+
+        void OnRowCountChanged()
+        {
+            if (SelectedElementIsNotThisElement)
+            {
+                return;
+            }
+
+            EvaluateRowCount();
+
+            foreach (var textBox in this.FindChildren<TextBox>())
+            {
+                textBox.GetBindingExpression(MinHeightProperty)?.UpdateTarget();
+            }
         }
 
         void UpdateLabel()
@@ -209,6 +271,7 @@ namespace BOA.OneDesigner.WpfControls
             OnAttachToEventBus?.Invoke();
 
             Host.EventBus.Subscribe(EventBus.LabelChanged, UpdateLabel);
+            Host.EventBus.Subscribe(EventBus.RowCountChanged, OnRowCountChanged);
         }
 
         public void DeAttachToEventBus()
@@ -216,6 +279,7 @@ namespace BOA.OneDesigner.WpfControls
             OnDeAttachToEventBus?.Invoke();
 
             Host.EventBus.UnSubscribe(EventBus.LabelChanged, UpdateLabel);
+            Host.EventBus.UnSubscribe(EventBus.RowCountChanged, OnRowCountChanged);
         }
         #endregion
     }

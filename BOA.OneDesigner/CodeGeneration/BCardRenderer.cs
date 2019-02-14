@@ -196,6 +196,22 @@ namespace BOA.OneDesigner.CodeGeneration
                     }
 
                     
+                    if (componentInfo.Type.IsInput)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                        BInputRenderer2.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
+
+                    
+
+                    
                     
                 }
 
