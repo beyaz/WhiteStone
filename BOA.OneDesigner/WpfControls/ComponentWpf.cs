@@ -205,7 +205,7 @@ namespace BOA.OneDesigner.WpfControls
         }
         ,
         {
-            ui          : 'StackPanel', Background:'Yellow',
+            ui          : 'StackPanel',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsInput) + @"}',
             Childs      :
             [   

@@ -153,7 +153,11 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
         void ApplyParameters(ScreenInfo data)
         {
             data.SystemDate = DateTime.Now;
-            data.UserName   = Environment.UserName;
+            if (data.UserName.IsNullOrWhiteSpace())
+            {
+                data.UserName = Environment.UserName;    
+            }
+            
 
             this[nameof(data.ResourceCode)]             = data.ResourceCode;
             this[nameof(data.RequestName)]              = data.RequestName;
