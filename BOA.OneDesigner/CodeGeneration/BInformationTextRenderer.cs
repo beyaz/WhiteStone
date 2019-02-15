@@ -16,16 +16,16 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendWithPadding("<BInformationText");
 
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelTextInfo);
+            var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelTextInfo);
             if (labelValue != null)
             {
-                sb.Append($" labelText = {labelValue}");
+                sb.Append($" labelText = {{{labelValue}}}");
             }
 
-            var infoTextValue = RenderHelper.GetLabelValue(screenInfo, data.InfoText);
+            var infoTextValue = RenderHelper.GetLabelValue(writerContext, data.InfoText);
             if (infoTextValue != null)
             {
-                sb.Append($" infoText = {infoTextValue}");
+                sb.Append($" infoText = {{{infoTextValue}}}");
             }
 
             sb.Append(" context = {context} />");

@@ -145,7 +145,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("maxLength = {10}");
             }
 
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelTextInfo);
+            var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelTextInfo);
             if (labelValue != null)
             {
                 if (isBoolean)

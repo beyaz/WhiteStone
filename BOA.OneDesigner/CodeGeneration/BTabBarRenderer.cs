@@ -55,7 +55,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                var title = RenderHelper.GetLabelValue(screenInfo, bTabBarPage.TitleInfo);
+                var title = RenderHelper.GetLabelValue(writerContext, bTabBarPage.TitleInfo);
                 if (title != null)
                 {
                     sb.AppendLine($"text : {title},");

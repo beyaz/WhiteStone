@@ -22,7 +22,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
             sb.AppendLine("paramType = \"" + data.ParamType + "\"");
 
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelTextInfo);
+            var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelTextInfo);
             if (labelValue != null)
             {
                 sb.AppendLine($"hintText = {labelValue}");

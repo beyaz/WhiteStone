@@ -81,7 +81,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 jsObject.Add("key",$"\"{TypescriptNaming.NormalizeBindingPath(bDataGridColumnInfo.BindingPath)}\"");
 
 
-                var labelValue = RenderHelper.GetLabelValue(writerContext.ScreenInfo, bDataGridColumnInfo.Label);
+                var labelValue = RenderHelper.GetLabelValue(writerContext, bDataGridColumnInfo.Label);
                 if (labelValue != null)
                 {
                     jsObject.Add("name",labelValue);
@@ -226,7 +226,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.PaddingCount++;
 
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.TitleInfo);
+            var labelValue = RenderHelper.GetLabelValue(writerContext, data.TitleInfo);
             if (labelValue != null)
             {
                 sb.AppendLine($"title: {labelValue}");

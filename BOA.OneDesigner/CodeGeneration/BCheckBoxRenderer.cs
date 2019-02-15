@@ -13,7 +13,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.Append($"<BLabel");
 
-            var textValue = RenderHelper.GetLabelValue(writerContext.ScreenInfo, data.TextInto);
+            var textValue = RenderHelper.GetLabelValue(writerContext, data.TextInto);
             if (textValue != null)
             {
                 sb.Append($" text = {{{textValue}}}");

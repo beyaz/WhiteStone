@@ -207,7 +207,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
 
-                var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
+                var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelInfo);
                 if (labelValue != null)
                 {
                     if (isBoolean)

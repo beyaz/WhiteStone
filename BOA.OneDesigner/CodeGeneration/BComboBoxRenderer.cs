@@ -134,7 +134,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelInfo);
+            var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelInfo);
             if (labelValue != null)
             {
                 sb.AppendLine($"labelText = {{{labelValue}}}");

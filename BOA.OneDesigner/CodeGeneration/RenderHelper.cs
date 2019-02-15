@@ -43,8 +43,21 @@ namespace BOA.OneDesigner.CodeGeneration
             throw Error.InvalidOperation();
         }
 
-        public static string GetLabelValue(ScreenInfo screenInfo, LabelInfo data)
+
+        public static void WriteLabelInfo(WriterContext writerContext, LabelInfo data, Action<string> output, string attributeName)
         {
+            var labelValue = GetLabelValue(writerContext, data);
+            if (labelValue == null)
+            {
+                return;
+            }
+
+            output($"{attributeName} = {{{labelValue}}}");
+        }
+        public static string GetLabelValue(WriterContext writerContext, LabelInfo data)
+        {
+            var screenInfo = writerContext.ScreenInfo;
+
             if (data == null)
             {
                 return null;
@@ -62,7 +75,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsRequestBindingPath)
             {
-                return TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.RequestBindingPath);
+                return NormalizeBindingPathInRenderMethod(writerContext, data.RequestBindingPath);
             }
 
             if (data.IsFromMessaging)
@@ -72,6 +85,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             return null;
         }
+
 
         public static bool HasValue(this SizeInfo size)
         {

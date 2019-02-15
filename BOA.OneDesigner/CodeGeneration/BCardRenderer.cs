@@ -12,7 +12,6 @@ namespace BOA.OneDesigner.CodeGeneration
         public static void Write(WriterContext writerContext, BCard data)
         {
             var sb         = writerContext.Output;
-            var screenInfo = writerContext.ScreenInfo;
 
 
             var doNotWriteTag = data.IsBrowsePageDataGridContainer || data.IsBrowsePageCriteria;
@@ -30,11 +29,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.Append(" style={{ display: " + isVisibleBindingPath + " ? 'inherit' : 'none' }} ");
                 }
 
-                var labelValue = RenderHelper.GetLabelValue(screenInfo, data.TitleInfo);
-                if (labelValue != null)
-                {
-                    sb.Append($" title = {{{labelValue}}}");
-                }
+                RenderHelper.WriteLabelInfo(writerContext, data.TitleInfo,sb.Append," title");
 
                 if (data.LayoutProps != null)
                 {

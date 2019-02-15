@@ -24,7 +24,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("sortOption = {BBranchComponent.name}");
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
-            var labelValue = RenderHelper.GetLabelValue(screenInfo, data.LabelTextInfo);
+            var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelTextInfo);
             if (labelValue != null)
             {
                 sb.AppendLine($"label = {labelValue}");
