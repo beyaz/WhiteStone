@@ -224,6 +224,18 @@ namespace BOA.OneDesigner.WpfControls
                 }
             ]
         }
+        ,
+        {
+            ui          : 'StackPanel',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}',
+            Childs      :
+            [
+                {
+                    view        : 'Button',
+                    Content     : '{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @", Mode = OneWay}'
+                }
+            ]
+        }
     ]
 }
 

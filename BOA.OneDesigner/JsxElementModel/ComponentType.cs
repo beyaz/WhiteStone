@@ -20,6 +20,11 @@ namespace BOA.OneDesigner.JsxElementModel
         public bool IsBranchComponent { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether this instance is button.
+        /// </summary>
+        public bool IsButton { get; set; }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether this instance is divider.
         /// </summary>
         public bool IsDivider { get; set; }
@@ -30,11 +35,14 @@ namespace BOA.OneDesigner.JsxElementModel
         public bool IsInformationText { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether this instance is input.
+        /// </summary>
+        public bool IsInput { get; set; }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether this instance is label.
         /// </summary>
         public bool IsLabel { get; set; }
-
-        public bool IsInput { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is parameter component.

@@ -190,6 +190,19 @@ namespace BOA.OneDesigner.CodeGeneration
                         continue;
                     }
 
+                    if (componentInfo.Type.IsButton)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                       BButtonRenderer.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
+
                     
                     if (componentInfo.Type.IsInput)
                     {

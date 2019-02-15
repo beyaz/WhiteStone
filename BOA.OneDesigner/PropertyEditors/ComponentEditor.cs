@@ -58,7 +58,7 @@ namespace BOA.OneDesigner.PropertyEditors
                     Info                                     = info,
                     IsSizeEditorVisible                      = info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel,
                     IsValueBindingPathEditorVisible          = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent,
-                    IsLLabelEditorVisible                    = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
+                    IsLLabelEditorVisible                    = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent|| info.Type.IsButton,
                     IsParamTypeVisible                       = info.Type.IsParameterComponent,
                     IsInfoTextVisible                        = info.Type.IsInformationText,
                     IsVisibleEditorVisible                   = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent,

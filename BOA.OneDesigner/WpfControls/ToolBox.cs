@@ -143,6 +143,21 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(informationText);
             #endregion
 
+            #region button
+            var button = ComponentWpf.Create(Host, new ComponentInfo
+            {
+                Type = new ComponentType
+                {
+                    IsButton = true
+                },
+                LabelTextInfo = LabelInfoHelper.CreateNewLabelInfo("Button")
+            }, isInToolbox: true);
+
+            Host.DragHelper.MakeDraggable(button);
+
+            stackPanel.Children.Add(button);
+            #endregion
+
             #region accountComponent
             var accountComponent = ComponentWpf.Create(Host, new ComponentInfo
             {
