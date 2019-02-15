@@ -17,8 +17,6 @@ namespace BOA.OneDesigner.WpfControls
         {
             var excepts = new List<string>
             {
-                "BOA.Types.Card.Parameter.InboundTranMappingRequest",// göknur 
-                "BOA.Types.Card.Switch.BKM.GetTransactionLogDetailRequest",// fidan 
             };
             using (var database = new DevelopmentDatabase())
             {

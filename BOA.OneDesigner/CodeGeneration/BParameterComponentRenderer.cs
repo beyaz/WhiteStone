@@ -22,12 +22,11 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
             sb.AppendLine("paramType = \"" + data.ParamType + "\"");
 
-            var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelTextInfo);
-            if (labelValue != null)
-            {
-                sb.AppendLine($"hintText = {labelValue}");
-                sb.AppendLine($"labelText = {labelValue}");
-            }
+           
+
+            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine," hintText");
+            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine," labelText");
+
 
             if (data.IsAllOptionIncluded)
             {
@@ -45,15 +44,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
 
-            if (!string.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
-            {
-                sb.AppendLine($"isVisible = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext,data.IsVisibleBindingPath)}}}");
-            }
-
-            if (!string.IsNullOrWhiteSpace(data.IsDisabledBindingPath))
-            {
-                sb.AppendLine($"disabled = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.IsDisabledBindingPath)}}}");
-            }
+            RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
+            RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
 
             if (data.SizeInfo.HasValue())
             {

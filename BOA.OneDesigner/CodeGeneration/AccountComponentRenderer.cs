@@ -67,15 +67,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
 
-            if (!string.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
-            {
-                sb.AppendLine($"isVisible = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext,data.IsVisibleBindingPath)}}}");
-            }
-
-            if (!string.IsNullOrWhiteSpace(data.IsDisabledBindingPath))
-            {
-                sb.AppendLine($"disabled = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.IsDisabledBindingPath)}}}");
-            }
+           
+            RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
+            RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
 
             if (data.SizeInfo.HasValue())
             {

@@ -134,11 +134,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
-            var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelInfo);
-            if (labelValue != null)
-            {
-                sb.AppendLine($"labelText = {{{labelValue}}}");
-            }
+            RenderHelper.WriteLabelInfo(writerContext, data.LabelInfo,sb.AppendLine,"labelText");
 
             sb.AppendLine("columns = {this." + data.TypeScriptMethodNameOfGetGridColumns + "(request)}");
             sb.AppendLine("multiColumn={true}");
@@ -157,6 +153,13 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 sb.AppendLine("size = {"+ RenderHelper.GetJsValue(data.SizeInfo) +"}");
             }
+
+            
+            RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
+            RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
+
+            
+
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;

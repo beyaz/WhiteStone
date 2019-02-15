@@ -24,22 +24,11 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("sortOption = {BBranchComponent.name}");
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
-            var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelTextInfo);
-            if (labelValue != null)
-            {
-                sb.AppendLine($"label = {labelValue}");
-            }
+            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine,"label");
 
 
-            if (!string.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
-            {
-                sb.AppendLine($"isVisible = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext,data.IsVisibleBindingPath)}}}");
-            }
-
-            if (!string.IsNullOrWhiteSpace(data.IsDisabledBindingPath))
-            {
-                sb.AppendLine($"disabled = {{{RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.IsDisabledBindingPath)}}}");
-            }
+            RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
+            RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
 
             if (data.SizeInfo.HasValue())
             {

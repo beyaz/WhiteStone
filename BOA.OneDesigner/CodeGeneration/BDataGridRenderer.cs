@@ -226,11 +226,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.PaddingCount++;
 
-            var labelValue = RenderHelper.GetLabelValue(writerContext, data.TitleInfo);
-            if (labelValue != null)
-            {
-                sb.AppendLine($"title: {labelValue}");
-            }
+            RenderHelper.WriteLabelInfo(writerContext, data.TitleInfo,sb.AppendLine,"title:");
 
             sb.PaddingCount--;
             sb.AppendLine("}}");

@@ -145,32 +145,30 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("maxLength = {10}");
             }
 
-            var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelTextInfo);
-            if (labelValue != null)
+
+
+            if (isBoolean)
             {
-                if (isBoolean)
-                {
-                    sb.AppendLine($"label = {{{labelValue}}}");
-                }
-                else if (isDateTime)
-                {
-                    sb.AppendLine($"floatingLabelTextDate = {{{labelValue}}}");
-                }
-                else
-                {
-                    sb.AppendLine($"floatingLabelText = {{{labelValue}}}");
-                }
+                        
+                RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine,"label");
+            }
+            else if (isDateTime)
+            {
+                RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine,"floatingLabelTextDate");
+
+                        
+            }
+            else
+            {
+                RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine,"floatingLabelText");
+
+                        
             }
 
-            if (!string.IsNullOrWhiteSpace(data.IsVisibleBindingPath))
-            {
-                sb.AppendLine($"isVisible = {{{RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.IsVisibleBindingPath)}}}");
-            }
+            
 
-            if (!string.IsNullOrWhiteSpace(data.IsDisabledBindingPath))
-            {
-                sb.AppendLine($"disabled = {{{RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.IsDisabledBindingPath)}}}");
-            }
+            RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
+            RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
 
             if (data.SizeInfo.HasValue())
             {

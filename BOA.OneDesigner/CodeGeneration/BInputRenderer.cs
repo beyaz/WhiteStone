@@ -207,22 +207,25 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
 
-                var labelValue = RenderHelper.GetLabelValue(writerContext, data.LabelInfo);
-                if (labelValue != null)
-                {
+              
                     if (isBoolean)
                     {
-                        sb.AppendLine($"label = {{{labelValue}}}");
+                        
+                        RenderHelper.WriteLabelInfo(writerContext, data.LabelInfo,sb.AppendLine,"label");
                     }
                     else if (isDateTime)
                     {
-                        sb.AppendLine($"floatingLabelTextDate = {{{labelValue}}}");
+                        RenderHelper.WriteLabelInfo(writerContext, data.LabelInfo,sb.AppendLine,"floatingLabelTextDate");
+
+                        
                     }
                     else
                     {
-                        sb.AppendLine($"floatingLabelText = {{{labelValue}}}");
+                        RenderHelper.WriteLabelInfo(writerContext, data.LabelInfo,sb.AppendLine,"floatingLabelText");
+
+                        
                     }
-                }
+                
 
                 
             }

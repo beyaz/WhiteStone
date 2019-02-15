@@ -10,6 +10,27 @@ namespace BOA.OneDesigner.CodeGeneration
     static class RenderHelper
     {
 
+        public static void WriteIsVisible(WriterContext writerContext, string IsVisibleBindingPath, PaddedStringBuilder sb)
+        {
+            if (string.IsNullOrWhiteSpace(IsVisibleBindingPath))
+            {
+                return;
+            }
+
+            sb.AppendLine($"isVisible = {{{RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, IsVisibleBindingPath)}}}");
+        }
+
+        public static void WriteIsDisabled(WriterContext writerContext, string IsDisabledBindingPath, PaddedStringBuilder sb)
+        {
+            if (string.IsNullOrWhiteSpace(IsDisabledBindingPath))
+            {
+                return;
+            }
+
+            sb.AppendLine($"disabled = {{{RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, IsDisabledBindingPath)}}}");
+        }
+
+
         public static bool IsCommentEnabled => false;
 
         #region Public Methods
@@ -44,7 +65,7 @@ namespace BOA.OneDesigner.CodeGeneration
         }
 
 
-        public static void WriteLabelInfo(WriterContext writerContext, LabelInfo data, Action<string> output, string attributeName)
+        public static void WriteLabelInfo(WriterContext writerContext, LabelInfo data, Action<string> output, string attributeName,string endPrefix = null)
         {
             var labelValue = GetLabelValue(writerContext, data);
             if (labelValue == null)
@@ -52,7 +73,15 @@ namespace BOA.OneDesigner.CodeGeneration
                 return;
             }
 
-            output($"{attributeName} = {{{labelValue}}}");
+            if (attributeName.EndsWith(":"))
+            {
+                output($"{attributeName} {labelValue}"+endPrefix);
+            }
+            else
+            {
+                output($"{attributeName} = {{{labelValue}}}"+endPrefix);
+            }
+            
         }
         public static string GetLabelValue(WriterContext writerContext, LabelInfo data)
         {
