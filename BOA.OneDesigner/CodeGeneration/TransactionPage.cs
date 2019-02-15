@@ -90,10 +90,12 @@ namespace BOA.OneDesigner.CodeGeneration
             if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("Data"))
             {
                 writerContext.DataContractAccessPathInWindowRequest = "data";
+                writerContext.DataContractAccessPathInWindowRequestIsCalculated = true;
             }
             else if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("DataContract"))
             {
                 writerContext.DataContractAccessPathInWindowRequest = "dataContract";
+                writerContext.DataContractAccessPathInWindowRequestIsCalculated = true;
             }
             else
             {
@@ -195,7 +197,15 @@ namespace BOA.OneDesigner.CodeGeneration
             else
             {
                 sb.AppendLine();
-                sb.AppendLine("this.sendRequestToServer({"+writerContext.DataContractAccessPathInWindowRequest+": this.state.pageParams.data}, \"LoadData\" );");
+                if (writerContext.DataContractAccessPathInWindowRequestIsCalculated)
+                {
+                    sb.AppendLine("this.sendRequestToServer({"+writerContext.DataContractAccessPathInWindowRequest+": this.state.pageParams.data}, \"LoadData\" );");    
+                }
+                else
+                {
+                    sb.AppendLine("this.sendRequestToServer({}, \"LoadData\" );");
+                }
+                
             }
 
             sb.PaddingCount--;
