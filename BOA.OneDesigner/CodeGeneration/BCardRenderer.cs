@@ -11,14 +11,13 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static void Write(WriterContext writerContext, BCard data)
         {
-            var sb         = writerContext.Output;
-
+            var sb = writerContext.Output;
 
             var doNotWriteTag = data.IsBrowsePageDataGridContainer || data.IsBrowsePageCriteria;
 
             if (doNotWriteTag == false)
             {
-                writerContext.Imports.Add("import { BCard } from \"b-card\""); 
+                writerContext.Imports.Add("import { BCard } from \"b-card\"");
 
                 sb.AppendWithPadding("<BCard context={context}");
 
@@ -29,7 +28,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.Append(" style={{ display: " + isVisibleBindingPath + " ? 'inherit' : 'none' }} ");
                 }
 
-                RenderHelper.WriteLabelInfo(writerContext, data.TitleInfo,sb.Append," title");
+                RenderHelper.WriteLabelInfo(writerContext, data.TitleInfo, sb.Append, " title");
 
                 if (data.LayoutProps != null)
                 {
@@ -42,6 +41,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.PaddingCount++;
             }
 
+            var isButtonContainerDivPushed = false;
 
             var subComponents = new List<string>();
 
@@ -60,11 +60,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     continue;
                 }
-
-               
-
-                
-
 
                 var bTabBar = item as BTabBar;
                 if (bTabBar != null)
@@ -107,11 +102,9 @@ namespace BOA.OneDesigner.CodeGeneration
                     continue;
                 }
 
-
                 var componentInfo = item as ComponentInfo;
                 if (componentInfo != null)
                 {
-
                     if (componentInfo.Type.IsDivider)
                     {
                         writerContext.Output = new PaddedStringBuilder();
@@ -192,9 +185,15 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     if (componentInfo.Type.IsButton)
                     {
+                        if (isButtonContainerDivPushed ==false)
+                        {
+                            isButtonContainerDivPushed = true;
+                            subComponents.Add("<div>");
+                        }
+
                         writerContext.Output = new PaddedStringBuilder();
 
-                       BButtonRenderer.Write(writerContext, componentInfo);
+                        BButtonRenderer.Write(writerContext, componentInfo);
 
                         subComponents.Add(writerContext.Output.ToString());
 
@@ -203,7 +202,6 @@ namespace BOA.OneDesigner.CodeGeneration
                         continue;
                     }
 
-                    
                     if (componentInfo.Type.IsInput)
                     {
                         writerContext.Output = new PaddedStringBuilder();
@@ -216,14 +214,14 @@ namespace BOA.OneDesigner.CodeGeneration
 
                         continue;
                     }
-
-                    
-
-                    
-                    
                 }
 
                 throw Error.InvalidOperation();
+            }
+
+            if (isButtonContainerDivPushed)
+            {
+                subComponents.Add("</div>");
             }
 
             foreach (var subComponent in subComponents)

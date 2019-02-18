@@ -84,6 +84,7 @@
     <Compile Include="AppModel\DragHelper.cs" />
     <Compile Include="AppModel\Extensions.cs" />
     <Compile Include="CodeGeneration\AccountComponentRenderer.cs" />
+    <Compile Include="CodeGeneration\BButtonRenderer.cs" />
     <Compile Include="CodeGeneration\BComboBoxRenderer.cs" />
     <Compile Include="CodeGeneration\BDataGridRenderer.cs" />
     <Compile Include="CodeGeneration\BDividerRenderer.cs" />
@@ -99,7 +100,7 @@
     <Compile Include="AppModel\IHostItem.cs" />
     <Compile Include="CodeGeneration\BBranchComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BCardRenderer.cs" />
-    <Compile Include="CodeGeneration\BCheckBoxRenderer.cs" />
+    <Compile Include="CodeGeneration\BLabelRenderer.cs" />
     <Compile Include="CodeGeneration\BInputRenderer.cs" />
     <Compile Include="CodeGeneration\BParameterComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BTabBarRenderer.cs" />

@@ -12,7 +12,6 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class TransactionPage
     {
-        
         #region Public Methods
         public static string Generate(ScreenInfo screenInfo)
         {
@@ -56,7 +55,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 throw Error.RequestNotFound(screenInfo.RequestName);
             }
 
-
             WriteClass(writerContext, jsxModel);
 
             if (isBrowseForm)
@@ -89,12 +87,12 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("Data"))
             {
-                writerContext.DataContractAccessPathInWindowRequest = "data";
+                writerContext.DataContractAccessPathInWindowRequest             = "data";
                 writerContext.DataContractAccessPathInWindowRequestIsCalculated = true;
             }
             else if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("DataContract"))
             {
-                writerContext.DataContractAccessPathInWindowRequest = "dataContract";
+                writerContext.DataContractAccessPathInWindowRequest             = "dataContract";
                 writerContext.DataContractAccessPathInWindowRequestIsCalculated = true;
             }
             else
@@ -112,7 +110,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 return;
             }
 
-            writerContext.EvaluatedActions = resourceActions.Where(x => x.IsVisibleBindingPath.HasValue() ||  x.IsEnableBindingPath.HasValue()).ToList();
+            writerContext.EvaluatedActions = resourceActions.Where(x => x.IsVisibleBindingPath.HasValue() || x.IsEnableBindingPath.HasValue()).ToList();
             if (writerContext.EvaluatedActions.Count == 0)
             {
                 writerContext.CanWriteEvaluateActions = false;
@@ -132,6 +130,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("  *  Evaluates initial states of form.");
                 sb.AppendLine("  */");
             }
+
             sb.AppendLine("componentWillMount()");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -156,30 +155,23 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-
             if (writerContext.HasWorkflow)
             {
-
-
-
-
                 sb.AppendLine();
                 sb.AppendLine("const formData = this.state.pageParams.data;");
                 sb.AppendLine();
                 sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, (formData && formData.windowRequest && formData.windowRequest.body) ); ");
 
-               
-                    sb.AppendLine();
-                    sb.AppendLine("const hasWorkflow = clonedWindowRequest.workFlowInternalData && clonedWindowRequest.workFlowInternalData.instanceId > 0;");
-                    sb.AppendLine("if (hasWorkflow)");
-                    sb.AppendLine("{");
-                    sb.PaddingCount++;
-                    sb.AppendLine("clonedWindowRequest.hasWorkflow = false;");
-                    sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
-                    sb.AppendLine("return;");
-                    sb.PaddingCount--;
-                    sb.AppendLine("}");
-                
+                sb.AppendLine();
+                sb.AppendLine("const hasWorkflow = clonedWindowRequest.workFlowInternalData && clonedWindowRequest.workFlowInternalData.instanceId > 0;");
+                sb.AppendLine("if (hasWorkflow)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine("clonedWindowRequest.hasWorkflow = false;");
+                sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
+                sb.AppendLine("return;");
+                sb.PaddingCount--;
+                sb.AppendLine("}");
 
                 sb.AppendLine();
                 sb.AppendLine("// is opening from another form with data parameter");
@@ -192,20 +184,18 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.AppendLine();
                 sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
-
             }
             else
             {
                 sb.AppendLine();
                 if (writerContext.DataContractAccessPathInWindowRequestIsCalculated)
                 {
-                    sb.AppendLine("this.sendRequestToServer({"+writerContext.DataContractAccessPathInWindowRequest+": this.state.pageParams.data}, \"LoadData\" );");    
+                    sb.AppendLine("this.sendRequestToServer({" + writerContext.DataContractAccessPathInWindowRequest + ": this.state.pageParams.data}, \"LoadData\" );");
                 }
                 else
                 {
                     sb.AppendLine("this.sendRequestToServer({}, \"LoadData\" );");
                 }
-                
             }
 
             sb.PaddingCount--;
@@ -230,11 +220,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
             foreach (var resourceAction in writerContext.EvaluatedActions)
             {
-
                 if (resourceAction.IsVisibleBindingPath.HasValue())
                 {
                     sb.AppendLine();
-
 
                     var bindingPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + resourceAction.IsVisibleBindingPath);
 
@@ -255,7 +243,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 if (resourceAction.IsEnableBindingPath.HasValue())
                 {
                     sb.AppendLine();
-
 
                     var bindingPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + resourceAction.IsEnableBindingPath);
 
@@ -290,6 +277,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("  *  Sends given requests to server.");
                 sb.AppendLine("  */");
             }
+
             sb.AppendLine("executeWindowRequest(orchestrationMethodName: string)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -310,7 +298,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine();
             sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, orchestrationMethodName);");
-            
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -327,6 +314,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("  *  Proxies the did respond.");
                 sb.AppendLine("  */");
             }
+
             sb.AppendLine("proxyDidRespond(proxyResponse: ProxyResponse)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -377,7 +365,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("BFormManager.showStatusErrorMessage(`Orch method:${proxyResponse.key} should return GenericResponse<${WindowRequestFullName}>`, null);");
 
             sb.PaddingCount--;
-            sb.AppendLine("}"); 
+            sb.AppendLine("}");
 
             sb.AppendLine("return false;");
             sb.PaddingCount--;
@@ -403,7 +391,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("}");
             }
 
-
             sb.AppendLine();
             sb.AppendLine("if (value.statusMessage)");
             sb.AppendLine("{");
@@ -411,22 +398,12 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("    value.statusMessage = null;");
             sb.AppendLine("}");
 
-
-
-           
-            
-            
-
-           
-
             sb.AppendLine();
             sb.AppendLine("this.setWindowRequest(");
             sb.AppendLine("{");
             sb.AppendLine("    body: value,");
             sb.AppendLine("    type: WindowRequestFullName");
             sb.AppendLine("});");
-            
-
 
             if (writerContext.BeforeSetStateOnProxyDidResponse?.Count > 0)
             {
@@ -438,14 +415,12 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
             }
 
-            
             sb.AppendLine();
             sb.AppendLine("this.setState(");
 
-            
-            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest","value");
-            
-            JsObjectInfoMultiLineWriter.Write(sb,writerContext.StateObjectWhenIncomingRequestIsSuccess);
+            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest", "value");
+
+            JsObjectInfoMultiLineWriter.Write(sb, writerContext.StateObjectWhenIncomingRequestIsSuccess);
             sb.Append(");");
             sb.Append(Environment.NewLine);
 
@@ -480,14 +455,6 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var temp = writerContext.Output;
 
-         
-
-            
-
-           
-
-            
-
             var jsxBuilder = new PaddedStringBuilder {PaddingCount = 1};
 
             jsxBuilder.AppendLine("return (");
@@ -499,10 +466,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
             jsxBuilder.PaddingCount--;
             jsxBuilder.AppendLine("}");
-
-
-
-
 
             var sb = new PaddedStringBuilder();
             if (RenderHelper.IsCommentEnabled)
@@ -526,8 +489,6 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine();
             sb.AppendLine("const context = this.state.context;");
 
-
-
             writerContext.Output = temp;
 
             writerContext.AddClassBody(new TypeScriptMemberInfo {Code = sb + jsxBuilder.ToString(), IsRender = true});
@@ -543,6 +504,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("  *  Sends given requests to server.");
                 sb.AppendLine("  */");
             }
+
             sb.AppendLine("sendRequestToServer(request: any, orchestrationMethodName: string)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -606,7 +568,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             WriteOnActionClick(writerContext);
             ComponentWillMount(writerContext);
-            
+
             EvaluateActions(writerContext);
             SendWindowRequestToServer(writerContext);
             ExecuteWindowRequest(writerContext);
@@ -641,6 +603,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("  *  Creates a new instance of this class.");
                 sb.AppendLine("  */");
             }
+
             sb.AppendLine("constructor(props: BFramework.BasePageProps)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -662,8 +625,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
         static void WriteOnActionClick(WriterContext writerContext)
         {
-            
-
             var resourceActions = writerContext.ScreenInfo.ResourceActions;
 
             var sb = new PaddedStringBuilder();
@@ -676,6 +637,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("  *  Handle click actions of page commands.");
                     sb.AppendLine("  */");
                 }
+
                 sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract, executeWorkFlow: () => void)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -688,37 +650,14 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine($"if (command.commandName === \"{resourceAction.CommandName}\")");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
-                    
-                    #region action body
-                    if (resourceAction.OpenFormWithResourceCode.HasValue() && resourceAction.OrchestrationMethodName.HasValue())
-                    {
-                        throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz.");
-                    }
 
-                    if (resourceAction.OpenFormWithResourceCode.IsNullOrWhiteSpace() && resourceAction.OrchestrationMethodName.IsNullOrWhiteSpace())
+                    RenderHelper.WriteButtonAction(sb, new ButtonActionInfo
                     {
-                        throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır.");
-                    }
-
-                    if (resourceAction.OpenFormWithResourceCode.HasValue())
-                    {
-                        if (resourceAction.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
-                        {
-                            var bindingPathForDataParameter = "this.getWindowRequest().body."+TypescriptNaming.NormalizeBindingPath(resourceAction.OpenFormWithResourceCodeDataParameterBindingPath);
-
-                            sb.AppendLine($"BFormManager.show(\"{resourceAction.OpenFormWithResourceCode.Trim()}\", /*data*/{bindingPathForDataParameter}, true,null);");
-                        }
-                        else
-                        {
-                            sb.AppendLine($"BFormManager.show(\"{resourceAction.OpenFormWithResourceCode.Trim()}\", /*data*/null, true,null);");
-                        }
-                    }
-                    else
-                    {
-                        sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");
-                    } 
-                    #endregion
-
+                        OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
+                        OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
+                        OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
+                        DesignerLocation                                 = resourceAction.Name
+                    });
 
                     sb.AppendLine("return false;");
                     sb.PaddingCount--;
@@ -742,6 +681,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("  *  Handle click actions of page commands.");
                     sb.AppendLine("  */");
                 }
+
                 sb.AppendLine("onActionClick(command: BOA.Common.Types.ResourceActionContract)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -755,19 +695,19 @@ namespace BOA.OneDesigner.CodeGeneration
                     #region action body
                     if (resourceAction.OpenFormWithResourceCode.HasValue() && resourceAction.OrchestrationMethodName.HasValue())
                     {
-                        throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz."+resourceAction.CommandName);
+                        throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz." + resourceAction.CommandName);
                     }
 
                     if (resourceAction.OpenFormWithResourceCode.IsNullOrWhiteSpace() && resourceAction.OrchestrationMethodName.IsNullOrWhiteSpace())
                     {
-                        throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır."+resourceAction.CommandName);
+                        throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır." + resourceAction.CommandName);
                     }
 
                     if (resourceAction.OpenFormWithResourceCode.HasValue())
                     {
                         if (resourceAction.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
                         {
-                            var bindingPathForDataParameter = "this.getWindowRequest().body."+TypescriptNaming.NormalizeBindingPath(resourceAction.OpenFormWithResourceCodeDataParameterBindingPath);
+                            var bindingPathForDataParameter = "this.getWindowRequest().body." + TypescriptNaming.NormalizeBindingPath(resourceAction.OpenFormWithResourceCodeDataParameterBindingPath);
 
                             sb.AppendLine($"BFormManager.show(\"{resourceAction.OpenFormWithResourceCode.Trim()}\", /*data*/{bindingPathForDataParameter}, true,null);");
                         }
@@ -779,9 +719,8 @@ namespace BOA.OneDesigner.CodeGeneration
                     else
                     {
                         sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");
-                    } 
+                    }
                     #endregion
-
 
                     sb.AppendLine("return true;");
                     sb.PaddingCount--;
@@ -789,7 +728,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     sb.AppendLine();
                 }
-
 
                 sb.AppendLine("return true;");
                 sb.PaddingCount--;
