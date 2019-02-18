@@ -39,6 +39,8 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.Append("<BButton type=\"flat\" colorType=\"primary\"  style = {{ float:\"right\" }}");
 
             RenderHelper.WriteLabelInfo(writerContext, data.TextInto,sb.Append," text");
+            RenderHelper.WriteIsDisabled(writerContext,data.IsDisabledBindingPath,sb);
+            RenderHelper.WriteIsVisible(writerContext,data.IsVisibleBindingPath,sb);
 
             sb.Append("context={context}");
 
