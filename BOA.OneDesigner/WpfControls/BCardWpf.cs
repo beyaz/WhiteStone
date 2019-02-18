@@ -18,51 +18,6 @@ namespace BOA.OneDesigner.WpfControls
     /// </summary>
     public class BCardWpf : Grid, IHostItem, IEventBusListener
     {
-
-        void Should_delete_and_refresh_if_my_child_selected()
-        {
-            var willBeDeleteElement = ChildrenContainer.Children.ToArray().FirstOrDefault(x=>x==Host.SelectedElement);
-            if (willBeDeleteElement == null)
-            {
-                return;
-            }
-
-
-            var bInput = Host.SelectedElement as BInputWpf;
-            var dataGridInfoWpf = Host.SelectedElement as BDataGridInfoWpf;
-            var tabControlWpf = Host.SelectedElement as BTabBarWpf;
-            var bComboBoxInWpf = Host.SelectedElement as BComboBoxInWpf;
-            var componentWpf = Host.SelectedElement as ComponentWpf;
-
-            if (bInput != null)
-            {
-                bInput.Model.RemoveFromParent();
-            }
-            else  if (dataGridInfoWpf != null)
-            {
-                dataGridInfoWpf.Model.RemoveFromParent();
-            }
-            else if (tabControlWpf != null)
-            {
-                tabControlWpf.Model.RemoveFromParent();
-            }
-            else if (bComboBoxInWpf != null)
-            {
-                bComboBoxInWpf.Model.RemoveFromParent();
-            }
-            else if (componentWpf != null)
-            {
-                componentWpf.Model.Info.RemoveFromParent();
-            }
-            else
-            {
-                throw Error.InvalidOperation();
-            }
-
-            Refresh();
-        }
-
-
         #region Fields
         /// <summary>
         ///     The group box
@@ -95,17 +50,11 @@ namespace BOA.OneDesigner.WpfControls
 	]
 	
 }");
-
         }
         #endregion
 
         #region Public Properties
         public int BChildrenCount => ChildrenContainer.Children.Count;
-
-        public UIElement BChildAt(int index)
-        {
-            return ChildrenContainer.Children[index];
-        }
 
         /// <summary>
         ///     Gets or sets the host.
@@ -130,10 +79,15 @@ namespace BOA.OneDesigner.WpfControls
 
         #region Properties
         internal string HeaderAsString => _groupBox.Header as string;
+
+        bool SelectedElementIsMyChild => ChildrenContainer.Children.Contains(Host.SelectedElement);
         #endregion
 
         #region Public Methods
-       
+        public UIElement BChildAt(int index)
+        {
+            return ChildrenContainer.Children[index];
+        }
 
         /// <summary>
         ///     Called when [drop].
@@ -161,7 +115,7 @@ namespace BOA.OneDesigner.WpfControls
             foreach (var bField in Model.Items)
             {
                 var bInput = bField as BInput;
-                if (bInput!= null)
+                if (bInput != null)
                 {
                     bInput.Container = Model;
                     var uiElement = Host.Create<BInputWpf>(bInput);
@@ -174,10 +128,8 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-                
-
                 var componentInfo = bField as ComponentInfo;
-                if (componentInfo!= null)
+                if (componentInfo != null)
                 {
                     componentInfo.Container = Model;
                     var uiElement = ComponentWpf.Create(Host, componentInfo);
@@ -190,9 +142,8 @@ namespace BOA.OneDesigner.WpfControls
                     continue;
                 }
 
-
                 var bComboBox = bField as BComboBox;
-                if (bComboBox!= null)
+                if (bComboBox != null)
                 {
                     bComboBox.Container = Model;
                     var uiElement = Host.Create<BComboBoxInWpf>(bComboBox);
@@ -239,24 +190,6 @@ namespace BOA.OneDesigner.WpfControls
         }
         #endregion
 
-
-        void Should_ExitDropLocationMode_when_any_component_selected()
-        {
-            ExitDropLocationMode();
-        }
-
-        void Should_refresh_when_any_my_child_component_moved_or_deleted()
-        {
-            var isMyChild = Children.Contains(Host.SelectedElement);
-            if (isMyChild)
-            {
-                Refresh();
-            }
-        }
-
-
-
-
         #region Methods
         /// <summary>
         ///     Enters the drop location mode.
@@ -275,7 +208,6 @@ namespace BOA.OneDesigner.WpfControls
 
             if (IsEnteredDropLocationMode)
             {
-                
                 return;
             }
 
@@ -315,7 +247,6 @@ namespace BOA.OneDesigner.WpfControls
 
             // Host.AttachToEventBus(children);
 
-            
             Action action = () => { CardLayout.ApplyWithDropLocationMode(ChildrenContainer); };
             Dispatcher.BeginInvoke(action, DispatcherPriority.Normal);
         }
@@ -365,8 +296,6 @@ namespace BOA.OneDesigner.WpfControls
                 return true;
             }
 
-            
-
             if (dragElement is BComboBoxInWpf)
             {
                 return true;
@@ -390,12 +319,78 @@ namespace BOA.OneDesigner.WpfControls
             return false;
         }
 
+        void OnSizeChanged()
+        {
+            if (!SelectedElementIsMyChild)
+            {
+                return;
+            }
+
+            CardLayout.Apply(ChildrenContainer);
+        }
+
         /// <summary>
         ///     Refreshes the title.
         /// </summary>
         void RefreshTitle()
         {
             _groupBox.GetBindingExpression(HeaderedContentControl.HeaderProperty)?.UpdateTarget();
+        }
+
+        void Should_delete_and_refresh_if_my_child_selected()
+        {
+            var willBeDeleteElement = ChildrenContainer.Children.ToArray().FirstOrDefault(x => x == Host.SelectedElement);
+            if (willBeDeleteElement == null)
+            {
+                return;
+            }
+
+            var bInput          = Host.SelectedElement as BInputWpf;
+            var dataGridInfoWpf = Host.SelectedElement as BDataGridInfoWpf;
+            var tabControlWpf   = Host.SelectedElement as BTabBarWpf;
+            var bComboBoxInWpf  = Host.SelectedElement as BComboBoxInWpf;
+            var componentWpf    = Host.SelectedElement as ComponentWpf;
+
+            if (bInput != null)
+            {
+                bInput.Model.RemoveFromParent();
+            }
+            else if (dataGridInfoWpf != null)
+            {
+                dataGridInfoWpf.Model.RemoveFromParent();
+            }
+            else if (tabControlWpf != null)
+            {
+                tabControlWpf.Model.RemoveFromParent();
+            }
+            else if (bComboBoxInWpf != null)
+            {
+                bComboBoxInWpf.Model.RemoveFromParent();
+            }
+            else if (componentWpf != null)
+            {
+                componentWpf.Model.Info.RemoveFromParent();
+            }
+            else
+            {
+                throw Error.InvalidOperation();
+            }
+
+            Refresh();
+        }
+
+        void Should_ExitDropLocationMode_when_any_component_selected()
+        {
+            ExitDropLocationMode();
+        }
+
+        void Should_refresh_when_any_my_child_component_moved_or_deleted()
+        {
+            var isMyChild = Children.Contains(Host.SelectedElement);
+            if (isMyChild)
+            {
+                Refresh();
+            }
         }
 
         void UpdateModel(int insertIndex)
@@ -416,25 +411,21 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            
-
-
             var component = Host.SelectedElement as ComponentWpf;
             if (component != null)
             {
                 if (component.Model.IsInToolbox)
                 {
-                    Model.InsertItem(insertIndex, component.Model.Info.Clone());    
+                    Model.InsertItem(insertIndex, component.Model.Info.Clone());
                     return;
                 }
-                
+
                 component.Model.Info.RemoveFromParent();
 
                 Model.InsertItem(insertIndex, component.Model.Info);
 
                 return;
             }
-
 
             var bComboBoxInWpf = Host.SelectedElement as BComboBoxInWpf;
             if (bComboBoxInWpf != null)
@@ -451,7 +442,6 @@ namespace BOA.OneDesigner.WpfControls
 
                 return;
             }
-
 
             var dataGridInfoWpf = Host.SelectedElement as BDataGridInfoWpf;
             if (dataGridInfoWpf != null)
@@ -497,18 +487,6 @@ namespace BOA.OneDesigner.WpfControls
             throw Error.InvalidOperation();
         }
         #endregion
-
-        bool SelectedElementIsMyChild => ChildrenContainer.Children.Contains(Host.SelectedElement);
-
-        void OnSizeChanged()
-        {
-            if (!SelectedElementIsMyChild)
-            {
-                return;
-            }
-
-            CardLayout.Apply(ChildrenContainer);
-        }
 
         #region IEventBusListener
         public event Action OnAttachToEventBus;

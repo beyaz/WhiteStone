@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
@@ -88,6 +87,8 @@ namespace BOA.OneDesigner.WpfControls
 
             var elements = grid.Children.ToArray();
 
+            
+
             foreach (var item in elements)
             {
                 var sizeInfo = (item as ISupportSizeInfo)?.SizeInfo;
@@ -101,8 +102,18 @@ namespace BOA.OneDesigner.WpfControls
 
                 var span = GetSpan(sizeInfo);
 
+                var itemIsButton = (item as ComponentWpf)?.Model?.Info.Type?.IsButton == true;
+                if (itemIsButton)
+                {
+                    span = 3;
+                }
+
                 item.SetValue(Grid.RowProperty, rowIndex);
                 item.SetValue(Grid.ColumnProperty, columnIndex);
+                if (itemIsButton)
+                {
+                    item.SetValue(Grid.ColumnProperty, 12-columnIndex-span);
+                }
                 item.SetValue(Grid.ColumnSpanProperty, span);
 
                 columnIndex += span;

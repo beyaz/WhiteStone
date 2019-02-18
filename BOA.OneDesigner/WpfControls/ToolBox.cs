@@ -150,7 +150,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     IsButton = true
                 },
-                LabelTextInfo = LabelInfoHelper.CreateNewLabelInfo("Button")
+                TextInto = LabelInfoHelper.CreateNewLabelInfo("Button")
             }, isInToolbox: true);
 
             Host.DragHelper.MakeDraggable(button);

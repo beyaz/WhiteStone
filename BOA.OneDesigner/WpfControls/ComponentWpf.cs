@@ -232,7 +232,7 @@ namespace BOA.OneDesigner.WpfControls
             [
                 {
                     view        : 'Button',
-                    Content     : '{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @", Mode = OneWay}'
+                    Content     : '{Binding " + Model.AccessPathOf(m => m.Info.Text) + @", Mode = OneWay}'
                 }
             ]
         }
@@ -270,6 +270,11 @@ namespace BOA.OneDesigner.WpfControls
                 textBlock.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
 
                 textBlock.GetBindingExpression(TextBlock.FontWeightProperty)?.UpdateTarget();
+            }
+
+            foreach (var textBlock in this.FindChildren<Button>())
+            {
+                textBlock.GetBindingExpression(ContentControl.ContentProperty)?.UpdateTarget();
             }
         }
         #endregion
