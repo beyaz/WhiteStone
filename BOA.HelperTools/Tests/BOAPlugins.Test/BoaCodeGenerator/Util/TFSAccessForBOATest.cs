@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.CodeGeneration.Util
 {
@@ -41,11 +42,8 @@ namespace BOA.CodeGeneration.Util
             var path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";
             // path = @"D:\workde\BOA.BusinessModules\Dev\BOA.Card.CreditCardOperation\BOA.Business.Card.CreditCardOperation\BOA.Business.Kernel.CreditCard\CreditCardInstallmentTransaction.designer.cs";
 
-            // ACT
-            var isSuccess = TFSAccessForBOA.CheckoutFile(path);
-
-            // ASSERT
-            Assert.IsTrue(isSuccess);
+            TFSAccessForBOA.CheckoutFile(path).Should().BeTrue();
+            TFSAccessForBOA.UndoCheckoutFile(path).Should().BeTrue();
         }
 
         [TestMethod]

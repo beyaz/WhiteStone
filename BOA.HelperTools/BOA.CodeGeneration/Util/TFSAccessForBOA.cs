@@ -86,6 +86,22 @@ namespace BOA.CodeGeneration.Util
                 return workspace?.PendEdit(path, RecursionType.Full) == 1;
             }
         }
+        public static bool UndoCheckoutFile(string path)
+        {
+            var ConstTfsServerUri = GetTfsServerPath(path);
+
+            using (var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(ConstTfsServerUri)))
+            {
+                if (pc == null)
+                {
+                    return false;
+                }
+
+                var workspaceInfo = Workstation.Current.GetLocalWorkspaceInfo(path);
+                var workspace     = workspaceInfo?.GetWorkspace(pc);
+                return workspace?.Undo(path, RecursionType.Full) == 1;
+            }
+        }
 
         public static string GetFileContent(string path)
         {
