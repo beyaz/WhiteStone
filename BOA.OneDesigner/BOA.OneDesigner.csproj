@@ -91,6 +91,7 @@
     <Compile Include="CodeGeneration\BInformationTextRenderer.cs" />
     <Compile Include="CodeGeneration\BInputRenderer2.cs" />
     <Compile Include="CodeGeneration\FileNamingHelper.cs" />
+    <Compile Include="CodeGeneration\JsBindingPathCalculator.cs" />
     <Compile Include="CodeGeneration\JsObjectInfo.cs" />
     <Compile Include="CodeGeneration\WriterContext.cs" />
     <Compile Include="Helpers\Error.cs" />

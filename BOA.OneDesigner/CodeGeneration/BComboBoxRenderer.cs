@@ -7,47 +7,19 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     internal static class BComboBoxRenderer
     {
-
-       
-        internal static string EvaluateMethodBodyOfGridColumns(string methodName, WriterContext writerContext, BComboBox data)
-        {
-            var sb = new PaddedStringBuilder();
-            if (RenderHelper.IsCommentEnabled)
-            {
-                sb.AppendLine("/**");
-                sb.AppendLine("  *  Gets the column definition of "+ data.SnapName+".");
-                sb.AppendLine("  */");
-            }
-            sb.AppendLine(methodName + "(request:any) : any[]");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-
-            BDataGridRenderer.WriteColumns(writerContext,sb,data.DataGrid);
-
-            
-
-            sb.AppendLine();
-            sb.AppendLine("return columns;");
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            return sb.ToString();
-        }
-
         #region Public Methods
-
         public static void Write(WriterContext writerContext, BComboBox data)
         {
             writerContext.Imports.Add("import { BComboBox } from \"b-combo-box\"");
 
-            var sb = writerContext.Output;
+            var sb         = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
 
             if (data.SelectedValueBindingPath.IsNullOrWhiteSpace())
             {
                 throw Error.BindingPathShouldHaveValue(data.Label, nameof(data.SelectedValueBindingPath));
             }
+
             SnapNamingHelper.InitSnapName(writerContext, data);
 
             writerContext.AddClassBody(EvaluateMethodBodyOfGridColumns(data.TypeScriptMethodNameOfGetGridColumns, writerContext, data));
@@ -61,10 +33,14 @@ namespace BOA.OneDesigner.CodeGeneration
                     throw Error.InvalidOperation($"Is Multi Select true  ise {data.SelectedValueBindingPath} değeri collection tipinde olmalıdır.");
                 }
             }
-            
 
-            var selectedValueBindingPath = RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.SelectedValueBindingPath);
-            var valueMemberPath = TypescriptNaming.NormalizeBindingPath(data.ValueMemberPath);
+            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.SelectedValueBindingPath)
+            {
+                EvaluateInsStateVersion = true
+            };
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+
+            var valueMemberPath   = TypescriptNaming.NormalizeBindingPath(data.ValueMemberPath);
             var displayMemberPath = TypescriptNaming.NormalizeBindingPath(data.DisplayMemberPath);
 
             if (valueMemberPath.IsNullOrWhiteSpace())
@@ -77,20 +53,23 @@ namespace BOA.OneDesigner.CodeGeneration
                 throw Error.BindingPathShouldHaveValue(data.Label, nameof(displayMemberPath));
             }
 
-            var dataSourceBindingPathInTypeScript = RenderHelper.NormalizeBindingPathInRenderMethod( writerContext, data.DataGrid.DataSourceBindingPath);
+            var dataSourceBindingPath = new JsBindingPathCalculatorData(writerContext, data.DataGrid.DataSourceBindingPath)
+            {
+                EvaluateInsStateVersion = false
+            };
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(dataSourceBindingPath);
 
-            sb.AppendLine($"<BComboBox  dataSource = {{{dataSourceBindingPathInTypeScript}}}");
+            sb.AppendLine($"<BComboBox  dataSource = {{{dataSourceBindingPath.BindingPathInJs}}}");
             sb.PaddingCount++;
 
-            
             if (data.IsMultiSelect)
             {
-                sb.AppendLine($"value={{{selectedValueBindingPath}}}");
+                sb.AppendLine($"value={{{jsBindingPath.BindingPathInJsInState}}}");
                 sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"{selectedValueBindingPath} = selectedValues;");
+                sb.AppendLine($"{jsBindingPath.BindingPathInJs} = selectedValues;");
 
                 if (data.ValueChangedOrchestrationMethod.HasValue())
                 {
@@ -102,7 +81,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                sb.AppendLine($"value={{[({selectedValueBindingPath}||\"\")+\"\"]}}");
+                sb.AppendLine($"value={{[({jsBindingPath.BindingPathInJsInState} || \"\") + \"\"]}}");
                 sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -110,16 +89,15 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("if (selectedItems && selectedItems.length === 1)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine($"{selectedValueBindingPath} = selectedItems[0].{valueMemberPath};");
+                sb.AppendLine($"{jsBindingPath.BindingPathInJs} = selectedItems[0].{valueMemberPath};");
                 sb.PaddingCount--;
                 sb.AppendLine("}");
                 sb.AppendLine("else");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine($"{selectedValueBindingPath} = null;");
+                sb.AppendLine($"{jsBindingPath.BindingPathInJs} = null;");
                 sb.PaddingCount--;
                 sb.AppendLine("}");
-
 
                 if (data.ValueChangedOrchestrationMethod.HasValue())
                 {
@@ -130,11 +108,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("}}");
             }
 
-           
-
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
-            RenderHelper.WriteLabelInfo(writerContext, data.LabelInfo,sb.AppendLine,"labelText");
+            RenderHelper.WriteLabelInfo(writerContext, data.LabelInfo, sb.AppendLine, "labelText");
 
             sb.AppendLine("columns = {this." + data.TypeScriptMethodNameOfGetGridColumns + "(request)}");
             sb.AppendLine("multiColumn={true}");
@@ -146,25 +122,48 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 sb.AppendLine("multiSelect={false}");
             }
+
             sb.AppendLine($"valueMemberPath=\"{valueMemberPath}\"");
             sb.AppendLine($"displayMemberPath=\"{displayMemberPath}\"");
 
             if (data.SizeInfo.HasValue())
             {
-                sb.AppendLine("size = {"+ RenderHelper.GetJsValue(data.SizeInfo) +"}");
+                sb.AppendLine("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
             }
 
-            
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
             RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
-
-            
 
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;
         }
+        #endregion
 
-        #endregion Public Methods
+        #region Methods
+        internal static string EvaluateMethodBodyOfGridColumns(string methodName, WriterContext writerContext, BComboBox data)
+        {
+            var sb = new PaddedStringBuilder();
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Gets the column definition of " + data.SnapName + ".");
+                sb.AppendLine("  */");
+            }
+
+            sb.AppendLine(methodName + "(request:any) : any[]");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            BDataGridRenderer.WriteColumns(writerContext, sb, data.DataGrid);
+
+            sb.AppendLine();
+            sb.AppendLine("return columns;");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+        #endregion
     }
 }

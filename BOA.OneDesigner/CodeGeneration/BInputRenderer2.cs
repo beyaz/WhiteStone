@@ -34,7 +34,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var isDateTime = false;
 
-            var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
+            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.ValueBindingPath)
+            {
+                EvaluateInsStateVersion = true
+            };
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
 
             var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName, data.ValueBindingPath);
 
@@ -71,10 +75,10 @@ namespace BOA.OneDesigner.CodeGeneration
                     writerContext.Imports.Add("import { BInput } from \"b-input\"");
                 }
 
-                sb.AppendLine($"<{tag} value = {{{bindingPathInJs}||\"\"}}");
+                sb.AppendLine($"<{tag} value = {{{jsBindingPath.BindingPathInJsInState} || \"\"}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: string) => {bindingPathInJs} = value}}");
+                sb.AppendLine($"onChange = {{(e: any, value: string) => {jsBindingPath.BindingPathInJs} = value}}");
 
                 if (data.Mask.HasValue())
                 {
@@ -94,16 +98,16 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (isDecimal)
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.BindingPathInJsInState}}}");
                 }
                 else
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}||\"\"}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.BindingPathInJsInState} || \"\"}}");
                 }
 
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: number) => {bindingPathInJs} = value}}");
+                sb.AppendLine($"onChange = {{(e: any, value: number) => {jsBindingPath.BindingPathInJs} = value}}");
                 sb.AppendLine("format = {\"D\"}");
                 sb.AppendLine("maxLength = {22}");
             }
@@ -111,19 +115,19 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 writerContext.Imports.Add("import { BCheckBox } from \"b-check-box\"");
 
-                sb.AppendLine($"<BCheckBox checked = {{{bindingPathInJs}}}");
+                sb.AppendLine($"<BCheckBox checked = {{{jsBindingPath.BindingPathInJsInState}}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onCheck = {{(e: any, value: boolean) => {bindingPathInJs} = value}}");
+                sb.AppendLine($"onCheck = {{(e: any, value: boolean) => {jsBindingPath.BindingPathInJs} = value}}");
             }
             else if (isDateTime)
             {
                 writerContext.Imports.Add("import { BDateTimePicker } from \"b-datetime-picker\"");
 
-                sb.AppendLine($"<BDateTimePicker value = {{{bindingPathInJs}}}");
+                sb.AppendLine($"<BDateTimePicker value = {{{jsBindingPath.BindingPathInJsInState}}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"dateOnChange = {{(e: any, value: Date) => {bindingPathInJs} = value}}");
+                sb.AppendLine($"dateOnChange = {{(e: any, value: Date) => {jsBindingPath.BindingPathInJs} = value}}");
                 sb.AppendLine("format = \"DDMMYYYY\"");
             }
             else
@@ -132,40 +136,31 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (isNullableNumber)
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}||\"\"}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.BindingPathInJsInState} || \"\"}}");
                 }
                 else
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.BindingPathInJsInState}}}");
                 }
 
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: number) => {bindingPathInJs} = value}}");
+                sb.AppendLine($"onChange = {{(e: any, value: number) => {jsBindingPath.BindingPathInJs} = value}}");
                 sb.AppendLine("maxLength = {10}");
             }
 
-
-
             if (isBoolean)
             {
-                        
-                RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine,"label");
+                RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, "label");
             }
             else if (isDateTime)
             {
-                RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine,"floatingLabelTextDate");
-
-                        
+                RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, "floatingLabelTextDate");
             }
             else
             {
-                RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine,"floatingLabelText");
-
-                        
+                RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, "floatingLabelText");
             }
-
-            
 
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
             RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);

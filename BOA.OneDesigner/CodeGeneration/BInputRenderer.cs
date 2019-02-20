@@ -31,6 +31,8 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static void Write(WriterContext writerContext, BInput data)
         {
+            throw Error.InvalidOperation("Go to Abdullah Beyaztaş");
+            /*
             var sb         = writerContext.Output;
             var screenInfo = writerContext.ScreenInfo;
 
@@ -56,7 +58,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var isDateTime = false;
 
-            var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
+            var jsBindingPath = new JsBindingPathCalculatorData(writerContext,data.ValueBindingPath)
+            {
+                EvaluateInsStateVersion = true
+            };
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+
+            var bindingPathInJs = jsBindingPath.BindingPathInJs;
 
             if (data.IsAccountComponent) // TODO remove
             {
@@ -130,7 +138,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                  
 
-                    sb.AppendLine($"<{tag} value = {{{bindingPathInJs}||\"\"}}");
+                    sb.AppendLine($"<{tag} value = {{{bindingPathInJs} || \"\"}}");
                     sb.PaddingCount++;
 
                     sb.AppendLine($"onChange = {{(e: any, value: string) => {bindingPathInJs} = value}}");
@@ -157,7 +165,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     }
                     else
                     {
-                        sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}||\"\"}}");
+                        sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs} || \"\"}}");
                     }
                     
                     sb.PaddingCount++;
@@ -191,7 +199,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     if (isNullableNumber)
                     {
-                        sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs}||\"\"}}");    
+                        sb.AppendLine($"<BInputNumeric value = {{{bindingPathInJs} || \"\"}}");    
                     }
                     else
                     {
@@ -252,6 +260,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;
+            */
         }
         #endregion
     }

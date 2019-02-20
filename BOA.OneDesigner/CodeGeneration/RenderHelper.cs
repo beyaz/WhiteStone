@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -75,7 +74,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsRequestBindingPath)
             {
-                return NormalizeBindingPathInRenderMethod(writerContext, data.RequestBindingPath);
+                var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.RequestBindingPath)
+                {
+                    EvaluateInsStateVersion = false
+                };
+                JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+
+                return jsBindingPath.BindingPathInJs;
             }
 
             if (data.IsFromMessaging)
@@ -91,48 +96,29 @@ namespace BOA.OneDesigner.CodeGeneration
             return size != null && size.IsEmpty == false;
         }
 
-        public static string NormalizeBindingPathInRenderMethod(WriterContext writerContext, string bindingPathInCSharp)
+        public static string TransformBindingPathInJsToStateAccessedVersion(string bindingPathInJs)
         {
-            var bindingPathInJs = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + bindingPathInCSharp);
-
-            var list = bindingPathInJs.SplitAndClear(".");
-
-            if (list.Count <= 2)
+            var paths = bindingPathInJs.Split('.');
+            if (paths.Length != 2)
             {
-                return bindingPathInJs;
+                throw Error.InvalidOperation(bindingPathInJs);
             }
 
-            var len = list.Count - 2;
+            paths[0] = paths[0] + "InState";
 
-            for (var i = 0; i < len; i++)
-            {
-                var assignments = new string[2];
-
-                Array.Copy(list.ToArray(), i, assignments, 0, 2);
-
-                var assignmentValue = string.Join(".", assignments);
-
-                var variable = $"const {list[i + 1]} = {assignmentValue}||{{}};";
-
-                if (writerContext.RenderMethodRequestRelatedVariables.Contains(variable) == false)
-                {
-                    writerContext.RenderMethodRequestRelatedVariables.Add(variable);
-                }
-            }
-
-            return string.Join(".", list.Reverse().Take(2).Reverse());
+            return string.Join(".", paths);
         }
 
-        public static void WriteButtonAction(PaddedStringBuilder sb,ButtonActionInfo buttonActionInfo)
+        public static void WriteButtonAction(PaddedStringBuilder sb, ButtonActionInfo buttonActionInfo)
         {
             if (buttonActionInfo.OpenFormWithResourceCode.HasValue() && buttonActionInfo.OrchestrationMethodName.HasValue())
             {
-                throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz."+buttonActionInfo.DesignerLocation);
+                throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz." + buttonActionInfo.DesignerLocation);
             }
 
             if (buttonActionInfo.OpenFormWithResourceCode.IsNullOrWhiteSpace() && buttonActionInfo.OrchestrationMethodName.IsNullOrWhiteSpace())
             {
-                throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır."+buttonActionInfo.DesignerLocation);
+                throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır." + buttonActionInfo.DesignerLocation);
             }
 
             if (buttonActionInfo.OpenFormWithResourceCode.HasValue())
@@ -161,7 +147,13 @@ namespace BOA.OneDesigner.CodeGeneration
                 return;
             }
 
-            sb.AppendLine($"disabled = {{{NormalizeBindingPathInRenderMethod(writerContext, IsDisabledBindingPath)}}}");
+            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, IsDisabledBindingPath)
+            {
+                EvaluateInsStateVersion = false
+            };
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+
+            sb.AppendLine($"disabled = {{{jsBindingPath.BindingPathInJs}}}");
         }
 
         public static void WriteIsVisible(WriterContext writerContext, string IsVisibleBindingPath, PaddedStringBuilder sb)
@@ -171,7 +163,13 @@ namespace BOA.OneDesigner.CodeGeneration
                 return;
             }
 
-            sb.AppendLine($"isVisible = {{{NormalizeBindingPathInRenderMethod(writerContext, IsVisibleBindingPath)}}}");
+            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, IsVisibleBindingPath)
+            {
+                EvaluateInsStateVersion = false
+            };
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+
+            sb.AppendLine($"isVisible = {{{jsBindingPath.BindingPathInJs}}}");
         }
 
         public static void WriteLabelInfo(WriterContext writerContext, LabelInfo data, Action<string> output, string attributeName, string endPrefix = null)

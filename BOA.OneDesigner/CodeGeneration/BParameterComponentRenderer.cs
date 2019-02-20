@@ -7,26 +7,26 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static void Write(WriterContext writerContext, ComponentInfo data)
         {
-            var sb         = writerContext.Output;
-            var screenInfo = writerContext.ScreenInfo;
+            var sb = writerContext.Output;
 
             writerContext.Imports.Add("import { BParameterComponent } from \"b-parameter-component\"");
 
-            SnapNamingHelper.InitSnapName(writerContext,data);
+            SnapNamingHelper.InitSnapName(writerContext, data);
 
-            var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
+            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.ValueBindingPath)
+            {
+                EvaluateInsStateVersion = true
+            };
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
 
-            sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{bindingPathInJs}+\"\"}}");
+            sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{jsBindingPath.BindingPathInJsInState}+\"\"}}");
             sb.PaddingCount++;
-            sb.AppendLine($" onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{bindingPathInJs}}} = selectedParameter ? selectedParameter.paramCode : null}}");
+            sb.AppendLine($" onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{jsBindingPath.BindingPathInJs}}} = selectedParameter ? selectedParameter.paramCode : null}}");
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
             sb.AppendLine("paramType = \"" + data.ParamType + "\"");
 
-           
-
-            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine," hintText");
-            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.AppendLine," labelText");
-
+            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, " hintText");
+            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, " labelText");
 
             if (data.IsAllOptionIncluded)
             {
@@ -42,8 +42,6 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{ name: \"paramDescription\", header: 'Açıklama',  width:   200 }");
             sb.AppendLine("]}");
 
-
-
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
             RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
 
@@ -51,7 +49,6 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 sb.AppendLine("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
             }
-
 
             sb.AppendLine("context = {context}/>");
 

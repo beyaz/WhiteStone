@@ -5,6 +5,7 @@ using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.MainForm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Exception = System.Exception;
 
 namespace BOA.OneDesigner.WpfControls
 {
@@ -26,7 +27,14 @@ namespace BOA.OneDesigner.WpfControls
 
                 foreach (var screen in screens)
                 {
-                    Controller.Generate(screen);
+                    try
+                    {
+                        Controller.Generate(screen);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
                 }
             }
         }

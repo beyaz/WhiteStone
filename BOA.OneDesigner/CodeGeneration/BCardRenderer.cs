@@ -23,9 +23,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (data.IsVisibleBindingPath.HasValue())
                 {
-                    var isVisibleBindingPath = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.IsVisibleBindingPath);
+                    var jsBindingPath = new JsBindingPathCalculatorData(writerContext,data.IsVisibleBindingPath)
+                    {
+                        EvaluateInsStateVersion = false
+                    };
+                    JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
 
-                    sb.Append(" style={{ display: " + isVisibleBindingPath + " ? 'inherit' : 'none' }} ");
+                    sb.Append(" style={{ display: " + jsBindingPath.BindingPathInJs + " ? 'inherit' : 'none' }} ");
                 }
 
                 RenderHelper.WriteLabelInfo(writerContext, data.TitleInfo, sb.Append, " title");

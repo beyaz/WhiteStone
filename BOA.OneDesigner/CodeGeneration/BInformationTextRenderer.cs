@@ -7,22 +7,17 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static void Write(WriterContext writerContext, ComponentInfo data)
         {
-            var sb         = writerContext.Output;
-            var screenInfo = writerContext.ScreenInfo;
+            var sb = writerContext.Output;
 
             writerContext.Imports.Add("import { BInformationText } from \"b-information-text\"");
 
-            var bindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ValueBindingPath);
-
             sb.AppendWithPadding("<BInformationText");
 
-            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo,sb.Append," labelText");
-            RenderHelper.WriteLabelInfo(writerContext, data.InfoText,sb.Append," infoText");
+            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.Append, " labelText");
+            RenderHelper.WriteLabelInfo(writerContext, data.InfoText, sb.Append, " infoText");
 
             sb.Append(" context = {context} />");
             sb.AppendLine();
-
-            
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.OneDesigner.CodeGeneration
@@ -8,27 +9,57 @@ namespace BOA.OneDesigner.CodeGeneration
     {
         #region Public Methods
         [TestMethod]
-        public void Long_binding_paths_should_be_shorten_in_variables()
+        public void Long_binding_paths_should_be_shorten_in_variables_0()
         {
-            var writerContext = new WriterContext();
+            var variables = new List<string>();
 
-            var bindingPath = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, "dataContract.UserName");
+            var jsBindingPath = new JsBindingPathCalculatorData
+            {
+                RenderMethodRequestRelatedVariables = variables,
+                BindingPathInCSharpInDesigner       = "dataContract.UserName",
+                EvaluateInsStateVersion             = true
+            };
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
 
-            bindingPath.Should().Be("dataContract.userName");
+            jsBindingPath.BindingPathInJs.Should().Be("dataContract.userName");
 
-            writerContext.RenderMethodRequestRelatedVariables.Should().BeEquivalentTo("const dataContract = request.dataContract||{};");
+            variables.Should().BeEquivalentTo("const dataContract = request.dataContract || {};",
+                                              "const dataContractInState = requestInState.dataContract || {};");
+        }
 
+        [TestMethod]
+        public void Long_binding_paths_should_be_shorten_in_variables_1()
+        {
+            var variables = new List<string>();
 
+            var jsBindingPath = new JsBindingPathCalculatorData
+            {
+                RenderMethodRequestRelatedVariables = variables,
+                BindingPathInCSharpInDesigner       = "dataContract.User.Info.UserName",
+                EvaluateInsStateVersion             = true
+            };
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
 
-            bindingPath = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, "dataContract.User.Info.UserName");
+            jsBindingPath.BindingPathInJs.Should().Be("info.userName");
 
-            bindingPath.Should().Be("info.userName");
+            variables.Should().BeEquivalentTo("const dataContract = request.dataContract || {};",
+                                "const dataContractInState = requestInState.dataContract || {};",
+                                "const user = dataContract.user || {};",
+                                "const userInState = dataContractInState.user || {};",
+                                "const info = user.info || {};",
+                                "const infoInState = userInState.info || {};");
+        }
 
-            writerContext.RenderMethodRequestRelatedVariables.Should().BeEquivalentTo("const dataContract = request.dataContract||{};",
-                                                                                      "const user = dataContract.user||{};",
-                                                                                      "const info = user.info||{};");
+        [TestMethod]
+        public void TransformBindingPathInJsToStateAccessedVersion()
+        {
+            RenderHelper.TransformBindingPathInJsToStateAccessedVersion("request.userName")
+                        .Should()
+                        .Be("requestInState.userName");
 
-
+            RenderHelper.TransformBindingPathInJsToStateAccessedVersion("x.y")
+                        .Should()
+                        .Be("xInState.y");
         }
         #endregion
     }

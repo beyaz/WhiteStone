@@ -29,6 +29,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 Imports = new List<string>
                 {
                     "import * as React from \"react\"",
+                    "import { cloneDeep } from \"lodash\"",
                     "import { BFormManager } from \"b-form-manager\"",
                     "import { getMessage } from \"b-framework\"",
                     "import { ComponentSize } from \"b-component\""
@@ -139,18 +140,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine();
             sb.AppendLine("// on tab changed no need to go to orchestration");
-            sb.AppendLine("if ( this.state.windowRequest )");
+            sb.AppendLine("if (this.snaps.data.windowRequest)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("this.setWindowRequest(");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-            sb.AppendLine("body: this.state.windowRequest,");
-            sb.AppendLine("type: WindowRequestFullName");
-            sb.PaddingCount--;
-            sb.AppendLine("});");
-
+            sb.AppendLine("this.setState({ windowRequest: cloneDeep(this.snaps.data.windowRequest) });");
             sb.AppendLine("return;");
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -190,11 +184,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine();
                 if (writerContext.DataContractAccessPathInWindowRequestIsCalculated)
                 {
-                    sb.AppendLine("this.sendRequestToServer({" + writerContext.DataContractAccessPathInWindowRequest + ": this.state.pageParams.data}, \"LoadData\" );");
+                    sb.AppendLine("this.sendRequestToServer({ " + writerContext.DataContractAccessPathInWindowRequest + ": this.state.pageParams.data}, \"LoadData\");");
                 }
                 else
                 {
-                    sb.AppendLine("this.sendRequestToServer({}, \"LoadData\" );");
+                    sb.AppendLine("this.sendRequestToServer({}, \"LoadData\");");
                 }
             }
 
@@ -216,7 +210,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const request = this.state.windowRequest;");
+            sb.AppendLine("const request = this.snaps.data.windowRequest;");
 
             foreach (var resourceAction in writerContext.EvaluatedActions)
             {
@@ -282,7 +276,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, this.getWindowRequest().body);");
+            sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, this.snaps.data.windowRequest || {});");
 
             if (writerContext.HasWorkflow)
             {
@@ -315,12 +309,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("  */");
             }
 
-            sb.AppendLine("proxyDidRespond(proxyResponse: ProxyResponse)");
+            sb.AppendLine("proxyDidRespond(proxyResponse: GenericProxyResponse<any>)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const { success, results } = proxyResponse.response;");
-            sb.AppendLine("const value: any           = (proxyResponse.response as any).value;");
+            sb.AppendLine("const { success, results, value } = proxyResponse.response;");
 
             sb.AppendLine();
             sb.AppendLine("if (!success)");
@@ -378,7 +371,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("if (hasWorkflow)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine("const windowRequestInForm = this.getWindowRequest().body;");
+                sb.AppendLine("const windowRequestInForm = this.snaps.data.windowRequest || {};");
                 sb.AppendLine();
                 sb.AppendLine("value.hasWorkflow = windowRequestInForm.hasWorkflow;");
                 sb.AppendLine();
@@ -398,12 +391,15 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("    value.statusMessage = null;");
             sb.AppendLine("}");
 
-            sb.AppendLine();
-            sb.AppendLine("this.setWindowRequest(");
-            sb.AppendLine("{");
-            sb.AppendLine("    body: value,");
-            sb.AppendLine("    type: WindowRequestFullName");
-            sb.AppendLine("});");
+            if (writerContext.HasWorkflow)
+            {
+                sb.AppendLine();
+                sb.AppendLine("this.setWindowRequest(");
+                sb.AppendLine("{");
+                sb.AppendLine("    body: value,");
+                sb.AppendLine("    type: WindowRequestFullName");
+                sb.AppendLine("});");
+            }
 
             if (writerContext.BeforeSetStateOnProxyDidResponse?.Count > 0)
             {
@@ -416,7 +412,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
             sb.AppendLine();
-            sb.AppendLine("this.setState(");
+            sb.AppendWithPadding("this.setState(");
 
             writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest", "value");
 
@@ -479,7 +475,9 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const request = this.getWindowRequest().body||{};");
+            sb.AppendLine("const request = this.snaps.data.windowRequest || {};");
+            sb.AppendLine();
+            sb.AppendLine("const requestInState = this.state.windowRequest || {};");
             foreach (var line in writerContext.RenderMethodRequestRelatedVariables)
             {
                 sb.AppendLine();
@@ -488,6 +486,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine();
             sb.AppendLine("const context = this.state.context;");
+            sb.AppendLine();
 
             writerContext.Output = temp;
 
@@ -707,7 +706,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     {
                         if (resourceAction.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
                         {
-                            var bindingPathForDataParameter = "this.getWindowRequest().body." + TypescriptNaming.NormalizeBindingPath(resourceAction.OpenFormWithResourceCodeDataParameterBindingPath);
+                            var bindingPathForDataParameter = "this.snaps.data.windowRequest." + TypescriptNaming.NormalizeBindingPath(resourceAction.OpenFormWithResourceCodeDataParameterBindingPath);
 
                             sb.AppendLine($"BFormManager.show(\"{resourceAction.OpenFormWithResourceCode.Trim()}\", /*data*/{bindingPathForDataParameter}, true,null);");
                         }

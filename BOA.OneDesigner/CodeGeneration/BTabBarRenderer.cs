@@ -12,8 +12,7 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static void Write(WriterContext writerContext, BTabBar data)
         {
-            var sb         = writerContext.Output;
-            var screenInfo = writerContext.ScreenInfo;
+            var sb = writerContext.Output;
 
             SnapNamingHelper.InitSnapName(writerContext, data);
 
@@ -31,10 +30,14 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                var activeTabIndexBindingPathInJs = RenderHelper.NormalizeBindingPathInRenderMethod(writerContext, data.ActiveTabIndexBindingPath);
+                var activeTabIndexBindingPath = new JsBindingPathCalculatorData(writerContext, data.ActiveTabIndexBindingPath)
+                {
+                    EvaluateInsStateVersion = true
+                };
+                JsBindingPathCalculator.CalculateBindingPathInRenderMethod(activeTabIndexBindingPath);
 
-                sb.AppendLine("value={" + activeTabIndexBindingPathInJs + "}");
-                sb.AppendLine($"onChange = {{(e: any, value: number) => {activeTabIndexBindingPathInJs} = value}}");
+                sb.AppendLine("value={" + activeTabIndexBindingPath.BindingPathInJsInState + "}");
+                sb.AppendLine($"onChange = {{(e: any, value: number) => {activeTabIndexBindingPath.BindingPathInJs} = value}}");
             }
 
             if (data.SizeInfo != null && data.SizeInfo.IsEmpty == false)
@@ -55,9 +58,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-               
-                RenderHelper.WriteLabelInfo(writerContext, bTabBarPage.TitleInfo,sb.AppendLine,"text:",",");
-
+                RenderHelper.WriteLabelInfo(writerContext, bTabBarPage.TitleInfo, sb.AppendLine, "text:", ",");
 
                 sb.AppendLine($"value : {i},");
 
