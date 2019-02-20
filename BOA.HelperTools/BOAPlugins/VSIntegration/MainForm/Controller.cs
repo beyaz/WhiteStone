@@ -206,6 +206,8 @@ namespace BOAPlugins.VSIntegration.MainForm
                 ActiveProjectName           = VisualStudio.ActiveProjectName
             };
 
+            Log.Push(input);
+
             var result = new ViewClassDependency.Handler().Handle(input);
 
             if (result.ErrorMessage != null)

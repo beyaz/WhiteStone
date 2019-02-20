@@ -45,6 +45,14 @@ namespace BOA.Common.Helpers
         {
             PushInternal(message, callerMemberName);
         }
+
+        /// <summary>
+        ///     Pushes the specified instance.
+        /// </summary>
+        public static void Push<T>(T instance, [CallerMemberName] string callerMemberName = null)
+        {
+            PushInternal(JsonHelper.Serialize(instance), callerMemberName);
+        }
         #endregion
 
         #region Methods

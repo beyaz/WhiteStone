@@ -18,9 +18,10 @@ namespace BOAPlugins.Test.ViewClassDependency
         {
             var data = new Data
             {
-                OutputFileFullPath          = @"D:\Users\beyaztas\Documents\ClassDependencyView.dgml",
-                SelectedText                = "ProvisionTechnicalEngine",
-                AssemblySearchDirectoryPath = @"D:\work\BOA.Kernel\Dev\BOA.Kernel.CardGeneral\DebitCard\BOA.Engine.DebitCard\bin\Debug\"
+                OutputFileFullPath = @"D:\Users\beyaztas\Documents\ClassDependencyView.dgml",
+                SelectedText       = "DebitCardApplicationInserter",
+                ActiveProjectName  = "BOA.Process.Kernel.DebitCard",
+                AssemblySearchDirectoryPath = @"D:\Work\BOA.Kernel\Dev\BOA.Kernel.CardGeneral\DebitCard\BOA.Process.Kernel.DebitCard\bin\Debug\"
             };
             var result = new Handler().Handle(data);
 

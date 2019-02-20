@@ -1,5 +1,8 @@
+using System;
+
 namespace BOAPlugins.ViewClassDependency
 {
+    [Serializable]
     public class Data
     {
         #region Public Properties
