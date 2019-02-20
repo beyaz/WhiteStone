@@ -391,6 +391,9 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("    value.statusMessage = null;");
             sb.AppendLine("}");
 
+            sb.AppendLine();
+            sb.AppendLine("this.snaps.data.windowRequest = value;");
+
             if (writerContext.HasWorkflow)
             {
                 sb.AppendLine();
