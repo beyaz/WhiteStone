@@ -200,7 +200,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
         static void EvaluateActions(WriterContext writerContext)
         {
-            if (writerContext.EvaluatedActions.Count == 0)
+            if (!writerContext.CanWriteEvaluateActions)
             {
                 return;
             }
@@ -627,6 +627,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
         static void WriteOnActionClick(WriterContext writerContext)
         {
+            if (writerContext.ScreenInfo.ResourceActions == null)
+            {
+                return;
+            }
+
             var resourceActions = writerContext.ScreenInfo.ResourceActions;
 
             var sb = new PaddedStringBuilder();
