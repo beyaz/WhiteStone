@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -31,7 +32,7 @@ namespace CustomUIMarkupLanguage
 
             if (ignoreCase)
             {
-                fieldInfo = fields.FirstOrDefault(p => p.Name.ToUpperEN() == fieldName.ToUpperEN());
+                fieldInfo = fields.FirstOrDefault(p => p.Name.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
             }
             else
             {
@@ -40,7 +41,7 @@ namespace CustomUIMarkupLanguage
 
             if (fieldInfo == null && throwExceptionOnNotFound)
             {
-                throw new MissingMemberException(type.FullName + "::" + fieldName);
+                throw CreateMissingMemberException(type, fieldName);
             }
 
             return fieldInfo;
@@ -67,7 +68,7 @@ namespace CustomUIMarkupLanguage
 
             if (ignoreCase)
             {
-                methodInfo = methods.FirstOrDefault(p => p.Name.ToUpperEN() == methodName.ToUpperEN());
+                methodInfo = methods.FirstOrDefault(p => p.Name.Equals(methodName, StringComparison.OrdinalIgnoreCase));
             }
             else
             {
@@ -76,7 +77,7 @@ namespace CustomUIMarkupLanguage
 
             if (methodInfo == null && throwExceptionOnNotFound)
             {
-                throw new MissingMemberException(type.FullName + "::" + methodName);
+                throw CreateMissingMemberException(type, methodName);
             }
 
             return methodInfo;
@@ -103,7 +104,7 @@ namespace CustomUIMarkupLanguage
 
             if (ignoreCase)
             {
-                propertyInfo = fields.FirstOrDefault(p => p.Name.ToUpperEN() == propertyName.ToUpperEN());
+                propertyInfo = fields.FirstOrDefault(p => p.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
             }
             else
             {
@@ -112,7 +113,7 @@ namespace CustomUIMarkupLanguage
 
             if (propertyInfo == null && throwExceptionOnNotFound)
             {
-                throw new MissingMemberException(type.FullName + "::" + propertyName);
+                throw CreateMissingMemberException(type, propertyName);
             }
 
             return propertyInfo;
@@ -120,6 +121,14 @@ namespace CustomUIMarkupLanguage
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Creates the missing member exception.
+        /// </summary>
+        static MissingMemberException CreateMissingMemberException(Type type, string memberName)
+        {
+            throw new MissingMemberException(type.FullName + Path.VolumeSeparatorChar + Path.VolumeSeparatorChar + memberName);
+        }
+
         /// <summary>
         ///     Gets the flag.
         /// </summary>

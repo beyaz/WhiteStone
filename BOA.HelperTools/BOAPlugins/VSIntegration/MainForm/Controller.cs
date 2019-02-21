@@ -85,7 +85,6 @@ namespace BOAPlugins.VSIntegration.MainForm
             {
                 Model.ViewTypeDependencyOfSelectedProjectIsVisible = true;
             }
-            
         }
 
         public void OpenPluginDirectory()
@@ -237,6 +236,8 @@ namespace BOAPlugins.VSIntegration.MainForm
                 Model.ViewMessageTypeIsError = true;
                 return;
             }
+
+            Model.ViewShouldBeClose = true;
 
             VisualStudio.OpenFile(data.GraphFilePath);
         }
