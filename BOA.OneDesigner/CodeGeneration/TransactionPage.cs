@@ -417,7 +417,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine();
             sb.AppendWithPadding("this.setState(");
 
-            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest", "value");
+            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest", "cloneDeep(value)");
 
             JsObjectInfoMultiLineWriter.Write(sb, writerContext.StateObjectWhenIncomingRequestIsSuccess);
             sb.Append(");");
