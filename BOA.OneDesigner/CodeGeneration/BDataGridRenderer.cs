@@ -189,7 +189,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var dataSourceBindingPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.DataSourceBindingPath);
 
-            sb.AppendLine("const request = this.state.windowRequest;");
+            sb.AppendLine("const request = this.snaps.data.windowRequest;");
             sb.AppendLine();
             sb.AppendLine(fieldPath + $" = ({dataSourceBindingPath} as any[]).find(x => x.isSelected);");
             sb.AppendLine();
