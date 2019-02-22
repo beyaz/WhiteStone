@@ -37,48 +37,7 @@ namespace BOA.OneDesigner.PropertyEditors
         {ui:'RequestIntellisenseTextBox', Margin:5, SearchByCurrentSelectedDataGridDataSourceContract:true,  Text:'{Binding " + nameof(BComboBox.ValueMemberPath) + @"}', Label:'Value Member Path' },
         {ui:'RequestIntellisenseTextBox', Margin:5, SearchByCurrentSelectedDataGridDataSourceContract:true,  Text:'{Binding " + nameof(BComboBox.DisplayMemberPath) + @"}', Label:'Display Member Path' }
         ,
-        {
-            ui      : 'Expander',
-            Header  : 'Visual',
-            Content :
-            [
-                {
-                    ui:'StackPanel',
-                    Childs:
-                    [
-                        {
-                            ui      : 'RequestIntellisenseTextBox', 
-                            Margin  : 5, 
-                            ShowOnlyBooleanProperties:true, 
-                            Text    : '{Binding " + nameof(BComboBox.IsVisibleBindingPath) + @"}', 
-                            Label   : 'Is Visible' 
-                        }
-                        ,
-                        {
-                            ui      : 'RequestIntellisenseTextBox',
-                            Margin  : 5, 
-                            ShowOnlyBooleanProperties:true, 
-                            Text    : '{Binding " + nameof(BComboBox.IsDisabledBindingPath) + @"}', 
-                            Label   : 'Is Disabled' 
-                        }
-                    ]
-                }
-            ]
-        }
-        ,
-
-
-
-
-
-
-
-
-
-
-        {ui:'RequestIntellisenseTextBox', Margin:5, ShowOnlyOrchestrationMethods:true, Name : '"+nameof(_valueChanged)+@"', Text:'{Binding " + nameof(Model.ValueChangedOrchestrationMethod) + @"}', Label:'On Value Changed' },    
-
-{   
+        {   
             ui       :'CheckBox', 
             Content  :'Is Multi Select', 
             MarginTop: 10, 
@@ -86,9 +45,60 @@ namespace BOA.OneDesigner.PropertyEditors
             Checked  : '" + nameof(OnIsMultiSelectChanged) + @"',
             Unchecked: '" + nameof(OnIsMultiSelectChanged) + @"',
             Name     : '" + nameof(_isMultiSelect)+@"'
-        },
+        }
+        ,
+        {
+            ui      : 'Expander',
+            Header  : 'Visual',
+            Content :            
+            {
+                ui:'StackPanel',
+                Childs:
+                [
+                    {
+                        ui      : 'RequestIntellisenseTextBox', 
+                        Margin  : 5, 
+                        ShowOnlyBooleanProperties:true, 
+                        Text    : '{Binding " + nameof(BComboBox.IsVisibleBindingPath) + @"}', 
+                        Label   : 'Is Visible' 
+                    }
+                    ,
+                    {
+                        ui      : 'RequestIntellisenseTextBox',
+                        Margin  : 5, 
+                        ShowOnlyBooleanProperties:true, 
+                        Text    : '{Binding " + nameof(BComboBox.IsDisabledBindingPath) + @"}', 
+                        Label   : 'Is Disabled' 
+                    }
+                ]
+            }
+            
+        }
+        ,
+        {
+            ui      : 'Expander',
+            Header  : 'Events',
+            Content :            
+            {
+                ui:'StackPanel',
+                Childs:
+                [   
+                    {
+                        ui                          : 'RequestIntellisenseTextBox', 
+                        Margin                      : 5, 
+                        ShowOnlyOrchestrationMethods: true, 
+                        Name                        : '"+nameof(_valueChanged)+@"', 
+                        Text                        : '{Binding " + nameof(Model.ValueChangedOrchestrationMethod) + @"}', 
+                        Label                       : 'On Value Changed' 
+                    }
+                ]
+            }
+            
+        }
+        ,
+        
 
-        {ui:'Button', Text:'Delete', MarginTop: 10, Click:'" + nameof(Delete) + @"'}
+        {ui:'Button', Text:'Delete', MarginTop: 20, Click:'" + nameof(Delete) + @"'}
 	]
 }
 
