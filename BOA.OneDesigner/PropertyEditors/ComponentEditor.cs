@@ -256,6 +256,7 @@ namespace BOA.OneDesigner.PropertyEditors
         {
             ui      : 'Button',
             Text    : 'Delete',
+            Margin  : 20,
             Click   : '" + nameof(Delete) + @"'
         }
 
@@ -269,10 +270,17 @@ namespace BOA.OneDesigner.PropertyEditors
 
             foreach (var child in Children)
             {
+
                 var frameworkElement = child as FrameworkElement;
                 if (frameworkElement != null)
                 {
-                    frameworkElement.Margin = new Thickness(5, 15, 5, 0);
+                    var zeroMargin = new Thickness(0);
+
+                    if (frameworkElement.Margin == zeroMargin)
+                    {
+                        frameworkElement.Margin = new Thickness(5, 15, 5, 0);    
+                    }
+                    
                 }
             }
 
