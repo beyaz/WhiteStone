@@ -27,24 +27,39 @@ namespace BOA.OneDesigner.PropertyEditors
 
 { 
     Margin:10,
-	Childs:[
-		{ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BComboBox.SelectedValueBindingPath) + @"}', Label:'Selected Value Binding Path' },
-		{ui:'LabelEditor', Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(BComboBox.LabelInfo) + @"}'},
-        {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BComboBox.SizeInfo) + @"}'},
+	Childs:
+    [
 
-        
+        {
+            ui          : 'Expander',
+            Header      : 'Data',
+            IsExpanded  : true,
+            Content     :
+            {
+                ui:'StackPanel',
+                Childs:
+                [   
+                    {ui:'RequestIntellisenseTextBox', Margin:5, Text:'{Binding " + nameof(BComboBox.SelectedValueBindingPath) + @"}', Label:'Selected Value Binding Path' },
+		            {ui:'LabelEditor', Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(BComboBox.LabelInfo) + @"}'},
+                    {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BComboBox.SizeInfo) + @"}'},
 
-        {ui:'RequestIntellisenseTextBox', Margin:5, SearchByCurrentSelectedDataGridDataSourceContract:true,  Text:'{Binding " + nameof(BComboBox.ValueMemberPath) + @"}', Label:'Value Member Path' },
-        {ui:'RequestIntellisenseTextBox', Margin:5, SearchByCurrentSelectedDataGridDataSourceContract:true,  Text:'{Binding " + nameof(BComboBox.DisplayMemberPath) + @"}', Label:'Display Member Path' }
-        ,
-        {   
-            ui       :'CheckBox', 
-            Content  :'Is Multi Select', 
-            MarginTop: 10, 
-            IsChecked: '{Binding " + nameof(Model.IsMultiSelect) + @"}', 
-            Checked  : '" + nameof(OnIsMultiSelectChanged) + @"',
-            Unchecked: '" + nameof(OnIsMultiSelectChanged) + @"',
-            Name     : '" + nameof(_isMultiSelect)+@"'
+                    
+
+                    {ui:'RequestIntellisenseTextBox', Margin:5, SearchByCurrentSelectedDataGridDataSourceContract:true,  Text:'{Binding " + nameof(BComboBox.ValueMemberPath) + @"}', Label:'Value Member Path' },
+                    {ui:'RequestIntellisenseTextBox', Margin:5, SearchByCurrentSelectedDataGridDataSourceContract:true,  Text:'{Binding " + nameof(BComboBox.DisplayMemberPath) + @"}', Label:'Display Member Path' }
+                    ,
+                    {   
+                        ui       :'CheckBox', 
+                        Content  :'Is Multi Select', 
+                        MarginTop: 10, 
+                        IsChecked: '{Binding " + nameof(Model.IsMultiSelect) + @"}', 
+                        Checked  : '" + nameof(OnIsMultiSelectChanged) + @"',
+                        Unchecked: '" + nameof(OnIsMultiSelectChanged) + @"',
+                        Name     : '" + nameof(_isMultiSelect)+@"'
+                    }
+                ]
+            }
+            
         }
         ,
         {
@@ -98,7 +113,7 @@ namespace BOA.OneDesigner.PropertyEditors
         ,
         
 
-        {ui:'Button', Text:'Delete', MarginTop: 20, Click:'" + nameof(Delete) + @"'}
+        {ui:'Button', Text:'Delete', MarginTop: 30, Click:'" + nameof(Delete) + @"'}
 	]
 }
 
@@ -124,6 +139,7 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Public Methods
         public void Delete()
         {
+            
             Host.EventBus.Publish(EventBus.ComponentDeleted);
         }
         #endregion
