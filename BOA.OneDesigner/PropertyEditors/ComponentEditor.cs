@@ -160,20 +160,46 @@ namespace BOA.OneDesigner.PropertyEditors
             DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.SizeInfo) + @"}'
         }
         ,
-         {
-            ui                          : 'RequestIntellisenseTextBox', 
-            ShowOnlyBooleanProperties   : true, 
-            Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.IsVisibleBindingPath) + @"}', 
-            Label                       : 'Is Visible',
-            IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsVisibleEditorVisible) + @"}'
-        }
-        ,        
         {
-            ui                          : 'RequestIntellisenseTextBox', 
-            ShowOnlyBooleanProperties   : true, 
-            Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.IsDisabledBindingPath) + @"}', 
-            Label                       : 'Is Disabled',
-            IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsDisabledEditorVisible) + @"}'
+            ui      : 'Expander',
+            Header  : 'Visual',
+            Content :
+            {
+                ui      : 'StackPanel',
+                Childs  : 
+                [
+                    {
+                        ui                          : 'RequestIntellisenseTextBox', 
+                        ShowOnlyBooleanProperties   : true, 
+                        Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.IsVisibleBindingPath) + @"}', 
+                        Label                       : 'Is Visible',
+                        IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsVisibleEditorVisible) + @"}'
+                    }
+                    ,
+                    {
+                        ui                          : 'RequestIntellisenseTextBox', 
+                        ShowOnlyBooleanProperties   : true, 
+                        Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.IsDisabledBindingPath) + @"}', 
+                        Label                       : 'Is Disabled',
+                        IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsDisabledEditorVisible) + @"}'
+                    }
+                    ,
+                    {   
+                        ui          : 'LabeledTextBox', 
+                        Label       : 'Row Count', 
+                        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.RowCount) + @",Converter=WhiteStone.UI.Container.StringToNullableInt32Converter}',
+                        TextChanged : '" + nameof(OnRowCountChanged) + @"',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsRowCountVisible) + @"}'
+                    }
+                    ,
+                    {   
+                        ui          : 'LabeledTextBox', 
+                        Label       : 'Mask', 
+                        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.Mask) + @"}',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsMaskVisible) + @"}'                   
+                    }
+                ]
+            }
         }
         ,
         {
@@ -191,22 +217,7 @@ namespace BOA.OneDesigner.PropertyEditors
             IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.IsBold) + @"}', 
             Checked     : '" + nameof(OnIsBoldChanged) + @"',
             Unchecked   : '" + nameof(OnIsBoldChanged) + @"'
-        }
-        ,
-        {   
-            ui          : 'LabeledTextBox', 
-            Label       : 'Row Count', 
-            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.RowCount) + @",Converter=WhiteStone.UI.Container.StringToNullableInt32Converter}',
-            TextChanged : '" + nameof(OnRowCountChanged) + @"',
-            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsRowCountVisible) + @"}'
-        }
-        ,
-        {   
-            ui          : 'LabeledTextBox', 
-            Label       : 'Mask', 
-            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.Mask) + @"}',
-            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsMaskVisible) + @"}'                   
-        }
+        }        
         ,
         {   
             ui                          : 'RequestIntellisenseTextBox',

@@ -37,10 +37,10 @@ namespace BOA.OneDesigner.Helpers
         {
             if (assemblyPath.HasValue())
             {
-                return ($@"{requestName} not found in {assemblyPath}");    
+                return ($@"'{requestName}' not found in '{assemblyPath}'");    
             }
 
-            return ($@"{requestName} not found in d:\boa\server\bin\");
+            return ($@"'{requestName}' not found in d:\boa\server\bin\");
         }
         #endregion
     }
