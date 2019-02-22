@@ -32,11 +32,49 @@ namespace BOA.OneDesigner.PropertyEditors
 		{ui:'LabelEditor', Name:'" + nameof(_labelEditor) + @"', DataContext:'{Binding " + nameof(BComboBox.LabelInfo) + @"}'},
         {ui:'SizeEditor',Name:'" + nameof(_sizeEditor) + @"',   Header:'Size', MarginTop:10, DataContext:'{Binding " + nameof(BComboBox.SizeInfo) + @"}'},
 
-        {ui:'RequestIntellisenseTextBox', Margin:5, ShowOnlyBooleanProperties:true, Text:'{Binding " + nameof(BComboBox.IsVisibleBindingPath) + @"}', Label:'Is Visible' },
-        {ui:'RequestIntellisenseTextBox', Margin:5, ShowOnlyBooleanProperties:true, Text:'{Binding " + nameof(BComboBox.IsDisabledBindingPath) + @"}', Label:'Is Disabled' },
+        
 
         {ui:'RequestIntellisenseTextBox', Margin:5, SearchByCurrentSelectedDataGridDataSourceContract:true,  Text:'{Binding " + nameof(BComboBox.ValueMemberPath) + @"}', Label:'Value Member Path' },
-        {ui:'RequestIntellisenseTextBox', Margin:5, SearchByCurrentSelectedDataGridDataSourceContract:true,  Text:'{Binding " + nameof(BComboBox.DisplayMemberPath) + @"}', Label:'Display Member Path' },
+        {ui:'RequestIntellisenseTextBox', Margin:5, SearchByCurrentSelectedDataGridDataSourceContract:true,  Text:'{Binding " + nameof(BComboBox.DisplayMemberPath) + @"}', Label:'Display Member Path' }
+        ,
+        {
+            ui      : 'Expander',
+            Header  : 'Visual',
+            Content :
+            [
+                {
+                    ui:'StackPanel',
+                    Childs:
+                    [
+                        {
+                            ui      : 'RequestIntellisenseTextBox', 
+                            Margin  : 5, 
+                            ShowOnlyBooleanProperties:true, 
+                            Text    : '{Binding " + nameof(BComboBox.IsVisibleBindingPath) + @"}', 
+                            Label   : 'Is Visible' 
+                        }
+                        ,
+                        {
+                            ui      : 'RequestIntellisenseTextBox',
+                            Margin  : 5, 
+                            ShowOnlyBooleanProperties:true, 
+                            Text    : '{Binding " + nameof(BComboBox.IsDisabledBindingPath) + @"}', 
+                            Label   : 'Is Disabled' 
+                        }
+                    ]
+                }
+            ]
+        }
+        ,
+
+
+
+
+
+
+
+
+
 
         {ui:'RequestIntellisenseTextBox', Margin:5, ShowOnlyOrchestrationMethods:true, Name : '"+nameof(_valueChanged)+@"', Text:'{Binding " + nameof(Model.ValueChangedOrchestrationMethod) + @"}', Label:'On Value Changed' },    
 
