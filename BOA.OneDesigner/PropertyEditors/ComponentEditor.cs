@@ -123,7 +123,7 @@ namespace BOA.OneDesigner.PropertyEditors
             ui          : 'RequestIntellisenseTextBox',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsValueBindingPathEditorVisible) + @"}',
             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @"}', 
-            Label       : 'Binding Path',
+            Label       : 'Value Binding Path',
             TextChanged : '" + nameof(OnValueBindingPathChanged) + @"'
         }
         ,
@@ -198,49 +198,60 @@ namespace BOA.OneDesigner.PropertyEditors
                         Text        : '{Binding " + Model.AccessPathOf(m => m.Info.Mask) + @"}',
                         IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsMaskVisible) + @"}'                   
                     }
+                    ,
+                    {   
+                        ui          : 'CheckBox',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsBoldVisible) + @"}',
+                        Content     : 'Is Bold', 
+                        IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.IsBold) + @"}', 
+                        Checked     : '" + nameof(OnIsBoldChanged) + @"',
+                        Unchecked   : '" + nameof(OnIsBoldChanged) + @"'
+                    } 
                 ]
             }
         }
         ,
         {
-            ui                           : 'RequestIntellisenseTextBox',
-            IsVisible                    : '{Binding " + Model.AccessPathOf(m => m.IsValueChangedOrchestrationMethodVisible) + @"}',
-            ShowOnlyOrchestrationMethods : true, 
-            Text                         : '{Binding " + Model.AccessPathOf(m => m.Info.ValueChangedOrchestrationMethod) + @"}', 
-            Label                        : 'On Account Number Changed'
-        }
-        ,
-        {   
-            ui          : 'CheckBox',
-            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsBoldVisible) + @"}',
-            Content     : 'Is Bold', 
-            IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.IsBold) + @"}', 
-            Checked     : '" + nameof(OnIsBoldChanged) + @"',
-            Unchecked   : '" + nameof(OnIsBoldChanged) + @"'
+            ui      : 'Expander',
+            Header  : 'Events',
+            Content :
+            {
+                ui: 'StackPanel',
+                Childs:
+                [
+                    {
+                        ui                           : 'RequestIntellisenseTextBox',
+                        IsVisible                    : '{Binding " + Model.AccessPathOf(m => m.IsValueChangedOrchestrationMethodVisible) + @"}',
+                        ShowOnlyOrchestrationMethods : true, 
+                        Text                         : '{Binding " + Model.AccessPathOf(m => m.Info.ValueChangedOrchestrationMethod) + @"}', 
+                        Label                        : 'On Account Number Changed'
+                    }               
+                    ,
+                    {   
+                        ui                          : 'RequestIntellisenseTextBox',
+                        ShowOnlyOrchestrationMethods: true,
+                        Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
+                        Label                       : 'On Value Changed',
+                        IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsButtonClickedOrchestrationMethodVisible) + @"}'                   
+                    }
+                    ,
+                    {
+                        ui          : 'ResourceCodeTextBox',   
+                        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}', 
+                        Label       : 'Open Form With Resource Code',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeIsVisible) + @"}'
+                    }
+                    ,
+		            {
+                        ui                      : 'RequestIntellisenseTextBox', 
+                        ShowOnlyClassProperties : true,      
+                        Text                    : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  
+                        Label                   : 'Open Form With Data',
+                        IsVisible               : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeDataParameterBindingPathIsVisible) + @"}'
+                    }
+                ]
+            }
         }        
-        ,
-        {   
-            ui                          : 'RequestIntellisenseTextBox',
-            ShowOnlyOrchestrationMethods: true,
-            Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
-            Label                       : 'On Value Changed',
-            IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsButtonClickedOrchestrationMethodVisible) + @"}'                   
-        }
-        ,
-        {
-            ui          : 'ResourceCodeTextBox',   
-            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}', 
-            Label       : 'Open Form With Resource Code',
-            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeIsVisible) + @"}'
-        }
-        ,
-		{
-            ui                      : 'RequestIntellisenseTextBox', 
-            ShowOnlyClassProperties : true,      
-            Text                    : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  
-            Label                   : 'Open Form With Data',
-            IsVisible               : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeDataParameterBindingPathIsVisible) + @"}'
-        }
         ,
         {
             ui      : 'Button',
@@ -261,7 +272,7 @@ namespace BOA.OneDesigner.PropertyEditors
                 var frameworkElement = child as FrameworkElement;
                 if (frameworkElement != null)
                 {
-                    frameworkElement.Margin = new Thickness(5, 10, 5, 0);
+                    frameworkElement.Margin = new Thickness(5, 15, 5, 0);
                 }
             }
 
