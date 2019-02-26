@@ -75,10 +75,8 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}}");
 
-            if (data.SizeInfo.HasValue())
-            {
-                sb.AppendLine("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
-            }
+           
+            RenderHelper.WriteSize(data.SizeInfo,sb.AppendLine);
 
             sb.AppendLine("context = {context}/>");
         }

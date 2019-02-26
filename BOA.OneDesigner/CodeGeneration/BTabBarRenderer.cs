@@ -40,10 +40,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"onChange = {{(e: any, value: number) => {activeTabIndexBindingPath.BindingPathInJs} = value}}");
             }
 
-            if (data.SizeInfo != null && data.SizeInfo.IsEmpty == false)
-            {
-                sb.AppendLine("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
-            }
+            RenderHelper.WriteSize(data.SizeInfo,sb.AppendLine);
 
             sb.AppendLine("tabItems = {[");
 

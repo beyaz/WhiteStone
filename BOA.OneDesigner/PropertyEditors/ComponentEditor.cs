@@ -59,7 +59,7 @@ namespace BOA.OneDesigner.PropertyEditors
                 DataContext = new ComponentEditorModel
                 {
                     Info                                                      = info,
-                    IsSizeEditorVisible                                       = info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel,
+                    IsSizeEditorVisible                                       = info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel||info.Type.IsInformationText,
                     IsValueBindingPathEditorVisible                           = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent,
                     IsLLabelEditorVisible                                     = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
                     IsParamTypeVisible                                        = info.Type.IsParameterComponent,

@@ -45,10 +45,8 @@ namespace BOA.OneDesigner.CodeGeneration
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
             RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
 
-            if (data.SizeInfo.HasValue())
-            {
-                sb.AppendLine("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
-            }
+            
+            RenderHelper.WriteSize(data.SizeInfo,sb.AppendLine);
 
             sb.AppendLine("context = {context}/>");
 

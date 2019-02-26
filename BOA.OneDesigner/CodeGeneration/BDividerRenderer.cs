@@ -13,10 +13,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.Append("<BDivider ");
 
-            if (data.SizeInfo.HasValue())
-            {
-                sb.Append("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
-            }
+            RenderHelper.WriteSize(data.SizeInfo,sb.Append);
             
             sb.Append(" />");
             sb.AppendLine();

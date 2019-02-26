@@ -11,10 +11,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.Imports.Add("import { BInformationText } from \"b-information-text\"");
 
-            sb.AppendWithPadding("<BInformationText");
+            sb.AppendWithPadding("<BInformationText ");
+
+            RenderHelper.WriteSize(data.SizeInfo,sb.Append);
 
             RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.Append, " labelText");
             RenderHelper.WriteLabelInfo(writerContext, data.InfoText, sb.Append, " infoText");
+            
 
             sb.Append(" context = {context} />");
             sb.AppendLine();

@@ -156,6 +156,14 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine($"disabled = {{{jsBindingPath.BindingPathInJs}}}");
         }
 
+        public static void WriteSize(SizeInfo sizeInfo, Action<string> output)
+        {
+            if (sizeInfo.HasValue())
+            {
+                output("size = {" + GetJsValue(sizeInfo) + "}");
+            }
+        }
+
         public static void WriteIsVisible(WriterContext writerContext, string IsVisibleBindingPath, PaddedStringBuilder sb)
         {
             if (string.IsNullOrWhiteSpace(IsVisibleBindingPath))
