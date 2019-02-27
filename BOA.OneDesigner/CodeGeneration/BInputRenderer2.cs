@@ -1,8 +1,6 @@
-﻿using System;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOAPlugins.TypescriptModelGeneration;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -11,8 +9,7 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static void Write(WriterContext writerContext, ComponentInfo data)
         {
-            var sb         = writerContext.Output;
-            var screenInfo = writerContext.ScreenInfo;
+            var sb = writerContext.Output;
 
             if (data.ValueBindingPath.IsNullOrWhiteSpace())
             {
@@ -21,18 +18,12 @@ namespace BOA.OneDesigner.CodeGeneration
 
             SnapNamingHelper.InitSnapName(writerContext, data);
 
-            var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
-
-            var isString = true;
-
+            var isString          = true;
             var isDecimal         = false;
             var isDecimalNullable = false;
-
-            var isNullableNumber = false;
-
-            var isBoolean = false;
-
-            var isDateTime = false;
+            var isNullableNumber  = false;
+            var isBoolean         = false;
+            var isDateTime        = false;
 
             var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.ValueBindingPath)
             {
@@ -40,26 +31,20 @@ namespace BOA.OneDesigner.CodeGeneration
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
 
-            var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName, data.ValueBindingPath);
+            var bindingPathPropertyInfo = RenderHelper.GetBindingPathPropertyInfo(writerContext, data.ValueBindingPath);
 
-            if (propertyDefinition != null)
+            if (bindingPathPropertyInfo != null)
             {
-                isString = propertyDefinition.PropertyType.FullName == typeof(string).FullName;
+                isString = bindingPathPropertyInfo.IsString;
 
-                isDecimal         = propertyDefinition.PropertyType.FullName == typeof(decimal).FullName;
-                isDecimalNullable = CecilHelper.FullNameOfNullableDecimal == propertyDefinition.PropertyType.FullName;
+                isDecimal         = bindingPathPropertyInfo.IsDecimal;
+                isDecimalNullable = bindingPathPropertyInfo.IsDecimalNullable;
 
-                isNullableNumber = CecilHelper.FullNameOfNullableByte == propertyDefinition.PropertyType.FullName ||
-                                   CecilHelper.FullNameOfNullableInt == propertyDefinition.PropertyType.FullName ||
-                                   CecilHelper.FullNameOfNullableLong == propertyDefinition.PropertyType.FullName ||
-                                   CecilHelper.FullNameOfNullableSbyte == propertyDefinition.PropertyType.FullName ||
-                                   CecilHelper.FullNameOfNullableShort == propertyDefinition.PropertyType.FullName;
+                isNullableNumber = bindingPathPropertyInfo.IsNullableNumber;
 
-                isBoolean = CecilHelper.FullNameOfNullableBoolean == propertyDefinition.PropertyType.FullName ||
-                            propertyDefinition.PropertyType.FullName == typeof(bool).FullName;
+                isBoolean = bindingPathPropertyInfo.IsBoolean;
 
-                isDateTime = CecilHelper.FullNameOfNullableDateTime == propertyDefinition.PropertyType.FullName ||
-                             propertyDefinition.PropertyType.FullName == typeof(DateTime).FullName;
+                isDateTime = bindingPathPropertyInfo.IsDateTime;
             }
 
             if (isString)

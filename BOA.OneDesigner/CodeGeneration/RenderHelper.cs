@@ -2,6 +2,7 @@
 using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
@@ -26,6 +27,48 @@ namespace BOA.OneDesigner.CodeGeneration
         public static string ConvertBindingPathToIncomingRequest(string bindingPathInJs)
         {
             return bindingPathInJs.Replace(Config.BindingPrefixInJs, Config.IncomingRequestVariableName + ".");
+        }
+
+        public static BindingPathPropertyInfo GetBindingPathPropertyInfo(WriterContext writerContext, string bindingPathInDesigner)
+        {
+            var screenInfo         = writerContext.ScreenInfo;
+            var solutionInfo       = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
+            var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName, bindingPathInDesigner);
+
+            if (propertyDefinition == null)
+            {
+                return null;
+            }
+
+            var typeFullName = propertyDefinition.PropertyType.FullName;
+
+            
+
+            var returnValue = new BindingPathPropertyInfo
+            {
+                IsString          = typeFullName == typeof(string).FullName,
+                IsDecimal         = typeFullName == typeof(decimal).FullName,
+                IsDecimalNullable = CecilHelper.FullNameOfNullableDecimal == typeFullName,
+                IsNullableNumber = CecilHelper.FullNameOfNullableByte == typeFullName ||
+                                   CecilHelper.FullNameOfNullableInt == typeFullName ||
+                                   CecilHelper.FullNameOfNullableLong == typeFullName ||
+                                   CecilHelper.FullNameOfNullableSbyte == typeFullName ||
+                                   CecilHelper.FullNameOfNullableShort == typeFullName,
+
+                IsNonNullableNumber = typeFullName == typeof(sbyte).FullName ||
+                                      typeFullName == typeof(byte).FullName||
+                                      typeFullName == typeof(short).FullName||
+                                      typeFullName == typeof(int).FullName||
+                                      typeFullName == typeof(long).FullName||
+                                      typeFullName == typeof(decimal).FullName,
+
+                IsBoolean = CecilHelper.FullNameOfNullableBoolean == typeFullName ||
+                            typeFullName == typeof(bool).FullName,
+                IsDateTime = CecilHelper.FullNameOfNullableDateTime == typeFullName ||
+                             typeFullName == typeof(DateTime).FullName
+            };
+
+            return returnValue;
         }
 
         public static string GetJsValue(SizeInfo size)
@@ -55,7 +98,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
         public static string GetLabelValue(WriterContext writerContext, LabelInfo data)
         {
-            var screenInfo = writerContext.ScreenInfo;
+            var screenInfo   = writerContext.ScreenInfo;
+            var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
 
             if (data == null)
             {
@@ -79,6 +123,12 @@ namespace BOA.OneDesigner.CodeGeneration
                     EvaluateInsStateVersion = false
                 };
                 JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+
+                var propertyInfo = GetBindingPathPropertyInfo(writerContext, data.RequestBindingPath);
+                if (propertyInfo?.IsNullableNumber == true || propertyInfo?.IsNonNullableNumber == true)
+                {
+                    return jsBindingPath.BindingPathInJs + " + " + '"' + '"';
+                }
 
                 return jsBindingPath.BindingPathInJs;
             }
@@ -156,14 +206,6 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine($"disabled = {{{jsBindingPath.BindingPathInJs}}}");
         }
 
-        public static void WriteSize(SizeInfo sizeInfo, Action<string> output)
-        {
-            if (sizeInfo.HasValue())
-            {
-                output("size = {" + GetJsValue(sizeInfo) + "}");
-            }
-        }
-
         public static void WriteIsVisible(WriterContext writerContext, string IsVisibleBindingPath, PaddedStringBuilder sb)
         {
             if (string.IsNullOrWhiteSpace(IsVisibleBindingPath))
@@ -195,6 +237,14 @@ namespace BOA.OneDesigner.CodeGeneration
             else
             {
                 output($"{attributeName} = {{{labelValue}}}" + endPrefix);
+            }
+        }
+
+        public static void WriteSize(SizeInfo sizeInfo, Action<string> output)
+        {
+            if (sizeInfo.HasValue())
+            {
+                output("size = {" + GetJsValue(sizeInfo) + "}");
             }
         }
         #endregion
