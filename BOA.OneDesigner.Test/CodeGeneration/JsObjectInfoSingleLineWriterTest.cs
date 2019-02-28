@@ -16,7 +16,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 {"b", "true"}
             };
 
-            JsObjectInfoSingleLineWriter.ToString(data).Should().Be("{ a: 'a0' , b: true }");
+            JsObjectInfoSingleLineWriter.ToString(data).Should().Be("{ a: 'a0', b: true }");
         }
         #endregion
     }
