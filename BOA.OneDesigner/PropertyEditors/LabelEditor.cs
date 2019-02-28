@@ -2,7 +2,6 @@
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
@@ -12,6 +11,45 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Constructors
         public LabelEditor()
         {
+            LoadUI();
+        }
+        #endregion
+
+        #region Public Properties
+        public Host Host { get; set; }
+        #endregion
+
+        #region Public Methods
+        public void FirePropertyChanged()
+        {
+            if (!IsLoaded)
+            {
+                return;
+            }
+
+            var host = Host ?? SM.Get<Host>();
+
+            host.EventBus.Publish(EventBus.LabelChanged);
+        }
+
+        public void OnCheckedChanged()
+        {
+            if (!IsLoaded)
+            {
+                return;
+            }
+
+            LoadUI();
+
+            var host = Host ?? SM.Get<Host>();
+            host.EventBus.Publish(EventBus.LabelChanged);
+        }
+        #endregion
+
+        #region Methods
+        void LoadUI()
+        {
+            Content = null;
             this.LoadJson(@"
 
 {
@@ -20,12 +58,14 @@ namespace BOA.OneDesigner.PropertyEditors
  Content:
  {
     ui:'Grid',
-	    rows:[
+	    rows:
+        [
 		    {ui:'RadioButton', label:'From Messaging', IsChecked:'{Binding " + nameof(LabelInfo.IsFromMessaging) + @"}', Checked:'OnCheckedChanged'    },
 		    {ui:'RadioButton', label:'Free Text',      IsChecked:'{Binding " + nameof(LabelInfo.IsFreeText) + @"}',      Checked:'OnCheckedChanged'    },
             {ui:'RadioButton', label:'Bind from Request',      IsChecked:'{Binding " + nameof(LabelInfo.IsRequestBindingPath) + @"}',      Checked:'OnCheckedChanged'    },
 		    
-            {   ui          : 'Textbox',
+            {   
+                ui          : 'Textbox',
                 Text        : '{Binding " + nameof(LabelInfo.FreeTextValue) + @"}',  
                 IsVisible   : '{Binding " + nameof(LabelInfo.IsFreeText) + @"}', 
                 KeyUp       : 'FirePropertyChanged'
@@ -53,38 +93,6 @@ namespace BOA.OneDesigner.PropertyEditors
 
 
 ");
-        }
-        #endregion
-
-        #region Public Properties
-        public Host Host { get; set; }
-        #endregion
-
-       
-        #region Public Methods
-        public void FirePropertyChanged()
-        {
-            if (!IsLoaded)
-            {
-                return;
-            }
-
-            var host = Host ?? SM.Get<Host>();
-
-            host.EventBus.Publish(EventBus.LabelChanged);
-        }
-
-        public void OnCheckedChanged()
-        {
-            if (!IsLoaded)
-            {
-                return;
-            }
-
-            this.RefreshDataContext();
-
-            var host = Host ?? SM.Get<Host>();
-            host.EventBus.Publish(EventBus.LabelChanged);
         }
         #endregion
     }

@@ -122,10 +122,7 @@ namespace BOA.OneDesigner.WpfControls
             });
         }
 
-        public static void RefreshDataContext(this FrameworkElement element)
-        {
-            element.GetBindingExpression(FrameworkElement.DataContextProperty)?.UpdateTarget();
-        }
+        
 
         public static void RemoveAll(this UIElementCollection elementCollection)
         {
