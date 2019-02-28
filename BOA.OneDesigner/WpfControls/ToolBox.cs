@@ -38,7 +38,7 @@ namespace BOA.OneDesigner.WpfControls
                     IsInput = true
                 },
                 LabelTextInfo    = LabelInfoHelper.CreateNewLabelInfo("Input"),
-                ValueBindingPath = "?"
+                ValueBindingPath = "$"
             }, isInToolbox: true);
 
             Host.DragHelper.MakeDraggable(bInput);
@@ -51,7 +51,7 @@ namespace BOA.OneDesigner.WpfControls
             {
                 IsInToolbox = true,
                 Host        = Host,
-                DataContext = new BComboBox {LabelInfo = LabelInfoHelper.CreateNewLabelInfo("Combo"), ValueBindingPath = "?"}
+                DataContext = new BComboBox {LabelInfo = LabelInfoHelper.CreateNewLabelInfo("Combo"), ValueBindingPath = "$"}
             };
 
             Host.DragHelper.MakeDraggable(bComboBoxInWpf);

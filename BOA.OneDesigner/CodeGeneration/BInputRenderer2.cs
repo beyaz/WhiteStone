@@ -25,6 +25,11 @@ namespace BOA.OneDesigner.CodeGeneration
             var isBoolean         = false;
             var isDateTime        = false;
 
+            if (data.ValueBindingPath == "?")
+            {
+                data.ValueBindingPath = "$";
+            }
+
             var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.ValueBindingPath)
             {
                 EvaluateInsStateVersion = true
