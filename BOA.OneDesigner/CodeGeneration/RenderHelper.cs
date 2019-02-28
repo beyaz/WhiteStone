@@ -168,7 +168,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (buttonActionInfo.OpenFormWithResourceCode.IsNullOrWhiteSpace() && buttonActionInfo.OrchestrationMethodName.IsNullOrWhiteSpace())
             {
-                throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır." + buttonActionInfo.DesignerLocation);
+                // TODO warning verilmeli
+                // throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır." + buttonActionInfo.DesignerLocation);
+                return;
             }
 
             if (buttonActionInfo.OpenFormWithResourceCode.HasValue())
