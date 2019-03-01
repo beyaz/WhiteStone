@@ -7,6 +7,7 @@ using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
+using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -38,7 +39,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 HasWorkflow  = hasWorkflow,
                 ScreenInfo   = screenInfo,
                 IsBrowsePage = isBrowseForm,
-                SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName)
+                SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName),
+                ThrowExceptionOnEmptyActionDefinition = false
             };
 
             if (isBrowseForm)
@@ -705,10 +707,15 @@ namespace BOA.OneDesigner.CodeGeneration
                         throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz." + resourceAction.CommandName);
                     }
 
-                    if (resourceAction.OpenFormWithResourceCode.IsNullOrWhiteSpace() && resourceAction.OrchestrationMethodName.IsNullOrWhiteSpace())
+                    if (writerContext.ThrowExceptionOnEmptyActionDefinition)
                     {
-                        throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır." + resourceAction.CommandName);
+                        if (resourceAction.OpenFormWithResourceCode.IsNullOrWhiteSpace() && resourceAction.OrchestrationMethodName.IsNullOrWhiteSpace())
+                        {
+                            var message = "'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır." + resourceAction.CommandName;
+                            throw Error.InvalidOperation(message);
+                        }
                     }
+                   
 
                     if (resourceAction.OpenFormWithResourceCode.HasValue())
                     {
@@ -723,7 +730,7 @@ namespace BOA.OneDesigner.CodeGeneration
                             sb.AppendLine($"BFormManager.show(\"{resourceAction.OpenFormWithResourceCode.Trim()}\", /*data*/null, true,null);");
                         }
                     }
-                    else
+                    else if(resourceAction.OrchestrationMethodName.HasValue())
                     {
                         sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");
                     }

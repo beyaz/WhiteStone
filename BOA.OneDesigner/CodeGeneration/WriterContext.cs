@@ -77,6 +77,10 @@ namespace BOA.OneDesigner.CodeGeneration
 
     public class WriterContext
     {
+        public WriterContext()
+        {
+            
+        }
         public JsObject StateObjectWhenIncomingRequestIsSuccess { get; set; } = new JsObject();
 
         public List<string> BeforeSetStateOnProxyDidResponse { get; set; }
@@ -114,6 +118,7 @@ namespace BOA.OneDesigner.CodeGeneration
         public bool DataContractAccessPathInWindowRequestIsCalculated { get; set; }
         public bool IsBrowsePage { get; set; }
         public List<string> RenderMethodRequestRelatedVariables { get; set; } = new List<string>();
+        public bool ThrowExceptionOnEmptyActionDefinition { get; set; }
         #endregion
 
         #region Public Methods

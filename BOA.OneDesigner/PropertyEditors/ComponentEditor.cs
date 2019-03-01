@@ -231,8 +231,15 @@ namespace BOA.OneDesigner.PropertyEditors
                         ui                          : 'RequestIntellisenseTextBox',
                         ShowOnlyOrchestrationMethods: true,
                         Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
-                        Label                       : 'On Value Changed',
+                        Label                       : 'On Value Changed (Goto Orch)',
                         IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsButtonClickedOrchestrationMethodVisible) + @"}'                   
+                    }
+                    ,
+                    {
+                        ui              : 'Label',
+                        Content         : 'Veya',
+                        Margin          : 15,
+                        hAlignIsCenter  : true
                     }
                     ,
                     {
