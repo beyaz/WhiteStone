@@ -28,6 +28,8 @@ namespace BOA.OneDesigner.WpfControls
         {
             (Content as StackPanel)?.Children.RemoveAll();
 
+
+
             var stackPanel = new StackPanel();
 
             #region bInput
@@ -243,7 +245,12 @@ namespace BOA.OneDesigner.WpfControls
                 }
             }
 
-            Content = stackPanel;
+           
+            Content = new ScrollViewer
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Content                     = stackPanel
+            };
         }
         #endregion
     }
