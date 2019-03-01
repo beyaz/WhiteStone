@@ -16,6 +16,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 throw Error.InvalidBindingPath((data.Container as BCard)?.Title, data.LabelText);
             }
 
+            if (data.ValueBindingPath == "?")
+            {
+                data.ValueBindingPath = "$";
+            }
+
             SnapNamingHelper.InitSnapName(writerContext, data);
 
             var isString          = true;
@@ -25,10 +30,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var isBoolean         = false;
             var isDateTime        = false;
 
-            if (data.ValueBindingPath == "?")
-            {
-                data.ValueBindingPath = "$";
-            }
+            
 
             var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.ValueBindingPath)
             {
