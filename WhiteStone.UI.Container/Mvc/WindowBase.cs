@@ -5,12 +5,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage;
-using MahApps.Metro.Controls;
 
 namespace WhiteStone.UI.Container.Mvc
 {
     public class WindowBase<TModel, TController> : WindowBase where TModel : ModelBase, new() where TController : ControllerBase<TModel>, new()
     {
+        public bool CloneModelOnEveryAction { get; set; }
+
         #region Fields
         TController controller;
         TModel      model;
@@ -27,6 +28,8 @@ namespace WhiteStone.UI.Container.Mvc
             Closed     += OnViewClose;
 
             TitleAlignment = HorizontalAlignment.Center;
+
+            CloneModelOnEveryAction = ConfigHelper.GetFromAppSetting("WindowBase.CloneModelOnEveryAction").To<bool?>()??true;
 
         }
         #endregion
@@ -64,7 +67,7 @@ namespace WhiteStone.UI.Container.Mvc
                 Model.ViewMessage            = null;
                 Model.ViewShouldBeClose      = false;
 
-                Controller.Model = Model.Clone();
+                Controller.Model = CloneModelOnEveryAction ? Model.Clone() : Model;
             }
 
             try
@@ -86,7 +89,7 @@ namespace WhiteStone.UI.Container.Mvc
                 return;
             }
 
-            Model = Controller.Model.Clone();
+            Model = CloneModelOnEveryAction ? Controller.Model.Clone() : Controller.Model;
 
             if (Model.ViewMessage != null)
             {
