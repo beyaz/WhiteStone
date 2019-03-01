@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using BOA.Common.Helpers;
 using MahApps.Metro.Controls;
 
 namespace WhiteStone.UI.Container
@@ -13,6 +14,7 @@ namespace WhiteStone.UI.Container
     /// </summary>
     public class WindowBase : MetroWindow, INotifyPropertyChanged
     {
+        readonly  bool UseMahAppMetroStyle;
         #region Static Fields
         static readonly List<ResourceDictionary> MahAppsResourceDictionaries;
         #endregion
@@ -37,9 +39,14 @@ namespace WhiteStone.UI.Container
             Width                 = 600;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            foreach (var dictionary in MahAppsResourceDictionaries)
+            UseMahAppMetroStyle = ConfigHelper.GetFromAppSetting(nameof(UseMahAppMetroStyle)).To<bool?>() ?? true;
+
+            if (UseMahAppMetroStyle)
             {
-                Resources.MergedDictionaries.Add(dictionary);
+                foreach (var dictionary in MahAppsResourceDictionaries)
+                {
+                    Resources.MergedDictionaries.Add(dictionary);
+                }
             }
 
             Closed += KillAllContainer;

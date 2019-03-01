@@ -10,7 +10,7 @@ namespace WhiteStone.UI.Container.Mvc
 {
     public class WindowBase<TModel, TController> : WindowBase where TModel : ModelBase, new() where TController : ControllerBase<TModel>, new()
     {
-        public bool CloneModelOnEveryAction { get; set; }
+        readonly bool CloneModelOnEveryAction;
 
         #region Fields
         TController controller;
