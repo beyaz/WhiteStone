@@ -12,6 +12,33 @@ namespace BOA.OneDesigner.WpfControls
     [TestClass]
     public class TransactionPageTest
     {
+
+        [TestMethod]
+        public void Card360()
+        {
+            var excepts = new List<string>
+            {
+            };
+            using (var database = new DevelopmentDatabase())
+            {
+                var screens = database.GetAllScreens();
+
+                screens = screens.Where(x => x.RequestName.Contains("360")).ToList();
+
+                foreach (var screen in screens)
+                {
+                    try
+                    {
+                        Controller.Generate(screen);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+            }
+        }
+
         #region Public Methods
         [TestMethod]
         public void GenerateAll()
