@@ -31,9 +31,8 @@ namespace BOA.OneDesigner.PropertyEditors
     [
 
         {
-            ui          : 'Expander',
+            ui          : 'GroupBox',
             Header      : 'Data',
-            IsExpanded  : true,
             Content     :
             {
                 ui:'StackPanel',
@@ -63,7 +62,7 @@ namespace BOA.OneDesigner.PropertyEditors
         }
         ,
         {
-            ui      : 'Expander',
+            ui      : 'GroupBox',
             Header  : 'Visual',
             Content :            
             {
@@ -91,7 +90,7 @@ namespace BOA.OneDesigner.PropertyEditors
         }
         ,
         {
-            ui      : 'Expander',
+            ui      : 'GroupBox',
             Header  : 'Events',
             Content :            
             {

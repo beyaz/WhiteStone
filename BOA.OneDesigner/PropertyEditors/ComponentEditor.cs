@@ -161,7 +161,7 @@ namespace BOA.OneDesigner.PropertyEditors
         }
         ,
         {
-            ui      : 'Expander',
+            ui      : 'GroupBox',
             Header  : 'Visual',
             Content :
             {
@@ -212,7 +212,7 @@ namespace BOA.OneDesigner.PropertyEditors
         }
         ,
         {
-            ui      : 'Expander',
+            ui      : 'GroupBox',
             Header  : 'Events',
             Content :
             {
