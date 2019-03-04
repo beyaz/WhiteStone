@@ -7,7 +7,6 @@ using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
-using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -29,6 +28,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 Page            = new List<string>(),
                 Imports = new List<string>
                 {
+                    "// One Designer Generated Code. Please do not edit manual.",
                     "import * as React from \"react\"",
                     "import { cloneDeep } from \"lodash\"",
                     "import { BFormManager } from \"b-form-manager\"",

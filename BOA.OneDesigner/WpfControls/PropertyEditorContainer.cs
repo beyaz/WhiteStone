@@ -139,7 +139,16 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            Header = "Properties -> " + DataContext.GetType().Name;
+            var name = DataContext.GetType().Name;
+
+            var component = Host.SelectedElement as ComponentWpf;
+            if (component != null)
+            {
+                name = component.Model.Info.Type.GetName();
+            }
+
+            
+            Header = "Properties -> " + name;
         }
         #endregion
     }

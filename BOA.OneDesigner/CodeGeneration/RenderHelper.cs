@@ -192,14 +192,22 @@ namespace BOA.OneDesigner.CodeGeneration
             }
         }
 
-        public static void WriteIsDisabled(WriterContext writerContext, string IsDisabledBindingPath, PaddedStringBuilder sb)
+        public static void WriteIsDisabled(WriterContext writerContext, string isDisabledBindingPath, PaddedStringBuilder sb)
         {
-            if (string.IsNullOrWhiteSpace(IsDisabledBindingPath))
+            if (string.IsNullOrWhiteSpace(isDisabledBindingPath))
             {
                 return;
             }
 
-            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, IsDisabledBindingPath)
+            var isAlwaysDisabled = string.Equals("TRUE",isDisabledBindingPath.Trim(),StringComparison.OrdinalIgnoreCase);
+            if (isAlwaysDisabled)
+            {
+                sb.AppendLine("disabled = {true}");
+                return;
+            }
+
+
+            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, isDisabledBindingPath)
             {
                 EvaluateInsStateVersion = false
             };

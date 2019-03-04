@@ -1,4 +1,5 @@
 ﻿using System;
+using BOA.Common.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -48,6 +49,21 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets a value indicating whether this instance is parameter component.
         /// </summary>
         public bool IsParameterComponent { get; set; }
+        #endregion
+
+        #region Public Methods
+        public string GetName()
+        {
+            foreach (var propertyInfo in GetType().GetProperties())
+            {
+                if (Convert.ToBoolean(propertyInfo.GetValue(this)))
+                {
+                    return propertyInfo.Name.RemoveFromStart("Is");
+                }
+            }
+
+            return "?";
+        }
         #endregion
     }
 }
