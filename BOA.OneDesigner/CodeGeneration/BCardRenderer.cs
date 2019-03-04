@@ -9,7 +9,7 @@ namespace BOA.OneDesigner.CodeGeneration
     static class BCardRenderer
     {
         #region Public Methods
-        public static void Write(WriterContext writerContext, BCard data)
+        public static void Write(WriterContext writerContext, BCard data,bool isInTabPage = false)
         {
             var sb = writerContext.Output;
 
@@ -20,6 +20,16 @@ namespace BOA.OneDesigner.CodeGeneration
                 writerContext.Imports.Add("import { BCard } from \"b-card\"");
 
                 sb.AppendWithPadding("<BCard context={context}");
+
+                if (isInTabPage)
+                {
+                    if (data.IsVisibleBindingPath.HasValue())
+                    {
+                        throw Error.InvalidOperation("Hem baın içindesin hem de IsVisibleBindingPath verilmiş.(Bunu Abdullah Beyaztaş a ilet)");
+                    }
+
+                    sb.Append(" style={{ height: \"100%\" }} ");
+                }
 
                 if (data.IsVisibleBindingPath.HasValue())
                 {

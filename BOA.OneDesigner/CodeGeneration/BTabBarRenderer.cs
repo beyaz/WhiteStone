@@ -94,7 +94,7 @@ namespace BOA.OneDesigner.CodeGeneration
                         sb.AppendLine("<div style={{ width: '" + width + "%', padding: '15px' }}>");
 
                         sb.PaddingCount++;
-                        BCardRenderer.Write(writerContext, bCard);
+                        BCardRenderer.Write(writerContext, bCard,true);
                         sb.PaddingCount--;
 
                         sb.AppendLine("</div>");
