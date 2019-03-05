@@ -39,6 +39,14 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, UpdateHeader);
         }
 
+        void SetContent(object propertyEditor)
+        {
+            Content = new ScrollViewer
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Content                     = propertyEditor
+            };
+        }
         public void Refresh()
         {
             Content = null;
@@ -47,10 +55,10 @@ namespace BOA.OneDesigner.WpfControls
             if (actionButton != null)
             {
                 DataContext = actionButton.Model;
-                Content = new ResourceActionEditor
+                SetContent( new ResourceActionEditor
                 {
                     DataContext = actionButton.Model
-                };
+                });
                 return;
             }
 
@@ -70,7 +78,7 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = DataContext as BInput;
             if (bInput != null)
             {
-                Content = Host.Create<BInputEditor>(DataContext);
+                SetContent( Host.Create<BInputEditor>(DataContext));
                 return;
             }
 
@@ -79,49 +87,49 @@ namespace BOA.OneDesigner.WpfControls
             var dataGridColumnInfo = DataContext as BDataGridColumnInfo;
             if (dataGridColumnInfo != null)
             {
-                Content = Host.Create<BDataGridColumnInfoEditor>(DataContext);
+                SetContent( Host.Create<BDataGridColumnInfoEditor>(DataContext));
                 return;
             }
 
             var bCard = DataContext as BCard;
             if (bCard != null)
             {
-                Content = Host.Create<BCardEditor>(DataContext);
+                SetContent( Host.Create<BCardEditor>(DataContext));
                 return;
             }
 
             var dataGridInfo = DataContext as BDataGrid;
             if (dataGridInfo != null)
             {
-                Content = Host.Create<BDataGridEditor>(dataGridInfo);
+                SetContent( Host.Create<BDataGridEditor>(dataGridInfo));
                 return;
             }
 
             var bComboBox = DataContext as BComboBox;
             if (bComboBox != null)
             {
-                Content = Host.Create<BComboBoxEditor>(bComboBox);
+                SetContent( Host.Create<BComboBoxEditor>(bComboBox));
                 return;
             }
 
             var tabControl = DataContext as BTabBar;
             if (tabControl != null)
             {
-                Content = Host.Create<BTabBarEditor>(tabControl);
+                SetContent( Host.Create<BTabBarEditor>(tabControl));
                 return;
             }
 
             var bTabBarPage = DataContext as BTabBarPage;
             if (bTabBarPage != null)
             {
-                Content = Host.Create<BTabBarPageEditor>(DataContext);
+                SetContent( Host.Create<BTabBarPageEditor>(DataContext));
                 return;
             }
 
             var component = Host.SelectedElement as ComponentWpf;
             if (component != null)
             {
-                Content = ComponentEditor.Create(Host,component.Model.Info);
+                SetContent( ComponentEditor.Create(Host,component.Model.Info));
 
                 return;
             }
