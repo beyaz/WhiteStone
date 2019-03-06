@@ -14,7 +14,7 @@ namespace WhiteStone.UI.Container
     /// </summary>
     public class WindowBase : MetroWindow, INotifyPropertyChanged
     {
-        readonly  bool UseMahAppMetroStyle;
+        
         #region Static Fields
         static readonly List<ResourceDictionary> MahAppsResourceDictionaries;
         #endregion
@@ -30,6 +30,8 @@ namespace WhiteStone.UI.Container
             };
         }
 
+
+        
         /// <summary>
         ///     Initializes a new instance of the <see cref="WindowBase" /> class.
         /// </summary>
@@ -39,17 +41,27 @@ namespace WhiteStone.UI.Container
             Width                 = 600;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            UseMahAppMetroStyle = ConfigHelper.GetFromAppSetting(nameof(UseMahAppMetroStyle)).To<bool?>() ?? true;
+            ApplyMahAppMetroStyle();
 
-            if (UseMahAppMetroStyle)
+            Closed += KillAllContainer;
+        }
+
+        void ApplyMahAppMetroStyle()
+        {
+            var useMahAppMetroStyle = ConfigHelper.GetFromAppSetting("UseMahAppMetroStyle").To<bool?>() ?? true;
+
+            ApplyMahAppMetroStyle(Resources,useMahAppMetroStyle);
+        }
+
+        internal static void ApplyMahAppMetroStyle(ResourceDictionary resources,bool useMahAppMetroStyle)
+        {
+            if (useMahAppMetroStyle)
             {
                 foreach (var dictionary in MahAppsResourceDictionaries)
                 {
-                    Resources.MergedDictionaries.Add(dictionary);
+                    resources.MergedDictionaries.Add(dictionary);
                 }
             }
-
-            Closed += KillAllContainer;
         }
         #endregion
 
