@@ -1,31 +1,15 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
-using DotNetKit.Windows.Controls;
 using FeserWard.Controls;
 using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls
 {
-
-    public interface IRequestIntellisenseInfo
-    {
-        #region Public Properties
-        bool SearchByCurrentSelectedDataGridDataSourceContract { get; set; }
-        bool ShowOnlyBooleanProperties                         { get; set; }
-        bool ShowOnlyClassProperties                           { get; set; }
-        bool ShowOnlyCollectionProperties                      { get; set; }
-        bool ShowOnlyNotNullInt32Properties                    { get; set; }
-        bool ShowOnlyOrchestrationMethods                      { get; set; }
-        bool ShowOnlyStringProperties                          { get; set; }
-        #endregion
-    }
-
-    public class RequestIntellisenseTextBox : IntellisenseTextBox, IRequestIntellisenseInfo
+    public class RequestIntellisenseTextBox : IntellisenseTextBox
     {
         #region Constructors
         public RequestIntellisenseTextBox()
@@ -41,9 +25,11 @@ namespace BOA.OneDesigner.WpfControls
 
         public bool ShowOnlyClassProperties { get; set; }
 
-        public bool ShowOnlyCollectionProperties   { get; set; }
+        public bool ShowOnlyCollectionProperties { get; set; }
+
         public bool ShowOnlyNotNullInt32Properties { get; set; }
-        public bool ShowOnlyOrchestrationMethods   { get; set; }
+
+        public bool ShowOnlyOrchestrationMethods { get; set; }
 
         public bool ShowOnlyStringProperties { get; set; }
         #endregion
@@ -52,11 +38,13 @@ namespace BOA.OneDesigner.WpfControls
     class RequestPropertyIntellisenseProvider : IIntelliboxResultsProvider
     {
         #region Fields
-        readonly IRequestIntellisenseInfo _requestIntellisenseTextBox;
+        readonly RequestIntellisenseTextBox _requestIntellisenseTextBox;
+
+        IEnumerable<string> ItemsSource;
         #endregion
 
         #region Constructors
-        public RequestPropertyIntellisenseProvider(IRequestIntellisenseInfo requestIntellisenseTextBox)
+        public RequestPropertyIntellisenseProvider(RequestIntellisenseTextBox requestIntellisenseTextBox)
         {
             _requestIntellisenseTextBox = requestIntellisenseTextBox;
         }
@@ -68,7 +56,21 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Public Methods
-        public IEnumerable DoSearch(string searchTerm, int maxResults, object tag)
+        public IEnumerable DoSearch(string query, int maxResults, object tag)
+        {
+            ItemsSource = RefreshItemsSource(query);
+
+            return ItemsSource.Take(maxResults);
+        }
+        #endregion
+
+        #region Methods
+        protected IEnumerable<string> Sort(IEnumerable<string> preResults)
+        {
+            return preResults.OrderByDescending(s => s.Length);
+        }
+
+        IEnumerable<string> RefreshItemsSource(string query)
         {
             if (_requestIntellisenseTextBox.SearchByCurrentSelectedDataGridDataSourceContract)
             {
@@ -83,47 +85,40 @@ namespace BOA.OneDesigner.WpfControls
                     return new[] {"ilgili data source path bulunamadı."};
                 }
 
-                return Host.RequestIntellisenseData.Collections[bindingPath].Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                return Host.RequestIntellisenseData.Collections[bindingPath].Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
             if (_requestIntellisenseTextBox.ShowOnlyOrchestrationMethods)
             {
-                return Data.OrchestrationMethods.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                return Data.OrchestrationMethods.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
             if (_requestIntellisenseTextBox.ShowOnlyClassProperties)
             {
-                return Data.RequestClassPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                return Data.RequestClassPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
             if (_requestIntellisenseTextBox.ShowOnlyStringProperties)
             {
-                return Data.RequestStringPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                return Data.RequestStringPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
             if (_requestIntellisenseTextBox.ShowOnlyNotNullInt32Properties)
             {
-                return Data.RequestNotNullInt32PropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                return Data.RequestNotNullInt32PropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
             if (_requestIntellisenseTextBox.ShowOnlyBooleanProperties)
             {
-                return Data.RequestBooleanPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                return Data.RequestBooleanPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
             if (_requestIntellisenseTextBox.ShowOnlyCollectionProperties)
             {
-                return Data.RequestCollectionPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
+                return Data.RequestCollectionPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
-            return Data.RequestPropertyIntellisense.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
-        }
-        #endregion
-
-        #region Methods
-        protected IEnumerable<string> Sort(IEnumerable<string> preResults)
-        {
-            return preResults.OrderByDescending(s => s.Length);
+            return Data.RequestPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
         }
         #endregion
     }
