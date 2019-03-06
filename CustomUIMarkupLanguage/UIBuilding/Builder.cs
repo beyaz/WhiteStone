@@ -658,6 +658,28 @@ namespace CustomUIMarkupLanguage.UIBuilding
                         eventInfo.AddMethod.Invoke(element, new object[]{handler});
                         return true;
                     }
+                    if (eventInfo.EventHandlerType == typeof(TextChangedEventHandler))
+                    {
+                        var caller = Caller;
+                        TextChangedEventHandler handler = (s,e) =>
+                        {
+                            mi.Invoke(caller, parameters);
+                        };
+                        eventInfo.AddMethod.Invoke(element, new object[]{handler});
+                        return true;
+                    }
+                    if (eventInfo.EventHandlerType == typeof(SelectionChangedEventHandler))
+                    {
+                        var caller = Caller;
+                        SelectionChangedEventHandler handler = (s, e) =>
+                        {
+                            mi.Invoke(caller, parameters);
+                        };
+                        eventInfo.AddMethod.Invoke(element, new object[]{handler});
+                        return true;
+                    }
+                    
+                    
 
                     throw new NotImplementedException();
                 }

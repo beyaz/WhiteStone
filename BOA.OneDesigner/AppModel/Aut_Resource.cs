@@ -26,7 +26,7 @@ namespace BOA.OneDesigner.AppModel
         /// </summary>
         public override string ToString()
         {
-            return ResourceCode;
+            return ResourceCode + " - " + Name;
         }
         #endregion
     }

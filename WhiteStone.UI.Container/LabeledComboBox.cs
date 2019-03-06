@@ -1,14 +1,31 @@
 ﻿using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.Markup;
 using CustomUIMarkupLanguage.UIBuilding;
+using DotNetKit.Windows.Controls;
 
 namespace WhiteStone.UI.Container
 {
     public class LabeledComboBox : Grid
     {
+
+        public event TextChangedEventHandler TextChanged
+        {
+            add { PART_AutoCompleteComboBox.TextChanged    += value; }
+            remove { PART_AutoCompleteComboBox.TextChanged -= value; }
+        }
+
+        public event SelectionChangedEventHandler SelectionChanged
+        {
+            add{AddHandler(Selector.SelectionChangedEvent,value);}
+            remove {RemoveHandler(Selector.SelectionChangedEvent,value); }
+        }
+
+        public AutoCompleteComboBox PART_AutoCompleteComboBox;
+
         #region Constants
         const string UITemplate = @"
 {
@@ -17,9 +34,9 @@ namespace WhiteStone.UI.Container
 		{view:'TextBlock', Text:'{Binding Label}', MarginBottom:5, IsBold:true},
         {view:'AutoCompleteComboBox', 
 
-            SelectedValue:'{Binding SelectedValue}',
-            Text        :'{Binding Text}',
-
+            SelectedValue   : '{Binding SelectedValue}',
+            Text            : '{Binding Text}',
+            Name            : 'PART_AutoCompleteComboBox',
             ItemsSource:'{Binding ItemsSource}' ,  DisplayMemberPath:'{Binding DisplayMemberPath}' , SelectedValuePath:'{Binding SelectedValuePath}'}        
 	]
 	

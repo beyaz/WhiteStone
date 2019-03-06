@@ -10,6 +10,7 @@ using System.Windows.Input;
 
 using DotNetKit.Misc.Disposables;
 using DotNetKit.Windows.Media;
+using MahApps.Metro.Controls;
 
 namespace DotNetKit.Windows.Controls
 {
@@ -26,15 +27,24 @@ namespace DotNetKit.Windows.Controls
         {
             get
             {
+                
                 if (editableTextBoxCache == null)
                 {
                     
                     const string name = "PART_EditableTextBox";
+                    
                     editableTextBoxCache = (TextBox)VisualTreeModule.FindChild(this, name);
                 }
                 return editableTextBoxCache;
             }
         }
+        public event TextChangedEventHandler TextChanged
+        {
+            add{AddHandler(TextBoxBase.TextChangedEvent,value);}
+            remove {RemoveHandler(TextBoxBase.TextChangedEvent,value); }
+        }
+
+        
 
         /// <summary>
         /// Gets text to match with the query from an item.

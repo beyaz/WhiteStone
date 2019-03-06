@@ -5,6 +5,7 @@ using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
+using MahApps.Metro.Controls;
 using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.PropertyEditors

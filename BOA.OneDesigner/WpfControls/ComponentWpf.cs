@@ -5,6 +5,7 @@ using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
+using MahApps.Metro.Controls;
 
 namespace BOA.OneDesigner.WpfControls
 {
