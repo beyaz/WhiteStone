@@ -72,11 +72,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DotNetKit\Misc\Disposables\SerialDisposable.cs" />
+    <Compile Include="DotNetKit\Windows\Controls\AutoCompleteComboBox.xaml.cs">
+      <DependentUpon>AutoCompleteComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DotNetKit\Windows\Controls\AutoCompleteComboBoxSetting.cs" />
+    <Compile Include="DotNetKit\Windows\DependencyVariable.cs" />
+    <Compile Include="DotNetKit\Windows\Media\VisualTreeModule.cs" />
     <Compile Include="IntellisenseTextBox.cs" />
     <Compile Include="LabeledComboBox.cs" />
     <Compile Include="StringToNullableInt32Converter.cs" />
     <Compile Include="WindowBase.cs" />
-    <Compile Include="App.cs" />
     <Compile Include="Designer.cs" />
     <Compile Include="LabeledTextBox.cs" />
     <Compile Include="Mvc\ControllerBase.cs" />
@@ -124,5 +133,16 @@
     <Content Include="Lib\Intellibox.dll" />
     <Resource Include="Lib\Intellibox.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DotNetKit\Windows\Controls\AutoCompleteComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

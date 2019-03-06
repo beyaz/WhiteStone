@@ -1,68 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.UIBuilding;
-using WhiteStone.Common;
 
 namespace WhiteStone.UI.Container
 {
-
-
     public class TestContract
     {
+        #region Public Properties
         public bool IsSelected { get; set; }
 
         public string Name { get; set; }
 
         public string Password { get; set; }
 
+        public override string ToString()
+        {
+            return Name + " - " + Password;
+        }
+        #endregion
     }
-
 
     public class Designer : WindowBase
     {
-        #region SelectedValueAsString
-
-        public static readonly DependencyProperty SelectedValueAsStringProperty = DependencyProperty.Register(
-                                                        "SelectedValueAsString", typeof(string), typeof(Designer), new PropertyMetadata(default(string)));
-
-        public string SelectedValueAsString
-        {
-            get { return (string)GetValue(SelectedValueAsStringProperty); }
-            set { SetValue(SelectedValueAsStringProperty, value); }
-        } 
-        #endregion
-
-        public List<TestContract> DataGridComponentItemSource { get; set; } = new List<TestContract>
-        {
-            new TestContract
-            {
-                Name = "A",
-                Password = "B",
-                
-            },
-
-            new TestContract
-            {
-                Name     = "A1",
-                Password = "B1",
-                IsSelected = true
-            }
-            ,
-            
-            new TestContract
-            {
-            Name     = "A2",
-            Password = "B2"
-            
-        }
-        };
-
         #region Fields
         public Grid ContentGrid;
 
@@ -90,7 +54,7 @@ namespace WhiteStone.UI.Container
 
             var builder = new Builder
             {
-                Caller      = this,
+                Caller = this
             };
 
             builder.Load(ui);
@@ -99,7 +63,6 @@ namespace WhiteStone.UI.Container
 
             SourceJsonFilePath = Path.GetDirectoryName(GetType().Assembly.Location) + Path.DirectorySeparatorChar + "Designer.json";
 
-            
             FileHelper.WriteAllText(SourceJsonFilePath, @"
 
 
@@ -137,6 +100,16 @@ namespace WhiteStone.UI.Container
                         {ui:'DataGrid', Width:300,Height:200, AutoGenerateColumns:true, ItemsSource:'{Binding DataGridComponentItemSource}'}
                     ]
                 },
+                {   
+                    ui          : 'AutoCompleteComboBox',
+                    ItemsSource : '{Binding DataGridComponentItemSource}',
+                    Text        : '{Binding StringProperty1}'
+                }
+                ,
+                {
+                    view        : 'Textbox',
+                    Text        : '{Binding StringProperty1}'
+                }
 			]
 		}
 	]
@@ -150,10 +123,47 @@ namespace WhiteStone.UI.Container
 
 ");
 
-            FileHelper.ListenForSave(Dispatcher,SourceJsonFilePath,UpdateResult);
+            FileHelper.ListenForSave(Dispatcher, SourceJsonFilePath, UpdateResult);
 
             Process.Start(SourceJsonFilePath);
         }
+        #endregion
+
+        #region StringProperty1
+
+        public static readonly DependencyProperty StringProperty1Property = DependencyProperty.Register(
+                                                        "StringProperty1", typeof(string), typeof(Designer), new PropertyMetadata(default(string)));
+
+        public string StringProperty1
+        {
+            get { return (string)GetValue(StringProperty1Property); }
+            set { SetValue(StringProperty1Property, value); }
+        } 
+        #endregion
+
+
+        #region Public Properties
+        public List<TestContract> DataGridComponentItemSource { get; set; } = new List<TestContract>
+        {
+            new TestContract
+            {
+                Name     = "A",
+                Password = "B"
+            },
+
+            new TestContract
+            {
+                Name       = "A1",
+                Password   = "B1",
+                IsSelected = true
+            },
+
+            new TestContract
+            {
+                Name     = "A2",
+                Password = "B2"
+            }
+        };
         #endregion
 
         #region Public Methods
@@ -174,7 +184,6 @@ namespace WhiteStone.UI.Container
                 {
                     return;
                 }
-                
 
                 if (FileHelper.IsFileLocked(SourceJsonFilePath))
                 {
@@ -187,21 +196,30 @@ namespace WhiteStone.UI.Container
                 ContentGrid.ColumnDefinitions.Clear();
                 ContentGrid.Children.Clear();
 
-
                 var builder = new Builder
                 {
-                    Caller      = ContentGrid,
+                    Caller         = ContentGrid,
                     IsInDesignMode = true
                 };
 
                 builder.Load(File.ReadAllText(SourceJsonFilePath));
-
             }
             catch (Exception e)
             {
                 Log.Push(e);
                 App.ShowErrorNotification(e.ToString());
             }
+        }
+        #endregion
+
+        #region SelectedValueAsString
+        public static readonly DependencyProperty SelectedValueAsStringProperty = DependencyProperty.Register(
+                                                                                                              "SelectedValueAsString", typeof(string), typeof(Designer), new PropertyMetadata(default(string)));
+
+        public string SelectedValueAsString
+        {
+            get { return (string) GetValue(SelectedValueAsStringProperty); }
+            set { SetValue(SelectedValueAsStringProperty, value); }
         }
         #endregion
 

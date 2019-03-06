@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Windows;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.UIBuilding;
+using DotNetKit.Windows.Controls;
 using MahApps.Metro.Controls;
 using Notifications.Wpf;
 
@@ -12,7 +13,7 @@ namespace WhiteStone.UI.Container
     /// <summary>
     ///     Interaction logic for App.xaml
     /// </summary>
-    public class App : Application
+    partial class App
     {
         #region Static Fields
         /// <summary>
@@ -49,6 +50,15 @@ namespace WhiteStone.UI.Container
         public static void InitializeBuilder()
         {
             Builder.RegisterElementCreation(IntellisenseTextBox.On);
+            Builder.RegisterElementCreation((builder, node) =>
+            {
+                if (node.UI == nameof(AutoCompleteComboBox).ToUpperEN())
+                {
+                    return new AutoCompleteComboBox();
+                }
+
+                return null;
+            });
 
             Builder.RegisterElementCreation(LabeledTextBox.On);
             Builder.RegisterElementCreation(LabeledComboBox.On);

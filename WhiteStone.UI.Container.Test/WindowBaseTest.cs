@@ -8,6 +8,7 @@ namespace WhiteStone.UI.Container.Test
     public class WindowBaseTest
     {
         [TestMethod]
+        [STAThread]
         public void ApplyMahAppMetroStyle()
         {
             WindowBase.ApplyMahAppMetroStyle(new ResourceDictionary(), true);
