@@ -21,6 +21,8 @@ namespace BOA.OneDesigner.WpfControls
             Builder.RegisterElementCreation("WideEditor", typeof(WideEditor));
             Builder.RegisterElementCreation("HorizontalLocationEditor", typeof(HorizontalLocationEditor));
             Builder.RegisterElementCreation("ResourceCodeTextBox", typeof(ResourceCodeTextBox));
+            Builder.RegisterElementCreation("OrchestrationIntellisense", typeof(OrchestrationIntellisense));
+            
             
             
         }
