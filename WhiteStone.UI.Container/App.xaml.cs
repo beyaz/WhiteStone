@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
 using BOA.Common.Helpers;
+using CustomUIMarkupLanguage.Markup;
 using CustomUIMarkupLanguage.UIBuilding;
 using DotNetKit.Windows.Controls;
 using MahApps.Metro.Controls;
@@ -50,6 +51,8 @@ namespace WhiteStone.UI.Container
         public static void InitializeBuilder()
         {
             Builder.RegisterElementCreation(IntellisenseTextBox.On);
+
+            Builder.AddTransform(TransformLabeledAutoCompleteComboBox);
             Builder.RegisterElementCreation((builder, node) =>
             {
                 if (node.UI == nameof(AutoCompleteComboBox).ToUpperEN())
@@ -157,6 +160,33 @@ namespace WhiteStone.UI.Container
             }
 
             return (Window) Activator.CreateInstance(type);
+        }
+
+        static void TransformLabeledAutoCompleteComboBox(Node root)
+        {
+            root.Visit(node =>
+            {
+                if (node.HasProperty("Label") && node.NameToUpperInEnglish == "AUTOCOMPLETECOMBOBOX")
+                {
+                    var grid = new Node
+                    {
+                        Name = "Grid",
+                        Properties = new NodeCollection(new Node
+                        {
+                            Name = "rows",
+                            ValueAsArray = new NodeCollection()
+                            {
+                                Items = new List<Node>
+                                {
+                                    new Node{Name = "TextBlock",ValueAsString = node.Properties["Label"].ValueAsString}
+                                }
+                            }
+                        })
+                    };
+
+
+                }
+            });
         }
         #endregion
     }

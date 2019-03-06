@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,6 +17,20 @@ namespace CustomUIMarkupLanguage.Markup
         public List<Node> Items { get; set; } = new List<Node>();
         #endregion
 
+        public NodeCollection()
+        {
+            
+        }
+
+        public NodeCollection(params Node[] items)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            Items = items.ToList();
+        }
         #region Public Indexers
         /// <summary>
         ///     Gets the <see cref="Node" /> with the specified name.
