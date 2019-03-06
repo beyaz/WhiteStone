@@ -189,7 +189,11 @@ namespace DotNetKit.Windows.Controls
 
         void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            var id = unchecked(++revisionId);
+            OnTextChanged();
+        }
+        void OnTextChanged()
+        {
+            var id      = unchecked(++revisionId);
             var setting = SettingOrDefault;
 
             if (setting.Delay <= TimeSpan.Zero)
@@ -200,38 +204,38 @@ namespace DotNetKit.Windows.Controls
 
             disposable.Content =
                 new Timer(
-                    state =>
-                    {
-                        Dispatcher.InvokeAsync(() =>
-                        {
-                            if (revisionId != id) return;
-                            UpdateSuggestionList();
-                        });
-                    },
-                    null,
-                    setting.Delay,
-                    Timeout.InfiniteTimeSpan
-                );
+                          state =>
+                          {
+                              Dispatcher.InvokeAsync(() =>
+                              {
+                                  if (revisionId != id) return;
+                                  UpdateSuggestionList();
+                              });
+                          },
+                          null,
+                          setting.Delay,
+                          Timeout.InfiniteTimeSpan
+                         );
         }
         #endregion
 
         void ComboBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Space)
-            {
-                OpenDropDown();
-                e.Handled = true;
-            }
+            //if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Space)
+            //{
+            //    OpenDropDown();
+            //    e.Handled = true;
+            //}
+
+            OnTextChanged();
+
         }
 
         public AutoCompleteComboBox()
         {
             InitializeComponent();
 
-            AddHandler(
-                TextBoxBase.TextChangedEvent,
-                new TextChangedEventHandler(OnTextChanged)
-            );
+            // AddHandler(TextBoxBase.TextChangedEvent,new TextChangedEventHandler(OnTextChanged));
         }
     }
 }

@@ -39,14 +39,6 @@ namespace BOA.OneDesigner.WpfControls
             Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, UpdateHeader);
         }
 
-        void SetContent(object propertyEditor)
-        {
-            Content = new ScrollViewer
-            {
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                Content                     = propertyEditor
-            };
-        }
         public void Refresh()
         {
             Content = null;
@@ -55,7 +47,7 @@ namespace BOA.OneDesigner.WpfControls
             if (actionButton != null)
             {
                 DataContext = actionButton.Model;
-                SetContent( new ResourceActionEditor
+                SetContent(new ResourceActionEditor
                 {
                     DataContext = actionButton.Model
                 });
@@ -78,58 +70,56 @@ namespace BOA.OneDesigner.WpfControls
             var bInput = DataContext as BInput;
             if (bInput != null)
             {
-                SetContent( Host.Create<BInputEditor>(DataContext));
+                SetContent(Host.Create<BInputEditor>(DataContext));
                 return;
             }
-
-           
 
             var dataGridColumnInfo = DataContext as BDataGridColumnInfo;
             if (dataGridColumnInfo != null)
             {
-                SetContent( Host.Create<BDataGridColumnInfoEditor>(DataContext));
+                SetContent(Host.Create<BDataGridColumnInfoEditor>(DataContext));
                 return;
             }
 
             var bCard = DataContext as BCard;
             if (bCard != null)
             {
-                SetContent( Host.Create<BCardEditor>(DataContext));
+                SetContent(Host.Create<BCardEditor>(DataContext));
                 return;
             }
 
             var dataGridInfo = DataContext as BDataGrid;
             if (dataGridInfo != null)
             {
-                SetContent( Host.Create<BDataGridEditor>(dataGridInfo));
+                SetContent(Host.Create<BDataGridEditor>(dataGridInfo));
                 return;
             }
 
             var bComboBox = DataContext as BComboBox;
             if (bComboBox != null)
             {
-                SetContent( Host.Create<BComboBoxEditor>(bComboBox));
+                SetContent(Host.Create<BComboBoxEditor>(bComboBox));
                 return;
             }
 
             var tabControl = DataContext as BTabBar;
             if (tabControl != null)
             {
-                SetContent( Host.Create<BTabBarEditor>(tabControl));
+                SetContent(Host.Create<BTabBarEditor>(tabControl));
                 return;
             }
 
             var bTabBarPage = DataContext as BTabBarPage;
             if (bTabBarPage != null)
             {
-                SetContent( Host.Create<BTabBarPageEditor>(DataContext));
+                SetContent(Host.Create<BTabBarPageEditor>(DataContext));
                 return;
             }
 
             var component = Host.SelectedElement as ComponentWpf;
             if (component != null)
             {
-                SetContent( ComponentEditor.Create(Host,component.Model.Info));
+                SetContent(ComponentEditor.Create(Host, component.Model.Info));
 
                 return;
             }
@@ -139,6 +129,15 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
+        void SetContent(object propertyEditor)
+        {
+            Content = new ScrollViewer
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Content                     = propertyEditor
+            };
+        }
+
         void UpdateHeader()
         {
             if (DataContext == null)
@@ -155,7 +154,6 @@ namespace BOA.OneDesigner.WpfControls
                 name = component.Model.Info.Type.GetName();
             }
 
-            
             Header = "Properties -> " + name;
         }
         #endregion

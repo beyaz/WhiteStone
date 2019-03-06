@@ -15,7 +15,12 @@ namespace WhiteStone.UI.Container
 	rows:
 	[
 		{view:'TextBlock', Text:'{Binding Label}', MarginBottom:5, IsBold:true},
-        {view:'AutoCompleteComboBox', SelectedValue:'{Binding SelectedValue}', ItemsSource:'{Binding ItemsSource}' ,  DisplayMemberPath:'{Binding DisplayMemberPath}' , SelectedValuePath:'{Binding SelectedValuePath}'}        
+        {view:'AutoCompleteComboBox', 
+
+            SelectedValue:'{Binding SelectedValue}',
+            Text        :'{Binding Text}',
+
+            ItemsSource:'{Binding ItemsSource}' ,  DisplayMemberPath:'{Binding DisplayMemberPath}' , SelectedValuePath:'{Binding SelectedValuePath}'}        
 	]
 	
 }";
@@ -88,13 +93,22 @@ namespace WhiteStone.UI.Container
         #endregion
 
         #region SelectedValue
-        public static readonly DependencyProperty SelectedValueProperty = DependencyProperty.Register(
-                                                                                                      "SelectedValue", typeof(string), typeof(LabeledComboBox), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty SelectedValueProperty = DependencyProperty.Register(nameof(SelectedValue), typeof(string), typeof(LabeledComboBox), new PropertyMetadata(default(string)));
 
         public string SelectedValue
         {
             get { return (string) GetValue(SelectedValueProperty); }
             set { SetValue(SelectedValueProperty, value); }
+        }
+        #endregion
+
+        #region SelectedValue
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(LabeledComboBox), new PropertyMetadata(default(string)));
+
+        public string Text
+        {
+            get { return (string) GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
         #endregion
 

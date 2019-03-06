@@ -220,16 +220,14 @@ namespace BOA.OneDesigner.PropertyEditors
                 Childs:
                 [
                     {
-                        ui                           : 'RequestIntellisenseTextBox',
+                        ui                           : 'OrchestrationIntellisense',
                         IsVisible                    : '{Binding " + Model.AccessPathOf(m => m.IsValueChangedOrchestrationMethodVisible) + @"}',
-                        ShowOnlyOrchestrationMethods : true, 
                         Text                         : '{Binding " + Model.AccessPathOf(m => m.Info.ValueChangedOrchestrationMethod) + @"}', 
                         Label                        : 'On Account Number Changed'
                     }               
                     ,
                     {   
-                        ui                          : 'RequestIntellisenseTextBox',
-                        ShowOnlyOrchestrationMethods: true,
+                        ui                          : 'OrchestrationIntellisense',
                         Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
                         Label                       : 'On Value Changed (Goto Orch)',
                         IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsButtonClickedOrchestrationMethodVisible) + @"}'                   
