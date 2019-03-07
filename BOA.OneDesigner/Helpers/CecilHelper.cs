@@ -52,6 +52,16 @@ namespace BOA.OneDesigner.Helpers
         public List<string> ProcessedClassNames { get; set; }
         #endregion
 
+
+        public void AddRequestPropertyIntellisense(string value)
+        {
+            if (RequestPropertyIntellisense.Contains(value.Trim()))
+            {
+                return;
+            }
+
+            RequestPropertyIntellisense.Add(value.Trim());
+        }
         #region Public Methods
         public CecilPropertyInfo FindPropertyInfoInCollectionFirstGenericArgumentType(string dataSourceBindingPath, string bindingPath)
         {
@@ -407,7 +417,7 @@ namespace BOA.OneDesigner.Helpers
 
                 if (PrimitiveTypes.Contains(propertyDefinition.PropertyType.FullName))
                 {
-                    data.RequestPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
+                    data.AddRequestPropertyIntellisense(pathPrefix + propertyDefinition.Name);
                 }
 
                 if (propertyDefinition.PropertyType.FullName == typeof(bool).FullName ||
@@ -433,7 +443,7 @@ namespace BOA.OneDesigner.Helpers
 
                 if (IsCollection(propertyDefinition.PropertyType))
                 {
-                    data.RequestPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
+                    data.AddRequestPropertyIntellisense(pathPrefix + propertyDefinition.Name);
                     data.RequestCollectionPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
                     continue;
                 }
@@ -443,7 +453,7 @@ namespace BOA.OneDesigner.Helpers
 
                     data.RequestClassPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
 
-                    data.RequestPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
+                    data.AddRequestPropertyIntellisense(pathPrefix + propertyDefinition.Name);
 
                     if (data.ProcessedClassNames.Contains(propertyDefinition.PropertyType.FullName) )
                     {

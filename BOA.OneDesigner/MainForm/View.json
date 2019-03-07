@@ -23,7 +23,7 @@
                 {
                   "ui": "ResourceCodeTextBox",
                   "Label": "Ekran Kodu",
-                  "SelectedValue": "{Binding ScreenInfo.ResourceCode}",
+                  "SelectedValue": "{Binding ScreenInfo.ResourceCode,Mode=TwoWay}",
                   "SelectedValuePath": "ResourceCode",
                   "DisplayMemberPath": "Name",
                   "SelectionChanged": "this.FireAction('ResourceCodeChanged')",

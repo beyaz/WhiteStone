@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +42,7 @@ namespace DotNetKit.Windows.Controls
         /// </summary>
         public virtual int MaxSuggestionCount
         {
-            get { return 100; }
+            get { return 5000; }
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace DotNetKit.Windows.Controls
         /// </summary>
         public virtual TimeSpan Delay
         {
-            get { return TimeSpan.FromMilliseconds(200.0); }
+            get { return TimeSpan.FromMilliseconds(300); }
         }
 
         static AutoCompleteComboBoxSetting @default =

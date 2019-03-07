@@ -718,6 +718,13 @@ namespace CustomUIMarkupLanguage.UIBuilding
                             return true;
                         }
 
+
+                        if (eventInfo.EventHandlerType == typeof(TextChangedEventHandler))
+                        {
+                            TextChangedEventHandler handler = (s, e) => { handlerMethod.Invoke(caller, null); };
+                            eventInfo.AddEventHandler(element, handler);
+                            return true;
+                        }
                         if (eventInfo.EventHandlerType == typeof(SelectionChangedEventHandler))
                         {
                            

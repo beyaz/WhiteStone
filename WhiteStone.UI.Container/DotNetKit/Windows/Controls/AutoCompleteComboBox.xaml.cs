@@ -231,11 +231,14 @@ namespace DotNetKit.Windows.Controls
 
         void ComboBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            //if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Space)
-            //{
-            //    OpenDropDown();
-            //    e.Handled = true;
-            //}
+
+
+
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Space)
+            {
+                OpenDropDown();
+                e.Handled = true;
+            }
 
             OnTextChanged();
 

@@ -1,24 +1,37 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
-using FeserWard.Controls;
+using DotNetKit.Windows.Controls;
 using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    public class RequestIntellisenseTextBox : IntellisenseTextBox
+    
+
+    public class RequestIntellisenseTextBox : LabeledComboBox
     {
+
         #region Constructors
         public RequestIntellisenseTextBox()
         {
-            QueryProvider = new RequestPropertyIntellisenseProvider(this);
+            ItemsSource = new List<string>();
+
+            // TextChanged += RequestIntellisenseTextBox_TextChanged;
+
+            Loaded += (s, e) => { ItemsSource = RefreshItemsSource("").ToList(); };
+            
         }
         #endregion
 
         #region Public Properties
+        public RequestIntellisenseData Data { get; set; } = SM.Get<Host>().RequestIntellisenseData;
+
+        public Host Host { get; set; } = SM.Get<Host>();
+
         public bool SearchByCurrentSelectedDataGridDataSourceContract { get; set; }
 
         public bool ShowOnlyBooleanProperties { get; set; }
@@ -33,46 +46,11 @@ namespace BOA.OneDesigner.WpfControls
 
         public bool ShowOnlyStringProperties { get; set; }
         #endregion
-    }
-
-    class RequestPropertyIntellisenseProvider : IIntelliboxResultsProvider
-    {
-        #region Fields
-        readonly RequestIntellisenseTextBox _requestIntellisenseTextBox;
-
-        IEnumerable<string> ItemsSource;
-        #endregion
-
-        #region Constructors
-        public RequestPropertyIntellisenseProvider(RequestIntellisenseTextBox requestIntellisenseTextBox)
-        {
-            _requestIntellisenseTextBox = requestIntellisenseTextBox;
-        }
-        #endregion
-
-        #region Public Properties
-        public RequestIntellisenseData Data { get; set; } = SM.Get<Host>().RequestIntellisenseData;
-        public Host                    Host { get; set; } = SM.Get<Host>();
-        #endregion
-
-        #region Public Methods
-        public IEnumerable DoSearch(string query, int maxResults, object tag)
-        {
-            ItemsSource = RefreshItemsSource(query);
-
-            return ItemsSource.Take(maxResults);
-        }
-        #endregion
 
         #region Methods
-        protected IEnumerable<string> Sort(IEnumerable<string> preResults)
-        {
-            return preResults.OrderByDescending(s => s.Length);
-        }
-
         IEnumerable<string> RefreshItemsSource(string query)
         {
-            if (_requestIntellisenseTextBox.SearchByCurrentSelectedDataGridDataSourceContract)
+            if (SearchByCurrentSelectedDataGridDataSourceContract)
             {
                 var bindingPath = Host.LastSelectedUIElement_as_DataGrid_DataSourceBindingPath;
                 if (string.IsNullOrWhiteSpace(bindingPath))
@@ -88,37 +66,42 @@ namespace BOA.OneDesigner.WpfControls
                 return Host.RequestIntellisenseData.Collections[bindingPath].Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
-            if (_requestIntellisenseTextBox.ShowOnlyOrchestrationMethods)
+            if (ShowOnlyOrchestrationMethods)
             {
                 return Data.OrchestrationMethods.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
-            if (_requestIntellisenseTextBox.ShowOnlyClassProperties)
+            if (ShowOnlyClassProperties)
             {
                 return Data.RequestClassPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
-            if (_requestIntellisenseTextBox.ShowOnlyStringProperties)
+            if (ShowOnlyStringProperties)
             {
                 return Data.RequestStringPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
-            if (_requestIntellisenseTextBox.ShowOnlyNotNullInt32Properties)
+            if (ShowOnlyNotNullInt32Properties)
             {
                 return Data.RequestNotNullInt32PropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
-            if (_requestIntellisenseTextBox.ShowOnlyBooleanProperties)
+            if (ShowOnlyBooleanProperties)
             {
                 return Data.RequestBooleanPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
-            if (_requestIntellisenseTextBox.ShowOnlyCollectionProperties)
+            if (ShowOnlyCollectionProperties)
             {
                 return Data.RequestCollectionPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
             return Data.RequestPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
+        }
+
+        void RequestIntellisenseTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ItemsSource =  RefreshItemsSource(Text).Take(10).ToList();
         }
         #endregion
     }

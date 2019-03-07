@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.Markup;
 using CustomUIMarkupLanguage.UIBuilding;
+using DotNetKit.Windows.Controls;
 using FeserWard.Controls;
 using ReflectionHelper = CustomUIMarkupLanguage.ReflectionHelper;
 
@@ -15,24 +16,25 @@ namespace WhiteStone.UI.Container
 {
     public class IntellisenseTextBox : Grid
     {
+        public AutoCompleteComboBox AutoCompleteComboBox;
+
         #region Constants
         const string UITemplate = @"
 {
 	rows:
 	[
 		{view:'TextBlock', Text:'{Binding Label}', MarginBottom:5, IsBold:true},
-        {view:'Intellibox', SelectAllOnFocus:true,  
-         SelectedValue:'{Binding Text}',
-         Name:'IntellisenseBox',
-         DataProvider:'{Binding QueryProvider,Mode=OneWay}'}
+        {
+            view:'AutoCompleteComboBox',
+            SelectedValue:'{Binding Text}',
+            Name: 'AutoCompleteComboBox'
+        }
 	]
 	
 }";
         #endregion
 
-        #region Fields
-        public Intellibox IntellisenseBox;
-        #endregion
+        
 
         #region Constructors
         public IntellisenseTextBox()
@@ -52,22 +54,11 @@ namespace WhiteStone.UI.Container
                 return;
             }
 
-            IntellisenseBox.MaxResults = 5;
-
-            EdiTextBox.KeyUp += (s, e) => { UpdateTextFromEditBox(); };
-
-            IntellisenseBox.SearchCompleted += UpdateTextFromEditBox;
-
-            IntellisenseBox.SingleClickToSelectResult = true;
-            IntellisenseBox.MinimumPrefixLength       = 0;
-
-            // https://github.com/joefeser/intellibox
+           
         }
         #endregion
 
-        #region Public Events
-        public event Action TextChanged;
-        #endregion
+      
 
         #region Public Methods
         public static UIElement On(Builder builder, Node node)
@@ -78,8 +69,9 @@ namespace WhiteStone.UI.Container
             }
 
             if (node.UI == nameof(TextBox).ToUpperEN() &&
-                node.HasProperty(nameof(IntellisenseSource)))
+                node.HasProperty("IntellisenseSource"))
             {
+                
                 return new IntellisenseTextBox();
             }
 
@@ -87,38 +79,7 @@ namespace WhiteStone.UI.Container
         }
         #endregion
 
-        #region Methods
-        void OnTextChanged()
-        {
-            TextChanged?.Invoke();
-        }
-
-        void UpdateTextFromEditBox()
-        {
-            Text = EdiTextBox.Text;
-        }
-        #endregion
-
-        class StringCollectionProvider : IIntelliboxResultsProvider
-        {
-            #region Public Properties
-            public IReadOnlyCollection<string> Items { get; set; }
-            #endregion
-
-            #region Public Methods
-            public IEnumerable DoSearch(string searchTerm, int maxResults, object tag)
-            {
-                return Items.Where(term => term.ToUpperEN().Contains(searchTerm.ToUpperEN())).Select(t => t).Take(maxResults);
-            }
-            #endregion
-
-            #region Methods
-            protected IEnumerable<string> Sort(IEnumerable<string> preResults)
-            {
-                return preResults.OrderByDescending(s => s.Length);
-            }
-            #endregion
-        }
+        
 
         #region Label
         public string Label
@@ -130,70 +91,41 @@ namespace WhiteStone.UI.Container
         public static readonly DependencyProperty LabelProperty = DependencyProperty.Register("Label", typeof(string), typeof(IntellisenseTextBox), new PropertyMetadata(default(string)));
         #endregion
 
-        #region  Text
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(IntellisenseTextBox), new PropertyMetadata(default(string), OnTextChanged));
+        #region IntellisenseSource
 
-        static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty IntellisenseSourceProperty = DependencyProperty.Register("IntellisenseSource", typeof(IReadOnlyList<string>), typeof(IntellisenseTextBox), new PropertyMetadata(default(IReadOnlyList<string>), (o, args) =>
         {
-            var intellisenseTextBox = d as IntellisenseTextBox;
-            if (intellisenseTextBox == null)
-            {
-                return;
-            }
+            ((IntellisenseTextBox) o).AutoCompleteComboBox.ItemsSource = (IEnumerable)args.NewValue;
+        }));
 
-            intellisenseTextBox.IntellisenseBox.SelectedValue = (string) e.NewValue;
-            intellisenseTextBox.IntellisenseBox.WatermarkText = (string) e.NewValue;
+        public IReadOnlyList<string> IntellisenseSource
+        {
+            get { return (IReadOnlyList<string>)GetValue(IntellisenseSourceProperty); }
+            set { SetValue(IntellisenseSourceProperty, value); }
+        } 
+        #endregion
 
-            intellisenseTextBox.OnTextChanged();
-        }
 
-        TextBox EdiTextBox => (TextBox) ReflectionHelper.GetField(typeof(Intellibox), "PART_EDITFIELD", false, false, true, true).GetValue(IntellisenseBox);
+        #region IntellisenseSource
+
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(IntellisenseTextBox), new PropertyMetadata(default(string), (o, args) =>
+        {
+            ((IntellisenseTextBox) o).AutoCompleteComboBox.Text = (string)args.NewValue;
+        }));
 
         public string Text
         {
-            get { return (string) GetValue(TextProperty); }
+            get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
-        }
+        } 
         #endregion
 
-        #region QueryProvider
-        public static readonly DependencyProperty QueryProviderProperty = DependencyProperty.Register(
-                                                                                                      "QueryProvider", typeof(IIntelliboxResultsProvider), typeof(IntellisenseTextBox), new PropertyMetadata(default(IIntelliboxResultsProvider)));
 
-        public IIntelliboxResultsProvider QueryProvider
+        public event SelectionChangedEventHandler TextChanged
         {
-            get { return (IIntelliboxResultsProvider) GetValue(QueryProviderProperty); }
-            set { SetValue(QueryProviderProperty, value); }
-        }
-        #endregion
-
-        #region IntellisenseSource
-        public static readonly DependencyProperty IntellisenseSourceProperty = DependencyProperty.Register("IntellisenseSource", typeof(IReadOnlyCollection<string>), typeof(IntellisenseTextBox), new PropertyMetadata(default(IReadOnlyCollection<string>), OnIntellisenseSourceChanged));
-
-        static void OnIntellisenseSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var intellisenseTextBox = d as IntellisenseTextBox;
-            if (intellisenseTextBox == null)
-            {
-                return;
-            }
-
-            if (e.Property != IntellisenseSourceProperty)
-            {
-                return;
-            }
-
-            intellisenseTextBox.IntellisenseBox.DataProvider = new StringCollectionProvider
-            {
-                Items = intellisenseTextBox.IntellisenseSource
-            };
+            add { AutoCompleteComboBox.SelectionChanged += value; }
+            remove { AutoCompleteComboBox.SelectionChanged -= value; }
         }
 
-        public IReadOnlyCollection<string> IntellisenseSource
-        {
-            get { return (IReadOnlyCollection<string>) GetValue(IntellisenseSourceProperty); }
-            set { SetValue(IntellisenseSourceProperty, value); }
-        }
-        #endregion
     }
 }
