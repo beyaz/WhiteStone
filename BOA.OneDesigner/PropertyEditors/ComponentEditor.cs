@@ -263,13 +263,6 @@ namespace BOA.OneDesigner.PropertyEditors
                     }
                     ,
                     {
-                        ui              : 'Label',
-                        Content         : 'Veya',
-                        Margin          : 15,
-                        hAlignIsCenter  : true
-                    }
-                    ,
-                    {
                         ui          : 'ResourceCodeTextBox',   
                         Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}', 
                         Label       : 'Open Form With Resource Code',
