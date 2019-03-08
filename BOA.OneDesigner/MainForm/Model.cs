@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.UI.Types;
-using BOAPlugins.Messaging;
 using BOAPlugins.TypescriptModelGeneration;
 using WhiteStone.UI.Container.Mvc;
 
@@ -14,9 +12,6 @@ namespace BOA.OneDesigner.MainForm
     [Serializable]
     public class Model : ModelBase
     {
-
-        public bool ScreenInfoGottenFromCache { get; set; }
-
         #region Public Properties
         /// <summary>
         ///     Gets or sets a value indicating whether [design tab is visible].
@@ -32,12 +27,6 @@ namespace BOA.OneDesigner.MainForm
         ///     Gets or sets the messaging group names.
         /// </summary>
         public IReadOnlyList<string> MessagingGroupNames { get; set; }
-
-
-
-        
-
-
 
         /// <summary>
         ///     Gets or sets the request names.
@@ -62,8 +51,6 @@ namespace BOA.OneDesigner.MainForm
         ///     Gets or sets the TFS folder names.
         /// </summary>
         public IReadOnlyList<string> TfsFolderNames { get; set; }
-
-        
         #endregion
     }
 }
