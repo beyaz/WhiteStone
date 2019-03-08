@@ -119,6 +119,7 @@ namespace BOA.OneDesigner.CodeGeneration
         public bool IsBrowsePage { get; set; }
         public List<string> RenderMethodRequestRelatedVariables { get; set; } = new List<string>();
         public bool ThrowExceptionOnEmptyActionDefinition { get; set; }
+        public bool HandleProxyDidRespondCallback { get; set; }
         #endregion
 
         #region Public Methods

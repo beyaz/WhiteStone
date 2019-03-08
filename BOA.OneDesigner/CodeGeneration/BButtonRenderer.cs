@@ -11,26 +11,33 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var sb = writerContext.Output;
 
-            sb.Append("<BButton type=\"flat\" colorType=\"primary\"  style = {{ float:\"right\" }}");
+            sb.Append("<BButton type=\"flat\" colorType=\"primary\"");
+            sb.PaddingCount++;
+
+            sb.AppendLine("style = {{ float:\"right\" }}");
 
             RenderHelper.WriteLabelInfo(writerContext, data.TextInto, sb.Append, " text");
             RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
 
-            sb.AppendLine("onClick={()=>{");
-
+            sb.AppendLine("onClick={()=>");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
             RenderHelper.WriteButtonAction(sb, new ButtonActionInfo
             {
                 OrchestrationMethodName                          = data.ButtonClickedOrchestrationMethod,
                 OpenFormWithResourceCode                         = data.OpenFormWithResourceCode,
                 OpenFormWithResourceCodeDataParameterBindingPath = data.OpenFormWithResourceCodeDataParameterBindingPath,
-                DesignerLocation                                 = data.Text
+                DesignerLocation                                 = data.Text,
+                WriterContext = writerContext
             });
 
+            sb.PaddingCount--;
             sb.AppendLine("}}");
 
             sb.Append("context={context}");
 
+            sb.PaddingCount--;
             sb.AppendLine(" />");
         }
         #endregion

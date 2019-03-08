@@ -14,6 +14,7 @@ namespace BOA.OneDesigner.CodeGeneration
         public string OpenFormWithResourceCode                         { get; set; }
         public string OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
         public string OrchestrationMethodName                          { get; set; }
+        public WriterContext WriterContext { get; set; }
         #endregion
     }
 
@@ -42,8 +43,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var typeFullName = propertyDefinition.PropertyType.FullName;
 
-            
-
             var returnValue = new BindingPathPropertyInfo
             {
                 IsString          = typeFullName == typeof(string).FullName,
@@ -56,10 +55,10 @@ namespace BOA.OneDesigner.CodeGeneration
                                    CecilHelper.FullNameOfNullableShort == typeFullName,
 
                 IsNonNullableNumber = typeFullName == typeof(sbyte).FullName ||
-                                      typeFullName == typeof(byte).FullName||
-                                      typeFullName == typeof(short).FullName||
-                                      typeFullName == typeof(int).FullName||
-                                      typeFullName == typeof(long).FullName||
+                                      typeFullName == typeof(byte).FullName ||
+                                      typeFullName == typeof(short).FullName ||
+                                      typeFullName == typeof(int).FullName ||
+                                      typeFullName == typeof(long).FullName ||
                                       typeFullName == typeof(decimal).FullName,
 
                 IsBoolean = CecilHelper.FullNameOfNullableBoolean == typeFullName ||
@@ -98,8 +97,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
         public static string GetLabelValue(WriterContext writerContext, LabelInfo data)
         {
-            var screenInfo   = writerContext.ScreenInfo;
-            var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
+            var screenInfo = writerContext.ScreenInfo;
 
             if (data == null)
             {
@@ -161,34 +159,56 @@ namespace BOA.OneDesigner.CodeGeneration
 
         public static void WriteButtonAction(PaddedStringBuilder sb, ButtonActionInfo buttonActionInfo)
         {
-            if (buttonActionInfo.OpenFormWithResourceCode.HasValue() && buttonActionInfo.OrchestrationMethodName.HasValue())
+            var orchestrationMethodName = buttonActionInfo.OrchestrationMethodName;
+            var resourceCode            = buttonActionInfo.OpenFormWithResourceCode;
+
+            var writerContext = buttonActionInfo.WriterContext;
+
+            string dataParameter = null;
+
+            if (buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
             {
-                throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz." + buttonActionInfo.DesignerLocation);
+                dataParameter = "this.getWindowRequest().body." + TypescriptNaming.NormalizeBindingPath(buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath);
             }
 
-            if (buttonActionInfo.OpenFormWithResourceCode.IsNullOrWhiteSpace() && buttonActionInfo.OrchestrationMethodName.IsNullOrWhiteSpace())
+            if (resourceCode.HasValue() && orchestrationMethodName.HasValue())
             {
-                // TODO warning verilmeli
-                // throw Error.InvalidOperation("'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır." + buttonActionInfo.DesignerLocation);
-                return;
-            }
+                sb.AppendLine("const me: any = this;");
+                sb.AppendLine("me.proxyDidRespondCallback = () =>");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
 
-            if (buttonActionInfo.OpenFormWithResourceCode.HasValue())
-            {
-                if (buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
+                if (dataParameter.HasValue())
                 {
-                    var bindingPathForDataParameter = "this.getWindowRequest().body." + TypescriptNaming.NormalizeBindingPath(buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath);
-
-                    sb.AppendLine($"BFormManager.show(\"{buttonActionInfo.OpenFormWithResourceCode.Trim()}\", /*data*/{bindingPathForDataParameter}, true,null);");
+                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", /*data*/{dataParameter}, true,null);");
                 }
                 else
                 {
-                    sb.AppendLine($"BFormManager.show(\"{buttonActionInfo.OpenFormWithResourceCode.Trim()}\", /*data*/null, true,null);");
+                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", /*data*/null, true,null);");
+                }
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                sb.AppendLine();
+
+                sb.AppendLine($"this.executeWindowRequest(\"{orchestrationMethodName}\");");
+
+                writerContext.HandleProxyDidRespondCallback = true;
+            }
+            else if (resourceCode.HasValue())
+            {
+                if (dataParameter.HasValue())
+                {
+                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", /*data*/{dataParameter}, true,null);");
+                }
+                else
+                {
+                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", /*data*/null, true,null);");
                 }
             }
-            else
+            else if (orchestrationMethodName.HasValue())
             {
-                sb.AppendLine($"this.executeWindowRequest(\"{buttonActionInfo.OrchestrationMethodName}\");");
+                sb.AppendLine($"this.executeWindowRequest(\"{orchestrationMethodName}\");");
             }
         }
 
@@ -199,13 +219,12 @@ namespace BOA.OneDesigner.CodeGeneration
                 return;
             }
 
-            var isAlwaysDisabled = string.Equals("TRUE",isDisabledBindingPath.Trim(),StringComparison.OrdinalIgnoreCase);
+            var isAlwaysDisabled = string.Equals("TRUE", isDisabledBindingPath.Trim(), StringComparison.OrdinalIgnoreCase);
             if (isAlwaysDisabled)
             {
                 sb.AppendLine("disabled = {true}");
                 return;
             }
-
 
             var jsBindingPath = new JsBindingPathCalculatorData(writerContext, isDisabledBindingPath)
             {

@@ -449,6 +449,23 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.Append(");");
             sb.Append(Environment.NewLine);
 
+            if (writerContext.HandleProxyDidRespondCallback)
+            {
+                sb.AppendLine();
+                sb.AppendLine("const me: any = this;");
+                sb.AppendLine("if(me.proxyDidRespondCallback)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine("me.proxyDidRespondCallback();");
+                sb.AppendLine("me.proxyDidRespondCallback = null;");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+
+            }
+
+
             if (writerContext.CanWriteEvaluateActions)
             {
                 sb.AppendLine();
@@ -690,7 +707,8 @@ namespace BOA.OneDesigner.CodeGeneration
                         OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
                         OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
                         OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
-                        DesignerLocation                                 = resourceAction.Name
+                        DesignerLocation                                 = resourceAction.Name,
+                        WriterContext = writerContext
                     });
 
                     sb.AppendLine("return false;");
