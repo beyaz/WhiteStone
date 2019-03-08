@@ -67,7 +67,6 @@ namespace BOA.OneDesigner.PropertyEditors
                     IsInfoTextVisible                                         = info.Type.IsInformationText,
                     IsVisibleEditorVisible                                    = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
                     IsDisabledEditorVisible                                   = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
-                    IsValueChangedOrchestrationMethodVisible                  = info.Type.IsAccountComponent,
                     IsBoldVisible                                             = info.Type.IsLabel,
                     IsTextIntoVisible                                         = info.Type.IsLabel || info.Type.IsButton,
                     IsButtonClickedOrchestrationMethodVisible                 = info.Type.IsButton,
@@ -106,11 +105,40 @@ namespace BOA.OneDesigner.PropertyEditors
                 Model.IsMaskVisible     = false;
             }
 
+            
+            
+
             foreach (var textBox in this.FindChildren<LabeledTextBox>())
             {
                 textBox.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
             }
+
+
+            Model.IsValueChangedOrchestrationMethodVisible = CanShowValueChangedEventInput();
+
+            foreach (var element in this.FindChildren<OrchestrationIntellisense>())
+            {
+                element.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
+            }
         }
+
+        bool CanShowValueChangedEventInput()
+        {
+            if (Model.Info.Type.IsAccountComponent)
+            {
+                return true;
+            }
+
+            var isBooleanProperty = Host.RequestIntellisenseData.RequestBooleanPropertyIntellisense.Contains(Model.Info.ValueBindingPath);
+            if (isBooleanProperty)
+            {
+                return true;
+            }
+            
+            return false;
+        }
+
+
         #endregion
 
         #region Methods
@@ -224,7 +252,7 @@ namespace BOA.OneDesigner.PropertyEditors
                         ui                           : 'OrchestrationIntellisense',
                         IsVisible                    : '{Binding " + Model.AccessPathOf(m => m.IsValueChangedOrchestrationMethodVisible) + @"}',
                         Text                         : '{Binding " + Model.AccessPathOf(m => m.Info.ValueChangedOrchestrationMethod) + @"}', 
-                        Label                        : 'On Account Number Changed'
+                        Label                        : 'On Value Changed'
                     }               
                     ,
                     {   

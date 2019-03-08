@@ -30,8 +30,6 @@ namespace BOA.OneDesigner.CodeGeneration
             var isBoolean         = false;
             var isDateTime        = false;
 
-            
-
             var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.ValueBindingPath)
             {
                 EvaluateInsStateVersion = true
@@ -110,7 +108,23 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"<BCheckBox checked = {{{jsBindingPath.BindingPathInJsInState}}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onCheck = {{(e: any, value: boolean) => {jsBindingPath.BindingPathInJs} = value}}");
+                if (data.ValueChangedOrchestrationMethod.HasValue())
+                {
+                    sb.AppendLine("onCheck = {(e: any, value: boolean) =>");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+
+                    sb.AppendLine($"{jsBindingPath.BindingPathInJs} = value;");
+
+                    sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+
+                    sb.PaddingCount--;
+                    sb.AppendLine("}}");
+                }
+                else
+                {
+                    sb.AppendLine($"onCheck = {{(e: any, value: boolean) => {jsBindingPath.BindingPathInJs} = value}}");
+                }
             }
             else if (isDateTime)
             {
