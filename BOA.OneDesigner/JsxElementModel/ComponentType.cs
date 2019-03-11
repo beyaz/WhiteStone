@@ -49,6 +49,11 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets a value indicating whether this instance is parameter component.
         /// </summary>
         public bool IsParameterComponent { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is credit card component.
+        /// </summary>
+        public bool IsCreditCardComponent { get; set; }
         #endregion
 
         #region Public Methods

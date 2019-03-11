@@ -86,6 +86,7 @@
     <Compile Include="CodeGeneration\AccountComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BButtonRenderer.cs" />
     <Compile Include="CodeGeneration\BComboBoxRenderer.cs" />
+    <Compile Include="CodeGeneration\BCreditCardComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BDataGridRenderer.cs" />
     <Compile Include="CodeGeneration\BDividerRenderer.cs" />
     <Compile Include="CodeGeneration\BindingPathPropertyInfo.cs" />

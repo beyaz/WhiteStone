@@ -66,6 +66,10 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "ParameterComponent";
             }
+            else  if (data.Type.IsCreditCardComponent)
+            {
+                data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "CreditCardComponent";
+            }
             else  if (data.Type.IsInformationText)
             {
                 data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "InformationText";

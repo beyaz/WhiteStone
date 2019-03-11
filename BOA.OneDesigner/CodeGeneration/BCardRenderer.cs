@@ -145,6 +145,19 @@ namespace BOA.OneDesigner.CodeGeneration
                         continue;
                     }
 
+                    if (componentInfo.Type.IsCreditCardComponent)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                        BCreditCardComponentRenderer.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
+
                     if (componentInfo.Type.IsBranchComponent)
                     {
                         writerContext.Output = new PaddedStringBuilder();

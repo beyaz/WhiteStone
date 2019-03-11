@@ -122,6 +122,27 @@ namespace BOA.OneDesigner.WpfControls
         ,
         {
             ui          : 'StackPanel',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsCreditCardComponent) + @"}',
+            Childs      :
+            [
+                
+                {
+                    view        :'TextBlock',
+                    Text        :'Credit Card Component', 
+                    MarginBottom:5, 
+                    IsBold      :true
+                }
+                ,                
+                {
+                    view        :'TextBox', 
+                    Text        :'{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @", Mode = OneWay}', 
+                    IsReadOnly  :true
+                }    
+            ]
+        }
+        ,
+        {
+            ui          : 'StackPanel',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsAccountComponent) + @"}',
             Childs      :
             [

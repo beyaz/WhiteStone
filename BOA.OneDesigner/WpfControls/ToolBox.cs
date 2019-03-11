@@ -175,6 +175,22 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(accountComponent);
             #endregion
 
+
+            #region creditCardComponent
+            var creditCardComponent = ComponentWpf.Create(Host, new ComponentInfo
+            {
+                Type = new ComponentType
+                {
+                    IsCreditCardComponent = true
+                },
+                SizeInfo = new SizeInfo{IsLarge = true}
+            }, isInToolbox: true);
+
+            Host.DragHelper.MakeDraggable(creditCardComponent);
+
+            stackPanel.Children.Add(creditCardComponent);
+            #endregion
+
             #region bCard
             var bCard = new BCardWpf
             {

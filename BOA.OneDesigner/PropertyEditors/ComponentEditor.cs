@@ -60,8 +60,8 @@ namespace BOA.OneDesigner.PropertyEditors
                 DataContext = new ComponentEditorModel
                 {
                     Info                                                      = info,
-                    IsSizeEditorVisible                                       = info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel||info.Type.IsInformationText,
-                    IsValueBindingPathEditorVisible                           = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent,
+                    IsSizeEditorVisible                                       = info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel || info.Type.IsInformationText,
+                    IsValueBindingPathEditorVisible                           = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsCreditCardComponent,
                     IsLLabelEditorVisible                                     = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
                     IsParamTypeVisible                                        = info.Type.IsParameterComponent,
                     IsInfoTextVisible                                         = info.Type.IsInformationText,
@@ -91,28 +91,28 @@ namespace BOA.OneDesigner.PropertyEditors
             Host.EventBus.Publish(EventBus.RowCountChanged);
         }
 
+
         public void OnValueBindingPathChanged()
         {
-            var isStringProperty = Host.RequestIntellisenseData.RequestStringPropertyIntellisense.Contains(Model.Info.ValueBindingPath);
-            if (isStringProperty)
+            if (Model.Info.Type.IsCreditCardComponent == false)
             {
-                Model.IsRowCountVisible = true;
-                Model.IsMaskVisible     = true;
-            }
-            else
-            {
-                Model.IsRowCountVisible = false;
-                Model.IsMaskVisible     = false;
-            }
+                var isStringProperty = Host.RequestIntellisenseData.RequestStringPropertyIntellisense.Contains(Model.Info.ValueBindingPath);
+                if (isStringProperty)
+                {
+                    Model.IsRowCountVisible = true;
+                    Model.IsMaskVisible     = true;
+                }
+                else
+                {
+                    Model.IsRowCountVisible = false;
+                    Model.IsMaskVisible     = false;
+                }
 
-            
-            
-
-            foreach (var textBox in this.FindChildren<LabeledTextBox>())
-            {
-                textBox.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
+                foreach (var textBox in this.FindChildren<LabeledTextBox>())
+                {
+                    textBox.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
+                }
             }
-
 
             Model.IsValueChangedOrchestrationMethodVisible = CanShowValueChangedEventInput();
 
@@ -121,10 +121,17 @@ namespace BOA.OneDesigner.PropertyEditors
                 element.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
             }
         }
+        #endregion
 
+        #region Methods
         bool CanShowValueChangedEventInput()
         {
             if (Model.Info.Type.IsAccountComponent)
+            {
+                return true;
+            }
+
+            if (Model.Info.Type.IsCreditCardComponent)
             {
                 return true;
             }
@@ -134,14 +141,10 @@ namespace BOA.OneDesigner.PropertyEditors
             {
                 return true;
             }
-            
+
             return false;
         }
 
-
-        #endregion
-
-        #region Methods
         ComponentEditor LoadUI()
         {
             var template = @"
@@ -297,7 +300,6 @@ namespace BOA.OneDesigner.PropertyEditors
 
             foreach (var child in Children)
             {
-
                 var frameworkElement = child as FrameworkElement;
                 if (frameworkElement != null)
                 {
@@ -305,9 +307,8 @@ namespace BOA.OneDesigner.PropertyEditors
 
                     if (frameworkElement.Margin == zeroMargin)
                     {
-                        frameworkElement.Margin = new Thickness(5, 15, 5, 0);    
+                        frameworkElement.Margin = new Thickness(5, 15, 5, 0);
                     }
-                    
                 }
             }
 
