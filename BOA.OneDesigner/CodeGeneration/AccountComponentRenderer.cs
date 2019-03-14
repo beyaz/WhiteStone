@@ -14,15 +14,28 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.Imports.Add("import { BAccountComponent } from \"b-account-component\"");
 
-            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.ValueBindingPath)
+            var jsBindingPathAccountNumber = new JsBindingPathCalculatorData(writerContext, data.ValueBindingPath)
             {
                 EvaluateInsStateVersion = true
             };
-            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPathAccountNumber);
+
+
+            JsBindingPathCalculatorData jsBindingPathAccountSuffix = null;
+            var writeAccountSuffix = data.AccountSuffixBindingPath.HasValue();
+            if (writeAccountSuffix)
+            {
+                jsBindingPathAccountSuffix = new JsBindingPathCalculatorData(writerContext, data.AccountSuffixBindingPath)
+                {
+                    EvaluateInsStateVersion = true
+                };
+                JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPathAccountSuffix);
+            }
+            
 
             writerContext.AddToBeforeSetStateOnProxyDidResponse(GetAccountComponentValueCorrection(data.SnapName, data.ValueBindingPathInTypeScript));
 
-            sb.AppendLine($"<BAccountComponent accountNumber = {{{jsBindingPath.BindingPathInJsInState}}}");
+            sb.AppendLine($"<BAccountComponent accountNumber = {{{jsBindingPathAccountNumber.BindingPathInJsInState}}}");
             sb.PaddingCount++;
 
             if (data.ValueChangedOrchestrationMethod.HasValue())
@@ -30,18 +43,48 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("onAccountSelect = {{(selectedAccount: any) =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine($"{jsBindingPath.BindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null;");
+                sb.AppendLine($"{jsBindingPathAccountNumber.BindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null;");
+                if (writeAccountSuffix)
+                {
+                    sb.AppendLine($"{jsBindingPathAccountSuffix.BindingPathInJs} = selectedAccount ? selectedAccount.accountSuffix : null;");    
+                }
                 sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
                 sb.PaddingCount--;
                 sb.AppendLine("}}");
             }
             else
             {
-                sb.AppendLine($"onAccountSelect = {{(selectedAccount: any) => {jsBindingPath.BindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null}}");
+                if (writeAccountSuffix)
+                {
+                    sb.AppendLine("onAccountSelect = {{(selectedAccount: any) =>");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    sb.AppendLine($"{jsBindingPathAccountNumber.BindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null;");
+                    sb.AppendLine($"{jsBindingPathAccountSuffix.BindingPathInJs} = selectedAccount ? selectedAccount.accountSuffix : null;");    
+                    sb.PaddingCount--;
+                    sb.AppendLine("}}");
+                }
+                else
+                {
+                    sb.AppendLine($"onAccountSelect = {{(selectedAccount: any) => {jsBindingPathAccountNumber.BindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null}}");    
+                }
+
+                
             }
 
             sb.AppendLine("isVisibleBalance={false}");
-            sb.AppendLine("isVisibleAccountSuffix={false}");
+
+            if (writeAccountSuffix)
+            {
+
+                sb.AppendLine($"accountSuffix={{{jsBindingPathAccountSuffix.BindingPathInJsInState}}}");
+            }
+            else
+            {
+                sb.AppendLine("isVisibleAccountSuffix={false}");    
+            }
+
+            
             // sb.AppendLine("enableShowDialogMessagesInCallback={false}");
             sb.AppendLine("isVisibleIBAN={false}");
 

@@ -160,6 +160,13 @@ namespace BOA.OneDesigner.PropertyEditors
         }
         ,
         {
+            ui          : 'RequestIntellisenseTextBox',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsAccountComponent) + @"}',
+            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.AccountSuffixBindingPath) + @"}', 
+            Label       : 'Account Suffix Binding Path'
+        }
+        ,
+        {
             ui          : 'LabelEditor',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsLLabelEditorVisible) + @"}',
             DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.LabelTextInfo) + @"}'
