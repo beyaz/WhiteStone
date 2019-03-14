@@ -24,23 +24,12 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("<BCreditCardComponent");
             sb.PaddingCount++;
 
-
-            sb.AppendLine("onCardSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
+            sb.AppendLine($"clearCardNumber={{{jsBindingPath.BindingPathInJsInState}}}");
+            sb.AppendLine("onCardSelect={(clearCardNumber: string) =>");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("if (selectedValues && selectedValues.length === 1)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-            sb.AppendLine($"{jsBindingPath.BindingPathInJs} = selectedValues[0];");
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-            sb.AppendLine("else");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-            sb.AppendLine($"{jsBindingPath.BindingPathInJs} = null;");
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.AppendLine($"{jsBindingPath.BindingPathInJs} = clearCardNumber;");
 
             if (data.ValueChangedOrchestrationMethod.HasValue())
             {
