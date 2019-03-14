@@ -81,6 +81,11 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("multiLine={true}");
                     sb.AppendLine("rows={" + data.RowCount + "}");
                 }
+
+                if (data.MaxLength > 0)
+                {
+                    sb.AppendLine("maxLength={" + data.RowCount + "}");
+                }
             }
             else if (isDecimal || isDecimalNullable)
             {

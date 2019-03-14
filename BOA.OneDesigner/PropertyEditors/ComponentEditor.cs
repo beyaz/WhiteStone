@@ -22,6 +22,8 @@ namespace BOA.OneDesigner.PropertyEditors
         public bool          IsMaskVisible                                             { get; set; }
         public bool          IsParamTypeVisible                                        { get; set; }
         public bool          IsRowCountVisible                                         { get; set; }
+        public bool IsMaxLengthVisible { get; set; }
+        
         public bool          IsSizeEditorVisible                                       { get; set; }
         public bool          IsTextIntoVisible                                         { get; set; }
         public bool          IsValueBindingPathEditorVisible                           { get; set; }
@@ -99,8 +101,10 @@ namespace BOA.OneDesigner.PropertyEditors
                 var isStringProperty = Host.RequestIntellisenseData.RequestStringPropertyIntellisense.Contains(Model.Info.ValueBindingPath);
                 if (isStringProperty)
                 {
+                    Model.IsMaxLengthVisible = true;
                     Model.IsRowCountVisible = true;
                     Model.IsMaskVisible     = true;
+
                 }
                 else
                 {
@@ -221,6 +225,13 @@ namespace BOA.OneDesigner.PropertyEditors
                         Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.IsDisabledBindingPath) + @"}', 
                         Label                       : 'Is Disabled',
                         IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsDisabledEditorVisible) + @"}'
+                    }
+                    ,
+                    {   
+                        ui          : 'LabeledTextBox', 
+                        Label       : 'Max Length', 
+                        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.MaxLength) + @",Converter=WhiteStone.UI.Container.StringToNullableInt32Converter}',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsMaxLengthVisible) + @"}'                   
                     }
                     ,
                     {   
