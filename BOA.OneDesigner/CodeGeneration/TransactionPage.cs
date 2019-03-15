@@ -453,12 +453,12 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 sb.AppendLine();
                 sb.AppendLine("const me: any = this;");
-                sb.AppendLine("if(me.proxyDidRespondCallback)");
+                sb.AppendLine("if(me.internalProxyDidRespondCallback)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine("me.proxyDidRespondCallback();");
-                sb.AppendLine("me.proxyDidRespondCallback = null;");
+                sb.AppendLine("me.internalProxyDidRespondCallback();");
+                sb.AppendLine("me.internalProxyDidRespondCallback = null;");
 
                 sb.PaddingCount--;
                 sb.AppendLine("}");

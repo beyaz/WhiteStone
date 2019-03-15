@@ -12,6 +12,8 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class ComponentEditorModel
     {
+        public string ValueBindingPathLabel { get; set; } 
+
         #region Public Properties
         public ComponentInfo Info                                                      { get; set; }
         public bool          IsBoldVisible                                             { get; set; }
@@ -56,25 +58,33 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Public Methods
         public static ComponentEditor Create(Host host, ComponentInfo info)
         {
+            var dataContext = new ComponentEditorModel
+            {
+                Info                                                      = info,
+                IsSizeEditorVisible                                       = info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel || info.Type.IsInformationText,
+                IsValueBindingPathEditorVisible                           = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsCreditCardComponent,
+                IsLLabelEditorVisible                                     = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
+                IsParamTypeVisible                                        = info.Type.IsParameterComponent,
+                IsInfoTextVisible                                         = info.Type.IsInformationText,
+                IsVisibleEditorVisible                                    = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
+                IsDisabledEditorVisible                                   = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
+                IsBoldVisible                                             = info.Type.IsLabel,
+                IsTextIntoVisible                                         = info.Type.IsLabel || info.Type.IsButton,
+                IsButtonClickedOrchestrationMethodVisible                 = info.Type.IsButton,
+                OpenFormWithResourceCodeIsVisible                         = info.Type.IsButton,
+                OpenFormWithResourceCodeDataParameterBindingPathIsVisible = info.Type.IsButton,
+                ValueBindingPathLabel                                     = "Value Binding Path"
+            };
+
+            if (info.Type.IsCreditCardComponent)
+            {
+                dataContext.ValueBindingPathLabel = "Açık Kart No";
+            }
+
             return new ComponentEditor
             {
                 Host = host,
-                DataContext = new ComponentEditorModel
-                {
-                    Info                                                      = info,
-                    IsSizeEditorVisible                                       = info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel || info.Type.IsInformationText,
-                    IsValueBindingPathEditorVisible                           = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsCreditCardComponent,
-                    IsLLabelEditorVisible                                     = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
-                    IsParamTypeVisible                                        = info.Type.IsParameterComponent,
-                    IsInfoTextVisible                                         = info.Type.IsInformationText,
-                    IsVisibleEditorVisible                                    = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
-                    IsDisabledEditorVisible                                   = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
-                    IsBoldVisible                                             = info.Type.IsLabel,
-                    IsTextIntoVisible                                         = info.Type.IsLabel || info.Type.IsButton,
-                    IsButtonClickedOrchestrationMethodVisible                 = info.Type.IsButton,
-                    OpenFormWithResourceCodeIsVisible                         = info.Type.IsButton,
-                    OpenFormWithResourceCodeDataParameterBindingPathIsVisible = info.Type.IsButton
-                }
+                DataContext = dataContext
             }.LoadUI();
         }
 
@@ -159,7 +169,7 @@ namespace BOA.OneDesigner.PropertyEditors
             ui          : 'RequestIntellisenseTextBox',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsValueBindingPathEditorVisible) + @"}',
             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @"}', 
-            Label       : 'Value Binding Path',
+            Label       : '{Binding " + Model.AccessPathOf(m => m.ValueBindingPathLabel) + @"}', 
             TextChanged : '" + nameof(OnValueBindingPathChanged) + @"'
         }
         ,

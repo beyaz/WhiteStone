@@ -168,13 +168,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
             {
-                dataParameter = "this.getWindowRequest().body." + TypescriptNaming.NormalizeBindingPath(buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath);
+                dataParameter = "this.snaps.data.windowRequest." + TypescriptNaming.NormalizeBindingPath(buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath);
             }
 
             if (resourceCode.HasValue() && orchestrationMethodName.HasValue())
             {
                 sb.AppendLine("const me: any = this;");
-                sb.AppendLine("me.proxyDidRespondCallback = () =>");
+                sb.AppendLine("me.internalProxyDidRespondCallback = () =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 

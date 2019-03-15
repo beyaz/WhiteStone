@@ -84,7 +84,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (data.MaxLength > 0)
                 {
-                    sb.AppendLine("maxLength={" + data.RowCount + "}");
+                    sb.AppendLine("maxLength={" + data.MaxLength + "}");
                 }
             }
             else if (isDecimal || isDecimalNullable)
