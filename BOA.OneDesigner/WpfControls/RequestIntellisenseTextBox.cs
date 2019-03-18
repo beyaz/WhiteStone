@@ -66,6 +66,11 @@ namespace BOA.OneDesigner.WpfControls
                 return Host.RequestIntellisenseData.Collections[bindingPath].Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
 
+            if (Data == null)
+            {
+                return new[] {@"İlgili request sizin d:\boa\server\bin\ dizininde bulunamadı."};
+            }
+
             if (ShowOnlyOrchestrationMethods)
             {
                 return Data.OrchestrationMethods.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);

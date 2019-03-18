@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
@@ -25,7 +26,22 @@ namespace BOA.OneDesigner.PropertyEditors
             {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true,    Margin:5, Text:'{Binding " + nameof(Model.IsEnableBindingPath) + @"}',      Label:'Is Enable Binding Path' },
             {ui:'RequestIntellisenseTextBox', ShowOnlyOrchestrationMethods:true, Margin:5, Text:'{Binding " + nameof(Model.OrchestrationMethodName) + @"}',  Label:'Orchestration Method Name' },
 
-            {ui:'ResourceCodeTextBox',                                           Margin:5, Text:'{Binding " + nameof(Model.OpenFormWithResourceCode) + @"}', Label:'Open Form With Resource Code'},
+
+
+
+            {
+                ui                  : 'ResourceCodeTextBox',   
+                SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCode) + @"}',
+                Text                : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCode) + @"}',
+                SelectedValuePath   : 'ResourceCode',
+                DisplayMemberPath   : 'Name',
+                Label               : 'Open Form With Resource Code',
+                Margin              : 5
+            }
+            ,
+
+
+
 		    {ui:'RequestIntellisenseTextBox', ShowOnlyClassProperties:true,      Margin:5, Text:'{Binding " + nameof(Model.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  Label:'Open Form With Data' }
 
 	    ]
