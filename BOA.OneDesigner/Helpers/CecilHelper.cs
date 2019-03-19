@@ -45,6 +45,10 @@ namespace BOA.OneDesigner.Helpers
         public List<string>                              RequestCollectionPropertyIntellisense   { get; set; }
         public List<string>                              RequestNotNullInt32PropertyIntellisense { get; set; }
         public List<string>                              RequestPropertyIntellisense             { get; set; }
+
+        
+        public List<string> RequestJsSupportTypesPropertyIntellisense { get; set; }
+
         public List<string>                              RequestStringPropertyIntellisense       { get; set; }
         public string                                    RequestTypeFullName                     { get; set; }
         public TypeDefinition                            TypeDefinition                          { get; set; }
@@ -62,6 +66,19 @@ namespace BOA.OneDesigner.Helpers
 
             RequestPropertyIntellisense.Add(value.Trim());
         }
+        public void AddRequestJsSupportTypesPropertyIntellisense(string value)
+        {
+            if (RequestJsSupportTypesPropertyIntellisense.Contains(value.Trim()))
+            {
+                return;
+            }
+
+            RequestJsSupportTypesPropertyIntellisense.Add(value.Trim());
+        }
+
+
+
+
         #region Public Methods
         public CecilPropertyInfo FindPropertyInfoInCollectionFirstGenericArgumentType(string dataSourceBindingPath, string bindingPath)
         {
@@ -229,8 +246,6 @@ namespace BOA.OneDesigner.Helpers
 
                         typeDefinition = typeDefinition.BaseType.Resolve();
                     }
-
-                    return typeDefinition.Properties.FirstOrDefault(p => p.Name == propertyName);
                 }
 
                 var typeReference = typeDefinition.Properties.FirstOrDefault(p => p.Name == propertyName)?.PropertyType;
@@ -243,8 +258,6 @@ namespace BOA.OneDesigner.Helpers
 
         public static TypeReference FindTypeReferenceAtPath(TypeDefinition typeDefinition, string propertyPath)
         {
-            var items = new List<string>();
-
             var list = propertyPath.SplitAndClear(".");
             for (var i = 0; i < list.Count; i++)
             {
@@ -307,6 +320,7 @@ namespace BOA.OneDesigner.Helpers
                 RequestTypeFullName = requestTypeFullName,
 
                 RequestPropertyIntellisense             = new List<string>(),
+                RequestJsSupportTypesPropertyIntellisense = new List<string>(),
                 RequestStringPropertyIntellisense       = new List<string>(),
                 RequestNotNullInt32PropertyIntellisense = new List<string>(),
                 RequestNullableInt32PropertyIntellisense = new List<string>(),
@@ -418,6 +432,7 @@ namespace BOA.OneDesigner.Helpers
                 if (PrimitiveTypes.Contains(propertyDefinition.PropertyType.FullName))
                 {
                     data.AddRequestPropertyIntellisense(pathPrefix + propertyDefinition.Name);
+                    data.AddRequestJsSupportTypesPropertyIntellisense(pathPrefix + propertyDefinition.Name);
                 }
 
                 if (propertyDefinition.PropertyType.FullName == typeof(bool).FullName ||

@@ -9,5 +9,6 @@
         public bool IsDateTime        { get; set; }
         public bool IsNullableNumber  { get; set; }
         public bool IsNonNullableNumber { get; set; }
+        public bool IsValueType{ get; set; }
     }
 }

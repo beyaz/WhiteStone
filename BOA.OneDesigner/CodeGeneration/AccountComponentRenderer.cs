@@ -40,7 +40,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.ValueChangedOrchestrationMethod.HasValue())
             {
-                sb.AppendLine("onAccountSelect = {{(selectedAccount: any) =>");
+                sb.AppendLine("onAccountSelect = {(selectedAccount: any) =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
                 sb.AppendLine($"{jsBindingPathAccountNumber.BindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null;");
@@ -56,7 +56,7 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 if (writeAccountSuffix)
                 {
-                    sb.AppendLine("onAccountSelect = {{(selectedAccount: any) =>");
+                    sb.AppendLine("onAccountSelect = {(selectedAccount: any) =>");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
                     sb.AppendLine($"{jsBindingPathAccountNumber.BindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null;");

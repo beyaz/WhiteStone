@@ -79,11 +79,12 @@ namespace BOA.OneDesigner.PropertyEditors
             }
             ,
             {
-                ui          : 'RequestIntellisenseTextBox',
-                Text        : '{Binding RequestBindingPath}', 
-                Label       : 'Binding Path',
-                IsVisible   : '{Binding " + nameof(LabelInfo.IsRequestBindingPath) + @"}',
-                KeyUp       : 'FirePropertyChanged'
+                ui                      : 'RequestIntellisenseTextBox',
+                Text                    : '{Binding RequestBindingPath}', 
+                Label                   : 'Binding Path',
+                IsVisible               : '{Binding " + nameof(LabelInfo.IsRequestBindingPath) + @"}',
+                KeyUp                   : 'FirePropertyChanged',
+                ShowOnlyDotnetCoreTypes : true
             }
 
 	    ]

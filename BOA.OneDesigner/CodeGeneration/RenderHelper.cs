@@ -43,9 +43,15 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var typeFullName = propertyDefinition.PropertyType.FullName;
 
+            var isString = typeFullName == typeof(string).FullName;
+
+            
+            
+
+            
             var returnValue = new BindingPathPropertyInfo
             {
-                IsString          = typeFullName == typeof(string).FullName,
+                IsString          = isString,
                 IsDecimal         = typeFullName == typeof(decimal).FullName,
                 IsDecimalNullable = CecilHelper.FullNameOfNullableDecimal == typeFullName,
                 IsNullableNumber = CecilHelper.FullNameOfNullableByte == typeFullName ||
@@ -64,7 +70,10 @@ namespace BOA.OneDesigner.CodeGeneration
                 IsBoolean = CecilHelper.FullNameOfNullableBoolean == typeFullName ||
                             typeFullName == typeof(bool).FullName,
                 IsDateTime = CecilHelper.FullNameOfNullableDateTime == typeFullName ||
-                             typeFullName == typeof(DateTime).FullName
+                             typeFullName == typeof(DateTime).FullName,
+
+
+                IsValueType = propertyDefinition.PropertyType.IsValueType
             };
 
             return returnValue;
@@ -123,12 +132,25 @@ namespace BOA.OneDesigner.CodeGeneration
                 JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
 
                 var propertyInfo = GetBindingPathPropertyInfo(writerContext, data.RequestBindingPath);
-                if (propertyInfo?.IsNullableNumber == true || propertyInfo?.IsNonNullableNumber == true)
+                if (propertyInfo == null)
                 {
-                    return jsBindingPath.BindingPathInJs + " + " + '"' + '"';
+                    return jsBindingPath.BindingPathInJs;
                 }
 
-                return jsBindingPath.BindingPathInJs;
+                if (propertyInfo.IsString )
+                {
+                    return jsBindingPath.BindingPathInJs;
+                }
+
+                if (propertyInfo.IsNullableNumber  || 
+                    propertyInfo.IsNonNullableNumber||
+                    propertyInfo.IsDecimalNullable||
+                    propertyInfo.IsDecimal)
+                {
+                    return jsBindingPath.BindingPathInJs + " || " + '"' + '"';
+                }
+
+                throw Error.InvalidBindingPath(null, data.RequestBindingPath);
             }
 
             if (data.IsFromMessaging)

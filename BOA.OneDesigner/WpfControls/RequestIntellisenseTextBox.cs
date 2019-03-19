@@ -40,6 +40,8 @@ namespace BOA.OneDesigner.WpfControls
 
         public bool ShowOnlyCollectionProperties { get; set; }
 
+        public bool ShowOnlyDotnetCoreTypes { get; set; }
+
         public bool ShowOnlyNotNullInt32Properties { get; set; }
 
         public bool ShowOnlyOrchestrationMethods { get; set; }
@@ -100,6 +102,14 @@ namespace BOA.OneDesigner.WpfControls
             {
                 return Data.RequestCollectionPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
             }
+
+            if (ShowOnlyDotnetCoreTypes)
+            {
+                return Data.RequestJsSupportTypesPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
+            }
+
+            
+
 
             return Data.RequestPropertyIntellisense.Where(term => term.ToUpperEN().Contains(query.ToUpperEN())).Select(t => t);
         }
