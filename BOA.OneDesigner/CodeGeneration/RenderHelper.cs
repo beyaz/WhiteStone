@@ -150,6 +150,11 @@ namespace BOA.OneDesigner.CodeGeneration
                     return jsBindingPath.BindingPathInJs + " || " + '"' + '"';
                 }
 
+                if (propertyInfo.IsBoolean  )
+                {
+                    return jsBindingPath.BindingPathInJs + " ? 'Evet' : 'Hayır'";
+                }
+
                 throw Error.InvalidBindingPath(null, data.RequestBindingPath);
             }
 
