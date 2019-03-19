@@ -319,10 +319,10 @@ namespace BOA.OneDesigner.PropertyEditors
                     }
                     ,
                     {
-                        ui                  : 'ResourceCodeTextBox',   
-                        SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}',
+                        ui                  : 'ResourceCodeTextBox',
                         SelectedValuePath   : 'ResourceCode',
                         DisplayMemberPath   : 'Description',
+                        SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}',
                         Label               : 'Open Form With Resource Code',
                         IsVisible           : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeIsVisible) + @"}'
                     }
