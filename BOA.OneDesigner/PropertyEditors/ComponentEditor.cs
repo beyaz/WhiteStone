@@ -85,11 +85,14 @@ namespace BOA.OneDesigner.PropertyEditors
                 dataContext.ValueBindingPathLabel = "Açık Kart No";
             }
 
-            return new ComponentEditor
+            var componentEditor = new ComponentEditor
             {
-                Host = host,
+                Host        = host,
                 DataContext = dataContext
-            }.LoadUI();
+            };
+            componentEditor.LoadUI();
+
+            return componentEditor;
         }
 
         public void Delete()
