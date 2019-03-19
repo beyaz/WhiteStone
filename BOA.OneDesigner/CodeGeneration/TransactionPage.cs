@@ -465,6 +465,16 @@ namespace BOA.OneDesigner.CodeGeneration
 
             }
 
+            if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("DialogResponse"))
+            {
+                writerContext.Imports.Add("import { BDialogHelper } from \"b-dialog-box\";");
+
+                sb.AppendLine("if(value.dialogResponse > 0)");
+                sb.AppendLine("{");
+                sb.AppendLine("    BDialogHelper.close(this, value.dialogResponse, null);");
+                sb.AppendLine("}");
+            }
+
 
             if (writerContext.CanWriteEvaluateActions)
             {

@@ -29,6 +29,10 @@ namespace BOA.OneDesigner.CodeGeneration
                 OpenFormWithResourceCode                         = data.OpenFormWithResourceCode,
                 OpenFormWithResourceCodeDataParameterBindingPath = data.OpenFormWithResourceCodeDataParameterBindingPath,
                 DesignerLocation                                 = data.Text,
+                OrchestrationMethodOnDialogResponseIsOK = data.OrchestrationMethodOnDialogResponseIsOK,
+                OpenFormWithResourceCodeIsInDialogBox = data.OpenFormWithResourceCodeIsInDialogBox,
+                CssOfDialog = data.CssOfDialog,
+
                 WriterContext = writerContext
             });
 

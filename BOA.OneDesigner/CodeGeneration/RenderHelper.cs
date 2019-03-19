@@ -14,7 +14,11 @@ namespace BOA.OneDesigner.CodeGeneration
         public string OpenFormWithResourceCode                         { get; set; }
         public string OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
         public string OrchestrationMethodName                          { get; set; }
+
+        public bool OpenFormWithResourceCodeIsInDialogBox { get; set; }
+        public string OrchestrationMethodOnDialogResponseIsOK { get; set; }
         public WriterContext WriterContext { get; set; }
+        public string CssOfDialog { get; set; }
         #endregion
     }
 
@@ -188,6 +192,9 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var orchestrationMethodName = buttonActionInfo.OrchestrationMethodName;
             var resourceCode            = buttonActionInfo.OpenFormWithResourceCode;
+            var openFormWithResourceCodeIsInDialogBox = buttonActionInfo.OpenFormWithResourceCodeIsInDialogBox;
+            var orchestrationMethodOnDialogResponseIsOk = buttonActionInfo.OrchestrationMethodOnDialogResponseIsOK;
+
 
             var writerContext = buttonActionInfo.WriterContext;
 
@@ -198,6 +205,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 dataParameter = "this.snaps.data.windowRequest." + TypescriptNaming.NormalizeBindingPath(buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath);
             }
 
+
             if (resourceCode.HasValue() && orchestrationMethodName.HasValue())
             {
                 sb.AppendLine("const me: any = this;");
@@ -207,11 +215,50 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (dataParameter.HasValue())
                 {
-                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", /*data*/{dataParameter}, true,null);");
+                    sb.AppendLine("const data:any = "+ dataParameter +";");
                 }
                 else
                 {
-                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", /*data*/null, true,null);");
+                    sb.AppendLine("const data:any = null;");
+                }
+
+                if (openFormWithResourceCodeIsInDialogBox)
+                {
+                    sb.AppendLine();
+                    if (orchestrationMethodOnDialogResponseIsOk.HasValue())
+                    {
+                        sb.AppendLine("const onClose: any = (dialogResponse:number) =>");
+                        sb.AppendLine("{");
+                        sb.AppendLine("    if(dialogResponse === 1)");
+                        sb.AppendLine("    {");
+                        sb.AppendLine($"        this.executeWindowRequest(\"{orchestrationMethodOnDialogResponseIsOk}\");");
+                        sb.AppendLine("    }");
+                        sb.AppendLine("};");
+                    }
+                    else
+                    {
+                        sb.AppendLine("const onClose: any = null;");  
+                    }
+
+                    sb.AppendLine();
+                    sb.AppendLine("const style:any = "+ buttonActionInfo.CssOfDialog +";");
+                }
+
+
+                if (openFormWithResourceCodeIsInDialogBox)
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"BFormManager.showDialog(\"{resourceCode}\", data, /*title*/null, onClose, style );");
+                        
+                }
+                else
+                {
+                    sb.AppendLine();
+                    sb.AppendLine("const showAsNewPage:boolean = true;");
+                    sb.AppendLine();
+                    sb.AppendLine("const menuItemSuffix:string = null;");
+                    sb.AppendLine();
+                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", data, showAsNewPage,menuItemSuffix);");    
                 }
 
                 sb.PaddingCount--;

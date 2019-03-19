@@ -33,6 +33,10 @@ namespace BOA.OneDesigner.PropertyEditors
         public bool          IsVisibleEditorVisible                                    { get; set; }
         public bool          OpenFormWithResourceCodeDataParameterBindingPathIsVisible { get; set; }
         public bool          OpenFormWithResourceCodeIsVisible                         { get; set; }
+        public bool IsInDialogBoxIsVisible { get; set; }
+     
+        
+        
         #endregion
     }
 
@@ -96,6 +100,27 @@ namespace BOA.OneDesigner.PropertyEditors
         public void OnIsBoldChanged()
         {
             Host.EventBus.Publish(EventBus.LabelChanged);
+        }
+
+
+        public void OnIsInDialogBoxChanged()
+        {
+            if (Model.Info.CssOfDialog.IsNullOrWhiteSpace())
+            {
+                Model.Info.CssOfDialog = "{width:'60%' , height:'50%' }";
+            }
+            
+
+            foreach (var element in this.FindChildren<OrchestrationIntellisense>())
+            {
+                element.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
+            }
+
+            foreach (var element in this.FindChildren<LabeledTextBox>())
+            {
+                element.GetBindingExpression(LabeledTextBox.TextProperty)?.UpdateTarget();
+            }
+            
         }
 
         public void OnRowCountChanged()
@@ -296,9 +321,8 @@ namespace BOA.OneDesigner.PropertyEditors
                     {
                         ui                  : 'ResourceCodeTextBox',   
                         SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}',
-                        Text                : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}',
                         SelectedValuePath   : 'ResourceCode',
-                        DisplayMemberPath   : 'Name',
+                        DisplayMemberPath   : 'Description',
                         Label               : 'Open Form With Resource Code',
                         IsVisible           : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeIsVisible) + @"}'
                     }
@@ -309,6 +333,32 @@ namespace BOA.OneDesigner.PropertyEditors
                         Text                    : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  
                         Label                   : 'Open Form With Data',
                         IsVisible               : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeDataParameterBindingPathIsVisible) + @"}'
+                    }
+                    ,
+                    {   
+                        ui          : 'CheckBox',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeIsVisible) + @"}',
+                        Content     : 'Open In Dialog Box', 
+                        IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}', 
+                        Checked     : '" + nameof(OnIsInDialogBoxChanged) + @"',
+                        Unchecked   : '" + nameof(OnIsInDialogBoxChanged) + @"',
+                        ToolTip     : 'Seçili ise popup olarak açılır.'
+                    }
+                    ,
+                    {   
+                        ui          : 'OrchestrationIntellisense',
+                        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OrchestrationMethodOnDialogResponseIsOK) + @"}',
+                        Label       : 'On dialog response is OK',
+                        ToolTip     : 'Dialog response OK olduğu durumda gideceği orch metodu.',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
+                    }
+                    ,
+                    {   
+                        ui          : 'TextBox',
+                        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CssOfDialog) + @"}',
+                        Label       : 'Dialog Style',
+                        ToolTip     : "+"\"Açılacak popup'ın css bilgisi. Örn:{width:'50%' , height:'50%'}\""+@",
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
                     }
                 ]
             }

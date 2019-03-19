@@ -109,6 +109,13 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets the open form with resource code data parameter binding path.
         /// </summary>
         public string OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
+
+        public bool OpenFormWithResourceCodeIsInDialogBox { get; set; }
+
+
+        public string OrchestrationMethodOnDialogResponseIsOK { get; set; }
+
+        public string CssOfDialog { get; set; }
         #endregion
     }
 }

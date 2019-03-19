@@ -18,6 +18,8 @@ namespace BOA.OneDesigner.AppModel
         ///     Gets or sets the resource code.
         /// </summary>
         public string ResourceCode { get; set; }
+
+        public string Description => ResourceCode + " - " + Name;
         #endregion
 
         #region Public Methods
@@ -26,7 +28,7 @@ namespace BOA.OneDesigner.AppModel
         /// </summary>
         public override string ToString()
         {
-            return ResourceCode + " - " + Name;
+            return  Description;
         }
         #endregion
     }
