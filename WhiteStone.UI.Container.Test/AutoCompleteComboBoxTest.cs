@@ -139,7 +139,7 @@ namespace WhiteStone.UI.Container.Test
     DisplayMemberPath:'Name',
     SelectedValuePath: 'Id',
     ItemsSource     :'{Binding Users,Mode=OneWay}',
-    SelectedValue   :'{Binding SelectedValue,Mode=TwoWay}',
+    SelectedValue   :'{Binding SelectedValue}',
     
 }
 
@@ -152,6 +152,9 @@ namespace WhiteStone.UI.Container.Test
             };
 
             autoCompleteComboBox.DataContext = dataContext;
+
+            autoCompleteComboBox.PART_AutoCompleteComboBox.SelectedValuePath.Should().Be("Id");
+            autoCompleteComboBox.PART_AutoCompleteComboBox.DisplayMemberPath.Should().Be("Name");
 
 
 
