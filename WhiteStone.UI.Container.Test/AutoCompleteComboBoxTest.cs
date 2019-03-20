@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using CustomUIMarkupLanguage.UIBuilding;
 using DotNetKit.Windows.Controls;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,11 +24,25 @@ namespace WhiteStone.UI.Container.Test
         #endregion
     }
 
+    class AutoCompleteComboBoxTestDataContext:INotifyPropertyChanged
+    {
+        public List<UserInfo> Users { get; set; }
+
+        public string SelectedValue { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
     [TestClass]
     public class AutoCompleteComboBoxTest
     {
         #region Fields
-        List<UserInfo> Users;
+        public List<UserInfo> Users { get; set; }
         #endregion
 
         #region Public Methods
@@ -63,7 +81,9 @@ namespace WhiteStone.UI.Container.Test
             autoCompleteComboBox.EditableTextBox.Text.Should().BeSameAs("Name2");
         }
 
+
         
+
         [TestMethod]
         public void LabeledComboBox()
         {
@@ -90,8 +110,61 @@ namespace WhiteStone.UI.Container.Test
             autoCompleteComboBox.PART_AutoCompleteComboBox.SelectedItem.Should().BeSameAs(Users[2]);
             autoCompleteComboBox.Text.Should().BeSameAs("Name2");
             autoCompleteComboBox.PART_AutoCompleteComboBox.EditableTextBox.Text.Should().BeSameAs("Name2");
+
+            
+
+        }
+
+
+        
+
+        
+
+        [TestMethod]
+        public void JsonUI()
+        {
+            App.InitializeBuilder();
+
+            var autoCompleteComboBox = new LabeledComboBox
+            {
+            };
+
+           
+            autoCompleteComboBox.ApplyTemplate();
+            autoCompleteComboBox.PART_AutoCompleteComboBox.ApplyTemplate();
+
+
+            autoCompleteComboBox.LoadJson(@"
+{
+    DisplayMemberPath:'Name',
+    SelectedValuePath: 'Id',
+    ItemsSource     :'{Binding Users,Mode=OneWay}',
+    SelectedValue   :'{Binding SelectedValue,Mode=TwoWay}',
+    
+}
+
+");
+
+            var dataContext = new AutoCompleteComboBoxTestDataContext
+            {
+                Users = Users,
+                SelectedValue = "1"
+            };
+
+            autoCompleteComboBox.DataContext = dataContext;
+
+
+
+            autoCompleteComboBox.PART_AutoCompleteComboBox. SelectedItem.Should().BeSameAs(Users[1]);
+            autoCompleteComboBox.Text.Should().BeSameAs("Name1");
+            autoCompleteComboBox.PART_AutoCompleteComboBox.EditableTextBox.Text.Should().BeSameAs("Name1");
+
+
+
         }
 
         #endregion
+
+       
     }
 }

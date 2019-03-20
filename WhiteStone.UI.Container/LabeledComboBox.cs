@@ -34,10 +34,12 @@ namespace WhiteStone.UI.Container
 		{view:'TextBlock', Text:'{Binding Label}', MarginBottom:5, IsBold:true},
         {view:'AutoCompleteComboBox', 
 
-            SelectedValue   : '{Binding SelectedValue}',
-            Text            : '{Binding Text}',
-            Name            : 'PART_AutoCompleteComboBox',
-            ItemsSource:'{Binding ItemsSource}' ,  DisplayMemberPath:'{Binding DisplayMemberPath}' , SelectedValuePath:'{Binding SelectedValuePath}'}        
+            SelectedValue       : '{Binding SelectedValue}',
+            Text                : '{Binding Text}',
+            Name                : 'PART_AutoCompleteComboBox',
+            ItemsSource         : '{Binding ItemsSource}' ,  
+            DisplayMemberPath   : '{Binding DisplayMemberPath}' , 
+            SelectedValuePath   : '{Binding SelectedValuePath}'}
 	]
 	
 }";
