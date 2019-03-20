@@ -12,37 +12,34 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class ComponentEditorModel
     {
-        public string ValueBindingPathLabel { get; set; } 
-
         #region Public Properties
-        public ComponentInfo Info                                                      { get; set; }
-        public bool          IsBoldVisible                                             { get; set; }
-        public bool          IsButtonClickedOrchestrationMethodVisible                 { get; set; }
-        public bool          IsDisabledEditorVisible                                   { get; set; }
-        public bool          IsInfoTextVisible                                         { get; set; }
-        public bool          IsLLabelEditorVisible                                     { get; set; }
-        public bool          IsMaskVisible                                             { get; set; }
-        public bool          IsParamTypeVisible                                        { get; set; }
-        public bool          IsRowCountVisible                                         { get; set; }
-        public bool IsMaxLengthVisible { get; set; }
-        
-        public bool          IsSizeEditorVisible                                       { get; set; }
-        public bool          IsTextIntoVisible                                         { get; set; }
-        public bool          IsValueBindingPathEditorVisible                           { get; set; }
-        public bool          IsValueChangedOrchestrationMethodVisible                  { get; set; }
-        public bool          IsVisibleEditorVisible                                    { get; set; }
-        public bool          OpenFormWithResourceCodeDataParameterBindingPathIsVisible { get; set; }
-        public bool          OpenFormWithResourceCodeIsVisible                         { get; set; }
-        public bool IsInDialogBoxIsVisible { get; set; }
-     
-        
-        
+        public ComponentInfo Info                                      { get; set; }
+        public bool          IsBoldVisible                             { get; set; }
+        public bool          IsButtonClickedOrchestrationMethodVisible { get; set; }
+        public bool          IsDisabledEditorVisible                   { get; set; }
+        public bool          IsInDialogBoxIsVisible                    { get; set; }
+        public bool          IsInfoTextVisible                         { get; set; }
+        public bool          IsLLabelEditorVisible                     { get; set; }
+        public bool          IsMaskVisible                             { get; set; }
+        public bool          IsMaxLengthVisible                        { get; set; }
+        public bool          IsParamTypeVisible                        { get; set; }
+        public bool          IsRowCountVisible                         { get; set; }
+
+        public bool   IsSizeEditorVisible                                       { get; set; }
+        public bool   IsTextIntoVisible                                         { get; set; }
+        public bool   IsValueBindingPathEditorVisible                           { get; set; }
+        public bool   IsValueChangedOrchestrationMethodVisible                  { get; set; }
+        public bool   IsVisibleEditorVisible                                    { get; set; }
+        public bool   OpenFormWithResourceCodeDataParameterBindingPathIsVisible { get; set; }
+        public bool   OpenFormWithResourceCodeIsVisible                         { get; set; }
+        public string ValueBindingPathLabel                                     { get; set; }
         #endregion
     }
 
     class ComponentEditor : StackPanel
     {
         #region Fields
+        public ResourceCodeTextBox2 _resourceCodeTextBox;
         #pragma warning disable 649
         LabelEditor infoTextEditor;
         #pragma warning restore 649
@@ -105,14 +102,12 @@ namespace BOA.OneDesigner.PropertyEditors
             Host.EventBus.Publish(EventBus.LabelChanged);
         }
 
-
         public void OnIsInDialogBoxChanged()
         {
             if (Model.Info.CssOfDialog.IsNullOrWhiteSpace())
             {
                 Model.Info.CssOfDialog = "{width:'60%' , height:'50%' }";
             }
-            
 
             foreach (var element in this.FindChildren<OrchestrationIntellisense>())
             {
@@ -123,14 +118,12 @@ namespace BOA.OneDesigner.PropertyEditors
             {
                 element.GetBindingExpression(LabeledTextBox.TextProperty)?.UpdateTarget();
             }
-            
         }
 
         public void OnRowCountChanged()
         {
             Host.EventBus.Publish(EventBus.RowCountChanged);
         }
-
 
         public void OnValueBindingPathChanged()
         {
@@ -140,9 +133,8 @@ namespace BOA.OneDesigner.PropertyEditors
                 if (isStringProperty)
                 {
                     Model.IsMaxLengthVisible = true;
-                    Model.IsRowCountVisible = true;
-                    Model.IsMaskVisible     = true;
-
+                    Model.IsRowCountVisible  = true;
+                    Model.IsMaskVisible      = true;
                 }
                 else
                 {
@@ -323,6 +315,7 @@ namespace BOA.OneDesigner.PropertyEditors
                     ,
                     {
                         ui                  : 'ResourceCodeTextBox',
+Name:'_resourceCodeTextBox',
                         SelectedValuePath   : 'ResourceCode',
                         DisplayMemberPath   : 'Description',
                         SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}',
@@ -360,7 +353,7 @@ namespace BOA.OneDesigner.PropertyEditors
                         ui          : 'TextBox',
                         Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CssOfDialog) + @"}',
                         Label       : 'Dialog Style',
-                        ToolTip     : "+"\"Açılacak popup'ın css bilgisi. Örn:{width:'50%' , height:'50%'}\""+@",
+                        ToolTip     : " + "\"Açılacak popup'ın css bilgisi. Örn:{width:'50%' , height:'50%'}\"" + @",
                         IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
                     }
                 ]
@@ -379,6 +372,8 @@ namespace BOA.OneDesigner.PropertyEditors
 
 ";
             this.LoadJson(template);
+
+            _resourceCodeTextBox.Text = Model?.Info?.OpenFormWithResourceCode;
 
             infoTextEditor.Header = "Info Text";
 
