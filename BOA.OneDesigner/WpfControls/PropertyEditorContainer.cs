@@ -47,10 +47,14 @@ namespace BOA.OneDesigner.WpfControls
             if (actionButton != null)
             {
                 DataContext = actionButton.Model;
-                SetContent(new ResourceActionEditor
+                var resourceActionEditor = new ResourceActionEditor
                 {
                     DataContext = actionButton.Model
-                });
+                };
+                resourceActionEditor.LoadUI();
+                
+
+                SetContent(resourceActionEditor);
                 return;
             }
 

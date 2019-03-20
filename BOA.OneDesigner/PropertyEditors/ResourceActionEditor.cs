@@ -2,6 +2,7 @@
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors
@@ -10,8 +11,10 @@ namespace BOA.OneDesigner.PropertyEditors
     {
         Aut_ResourceAction Model => (Aut_ResourceAction)DataContext;
 
+        public ResourceCodeTextBox ResourceCodeTextBox;
+
         #region Constructors
-        public ResourceActionEditor()
+        public void LoadUI()
         {
             this.LoadJson(@"
 
@@ -32,7 +35,7 @@ namespace BOA.OneDesigner.PropertyEditors
             {
                 ui                  : 'ResourceCodeTextBox',   
                 SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCode) + @"}',
-                // Text                : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCode) + @"}',
+                Name                : 'ResourceCodeTextBox',
                 SelectedValuePath   : 'ResourceCode',
                 DisplayMemberPath   : 'Name',
                 Label               : 'Open Form With Resource Code',
@@ -51,6 +54,9 @@ namespace BOA.OneDesigner.PropertyEditors
 
 
 ");
+
+
+            ResourceCodeTextBox.Text = Model?.OpenFormWithResourceCode;
         }
         #endregion
 
