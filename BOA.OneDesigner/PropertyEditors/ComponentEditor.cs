@@ -39,7 +39,7 @@ namespace BOA.OneDesigner.PropertyEditors
     class ComponentEditor : StackPanel
     {
         #region Fields
-        public ResourceCodeTextBox2 _resourceCodeTextBox;
+        public ResourceCodeTextBox _resourceCodeTextBox;
         #pragma warning disable 649
         LabelEditor infoTextEditor;
         #pragma warning restore 649

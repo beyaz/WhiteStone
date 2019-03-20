@@ -12,10 +12,10 @@ using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls
 {
-    class ResourceCodeTextBox2 : LabeledComboBox
+    class ResourceCodeTextBox : LabeledComboBox
     {
         public static readonly List<Aut_Resource> Items;
-        static ResourceCodeTextBox2()
+        static ResourceCodeTextBox()
         {
             using (var database = new DevelopmentDatabase())
             {
@@ -24,7 +24,7 @@ namespace BOA.OneDesigner.WpfControls
         }
 
         #region Constructors
-        public ResourceCodeTextBox2()
+        public ResourceCodeTextBox()
         {
             ItemsSource = Items;
 
@@ -45,11 +45,11 @@ namespace BOA.OneDesigner.WpfControls
         class Settings : AutoCompleteComboBoxSetting
         {
             #region Fields
-            readonly ResourceCodeTextBox2 combo;
+            readonly ResourceCodeTextBox combo;
             #endregion
 
             #region Constructors
-            public Settings(ResourceCodeTextBox2 combo)
+            public Settings(ResourceCodeTextBox combo)
             {
                 this.combo = combo;
             }
