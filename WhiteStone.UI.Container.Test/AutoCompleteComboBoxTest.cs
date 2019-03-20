@@ -144,6 +144,8 @@ namespace WhiteStone.UI.Container.Test
 }
 
 ");
+            autoCompleteComboBox.PART_AutoCompleteComboBox.SelectedValuePath.Should().Be("Id");
+            autoCompleteComboBox.PART_AutoCompleteComboBox.DisplayMemberPath.Should().Be("Name");
 
             var dataContext = new AutoCompleteComboBoxTestDataContext
             {
