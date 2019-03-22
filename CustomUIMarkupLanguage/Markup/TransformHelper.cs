@@ -158,7 +158,7 @@ namespace CustomUIMarkupLanguage.Markup
                 jObject = (JObject) JsonConvert.DeserializeObject(json);
 
 
-                jObject = (JObject)Visit(jObject);
+                // jObject = (JObject)Visit(jObject);
 
             }
             catch (Exception)

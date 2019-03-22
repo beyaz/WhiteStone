@@ -282,7 +282,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
             var value = jObject.GetValue("ui",StringComparison.OrdinalIgnoreCase) as JValue;
 
-            if(value?.ToString().Equals("StackPanel",StringComparison.OrdinalIgnoreCase) == true)
+            if(value?.ToString().Equals("StackPanel",StringComparison.OrdinalIgnoreCase) == true ||
+               value?.ToString().Equals("Grid",StringComparison.OrdinalIgnoreCase) == true)
             {
                 var jValue = jObject.GetValue("title",StringComparison.OrdinalIgnoreCase) as JValue;
                 if(jValue?.Value is string)
