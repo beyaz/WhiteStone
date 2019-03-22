@@ -71,6 +71,7 @@
     <Compile Include="UIBuilding\UserModel.cs" />
     <Compile Include="TextTokenizer\TokenizerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UIBuilding\WpfExtraTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
