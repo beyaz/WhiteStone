@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using CustomUIMarkupLanguage.UIBuilding;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -10,7 +12,25 @@ namespace CustomUIMarkupLanguage.Markup
     /// </summary>
     public static class TransformHelper
     {
+        #region Static Fields
+        /// <summary>
+        ///     The after json string parse
+        /// </summary>
+        static readonly List<Func<JToken, JToken>> AfterJsonStringParse = new List<Func<JToken, JToken>>
+        {
+            WpfExtra.TransformTitleInStackPanel
+        };
+        #endregion
+
         #region Public Methods
+        /// <summary>
+        ///     After the parse json.
+        /// </summary>
+        public static void AfterParseJson(Func<JToken, JToken> func)
+        {
+            AfterJsonStringParse.Add(func);
+        }
+
         /// <summary>
         ///     Transforms the specified node.
         /// </summary>
@@ -104,6 +124,27 @@ namespace CustomUIMarkupLanguage.Markup
             return node;
         }
 
+        static JToken Visit(JToken jToken)
+        {
+            foreach (var func in AfterJsonStringParse)
+            {
+                jToken = func(jToken);
+            }
+
+            var jObject = jToken as JObject;
+            if (jObject == null)
+            {
+                return jToken;
+            }
+
+            foreach (var jProperty in jObject.Properties())
+            {
+                jProperty.Value = Visit(jProperty.Value);
+            }
+
+            return jToken;
+        }
+
         /// <summary>
         ///     Transforms the specified json.
         /// </summary>
@@ -112,7 +153,13 @@ namespace CustomUIMarkupLanguage.Markup
             JObject jObject;
             try
             {
+              
+
                 jObject = (JObject) JsonConvert.DeserializeObject(json);
+
+
+                jObject = (JObject)Visit(jObject);
+
             }
             catch (Exception)
             {
@@ -150,6 +197,9 @@ namespace CustomUIMarkupLanguage.Markup
             });
         }
 
+        /// <summary>
+        ///     Visits the specified on visit.
+        /// </summary>
         public static void Visit(this Node root, Action<Node> onVisit)
         {
             if (root.Properties != null)

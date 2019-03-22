@@ -120,7 +120,7 @@ namespace WhiteStone.UI.Container.Test
 
         
 
-        [TestMethod]
+        // [TestMethod]
         public void JsonUI()
         {
             App.InitializeBuilder();

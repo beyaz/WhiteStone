@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using CustomUIMarkupLanguage.Markup;
+using Newtonsoft.Json.Linq;
 
 namespace CustomUIMarkupLanguage.UIBuilding
 {
@@ -268,5 +269,37 @@ namespace CustomUIMarkupLanguage.UIBuilding
             });
         }
         #endregion
+
+        public static JToken TransformTitleInStackPanel(JToken jToken)
+        {
+
+            var jObject = jToken as JObject;
+
+            if (jObject == null)
+            {
+                return jToken;
+            }
+
+            var value = jObject.GetValue("ui",StringComparison.OrdinalIgnoreCase) as JValue;
+
+            if(value?.ToString().Equals("StackPanel",StringComparison.OrdinalIgnoreCase) == true)
+            {
+                var jValue = jObject.GetValue("title",StringComparison.OrdinalIgnoreCase) as JValue;
+                if(jValue?.Value is string)
+                {
+                    jObject.Remove(jValue.Path);
+
+                    var groupBox = JObject.Parse("{ui:'GroupBox'}");
+
+                    groupBox.Add("Header",jValue);
+
+                    groupBox.Add("Content",jObject);
+
+                    return groupBox;
+
+                }
+            }
+            return jObject;
+        }
     }
 }
