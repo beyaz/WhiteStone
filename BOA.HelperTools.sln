@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.OneDesigner", "BOA.OneD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.OneDesigner.Test", "BOA.OneDesigner.Test\BOA.OneDesigner.Test.csproj", "{D8024A9B-A59E-4DE3-A3DF-6EBB2DB32047}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.CodeGeneration", "BOA.HelperTools\BOA.CodeGeneration\BOA.CodeGeneration.csproj", "{A51D1954-365F-4F98-8492-F8841FBAD5BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins", "BOA.HelperTools\BOAPlugins\BOAPlugins.csproj", "{92502F72-D2A3-4B2F-AA82-3E4F286599AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{D8024A9B-A59E-4DE3-A3DF-6EBB2DB32047}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8024A9B-A59E-4DE3-A3DF-6EBB2DB32047}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8024A9B-A59E-4DE3-A3DF-6EBB2DB32047}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51D1954-365F-4F98-8492-F8841FBAD5BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A51D1954-365F-4F98-8492-F8841FBAD5BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A51D1954-365F-4F98-8492-F8841FBAD5BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A51D1954-365F-4F98-8492-F8841FBAD5BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92502F72-D2A3-4B2F-AA82-3E4F286599AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92502F72-D2A3-4B2F-AA82-3E4F286599AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92502F72-D2A3-4B2F-AA82-3E4F286599AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92502F72-D2A3-4B2F-AA82-3E4F286599AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

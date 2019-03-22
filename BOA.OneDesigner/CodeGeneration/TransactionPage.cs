@@ -465,7 +465,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
             }
 
-            if (writerContext.RequestIntellisenseData.RequestPropertyIntellisense.Contains("DialogResponse"))
+            
+            if (writerContext.RequestIntellisenseData.HasPropertyLikeDialogResponse)
             {
                 writerContext.Imports.Add("import { BDialogHelper } from \"b-dialog-box\";");
 

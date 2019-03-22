@@ -54,6 +54,7 @@ namespace BOA.OneDesigner.Helpers
         public TypeDefinition                            TypeDefinition                          { get; set; }
         public List<string> RequestNullableInt32PropertyIntellisense { get; set; }
         public List<string> ProcessedClassNames { get; set; }
+        public bool HasPropertyLikeDialogResponse { get; set; }
         #endregion
 
 
@@ -428,6 +429,12 @@ namespace BOA.OneDesigner.Helpers
                 {
                     continue;
                 }
+
+                if (propertyDefinition.Name == "DialogResponse")
+                {
+                    data.HasPropertyLikeDialogResponse = true;
+                }
+
 
                 if (PrimitiveTypes.Contains(propertyDefinition.PropertyType.FullName))
                 {
