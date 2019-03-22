@@ -81,11 +81,15 @@
   <ItemGroup>
     <Compile Include="MainForm\Controller.cs" />
     <Compile Include="MainForm\Model.cs" />
+    <Compile Include="MainForm\UIBuilderHelper.cs" />
     <Compile Include="MainForm\View.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MainForm\View.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="WhiteStone.UI.Container.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
