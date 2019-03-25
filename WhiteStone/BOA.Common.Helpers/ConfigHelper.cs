@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Linq;
 
 namespace BOA.Common.Helpers
 {
@@ -15,6 +17,15 @@ namespace BOA.Common.Helpers
         {
             return ConfigurationManager.AppSettings[key];
         }
+
+        /// <summary>
+        ///     Gets the boolean from application setting.
+        /// </summary>
+        public static bool GetBooleanFromAppSetting(string key)
+        {
+            return Convert.ToBoolean(GetFromAppSetting(key));
+        }
+
         #endregion
     }
 }

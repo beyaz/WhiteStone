@@ -99,6 +99,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Configuration\PropertyFileTestData.property">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

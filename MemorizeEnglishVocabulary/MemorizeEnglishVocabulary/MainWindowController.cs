@@ -14,6 +14,14 @@ namespace WpfApp2
         #region Public Methods
         public static void StartToCache(IReadOnlyCollection<string> words)
         {
+            if (ConfigHelper.GetBooleanFromAppSetting("EnToTrCache.UseSameThread"))
+            {
+                StartToInitializeCache(new List<string>(words));
+                return;
+            }
+
+
+
             new Thread(() =>
             {
                 try
@@ -49,33 +57,41 @@ namespace WpfApp2
         #region Methods
         internal static void StartToInitializeCache(IReadOnlyCollection<string> words)
         {
-            foreach (var word in words)
+            try
             {
-				if(IsAlreadyCached(word))
-				{
-					continue;
-				}
-				
-                var filePath   = GetFilePath(word);
-                var dictionary = new Dictionary<string, string>();
-
-                var wordInfo = Translator.GetWordInfo(word);
-                foreach (var entry in wordInfo.Dictentries)
+                foreach (var word in words)
                 {
-                    foreach (var usageInfo in entry.Usages)
+                    if(IsAlreadyCached(word))
                     {
-                        foreach (var example in usageInfo.Examples)
+                        continue;
+                    }
+				
+                    var filePath   = GetFilePath(word);
+                    var dictionary = new Dictionary<string, string>();
+
+                    var wordInfo = Translator.GetWordInfo(word);
+                    foreach (var entry in wordInfo.Dictentries)
+                    {
+                        foreach (var usageInfo in entry.Usages)
                         {
-                            if (dictionary.Count <= 3)
+                            foreach (var example in usageInfo.Examples)
                             {
-                                dictionary.SetValue(example.Text, example.TextTR);
+                                if (dictionary.Count <= 3)
+                                {
+                                    dictionary.SetValue(example.Text, example.TextTR);
+                                }
                             }
                         }
                     }
-                }
 
-                FileHelper.WriteAllText(filePath, JsonHelper.Serialize(dictionary));
+                    FileHelper.WriteAllText(filePath, JsonHelper.Serialize(dictionary));
+                }
             }
+            catch (Exception e)
+            {
+                Log.Push(e);
+            }
+            
         }
 
         static string GetFilePath(string word)
