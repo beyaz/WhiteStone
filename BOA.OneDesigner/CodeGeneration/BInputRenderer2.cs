@@ -112,7 +112,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.AppendLine($"<BCheckBox checked = {{{jsBindingPath.BindingPathInJsInState}}}");
                 sb.PaddingCount++;
-
+                sb.AppendLine("verticalAlign={\"middle\"}");
                 if (data.ValueChangedOrchestrationMethod.HasValue())
                 {
                     sb.AppendLine("onCheck = {(e: any, value: boolean) =>");
