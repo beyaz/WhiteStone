@@ -92,27 +92,27 @@ namespace BOA.OneDesigner.JsxElementModel
                 }
             }
 
-            var label = context.ValueAtIndex as BLabel;
-            if (label != null)
-            {
-                var componentInfo = new ComponentInfo
-                {
-                    Type = new ComponentType
-                    {
-                        IsLabel = true
-                    },
-                    SizeInfo = label.SizeInfo,
-                    TextInto = label.TextInto,
-                    IsBold   = label.IsBold
-                };
+            //var label = context.ValueAtIndex as BLabel;
+            //if (label != null)
+            //{
+            //    var componentInfo = new ComponentInfo
+            //    {
+            //        Type = new ComponentType
+            //        {
+            //            IsLabel = true
+            //        },
+            //        SizeInfo = label.SizeInfo,
+            //        TextInto = label.TextInto,
+            //        IsBold   = label.IsBold
+            //    };
 
-                if (context.Index == null)
-                {
-                    throw new InvalidOperationException();
-                }
+            //    if (context.Index == null)
+            //    {
+            //        throw new InvalidOperationException();
+            //    }
 
-                ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
-            }
+            //    ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
+            //}
         }
 
         public static void VisitAllChildren(object instance, Action<VisitContext> on)

@@ -13,8 +13,9 @@ namespace BOA.OneDesigner
         [TestMethod]
         public void App_should_reorder_elements_according_to_size_information()
         {
-            var input_0 = new BInput
+            var input_0 = new ComponentInfo
             {
+                Type = new ComponentType{IsInput = true},
                 SizeInfo =
                 {
                     IsLarge = true

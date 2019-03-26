@@ -160,7 +160,6 @@
     <Compile Include="WpfControls\JsxElementDesignerSurface.cs" />
     <Compile Include="JsxElementModel\BCard.cs" />
     <Compile Include="JsxElementModel\CardContainer.cs" />
-    <Compile Include="JsxElementModel\BCheckBox.cs" />
     <Compile Include="JsxElementModel\BField.cs" />
     <Compile Include="JsxElementModel\BInput.cs" />
     <Compile Include="JsxElementModel\BInputMask.cs" />
