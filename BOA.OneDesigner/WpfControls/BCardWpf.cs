@@ -114,19 +114,7 @@ namespace BOA.OneDesigner.WpfControls
 
             foreach (var bField in Model.Items)
             {
-                var bInput = bField as BInput;
-                if (bInput != null)
-                {
-                    bInput.Container = Model;
-                    var uiElement = Host.Create<BInputWpf>(bInput);
-
-                    Host.DragHelper.MakeDraggable(uiElement);
-
-                    ChildrenContainer.Children.Add(uiElement);
-                    Host.AttachToEventBus(uiElement, this);
-
-                    continue;
-                }
+                
 
                 var componentInfo = bField as ComponentInfo;
                 if (componentInfo != null)
@@ -291,11 +279,6 @@ namespace BOA.OneDesigner.WpfControls
         /// </summary>
         static bool CanDrop(UIElement dragElement)
         {
-            if (dragElement is BInputWpf)
-            {
-                return true;
-            }
-
             if (dragElement is BComboBoxInWpf)
             {
                 return true;
@@ -345,17 +328,12 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var bInput          = Host.SelectedElement as BInputWpf;
             var dataGridInfoWpf = Host.SelectedElement as BDataGridInfoWpf;
             var tabControlWpf   = Host.SelectedElement as BTabBarWpf;
             var bComboBoxInWpf  = Host.SelectedElement as BComboBoxInWpf;
             var componentWpf    = Host.SelectedElement as ComponentWpf;
 
-            if (bInput != null)
-            {
-                bInput.Model.RemoveFromParent();
-            }
-            else if (dataGridInfoWpf != null)
+            if (dataGridInfoWpf != null)
             {
                 dataGridInfoWpf.Model.RemoveFromParent();
             }
@@ -395,21 +373,7 @@ namespace BOA.OneDesigner.WpfControls
 
         void UpdateModel(int insertIndex)
         {
-            var bInput = Host.SelectedElement as BInputWpf;
-            if (bInput != null)
-            {
-                if (bInput.IsInToolbox)
-                {
-                    Model.InsertItem(insertIndex, new BInput());
-                    return;
-                }
-
-                bInput.Model.RemoveFromParent();
-
-                Model.InsertItem(insertIndex, bInput.Model);
-
-                return;
-            }
+            
 
             var component = Host.SelectedElement as ComponentWpf;
             if (component != null)

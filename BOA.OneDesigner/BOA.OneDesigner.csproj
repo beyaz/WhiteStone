@@ -104,7 +104,6 @@
     <Compile Include="CodeGeneration\BBranchComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BCardRenderer.cs" />
     <Compile Include="CodeGeneration\BLabelRenderer.cs" />
-    <Compile Include="CodeGeneration\BInputRenderer.cs" />
     <Compile Include="CodeGeneration\BParameterComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BTabBarRenderer.cs" />
     <Compile Include="CodeGeneration\DivAsCardContainerRenderer.cs" />
@@ -148,7 +147,6 @@
     <Compile Include="WpfControls\BDataGridInfoWpf.xaml.cs">
       <DependentUpon>BDataGridInfoWpf.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PropertyEditors\BInputEditor.cs" />
     <Compile Include="Helpers\CecilHelper.cs" />
     <Compile Include="WpfControls\BTabBarPageWpf.cs" />
     <Compile Include="WpfControls\CardLayout.cs" />
@@ -161,7 +159,6 @@
     <Compile Include="JsxElementModel\BCard.cs" />
     <Compile Include="JsxElementModel\CardContainer.cs" />
     <Compile Include="JsxElementModel\BField.cs" />
-    <Compile Include="JsxElementModel\BInput.cs" />
     <Compile Include="JsxElementModel\BInputMask.cs" />
     <Compile Include="JsxElementModel\BInputNumeric.cs" />
     <Compile Include="JsxElementModel\BTabBar.cs" />
@@ -171,7 +168,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WpfControls\BCardWpf.cs" />
     <Compile Include="WpfControls\DivAsCardContainerWpf.cs" />
-    <Compile Include="WpfControls\BInputWpf.cs" />
     <Compile Include="WpfControls\Extensions.cs" />
     <Compile Include="WpfControls\DropLocation.cs" />
     <Compile Include="PropertyEditors\LabelEditor.cs" />

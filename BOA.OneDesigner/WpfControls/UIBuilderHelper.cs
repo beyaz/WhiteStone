@@ -17,7 +17,7 @@ namespace BOA.OneDesigner.WpfControls
             Builder.RegisterElementCreation("LabelEditor", typeof(LabelEditor));
             Builder.RegisterElementCreation("SizeEditor", typeof(SizeEditor));
             Builder.RegisterElementCreation("BDataGridEditor", typeof(BDataGridEditor));
-            Builder.RegisterElementCreation("BInputEditor", typeof(BInputEditor));
+            
             Builder.RegisterElementCreation("WideEditor", typeof(WideEditor));
             Builder.RegisterElementCreation("HorizontalLocationEditor", typeof(HorizontalLocationEditor));
             // Builder.RegisterElementCreation("ResourceCodeTextBox", typeof(ResourceCodeTextBox));

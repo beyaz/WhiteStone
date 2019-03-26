@@ -71,12 +71,7 @@ namespace BOA.OneDesigner.WpfControls
                 return;
             }
 
-            var bInput = DataContext as BInput;
-            if (bInput != null)
-            {
-                SetContent(Host.Create<BInputEditor>(DataContext));
-                return;
-            }
+            
 
             var dataGridColumnInfo = DataContext as BDataGridColumnInfo;
             if (dataGridColumnInfo != null)

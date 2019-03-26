@@ -111,13 +111,7 @@ namespace BOA.OneDesigner.CodeGeneration
             data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
         }
 
-        public static void InitSnapName(WriterContext writerContext, BInput data)
-        {
-            var lastPropertyName = GetLastPropertyName(data.ValueBindingPath);
-
-            data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + data.GetType().Name.RemoveFromStart("B");
-            data.SnapName = writerContext.ForceUniqueName(data.SnapName);
-        }
+        
         #endregion
 
         #region Methods

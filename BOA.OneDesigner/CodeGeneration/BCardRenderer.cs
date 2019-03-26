@@ -61,19 +61,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             foreach (var item in data.Items)
             {
-                var bInput = item as BInput;
-                if (bInput != null)
-                {
-                    writerContext.Output = new PaddedStringBuilder();
-
-                    BInputRenderer.Write(writerContext, bInput);
-
-                    subComponents.Add(writerContext.Output.ToString());
-
-                    writerContext.Output = sb;
-
-                    continue;
-                }
+                
 
                 var bTabBar = item as BTabBar;
                 if (bTabBar != null)

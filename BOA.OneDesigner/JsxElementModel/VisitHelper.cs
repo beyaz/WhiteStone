@@ -38,59 +38,7 @@ namespace BOA.OneDesigner.JsxElementModel
         #region Public Methods
         public static void ConvertToNewComponent(VisitContext context)
         {
-            var input = context.ValueAtIndex as BInput;
-            if (input != null)
-            {
-                if (input.IsAccountComponent)
-                {
-                    var componentInfo = new ComponentInfo
-                    {
-                        Type = new ComponentType
-                        {
-                            IsAccountComponent = true
-                        },
-                        SizeInfo                        = input.SizeInfo,
-                        LabelTextInfo                   = LabelInfoHelper.CreateNewLabelInfo("Müşteri No, TCKN, VKN"),
-                        ValueBindingPath                = input.ValueBindingPath,
-                        ValueChangedOrchestrationMethod = input.ValueChangedOrchestrationMethod,
-                        IsDisabledBindingPath           = input.IsDisabledBindingPath,
-                        IsVisibleBindingPath            = input.IsVisibleBindingPath
-                    };
-
-                    if (context.Index == null)
-                    {
-                        throw new InvalidOperationException();
-                    }
-
-                    ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
-                }
-
-                else
-                {
-                    var componentInfo = new ComponentInfo
-                    {
-                        Type = new ComponentType
-                        {
-                            IsInput = true
-                        },
-                        SizeInfo              = input.SizeInfo,
-                        LabelTextInfo         = input.LabelInfo,
-                        ValueBindingPath      = input.ValueBindingPath,
-                        IsDisabledBindingPath = input.IsDisabledBindingPath,
-                        IsVisibleBindingPath  = input.IsVisibleBindingPath,
-                        Mask                  = input.Mask,
-                        RowCount              = input.RowCount
-                    };
-
-                    if (context.Index == null)
-                    {
-                        throw new InvalidOperationException();
-                    }
-
-                    ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
-                    
-                }
-            }
+           
 
             //var label = context.ValueAtIndex as BLabel;
             //if (label != null)
