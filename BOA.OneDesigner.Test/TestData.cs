@@ -14,12 +14,14 @@ namespace BOA.OneDesigner
             {
                 Items = new List<BField>
                 {
-                    new BInput
+                    new ComponentInfo
                     {
+                        Type = new ComponentType{IsInput = true},
                         ValueBindingPath = "A"
                     },
-                    new BInput
+                    new ComponentInfo
                     {
+                        Type = new ComponentType{IsInput = true},
                         ValueBindingPath = "B"
                     }
                 }

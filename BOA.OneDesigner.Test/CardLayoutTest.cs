@@ -24,7 +24,8 @@ namespace BOA.OneDesigner
 
             var grid = new Grid();
 
-            grid.Children.Add(new BInputWpf {DataContext = input_0});
+            
+            grid.Children.Add(ComponentWpf.Create(null,input_0));
 
             // ACT
             CardLayout.Apply(grid);
@@ -357,10 +358,11 @@ namespace BOA.OneDesigner
         #endregion
 
         #region Methods
-        static BInputWpf Create_ExtraSmall()
+        static ComponentWpf Create_ExtraSmall()
         {
-            var bInput = new BInput
+            var bInput = new ComponentInfo
             {
+                Type = new ComponentType{IsInput = true},
                 SizeInfo =
                 {
                     IsMedium = true
@@ -369,13 +371,14 @@ namespace BOA.OneDesigner
 
             bInput.SizeInfo = new SizeInfo {IsExtraSmall = true};
 
-            return new BInputWpf {DataContext = bInput};
+            return ComponentWpf.Create(null, bInput);
         }
 
-        static BInputWpf Create_Medium()
+        static ComponentWpf Create_Medium()
         {
-            var bInput = new BInput
+            var bInput = new ComponentInfo
             {
+                Type = new ComponentType{IsInput = true},
                 SizeInfo =
                 {
                     IsMedium = true
@@ -384,13 +387,14 @@ namespace BOA.OneDesigner
 
             bInput.SizeInfo = new SizeInfo {IsMedium = true};
 
-            return new BInputWpf {DataContext = bInput};
+            return ComponentWpf.Create(null, bInput);
         }
 
-        static BInputWpf Create_Small()
+        static ComponentWpf Create_Small()
         {
-            var bInput = new BInput
+            var bInput = new ComponentInfo
             {
+                Type = new ComponentType{IsInput = true},
                 SizeInfo =
                 {
                     IsMedium = true
@@ -399,7 +403,8 @@ namespace BOA.OneDesigner
 
             bInput.SizeInfo = new SizeInfo {IsSmall = true};
 
-            return new BInputWpf {DataContext = bInput};
+
+            return ComponentWpf.Create(null, bInput);
         }
 
         static BCardWpf CreateCard(int wide, int x)
