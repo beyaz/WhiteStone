@@ -50,7 +50,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             for (var i = 0; i < data.Items.Count; i++)
             {
-                var isLAstTab = i == data.Items.Count - 1;
+                var isLastTab = i == data.Items.Count - 1;
 
                 var bTabBarPage = data.Items[i];
 
@@ -118,7 +118,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.PaddingCount--;
 
-                if (isLAstTab)
+                if (isLastTab)
                 {
                     sb.AppendLine("}");
                 }
