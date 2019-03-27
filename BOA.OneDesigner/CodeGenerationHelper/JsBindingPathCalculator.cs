@@ -1,40 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
-using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-    class JsBindingPathCalculatorData
-    {
-        #region Constructors
-        public JsBindingPathCalculatorData()
-        {
-        }
-
-        public JsBindingPathCalculatorData(WriterContext writerContext, string bindingPathInCSharpInDesigner)
-        {
-            RenderMethodRequestRelatedVariables = writerContext.RenderMethodRequestRelatedVariables;
-            BindingPathInCSharpInDesigner       = bindingPathInCSharpInDesigner;
-        }
-        #endregion
-
-        #region Public Properties
-        public string       BindingPathInCSharpInDesigner       { get; set; }
-        public bool         EvaluateInsStateVersion             { get; set; }
-        public List<string> RenderMethodRequestRelatedVariables { get; set; }
-        #endregion
-
-        #region Properties
-        internal string BindingPathInJs        { get; set; }
-        internal string BindingPathInJsInState { get; set; }
-        #endregion
-    }
-
     static class JsBindingPathCalculator
     {
         #region Public Methods

@@ -80,6 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppModel\Aut_Resource.cs" />
+    <Compile Include="CodeGenerationModel\JsBindingPathCalculatorData.cs" />
+    <Compile Include="CodeGenerationModel\ButtonActionInfo.cs" />
+    <Compile Include="CodeGenerationModel\JsObject.cs" />
+    <Compile Include="CodeGenerationHelper\JsObjectInfoSingleLineWriter.cs" />
     <Compile Include="JsxElementModel\Aut_ResourceAction.cs" />
     <Compile Include="AppModel\DragHelper.cs" />
     <Compile Include="AppModel\Extensions.cs" />
@@ -93,8 +97,8 @@
     <Compile Include="CodeGeneration\BInformationTextRenderer.cs" />
     <Compile Include="CodeGeneration\BInputRenderer2.cs" />
     <Compile Include="CodeGeneration\FileNamingHelper.cs" />
-    <Compile Include="CodeGeneration\JsBindingPathCalculator.cs" />
-    <Compile Include="CodeGeneration\JsObjectInfo.cs" />
+    <Compile Include="CodeGenerationHelper\JsBindingPathCalculator.cs" />
+    <Compile Include="CodeGenerationHelper\JsObjectInfoMultiLineWriter.cs" />
     <Compile Include="CodeGenerationModel\WriterContext.cs" />
     <Compile Include="Helpers\Error.cs" />
     <Compile Include="AppModel\EventBus.cs" />
@@ -107,8 +111,8 @@
     <Compile Include="CodeGeneration\BParameterComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BTabBarRenderer.cs" />
     <Compile Include="CodeGeneration\DivAsCardContainerRenderer.cs" />
-    <Compile Include="CodeGeneration\RenderHelper.cs" />
-    <Compile Include="CodeGeneration\SnapNamingHelper.cs" />
+    <Compile Include="CodeGenerationHelper\RenderHelper.cs" />
+    <Compile Include="CodeGenerationHelper\SnapNamingHelper.cs" />
     <Compile Include="CodeGeneration\TransactionPage.cs" />
     <Compile Include="Helpers\TsxCodeBeautifier.cs" />
     <Compile Include="JsxElementModel\BComboBox.cs" />
