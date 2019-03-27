@@ -1,6 +1,5 @@
 ﻿using System.Windows.Forms;
 using BOAPlugins.SearchProcedure;
-using BOAPlugins.ViewClassDependency;
 using Handler = BOAPlugins.SearchProcedure.Handler;
 
 namespace BOAPlugins.VSIntegration

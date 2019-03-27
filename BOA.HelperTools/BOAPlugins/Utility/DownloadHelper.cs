@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
-using BOAPlugins.VSIntegration;
 
 namespace BOAPlugins.Utility
 {

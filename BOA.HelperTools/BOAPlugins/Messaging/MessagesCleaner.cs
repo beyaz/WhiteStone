@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using BOA.Common.Helpers;
-using BOAPlugins.Utility;
 
 namespace BOAPlugins.Messaging
 {
