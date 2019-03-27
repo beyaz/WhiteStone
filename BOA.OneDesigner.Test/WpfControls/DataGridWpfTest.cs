@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.WpfControls;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.OneDesigner
+namespace BOA.OneDesigner.WpfControls
 {
     [TestClass]
     public class DataGridWpfTest

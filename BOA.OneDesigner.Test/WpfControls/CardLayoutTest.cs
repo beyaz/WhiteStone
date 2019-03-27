@@ -1,10 +1,9 @@
 ﻿using System.Windows.Controls;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.WpfControls;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.OneDesigner
+namespace BOA.OneDesigner.WpfControls
 {
     [TestClass]
     public class CardLayoutTest
@@ -15,7 +14,7 @@ namespace BOA.OneDesigner
         {
             var input_0 = new ComponentInfo
             {
-                Type = new ComponentType{IsInput = true},
+                Type = new ComponentType {IsInput = true},
                 SizeInfo =
                 {
                     IsLarge = true
@@ -24,8 +23,7 @@ namespace BOA.OneDesigner
 
             var grid = new Grid();
 
-            
-            grid.Children.Add(ComponentWpf.Create(null,input_0));
+            grid.Children.Add(ComponentWpf.Create(null, input_0));
 
             // ACT
             CardLayout.Apply(grid);
@@ -362,7 +360,7 @@ namespace BOA.OneDesigner
         {
             var bInput = new ComponentInfo
             {
-                Type = new ComponentType{IsInput = true},
+                Type = new ComponentType {IsInput = true},
                 SizeInfo =
                 {
                     IsMedium = true
@@ -378,7 +376,7 @@ namespace BOA.OneDesigner
         {
             var bInput = new ComponentInfo
             {
-                Type = new ComponentType{IsInput = true},
+                Type = new ComponentType {IsInput = true},
                 SizeInfo =
                 {
                     IsMedium = true
@@ -394,7 +392,7 @@ namespace BOA.OneDesigner
         {
             var bInput = new ComponentInfo
             {
-                Type = new ComponentType{IsInput = true},
+                Type = new ComponentType {IsInput = true},
                 SizeInfo =
                 {
                     IsMedium = true
@@ -402,7 +400,6 @@ namespace BOA.OneDesigner
             };
 
             bInput.SizeInfo = new SizeInfo {IsSmall = true};
-
 
             return ComponentWpf.Create(null, bInput);
         }

@@ -20,14 +20,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var writerContext = new WriterContext();
 
-            SnapNamingHelper.InitSnapName(writerContext,data);
+            SnapNamingHelper.InitSnapName(writerContext, data);
 
             data.SnapName.Should().Be("userIdComboBox");
 
             data.TypeScriptMethodNameOfGetGridColumns.Should().Be("getUserIdComboBoxColumns");
 
-
-            SnapNamingHelper.InitSnapName(writerContext,data);
+            SnapNamingHelper.InitSnapName(writerContext, data);
 
             data.SnapName.Should().Be("userIdComboBox1");
 

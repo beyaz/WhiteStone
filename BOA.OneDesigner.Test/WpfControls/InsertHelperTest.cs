@@ -11,23 +11,13 @@ namespace BOA.OneDesigner.WpfControls
     {
         #region Public Methods
         [TestMethod]
-        public void Move_should_be_nothing_when_indexes_are_equal()
+        public void Move()
         {
             var items = new List<string> {"0", "1", "2"};
 
-            InsertHelper.Move(items, "0", 0);
+            InsertHelper.Move(items, "1", 0);
 
-            items.Should().Equal("0", "1", "2");
-        }
-
-        [TestMethod]
-        public void Move_should_be_fail_when_item_not_in_list()
-        {
-            var items = new List<string> {"0", "1", "2"};
-
-            Action act = () => { InsertHelper.Move(items, "3", 0); };
-
-            act.Should().Throw<BusinessException>();
+            items.Should().Equal("1", "0", "2");
         }
 
         [TestMethod]
@@ -41,13 +31,23 @@ namespace BOA.OneDesigner.WpfControls
         }
 
         [TestMethod]
-        public void Move()
+        public void Move_should_be_fail_when_item_not_in_list()
         {
             var items = new List<string> {"0", "1", "2"};
 
-            InsertHelper.Move(items, "1", 0);
+            Action act = () => { InsertHelper.Move(items, "3", 0); };
 
-            items.Should().Equal("1", "0", "2");
+            act.Should().Throw<BusinessException>();
+        }
+
+        [TestMethod]
+        public void Move_should_be_nothing_when_indexes_are_equal()
+        {
+            var items = new List<string> {"0", "1", "2"};
+
+            InsertHelper.Move(items, "0", 0);
+
+            items.Should().Equal("0", "1", "2");
         }
         #endregion
     }

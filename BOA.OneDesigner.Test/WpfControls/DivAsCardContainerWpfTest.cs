@@ -1,9 +1,8 @@
 ﻿using BOA.OneDesigner.AppModel;
-using BOA.OneDesigner.WpfControls;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.OneDesigner
+namespace BOA.OneDesigner.WpfControls
 {
     [TestClass]
     public class DivAsCardContainerWpfTest
@@ -49,7 +48,7 @@ namespace BOA.OneDesigner
             (wpf.BChildAt(1) == bChildAt_1).Should().BeTrue();
 
             wpf.BChildCount.Should().Be(childCount);
-            wpf.BChildAt(1).BChildrenCount.Should().Be(bChildCountOfCard-1);
+            wpf.BChildAt(1).BChildrenCount.Should().Be(bChildCountOfCard - 1);
         }
         #endregion
 

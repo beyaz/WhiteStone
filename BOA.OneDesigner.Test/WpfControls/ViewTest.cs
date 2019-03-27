@@ -4,10 +4,6 @@ using BOA.OneDesigner.MainForm;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
-
-
-
 namespace BOA.OneDesigner.WpfControls
 {
     [TestClass]
@@ -43,14 +39,12 @@ namespace BOA.OneDesigner.WpfControls
 
             surface.DataContext.Should().Be(jsxModel);
 
-
             model.ScreenInfo.JsxModel = null;
 
             View.Refresh(host, model, surface);
 
             surface.DataContext.Should().Be(jsxModel);
             model.ScreenInfo.JsxModel.Should().Be(jsxModel);
-
 
             model.ScreenInfo.JsxModel = null;
 
@@ -61,16 +55,12 @@ namespace BOA.OneDesigner.WpfControls
             surface.DataContext.Should().BeNull();
             model.ScreenInfo.JsxModel.Should().BeNull();
 
-
             surface.DataContext = jsxModel;
 
             View.Refresh(host, model, surface);
 
             surface.DataContext.Should().Be(jsxModel);
             model.ScreenInfo.JsxModel.Should().Be(jsxModel);
-
-
-
         }
         #endregion
     }

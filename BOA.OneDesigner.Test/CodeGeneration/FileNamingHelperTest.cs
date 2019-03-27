@@ -12,7 +12,7 @@ namespace BOA.OneDesigner.CodeGeneration
         [TestMethod]
         public void OutputTypeScriptFileName_should_be_evaluated_by_tire()
         {
-            var data = new ScreenInfo()
+            var data = new ScreenInfo
             {
                 RequestName = "A.Bbb.UserIdRequest"
             };
@@ -20,7 +20,6 @@ namespace BOA.OneDesigner.CodeGeneration
             FileNamingHelper.InitDefaultOutputTypeScriptFileName(data);
 
             data.OutputTypeScriptFileName.Should().Be("user-id");
-            
         }
         #endregion
     }

@@ -1,11 +1,10 @@
 ﻿using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.WpfControls;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.OneDesigner
+namespace BOA.OneDesigner.WpfControls
 {
     [TestClass]
     public class CardWpfTest
@@ -29,16 +28,6 @@ namespace BOA.OneDesigner
             host.EventBus.CountOfListeningEventNames.Should().Be(0);
         }
 
-        static void DoSomeInteractions(BCardWpf wpf)
-        {
-            wpf.Refresh();
-            wpf.EnterDropLocationMode();
-            wpf.ExitDropLocationMode();
-            wpf.Refresh();
-            wpf.Refresh();
-            wpf.Refresh();
-        }
-
         [TestMethod]
         public void Should_remove_when_item_deleted()
         {
@@ -56,7 +45,7 @@ namespace BOA.OneDesigner
             host.SelectedElement = childAt_0;
 
             // ACT
-            
+
             host.EventBus.Publish(EventBus.ComponentDeleted);
 
             // ASSERT
@@ -88,6 +77,18 @@ namespace BOA.OneDesigner
 
             // ASSERT
             wpf.HeaderAsString.Should().Be("B");
+        }
+        #endregion
+
+        #region Methods
+        static void DoSomeInteractions(BCardWpf wpf)
+        {
+            wpf.Refresh();
+            wpf.EnterDropLocationMode();
+            wpf.ExitDropLocationMode();
+            wpf.Refresh();
+            wpf.Refresh();
+            wpf.Refresh();
         }
         #endregion
     }

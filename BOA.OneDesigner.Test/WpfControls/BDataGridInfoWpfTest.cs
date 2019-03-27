@@ -64,8 +64,6 @@ namespace BOA.OneDesigner.WpfControls
             // ASSERT
             wpf.ColumnsCollection.Count.Should().Be(2);
         }
-
-        
         #endregion
     }
 }

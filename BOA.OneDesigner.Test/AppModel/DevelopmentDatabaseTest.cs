@@ -12,6 +12,18 @@ namespace BOA.OneDesigner.AppModel
     {
         #region Public Methods
         [TestMethod]
+        public void GetAndSaveAllToDb()
+        {
+            using (var database = new DevelopmentDatabase())
+            {
+                foreach (var screenInfo in database.GetAllScreens())
+                {
+                    database.Save(screenInfo);
+                }
+            }
+        }
+
+        [TestMethod]
         public void Save_should_be_insert_or_update_database()
         {
             using (var database = new DevelopmentDatabase())
@@ -42,18 +54,6 @@ namespace BOA.OneDesigner.AppModel
             {
                 var path = nameof(SaveToFile) + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + ".bin";
                 File.WriteAllBytes(path, BinarySerialization.Serialize(database.GetAllScreens()));
-            }
-        }
-
-        [TestMethod]
-        public void GetAndSaveAllToDb()
-        {
-            using (var database = new DevelopmentDatabase())
-            {
-                foreach (var screenInfo in database.GetAllScreens())
-                {
-                    database.Save(screenInfo);
-                }
             }
         }
         #endregion

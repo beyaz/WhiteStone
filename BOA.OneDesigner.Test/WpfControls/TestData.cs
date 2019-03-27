@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.WpfControls;
 
-namespace BOA.OneDesigner
+namespace BOA.OneDesigner.WpfControls
 {
     static class TestData
     {
@@ -16,12 +15,12 @@ namespace BOA.OneDesigner
                 {
                     new ComponentInfo
                     {
-                        Type = new ComponentType{IsInput = true},
+                        Type             = new ComponentType {IsInput = true},
                         ValueBindingPath = "A"
                     },
                     new ComponentInfo
                     {
-                        Type = new ComponentType{IsInput = true},
+                        Type             = new ComponentType {IsInput = true},
                         ValueBindingPath = "B"
                     }
                 }

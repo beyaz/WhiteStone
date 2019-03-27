@@ -45,11 +45,11 @@ namespace BOA.OneDesigner.CodeGeneration
             jsBindingPath.BindingPathInJs.Should().Be("info.userName");
 
             variables.Should().BeEquivalentTo("const dataContract = request.dataContract || {};",
-                                "const dataContractInState = requestInState.dataContract || {};",
-                                "const user = dataContract.user || {};",
-                                "const userInState = dataContractInState.user || {};",
-                                "const info = user.info || {};",
-                                "const infoInState = userInState.info || {};");
+                                              "const dataContractInState = requestInState.dataContract || {};",
+                                              "const user = dataContract.user || {};",
+                                              "const userInState = dataContractInState.user || {};",
+                                              "const info = user.info || {};",
+                                              "const infoInState = userInState.info || {};");
         }
 
         [TestMethod]

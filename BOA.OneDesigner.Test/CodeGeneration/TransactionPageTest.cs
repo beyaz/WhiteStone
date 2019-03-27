@@ -3,23 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
-using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.MainForm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Exception = System.Exception;
 
-namespace BOA.OneDesigner.WpfControls
+namespace BOA.OneDesigner.CodeGeneration
 {
     [TestClass]
     public class TransactionPageTest
     {
-
+        #region Public Methods
         [TestMethod]
         public void Card360()
         {
-            var excepts = new List<string>
-            {
-            };
+            var excepts = new List<string>();
             using (var database = new DevelopmentDatabase())
             {
                 var screens = database.GetAllScreens();
@@ -32,7 +28,7 @@ namespace BOA.OneDesigner.WpfControls
                     {
                         Controller.Generate(screen);
                     }
-                    catch (Exception e)
+                    catch (BusinessException e)
                     {
                         Console.WriteLine(e);
                     }
@@ -40,13 +36,10 @@ namespace BOA.OneDesigner.WpfControls
             }
         }
 
-        #region Public Methods
         [TestMethod]
         public void GenerateAll()
         {
-            var excepts = new List<string>
-            {
-            };
+            var excepts = new List<string>();
             using (var database = new DevelopmentDatabase())
             {
                 var screens = database.GetAllScreens();

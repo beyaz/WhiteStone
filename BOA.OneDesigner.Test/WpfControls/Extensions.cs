@@ -6,40 +6,32 @@ namespace BOA.OneDesigner.WpfControls
 {
     static class Extensions
     {
-
-
-
-       
-
-
-
-        public  static BDataGridInfoWpf CreateAndLoadDataGridWpfWithTwoColumn( this Host host)
+        #region Public Methods
+        public static BDataGridInfoWpf CreateAndLoadDataGridWpfWithTwoColumn(this Host host)
         {
-
             var dataGrid = new BDataGrid
             {
                 Columns = new List<BDataGridColumnInfo> {new BDataGridColumnInfo(), new BDataGridColumnInfo()}
             };
 
             var dataGridInfoWpf = host.CreateBDataGridInfoWpf(dataGrid);
-            
+
             dataGridInfoWpf.RaiseLoadedEvent();
 
             return dataGridInfoWpf;
         }
 
-        public  static BDataGridInfoWpf CreateDataGridWpfWithTwoColumn( this Host host)
+        public static BDataGridInfoWpf CreateDataGridWpfWithTwoColumn(this Host host)
         {
-
             var dataGrid = new BDataGrid
             {
                 Columns = new List<BDataGridColumnInfo> {new BDataGridColumnInfo(), new BDataGridColumnInfo()}
             };
 
             var dataGridInfoWpf = host.CreateBDataGridInfoWpf(dataGrid);
-            
 
             return dataGridInfoWpf;
         }
+        #endregion
     }
 }
