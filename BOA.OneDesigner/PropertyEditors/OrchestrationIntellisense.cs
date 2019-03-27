@@ -2,7 +2,7 @@
 using BOA.OneDesigner.AppModel;
 using WhiteStone.UI.Container;
 
-namespace BOA.OneDesigner.WpfControls
+namespace BOA.OneDesigner.PropertyEditors
 {
     class OrchestrationIntellisense:LabeledComboBox
     {

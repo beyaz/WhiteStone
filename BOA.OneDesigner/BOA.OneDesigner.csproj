@@ -173,12 +173,12 @@
     <Compile Include="PropertyEditors\LabelEditor.cs" />
     <Compile Include="Helpers\MessagingHelper.cs" />
     <Compile Include="WpfControls\MessagingIntellisenseTextBox.cs" />
-    <Compile Include="WpfControls\OrchestrationIntellisense.cs" />
+    <Compile Include="PropertyEditors\OrchestrationIntellisense.cs" />
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
     <Compile Include="Helpers\TfsHelper.cs" />
     <Compile Include="WpfControls\BTabBarWpf.cs" />
-    <Compile Include="WpfControls\ResourceCodeTextBox.cs" />
+    <Compile Include="PropertyEditors\ResourceCodeTextBox.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
     <Compile Include="WpfControls\UIBuilderHelper.cs" />
     <Compile Include="WpfControls\WpfHelper.cs" />
