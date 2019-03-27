@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.OneDesigner.Helpers;
@@ -91,6 +92,33 @@ namespace BOA.OneDesigner.AppModel
             return TfsHelper.GetFolderNames();
         }
 
+        sealed class MyBinder : SerializationBinder
+        {
+            public override Type BindToType(string assemblyName, string typeName)
+            {
+                if (typeName.EndsWith("."+nameof(Aut_ResourceAction),StringComparison.OrdinalIgnoreCase))
+                {
+                    return typeof(Aut_ResourceAction);
+                }
+
+                if (typeName.Contains("." + nameof(Aut_ResourceAction) + ",") && typeName.Contains(typeof(List<>).Name))
+                {
+                    return typeof(List<Aut_ResourceAction>);
+                }
+
+                if (typeName.Contains(nameof(Aut_ResourceAction)))
+                {
+                    throw new ArgumentException();
+                }
+
+                return null;
+            }
+        }
+        static object Deserialize(byte[] byteArray)
+        {
+            return BinarySerialization.Deserialize(byteArray, new MyBinder());
+        }
+
         public bool Load(ScreenInfo data)
         {
             CommandText = $@"
@@ -120,8 +148,8 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
             data.UserName                 = Convert.ToString(reader[nameof(data.UserName)]);
             data.SystemDate               = Convert.ToDateTime(reader[nameof(data.SystemDate)]);
 
-            data.JsxModel        = BinarySerialization.Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.JsxModel)]));
-            data.ResourceActions = (List<Aut_ResourceAction>) BinarySerialization.Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.ResourceActions)]));
+            data.JsxModel        = Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.JsxModel)]));
+            data.ResourceActions = (List<Aut_ResourceAction>) Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.ResourceActions)]));
 
             reader.Close();
 

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.AppModel
 {

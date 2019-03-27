@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.MainForm
 {

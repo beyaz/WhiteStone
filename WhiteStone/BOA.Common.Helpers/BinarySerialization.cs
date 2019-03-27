@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BOA.Common.Helpers
@@ -12,6 +13,27 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Deserializes the specified byte array.
         /// </summary>
+        public static object Deserialize(byte[] byteArray, SerializationBinder binder)
+        {
+            if (byteArray == null || byteArray.Length == 0)
+            {
+                return null;
+            }
+
+            using (var memoryStream = new MemoryStream(byteArray))
+            {
+                var binaryFormatter = new BinaryFormatter
+                {
+                    Binder = binder
+                };
+
+                return binaryFormatter.Deserialize(memoryStream);
+            }
+        }
+
+        /// <summary>
+        ///     Deserializes the specified byte array.
+        /// </summary>
         public static object Deserialize(byte[] byteArray)
         {
             if (byteArray == null || byteArray.Length == 0)
@@ -22,6 +44,7 @@ namespace BOA.Common.Helpers
             using (var memoryStream = new MemoryStream(byteArray))
             {
                 var binaryFormatter = new BinaryFormatter();
+
                 return binaryFormatter.Deserialize(memoryStream);
             }
         }
