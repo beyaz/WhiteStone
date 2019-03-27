@@ -96,7 +96,7 @@
     <Compile Include="CodeGenerationModel\BindingPathPropertyInfo.cs" />
     <Compile Include="CodeGeneration\BInformationTextRenderer.cs" />
     <Compile Include="CodeGeneration\BInputRenderer2.cs" />
-    <Compile Include="CodeGeneration\FileNamingHelper.cs" />
+    <Compile Include="CodeGenerationHelper\FileNamingHelper.cs" />
     <Compile Include="CodeGenerationHelper\JsBindingPathCalculator.cs" />
     <Compile Include="CodeGenerationHelper\JsObjectInfoMultiLineWriter.cs" />
     <Compile Include="CodeGenerationModel\WriterContext.cs" />

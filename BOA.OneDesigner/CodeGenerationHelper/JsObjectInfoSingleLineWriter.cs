@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BOA.OneDesigner.CodeGenerationModel;
 
-namespace BOA.OneDesigner.CodeGeneration
+namespace BOA.OneDesigner.CodeGenerationHelper
 {
     static class JsObjectInfoSingleLineWriter
     {

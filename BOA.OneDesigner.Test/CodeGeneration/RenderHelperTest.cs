@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using BOA.OneDesigner.CodeGenerationHelper;
+using BOA.OneDesigner.CodeGenerationModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -6,7 +6,7 @@ using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 
-namespace BOA.OneDesigner.CodeGeneration
+namespace BOA.OneDesigner.CodeGenerationHelper
 {
     static class RenderHelper
     {

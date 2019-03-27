@@ -4,7 +4,7 @@ using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
-namespace BOA.OneDesigner.CodeGeneration
+namespace BOA.OneDesigner.CodeGenerationHelper
 {
     public static class SnapNamingHelper
     {

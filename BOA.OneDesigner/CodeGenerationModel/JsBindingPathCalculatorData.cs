@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using BOA.OneDesigner.CodeGenerationModel;
 
-namespace BOA.OneDesigner.CodeGeneration
+namespace BOA.OneDesigner.CodeGenerationModel
 {
     class JsBindingPathCalculatorData
     {

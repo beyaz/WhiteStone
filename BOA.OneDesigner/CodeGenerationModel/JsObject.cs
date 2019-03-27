@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BOA.OneDesigner.CodeGeneration
+namespace BOA.OneDesigner.CodeGenerationModel
 {
     public class JsObject : Dictionary<string, string>
     {

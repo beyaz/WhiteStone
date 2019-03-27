@@ -1,4 +1,5 @@
-﻿using BOA.OneDesigner.JsxElementModel;
+﻿using BOA.OneDesigner.CodeGenerationHelper;
+using BOA.OneDesigner.JsxElementModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

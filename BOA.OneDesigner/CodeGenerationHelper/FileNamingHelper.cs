@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
-namespace BOA.OneDesigner.CodeGeneration
+namespace BOA.OneDesigner.CodeGenerationHelper
 {
     static class FileNamingHelper
     {

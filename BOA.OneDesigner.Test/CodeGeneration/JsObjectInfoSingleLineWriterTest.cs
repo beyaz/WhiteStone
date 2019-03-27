@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using BOA.OneDesigner.CodeGenerationHelper;
+using BOA.OneDesigner.CodeGenerationModel;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.OneDesigner.CodeGeneration

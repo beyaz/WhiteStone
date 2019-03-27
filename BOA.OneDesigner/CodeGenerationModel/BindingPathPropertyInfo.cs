@@ -1,4 +1,4 @@
-﻿namespace BOA.OneDesigner.CodeGeneration
+﻿namespace BOA.OneDesigner.CodeGenerationModel
 {
     class BindingPathPropertyInfo
     {

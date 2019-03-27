@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.CodeGenerationModel;
 
-namespace BOA.OneDesigner.CodeGeneration
+namespace BOA.OneDesigner.CodeGenerationHelper
 {
     static class JsObjectInfoMultiLineWriter
     {
