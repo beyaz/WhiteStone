@@ -187,6 +187,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var fieldPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.SelectedRowDataBindingPath);
 
+            writerContext.GrabValuesToRequest($"{fieldPath} = this.snaps.{data.SnapName}.getInstance().getSelectedItems()[0];");
+
+
             var dataSourceBindingPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.DataSourceBindingPath);
 
             sb.AppendLine("const request = this.snaps.data.windowRequest;");
