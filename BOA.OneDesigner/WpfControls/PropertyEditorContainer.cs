@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.MainForm;
 using BOA.OneDesigner.PropertyEditors;
 
 namespace BOA.OneDesigner.WpfControls

@@ -15,7 +15,7 @@ namespace BOA.OneDesigner.CodeGeneration
         [TestMethod]
         public void Card360()
         {
-            var excepts = new List<string>();
+            
             using (var database = new DevelopmentDatabase())
             {
                 var screens = database.GetAllScreens();

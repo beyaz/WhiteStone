@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 using MahApps.Metro.Controls;
 using WhiteStone.UI.Container;
@@ -179,7 +178,7 @@ namespace BOA.OneDesigner.PropertyEditors
             return false;
         }
 
-        ComponentEditor LoadUI()
+        void LoadUI()
         {
             var template = @"
 {
@@ -392,8 +391,6 @@ Name:'_resourceCodeTextBox',
             }
 
             OnValueBindingPathChanged();
-
-            return this;
         }
         #endregion
     }

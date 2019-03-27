@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using WhiteStone.Helpers;
 

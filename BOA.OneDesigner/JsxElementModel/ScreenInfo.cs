@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BOA.OneDesigner.AppModel;
 
 namespace BOA.OneDesigner.JsxElementModel
 {

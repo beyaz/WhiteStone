@@ -1,8 +1,6 @@
 ﻿using System.Windows.Controls;
 using BOA.Common.Helpers;
-using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.WpfControls;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.PropertyEditors

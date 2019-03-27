@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
-using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
@@ -77,10 +76,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
 
     public class WriterContext
     {
-        public WriterContext()
-        {
-            
-        }
+        
         public JsObject StateObjectWhenIncomingRequestIsSuccess { get; set; } = new JsObject();
 
         public List<string> BeforeSetStateOnProxyDidResponse { get; set; }

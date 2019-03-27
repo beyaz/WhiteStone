@@ -12,7 +12,7 @@ namespace BOA.OneDesigner.AppModel
 
             if (from.OpenFormWithResourceCode.HasValue())
             {
-                var realResourceCode = @from.OpenFormWithResourceCode.SplitAndClear("-")?.FirstOrDefault();
+                var realResourceCode = from.OpenFormWithResourceCode.SplitAndClear("-")?.FirstOrDefault();
                 if (realResourceCode.HasValue())
                 {
                     from.OpenFormWithResourceCode = realResourceCode;

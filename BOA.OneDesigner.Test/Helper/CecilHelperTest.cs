@@ -47,7 +47,7 @@ namespace BOA.OneDesigner.Helper
         }
 
         [TestMethod]
-        public void Should_evaluate_orhestration_methods()
+        public void Should_evaluate_orchestration_methods()
         {
             var data = CecilHelper.GetRequestIntellisenseData(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.CardTransactionListFormRequest");
 

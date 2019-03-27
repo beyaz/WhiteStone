@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
-using DotNetKit.Windows.Controls;
 using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.WpfControls

@@ -1,5 +1,4 @@
-﻿using BOA.OneDesigner.Helpers;
-using BOA.OneDesigner.PropertyEditors;
+﻿using BOA.OneDesigner.PropertyEditors;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace BOA.OneDesigner.WpfControls
