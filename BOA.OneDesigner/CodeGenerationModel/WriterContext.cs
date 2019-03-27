@@ -58,5 +58,12 @@ namespace BOA.OneDesigner.CodeGenerationModel
             BeforeSetStateOnProxyDidResponse.Add(line);
         }
         #endregion
+
+        public List<string> FillRequestFromUI = new List<string>();
+
+        public void GrabValuesToRequest(string line)
+        {
+            FillRequestFromUI.Add(line);
+        }
     }
 }

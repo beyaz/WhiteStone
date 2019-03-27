@@ -21,7 +21,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 EvaluateInsStateVersion = true
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPathAccountNumber);
-
+            writerContext.GrabValuesToRequest($"{jsBindingPathAccountNumber.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().accountNumber;");
 
             JsBindingPathCalculatorData jsBindingPathAccountSuffix = null;
             var writeAccountSuffix = data.AccountSuffixBindingPath.HasValue();
@@ -32,6 +32,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     EvaluateInsStateVersion = true
                 };
                 JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPathAccountSuffix);
+                writerContext.GrabValuesToRequest($"{jsBindingPathAccountSuffix.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().accountSuffix;");
             }
             
 

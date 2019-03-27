@@ -20,6 +20,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 EvaluateInsStateVersion = true
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+            writerContext.GrabValuesToRequest($"{jsBindingPath.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().value;");
 
             sb.AppendLine($"<BBranchComponent selectedBranchId = {{{jsBindingPath.BindingPathInJsInState}}}");
             sb.PaddingCount++;

@@ -66,6 +66,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsMultiSelect)
             {
+                writerContext.GrabValuesToRequest($"{jsBindingPath.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().value;");
+
                 sb.AppendLine($"value={{{jsBindingPath.BindingPathInJsInState}}}");
                 sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
                 sb.AppendLine("{");
@@ -83,6 +85,9 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
+
+                writerContext.GrabValuesToRequest($"{jsBindingPath.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().value;");
+
                 sb.AppendLine($"value={{[({jsBindingPath.BindingPathInJsInState} || \"\") + \"\"]}}");
                 sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
                 sb.AppendLine("{");

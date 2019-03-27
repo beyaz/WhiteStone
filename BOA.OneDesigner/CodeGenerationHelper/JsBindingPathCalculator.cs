@@ -17,6 +17,9 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
             var bindingPathInJs = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.BindingPathInCSharpInDesigner);
 
+            data.FullBindingPathInJs = bindingPathInJs;
+
+
             var list = bindingPathInJs.SplitAndClear(".");
 
             if (list.Count < 2)

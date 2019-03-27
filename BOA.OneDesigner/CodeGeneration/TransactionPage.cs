@@ -306,6 +306,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, this.snaps.data.windowRequest || {});");
 
+            sb.AppendLine();
+            sb.AppendLine("this.fillRequestFromUI(clonedWindowRequest);");
+
             if (writerContext.HasWorkflow)
             {
                 sb.AppendLine();
@@ -320,6 +323,32 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine();
             sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, orchestrationMethodName);");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
+        }
+
+        static void FillWindowRequest(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
+
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Fills given requests from ui values.");
+                sb.AppendLine("  */");
+            }
+
+            sb.AppendLine("fillRequestFromUI(request: any)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            foreach (var line in writerContext.FillRequestFromUI)
+            {
+                sb.AppendLine(line);
+            }
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -633,6 +662,7 @@ namespace BOA.OneDesigner.CodeGeneration
             ExecuteWindowRequest(writerContext);
             Render(writerContext, jsxModel);
             ProxyDidRespond(writerContext);
+            FillWindowRequest(writerContext);
 
             WriteConstructor(writerContext);
 

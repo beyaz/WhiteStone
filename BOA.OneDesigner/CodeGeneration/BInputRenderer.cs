@@ -38,6 +38,8 @@ namespace BOA.OneDesigner.CodeGeneration
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
 
+            writerContext.GrabValuesToRequest($"{jsBindingPath.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().value;");
+
             var bindingPathPropertyInfo = RenderHelper.GetBindingPathPropertyInfo(writerContext, data.ValueBindingPath);
 
             if (bindingPathPropertyInfo != null)

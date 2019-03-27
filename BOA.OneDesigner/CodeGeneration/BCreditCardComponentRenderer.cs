@@ -38,6 +38,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
             }
 
+            writerContext.GrabValuesToRequest($"{jsBindingPath.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().clearCardNumber;");
+            
+
             sb.PaddingCount--;
             sb.AppendLine("}}");
 

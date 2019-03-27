@@ -25,6 +25,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
         #region Properties
         internal string BindingPathInJs        { get; set; }
         internal string BindingPathInJsInState { get; set; }
+        public string FullBindingPathInJs { get; set; }
         #endregion
     }
 }
