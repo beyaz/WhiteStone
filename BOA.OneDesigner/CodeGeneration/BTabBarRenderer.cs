@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.WpfControls;
 

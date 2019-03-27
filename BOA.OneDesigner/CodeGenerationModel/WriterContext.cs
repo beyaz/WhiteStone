@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
-using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
 
-namespace BOA.OneDesigner.CodeGeneration
+namespace BOA.OneDesigner.CodeGenerationModel
 {
     public class TypeScriptMemberInfo
     {

@@ -1,4 +1,5 @@
 ﻿using BOA.Common.Helpers;
+using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration

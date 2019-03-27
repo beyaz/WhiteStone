@@ -89,13 +89,13 @@
     <Compile Include="CodeGeneration\BCreditCardComponentRenderer.cs" />
     <Compile Include="CodeGeneration\BDataGridRenderer.cs" />
     <Compile Include="CodeGeneration\BDividerRenderer.cs" />
-    <Compile Include="CodeGeneration\BindingPathPropertyInfo.cs" />
+    <Compile Include="CodeGenerationModel\BindingPathPropertyInfo.cs" />
     <Compile Include="CodeGeneration\BInformationTextRenderer.cs" />
     <Compile Include="CodeGeneration\BInputRenderer2.cs" />
     <Compile Include="CodeGeneration\FileNamingHelper.cs" />
     <Compile Include="CodeGeneration\JsBindingPathCalculator.cs" />
     <Compile Include="CodeGeneration\JsObjectInfo.cs" />
-    <Compile Include="CodeGeneration\WriterContext.cs" />
+    <Compile Include="CodeGenerationModel\WriterContext.cs" />
     <Compile Include="Helpers\Error.cs" />
     <Compile Include="AppModel\EventBus.cs" />
     <Compile Include="AppModel\FormType.cs" />
@@ -214,8 +214,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CodeGenerationHelper\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
