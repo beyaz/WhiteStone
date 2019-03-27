@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppModel\Aut_Resource.cs" />
-    <Compile Include="AppModel\Aut_ResourceAction.cs" />
+    <Compile Include="JsxElementModel\Aut_ResourceAction.cs" />
     <Compile Include="AppModel\DragHelper.cs" />
     <Compile Include="AppModel\Extensions.cs" />
     <Compile Include="CodeGeneration\AccountComponentRenderer.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="JsxElementModel\BTabBarPage.cs" />
     <Compile Include="JsxElementModel\LayoutProps.cs" />
     <Compile Include="JsxElementModel\VisitHelper.cs" />
-    <Compile Include="MainForm\ActionButton.cs" />
+    <Compile Include="WpfControls\ActionButton.cs" />
     <Compile Include="PropertyEditors\BComboBoxEditor.cs" />
     <Compile Include="PropertyEditors\ComponentEditor.cs" />
     <Compile Include="PropertyEditors\HorizontalLocationEditor.cs" />
