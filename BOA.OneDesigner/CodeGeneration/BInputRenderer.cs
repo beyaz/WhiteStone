@@ -6,7 +6,7 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-    static class BInputRenderer2
+    static class BInputRenderer
     {
         #region Public Methods
         public static void Write(WriterContext writerContext, ComponentInfo data)

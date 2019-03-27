@@ -95,7 +95,7 @@
     <Compile Include="CodeGeneration\BDividerRenderer.cs" />
     <Compile Include="CodeGenerationModel\BindingPathPropertyInfo.cs" />
     <Compile Include="CodeGeneration\BInformationTextRenderer.cs" />
-    <Compile Include="CodeGeneration\BInputRenderer2.cs" />
+    <Compile Include="CodeGeneration\BInputRenderer.cs" />
     <Compile Include="CodeGenerationHelper\FileNamingHelper.cs" />
     <Compile Include="CodeGenerationHelper\JsBindingPathCalculator.cs" />
     <Compile Include="CodeGenerationHelper\JsObjectInfoMultiLineWriter.cs" />

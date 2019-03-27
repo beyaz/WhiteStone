@@ -223,7 +223,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     {
                         writerContext.Output = new PaddedStringBuilder();
 
-                        BInputRenderer2.Write(writerContext, componentInfo);
+                        BInputRenderer.Write(writerContext, componentInfo);
 
                         subComponents.Add(writerContext.Output.ToString());
 
