@@ -84,6 +84,7 @@
     <Compile Include="CodeGenerationModel\ButtonActionInfo.cs" />
     <Compile Include="CodeGenerationModel\JsObject.cs" />
     <Compile Include="CodeGenerationHelper\JsObjectInfoSingleLineWriter.cs" />
+    <Compile Include="CodeGenerationModel\TypeScriptMemberInfo.cs" />
     <Compile Include="JsxElementModel\Aut_ResourceAction.cs" />
     <Compile Include="AppModel\DragHelper.cs" />
     <Compile Include="AppModel\Extensions.cs" />
