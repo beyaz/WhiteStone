@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BOA.OneDesigner.Helpers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -26,7 +27,7 @@ namespace BOA.OneDesigner.WpfControls
 
             Action act = () => { InsertHelper.Move(items, "3", 0); };
 
-            act.Should().Throw<InvalidOperationException>();
+            act.Should().Throw<BusinessException>();
         }
 
         [TestMethod]

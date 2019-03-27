@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.OneDesigner.MainForm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -58,7 +59,7 @@ namespace BOA.OneDesigner.WpfControls
                     {
                         Controller.Generate(screen);
                     }
-                    catch (Exception e)
+                    catch (BusinessException e)
                     {
                         Console.WriteLine(e);
                     }
