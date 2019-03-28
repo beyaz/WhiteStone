@@ -80,6 +80,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppModel\Aut_Resource.cs" />
+    <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfo.cs" />
+    <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoAccountComponent.cs" />
+    <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoAccountComponentSuffix.cs" />
+    <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoBranchComponent.cs" />
+    <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoComboBox.cs" />
+    <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoCreditCardComponent.cs" />
+    <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoDataGridSelectedValueChangedBindingValue.cs" />
+    <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoInput.cs" />
+    <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoParameterComponent.cs" />
     <Compile Include="CodeGenerationModel\JsBindingPathCalculatorData.cs" />
     <Compile Include="CodeGenerationModel\ButtonActionInfo.cs" />
     <Compile Include="CodeGenerationModel\JsObject.cs" />

@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.CodeGenerationComponentGetValueModels;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
 
-namespace BOA.OneDesigner.CodeGenerationComponentGetValueModels
-{
-    
-
-}
 namespace BOA.OneDesigner.CodeGenerationModel
 {
     public class WriterContext
@@ -69,79 +65,6 @@ namespace BOA.OneDesigner.CodeGenerationModel
         public void GrabValuesToRequest(ComponentGetValueInfo data)
         {
             FillRequestFromUI.Add(data);
-        }
-    }
-
-
-
-    public abstract class ComponentGetValueInfo
-    {
-        public string JsBindingPath { get; set; }
-        public string SnapName      { get; set; }
-
-        public abstract string GetCode();
-    }
-
-    public class ComponentGetValueInfoComboBox:ComponentGetValueInfo
-    {
-        public override string GetCode()
-        {
-            return $"{JsBindingPath} = this.snaps.{SnapName} && this.snaps.{SnapName}.getInstance().getValue().value;";    
-        }
-    }
-
-    public class ComponentGetValueInfoAccountComponent:ComponentGetValueInfo
-    {
-        public override string GetCode()
-        {
-            return $"{JsBindingPath} = this.snaps.{SnapName} && this.snaps.{SnapName}.getInstance().getValue().accountNumber;";    
-        }
-    }
-
-    public class ComponentGetValueInfoAccountComponentSuffix:ComponentGetValueInfo
-    {
-        public override string GetCode()
-        {
-            return $"{JsBindingPath} = this.snaps.{SnapName} && this.snaps.{SnapName}.getInstance().getValue().accountSuffix;";    
-        }
-    }
-    public class ComponentGetValueInfoBranchComponent:ComponentGetValueInfo
-    {
-        public override string GetCode()
-        {
-            return $"{JsBindingPath} = this.snaps.{SnapName} && this.snaps.{SnapName}.getInstance().getValue().value;";    
-        }
-    }
-
-    public class ComponentGetValueInfoCreditCardComponent:ComponentGetValueInfo
-    {
-        public override string GetCode()
-        {
-            return $"{JsBindingPath} = this.snaps.{SnapName} && this.snaps.{SnapName}.getInstance().getValue().clearCardNumber;";    
-        }
-    }
-
-    public class ComponentGetValueInfoInput:ComponentGetValueInfo
-    {
-        public override string GetCode()
-        {
-            return $"{JsBindingPath} = this.snaps.{SnapName} && this.snaps.{SnapName}.getInstance().getValue();";    
-        }
-    }
-
-    public class ComponentGetValueInfoParameterComponent:ComponentGetValueInfo
-    {
-        public override string GetCode()
-        {
-            return $"{JsBindingPath} = this.snaps.{SnapName} && this.snaps.{SnapName}.getInstance().getValue().value;";    
-        }
-    }
-
-    public class ComponentGetValueInfoDataGridSelectedValueChangedBindingValue:ComponentGetValueInfo
-    {
-        public override string GetCode()
-        {
-            return $"{JsBindingPath} = this.snaps.{SnapName} && this.snaps.{SnapName}.getInstance().getSelectedItems()[0];";    
         }
     }
 }
