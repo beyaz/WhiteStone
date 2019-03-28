@@ -364,7 +364,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("{");
                     sb.PaddingCount++;
                     
-                    sb.AppendLine($"const ErrorMessage = \"{data.JsBindingPath} alanı aynı anda componentden değer alamaz.\";");
+                    sb.AppendLine($"const ErrorMessage = \"{data.JsBindingPath} alanı aynı anda birden fazla componentden değer alamaz.\";");
                     sb.AppendLine("BFormManager.showStatusErrorMessage(ErrorMessage,null);");
                     sb.AppendLine("throw ErrorMessage;");
 
