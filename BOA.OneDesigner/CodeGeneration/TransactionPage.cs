@@ -363,7 +363,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 if (sameTarget.Count>1)
                 {
                     sb.AppendLine();
-                    sb.Append($"if ({string.Join(" && ",from x in sameTarget select  "snap."+x.SnapName)})");
+                    sb.AppendLine($"if ({string.Join(" && ",from x in sameTarget select  "snaps."+x.SnapName)})");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
@@ -376,7 +376,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     foreach (var item in sameTarget)
                     {
-                        sb.Append($"else if (snap.{item.SnapName})");
+                        sb.AppendLine($"else if (snaps.{item.SnapName})");
                         sb.AppendLine("{");
                         sb.PaddingCount++;
 

@@ -37,6 +37,30 @@ namespace BOA.OneDesigner.CodeGeneration
         }
 
         [TestMethod]
+        public void Debug()
+        {
+            
+            using (var database = new DevelopmentDatabase())
+            {
+                var screens = database.GetAllScreens();
+
+                screens = screens.Where(x => x.OutputTypeScriptFileName.Contains("custom-sql-editor")).ToList();
+
+                foreach (var screen in screens)
+                {
+                    try
+                    {
+                        Controller.Generate(screen);
+                    }
+                    catch (BusinessException e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
         public void GenerateAll()
         {
             var excepts = new List<string>();
