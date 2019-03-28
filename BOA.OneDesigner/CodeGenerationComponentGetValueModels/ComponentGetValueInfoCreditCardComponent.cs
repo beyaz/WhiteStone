@@ -4,7 +4,7 @@
     {
         public override string GetCode()
         {
-            return $"this.snaps.{SnapName}.getInstance().getValue().clearCardNumber";    
+            return $"snaps.{SnapName}.getInstance().getValue().clearCardNumber";    
         }
     }
 }

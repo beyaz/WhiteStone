@@ -346,24 +346,27 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"const {ComponentGetValueInfo.Map}: any = {{}};");
+            sb.AppendLine("const snaps = this.snaps;");
 
 
+
+            var map = new Dictionary<string,bool>();
 
             foreach (var data in writerContext.FillRequestFromUI)
             {
-                var hasMoreThanOneComponentAssignedToBindingPath = writerContext.FillRequestFromUI.Any(x=>x!=data && x.JsBindingPath == data.JsBindingPath);
-                if (hasMoreThanOneComponentAssignedToBindingPath)
+                if (map.ContainsKey(data.JsBindingPath))
+                {
+                    continue;
+                }
+
+                var sameTarget = writerContext.FillRequestFromUI.Where(x=>x.JsBindingPath == data.JsBindingPath).ToList();
+                if (sameTarget.Count>1)
                 {
                     sb.AppendLine();
-                    sb.AppendLine($"if (this.snaps.{data.SnapName})");
+                    sb.Append($"if ({string.Join(" && ",from x in sameTarget select  "snap."+x.SnapName)})");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    sb.AppendLine($"if ({ComponentGetValueInfo.Map}[\"{data.JsBindingPath}\"])");
-                    sb.AppendLine("{");
-                    sb.PaddingCount++;
-                    
                     sb.AppendLine($"const ErrorMessage = \"{data.JsBindingPath} alanı aynı anda birden fazla componentden değer alamaz.\";");
                     sb.AppendLine("BFormManager.showStatusErrorMessage(ErrorMessage,null);");
                     sb.AppendLine("throw ErrorMessage;");
@@ -371,19 +374,25 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.PaddingCount--;
                     sb.AppendLine("}");
 
-                    sb.AppendLine();
-                    sb.AppendLine($"{ComponentGetValueInfo.Map}[\"{data.JsBindingPath}\"] = true;");
+                    foreach (var item in sameTarget)
+                    {
+                        sb.Append($"else if (snap.{item.SnapName})");
+                        sb.AppendLine("{");
+                        sb.PaddingCount++;
 
-                    sb.AppendLine();
-                    sb.AppendLine($"{data.JsBindingPath} = {data.GetCode()};"); 
+                        sb.AppendLine($"{item.JsBindingPath} = {item.GetCode()};"); 
 
-                    sb.PaddingCount--;
-                    sb.AppendLine("}");
+                        sb.PaddingCount--;
+                        sb.AppendLine("}");
+                    }
+
+                    map[data.JsBindingPath] = true;
+                   
                     continue;
                 }
 
                 sb.AppendLine();
-                sb.AppendLine($"{data.JsBindingPath} = this.snaps.{data.SnapName} && {data.GetCode()};");   
+                sb.AppendLine($"{data.JsBindingPath} = snaps.{data.SnapName} && {data.GetCode()};");   
                 
             }
 

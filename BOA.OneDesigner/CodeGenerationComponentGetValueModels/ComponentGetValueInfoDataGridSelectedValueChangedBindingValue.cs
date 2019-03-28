@@ -4,7 +4,7 @@
     {
         public override string GetCode()
         {
-            return $"this.snaps.{SnapName}.getInstance().getSelectedItems()[0]";    
+            return $"snaps.{SnapName}.getInstance().getSelectedItems()[0]";    
         }
     }
 }
