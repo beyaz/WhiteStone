@@ -4,6 +4,11 @@ using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
 
+namespace BOA.OneDesigner.CodeGenerationComponentGetValueModels
+{
+    
+
+}
 namespace BOA.OneDesigner.CodeGenerationModel
 {
     public class WriterContext
@@ -66,6 +71,8 @@ namespace BOA.OneDesigner.CodeGenerationModel
             FillRequestFromUI.Add(data);
         }
     }
+
+
 
     public abstract class ComponentGetValueInfo
     {
