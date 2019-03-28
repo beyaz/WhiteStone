@@ -347,7 +347,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             foreach (var line in writerContext.FillRequestFromUI)
             {
-                sb.AppendLine(line);
+                sb.AppendLine(line.GetCode());
             }
 
             sb.PaddingCount--;

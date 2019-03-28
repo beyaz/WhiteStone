@@ -20,7 +20,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 EvaluateInsStateVersion = true
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
-            writerContext.GrabValuesToRequest($"{jsBindingPath.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().value;");
+            writerContext.GrabValuesToRequest(new ComponentGetValueInfoParameterComponent { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
 
             sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{jsBindingPath.BindingPathInJsInState}+\"\"}}");
             sb.PaddingCount++;

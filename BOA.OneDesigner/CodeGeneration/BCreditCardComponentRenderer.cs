@@ -38,8 +38,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
             }
 
-            writerContext.GrabValuesToRequest($"{jsBindingPath.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().clearCardNumber;");
-            
+            writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
 
             sb.PaddingCount--;
             sb.AppendLine("}}");

@@ -64,10 +64,14 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine($"<BComboBox  dataSource = {{{dataSourceBindingPath.BindingPathInJs}}}");
             sb.PaddingCount++;
 
+            writerContext.GrabValuesToRequest(new ComponentGetValueInfoComboBox
+            {
+                JsBindingPath = jsBindingPath.FullBindingPathInJs,
+                SnapName      = data.SnapName,
+            });
+
             if (data.IsMultiSelect)
             {
-                writerContext.GrabValuesToRequest($"{jsBindingPath.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().value;");
-
                 sb.AppendLine($"value={{{jsBindingPath.BindingPathInJsInState}}}");
                 sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
                 sb.AppendLine("{");
@@ -85,9 +89,6 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-
-                writerContext.GrabValuesToRequest($"{jsBindingPath.FullBindingPathInJs} = this.snaps.{data.SnapName}.getInstance().getValue().value;");
-
                 sb.AppendLine($"value={{[({jsBindingPath.BindingPathInJsInState} || \"\") + \"\"]}}");
                 sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
                 sb.AppendLine("{");
@@ -171,4 +172,6 @@ namespace BOA.OneDesigner.CodeGeneration
         }
         #endregion
     }
+
+    
 }
