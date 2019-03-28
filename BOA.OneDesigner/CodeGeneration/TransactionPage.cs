@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.CodeGenerationComponentGetValueModels;
 using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.Helpers;
@@ -345,9 +346,45 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            foreach (var line in writerContext.FillRequestFromUI)
+            sb.AppendLine($"const {ComponentGetValueInfo.Map}: any = {{}};");
+
+
+
+            foreach (var data in writerContext.FillRequestFromUI)
             {
-                sb.AppendLine(line.GetCode());
+                var hasMoreThanOneComponentAssignedToBindingPath = writerContext.FillRequestFromUI.Any(x=>x!=data && x.JsBindingPath == data.JsBindingPath);
+                if (hasMoreThanOneComponentAssignedToBindingPath)
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"if (this.snaps.{data.SnapName})");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+
+                    sb.AppendLine($"if ({ComponentGetValueInfo.Map}[\"{data.JsBindingPath}\"])");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    
+                    sb.AppendLine($"const ErrorMessage = \"{data.JsBindingPath} alanı aynı anda componentden değer alamaz.\";");
+                    sb.AppendLine("BFormManager.showStatusErrorMessage(ErrorMessage,null);");
+                    sb.AppendLine("throw ErrorMessage;");
+
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+
+                    sb.AppendLine();
+                    sb.AppendLine($"{ComponentGetValueInfo.Map}[\"{data.JsBindingPath}\"] = true;");
+
+                    sb.AppendLine();
+                    sb.AppendLine($"{data.JsBindingPath} = {data.GetCode()};"); 
+
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                    continue;
+                }
+
+                sb.AppendLine();
+                sb.AppendLine($"{data.JsBindingPath} = this.snaps.{data.SnapName} && {data.GetCode()};");   
+                
             }
 
             sb.PaddingCount--;

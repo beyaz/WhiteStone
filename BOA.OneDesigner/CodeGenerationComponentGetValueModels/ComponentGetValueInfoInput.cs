@@ -4,7 +4,7 @@
     {
         public override string GetCode()
         {
-            return $"{JsBindingPath} = this.snaps.{SnapName} && this.snaps.{SnapName}.getInstance().getValue();";    
+            return $"this.snaps.{SnapName}.getInstance().getValue()";    
         }
     }
 }

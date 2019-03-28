@@ -6,5 +6,9 @@
         public string SnapName      { get; set; }
 
         public abstract string GetCode();
+
+        
+
+        public const string Map = "map";
     }
 }
