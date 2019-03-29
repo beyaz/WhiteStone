@@ -44,7 +44,7 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 var screens = database.GetAllScreens();
 
-                screens = screens.Where(x => x.OutputTypeScriptFileName.Contains("custom-sql-editor")).ToList();
+                screens = screens.Where(x => x.OutputTypeScriptFileName.Contains("DebitParameterForm")).ToList();
 
                 foreach (var screen in screens)
                 {

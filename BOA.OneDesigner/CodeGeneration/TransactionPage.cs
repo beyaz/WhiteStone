@@ -347,10 +347,13 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             sb.AppendLine("const snaps = this.snaps;");
+            
 
 
 
             var map = new Dictionary<string,bool>();
+
+            var sameValuesArrayIsDefined = false;
 
             foreach (var data in writerContext.FillRequestFromUI)
             {
@@ -362,8 +365,37 @@ namespace BOA.OneDesigner.CodeGeneration
                 var sameTarget = writerContext.FillRequestFromUI.Where(x=>x.JsBindingPath == data.JsBindingPath).ToList();
                 if (sameTarget.Count>1)
                 {
+
+                    if (!sameValuesArrayIsDefined)
+                    {
+                        sameValuesArrayIsDefined = true;
+
+                        sb.AppendLine();
+                        sb.AppendLine("const sameValues: number[] = [];");
+                    }
+                    else
+                    {
+                        sb.AppendLine();
+                        sb.AppendLine("sameValues.length = 0;");
+                    }
+
                     sb.AppendLine();
-                    sb.AppendLine($"if ({string.Join(" && ",from x in sameTarget select  "snaps."+x.SnapName)})");
+                    sb.AppendLine($"// #region {data.JsBindingPath}");
+                    
+
+                    foreach (var item in sameTarget)
+                    {
+                        sb.AppendLine($"if (snaps.{item.SnapName})");
+                        sb.AppendLine("{");
+                        sb.PaddingCount++;
+
+                        sb.AppendLine($"{item.JsBindingPath} = {item.GetCode()};"); 
+                        sb.AppendLine("sameValues.push(0);"); 
+                        sb.PaddingCount--;
+                        sb.AppendLine("}");
+                    }
+
+                    sb.AppendLine($"if (sameValues.length > 1)");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
@@ -373,22 +405,14 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     sb.PaddingCount--;
                     sb.AppendLine("}");
-
-                    foreach (var item in sameTarget)
-                    {
-                        sb.AppendLine($"else if (snaps.{item.SnapName})");
-                        sb.AppendLine("{");
-                        sb.PaddingCount++;
-
-                        sb.AppendLine($"{item.JsBindingPath} = {item.GetCode()};"); 
-
-                        sb.PaddingCount--;
-                        sb.AppendLine("}");
-                    }
+                    
+                    sb.AppendLine("// #endregion");
 
                     map[data.JsBindingPath] = true;
-                   
+
                     continue;
+
+                    
                 }
 
                 sb.AppendLine();
