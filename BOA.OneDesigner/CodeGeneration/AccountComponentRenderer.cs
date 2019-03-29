@@ -17,7 +17,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.Imports.Add("import { BAccountComponent } from \"b-account-component\"");
 
-            var jsBindingPathAccountNumber = new JsBindingPathCalculatorData(writerContext, data.ValueBindingPath)
+            var jsBindingPathAccountNumber = new JsBindingPathCalculatorData(data.ValueBindingPath)
             {
                 EvaluateInsStateVersion = true
             };
@@ -34,7 +34,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var writeAccountSuffix = data.AccountSuffixBindingPath.HasValue();
             if (writeAccountSuffix)
             {
-                jsBindingPathAccountSuffix = new JsBindingPathCalculatorData(writerContext, data.AccountSuffixBindingPath)
+                jsBindingPathAccountSuffix = new JsBindingPathCalculatorData(data.AccountSuffixBindingPath)
                 {
                     EvaluateInsStateVersion = true
                 };

@@ -49,7 +49,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 return;
             }
 
-            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.DataSourceBindingPath)
+            var jsBindingPath = new JsBindingPathCalculatorData(data.DataSourceBindingPath)
             {
                 EvaluateInsStateVersion = false
             };

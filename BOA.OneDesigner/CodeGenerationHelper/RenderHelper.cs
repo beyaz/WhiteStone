@@ -115,7 +115,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
             if (data.IsRequestBindingPath)
             {
-                var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.RequestBindingPath)
+                var jsBindingPath = new JsBindingPathCalculatorData(data.RequestBindingPath)
                 {
                     EvaluateInsStateVersion = false
                 };
@@ -287,7 +287,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                 return;
             }
 
-            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, isDisabledBindingPath)
+            var jsBindingPath = new JsBindingPathCalculatorData(isDisabledBindingPath)
             {
                 EvaluateInsStateVersion = false
             };
@@ -304,7 +304,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                 return;
             }
 
-            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, IsVisibleBindingPath)
+            var jsBindingPath = new JsBindingPathCalculatorData(IsVisibleBindingPath)
             {
                 EvaluateInsStateVersion = false
             };

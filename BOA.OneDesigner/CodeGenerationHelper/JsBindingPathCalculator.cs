@@ -12,22 +12,8 @@ namespace BOA.OneDesigner.CodeGenerationHelper
     static class JsBindingPathCalculator
     {
         #region Public Methods
-
-        public static void PushVariablesToRenderScope(this WriterContext writerContext,JsBindingPathCalculatorData data)
-        {
-            foreach (var variable in data.Variables)
-            {
-                if (writerContext.RenderMethodRequestRelatedVariables.Contains(variable) == false)
-                {
-                    writerContext.RenderMethodRequestRelatedVariables.Add(variable);
-                }
-            }
-        }
-
         public static void CalculateBindingPathInRenderMethod(JsBindingPathCalculatorData data)
         {
-           
-
             var bindingPathInJs = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.BindingPathInCSharpInDesigner);
 
             data.FullBindingPathInJs = bindingPathInJs;
@@ -55,9 +41,9 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                 return;
             }
 
-             var variables = new List<string>();
+            var variables = new List<string>();
 
-             data.Variables = variables;
+            data.Variables = variables;
 
             var len = list.Count - 2;
 

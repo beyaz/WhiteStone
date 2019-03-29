@@ -635,7 +635,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("const request = this.snaps.data.windowRequest || {};");
             sb.AppendLine();
             sb.AppendLine("const requestInState = this.state.windowRequest || {};");
-            foreach (var line in writerContext.RenderMethodRequestRelatedVariables)
+            foreach (var line in writerContext.RenderMethodRequestRelatedVariables.Distinct())
             {
                 sb.AppendLine();
                 sb.AppendLine(line);

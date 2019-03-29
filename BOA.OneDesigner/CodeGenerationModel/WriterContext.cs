@@ -9,6 +9,10 @@ namespace BOA.OneDesigner.CodeGenerationModel
 {
     public class WriterContext
     {
+        #region Fields
+        public List<ComponentGetValueInfo> FillRequestFromUI = new List<ComponentGetValueInfo>();
+        #endregion
+
         #region Public Properties
         public Dictionary<string, bool> AllNames { get; set; } = new Dictionary<string, bool>();
 
@@ -28,7 +32,11 @@ namespace BOA.OneDesigner.CodeGenerationModel
         public PaddedStringBuilder      Output                                            { get; set; }
 
         public List<string> Page                                { get; set; }
-        public List<string> RenderMethodRequestRelatedVariables { get; set; } = new List<string>();
+
+
+        readonly   List<string> _renderMethodRequestRelatedVariables = new List<string>();
+
+        public IReadOnlyList<string> RenderMethodRequestRelatedVariables  =>_renderMethodRequestRelatedVariables;
 
         public RequestIntellisenseData RequestIntellisenseData { get; set; }
         public ScreenInfo              ScreenInfo              { get; set; }
@@ -58,13 +66,16 @@ namespace BOA.OneDesigner.CodeGenerationModel
 
             BeforeSetStateOnProxyDidResponse.Add(line);
         }
-        #endregion
-
-        public List<ComponentGetValueInfo> FillRequestFromUI = new List<ComponentGetValueInfo>();
 
         public void GrabValuesToRequest(ComponentGetValueInfo data)
         {
             FillRequestFromUI.Add(data);
         }
+
+        public void PushVariablesToRenderScope(JsBindingPathCalculatorData data)
+        {
+            _renderMethodRequestRelatedVariables.AddRange(data.Variables);
+        }
+        #endregion
     }
 }

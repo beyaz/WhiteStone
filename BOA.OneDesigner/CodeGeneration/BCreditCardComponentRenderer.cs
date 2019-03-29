@@ -18,7 +18,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             SnapNamingHelper.InitSnapName(writerContext, data);
 
-            var jsBindingPath = new JsBindingPathCalculatorData(writerContext, data.ValueBindingPath)
+            var jsBindingPath = new JsBindingPathCalculatorData(data.ValueBindingPath)
             {
                 EvaluateInsStateVersion = true
             };
