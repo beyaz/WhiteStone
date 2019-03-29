@@ -89,7 +89,7 @@
     <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoDataGridSelectedValueChangedBindingValue.cs" />
     <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoInput.cs" />
     <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoParameterComponent.cs" />
-    <Compile Include="CodeGenerationModel\JsBindingPathCalculatorData.cs" />
+    <Compile Include="CodeGenerationModel\JsBindingPathInfo.cs" />
     <Compile Include="CodeGenerationModel\ButtonActionInfo.cs" />
     <Compile Include="CodeGenerationModel\JsObject.cs" />
     <Compile Include="CodeGenerationHelper\JsObjectInfoSingleLineWriter.cs" />

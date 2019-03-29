@@ -16,7 +16,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.Imports.Add("import { BBranchComponent } from \"b-branch-component\"");
 
-            var jsBindingPath = new JsBindingPathCalculatorData(data.ValueBindingPath)
+            var jsBindingPath = new JsBindingPathInfo(data.ValueBindingPath)
             {
                 EvaluateInsStateVersion = true
             };

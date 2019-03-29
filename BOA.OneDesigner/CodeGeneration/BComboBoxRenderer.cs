@@ -37,7 +37,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
             }
 
-            var jsBindingPath = new JsBindingPathCalculatorData(data.SelectedValueBindingPath)
+            var jsBindingPath = new JsBindingPathInfo(data.SelectedValueBindingPath)
             {
                 EvaluateInsStateVersion = true
             };
@@ -57,7 +57,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 throw Error.BindingPathShouldHaveValue(data.Label, nameof(displayMemberPath));
             }
 
-            var dataSourceBindingPath = new JsBindingPathCalculatorData(data.DataGrid.DataSourceBindingPath)
+            var dataSourceBindingPath = new JsBindingPathInfo(data.DataGrid.DataSourceBindingPath)
             {
                 EvaluateInsStateVersion = false
             };

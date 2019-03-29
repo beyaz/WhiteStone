@@ -62,7 +62,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                var activeTabIndexBindingPath = new JsBindingPathCalculatorData(data.ActiveTabIndexBindingPath)
+                var activeTabIndexBindingPath = new JsBindingPathInfo(data.ActiveTabIndexBindingPath)
                 {
                     EvaluateInsStateVersion = true
                 };

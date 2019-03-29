@@ -2,14 +2,14 @@
 
 namespace BOA.OneDesigner.CodeGenerationModel
 {
-    public class JsBindingPathCalculatorData
+    public class JsBindingPathInfo
     {
         #region Constructors
-        public JsBindingPathCalculatorData()
+        public JsBindingPathInfo()
         {
         }
 
-        public JsBindingPathCalculatorData(string bindingPathInCSharpInDesigner)
+        public JsBindingPathInfo(string bindingPathInCSharpInDesigner)
         {
             BindingPathInCSharpInDesigner = bindingPathInCSharpInDesigner;
         }

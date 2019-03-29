@@ -12,7 +12,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
     static class JsBindingPathCalculator
     {
         #region Public Methods
-        public static void CalculateBindingPathInRenderMethod(JsBindingPathCalculatorData data)
+        public static void CalculateBindingPathInRenderMethod(JsBindingPathInfo data)
         {
             var bindingPathInJs = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.BindingPathInCSharpInDesigner);
 

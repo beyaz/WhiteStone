@@ -14,7 +14,7 @@ namespace BOA.OneDesigner.CodeGeneration
         public void Long_binding_paths_should_be_shorten_in_variables_0()
         {
 
-            var jsBindingPath = new JsBindingPathCalculatorData
+            var jsBindingPath = new JsBindingPathInfo
             {
                 BindingPathInCSharpInDesigner       = "dataContract.UserName",
                 EvaluateInsStateVersion             = true
@@ -34,7 +34,7 @@ namespace BOA.OneDesigner.CodeGeneration
         {
            
 
-            var jsBindingPath = new JsBindingPathCalculatorData
+            var jsBindingPath = new JsBindingPathInfo
             {
                 BindingPathInCSharpInDesigner       = "dataContract.User.Info.UserName",
                 EvaluateInsStateVersion             = true

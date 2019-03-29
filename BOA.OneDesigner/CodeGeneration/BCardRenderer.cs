@@ -35,7 +35,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (data.IsVisibleBindingPath.HasValue())
                 {
-                    var jsBindingPath = new JsBindingPathCalculatorData(data.IsVisibleBindingPath)
+                    var jsBindingPath = new JsBindingPathInfo(data.IsVisibleBindingPath)
                     {
                         EvaluateInsStateVersion = false
                     };

@@ -72,7 +72,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
             FillRequestFromUI.Add(data);
         }
 
-        public void PushVariablesToRenderScope(JsBindingPathCalculatorData data)
+        public void PushVariablesToRenderScope(JsBindingPathInfo data)
         {
             _renderMethodRequestRelatedVariables.AddRange(data.Variables);
         }
