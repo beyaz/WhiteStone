@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Controls;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
@@ -11,14 +12,43 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class BTabBarRenderer
     {
+        public static void DefineTabPage(WriterContext writerContext, BTabBarPage tabPage)
+        {
+            writerContext.Imports.Add("import { BPageModule, BPageModuleComposer } from \"b-page-module\";");
+
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"class {tabPage.ClassName} extends BPageModule");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+            sb.AppendLine($"var {tabPage.ComposedName} = BPageModuleComposer({tabPage.ClassName});");
+
+
+
+            writerContext.Page.Add(sb.ToString());
+        }
         #region Public Methods
         public static void Write(WriterContext writerContext, BTabBar data)
         {
             var sb = writerContext.Output;
 
+            foreach (var tabPage in data.Items)
+            {
+                DefineTabPage(writerContext,tabPage);
+            }
+
+
             SnapNamingHelper.InitSnapName(writerContext, data);
 
-            writerContext.Imports.Add("import { BTabBar } from \"b-tab-bar\";");
+
+
+            writerContext.Imports.Add("import { BTabBar } from \"b-tab-bar\";");// TODO gerek olmayabilir.
+            
 
             sb.AppendLine("<BTabBar context={context}");
             sb.PaddingCount++;

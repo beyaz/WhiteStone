@@ -1,5 +1,6 @@
 ﻿using System;
 using BOA.OneDesigner.Helpers;
+using WhiteStone.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -24,6 +25,9 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets the title.
         /// </summary>
         public string Title => TitleInfo.GetDesignerText();
+
+        public string ClassName => Title.Replace(" ", "_").ToString(GlobalizationUtility.EnglishCulture) + "_PageModule";
+        public string ComposedName => Title.Replace(" ", "_").ToString(GlobalizationUtility.EnglishCulture) + "_Tab";
 
         /// <summary>
         ///     Gets or sets the title information.
