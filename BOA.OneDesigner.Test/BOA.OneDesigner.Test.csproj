@@ -107,6 +107,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGeneration\BindingPathHelperTest.cs" />
     <Compile Include="WpfControls\BDataGridInfoWpfTest.cs" />
     <Compile Include="CodeGeneration\BDataGridRendererTest.cs" />
     <Compile Include="WpfControls\BTabBarWpfTest.cs" />

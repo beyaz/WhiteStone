@@ -9,6 +9,10 @@ namespace BOA.OneDesigner.CodeGeneration
     [TestClass]
     public class RenderHelperTest
     {
+
+       
+
+
         #region Public Methods
         [TestMethod]
         public void Long_binding_paths_should_be_shorten_in_variables_0()
