@@ -13,15 +13,15 @@ namespace BOA.OneDesigner.CodeGeneration
         [TestMethod]
         public void Long_binding_paths_should_be_shorten_in_variables_0()
         {
-            var variables = new List<string>();
 
             var jsBindingPath = new JsBindingPathCalculatorData
             {
-                RenderMethodRequestRelatedVariables = variables,
                 BindingPathInCSharpInDesigner       = "dataContract.UserName",
                 EvaluateInsStateVersion             = true
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+
+            var variables = jsBindingPath.Variables;
 
             jsBindingPath.BindingPathInJs.Should().Be("dataContract.userName");
 
@@ -32,15 +32,16 @@ namespace BOA.OneDesigner.CodeGeneration
         [TestMethod]
         public void Long_binding_paths_should_be_shorten_in_variables_1()
         {
-            var variables = new List<string>();
+           
 
             var jsBindingPath = new JsBindingPathCalculatorData
             {
-                RenderMethodRequestRelatedVariables = variables,
                 BindingPathInCSharpInDesigner       = "dataContract.User.Info.UserName",
                 EvaluateInsStateVersion             = true
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+
+            var variables = jsBindingPath.Variables;
 
             jsBindingPath.BindingPathInJs.Should().Be("info.userName");
 

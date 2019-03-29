@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.CodeGenerationModel;
@@ -11,9 +12,21 @@ namespace BOA.OneDesigner.CodeGenerationHelper
     static class JsBindingPathCalculator
     {
         #region Public Methods
+
+        public static void PushVariablesToRenderScope(this WriterContext writerContext,JsBindingPathCalculatorData data)
+        {
+            foreach (var variable in data.Variables)
+            {
+                if (writerContext.RenderMethodRequestRelatedVariables.Contains(variable) == false)
+                {
+                    writerContext.RenderMethodRequestRelatedVariables.Add(variable);
+                }
+            }
+        }
+
         public static void CalculateBindingPathInRenderMethod(JsBindingPathCalculatorData data)
         {
-            var variables = data.RenderMethodRequestRelatedVariables;
+           
 
             var bindingPathInJs = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.BindingPathInCSharpInDesigner);
 
@@ -41,6 +54,10 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
                 return;
             }
+
+             var variables = new List<string>();
+
+             data.Variables = variables;
 
             var len = list.Count - 2;
 

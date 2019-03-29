@@ -54,6 +54,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 EvaluateInsStateVersion = false
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+            writerContext.PushVariablesToRenderScope(jsBindingPath);
 
             writerContext.Imports.Add("import { BDataGrid } from \"b-data-grid-dx\"");
 
@@ -117,7 +118,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 {
                     if (propertyInfo.IsDecimal || propertyInfo.IsDecimalNullable)
                     {
-                        jsObject.Add("type", "\"number\"");
+                        jsObject.Add("type", "\"decimal\"");
                         jsObject.Add("numberFormat", "\"M\"");
                     }
                     else if (propertyInfo.IsNumber)
@@ -190,14 +191,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValue { JsBindingPath = fieldPath,SnapName = data.SnapName});
-
-
-            var dataSourceBindingPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.DataSourceBindingPath);
-
-            sb.AppendLine("const request = this.snaps.data.windowRequest;");
-            sb.AppendLine();
-            sb.AppendLine(fieldPath + $" = ({dataSourceBindingPath} as any[]).find(x => x.isSelected);");
-            sb.AppendLine();
+           
             sb.AppendLine($"this.executeWindowRequest(\"{data.RowSelectionChangedOrchestrationMethod}\");");
 
             sb.PaddingCount--;

@@ -42,6 +42,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 EvaluateInsStateVersion = true
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+            writerContext.PushVariablesToRenderScope(jsBindingPath);
 
             var valueMemberPath   = TypescriptNaming.NormalizeBindingPath(data.ValueMemberPath);
             var displayMemberPath = TypescriptNaming.NormalizeBindingPath(data.DisplayMemberPath);
@@ -61,6 +62,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 EvaluateInsStateVersion = false
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(dataSourceBindingPath);
+            writerContext.PushVariablesToRenderScope(dataSourceBindingPath);
 
             sb.AppendLine($"<BComboBox  dataSource = {{{dataSourceBindingPath.BindingPathInJs}}}");
             sb.PaddingCount++;

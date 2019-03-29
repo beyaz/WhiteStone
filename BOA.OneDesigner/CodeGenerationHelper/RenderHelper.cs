@@ -120,6 +120,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                     EvaluateInsStateVersion = false
                 };
                 JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+                writerContext.PushVariablesToRenderScope(jsBindingPath);
 
                 var propertyInfo = GetBindingPathPropertyInfo(writerContext, data.RequestBindingPath);
                 if (propertyInfo == null)
@@ -291,6 +292,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                 EvaluateInsStateVersion = false
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+            writerContext.PushVariablesToRenderScope(jsBindingPath);
 
             sb.AppendLine($"disabled = {{{jsBindingPath.BindingPathInJs}}}");
         }
@@ -307,6 +309,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                 EvaluateInsStateVersion = false
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+            writerContext.PushVariablesToRenderScope(jsBindingPath);
 
             sb.AppendLine($"isVisible = {{{jsBindingPath.BindingPathInJs}}}");
         }

@@ -40,6 +40,7 @@ namespace BOA.OneDesigner.CodeGeneration
                         EvaluateInsStateVersion = false
                     };
                     JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+                    writerContext.PushVariablesToRenderScope(jsBindingPath);
 
                     sb.Append(" style={{ display: " + jsBindingPath.BindingPathInJs + " ? 'inherit' : 'none' }} ");
                 }

@@ -67,6 +67,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     EvaluateInsStateVersion = true
                 };
                 JsBindingPathCalculator.CalculateBindingPathInRenderMethod(activeTabIndexBindingPath);
+                writerContext.PushVariablesToRenderScope(activeTabIndexBindingPath);
 
                 sb.AppendLine("value={" + activeTabIndexBindingPath.BindingPathInJsInState + "}");
                 sb.AppendLine($"onChange = {{(e: any, value: number) => {activeTabIndexBindingPath.BindingPathInJs} = value}}");

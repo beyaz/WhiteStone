@@ -11,7 +11,6 @@ namespace BOA.OneDesigner.CodeGenerationModel
 
         public JsBindingPathCalculatorData(WriterContext writerContext, string bindingPathInCSharpInDesigner)
         {
-            RenderMethodRequestRelatedVariables = writerContext.RenderMethodRequestRelatedVariables;
             BindingPathInCSharpInDesigner       = bindingPathInCSharpInDesigner;
         }
         #endregion
@@ -20,6 +19,8 @@ namespace BOA.OneDesigner.CodeGenerationModel
         public string       BindingPathInCSharpInDesigner       { get; set; }
         public bool         EvaluateInsStateVersion             { get; set; }
         public List<string> RenderMethodRequestRelatedVariables { get; set; }
+
+        public IReadOnlyList<string> Variables { get; set; }
         #endregion
 
         #region Properties

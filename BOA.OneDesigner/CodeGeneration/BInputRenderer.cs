@@ -38,6 +38,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 EvaluateInsStateVersion = true
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+            writerContext.PushVariablesToRenderScope(jsBindingPath);
 
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
 
@@ -108,7 +109,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.PaddingCount++;
 
                 // sb.AppendLine($"onChange = {{(e: any, value: number) => {jsBindingPath.BindingPathInJs} = value}}");
-                sb.AppendLine("format = {\"D\"}");
+                sb.AppendLine("format = {\"M\"}");
+                sb.AppendLine("type = {\"decimal\"}");
                 sb.AppendLine("maxLength = {22}");
             }
             else if (isBoolean)

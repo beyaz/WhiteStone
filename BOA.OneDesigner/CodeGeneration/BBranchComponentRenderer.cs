@@ -21,6 +21,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 EvaluateInsStateVersion = true
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+            writerContext.PushVariablesToRenderScope(jsBindingPath);
 
             
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoBranchComponent { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
