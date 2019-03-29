@@ -7,6 +7,7 @@ namespace BOA.OneDesigner.CodeGeneration
     [TestClass]
     public class BindingPathHelperTest
     {
+        #region Public Methods
         [TestMethod]
         public void WindowRequestDefaultCreationAccordingToBindingPaths()
         {
@@ -16,11 +17,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 "DataContract.User.NameInfo2.Name"
             };
             var value = BindingPathHelper.EvaluateWindowRequestDefaultCreationInRenderFunction(input);
-            value.Should().Be("{ dataContract: { user: { nameInfo: {}, nameInfo2: {} } } }");
-
-
-
-
+            value.Should().BeEquivalentTo("{ dataContract: { user: { nameInfo: {}, nameInfo2: {} } } }");
         }
+        #endregion
     }
 }
