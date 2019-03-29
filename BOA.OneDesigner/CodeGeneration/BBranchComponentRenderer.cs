@@ -28,7 +28,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine($"<BBranchComponent selectedBranchId = {{{jsBindingPath.BindingPathInJsInState}}}");
             sb.PaddingCount++;
 
-            sb.AppendLine($"onBranchSelect = {{(selectedBranch: BOA.Common.Types.BranchContract) => {jsBindingPath.BindingPathInJs} = selectedBranch ? selectedBranch.branchId : null}}");
+            // sb.AppendLine($"onBranchSelect = {{(selectedBranch: BOA.Common.Types.BranchContract) => {jsBindingPath.BindingPathInJs} = selectedBranch ? selectedBranch.branchId : null}}");
             sb.AppendLine("mode = {\"horizontal\"}");
             sb.AppendLine("sortOption = {BBranchComponent.name}");
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");

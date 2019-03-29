@@ -74,47 +74,33 @@ namespace BOA.OneDesigner.CodeGeneration
             if (data.IsMultiSelect)
             {
                 sb.AppendLine($"value={{{jsBindingPath.BindingPathInJsInState}}}");
-                sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine($"{jsBindingPath.BindingPathInJs} = selectedValues;");
 
                 if (data.ValueChangedOrchestrationMethod.HasValue())
                 {
-                    sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
-                }
+                    sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
 
-                sb.PaddingCount--;
-                sb.AppendLine("}}");
+                    sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+
+                    sb.PaddingCount--;
+                    sb.AppendLine("}}");
+                }
             }
             else
             {
                 sb.AppendLine($"value={{[({jsBindingPath.BindingPathInJsInState} || \"\") + \"\"]}}");
-                sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine("if (selectedItems && selectedItems.length === 1)");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                sb.AppendLine($"{jsBindingPath.BindingPathInJs} = selectedItems[0].{valueMemberPath};");
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                sb.AppendLine("else");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                sb.AppendLine($"{jsBindingPath.BindingPathInJs} = null;");
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-
                 if (data.ValueChangedOrchestrationMethod.HasValue())
                 {
-                    sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
-                }
+                    sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
 
-                sb.PaddingCount--;
-                sb.AppendLine("}}");
+                    sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+
+                    sb.PaddingCount--;
+                    sb.AppendLine("}}");
+                }
             }
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");

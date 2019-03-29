@@ -53,40 +53,15 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("onAccountSelect = {(selectedAccount: any) =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine($"{jsBindingPathAccountNumber.BindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null;");
-                if (writeAccountSuffix)
-                {
-                    sb.AppendLine($"{jsBindingPathAccountSuffix.BindingPathInJs} = selectedAccount ? selectedAccount.accountSuffix : null;");    
-                }
                 sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
                 sb.PaddingCount--;
                 sb.AppendLine("}}");
-            }
-            else
-            {
-                if (writeAccountSuffix)
-                {
-                    sb.AppendLine("onAccountSelect = {(selectedAccount: any) =>");
-                    sb.AppendLine("{");
-                    sb.PaddingCount++;
-                    sb.AppendLine($"{jsBindingPathAccountNumber.BindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null;");
-                    sb.AppendLine($"{jsBindingPathAccountSuffix.BindingPathInJs} = selectedAccount ? selectedAccount.accountSuffix : null;");    
-                    sb.PaddingCount--;
-                    sb.AppendLine("}}");
-                }
-                else
-                {
-                    sb.AppendLine($"onAccountSelect = {{(selectedAccount: any) => {jsBindingPathAccountNumber.BindingPathInJs} = selectedAccount ? selectedAccount.accountNumber : null}}");    
-                }
-
-                
             }
 
             sb.AppendLine("isVisibleBalance={false}");
 
             if (writeAccountSuffix)
             {
-
                 sb.AppendLine($"accountSuffix={{{jsBindingPathAccountSuffix.BindingPathInJsInState}}}");
             }
             else

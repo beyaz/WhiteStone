@@ -23,26 +23,23 @@ namespace BOA.OneDesigner.CodeGeneration
                 EvaluateInsStateVersion = true
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+            writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent {JsBindingPath = jsBindingPath.FullBindingPathInJs, SnapName = data.SnapName});
 
             sb.AppendLine("<BCreditCardComponent");
             sb.PaddingCount++;
 
             sb.AppendLine($"clearCardNumber={{{jsBindingPath.BindingPathInJsInState}}}");
-            sb.AppendLine("onCardSelect={(clearCardNumber: string) =>");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine($"{jsBindingPath.BindingPathInJs} = clearCardNumber;");
-
             if (data.ValueChangedOrchestrationMethod.HasValue())
             {
+                sb.AppendLine("onCardSelect={(clearCardNumber: string) =>");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
                 sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}}");
             }
-
-            writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
-
-            sb.PaddingCount--;
-            sb.AppendLine("}}");
 
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");

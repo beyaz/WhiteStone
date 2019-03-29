@@ -73,7 +73,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"<{tag} value = {{{jsBindingPath.BindingPathInJsInState} || \"\"}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: string) => {jsBindingPath.BindingPathInJs} = value}}");
+                // sb.AppendLine($"onChange = {{(e: any, value: string) => {jsBindingPath.BindingPathInJs} = value}}");
 
                 if (data.Mask.HasValue())
                 {
@@ -107,7 +107,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: number) => {jsBindingPath.BindingPathInJs} = value}}");
+                // sb.AppendLine($"onChange = {{(e: any, value: number) => {jsBindingPath.BindingPathInJs} = value}}");
                 sb.AppendLine("format = {\"D\"}");
                 sb.AppendLine("maxLength = {22}");
             }
@@ -124,16 +124,10 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    sb.AppendLine($"{jsBindingPath.BindingPathInJs} = value;");
-
                     sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
 
                     sb.PaddingCount--;
                     sb.AppendLine("}}");
-                }
-                else
-                {
-                    sb.AppendLine($"onCheck = {{(e: any, value: boolean) => {jsBindingPath.BindingPathInJs} = value}}");
                 }
             }
             else if (isDateTime)
@@ -143,7 +137,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"<BDateTimePicker value = {{{jsBindingPath.BindingPathInJsInState}}}");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"dateOnChange = {{(e: any, value: Date) => {jsBindingPath.BindingPathInJs} = value}}");
+                // sb.AppendLine($"dateOnChange = {{(e: any, value: Date) => {jsBindingPath.BindingPathInJs} = value}}");
                 sb.AppendLine("format = \"DDMMYYYY\"");
             }
             else
@@ -161,7 +155,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.PaddingCount++;
 
-                sb.AppendLine($"onChange = {{(e: any, value: number) => {jsBindingPath.BindingPathInJs} = value}}");
+                // sb.AppendLine($"onChange = {{(e: any, value: number) => {jsBindingPath.BindingPathInJs} = value}}");
                 sb.AppendLine("maxLength = {10}");
             }
 
