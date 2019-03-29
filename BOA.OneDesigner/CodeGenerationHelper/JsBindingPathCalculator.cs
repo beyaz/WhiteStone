@@ -19,7 +19,6 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
             data.FullBindingPathInJs = bindingPathInJs;
 
-
             var list = bindingPathInJs.SplitAndClear(".");
 
             if (list.Count < 2)
@@ -29,8 +28,6 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
             if (list.Count == 2)
             {
-                
-
                 data.BindingPathInJs = bindingPathInJs;
 
                 if (data.EvaluateInsStateVersion)
