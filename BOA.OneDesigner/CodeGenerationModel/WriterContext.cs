@@ -34,9 +34,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
         public List<string> Page                                { get; set; }
 
 
-        readonly   List<string> _renderMethodRequestRelatedVariables = new List<string>();
 
-        public IReadOnlyList<string> RenderMethodRequestRelatedVariables  =>_renderMethodRequestRelatedVariables;
 
         public RequestIntellisenseData RequestIntellisenseData { get; set; }
         public ScreenInfo              ScreenInfo              { get; set; }
@@ -79,8 +77,6 @@ namespace BOA.OneDesigner.CodeGenerationModel
         public void PushVariablesToRenderScope(JsBindingPathInfo data)
         {
             _usedBindingPathInRenderMethod.Add(data);
-
-            _renderMethodRequestRelatedVariables.AddRange(data.Variables);
         }
         #endregion
     }
