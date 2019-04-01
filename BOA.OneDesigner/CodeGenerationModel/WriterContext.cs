@@ -11,13 +11,14 @@ namespace BOA.OneDesigner.CodeGenerationModel
     {
 
         readonly List<TypeScriptMemberInfo> _classBody = new List<TypeScriptMemberInfo>();
+        readonly List<ComponentGetValueInfo> _fillRequestFromUI = new List<ComponentGetValueInfo>();
 
         public WriterContext()
         {
             
         }
         #region Fields
-        public List<ComponentGetValueInfo> FillRequestFromUI = new List<ComponentGetValueInfo>();
+        public IReadOnlyList<ComponentGetValueInfo> FillRequestFromUI => _fillRequestFromUI;
         #endregion
 
         #region Public Properties
@@ -76,7 +77,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
 
         public void GrabValuesToRequest(ComponentGetValueInfo data)
         {
-            FillRequestFromUI.Add(data);
+            _fillRequestFromUI.Add(data);
         }
 
         readonly List<JsBindingPathInfo> _usedBindingPathInRenderMethod = new List<JsBindingPathInfo>();
