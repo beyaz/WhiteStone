@@ -9,53 +9,38 @@ namespace BOA.OneDesigner.CodeGenerationModel
 {
     public class WriterContext
     {
-
-        readonly List<TypeScriptMemberInfo> _classBody = new List<TypeScriptMemberInfo>();
-        readonly List<ComponentGetValueInfo> _fillRequestFromUI = new List<ComponentGetValueInfo>();
-        readonly Dictionary<string, bool> _usedNames  = new Dictionary<string, bool>();
-
-        public bool ContainsUsedName(string name)
-        {
-            return _usedNames.ContainsKey(name);
-        }
-
-        public void PushUsedName(string name)
-        {
-            _usedNames[name] = true;
-        }
-
-        public WriterContext()
-        {
-            
-        }
-
         #region Fields
-        public IReadOnlyList<ComponentGetValueInfo> FillRequestFromUI => _fillRequestFromUI;
+        public readonly List<string> ConstructorBody = new List<string>();
+
+        public readonly List<string> Imports = new List<string>();
+
+        public readonly List<string> Page = new List<string>();
+
+        readonly List<TypeScriptMemberInfo>  _classBody         = new List<TypeScriptMemberInfo>();
+        readonly List<ComponentGetValueInfo> _fillRequestFromUI = new List<ComponentGetValueInfo>();
+
+        readonly List<JsBindingPathInfo>  _usedBindingPathInRenderMethod = new List<JsBindingPathInfo>();
+        readonly Dictionary<string, bool> _usedNames                     = new Dictionary<string, bool>();
+        #endregion
+
+        #region Constructors
         #endregion
 
         #region Public Properties
-        
+        public List<string>                        BeforeSetStateOnProxyDidResponse { get; set; }
+        public bool                                CanWriteEvaluateActions          { get; set; }
+        public IReadOnlyList<TypeScriptMemberInfo> ClassBody                        => _classBody;
 
+        public string                               ClassName                                         { get; set; }
+        public string                               DataContractAccessPathInWindowRequest             { get; set; }
+        public bool                                 DataContractAccessPathInWindowRequestIsCalculated { get; set; }
+        public List<Aut_ResourceAction>             EvaluatedActions                                  { get; set; }
+        public IReadOnlyList<ComponentGetValueInfo> FillRequestFromUI                                 => _fillRequestFromUI;
+        public bool                                 HandleProxyDidRespondCallback                     { get; set; }
+        public bool                                 HasWorkflow                                       { get; set; }
 
-        public List<string>               BeforeSetStateOnProxyDidResponse { get; set; }
-        public bool                       CanWriteEvaluateActions          { get; set; }
-        public IReadOnlyList<TypeScriptMemberInfo> ClassBody => _classBody;
-
-        public string                   ClassName                                         { get; set; }
-        public List<string>             ConstructorBody                                   { get; set; }
-        public string                   DataContractAccessPathInWindowRequest             { get; set; }
-        public bool                     DataContractAccessPathInWindowRequestIsCalculated { get; set; }
-        public List<Aut_ResourceAction> EvaluatedActions                                  { get; set; }
-        public bool                     HandleProxyDidRespondCallback                     { get; set; }
-        public bool                     HasWorkflow                                       { get; set; }
-        public List<string>             Imports                                           { get; set; }
-        public bool                     IsBrowsePage                                      { get; set; }
-        public PaddedStringBuilder      Output                                            { get; set; }
-
-        public List<string> Page                                { get; set; }
-
-
-
+        public bool                IsBrowsePage { get; set; }
+        public PaddedStringBuilder Output       { get; set; }
 
         public RequestIntellisenseData RequestIntellisenseData { get; set; }
         public ScreenInfo              ScreenInfo              { get; set; }
@@ -63,6 +48,8 @@ namespace BOA.OneDesigner.CodeGenerationModel
 
         public JsObject StateObjectWhenIncomingRequestIsSuccess { get; set; } = new JsObject();
         public bool     ThrowExceptionOnEmptyActionDefinition   { get; set; }
+
+        public IReadOnlyList<JsBindingPathInfo> UsedBindingPathInRenderMethod => _usedBindingPathInRenderMethod;
         #endregion
 
         #region Public Methods
@@ -88,14 +75,20 @@ namespace BOA.OneDesigner.CodeGenerationModel
             BeforeSetStateOnProxyDidResponse.Add(line);
         }
 
+        public bool ContainsUsedName(string name)
+        {
+            return _usedNames.ContainsKey(name);
+        }
+
         public void GrabValuesToRequest(ComponentGetValueInfo data)
         {
             _fillRequestFromUI.Add(data);
         }
 
-        readonly List<JsBindingPathInfo> _usedBindingPathInRenderMethod = new List<JsBindingPathInfo>();
-
-        public IReadOnlyList<JsBindingPathInfo> UsedBindingPathInRenderMethod => _usedBindingPathInRenderMethod;
+        public void PushUsedName(string name)
+        {
+            _usedNames[name] = true;
+        }
 
         public void PushVariablesToRenderScope(JsBindingPathInfo data)
         {

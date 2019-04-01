@@ -25,16 +25,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var writerContext = new WriterContext
             {
-                ConstructorBody = new List<string>(),
-                Page            = new List<string>(),
-                Imports = new List<string>
-                {
-                    "// One Designer Generated Code. Please do not edit manual.",
-                    "import * as React from \"react\"",
-                    "import { BFormManager } from \"b-form-manager\"",
-                    "import { getMessage } from \"b-framework\"",
-                    "import { ComponentSize } from \"b-component\""
-                },
                 ClassName    = className,
                 HasWorkflow  = hasWorkflow,
                 ScreenInfo   = screenInfo,
@@ -42,6 +32,15 @@ namespace BOA.OneDesigner.CodeGeneration
                 SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName),
                 ThrowExceptionOnEmptyActionDefinition = false
             };
+
+            writerContext.Imports.AddRange(new List<string>
+            {
+                "// One Designer Generated Code. Please do not edit manual.",
+                "import * as React from \"react\"",
+                "import { BFormManager } from \"b-form-manager\"",
+                "import { getMessage } from \"b-framework\"",
+                "import { ComponentSize } from \"b-component\""
+            });
 
             if (isBrowseForm)
             {
