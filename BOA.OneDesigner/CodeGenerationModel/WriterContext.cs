@@ -50,6 +50,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
         public bool     ThrowExceptionOnEmptyActionDefinition   { get; set; }
 
         public IReadOnlyList<JsBindingPathInfo> UsedBindingPathInRenderMethod => _usedBindingPathInRenderMethod;
+        public bool HasTabControl { get; set; }
         #endregion
 
         #region Public Methods
