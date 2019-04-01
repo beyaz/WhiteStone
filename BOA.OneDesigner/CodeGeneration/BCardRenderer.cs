@@ -17,6 +17,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var doNotWriteTag = data.IsBrowsePageDataGridContainer || data.IsBrowsePageCriteria;
 
+            var hasOnlyTabControl = data.Items.Count == 1 && data.Items[0] is BTabBar;
+
             if (doNotWriteTag == false)
             {
                 writerContext.Imports.Add("import { BCard } from \"b-card\"");
@@ -52,8 +54,14 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.Append(" layoutProps = {{w:" + data.LayoutProps.Wide + ", x:" + data.LayoutProps.X + "}}");
                 }
 
-                sb.Append(">");
+
+                if (!hasOnlyTabControl)
+                {
+                    sb.Append(">");
+                }
+
                 sb.Append(Environment.NewLine);
+                
 
                 sb.PaddingCount++;
             }
@@ -252,7 +260,14 @@ namespace BOA.OneDesigner.CodeGeneration
             if (doNotWriteTag == false)
             {
                 sb.PaddingCount--;
-                sb.AppendLine("</BCard>");
+                if ( hasOnlyTabControl)
+                {
+                    sb.AppendLine(" />");
+                }
+                else
+                {
+                    sb.AppendLine("</BCard>");
+                }
             }
         }
         #endregion

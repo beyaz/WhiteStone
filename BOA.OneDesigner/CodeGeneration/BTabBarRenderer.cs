@@ -23,6 +23,23 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
 
+            sb.AppendLine("constructor(props: any)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("super(props);");
+            sb.AppendLine("this.state.pageInstance.onProxyDidRespond.push(this);");
+            sb.AppendLine("this.state.pageInstance.onFillRequestFromUI.push(this);");
+            
+
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            
+
+
+            sb.AppendLine();
             sb.AppendLine("render()");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -60,6 +77,8 @@ namespace BOA.OneDesigner.CodeGeneration
         #region Public Methods
         public static void Write(WriterContext writerContext, BTabBar data)
         {
+            writerContext.HasTabControl = true;
+
             var sb = writerContext.Output;
 
             foreach (var tabPage in data.Items)
@@ -72,33 +91,33 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
 
-            writerContext.Imports.Add("import { BTabBar } from \"b-tab-bar\";");// TODO gerek olmayabilir.
+            // writerContext.Imports.Add("import { BTabBar } from \"b-tab-bar\";");// TODO gerek olmayabilir.
             
 
-            sb.AppendLine("<BTabBar context={context}");
-            sb.PaddingCount++;
+            //sb.AppendLine("<BTabBar context={context}");
+            //sb.PaddingCount++;
 
-            sb.AppendLine("mode='secondary'");
+            //sb.AppendLine("mode='secondary'");
 
-            if (string.IsNullOrWhiteSpace(data.ActiveTabIndexBindingPath))
-            {
-                sb.AppendLine("value={this.state.activeTab}");
-                sb.AppendLine("onChange={(event, value) => { this.setState( { activeTab: value} ); }}");
-            }
-            else
-            {
-                var activeTabIndexBindingPath = new JsBindingPathInfo(data.ActiveTabIndexBindingPath)
-                {
-                    EvaluateInsStateVersion = true
-                };
-                JsBindingPathCalculator.CalculateBindingPathInRenderMethod(activeTabIndexBindingPath);
-                writerContext.PushVariablesToRenderScope(activeTabIndexBindingPath);
+            //if (string.IsNullOrWhiteSpace(data.ActiveTabIndexBindingPath))
+            //{
+            //    sb.AppendLine("value={this.state.activeTab}");
+            //    sb.AppendLine("onChange={(event, value) => { this.setState( { activeTab: value} ); }}");
+            //}
+            //else
+            //{
+            //    var activeTabIndexBindingPath = new JsBindingPathInfo(data.ActiveTabIndexBindingPath)
+            //    {
+            //        EvaluateInsStateVersion = true
+            //    };
+            //    JsBindingPathCalculator.CalculateBindingPathInRenderMethod(activeTabIndexBindingPath);
+            //    writerContext.PushVariablesToRenderScope(activeTabIndexBindingPath);
 
-                sb.AppendLine("value={" + activeTabIndexBindingPath.FullBindingPathInJs + "}");
-                sb.AppendLine($"onChange = {{(e: any, value: number) => {activeTabIndexBindingPath.FullBindingPathInJs} = value}}");
-            }
+            //    sb.AppendLine("value={" + activeTabIndexBindingPath.FullBindingPathInJs + "}");
+            //    sb.AppendLine($"onChange = {{(e: any, value: number) => {activeTabIndexBindingPath.FullBindingPathInJs} = value}}");
+            //}
 
-            RenderHelper.WriteSize(data.SizeInfo,sb.AppendLine);
+            //RenderHelper.WriteSize(data.SizeInfo,sb.AppendLine);
 
             sb.AppendLine("tabItems = {[");
 
@@ -120,52 +139,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("content : (");
 
                 #region Content
-                var divAsCardContainerWpf = new DivAsCardContainerWpf
-                {
-                    DataContext = bTabBarPage.DivAsCardContainer,
-                    Host        = new Host()
-                };
-                divAsCardContainerWpf.Refresh();
 
-                sb.AppendLine("<div>");
-                sb.PaddingCount++;
+                sb.AppendLine("<"+bTabBarPage.ComposedName + " pageInstance={this} ref={(r: any) => this.snaps."+bTabBarPage.ComposedName+" = r} />" );
 
-                var rowIndex = 0;
-                foreach (var dummy in divAsCardContainerWpf.RowDefinitions)
-                {
-                    sb.AppendLine("<div style={{flexWrap:'wrap',display:'flex'}}>");
-                    sb.PaddingCount++;
-
-                    var elementsInRow = divAsCardContainerWpf.Children.ToArray().Where(x => (int) x.GetValue(Grid.RowProperty) == rowIndex).ToList();
-                    foreach (var uiElement in elementsInRow)
-                    {
-                        var bCardWpf = (BCardWpf) uiElement;
-
-                        var columnSpan = (int) bCardWpf.GetValue(Grid.ColumnSpanProperty);
-
-                        var width = columnSpan / 12M * 100M;
-
-                        width = Math.Round(width, 3);
-
-                        var bCard = bCardWpf.Model;
-
-                        sb.AppendLine("<div style={{ width: '" + width + "%', padding: '15px' }}>");
-
-                        sb.PaddingCount++;
-                        BCardRenderer.Write(writerContext, bCard,true);
-                        sb.PaddingCount--;
-
-                        sb.AppendLine("</div>");
-                    }
-
-                    sb.PaddingCount--;
-                    sb.AppendLine("</div>");
-
-                    rowIndex++;
-                }
-
-                sb.PaddingCount--;
-                sb.AppendLine("</div>");
                 #endregion
 
                 sb.AppendLine(")");
@@ -187,8 +163,8 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("]}");
             sb.PaddingCount -= 2;
 
-            sb.PaddingCount--;
-            sb.AppendLine(" />");
+            //sb.PaddingCount--;
+            //sb.AppendLine(" />");
         }
         #endregion
     }
