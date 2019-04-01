@@ -16,7 +16,9 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             writerContext.Imports.Add("import { BPageModule, BPageModuleComposer } from \"b-page-module\";");
 
+
             var sb = new PaddedStringBuilder();
+
 
             sb.AppendLine($"class {tabPage.ClassName} extends BPageModule");
             sb.AppendLine("{");

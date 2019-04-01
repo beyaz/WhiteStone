@@ -18,8 +18,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 BCardRenderer.Write(writerContext, bCard);
 
                 sb.AppendLine(string.Empty);
-
-                
             }
 
             sb.PaddingCount--;
