@@ -9,6 +9,13 @@ namespace BOA.OneDesigner.CodeGenerationModel
 {
     public class WriterContext
     {
+
+        readonly List<TypeScriptMemberInfo> _classBody = new List<TypeScriptMemberInfo>();
+
+        public WriterContext()
+        {
+            
+        }
         #region Fields
         public List<ComponentGetValueInfo> FillRequestFromUI = new List<ComponentGetValueInfo>();
         #endregion
@@ -18,7 +25,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
 
         public List<string>               BeforeSetStateOnProxyDidResponse { get; set; }
         public bool                       CanWriteEvaluateActions          { get; set; }
-        public List<TypeScriptMemberInfo> ClassBody                        { get; set; }
+        public IReadOnlyList<TypeScriptMemberInfo> ClassBody => _classBody;
 
         public string                   ClassName                                         { get; set; }
         public List<string>             ConstructorBody                                   { get; set; }
@@ -47,12 +54,14 @@ namespace BOA.OneDesigner.CodeGenerationModel
         #region Public Methods
         public void AddClassBody(TypeScriptMemberInfo info)
         {
-            ClassBody.Add(info);
+            _classBody.Add(info);
+            _classBody.Sort(TypeScriptMemberInfo.Compare);
         }
 
         public void AddClassBody(string code)
         {
-            ClassBody.Add(new TypeScriptMemberInfo {Code = code, IsMethod = true});
+            _classBody.Add(new TypeScriptMemberInfo {Code = code, IsMethod = true});
+            _classBody.Sort(TypeScriptMemberInfo.Compare);
         }
 
         public void AddToBeforeSetStateOnProxyDidResponse(string line)

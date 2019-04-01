@@ -26,7 +26,6 @@ namespace BOA.OneDesigner.CodeGeneration
             var writerContext = new WriterContext
             {
                 ConstructorBody = new List<string>(),
-                ClassBody       = new List<TypeScriptMemberInfo>(),
                 Page            = new List<string>(),
                 Imports = new List<string>
                 {
@@ -392,7 +391,7 @@ namespace BOA.OneDesigner.CodeGeneration
                         sb.AppendLine("}");
                     }
 
-                    sb.AppendLine($"if (sameValues.length > 1)");
+                    sb.AppendLine("if (sameValues.length > 1)");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
@@ -738,8 +737,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
             WriteConstructor(writerContext);
 
-            // reorder
-            writerContext.ClassBody.Sort(TypeScriptMemberInfo.Compare);
 
             foreach (var member in writerContext.ClassBody)
             {
