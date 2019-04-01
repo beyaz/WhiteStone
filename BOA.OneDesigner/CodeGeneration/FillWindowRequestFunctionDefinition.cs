@@ -9,13 +9,15 @@ namespace BOA.OneDesigner.CodeGeneration
     class FillWindowRequestFunctionDefinition
     {
         readonly IReadOnlyList<ComponentGetValueInfo> FillRequestFromUI;
+        readonly bool HasTabControl;
 
-        public FillWindowRequestFunctionDefinition(IReadOnlyList<ComponentGetValueInfo> fillRequestFromUi)
+        public FillWindowRequestFunctionDefinition(IReadOnlyList<ComponentGetValueInfo> fillRequestFromUi, bool hasTabControl)
         {
             FillRequestFromUI = fillRequestFromUi;
+            HasTabControl = hasTabControl;
         }
 
-        public string GetFunction()
+        public string GetCode()
         {
             var sb = new PaddedStringBuilder();
 
@@ -102,6 +104,13 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine();
                 sb.AppendLine($"{data.JsBindingPath} = snaps.{data.SnapName} && {data.GetCode()};");   
                 
+            }
+
+
+            if (HasTabControl)
+            {
+                sb.AppendLine();
+                sb.AppendLine("this.onFillRequestFromUI.forEach(tabPage => tabPage.fillRequestFromUI(request));");
             }
 
             sb.PaddingCount--;

@@ -328,7 +328,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
         static void FillWindowRequest(WriterContext writerContext)
         {
-            var function = new FillWindowRequestFunctionDefinition(writerContext.FillRequestFromUI).GetFunction();
+            var function = new FillWindowRequestFunctionDefinition(writerContext.FillRequestFromUI,writerContext.HasTabControl).GetCode();
 
             writerContext.AddClassBody(function);
         }
@@ -464,6 +464,14 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.Append(");");
             sb.Append(Environment.NewLine);
 
+
+
+            if (writerContext.HasTabControl)
+            {
+                sb.AppendLine();
+                sb.AppendLine("this.onProxyDidRespond.forEach(tabPage => tabPage.proxyDidRespond());");
+            }
+
             if (writerContext.HandleProxyDidRespondCallback)
             {
                 sb.AppendLine();
@@ -519,48 +527,11 @@ namespace BOA.OneDesigner.CodeGeneration
         /// <summary>
         ///     Renders the specified writer context.
         /// </summary>
-        static void Render(WriterContext writerContext, DivAsCardContainer jsxModel)
+        static void Render(WriterContext writerContext, DivAsCardContainer data)
         {
-            var temp = writerContext.Output;
+            var function = new RenderFunctionDefinition(writerContext,data,"this.getWindowRequest().body");
 
-            var jsxBuilder = new PaddedStringBuilder {PaddingCount = 1};
-
-            jsxBuilder.AppendLine("return (");
-            jsxBuilder.PaddingCount++;
-            writerContext.Output = jsxBuilder;
-            DivAsCardContainerRenderer.Write(writerContext, jsxModel);
-            jsxBuilder.PaddingCount--;
-            jsxBuilder.AppendLine(");");
-
-            jsxBuilder.PaddingCount--;
-            jsxBuilder.AppendLine("}");
-
-            var sb = new PaddedStringBuilder();
-            if (RenderHelper.IsCommentEnabled)
-            {
-                sb.AppendLine("/**");
-                sb.AppendLine("  *  Renders the component.");
-                sb.AppendLine("  */");
-            }
-
-            sb.AppendLine("render()");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-
-
-            var requestDefaultValue = BindingPathHelper.EvaluateWindowRequestDefaultCreationInRenderFunction(from x in writerContext.UsedBindingPathInRenderMethod
-                                                                                   select x.FullBindingPathInJs.RemoveFromStart(Config.BindingPrefixInJs));
-
-            sb.AppendLine();
-            sb.AppendLine("const context = this.state.context;");
-            sb.AppendLine();
-            sb.AppendLine("const request = this.getWindowRequest().body || "+requestDefaultValue+";");
-            sb.AppendLine();
-
-            writerContext.Output = temp;
-
-            writerContext.AddClassBody(new TypeScriptMemberInfo {Code = sb + jsxBuilder.ToString(), IsRender = true});
+            writerContext.AddClassBody(new TypeScriptMemberInfo {Code = function.GetCode(), IsRender = true});
         }
 
         static void SendWindowRequestToServer(WriterContext writerContext)
@@ -634,7 +605,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             WriteWorkflowFields(writerContext);
-            WriteTabManagementFields(writerContext);
+           
 
             WriteOnActionClick(writerContext);
             OnWindowRequestFilled(writerContext);
@@ -648,6 +619,8 @@ namespace BOA.OneDesigner.CodeGeneration
             FillWindowRequest(writerContext);
 
             WriteConstructor(writerContext);
+
+            WriteTabManagementFields(writerContext);
 
 
             foreach (var member in writerContext.ClassBody)

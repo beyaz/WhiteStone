@@ -12,12 +12,22 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     static class BTabBarRenderer
     {
-        public static void DefineTabPage(WriterContext writerContext, BTabBarPage tabPage)
+        public static void DefineTabPage(WriterContext writerContextMain, BTabBarPage tabPage)
         {
-            writerContext.Imports.Add("import { BPageModule, BPageModuleComposer } from \"b-page-module\";");
+            writerContextMain.Imports.Add("import { BPageModule, BPageModuleComposer } from \"b-page-module\";");
 
 
             var sb = new PaddedStringBuilder();
+
+            var writerContext = new WriterContext
+            {
+                ClassName                             = writerContextMain.ClassName,
+                HasWorkflow                           = writerContextMain.HasWorkflow,
+                ScreenInfo                            = writerContextMain.ScreenInfo,
+                IsBrowsePage                          = writerContextMain.IsBrowsePage,
+                SolutionInfo                          = writerContextMain.SolutionInfo,
+                ThrowExceptionOnEmptyActionDefinition = writerContextMain.ThrowExceptionOnEmptyActionDefinition
+            };
 
 
             sb.AppendLine($"class {tabPage.ClassName} extends BPageModule");
@@ -38,34 +48,36 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            
-
 
             sb.AppendLine();
-            sb.AppendLine("render()");
+            sb.AppendLine("proxyDidRespond()");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("const context = this.state.context;");
-            sb.AppendLine("const request = this.state.pageInstance.state.windowRequest;");
-            
-            sb.AppendLine();
-            sb.AppendLine("return (");
-            sb.PaddingCount++;
-            sb.PaddingCount++;
-
-
-            var temp = writerContext.Output;
-            writerContext.Output = sb;
-            DivAsCardContainerRenderer.Write(writerContext,tabPage.DivAsCardContainer);
-            writerContext.Output = temp;
-
-            sb.PaddingCount--;
-            sb.PaddingCount--;
-            sb.AppendLine(");");
+            sb.AppendLine("this.setState({ windowRequest: this.state.pageInstance.state.windowRequest });");
 
             sb.PaddingCount--;
             sb.AppendLine("}");
+
+            
+
+
+
+
+            var functionRender = new RenderFunctionDefinition(writerContext,tabPage.DivAsCardContainer,"this.state.pageInstance.getWindowRequest().body");
+            var renderMethod = functionRender.GetCode();
+
+
+
+            var functionFillWindowRequest = new FillWindowRequestFunctionDefinition(writerContext.FillRequestFromUI,false);
+            var fillRequestMethod = functionFillWindowRequest.GetCode();
+
+
+            sb.AppendLine();
+            sb.AppendAll(fillRequestMethod);
+
+            sb.AppendLine();
+            sb.AppendAll(renderMethod);
 
 
             sb.PaddingCount--;
@@ -74,7 +86,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
 
-            writerContext.Page.Add(sb.ToString());
+            writerContextMain.Page.Add(sb.ToString());
+            writerContextMain.Imports.AddRange(writerContext.Imports);
         }
         #region Public Methods
         public static void Write(WriterContext writerContext, BTabBar data)
