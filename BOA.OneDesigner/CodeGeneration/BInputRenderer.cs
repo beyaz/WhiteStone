@@ -71,7 +71,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     writerContext.Imports.Add("import { BInput } from \"b-input\"");
                 }
 
-                sb.AppendLine($"<{tag} value = {{{jsBindingPath.BindingPathInJsInState} || \"\"}}");
+                sb.AppendLine($"<{tag} value = {{{jsBindingPath.FullBindingPathInJs} || \"\"}}");
                 sb.PaddingCount++;
 
                 // sb.AppendLine($"onChange = {{(e: any, value: string) => {jsBindingPath.BindingPathInJs} = value}}");
@@ -99,11 +99,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (isDecimal)
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.BindingPathInJsInState}}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs}}}");
                 }
                 else
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.BindingPathInJsInState} || \"\"}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs} || \"\"}}");
                 }
 
                 sb.PaddingCount++;
@@ -117,7 +117,7 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 writerContext.Imports.Add("import { BCheckBox } from \"b-check-box\"");
 
-                sb.AppendLine($"<BCheckBox checked = {{{jsBindingPath.BindingPathInJsInState}}}");
+                sb.AppendLine($"<BCheckBox checked = {{{jsBindingPath.FullBindingPathInJs}}}");
                 sb.PaddingCount++;
                 sb.AppendLine("verticalAlign={\"middle\"}");
                 if (data.ValueChangedOrchestrationMethod.HasValue())
@@ -136,7 +136,7 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 writerContext.Imports.Add("import { BDateTimePicker } from \"b-datetime-picker\"");
 
-                sb.AppendLine($"<BDateTimePicker value = {{{jsBindingPath.BindingPathInJsInState}}}");
+                sb.AppendLine($"<BDateTimePicker value = {{{jsBindingPath.FullBindingPathInJs}}}");
                 sb.PaddingCount++;
 
                 // sb.AppendLine($"dateOnChange = {{(e: any, value: Date) => {jsBindingPath.BindingPathInJs} = value}}");
@@ -148,11 +148,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (isNullableNumber)
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.BindingPathInJsInState} || \"\"}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs} || \"\"}}");
                 }
                 else
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.BindingPathInJsInState}}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs}}}");
                 }
 
                 sb.PaddingCount++;

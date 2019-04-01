@@ -72,8 +72,14 @@ namespace BOA.OneDesigner.CodeGenerationModel
             FillRequestFromUI.Add(data);
         }
 
+        readonly List<JsBindingPathInfo> _usedBindingPathInRenderMethod = new List<JsBindingPathInfo>();
+
+        public IReadOnlyList<JsBindingPathInfo> UsedBindingPathInRenderMethod => _usedBindingPathInRenderMethod;
+
         public void PushVariablesToRenderScope(JsBindingPathInfo data)
         {
+            _usedBindingPathInRenderMethod.Add(data);
+
             _renderMethodRequestRelatedVariables.AddRange(data.Variables);
         }
         #endregion

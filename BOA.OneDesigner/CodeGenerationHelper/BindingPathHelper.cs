@@ -8,7 +8,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
     static class BindingPathHelper
     {
         #region Public Methods
-        public static string EvaluateWindowRequestDefaultCreationInRenderFunction(IReadOnlyList<string> bindingPathsInDesigner)
+        public static string EvaluateWindowRequestDefaultCreationInRenderFunction(IEnumerable<string> bindingPathsInDesigner)
         {
             var jsObject = new JsObject();
 

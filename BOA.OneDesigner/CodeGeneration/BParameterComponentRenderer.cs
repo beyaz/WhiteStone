@@ -24,7 +24,7 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.PushVariablesToRenderScope(jsBindingPath);
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoParameterComponent { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
 
-            sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{jsBindingPath.BindingPathInJsInState}+\"\"}}");
+            sb.AppendLine($"<BParameterComponent  selectedParamCode = {{{jsBindingPath.FullBindingPathInJs}+\"\"}}");
             sb.PaddingCount++;
             // sb.AppendLine($" onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{jsBindingPath.BindingPathInJs}}} = selectedParameter ? selectedParameter.paramCode : null}}");
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");

@@ -58,7 +58,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.Imports.Add("import { BDataGrid } from \"b-data-grid-dx\"");
 
-            sb.AppendLine($"<BDataGrid  dataSource = {{{jsBindingPath.BindingPathInJs}}}");
+            sb.AppendLine($"<BDataGrid  dataSource = {{{jsBindingPath.FullBindingPathInJs}}}");
 
             sb.PaddingCount++;
             sb.AppendLine("selectable={'single'}");

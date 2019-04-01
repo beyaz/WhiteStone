@@ -125,12 +125,12 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                 var propertyInfo = GetBindingPathPropertyInfo(writerContext, data.RequestBindingPath);
                 if (propertyInfo == null)
                 {
-                    return jsBindingPath.BindingPathInJs;
+                    return jsBindingPath.FullBindingPathInJs;
                 }
 
                 if (propertyInfo.IsString )
                 {
-                    return jsBindingPath.BindingPathInJs;
+                    return jsBindingPath.FullBindingPathInJs;
                 }
 
                 if (propertyInfo.IsNullableNumber  || 
@@ -138,12 +138,12 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                     propertyInfo.IsDecimalNullable||
                     propertyInfo.IsDecimal)
                 {
-                    return jsBindingPath.BindingPathInJs + " || " + '"' + '"';
+                    return jsBindingPath.FullBindingPathInJs + " || " + '"' + '"';
                 }
 
                 if (propertyInfo.IsBoolean  )
                 {
-                    return jsBindingPath.BindingPathInJs + " ? 'Evet' : 'Hayır'";
+                    return jsBindingPath.FullBindingPathInJs + " ? 'Evet' : 'Hayır'";
                 }
 
                 throw Error.InvalidBindingPath(null, data.RequestBindingPath);
@@ -189,7 +189,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
             if (buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
             {
-                dataParameter = "this.snaps.data.windowRequest." + TypescriptNaming.NormalizeBindingPath(buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath);
+                dataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath);
             }
 
 
@@ -294,7 +294,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
             writerContext.PushVariablesToRenderScope(jsBindingPath);
 
-            sb.AppendLine($"disabled = {{{jsBindingPath.BindingPathInJs}}}");
+            sb.AppendLine($"disabled = {{{jsBindingPath.FullBindingPathInJs}}}");
         }
 
         public static void WriteIsVisible(WriterContext writerContext, string IsVisibleBindingPath, PaddedStringBuilder sb)
@@ -311,7 +311,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
             writerContext.PushVariablesToRenderScope(jsBindingPath);
 
-            sb.AppendLine($"isVisible = {{{jsBindingPath.BindingPathInJs}}}");
+            sb.AppendLine($"isVisible = {{{jsBindingPath.FullBindingPathInJs}}}");
         }
 
         public static void WriteLabelInfo(WriterContext writerContext, LabelInfo data, Action<string> output, string attributeName, string endPrefix = null)

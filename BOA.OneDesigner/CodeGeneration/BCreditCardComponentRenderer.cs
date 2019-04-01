@@ -30,7 +30,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("<BCreditCardComponent");
             sb.PaddingCount++;
 
-            sb.AppendLine($"clearCardNumber={{{jsBindingPath.BindingPathInJsInState}}}");
+            sb.AppendLine($"clearCardNumber={{{jsBindingPath.FullBindingPathInJs}}}");
             if (data.ValueChangedOrchestrationMethod.HasValue())
             {
                 sb.AppendLine("onCardSelect={(clearCardNumber: string) =>");

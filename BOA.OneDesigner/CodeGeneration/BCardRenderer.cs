@@ -42,7 +42,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
                     writerContext.PushVariablesToRenderScope(jsBindingPath);
 
-                    sb.Append(" style={{ display: " + jsBindingPath.BindingPathInJs + " ? 'inherit' : 'none' }} ");
+                    sb.Append(" style={{ display: " + jsBindingPath.FullBindingPathInJs + " ? 'inherit' : 'none' }} ");
                 }
 
                 RenderHelper.WriteLabelInfo(writerContext, data.TitleInfo, sb.Append, " title");

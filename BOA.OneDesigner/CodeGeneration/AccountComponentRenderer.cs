@@ -46,7 +46,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.AddToBeforeSetStateOnProxyDidResponse(GetAccountComponentValueCorrection(data.SnapName, data.ValueBindingPathInTypeScript));
 
-            sb.AppendLine($"<BAccountComponent accountNumber = {{{jsBindingPathAccountNumber.BindingPathInJsInState}}}");
+            sb.AppendLine($"<BAccountComponent accountNumber = {{{jsBindingPathAccountNumber.FullBindingPathInJs}}}");
             sb.PaddingCount++;
 
             if (data.ValueChangedOrchestrationMethod.HasValue())
@@ -63,7 +63,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (writeAccountSuffix)
             {
-                sb.AppendLine($"accountSuffix={{{jsBindingPathAccountSuffix.BindingPathInJsInState}}}");
+                sb.AppendLine($"accountSuffix={{{jsBindingPathAccountSuffix.FullBindingPathInJs}}}");
             }
             else
             {

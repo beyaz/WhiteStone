@@ -64,7 +64,7 @@ namespace BOA.OneDesigner.CodeGeneration
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(dataSourceBindingPath);
             writerContext.PushVariablesToRenderScope(dataSourceBindingPath);
 
-            sb.AppendLine($"<BComboBox  dataSource = {{{dataSourceBindingPath.BindingPathInJs}}}");
+            sb.AppendLine($"<BComboBox  dataSource = {{{dataSourceBindingPath.FullBindingPathInJs}}}");
             sb.PaddingCount++;
 
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoComboBox
@@ -75,7 +75,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.IsMultiSelect)
             {
-                sb.AppendLine($"value={{{jsBindingPath.BindingPathInJsInState}}}");
+                sb.AppendLine($"value={{{jsBindingPath.FullBindingPathInJs}}}");
 
                 if (data.ValueChangedOrchestrationMethod.HasValue())
                 {
@@ -91,7 +91,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                sb.AppendLine($"value={{[({jsBindingPath.BindingPathInJsInState} || \"\") + \"\"]}}");
+                sb.AppendLine($"value={{[({jsBindingPath.FullBindingPathInJs} || \"\") + \"\"]}}");
                 if (data.ValueChangedOrchestrationMethod.HasValue())
                 {
                     sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");

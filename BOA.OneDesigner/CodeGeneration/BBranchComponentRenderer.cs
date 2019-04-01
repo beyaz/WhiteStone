@@ -26,7 +26,7 @@ namespace BOA.OneDesigner.CodeGeneration
             
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoBranchComponent { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
 
-            sb.AppendLine($"<BBranchComponent selectedBranchId = {{{jsBindingPath.BindingPathInJsInState}}}");
+            sb.AppendLine($"<BBranchComponent selectedBranchId = {{{jsBindingPath.FullBindingPathInJs}}}");
             sb.PaddingCount++;
 
             // sb.AppendLine($"onBranchSelect = {{(selectedBranch: BOA.Common.Types.BranchContract) => {jsBindingPath.BindingPathInJs} = selectedBranch ? selectedBranch.branchId : null}}");
