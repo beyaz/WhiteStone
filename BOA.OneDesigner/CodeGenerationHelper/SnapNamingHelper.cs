@@ -15,12 +15,12 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             var count    = 1;
             while (true)
             {
-                if (writerContext.AllNames.ContainsKey(name) == false)
+                if (writerContext.ContainsUsedName(name) == false)
                 {
                     break;
                 }
 
-                if (writerContext.AllNames.ContainsKey(name + count) == false)
+                if (writerContext.ContainsUsedName(name + count) == false)
                 {
                     useCount = true;
                     break;
@@ -34,7 +34,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                 name += count;
             }
 
-            writerContext.AllNames[name] = true;
+            writerContext.PushUsedName(name);
 
             return name;
         }

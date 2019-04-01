@@ -12,17 +12,30 @@ namespace BOA.OneDesigner.CodeGenerationModel
 
         readonly List<TypeScriptMemberInfo> _classBody = new List<TypeScriptMemberInfo>();
         readonly List<ComponentGetValueInfo> _fillRequestFromUI = new List<ComponentGetValueInfo>();
+        readonly Dictionary<string, bool> _usedNames  = new Dictionary<string, bool>();
+
+        public bool ContainsUsedName(string name)
+        {
+            return _usedNames.ContainsKey(name);
+        }
+
+        public void PushUsedName(string name)
+        {
+            _usedNames[name] = true;
+        }
 
         public WriterContext()
         {
             
         }
+
         #region Fields
         public IReadOnlyList<ComponentGetValueInfo> FillRequestFromUI => _fillRequestFromUI;
         #endregion
 
         #region Public Properties
-        public Dictionary<string, bool> AllNames { get; set; } = new Dictionary<string, bool>();
+        
+
 
         public List<string>               BeforeSetStateOnProxyDidResponse { get; set; }
         public bool                       CanWriteEvaluateActions          { get; set; }
