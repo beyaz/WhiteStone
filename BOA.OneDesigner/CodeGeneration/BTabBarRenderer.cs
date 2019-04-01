@@ -23,6 +23,31 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
 
+            sb.AppendLine("render()");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("const context = this.state.context;");
+            sb.AppendLine("const request = this.state.pageInstance.state.windowRequest;");
+            
+            sb.AppendLine();
+            sb.AppendLine("return (");
+            sb.PaddingCount++;
+            sb.PaddingCount++;
+
+
+            var temp = writerContext.Output;
+            writerContext.Output = sb;
+            DivAsCardContainerRenderer.Write(writerContext,tabPage.DivAsCardContainer);
+            writerContext.Output = temp;
+
+            sb.PaddingCount--;
+            sb.PaddingCount--;
+            sb.AppendLine(");");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
 
             sb.PaddingCount--;
             sb.AppendLine("}");
