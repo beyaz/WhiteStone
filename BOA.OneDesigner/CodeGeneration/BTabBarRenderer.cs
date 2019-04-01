@@ -167,6 +167,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (isLastTab)
                 {
+
+                    sb.AppendLine(",selectedTabIndex: this.state.selectedTabIndex|0,");
+                    sb.AppendLine("onTabChange: (tabInfo: any, tabIndex: number)=>");
+                    sb.AppendLine("{");
+                    sb.AppendLine("    this.state.selectedTabIndex = tabIndex;");
+                    sb.AppendLine("}");
+
                     sb.AppendLine("}");
                 }
                 else
