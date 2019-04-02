@@ -44,11 +44,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             return propertyPath.SplitAndClear(".")?.Last();
         }
 
-        public static void InitSnapName(WriterContext writerContext, BTabBar data)
-        {
-            data.SnapName = GetComponentTypeName(data);
-            data.SnapName = writerContext.ForceUniqueName(data.SnapName);
-        }
+       
 
         public static void InitSnapName(WriterContext writerContext,ComponentInfo data)
         {
