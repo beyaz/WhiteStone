@@ -30,7 +30,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 ScreenInfo   = screenInfo,
                 IsBrowsePage = isBrowseForm,
                 SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName),
-                ThrowExceptionOnEmptyActionDefinition = false
+                ThrowExceptionOnEmptyActionDefinition = false,
+                ExecuteWindowRequestFunctionAccessPath = "this.executeWindowRequest"
             };
 
             writerContext.Imports.AddRange(new List<string>

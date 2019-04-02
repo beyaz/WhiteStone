@@ -24,11 +24,8 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = new PaddedStringBuilder();
 
-            var executeWindowRequest = "this.executeWindowRequest";
-            if (WriterContext.IsTabPage)
-            {
-                executeWindowRequest = "this.state.pageInstance.executeWindowRequest";
-            }
+            var executeWindowRequest = WriterContext.ExecuteWindowRequestFunctionAccessPath;
+            
 
             string dataParameter = null;
 

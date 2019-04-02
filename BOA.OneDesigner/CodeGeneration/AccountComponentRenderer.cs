@@ -54,7 +54,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("onAccountSelect = {(selectedAccount: any) =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+                sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
                 sb.PaddingCount--;
                 sb.AppendLine("}}");
             }

@@ -192,7 +192,7 @@ namespace BOA.OneDesigner.CodeGeneration
             
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValue { JsBindingPath = fieldPath,SnapName = data.SnapName});
            
-            sb.AppendLine($"this.executeWindowRequest(\"{data.RowSelectionChangedOrchestrationMethod}\");");
+            sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.RowSelectionChangedOrchestrationMethod}\");");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

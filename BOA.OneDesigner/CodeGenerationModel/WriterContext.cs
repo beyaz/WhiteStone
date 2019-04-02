@@ -9,6 +9,10 @@ namespace BOA.OneDesigner.CodeGenerationModel
 {
     public class WriterContext
     {
+        public WriterContext()
+        {
+            
+        }
         #region Fields
         public readonly List<string> ConstructorBody = new List<string>();
 
@@ -52,6 +56,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
         public IReadOnlyList<JsBindingPathInfo> UsedBindingPathInRenderMethod => _usedBindingPathInRenderMethod;
         public bool HasTabControl { get; set; }
         public bool IsTabPage { get; set; }
+        public string ExecuteWindowRequestFunctionAccessPath { get; set; }
         #endregion
 
         #region Public Methods

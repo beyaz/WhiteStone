@@ -23,7 +23,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 SolutionInfo                          = writerContextMain.SolutionInfo,
                 ThrowExceptionOnEmptyActionDefinition = writerContextMain.ThrowExceptionOnEmptyActionDefinition,
                 RequestIntellisenseData = writerContextMain.RequestIntellisenseData,
-                IsTabPage = true
+                IsTabPage = true,
+                ExecuteWindowRequestFunctionAccessPath = "this.state.pageInstance.executeWindowRequest"
             };
 
             var functionRender = new RenderFunctionDefinition {WriterContext = writerContext, Data = tabPage.DivAsCardContainer, WindowRequestAccessPath = "this.state.pageInstance.getWindowRequest().body"};

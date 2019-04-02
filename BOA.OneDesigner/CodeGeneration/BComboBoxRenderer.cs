@@ -83,7 +83,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+                    sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
 
                     sb.PaddingCount--;
                     sb.AppendLine("}}");
@@ -98,7 +98,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    sb.AppendLine($"this.executeWindowRequest(\"{data.ValueChangedOrchestrationMethod}\");");
+                    sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
 
                     sb.PaddingCount--;
                     sb.AppendLine("}}");
@@ -125,7 +125,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
             
             RenderHelper.WriteSize(data.SizeInfo,sb.AppendLine);
-
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
             RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
 
