@@ -699,14 +699,17 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    RenderHelper.WriteButtonAction(sb, new ButtonActionInfoFunction
+                    var function = new ButtonActionInfoFunction
                     {
                         OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
                         OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
                         OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
                         DesignerLocation                                 = resourceAction.Name,
-                        WriterContext = writerContext
-                    });
+                        WriterContext                                    = writerContext
+                    };
+
+                    sb.AppendAll(function.GetCode());
+                    
 
                     sb.AppendLine("return false;");
                     sb.PaddingCount--;

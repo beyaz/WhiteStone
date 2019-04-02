@@ -25,19 +25,23 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("onClick={()=>");
             sb.AppendLine("{");
             sb.PaddingCount++;
-            RenderHelper.WriteButtonAction(sb, new ButtonActionInfoFunction
+
+            var function = new ButtonActionInfoFunction
             {
                 OrchestrationMethodName                          = data.ButtonClickedOrchestrationMethod,
                 OpenFormWithResourceCode                         = data.OpenFormWithResourceCode,
                 OpenFormWithResourceCodeDataParameterBindingPath = data.OpenFormWithResourceCodeDataParameterBindingPath,
                 DesignerLocation                                 = data.Text,
-                OrchestrationMethodOnDialogResponseIsOK = data.OrchestrationMethodOnDialogResponseIsOK,
-                OpenFormWithResourceCodeIsInDialogBox = data.OpenFormWithResourceCodeIsInDialogBox,
-                CssOfDialog = data.CssOfDialog,
+                OrchestrationMethodOnDialogResponseIsOK          = data.OrchestrationMethodOnDialogResponseIsOK,
+                OpenFormWithResourceCodeIsInDialogBox            = data.OpenFormWithResourceCodeIsInDialogBox,
+                CssOfDialog                                      = data.CssOfDialog,
 
                 WriterContext = writerContext,
                 
-            });
+            };
+
+
+            sb.AppendAll(function.GetCode());
 
             sb.PaddingCount--;
             sb.AppendLine("}}");

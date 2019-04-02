@@ -1,11 +1,9 @@
 ﻿using System;
 using BOA.Common.Helpers;
-using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
-using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGenerationHelper
 {
@@ -169,100 +167,6 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             paths[0] = paths[0] + "InState";
 
             return string.Join(".", paths);
-        }
-
-        public static void WriteButtonAction(PaddedStringBuilder sb, ButtonActionInfoFunction buttonActionInfoFunction)
-        {
-            var orchestrationMethodName                 = buttonActionInfoFunction.OrchestrationMethodName;
-            var resourceCode                            = buttonActionInfoFunction.OpenFormWithResourceCode;
-            var openFormWithResourceCodeIsInDialogBox   = buttonActionInfoFunction.OpenFormWithResourceCodeIsInDialogBox;
-            var orchestrationMethodOnDialogResponseIsOk = buttonActionInfoFunction.OrchestrationMethodOnDialogResponseIsOK;
-
-            var writerContext = buttonActionInfoFunction.WriterContext;
-
-            string dataParameter = null;
-
-            if (buttonActionInfoFunction.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
-            {
-                dataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(buttonActionInfoFunction.OpenFormWithResourceCodeDataParameterBindingPath);
-            }
-
-            if (resourceCode.HasValue() && orchestrationMethodName.HasValue())
-            {
-                sb.AppendLine("const me: any = this;");
-                sb.AppendLine("me.internalProxyDidRespondCallback = () =>");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                if (dataParameter.HasValue())
-                {
-                    sb.AppendLine("const data:any = " + dataParameter + ";");
-                }
-                else
-                {
-                    sb.AppendLine("const data:any = null;");
-                }
-
-                if (openFormWithResourceCodeIsInDialogBox)
-                {
-                    sb.AppendLine();
-                    if (orchestrationMethodOnDialogResponseIsOk.HasValue())
-                    {
-                        sb.AppendLine("const onClose: any = (dialogResponse:number) =>");
-                        sb.AppendLine("{");
-                        sb.AppendLine("    if(dialogResponse === 1)");
-                        sb.AppendLine("    {");
-                        sb.AppendLine($"        this.executeWindowRequest(\"{orchestrationMethodOnDialogResponseIsOk}\");");
-                        sb.AppendLine("    }");
-                        sb.AppendLine("};");
-                    }
-                    else
-                    {
-                        sb.AppendLine("const onClose: any = null;");
-                    }
-
-                    sb.AppendLine();
-                    sb.AppendLine("const style:any = " + buttonActionInfoFunction.CssOfDialog + ";");
-                }
-
-                if (openFormWithResourceCodeIsInDialogBox)
-                {
-                    sb.AppendLine();
-                    sb.AppendLine($"BFormManager.showDialog(\"{resourceCode}\", data, /*title*/null, onClose, style );");
-                }
-                else
-                {
-                    sb.AppendLine();
-                    sb.AppendLine("const showAsNewPage:boolean = true;");
-                    sb.AppendLine();
-                    sb.AppendLine("const menuItemSuffix:string = null;");
-                    sb.AppendLine();
-                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", data, showAsNewPage,menuItemSuffix);");
-                }
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                sb.AppendLine();
-
-                sb.AppendLine($"this.executeWindowRequest(\"{orchestrationMethodName}\");");
-
-                writerContext.HandleProxyDidRespondCallback = true;
-            }
-            else if (resourceCode.HasValue())
-            {
-                if (dataParameter.HasValue())
-                {
-                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", /*data*/{dataParameter}, true,null);");
-                }
-                else
-                {
-                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", /*data*/null, true,null);");
-                }
-            }
-            else if (orchestrationMethodName.HasValue())
-            {
-                sb.AppendLine($"this.executeWindowRequest(\"{orchestrationMethodName}\");");
-            }
         }
 
         public static void WriteIsDisabled(WriterContext writerContext, string isDisabledBindingPath, PaddedStringBuilder sb)
