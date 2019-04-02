@@ -1,5 +1,6 @@
 ﻿using System;
 using BOA.Common.Helpers;
+using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -170,20 +171,20 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             return string.Join(".", paths);
         }
 
-        public static void WriteButtonAction(PaddedStringBuilder sb, ButtonActionInfo buttonActionInfo)
+        public static void WriteButtonAction(PaddedStringBuilder sb, ButtonActionInfoFunction buttonActionInfoFunction)
         {
-            var orchestrationMethodName                 = buttonActionInfo.OrchestrationMethodName;
-            var resourceCode                            = buttonActionInfo.OpenFormWithResourceCode;
-            var openFormWithResourceCodeIsInDialogBox   = buttonActionInfo.OpenFormWithResourceCodeIsInDialogBox;
-            var orchestrationMethodOnDialogResponseIsOk = buttonActionInfo.OrchestrationMethodOnDialogResponseIsOK;
+            var orchestrationMethodName                 = buttonActionInfoFunction.OrchestrationMethodName;
+            var resourceCode                            = buttonActionInfoFunction.OpenFormWithResourceCode;
+            var openFormWithResourceCodeIsInDialogBox   = buttonActionInfoFunction.OpenFormWithResourceCodeIsInDialogBox;
+            var orchestrationMethodOnDialogResponseIsOk = buttonActionInfoFunction.OrchestrationMethodOnDialogResponseIsOK;
 
-            var writerContext = buttonActionInfo.WriterContext;
+            var writerContext = buttonActionInfoFunction.WriterContext;
 
             string dataParameter = null;
 
-            if (buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
+            if (buttonActionInfoFunction.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
             {
-                dataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath);
+                dataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(buttonActionInfoFunction.OpenFormWithResourceCodeDataParameterBindingPath);
             }
 
             if (resourceCode.HasValue() && orchestrationMethodName.HasValue())
@@ -221,7 +222,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                     }
 
                     sb.AppendLine();
-                    sb.AppendLine("const style:any = " + buttonActionInfo.CssOfDialog + ";");
+                    sb.AppendLine("const style:any = " + buttonActionInfoFunction.CssOfDialog + ";");
                 }
 
                 if (openFormWithResourceCodeIsInDialogBox)

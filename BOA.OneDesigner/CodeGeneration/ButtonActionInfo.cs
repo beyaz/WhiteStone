@@ -1,6 +1,8 @@
-﻿namespace BOA.OneDesigner.CodeGenerationModel
+﻿using BOA.OneDesigner.CodeGenerationModel;
+
+namespace BOA.OneDesigner.CodeGeneration
 {
-    class ButtonActionInfo
+    class ButtonActionInfoFunction
     {
         #region Public Properties
         public string DesignerLocation                                 { get; set; }

@@ -25,7 +25,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("onClick={()=>");
             sb.AppendLine("{");
             sb.PaddingCount++;
-            RenderHelper.WriteButtonAction(sb, new ButtonActionInfo
+            RenderHelper.WriteButtonAction(sb, new ButtonActionInfoFunction
             {
                 OrchestrationMethodName                          = data.ButtonClickedOrchestrationMethod,
                 OpenFormWithResourceCode                         = data.OpenFormWithResourceCode,
