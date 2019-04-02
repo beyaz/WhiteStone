@@ -69,7 +69,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
 
-            var functionFillWindowRequest = new FillWindowRequestFunctionDefinition(writerContext.FillRequestFromUI,false);
+            var functionFillWindowRequest = new FillWindowRequestFunctionDefinition{FillRequestFromUI = writerContext.FillRequestFromUI,HasTabControl = false};
             var fillRequestMethod = functionFillWindowRequest.GetCode();
 
 

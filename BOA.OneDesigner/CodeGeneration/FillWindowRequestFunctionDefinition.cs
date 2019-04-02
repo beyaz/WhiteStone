@@ -8,15 +8,12 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     class FillWindowRequestFunctionDefinition
     {
-        readonly IReadOnlyList<ComponentGetValueInfo> FillRequestFromUI;
-        readonly bool HasTabControl;
+        #region Public Properties
+        public IReadOnlyList<ComponentGetValueInfo> FillRequestFromUI { get; set; }
+        public bool                                 HasTabControl     { get; set; }
+        #endregion
 
-        public FillWindowRequestFunctionDefinition(IReadOnlyList<ComponentGetValueInfo> fillRequestFromUi, bool hasTabControl)
-        {
-            FillRequestFromUI = fillRequestFromUi;
-            HasTabControl = hasTabControl;
-        }
-
+        #region Public Methods
         public string GetCode()
         {
             var sb = new PaddedStringBuilder();
@@ -33,11 +30,8 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             sb.AppendLine("const snaps = this.snaps;");
-            
 
-
-
-            var map = new Dictionary<string,bool>();
+            var map = new Dictionary<string, bool>();
 
             var sameValuesArrayIsDefined = false;
 
@@ -48,10 +42,9 @@ namespace BOA.OneDesigner.CodeGeneration
                     continue;
                 }
 
-                var sameTarget = FillRequestFromUI.Where(x=>x.JsBindingPath == data.JsBindingPath).ToList();
-                if (sameTarget.Count>1)
+                var sameTarget = FillRequestFromUI.Where(x => x.JsBindingPath == data.JsBindingPath).ToList();
+                if (sameTarget.Count > 1)
                 {
-
                     if (!sameValuesArrayIsDefined)
                     {
                         sameValuesArrayIsDefined = true;
@@ -67,7 +60,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     sb.AppendLine();
                     sb.AppendLine($"// #region {data.JsBindingPath}");
-                    
 
                     foreach (var item in sameTarget)
                     {
@@ -75,8 +67,8 @@ namespace BOA.OneDesigner.CodeGeneration
                         sb.AppendLine("{");
                         sb.PaddingCount++;
 
-                        sb.AppendLine($"{item.JsBindingPath} = {item.GetCode()};"); 
-                        sb.AppendLine("sameValues.push(0);"); 
+                        sb.AppendLine($"{item.JsBindingPath} = {item.GetCode()};");
+                        sb.AppendLine("sameValues.push(0);");
                         sb.PaddingCount--;
                         sb.AppendLine("}");
                     }
@@ -91,21 +83,17 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     sb.PaddingCount--;
                     sb.AppendLine("}");
-                    
+
                     sb.AppendLine("// #endregion");
 
                     map[data.JsBindingPath] = true;
 
                     continue;
-
-                    
                 }
 
                 sb.AppendLine();
-                sb.AppendLine($"{data.JsBindingPath} = snaps.{data.SnapName} && {data.GetCode()};");   
-                
+                sb.AppendLine($"{data.JsBindingPath} = snaps.{data.SnapName} && {data.GetCode()};");
             }
-
 
             if (HasTabControl)
             {
@@ -118,5 +106,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
             return sb.ToString();
         }
+        #endregion
     }
 }

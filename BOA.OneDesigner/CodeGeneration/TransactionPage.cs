@@ -328,7 +328,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
         static void FillWindowRequest(WriterContext writerContext)
         {
-            var function = new FillWindowRequestFunctionDefinition(writerContext.FillRequestFromUI,writerContext.HasTabControl).GetCode();
+            var function = new FillWindowRequestFunctionDefinition{FillRequestFromUI = writerContext.FillRequestFromUI,HasTabControl = writerContext.HasTabControl}.GetCode();
 
             writerContext.AddClassBody(function);
         }

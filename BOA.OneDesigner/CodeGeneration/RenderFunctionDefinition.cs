@@ -8,28 +8,34 @@ namespace BOA.OneDesigner.CodeGeneration
 {
     class RenderFunctionDefinition
     {
-        readonly WriterContext      writerContext;
-        readonly DivAsCardContainer data;
-        readonly string _windowRequestAccessPath;
+        #region Fields
+        readonly DivAsCardContainer Data;
+        readonly string             WindowRequestAccessPath;
+        readonly WriterContext      WriterContext;
+        #endregion
 
+        #region Constructors
         public RenderFunctionDefinition(WriterContext writerContext, DivAsCardContainer data, string windowRequestAccessPath)
         {
-            this.writerContext = writerContext;
-            this.data          = data;
-            _windowRequestAccessPath = windowRequestAccessPath;
+            WriterContext           = writerContext;
+            Data                    = data;
+            WindowRequestAccessPath = windowRequestAccessPath;
         }
 
-            
+
+        #endregion
+
+        #region Public Methods
         public string GetCode()
         {
-            var temp = writerContext.Output;
+            var temp = WriterContext.Output;
 
             var jsxBuilder = new PaddedStringBuilder {PaddingCount = 1};
 
             jsxBuilder.AppendLine("return (");
             jsxBuilder.PaddingCount++;
-            writerContext.Output = jsxBuilder;
-            DivAsCardContainerRenderer.Write(writerContext, data);
+            WriterContext.Output = jsxBuilder;
+            DivAsCardContainerRenderer.Write(WriterContext, Data);
             jsxBuilder.PaddingCount--;
             jsxBuilder.AppendLine(");");
 
@@ -48,22 +54,19 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-
-
-            var requestDefaultValue = BindingPathHelper.EvaluateWindowRequestDefaultCreationInRenderFunction(from x in writerContext.UsedBindingPathInRenderMethod
-                                                                                                             select StringHelper.RemoveFromStart(x.FullBindingPathInJs, Config.BindingPrefixInJs));
+            var requestDefaultValue = BindingPathHelper.EvaluateWindowRequestDefaultCreationInRenderFunction(from x in WriterContext.UsedBindingPathInRenderMethod
+                                                                                                             select x.FullBindingPathInJs.RemoveFromStart(Config.BindingPrefixInJs));
 
             sb.AppendLine();
             sb.AppendLine("const context = this.state.context;");
             sb.AppendLine();
-            sb.AppendLine("const request = "+_windowRequestAccessPath+" || "+requestDefaultValue+";");
+            sb.AppendLine("const request = " + WindowRequestAccessPath + " || " + requestDefaultValue + ";");
             sb.AppendLine();
 
-            writerContext.Output = temp;
+            WriterContext.Output = temp;
 
             return sb + jsxBuilder.ToString();
         }
-
-        
+        #endregion
     }
 }
