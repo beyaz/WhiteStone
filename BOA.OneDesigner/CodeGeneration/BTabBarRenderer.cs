@@ -22,8 +22,16 @@ namespace BOA.OneDesigner.CodeGeneration
                 IsBrowsePage                          = writerContextMain.IsBrowsePage,
                 SolutionInfo                          = writerContextMain.SolutionInfo,
                 ThrowExceptionOnEmptyActionDefinition = writerContextMain.ThrowExceptionOnEmptyActionDefinition,
-                RequestIntellisenseData = writerContextMain.RequestIntellisenseData
+                RequestIntellisenseData = writerContextMain.RequestIntellisenseData,
+                IsTabPage = true
             };
+
+            var functionRender = new RenderFunctionDefinition {WriterContext = writerContext, Data = tabPage.DivAsCardContainer, WindowRequestAccessPath = "this.state.pageInstance.getWindowRequest().body"};
+            var renderMethod   = functionRender.GetCode();
+
+            var functionFillWindowRequest = new FillWindowRequestFunctionDefinition {FillRequestFromUI = writerContext.FillRequestFromUI, HasTabControl = false};
+            var fillRequestMethod         = functionFillWindowRequest.GetCode();
+
 
             sb.AppendLine($"class {tabPage.ClassName} extends BPageModule");
             sb.AppendLine("{");
@@ -50,11 +58,15 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            var functionRender = new RenderFunctionDefinition {WriterContext = writerContext, Data = tabPage.DivAsCardContainer, WindowRequestAccessPath = "this.state.pageInstance.getWindowRequest().body"};
-            var renderMethod   = functionRender.GetCode();
+            foreach (var member in writerContext.ClassBody)
+            {
+                sb.AppendLine();
+                sb.AppendAll(member.Code);
+                sb.AppendLine();
+            }
 
-            var functionFillWindowRequest = new FillWindowRequestFunctionDefinition {FillRequestFromUI = writerContext.FillRequestFromUI, HasTabControl = false};
-            var fillRequestMethod         = functionFillWindowRequest.GetCode();
+
+           
 
             sb.AppendLine();
             sb.AppendAll(fillRequestMethod);

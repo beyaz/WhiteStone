@@ -51,6 +51,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
 
         public IReadOnlyList<JsBindingPathInfo> UsedBindingPathInRenderMethod => _usedBindingPathInRenderMethod;
         public bool HasTabControl { get; set; }
+        public bool IsTabPage { get; set; }
         #endregion
 
         #region Public Methods

@@ -24,6 +24,11 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = new PaddedStringBuilder();
 
+            var executeWindowRequest = "this.executeWindowRequest";
+            if (WriterContext.IsTabPage)
+            {
+                executeWindowRequest = "this.state.pageInstance.executeWindowRequest";
+            }
 
             string dataParameter = null;
 
@@ -57,7 +62,7 @@ namespace BOA.OneDesigner.CodeGeneration
                         sb.AppendLine("{");
                         sb.AppendLine("    if(dialogResponse === 1)");
                         sb.AppendLine("    {");
-                        sb.AppendLine($"        this.executeWindowRequest(\"{OrchestrationMethodOnDialogResponseIsOK}\");");
+                        sb.AppendLine($"        {executeWindowRequest}(\"{OrchestrationMethodOnDialogResponseIsOK}\");");
                         sb.AppendLine("    }");
                         sb.AppendLine("};");
                     }
@@ -89,7 +94,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("}");
                 sb.AppendLine();
 
-                sb.AppendLine($"this.executeWindowRequest(\"{OrchestrationMethodName}\");");
+                sb.AppendLine($"{executeWindowRequest}(\"{OrchestrationMethodName}\");");
 
                 WriterContext.HandleProxyDidRespondCallback = true;
             }
@@ -106,7 +111,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else if (OrchestrationMethodName.HasValue())
             {
-                sb.AppendLine($"this.executeWindowRequest(\"{OrchestrationMethodName}\");");
+                sb.AppendLine($"{executeWindowRequest}(\"{OrchestrationMethodName}\");");
             }
 
 
