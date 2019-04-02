@@ -64,7 +64,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
 
-            var functionRender = new RenderFunctionDefinition(writerContext,tabPage.DivAsCardContainer,"this.state.pageInstance.getWindowRequest().body");
+            var functionRender = new RenderFunctionDefinition{WriterContext = writerContext,Data = tabPage.DivAsCardContainer,WindowRequestAccessPath = "this.state.pageInstance.getWindowRequest().body"};
             var renderMethod = functionRender.GetCode();
 
 

@@ -529,7 +529,7 @@ namespace BOA.OneDesigner.CodeGeneration
         /// </summary>
         static void Render(WriterContext writerContext, DivAsCardContainer data)
         {
-            var function = new RenderFunctionDefinition(writerContext,data,"this.getWindowRequest().body");
+            var function = new RenderFunctionDefinition{WriterContext = writerContext,Data = data, WindowRequestAccessPath = "this.getWindowRequest().body"};
 
             writerContext.AddClassBody(new TypeScriptMemberInfo {Code = function.GetCode(), IsRender = true});
         }

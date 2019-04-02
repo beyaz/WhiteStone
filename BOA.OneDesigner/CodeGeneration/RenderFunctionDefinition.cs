@@ -6,26 +6,32 @@ using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
+    /// <summary>
+    ///     The render function definition
+    /// </summary>
     class RenderFunctionDefinition
     {
         #region Fields
-        readonly DivAsCardContainer Data;
-        readonly string             WindowRequestAccessPath;
-        readonly WriterContext      WriterContext;
-        #endregion
+        /// <summary>
+        ///     The data
+        /// </summary>
+        public DivAsCardContainer Data;
 
-        #region Constructors
-        public RenderFunctionDefinition(WriterContext writerContext, DivAsCardContainer data, string windowRequestAccessPath)
-        {
-            WriterContext           = writerContext;
-            Data                    = data;
-            WindowRequestAccessPath = windowRequestAccessPath;
-        }
+        /// <summary>
+        ///     The window request access path
+        /// </summary>
+        public string WindowRequestAccessPath;
 
-
+        /// <summary>
+        ///     The writer context
+        /// </summary>
+        public WriterContext WriterContext;
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Gets the code.
+        /// </summary>
         public string GetCode()
         {
             var temp = WriterContext.Output;
