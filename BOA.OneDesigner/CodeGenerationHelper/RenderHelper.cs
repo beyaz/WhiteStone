@@ -35,10 +35,6 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
             var isString = typeFullName == typeof(string).FullName;
 
-            
-            
-
-            
             var returnValue = new BindingPathPropertyInfo
             {
                 IsString          = isString,
@@ -61,7 +57,6 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                             typeFullName == typeof(bool).FullName,
                 IsDateTime = CecilHelper.FullNameOfNullableDateTime == typeFullName ||
                              typeFullName == typeof(DateTime).FullName,
-
 
                 IsValueType = propertyDefinition.PropertyType.IsValueType
             };
@@ -128,20 +123,20 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                     return jsBindingPath.FullBindingPathInJs;
                 }
 
-                if (propertyInfo.IsString )
+                if (propertyInfo.IsString)
                 {
                     return jsBindingPath.FullBindingPathInJs;
                 }
 
-                if (propertyInfo.IsNullableNumber  || 
-                    propertyInfo.IsNonNullableNumber||
-                    propertyInfo.IsDecimalNullable||
+                if (propertyInfo.IsNullableNumber ||
+                    propertyInfo.IsNonNullableNumber ||
+                    propertyInfo.IsDecimalNullable ||
                     propertyInfo.IsDecimal)
                 {
                     return jsBindingPath.FullBindingPathInJs + " || " + '"' + '"';
                 }
 
-                if (propertyInfo.IsBoolean  )
+                if (propertyInfo.IsBoolean)
                 {
                     return jsBindingPath.FullBindingPathInJs + " ? 'Evet' : 'Hayır'";
                 }
@@ -177,11 +172,10 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
         public static void WriteButtonAction(PaddedStringBuilder sb, ButtonActionInfo buttonActionInfo)
         {
-            var orchestrationMethodName = buttonActionInfo.OrchestrationMethodName;
-            var resourceCode            = buttonActionInfo.OpenFormWithResourceCode;
-            var openFormWithResourceCodeIsInDialogBox = buttonActionInfo.OpenFormWithResourceCodeIsInDialogBox;
+            var orchestrationMethodName                 = buttonActionInfo.OrchestrationMethodName;
+            var resourceCode                            = buttonActionInfo.OpenFormWithResourceCode;
+            var openFormWithResourceCodeIsInDialogBox   = buttonActionInfo.OpenFormWithResourceCodeIsInDialogBox;
             var orchestrationMethodOnDialogResponseIsOk = buttonActionInfo.OrchestrationMethodOnDialogResponseIsOK;
-
 
             var writerContext = buttonActionInfo.WriterContext;
 
@@ -192,7 +186,6 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                 dataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(buttonActionInfo.OpenFormWithResourceCodeDataParameterBindingPath);
             }
 
-
             if (resourceCode.HasValue() && orchestrationMethodName.HasValue())
             {
                 sb.AppendLine("const me: any = this;");
@@ -202,7 +195,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
                 if (dataParameter.HasValue())
                 {
-                    sb.AppendLine("const data:any = "+ dataParameter +";");
+                    sb.AppendLine("const data:any = " + dataParameter + ";");
                 }
                 else
                 {
@@ -224,19 +217,17 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                     }
                     else
                     {
-                        sb.AppendLine("const onClose: any = null;");  
+                        sb.AppendLine("const onClose: any = null;");
                     }
 
                     sb.AppendLine();
-                    sb.AppendLine("const style:any = "+ buttonActionInfo.CssOfDialog +";");
+                    sb.AppendLine("const style:any = " + buttonActionInfo.CssOfDialog + ";");
                 }
-
 
                 if (openFormWithResourceCodeIsInDialogBox)
                 {
                     sb.AppendLine();
                     sb.AppendLine($"BFormManager.showDialog(\"{resourceCode}\", data, /*title*/null, onClose, style );");
-                        
                 }
                 else
                 {
@@ -245,7 +236,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                     sb.AppendLine();
                     sb.AppendLine("const menuItemSuffix:string = null;");
                     sb.AppendLine();
-                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", data, showAsNewPage,menuItemSuffix);");    
+                    sb.AppendLine($"BFormManager.show(\"{resourceCode}\", data, showAsNewPage,menuItemSuffix);");
                 }
 
                 sb.PaddingCount--;

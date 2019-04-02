@@ -35,7 +35,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 OpenFormWithResourceCodeIsInDialogBox = data.OpenFormWithResourceCodeIsInDialogBox,
                 CssOfDialog = data.CssOfDialog,
 
-                WriterContext = writerContext
+                WriterContext = writerContext,
+                
             });
 
             sb.PaddingCount--;
