@@ -19,9 +19,8 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             return bindingPathInJs.Replace(Config.BindingPrefixInJs, Config.IncomingRequestVariableName + ".");
         }
 
-        public static BindingPathPropertyInfo GetBindingPathPropertyInfo(WriterContext writerContext, string bindingPathInDesigner)
+        public static BindingPathPropertyInfo GetBindingPathPropertyInfo(this ScreenInfo screenInfo, string bindingPathInDesigner)
         {
-            var screenInfo         = writerContext.ScreenInfo;
             var solutionInfo       = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
             var propertyDefinition = CecilHelper.FindPropertyInfo(solutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName, bindingPathInDesigner);
 
@@ -116,7 +115,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                 JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
                 writerContext.PushVariablesToRenderScope(jsBindingPath);
 
-                var propertyInfo = GetBindingPathPropertyInfo(writerContext, data.RequestBindingPath);
+                var propertyInfo = GetBindingPathPropertyInfo(writerContext.ScreenInfo, data.RequestBindingPath);
                 if (propertyInfo == null)
                 {
                     return jsBindingPath.FullBindingPathInJs;

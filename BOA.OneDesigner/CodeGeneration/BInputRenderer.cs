@@ -42,7 +42,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
 
-            var bindingPathPropertyInfo = RenderHelper.GetBindingPathPropertyInfo(writerContext, data.ValueBindingPath);
+            var bindingPathPropertyInfo = writerContext.ScreenInfo.GetBindingPathPropertyInfo(data.ValueBindingPath);
 
             if (bindingPathPropertyInfo != null)
             {
