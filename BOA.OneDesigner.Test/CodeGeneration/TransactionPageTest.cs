@@ -50,14 +50,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 foreach (var screen in screens)
                 {
-                    try
-                    {
-                        Controller.Generate(screen);
-                    }
-                    catch (BusinessException e)
-                    {
-                        Console.WriteLine(e);
-                    }
+                    Controller.Generate(screen);
                 }
             }
         }

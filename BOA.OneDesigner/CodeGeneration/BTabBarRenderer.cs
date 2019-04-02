@@ -21,7 +21,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 ScreenInfo                            = writerContextMain.ScreenInfo,
                 IsBrowsePage                          = writerContextMain.IsBrowsePage,
                 SolutionInfo                          = writerContextMain.SolutionInfo,
-                ThrowExceptionOnEmptyActionDefinition = writerContextMain.ThrowExceptionOnEmptyActionDefinition
+                ThrowExceptionOnEmptyActionDefinition = writerContextMain.ThrowExceptionOnEmptyActionDefinition,
+                RequestIntellisenseData = writerContextMain.RequestIntellisenseData
             };
 
             sb.AppendLine($"class {tabPage.ClassName} extends BPageModule");
