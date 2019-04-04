@@ -96,6 +96,7 @@
     <Compile Include="CodeGenerationHelper\JsObjectInfoSingleLineWriter.cs" />
     <Compile Include="CodeGenerationModel\TypeScriptMemberInfo.cs" />
     <Compile Include="CodeGeneration\ExcelBrowserRenderer.cs" />
+    <Compile Include="CodeGeneration\ExtensionCode.cs" />
     <Compile Include="CodeGeneration\FillWindowRequestFunctionDefinition.cs" />
     <Compile Include="CodeGeneration\RenderFunctionDefinition.cs" />
     <Compile Include="JsxElementModel\Aut_ResourceAction.cs" />

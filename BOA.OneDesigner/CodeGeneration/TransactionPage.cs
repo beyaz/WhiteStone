@@ -7,6 +7,7 @@ using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.OneDesigner.MainForm;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 
@@ -23,6 +24,9 @@ namespace BOA.OneDesigner.CodeGeneration
             var isBrowseForm = screenInfo.FormType == FormType.BrowsePage;
             var className    = screenInfo.RequestName.SplitAndClear(".").Last().RemoveFromEnd("Request");
 
+
+            
+
             var writerContext = new WriterContext
             {
                 ClassName    = className,
@@ -31,7 +35,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 IsBrowsePage = isBrowseForm,
                 SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName),
                 ThrowExceptionOnEmptyActionDefinition = false,
-                ExecuteWindowRequestFunctionAccessPath = "this.executeWindowRequest"
+                ExecuteWindowRequestFunctionAccessPath = "this.executeWindowRequest",
+                HasExtensionFile = Controller.HasExtensionFile(screenInfo)
             };
 
             writerContext.Imports.AddRange(new List<string>
@@ -50,6 +55,11 @@ namespace BOA.OneDesigner.CodeGeneration
             else
             {
                 writerContext.Imports.Add("import { TransactionPage, TransactionPageComposer } from \"b-framework\"");
+            }
+
+            if (writerContext.HasExtensionFile)
+            {
+                writerContext.Imports.Add($"import {{ Extension }} from \"./{screenInfo.OutputTypeScriptFileName}-extension\";");
             }
 
             writerContext.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName);
@@ -515,6 +525,12 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("    this.executeWorkFlow();");
                 sb.AppendLine("}");
             }
+
+            if (writerContext.HasExtensionFile)
+            {
+                ExtensionCode.CallFunction(sb,"afterProxyDidRespond");
+            }
+
 
             sb.AppendLine();
             sb.AppendLine("return success;");

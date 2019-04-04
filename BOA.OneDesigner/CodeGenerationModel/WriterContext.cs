@@ -57,6 +57,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
         public bool HasTabControl { get; set; }
         public bool IsTabPage { get; set; }
         public string ExecuteWindowRequestFunctionAccessPath { get; set; }
+        public bool HasExtensionFile { get; set; }
         #endregion
 
         #region Public Methods

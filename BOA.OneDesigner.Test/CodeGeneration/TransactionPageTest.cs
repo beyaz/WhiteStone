@@ -44,7 +44,8 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 var screens = database.GetAllScreens();
 
-                var files = new[] {"card-agriculture-profile-restriction-list","card360-edit","card360","DebitParameterForm","GeneralParametersForm"};
+                // var files = new[] {"branch-integration-monitoring","card-agriculture-profile-restriction-list","card360-edit","card360","DebitParameterForm","GeneralParametersForm"};
+                var files = new[] {"branch-integration-monitoring"};
 
                 screens = screens.Where(x => files.Contains(x.OutputTypeScriptFileName)).ToList();
 

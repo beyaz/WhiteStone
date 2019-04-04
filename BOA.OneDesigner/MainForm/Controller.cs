@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
@@ -16,6 +17,22 @@ namespace BOA.OneDesigner.MainForm
 {
     public class Controller : ControllerBase<Model>
     {
+        public static string GetOutputFilePath(ScreenInfo screenInfo)
+        {
+            var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
+
+            return  solutionInfo.OneProjectFolder + @"ClientApp\pages\" + screenInfo.OutputTypeScriptFileName + ".tsx";
+        }
+
+        public static bool HasExtensionFile(ScreenInfo screenInfo)
+        {
+            var outputFilePath = GetOutputFilePath(screenInfo);
+
+            var extensionFilePath = outputFilePath.RemoveFromEnd(".tsx") + "-extension.tsx";
+
+            return File.Exists(extensionFilePath);
+        }
+
         #region Public Properties
         public Host Host { get; set; }
         #endregion
@@ -27,9 +44,9 @@ namespace BOA.OneDesigner.MainForm
 
             tsxCode = TsxCodeBeautifier.Beautify(tsxCode);
 
-            var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
 
-            var filePath = solutionInfo.OneProjectFolder + @"ClientApp\pages\" + screenInfo.OutputTypeScriptFileName + ".tsx";
+
+            var filePath = GetOutputFilePath(screenInfo);
 
             Util.WriteFileIfContentNotEqual(filePath, tsxCode);
 
