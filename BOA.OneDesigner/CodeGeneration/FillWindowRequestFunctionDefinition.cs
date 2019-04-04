@@ -92,7 +92,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
 
                 sb.AppendLine();
-                sb.AppendLine($"{data.JsBindingPath} = snaps.{data.SnapName} && {data.GetCode()};");
+                sb.AppendLine($"{data.JsBindingPath} = {data.GetAssignmentValueCode()};");
             }
 
             if (HasTabControl)

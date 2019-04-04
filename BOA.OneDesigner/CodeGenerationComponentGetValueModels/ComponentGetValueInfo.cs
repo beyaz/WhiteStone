@@ -22,6 +22,12 @@
         ///     Gets the code.
         /// </summary>
         public abstract string GetCode();
+
+
+        public virtual string GetAssignmentValueCode()
+        {
+            return $"snaps.{SnapName} && {GetCode()}";
+        }
         #endregion
     }
 }

@@ -28,7 +28,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (canWriteRowSelectionChangedMethod)
             {
-                writerContext.AddClassBody(EvaluateMethodBodyOfGridRowSelectionChanged(rowSelectionChangedMethodName, writerContext, data));
+                writerContext.AddClassBody(EvaluateMethodBodyOfGridRowSelectionChanged(rowSelectionChangedMethodName, writerContext, data, isBrowsePageDataGrid));
 
                 if (isBrowsePageDataGrid)
                 {
@@ -172,7 +172,7 @@ namespace BOA.OneDesigner.CodeGeneration
             return sb.ToString();
         }
 
-        internal static string EvaluateMethodBodyOfGridRowSelectionChanged(string methodName, WriterContext writerContext, BDataGrid data)
+        internal static string EvaluateMethodBodyOfGridRowSelectionChanged(string methodName, WriterContext writerContext, BDataGrid data, bool isBrowsePageDataGrid)
         {
             var sb = new PaddedStringBuilder();
 
@@ -189,8 +189,19 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var fieldPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.SelectedRowDataBindingPath);
 
+
+
+            if (isBrowsePageDataGrid)
+            {
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValueInBrowseForm { JsBindingPath = fieldPath,SnapName = data.SnapName});    
+            }
+            else
+            {
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValue { JsBindingPath = fieldPath,SnapName = data.SnapName});    
+            }
             
-            writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValue { JsBindingPath = fieldPath,SnapName = data.SnapName});
+
+            
            
             sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.RowSelectionChangedOrchestrationMethod}\");");
 
