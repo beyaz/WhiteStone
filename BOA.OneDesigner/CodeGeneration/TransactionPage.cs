@@ -710,6 +710,8 @@ namespace BOA.OneDesigner.CodeGeneration
                     };
 
                     sb.AppendAll(function.GetCode());
+
+                    sb.AppendLine();
                     
 
                     sb.AppendLine("return false;");

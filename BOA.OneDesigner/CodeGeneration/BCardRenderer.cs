@@ -240,6 +240,19 @@ namespace BOA.OneDesigner.CodeGeneration
 
                         continue;
                     }
+
+                    if (componentInfo.Type.IsExcelBrowser)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                        ExcelBrowserRenderer.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
                 }
 
                 throw Error.InvalidOperation();

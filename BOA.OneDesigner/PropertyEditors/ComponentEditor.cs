@@ -32,6 +32,7 @@ namespace BOA.OneDesigner.PropertyEditors
         public bool   OpenFormWithResourceCodeDataParameterBindingPathIsVisible { get; set; }
         public bool   OpenFormWithResourceCodeIsVisible                         { get; set; }
         public string ValueBindingPathLabel                                     { get; set; }
+        public string ValueBindingPathToolTip { get; set; }
         #endregion
     }
 
@@ -61,9 +62,9 @@ namespace BOA.OneDesigner.PropertyEditors
             var dataContext = new ComponentEditorModel
             {
                 Info                                                      = info,
-                IsSizeEditorVisible                                       = info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel || info.Type.IsInformationText,
-                IsValueBindingPathEditorVisible                           = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsCreditCardComponent,
-                IsLLabelEditorVisible                                     = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
+                IsSizeEditorVisible                                       = info.Type.IsExcelBrowser || info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel || info.Type.IsInformationText,
+                IsValueBindingPathEditorVisible                           = info.Type.IsExcelBrowser || info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsCreditCardComponent,
+                IsLLabelEditorVisible                                     = info.Type.IsExcelBrowser || info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
                 IsParamTypeVisible                                        = info.Type.IsParameterComponent,
                 IsInfoTextVisible                                         = info.Type.IsInformationText,
                 IsVisibleEditorVisible                                    = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
@@ -79,6 +80,11 @@ namespace BOA.OneDesigner.PropertyEditors
             if (info.Type.IsCreditCardComponent)
             {
                 dataContext.ValueBindingPathLabel = "Açık Kart No";
+            }
+
+            if (info.Type.IsExcelBrowser)
+            {
+                dataContext.ValueBindingPathToolTip = "public IReadOnlyCollection<string[]> ExcelData {get; set;} şeklinde bir alana bind edilmelidir.";
             }
 
             var componentEditor = new ComponentEditor
@@ -189,7 +195,8 @@ namespace BOA.OneDesigner.PropertyEditors
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsValueBindingPathEditorVisible) + @"}',
             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @"}', 
             Label       : '{Binding " + Model.AccessPathOf(m => m.ValueBindingPathLabel) + @"}', 
-            TextChanged : '" + nameof(OnValueBindingPathChanged) + @"'
+            TextChanged : '" + nameof(OnValueBindingPathChanged) + @"',
+            ToolTip     : '{Binding " + Model.AccessPathOf(m => m.ValueBindingPathToolTip) + @"}'
         }
         ,
         {

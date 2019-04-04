@@ -26,9 +26,19 @@ namespace BOA.OneDesigner.JsxElementModel
         public bool IsButton { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether this instance is credit card component.
+        /// </summary>
+        public bool IsCreditCardComponent { get; set; }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether this instance is divider.
         /// </summary>
         public bool IsDivider { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is excel browser.
+        /// </summary>
+        public bool IsExcelBrowser { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is information text.
@@ -49,11 +59,6 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets a value indicating whether this instance is parameter component.
         /// </summary>
         public bool IsParameterComponent { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is credit card component.
-        /// </summary>
-        public bool IsCreditCardComponent { get; set; }
         #endregion
 
         #region Public Methods

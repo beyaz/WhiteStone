@@ -246,6 +246,24 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(tabControlWpf);
             #endregion
 
+
+
+            #region bExcelBrowser
+            var bExcelBrowser = ComponentWpf.Create(Host, new ComponentInfo
+            {
+                Type = new ComponentType
+                {
+                    IsExcelBrowser = true
+                },
+                LabelTextInfo    = LabelInfoHelper.CreateNewLabelInfo("Excel Browser"),
+                ValueBindingPath = "$"
+            }, isInToolbox: true);
+
+            Host.DragHelper.MakeDraggable(bExcelBrowser);
+
+            stackPanel.Children.Add(bExcelBrowser);
+            #endregion
+
             foreach (var uiElement in stackPanel.Children.ToArray())
             {
                 var frameworkElement = uiElement as FrameworkElement;

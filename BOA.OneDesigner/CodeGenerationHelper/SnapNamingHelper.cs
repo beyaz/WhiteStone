@@ -79,6 +79,10 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             {
                 data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "Input";
             }
+            else  if (data.Type.IsExcelBrowser)
+            {
+                data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "ExcelBrowser";
+            }
             else
             {
                 throw Error.InvalidOperation();
