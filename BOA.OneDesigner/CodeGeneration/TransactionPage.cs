@@ -531,7 +531,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("}");
             }
 
-            if (writerContext.HasExtensionFile)
+            if (writerContext.ScreenInfo.ExtensionAfterProxyDidRespond)
             {
                 ExtensionCode.CallFunction(sb,"afterProxyDidRespond");
             }
@@ -682,7 +682,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine(line);
             }
 
-            if (writerContext.HasExtensionFile)
+            if (writerContext.ScreenInfo.ExtensionAfterConstructor)
             {
                 ExtensionCode.CallFunction(sb,"afterConstructor");
             }
@@ -747,6 +747,12 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
                 }
 
+
+                if (writerContext.ScreenInfo.ExtensionOnActionClick)
+                {
+                    ExtensionCode.onActionClick(sb);
+                }
+
                 sb.AppendLine("return true;");
 
                 sb.PaddingCount--;
@@ -773,46 +779,30 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    #region action body
-                    if (resourceAction.OpenFormWithResourceCode.HasValue() && resourceAction.OrchestrationMethodName.HasValue())
+                    
+                    var function = new ButtonActionInfoFunction
                     {
-                        throw Error.InvalidOperation("'Open Form With Resource Code' ve 'Orchestration Method Name' aynı anda dolu olamaz." + resourceAction.CommandName);
-                    }
+                        OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
+                        OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
+                        OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
+                        DesignerLocation                                 = resourceAction.Name,
+                        WriterContext                                    = writerContext
+                    };
 
-                    if (writerContext.ThrowExceptionOnEmptyActionDefinition)
-                    {
-                        if (resourceAction.OpenFormWithResourceCode.IsNullOrWhiteSpace() && resourceAction.OrchestrationMethodName.IsNullOrWhiteSpace())
-                        {
-                            var message = "'Open Form With Resource Code' veya 'Orchestration Method Name' dan biri dolu olmalıdır." + resourceAction.CommandName;
-                            throw Error.InvalidOperation(message);
-                        }
-                    }
-                   
+                    sb.AppendAll(function.GetCode());
 
-                    if (resourceAction.OpenFormWithResourceCode.HasValue())
-                    {
-                        if (resourceAction.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
-                        {
-                            var bindingPathForDataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(resourceAction.OpenFormWithResourceCodeDataParameterBindingPath);
-
-                            sb.AppendLine($"BFormManager.show(\"{resourceAction.OpenFormWithResourceCode.Trim()}\", /*data*/{bindingPathForDataParameter}, true,null);");
-                        }
-                        else
-                        {
-                            sb.AppendLine($"BFormManager.show(\"{resourceAction.OpenFormWithResourceCode.Trim()}\", /*data*/null, true,null);");
-                        }
-                    }
-                    else if(resourceAction.OrchestrationMethodName.HasValue())
-                    {
-                        sb.AppendLine($"this.executeWindowRequest(\"{resourceAction.OrchestrationMethodName}\");");
-                    }
-                    #endregion
+                    sb.AppendLine();
 
                     sb.AppendLine("return true;");
                     sb.PaddingCount--;
                     sb.AppendLine("}");
 
                     sb.AppendLine();
+                }
+
+                if (writerContext.ScreenInfo.ExtensionOnActionClick)
+                {
+                    ExtensionCode.onActionClick(sb);
                 }
 
                 sb.AppendLine("return true;");

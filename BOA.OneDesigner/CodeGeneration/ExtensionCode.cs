@@ -8,15 +8,21 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             
             sb.AppendLine();
-            sb.AppendLine($"if (Extension.{functionName})");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            if (functionName == "onActionClick")
+            {
+                sb.AppendLine($"Extension.{functionName}(this, command.commandName);");
+            }
+            else
+            {
+                sb.AppendLine($"Extension.{functionName}(this);");
+            }
+        }
 
-            sb.AppendLine($"Extension.{functionName}(this);");
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+        public static void onActionClick(PaddedStringBuilder sb)
+        {
             
+            sb.AppendLine();
+            sb.AppendLine("Extension.onActionClick(this, command.commandName);");
         }
     }
 }

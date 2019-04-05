@@ -26,11 +26,7 @@ namespace BOA.OneDesigner.MainForm
 
         public static bool HasExtensionFile(ScreenInfo screenInfo)
         {
-            var outputFilePath = GetOutputFilePath(screenInfo);
-
-            var extensionFilePath = outputFilePath.RemoveFromEnd(".tsx") + "-extension.tsx";
-
-            return File.Exists(extensionFilePath);
+            return screenInfo.ExtensionAfterConstructor || screenInfo.ExtensionAfterProxyDidRespond || screenInfo.ExtensionOnActionClick;
         }
 
         #region Public Properties
