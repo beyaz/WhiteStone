@@ -59,12 +59,21 @@ namespace BOA.OneDesigner.CodeGeneration
         [TestMethod]
         public void GenerateAll()
         {
-            var excepts = new List<string>();
+            var excepts = new List<string>
+            {
+                "BOA.Types.Card.Parameter.TerminalDeviceGroupDefRequest" // Büşra Aslan - sanırım hiç ekleme yapmamış kaldırayım mı tamamen
+                ,"BOA.Types.Card.KeyManagement.RSAKeyRequest" // sanırım mehmetin 
+            };
+
             using (var database = new DevelopmentDatabase())
             {
                 var screens = database.GetAllScreens();
 
                 screens = screens.Where(x => excepts.Contains(x.RequestName) == false).ToList();
+
+                screens = screens.Where(x => x.RequestName.StartsWith("BOA.Types.Card.CCO.") == false).ToList();
+
+                
 
                 foreach (var screen in screens)
                 {
