@@ -533,7 +533,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (writerContext.ScreenInfo.ExtensionAfterProxyDidRespond)
             {
-                ExtensionCode.CallFunction(sb,"afterProxyDidRespond");
+                ExtensionCode.afterProxyDidRespond(sb);
             }
 
 
@@ -684,7 +684,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (writerContext.ScreenInfo.ExtensionAfterConstructor)
             {
-                ExtensionCode.CallFunction(sb,"afterConstructor");
+                ExtensionCode.afterConstructor(sb);
             }
 
             sb.PaddingCount--;
