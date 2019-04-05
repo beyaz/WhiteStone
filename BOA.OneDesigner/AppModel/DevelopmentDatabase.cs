@@ -148,6 +148,10 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
             data.UserName                 = Convert.ToString(reader[nameof(data.UserName)]);
             data.SystemDate               = Convert.ToDateTime(reader[nameof(data.SystemDate)]);
 
+            data.ExtensionAfterConstructor = reader[nameof(data.ExtensionAfterConstructor)].ToBooleanNullable().GetValueOrDefault();
+            data.ExtensionAfterProxyDidRespond = reader[nameof(data.ExtensionAfterProxyDidRespond)].ToBooleanNullable().GetValueOrDefault();
+            data.ExtensionOnActionClick = reader[nameof(data.ExtensionOnActionClick)].ToBooleanNullable().GetValueOrDefault();
+
             data.JsxModel        = Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.JsxModel)]));
             data.ResourceActions = (List<Aut_ResourceAction>) Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.ResourceActions)]));
 
@@ -197,6 +201,10 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
             this[nameof(data.ResourceActions)]          = CompressionHelper.Compress(BinarySerialization.Serialize(data.ResourceActions) ?? new byte[0]);
             this[nameof(data.UserName)]                 = data.UserName;
             this[nameof(data.SystemDate)]               = data.SystemDate;
+
+            this[nameof(data.ExtensionAfterConstructor)] = data.ExtensionAfterConstructor.ToInt32Nullable();
+            this[nameof(data.ExtensionAfterProxyDidRespond)] = data.ExtensionAfterProxyDidRespond.ToInt32Nullable();
+            this[nameof(data.ExtensionOnActionClick)] = data.ExtensionOnActionClick.ToInt32Nullable();
         }
 
         bool Exists(ScreenInfo data)
@@ -227,7 +235,10 @@ INSERT INTO BOA.DBT.OneDesigner
     {nameof(data.JsxModel)},
     {nameof(data.ResourceActions)},
     {nameof(data.UserName)},
-    {nameof(data.SystemDate)}
+    {nameof(data.SystemDate)},
+    {nameof(data.ExtensionAfterConstructor)},
+    {nameof(data.ExtensionAfterProxyDidRespond)},
+    {nameof(data.ExtensionOnActionClick)}
 )
 VALUES
 (
@@ -240,7 +251,10 @@ VALUES
     @{nameof(data.JsxModel)},
     @{nameof(data.ResourceActions)},
     @{nameof(data.UserName)},
-    @{nameof(data.SystemDate)}
+    @{nameof(data.SystemDate)},
+    @{nameof(data.ExtensionAfterConstructor)},
+    @{nameof(data.ExtensionAfterProxyDidRespond)},
+    @{nameof(data.ExtensionOnActionClick)}
 
 )";
 
@@ -263,7 +277,13 @@ UPDATE BOA.DBT.OneDesigner SET
 {nameof(data.JsxModel)}                        = @{nameof(data.JsxModel)},
 {nameof(data.ResourceActions)}                 = @{nameof(data.ResourceActions)},
 {nameof(data.UserName)}                        = @{nameof(data.UserName)},
-{nameof(data.SystemDate)}                      = @{nameof(data.SystemDate)}
+{nameof(data.SystemDate)}                      = @{nameof(data.SystemDate)},
+
+{nameof(data.ExtensionAfterConstructor)}        = @{nameof(data.ExtensionAfterConstructor)},
+{nameof(data.ExtensionAfterProxyDidRespond)}    = @{nameof(data.ExtensionAfterProxyDidRespond)},
+{nameof(data.ExtensionOnActionClick)}           = @{nameof(data.ExtensionOnActionClick)}
+
+
 
 WHERE {nameof(data.RequestName)} = @{nameof(data.RequestName)}
 ";

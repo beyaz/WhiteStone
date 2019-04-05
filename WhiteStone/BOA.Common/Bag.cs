@@ -118,6 +118,10 @@ namespace System
         /// </returns>
         public static bool IsNull(this object value)
         {
+            if (value == DBNull.Value)
+            {
+                return true;
+            }
             return ReferenceEquals(value, null);
         }
 
@@ -270,6 +274,20 @@ namespace System
             {
                 return null;
             }
+
+            var valueAsString = value as string;
+            if (valueAsString != null)
+            {
+                if (valueAsString.Trim() == "1")
+                {
+                    return true;
+                }
+                if (valueAsString.Trim() == "0")
+                {
+                    return false;
+                }
+            }
+
             return Convert.ToBoolean(value, formatProvider);
         }
 

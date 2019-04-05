@@ -13,6 +13,10 @@ namespace BOA.OneDesigner.JsxElementModel
         public string OutputTypeScriptFileName { get; set; }
         public string RequestName              { get; set; }
 
+        public bool ExtensionOnActionClick { get; set; }
+        public bool ExtensionAfterProxyDidRespond { get; set; }
+        public bool ExtensionAfterConstructor { get; set; }
+
         public List<Aut_ResourceAction> ResourceActions { get; set; }
         public string                   ResourceCode    { get; set; }
         public DateTime?                SystemDate      { get; set; }
