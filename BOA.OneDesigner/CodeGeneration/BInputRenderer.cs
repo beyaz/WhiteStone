@@ -40,7 +40,7 @@ namespace BOA.OneDesigner.CodeGeneration
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
             writerContext.PushVariablesToRenderScope(jsBindingPath);
 
-            writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
+            
 
             var bindingPathPropertyInfo = writerContext.ScreenInfo.GetBindingPathPropertyInfo(data.ValueBindingPath);
 
@@ -65,10 +65,14 @@ namespace BOA.OneDesigner.CodeGeneration
                 {
                     writerContext.Imports.Add("import { BInputMask } from \"b-input-mask\"");
                     tag = "BInputMask";
+
+                    writerContext.GrabValuesToRequest(new ComponentGetValueInfoInputMask { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
+                    
                 }
                 else
                 {
                     writerContext.Imports.Add("import { BInput } from \"b-input\"");
+                    writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
                 }
 
                 sb.AppendLine($"<{tag} value = {{{jsBindingPath.FullBindingPathInJs} || \"\"}}");
@@ -95,6 +99,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else if (isDecimal || isDecimalNullable)
             {
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
                 writerContext.Imports.Add("import { BInputNumeric } from \"b-input-numeric\";");
 
                 if (isDecimal)
@@ -115,6 +120,8 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else if (isBoolean)
             {
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
+
                 writerContext.Imports.Add("import { BCheckBox } from \"b-check-box\"");
 
                 sb.AppendLine($"<BCheckBox checked = {{{jsBindingPath.FullBindingPathInJs}}}");
@@ -134,6 +141,8 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else if (isDateTime)
             {
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
+
                 writerContext.Imports.Add("import { BDateTimePicker } from \"b-datetime-picker\"");
 
                 sb.AppendLine($"<BDateTimePicker value = {{{jsBindingPath.FullBindingPathInJs}}}");
@@ -144,6 +153,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
                 writerContext.Imports.Add("import { BInputNumeric } from \"b-input-numeric\";");
 
                 if (isNullableNumber)

@@ -59,7 +59,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (writerContext.HasExtensionFile)
             {
-                writerContext.Imports.Add($"import {{ Extension }} from \"./{screenInfo.OutputTypeScriptFileName}-extension\";");
+                writerContext.Imports.Add($"import {{ {writerContext.ClassName}Extension }} from \"./{screenInfo.OutputTypeScriptFileName}-extension\";");
             }
 
             writerContext.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName);
@@ -82,6 +82,11 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.Page.Insert(0, string.Join(Environment.NewLine, writerContext.Imports.Distinct().ToList()));
 
             writerContext.Page.Insert(1, $"const WindowRequestFullName = \"{writerContext.ScreenInfo.RequestName}\";");
+
+            if (writerContext.HasExtensionFile)
+            {
+                writerContext.Page.Insert(2, $"const Extension: any = new {writerContext.ClassName}Extension();");
+            }
 
             var sb = new PaddedStringBuilder();
             foreach (var item in writerContext.Page)
@@ -675,6 +680,11 @@ namespace BOA.OneDesigner.CodeGeneration
             foreach (var line in writerContext.ConstructorBody)
             {
                 sb.AppendLine(line);
+            }
+
+            if (writerContext.HasExtensionFile)
+            {
+                ExtensionCode.CallFunction(sb,"afterConstructor");
             }
 
             sb.PaddingCount--;

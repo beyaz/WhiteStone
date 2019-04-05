@@ -8,6 +8,14 @@
         }
     }
 
+    public class ComponentGetValueInfoInputMask:ComponentGetValueInfo
+    {
+        public override string GetCode()
+        {
+            return $"snaps.{SnapName}.getInstance().getValue().saltValue";    
+        }
+    }
+
 
     public class ComponentGetValueInfoExcelBrowser:ComponentGetValueInfo
     {
