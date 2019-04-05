@@ -61,8 +61,7 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var excepts = new List<string>
             {
-                "BOA.Types.Card.Parameter.TerminalDeviceGroupDefRequest" // Büşra Aslan - sanırım hiç ekleme yapmamış kaldırayım mı tamamen
-                ,"BOA.Types.Card.KeyManagement.RSAKeyRequest" // sanırım mehmetin 
+                "BOA.Types.Card.KeyManagement.RSAKeyRequest" // sanırım ahmet sevgili sonra yapacakmış 
             };
 
             using (var database = new DevelopmentDatabase())
