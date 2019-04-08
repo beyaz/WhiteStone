@@ -11,12 +11,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("Extension.afterConstructor(this);");
         }
 
-        public static void onActionClick(PaddedStringBuilder sb)
-        {
-            
-            sb.AppendLine();
-            sb.AppendLine("Extension.onActionClick(this, command);");
-        }
+       
 
         public static void afterProxyDidRespond(PaddedStringBuilder sb)
         {

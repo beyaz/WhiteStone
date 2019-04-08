@@ -85,7 +85,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (writerContext.HasExtensionFile)
             {
-                writerContext.Page.Insert(2, $"const Extension: any = new {writerContext.ClassName}Extension();");
+                writerContext.Page.Insert(2, $"const Extension = new {writerContext.ClassName}Extension();");
             }
 
             var sb = new PaddedStringBuilder();
@@ -720,6 +720,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("this.executeWorkFlow = executeWorkFlow;");
                 sb.AppendLine();
 
+                if (writerContext.ScreenInfo.ExtensionOnActionClick)
+                {
+                    ExtensionCode.onActionClick(sb);
+                }
+
                 foreach (var resourceAction in resourceActions)
                 {
                     sb.AppendLine($"if (command.commandName === \"{resourceAction.CommandName}\")");
@@ -732,7 +737,8 @@ namespace BOA.OneDesigner.CodeGeneration
                         OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
                         OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
                         DesignerLocation                                 = resourceAction.Name,
-                        WriterContext                                    = writerContext
+                        WriterContext                                    = writerContext,
+                        ExtensionMethodName = resourceAction.ExtensionMethodName
                     };
 
                     sb.AppendAll(function.GetCode());
@@ -748,10 +754,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
 
 
-                if (writerContext.ScreenInfo.ExtensionOnActionClick)
-                {
-                    ExtensionCode.onActionClick(sb);
-                }
+                
 
                 sb.AppendLine("return true;");
 
@@ -773,6 +776,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
+               
+
                 foreach (var resourceAction in resourceActions)
                 {
                     sb.AppendLine($"if (command.commandName === \"{resourceAction.CommandName}\")");
@@ -786,7 +791,8 @@ namespace BOA.OneDesigner.CodeGeneration
                         OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
                         OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
                         DesignerLocation                                 = resourceAction.Name,
-                        WriterContext                                    = writerContext
+                        WriterContext                                    = writerContext,
+                        ExtensionMethodName = resourceAction.ExtensionMethodName
                     };
 
                     sb.AppendAll(function.GetCode());
@@ -800,10 +806,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
                 }
 
-                if (writerContext.ScreenInfo.ExtensionOnActionClick)
-                {
-                    ExtensionCode.onActionClick(sb);
-                }
+                
 
                 sb.AppendLine("return true;");
                 sb.PaddingCount--;

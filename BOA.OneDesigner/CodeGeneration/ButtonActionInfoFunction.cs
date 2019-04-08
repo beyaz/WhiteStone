@@ -16,6 +16,7 @@ namespace BOA.OneDesigner.CodeGeneration
         public string        OrchestrationMethodOnDialogResponseIsOK { get; set; }
         public WriterContext WriterContext                           { get; set; }
         public string        CssOfDialog                             { get; set; }
+        public string ExtensionMethodName { get; set; }
         #endregion
 
 
@@ -23,6 +24,13 @@ namespace BOA.OneDesigner.CodeGeneration
         public string GetCode()
         {
             var sb = new PaddedStringBuilder();
+
+            if (ExtensionMethodName.HasValue())
+            {
+                sb.AppendLine($"Extension.{ExtensionMethodName}(this);");
+
+                return sb.ToString();
+            }
 
             var executeWindowRequest = WriterContext.ExecuteWindowRequestFunctionAccessPath;
             

@@ -43,6 +43,8 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets the name of the orchestration method.
         /// </summary>
         public string OrchestrationMethodName { get; set; }
+
+        public string ExtensionMethodName { get; set; }
         #endregion
     }
 }

@@ -27,6 +27,13 @@ namespace BOA.OneDesigner.PropertyEditors
             {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true,    Margin:5, Text:'{Binding " + nameof(Model.IsEnableBindingPath) + @"}',      Label:'Is Enable Binding Path' },
             {ui:'RequestIntellisenseTextBox', ShowOnlyOrchestrationMethods:true, Margin:5, Text:'{Binding " + nameof(Model.OrchestrationMethodName) + @"}',  Label:'Orchestration Method Name' },
 
+            {
+                ui      : 'TextBox',
+                Label   : 'Extension Method Name',
+                Text    : '{Binding " + nameof(Model.ExtensionMethodName) + @"}'
+            }
+            ,
+            
 
 
 

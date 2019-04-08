@@ -201,6 +201,14 @@ namespace BOA.OneDesigner.PropertyEditors
         ,
         {
             ui          : 'RequestIntellisenseTextBox',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsCreditCardComponent) + @"}',
+            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CardRefNumberBindingPath) + @"}', 
+            Label       : 'Card Ref Number',
+            ToolTip     : 'Card Ref Number alnının bind edileceği path.'
+        }
+        ,
+        {
+            ui          : 'RequestIntellisenseTextBox',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsAccountComponent) + @"}',
             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.AccountSuffixBindingPath) + @"}', 
             Label       : 'Account Suffix Binding Path'

@@ -135,7 +135,7 @@ namespace BOA.OneDesigner.WpfControls
                 ,                
                 {
                     view        :'TextBox', 
-                    Text        :'{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @", Mode = OneWay}', 
+                    Text        :'{Binding " + Model.AccessPathOf(m => m.Info.CreditCardDesignerText) + @", Mode = OneWay}', 
                     IsReadOnly  :true
                 }    
             ]

@@ -84,12 +84,6 @@
                     "rows": [
                       {
                         "ui": "CheckBox",
-                        "Content": "onActionClick(form: any, command: BOA.Common.Types.ResourceActionContract)",
-                        "IsChecked": "{Binding ScreenInfo.ExtensionOnActionClick}",
-                        "ToolTip": "Typescript tarafındaki onActionClick metodunu override etmek için kullanılır."
-                      },
-                      {
-                        "ui": "CheckBox",
                         "Content": "afterProxyDidRespond(form: any, proxyResponse: GenericProxyResponse<any>)",
                         "IsChecked": "{Binding ScreenInfo.ExtensionAfterProxyDidRespond}",
                         "MarginTop": 10

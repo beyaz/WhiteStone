@@ -70,7 +70,13 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 screens = screens.Where(x => excepts.Contains(x.RequestName) == false).ToList();
 
-                screens = screens.Where(x => x.RequestName.StartsWith("BOA.Types.Card.CCO.") == false).ToList();
+
+
+                // screens = screens.Where(x => x.RequestName.StartsWith("BOA.Types.Card.CCO.") == false).ToList();
+
+
+
+                screens = screens.Where(x => x.OutputTypeScriptFileName=="manuel-installment-cancel").ToList();
 
                 
 

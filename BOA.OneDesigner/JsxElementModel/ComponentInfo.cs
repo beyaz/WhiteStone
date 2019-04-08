@@ -1,4 +1,5 @@
 ﻿using System;
+using BOA.Common.Helpers;
 using BOA.OneDesigner.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
@@ -9,6 +10,11 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class ComponentInfo : BField
     {
+
+        public string CreditCardDesignerText => ValueBindingPath.HasValue() ? ValueBindingPath : CardRefNumberBindingPath;
+
+        public string CardRefNumberBindingPath { get; set; }
+
 
         public string AccountSuffixBindingPath { get; set; }
 

@@ -9,7 +9,6 @@ namespace BOA.OneDesigner.AppModel
         #region Public Methods
         public static void CopyTo(this Aut_ResourceAction from, Aut_ResourceAction to)
         {
-
             if (from.OpenFormWithResourceCode.HasValue())
             {
                 var realResourceCode = from.OpenFormWithResourceCode.SplitAndClear("-")?.FirstOrDefault();
@@ -22,6 +21,7 @@ namespace BOA.OneDesigner.AppModel
             to.IsVisibleBindingPath                             = from.IsVisibleBindingPath;
             to.IsEnableBindingPath                              = from.IsEnableBindingPath;
             to.OrchestrationMethodName                          = from.OrchestrationMethodName;
+            to.ExtensionMethodName                              = from.ExtensionMethodName;
             to.OpenFormWithResourceCode                         = from.OpenFormWithResourceCode;
             to.OpenFormWithResourceCodeDataParameterBindingPath = from.OpenFormWithResourceCodeDataParameterBindingPath;
         }

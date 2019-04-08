@@ -18,19 +18,35 @@ namespace BOA.OneDesigner.CodeGeneration
 
             SnapNamingHelper.InitSnapName(writerContext, data);
 
-            var jsBindingPath = new JsBindingPathInfo(data.ValueBindingPath)
-            {
-                EvaluateInsStateVersion = true
-            };
-            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
-            writerContext.PushVariablesToRenderScope(jsBindingPath);
+           
 
-            writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent {JsBindingPath = jsBindingPath.FullBindingPathInJs, SnapName = data.SnapName});
+
+            if (data.CardRefNumberBindingPath.HasValue())
+            {
+                var jsBindingPathCardRefNumber = new JsBindingPathInfo(data.CardRefNumberBindingPath);
+                JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPathCardRefNumber);
+                writerContext.PushVariablesToRenderScope(jsBindingPathCardRefNumber);
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponentCardRefNumber {JsBindingPath = jsBindingPathCardRefNumber.FullBindingPathInJs, SnapName = data.SnapName});    
+            }
+
 
             sb.AppendLine("<BCreditCardComponent");
             sb.PaddingCount++;
 
-            sb.AppendLine($"clearCardNumber={{{jsBindingPath.FullBindingPathInJs}}}");
+            if (data.ValueBindingPath.HasValue())
+            {
+                var jsBindingPath = new JsBindingPathInfo(data.ValueBindingPath)
+                {
+                    EvaluateInsStateVersion = true
+                };
+                JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+                writerContext.PushVariablesToRenderScope(jsBindingPath);
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent {JsBindingPath = jsBindingPath.FullBindingPathInJs, SnapName = data.SnapName});
+
+                sb.AppendLine($"clearCardNumber={{{jsBindingPath.FullBindingPathInJs}}}");
+            }
+
+
             if (data.ValueChangedOrchestrationMethod.HasValue())
             {
                 sb.AppendLine("onCardSelect={(clearCardNumber: string) =>");
