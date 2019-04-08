@@ -10,20 +10,42 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class ComponentInfo : BField
     {
-
-        public string CreditCardDesignerText => ValueBindingPath.HasValue() ? ValueBindingPath : CardRefNumberBindingPath;
-
-        public string CardRefNumberBindingPath { get; set; }
-
+        #region Public Properties
+        /// <summary>
+        ///     Gets or sets the account number binding path.
+        /// </summary>
         public string AccountNumberBindingPath { get; set; }
 
-
-        
-
-
+        /// <summary>
+        ///     Gets or sets the account suffix binding path.
+        /// </summary>
         public string AccountSuffixBindingPath { get; set; }
 
-        #region Public Properties
+        /// <summary>
+        ///     Gets or sets the button clicked orchestration method.
+        /// </summary>
+        public string ButtonClickedOrchestrationMethod { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the card reference number binding path.
+        /// </summary>
+        public string CardRefNumberBindingPath { get; set; }
+
+        /// <summary>
+        ///     Gets the credit card designer text.
+        /// </summary>
+        public string CreditCardDesignerText => ValueBindingPath.HasValue() ? ValueBindingPath : CardRefNumberBindingPath;
+
+        /// <summary>
+        ///     Gets or sets the CSS of dialog.
+        /// </summary>
+        public string CssOfDialog { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the name of the extension method.
+        /// </summary>
+        public string ExtensionMethodName { get; set; }
+
         /// <summary>
         ///     Gets or sets the information text.
         /// </summary>
@@ -70,6 +92,36 @@ namespace BOA.OneDesigner.JsxElementModel
         public string Mask { get; set; }
 
         /// <summary>
+        ///     Gets or sets the maximum length.
+        /// </summary>
+        public int? MaxLength { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the open form with resource code.
+        /// </summary>
+        public string OpenFormWithResourceCode { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the open form with resource code data parameter binding path.
+        /// </summary>
+        public string OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether [open form with resource code is in dialog box].
+        /// </summary>
+        public bool OpenFormWithResourceCodeIsInDialogBox { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the open form with resource code title.
+        /// </summary>
+        public LabelInfo OpenFormWithResourceCodeTitle { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the orchestration method on dialog response is ok.
+        /// </summary>
+        public string OrchestrationMethodOnDialogResponseIsOK { get; set; }
+
+        /// <summary>
         ///     Gets or sets the type of the parameter.
         /// </summary>
         public string ParamType { get; set; }
@@ -78,9 +130,6 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets the row count.
         /// </summary>
         public int? RowCount { get; set; }
-
-        public int? MaxLength { get; set; }
-        
 
         /// <summary>
         ///     Gets or sets the size information.
@@ -106,31 +155,6 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets the value changed orchestration method.
         /// </summary>
         public string ValueChangedOrchestrationMethod { get; set; }
-
-
-        public string ButtonClickedOrchestrationMethod { get; set; }
-
-
-        /// <summary>
-        ///     Gets or sets the open form with resource code.
-        /// </summary>
-        public string OpenFormWithResourceCode { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the open form with resource code data parameter binding path.
-        /// </summary>
-        public string OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
-
-        public bool OpenFormWithResourceCodeIsInDialogBox { get; set; }
-
-
-        public string OrchestrationMethodOnDialogResponseIsOK { get; set; }
-
-        public string CssOfDialog { get; set; }
-
-
-        public string ExtensionMethodName { get; set; }
-
         #endregion
     }
 }

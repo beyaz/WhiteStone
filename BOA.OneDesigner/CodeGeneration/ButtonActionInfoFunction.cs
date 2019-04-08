@@ -12,6 +12,7 @@ namespace BOA.OneDesigner.CodeGeneration
         public string ExtensionMethodName                              { get; set; }
         public string OpenFormWithResourceCode                         { get; set; }
         public string OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
+        
         public bool   OpenFormWithResourceCodeIsInDialogBox            { get; set; }
         public string OrchestrationMethodName                          { get; set; }
         public string OrchestrationMethodOnDialogResponseIsOK          { get; set; }
