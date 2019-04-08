@@ -25,15 +25,39 @@ namespace BOA.OneDesigner.PropertyEditors
 	    rows:[
 		    {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true,    Margin:5, Text:'{Binding " + nameof(Model.IsVisibleBindingPath) + @"}',     Label:'Is Visible Binding Path' },
             {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true,    Margin:5, Text:'{Binding " + nameof(Model.IsEnableBindingPath) + @"}',      Label:'Is Enable Binding Path' },
-            {ui:'RequestIntellisenseTextBox', ShowOnlyOrchestrationMethods:true, Margin:5, Text:'{Binding " + nameof(Model.OrchestrationMethodName) + @"}',  Label:'Orchestration Method Name' },
+            
 
             {
-                ui      : 'TextBox',
-                Label   : 'Extension Method Name',
-                Text    : '{Binding " + nameof(Model.ExtensionMethodName) + @"}',
-                ToolTip : 'Manuel function yazarak handle etmek istenildiğinde kullanılmalıdır.\nÖrnek:showCustomerXInfo yazılıp extension dosyasında custom olarak implement edilebilir.'
-            }
-            ,
+                ui:'TabControl',
+                childs:[
+                    {
+                        ui: 'TabItem',
+                        Header:'Simple',
+                        Content:
+                        {
+                            ui:'RequestIntellisenseTextBox', 
+                            ShowOnlyOrchestrationMethods:true, 
+                            Margin:5, 
+                            Text:'{Binding " + nameof(Model.OrchestrationMethodName) + @"}', 
+                            Label:'Orchestration Method Name' 
+                        }
+                    }
+                    ,
+                    {
+                        ui: 'TabItem',
+                        Header:'Advanced',
+                        Content:
+                        {
+                            ui      : 'TextBox',
+                            Label   : 'Extension Method Name',
+                            Text    : '{Binding " + nameof(Model.ExtensionMethodName) + @"}',
+                            ToolTip : 'Manuel function yazarak handle etmek istenildiğinde kullanılmalıdır.\nÖrnek:showCustomerXInfo yazılıp extension dosyasında custom olarak implement edilebilir.'
+                        }
+
+                    }
+                ]
+
+            },
 
             {
                 ui                  : 'ResourceCodeTextBox',   
