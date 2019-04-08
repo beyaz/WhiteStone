@@ -13,7 +13,7 @@ namespace BOA.OneDesigner.JsxElementModel
         public string OutputTypeScriptFileName { get; set; }
         public string RequestName              { get; set; }
 
-        public bool ExtensionOnActionClick { get; set; }
+        public bool ExtensionOnActionClick { get; set; } // TODO belli bir süreden sonra kaldırılmalı. kullanılmıyor
         public bool ExtensionAfterProxyDidRespond { get; set; }
         public bool ExtensionAfterConstructor { get; set; }
 

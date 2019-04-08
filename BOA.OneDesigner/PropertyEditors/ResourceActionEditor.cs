@@ -30,12 +30,10 @@ namespace BOA.OneDesigner.PropertyEditors
             {
                 ui      : 'TextBox',
                 Label   : 'Extension Method Name',
-                Text    : '{Binding " + nameof(Model.ExtensionMethodName) + @"}'
+                Text    : '{Binding " + nameof(Model.ExtensionMethodName) + @"}',
+                ToolTip : 'Manuel function yazarak handle etmek istenildiğinde kullanılmalıdır.\nÖrnek:showCustomerXInfo yazılıp extension dosyasında custom olarak implement edilebilir.'
             }
             ,
-            
-
-
 
             {
                 ui                  : 'ResourceCodeTextBox',   

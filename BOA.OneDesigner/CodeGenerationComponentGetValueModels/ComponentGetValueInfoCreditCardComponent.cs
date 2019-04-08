@@ -15,4 +15,12 @@
             return $"snaps.{SnapName}.getInstance().getValue().cardRefNumber";    
         }
     }
+
+    public class ComponentGetValueInfoCreditCardComponentAccountNumber:ComponentGetValueInfo
+    {
+        public override string GetCode()
+        {
+            return $"snaps.{SnapName}.getInstance().getValue().accountNumber";    
+        }
+    }
 }

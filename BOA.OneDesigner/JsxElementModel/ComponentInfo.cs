@@ -15,6 +15,11 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public string CardRefNumberBindingPath { get; set; }
 
+        public string AccountNumberBindingPath { get; set; }
+
+
+        
+
 
         public string AccountSuffixBindingPath { get; set; }
 
@@ -122,6 +127,10 @@ namespace BOA.OneDesigner.JsxElementModel
         public string OrchestrationMethodOnDialogResponseIsOK { get; set; }
 
         public string CssOfDialog { get; set; }
+
+
+        public string ExtensionMethodName { get; set; }
+
         #endregion
     }
 }

@@ -30,6 +30,15 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
 
+            if (data.AccountNumberBindingPath.HasValue())
+            {
+                var jsBindingPath = new JsBindingPathInfo(data.AccountNumberBindingPath);
+                JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+                writerContext.PushVariablesToRenderScope(jsBindingPath);
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponentAccountNumber {JsBindingPath = jsBindingPath.FullBindingPathInJs, SnapName = data.SnapName});    
+            }
+
+
             sb.AppendLine("<BCreditCardComponent");
             sb.PaddingCount++;
 

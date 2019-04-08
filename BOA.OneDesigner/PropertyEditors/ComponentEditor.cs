@@ -204,7 +204,15 @@ namespace BOA.OneDesigner.PropertyEditors
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsCreditCardComponent) + @"}',
             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CardRefNumberBindingPath) + @"}', 
             Label       : 'Card Ref Number',
-            ToolTip     : 'Card Ref Number alnının bind edileceği path.'
+            ToolTip     : 'Card Ref Number alanının bind edileceği path.\n( Supports Only: Client to Server )'
+        }
+        ,
+        {
+            ui          : 'RequestIntellisenseTextBox',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsCreditCardComponent) + @"}',
+            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.AccountNumberBindingPath) + @"}', 
+            Label       : 'Account Number',
+            ToolTip     : 'Account Number alanının bind edileceği path.\n( Supports Only: Client to Server )'
         }
         ,
         {
@@ -370,6 +378,15 @@ Name:'_resourceCodeTextBox',
                         ToolTip     : " + "\"Açılacak popup'ın css bilgisi. Örn:{width:'50%' , height:'50%'}\"" + @",
                         IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
                     }
+                    ,
+                    {
+                        ui      : 'TextBox',
+                        Label   : 'On Click Custom Handler (Extension Method Name)',
+                        Text    : '{Binding " + nameof(Model.Info.ExtensionMethodName) + @"}',
+                        ToolTip : 'Manuel function yazarak handle etmek istenildiğinde kullanılmalıdır.\nÖrnek:showCustomerXInfo yazılıp extension dosyasında custom olarak implement edilebilir.'
+                    }            
+
+
                 ]
             }
         }        

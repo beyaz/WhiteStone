@@ -37,6 +37,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 CssOfDialog                                      = data.CssOfDialog,
 
                 WriterContext = writerContext,
+                ExtensionMethodName = data.ExtensionMethodName
                 
             };
 
