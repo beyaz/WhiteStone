@@ -4,36 +4,42 @@ using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
+
     class ButtonActionInfoFunction
     {
         #region Public Properties
-        public string DesignerLocation                                 { get; set; }
-        public string OpenFormWithResourceCode                         { get; set; }
-        public string OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
-        public string OrchestrationMethodName                          { get; set; }
-
-        public bool          OpenFormWithResourceCodeIsInDialogBox   { get; set; }
-        public string        OrchestrationMethodOnDialogResponseIsOK { get; set; }
-        public WriterContext WriterContext                           { get; set; }
-        public string        CssOfDialog                             { get; set; }
-        public string ExtensionMethodName { get; set; }
+        public string        CssOfDialog                                      { get; set; }
+        public string        DesignerLocation                                 { get; set; }
+        public string        ExtensionMethodName                              { get; set; }
+        public string        OpenFormWithResourceCode                         { get; set; }
+        public string        OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
+        public bool          OpenFormWithResourceCodeIsInDialogBox            { get; set; }
+        public string        OrchestrationMethodName                          { get; set; }
+        public string        OrchestrationMethodOnDialogResponseIsOK          { get; set; }
+        public WriterContext WriterContext                                    { get; set; }
         #endregion
 
-
-        
+        #region Public Methods
         public string GetCode()
         {
             var sb = new PaddedStringBuilder();
 
             if (ExtensionMethodName.HasValue())
             {
-                sb.AppendLine($"Extension.{ExtensionMethodName}(this);");
+                if (WriterContext.IsTabPage)
+                {
+                    sb.AppendLine($"Extension.{ExtensionMethodName}(this.state.pageInstance);");    
+                }
+                else
+                {
+                    sb.AppendLine($"Extension.{ExtensionMethodName}(this);");    
+                }
+                
 
                 return sb.ToString();
             }
 
             var executeWindowRequest = WriterContext.ExecuteWindowRequestFunctionAccessPath;
-            
 
             string dataParameter = null;
 
@@ -119,9 +125,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"{executeWindowRequest}(\"{OrchestrationMethodName}\");");
             }
 
-
             return sb.ToString();
         }
-
+        #endregion
     }
 }

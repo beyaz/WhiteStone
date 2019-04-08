@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeGeneration\BindingPathHelperTest.cs" />
+    <Compile Include="CodeGeneration\ButtonActionInfoFunctionTest.cs" />
     <Compile Include="WpfControls\BDataGridInfoWpfTest.cs" />
     <Compile Include="CodeGeneration\BDataGridRendererTest.cs" />
     <Compile Include="WpfControls\BTabBarWpfTest.cs" />
