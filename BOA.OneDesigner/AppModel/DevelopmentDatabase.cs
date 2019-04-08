@@ -150,7 +150,6 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
 
             data.ExtensionAfterConstructor = reader[nameof(data.ExtensionAfterConstructor)].ToBooleanNullable().GetValueOrDefault();
             data.ExtensionAfterProxyDidRespond = reader[nameof(data.ExtensionAfterProxyDidRespond)].ToBooleanNullable().GetValueOrDefault();
-            data.ExtensionOnActionClick = reader[nameof(data.ExtensionOnActionClick)].ToBooleanNullable().GetValueOrDefault();
 
             data.JsxModel        = Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.JsxModel)]));
             data.ResourceActions = (List<Aut_ResourceAction>) Deserialize(CompressionHelper.Decompress((byte[]) reader[nameof(data.ResourceActions)]));
@@ -204,7 +203,6 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
 
             this[nameof(data.ExtensionAfterConstructor)] = data.ExtensionAfterConstructor.ToInt32Nullable();
             this[nameof(data.ExtensionAfterProxyDidRespond)] = data.ExtensionAfterProxyDidRespond.ToInt32Nullable();
-            this[nameof(data.ExtensionOnActionClick)] = data.ExtensionOnActionClick.ToInt32Nullable();
         }
 
         bool Exists(ScreenInfo data)
@@ -237,8 +235,7 @@ INSERT INTO BOA.DBT.OneDesigner
     {nameof(data.UserName)},
     {nameof(data.SystemDate)},
     {nameof(data.ExtensionAfterConstructor)},
-    {nameof(data.ExtensionAfterProxyDidRespond)},
-    {nameof(data.ExtensionOnActionClick)}
+    {nameof(data.ExtensionAfterProxyDidRespond)}
 )
 VALUES
 (
@@ -253,8 +250,7 @@ VALUES
     @{nameof(data.UserName)},
     @{nameof(data.SystemDate)},
     @{nameof(data.ExtensionAfterConstructor)},
-    @{nameof(data.ExtensionAfterProxyDidRespond)},
-    @{nameof(data.ExtensionOnActionClick)}
+    @{nameof(data.ExtensionAfterProxyDidRespond)}
 
 )";
 
@@ -280,8 +276,7 @@ UPDATE BOA.DBT.OneDesigner SET
 {nameof(data.SystemDate)}                      = @{nameof(data.SystemDate)},
 
 {nameof(data.ExtensionAfterConstructor)}        = @{nameof(data.ExtensionAfterConstructor)},
-{nameof(data.ExtensionAfterProxyDidRespond)}    = @{nameof(data.ExtensionAfterProxyDidRespond)},
-{nameof(data.ExtensionOnActionClick)}           = @{nameof(data.ExtensionOnActionClick)}
+{nameof(data.ExtensionAfterProxyDidRespond)}    = @{nameof(data.ExtensionAfterProxyDidRespond)}
 
 
 

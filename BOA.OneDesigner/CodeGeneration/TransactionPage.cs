@@ -720,10 +720,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("this.executeWorkFlow = executeWorkFlow;");
                 sb.AppendLine();
 
-                if (writerContext.ScreenInfo.ExtensionOnActionClick)
-                {
-                    ExtensionCode.onActionClick(sb);
-                }
+                
 
                 foreach (var resourceAction in resourceActions)
                 {

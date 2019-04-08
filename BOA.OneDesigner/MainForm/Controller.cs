@@ -26,7 +26,9 @@ namespace BOA.OneDesigner.MainForm
 
         public static bool HasExtensionFile(ScreenInfo screenInfo)
         {
-            return screenInfo.ExtensionAfterConstructor || screenInfo.ExtensionAfterProxyDidRespond || screenInfo.ExtensionOnActionClick;
+            var hasAnyResourceActionContainsCustomFunction = screenInfo.ResourceActions?.Any(x=>x.ExtensionMethodName.HasValue()) == true;
+
+            return screenInfo.ExtensionAfterConstructor || screenInfo.ExtensionAfterProxyDidRespond ||hasAnyResourceActionContainsCustomFunction;
         }
 
         #region Public Properties
