@@ -4,19 +4,25 @@ using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
+    class ButtonActionInfo
+    {
+        #region Public Properties
+        public string CssOfDialog                                      { get; set; }
+        public string DesignerLocation                                 { get; set; }
+        public string ExtensionMethodName                              { get; set; }
+        public string OpenFormWithResourceCode                         { get; set; }
+        public string OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
+        public bool   OpenFormWithResourceCodeIsInDialogBox            { get; set; }
+        public string OrchestrationMethodName                          { get; set; }
+        public string OrchestrationMethodOnDialogResponseIsOK          { get; set; }
+        #endregion
+    }
 
     class ButtonActionInfoFunction
     {
         #region Public Properties
-        public string        CssOfDialog                                      { get; set; }
-        public string        DesignerLocation                                 { get; set; }
-        public string        ExtensionMethodName                              { get; set; }
-        public string        OpenFormWithResourceCode                         { get; set; }
-        public string        OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
-        public bool          OpenFormWithResourceCodeIsInDialogBox            { get; set; }
-        public string        OrchestrationMethodName                          { get; set; }
-        public string        OrchestrationMethodOnDialogResponseIsOK          { get; set; }
-        public WriterContext WriterContext                                    { get; set; }
+        public ButtonActionInfo Data          { get; set; }
+        public WriterContext    WriterContext { get; set; }
         #endregion
 
         #region Public Methods
@@ -24,17 +30,22 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = new PaddedStringBuilder();
 
-            if (ExtensionMethodName.HasValue())
+            var mainFormPath = "this";
+            if (WriterContext.IsTabPage)
+            {
+                mainFormPath = "this.state.pageInstance";
+            }
+
+            if (Data.ExtensionMethodName.HasValue())
             {
                 if (WriterContext.IsTabPage)
                 {
-                    sb.AppendLine($"Extension.{ExtensionMethodName}(this.state.pageInstance);");    
+                    sb.AppendLine($"Extension.{Data.ExtensionMethodName}(this.state.pageInstance);");
                 }
                 else
                 {
-                    sb.AppendLine($"Extension.{ExtensionMethodName}(this);");    
+                    sb.AppendLine($"Extension.{Data.ExtensionMethodName}(this);");
                 }
-                
 
                 return sb.ToString();
             }
@@ -43,15 +54,14 @@ namespace BOA.OneDesigner.CodeGeneration
 
             string dataParameter = null;
 
-            if (OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
+            if (Data.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
             {
-                dataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(OpenFormWithResourceCodeDataParameterBindingPath);
+                dataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(Data.OpenFormWithResourceCodeDataParameterBindingPath);
             }
 
-            if (OpenFormWithResourceCode.HasValue() && OrchestrationMethodName.HasValue())
+            if (Data.OpenFormWithResourceCode.HasValue() && Data.OrchestrationMethodName.HasValue())
             {
-                sb.AppendLine("const me: any = this;");
-                sb.AppendLine("me.internalProxyDidRespondCallback = () =>");
+                sb.AppendLine($"{mainFormPath}.internalProxyDidRespondCallback = () =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
@@ -64,16 +74,16 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("const data:any = null;");
                 }
 
-                if (OpenFormWithResourceCodeIsInDialogBox)
+                if (Data.OpenFormWithResourceCodeIsInDialogBox)
                 {
                     sb.AppendLine();
-                    if (OrchestrationMethodOnDialogResponseIsOK.HasValue())
+                    if (Data.OrchestrationMethodOnDialogResponseIsOK.HasValue())
                     {
                         sb.AppendLine("const onClose: any = (dialogResponse:number) =>");
                         sb.AppendLine("{");
                         sb.AppendLine("    if(dialogResponse === 1)");
                         sb.AppendLine("    {");
-                        sb.AppendLine($"        {executeWindowRequest}(\"{OrchestrationMethodOnDialogResponseIsOK}\");");
+                        sb.AppendLine($"        {executeWindowRequest}(\"{Data.OrchestrationMethodOnDialogResponseIsOK}\");");
                         sb.AppendLine("    }");
                         sb.AppendLine("};");
                     }
@@ -83,13 +93,13 @@ namespace BOA.OneDesigner.CodeGeneration
                     }
 
                     sb.AppendLine();
-                    sb.AppendLine("const style:any = " + CssOfDialog + ";");
+                    sb.AppendLine("const style:any = " + Data.CssOfDialog + ";");
                 }
 
-                if (OpenFormWithResourceCodeIsInDialogBox)
+                if (Data.OpenFormWithResourceCodeIsInDialogBox)
                 {
                     sb.AppendLine();
-                    sb.AppendLine($"BFormManager.showDialog(\"{OpenFormWithResourceCode}\", data, /*title*/null, onClose, style );");
+                    sb.AppendLine($"BFormManager.showDialog(\"{Data.OpenFormWithResourceCode}\", data, /*title*/null, onClose, style );");
                 }
                 else
                 {
@@ -98,31 +108,31 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
                     sb.AppendLine("const menuItemSuffix:string = null;");
                     sb.AppendLine();
-                    sb.AppendLine($"BFormManager.show(\"{OpenFormWithResourceCode}\", data, showAsNewPage,menuItemSuffix);");
+                    sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", data, showAsNewPage,menuItemSuffix);");
                 }
 
                 sb.PaddingCount--;
                 sb.AppendLine("}");
                 sb.AppendLine();
 
-                sb.AppendLine($"{executeWindowRequest}(\"{OrchestrationMethodName}\");");
+                sb.AppendLine($"{executeWindowRequest}(\"{Data.OrchestrationMethodName}\");");
 
                 WriterContext.HandleProxyDidRespondCallback = true;
             }
-            else if (OpenFormWithResourceCode.HasValue())
+            else if (Data.OpenFormWithResourceCode.HasValue())
             {
                 if (dataParameter.HasValue())
                 {
-                    sb.AppendLine($"BFormManager.show(\"{OpenFormWithResourceCode}\", /*data*/{dataParameter}, true,null);");
+                    sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", /*data*/{dataParameter}, true,null);");
                 }
                 else
                 {
-                    sb.AppendLine($"BFormManager.show(\"{OpenFormWithResourceCode}\", /*data*/null, true,null);");
+                    sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", /*data*/null, true,null);");
                 }
             }
-            else if (OrchestrationMethodName.HasValue())
+            else if (Data.OrchestrationMethodName.HasValue())
             {
-                sb.AppendLine($"{executeWindowRequest}(\"{OrchestrationMethodName}\");");
+                sb.AppendLine($"{executeWindowRequest}(\"{Data.OrchestrationMethodName}\");");
             }
 
             return sb.ToString();

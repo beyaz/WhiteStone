@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Windows;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.CodeGeneration;
@@ -17,20 +17,6 @@ namespace BOA.OneDesigner.MainForm
 {
     public class Controller : ControllerBase<Model>
     {
-        public static string GetOutputFilePath(ScreenInfo screenInfo)
-        {
-            var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
-
-            return  solutionInfo.OneProjectFolder + @"ClientApp\pages\" + screenInfo.OutputTypeScriptFileName + ".tsx";
-        }
-
-        public static bool HasExtensionFile(ScreenInfo screenInfo)
-        {
-            var hasAnyResourceActionContainsCustomFunction = screenInfo.ResourceActions?.Any(x=>x.ExtensionMethodName.HasValue()) == true;
-
-            return screenInfo.ExtensionAfterConstructor || screenInfo.ExtensionAfterProxyDidRespond ||hasAnyResourceActionContainsCustomFunction;
-        }
-
         #region Public Properties
         public Host Host { get; set; }
         #endregion
@@ -42,13 +28,25 @@ namespace BOA.OneDesigner.MainForm
 
             tsxCode = TsxCodeBeautifier.Beautify(tsxCode);
 
-
-
             var filePath = GetOutputFilePath(screenInfo);
 
             Util.WriteFileIfContentNotEqual(filePath, tsxCode);
 
             App.ShowSuccessNotification("Dosya güncellendi.@filePath: " + filePath);
+        }
+
+        public static string GetOutputFilePath(ScreenInfo screenInfo)
+        {
+            var solutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName);
+
+            return solutionInfo.OneProjectFolder + @"ClientApp\pages\" + screenInfo.OutputTypeScriptFileName + ".tsx";
+        }
+
+        public static bool HasExtensionFile(ScreenInfo screenInfo)
+        {
+            var hasAnyResourceActionContainsCustomFunction = screenInfo.ResourceActions?.Any(x => x.ExtensionMethodName.HasValue()) == true;
+
+            return screenInfo.ExtensionAfterConstructor || screenInfo.ExtensionAfterProxyDidRespond || hasAnyResourceActionContainsCustomFunction;
         }
 
         public void GenerateCodes()
@@ -144,6 +142,17 @@ namespace BOA.OneDesigner.MainForm
                             }
                         }
                     };
+                }
+            }
+
+            using (var database = new DevelopmentDatabase())
+            {
+                database.CommandText = $"SELECT TOP 1 Name FROM AUT.Resource WITH(NOLOCK) WHERE ResourceCode = '{Model.ScreenInfo.ResourceCode}'";
+                var name = database.ExecuteScalar();
+
+                if (Application.Current.MainWindow != null)
+                {
+                    Application.Current.MainWindow.Title = Model.ScreenInfo.ResourceCode + " - " + name;
                 }
             }
         }

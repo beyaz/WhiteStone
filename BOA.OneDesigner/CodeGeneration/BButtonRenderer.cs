@@ -28,19 +28,19 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var function = new ButtonActionInfoFunction
             {
-                OrchestrationMethodName                          = data.ButtonClickedOrchestrationMethod,
-                OpenFormWithResourceCode                         = data.OpenFormWithResourceCode,
-                OpenFormWithResourceCodeDataParameterBindingPath = data.OpenFormWithResourceCodeDataParameterBindingPath,
-                DesignerLocation                                 = data.Text,
-                OrchestrationMethodOnDialogResponseIsOK          = data.OrchestrationMethodOnDialogResponseIsOK,
-                OpenFormWithResourceCodeIsInDialogBox            = data.OpenFormWithResourceCodeIsInDialogBox,
-                CssOfDialog                                      = data.CssOfDialog,
-
-                WriterContext = writerContext,
-                ExtensionMethodName = data.ExtensionMethodName
-                
+                Data = new ButtonActionInfo
+                {
+                    OrchestrationMethodName                          = data.ButtonClickedOrchestrationMethod,
+                    OpenFormWithResourceCode                         = data.OpenFormWithResourceCode,
+                    OpenFormWithResourceCodeDataParameterBindingPath = data.OpenFormWithResourceCodeDataParameterBindingPath,
+                    DesignerLocation                                 = data.Text,
+                    OrchestrationMethodOnDialogResponseIsOK          = data.OrchestrationMethodOnDialogResponseIsOK,
+                    OpenFormWithResourceCodeIsInDialogBox            = data.OpenFormWithResourceCodeIsInDialogBox,
+                    CssOfDialog                                      = data.CssOfDialog,
+                    ExtensionMethodName                              = data.ExtensionMethodName
+                },
+                WriterContext = writerContext
             };
-
 
             sb.AppendAll(function.GetCode());
 

@@ -24,19 +24,16 @@ namespace BOA.OneDesigner.CodeGeneration
             var isBrowseForm = screenInfo.FormType == FormType.BrowsePage;
             var className    = screenInfo.RequestName.SplitAndClear(".").Last().RemoveFromEnd("Request");
 
-
-            
-
             var writerContext = new WriterContext
             {
-                ClassName    = className,
-                HasWorkflow  = hasWorkflow,
-                ScreenInfo   = screenInfo,
-                IsBrowsePage = isBrowseForm,
-                SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName),
-                ThrowExceptionOnEmptyActionDefinition = false,
+                ClassName                              = className,
+                HasWorkflow                            = hasWorkflow,
+                ScreenInfo                             = screenInfo,
+                IsBrowsePage                           = isBrowseForm,
+                SolutionInfo                           = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName),
+                ThrowExceptionOnEmptyActionDefinition  = false,
                 ExecuteWindowRequestFunctionAccessPath = "this.executeWindowRequest",
-                HasExtensionFile = Controller.HasExtensionFile(screenInfo)
+                HasExtensionFile                       = Controller.HasExtensionFile(screenInfo)
             };
 
             writerContext.Imports.AddRange(new List<string>
@@ -138,31 +135,6 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.CanWriteEvaluateActions = true;
         }
 
-        static void OnWindowRequestFilled(WriterContext writerContext)
-        {
-            if (!writerContext.HasWorkflow)
-            {
-                return;
-            }
-
-            var sb = new PaddedStringBuilder();
-            sb.AppendLine("onWindowRequestFilled(request: any)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, request.body);");
-            sb.AppendLine();
-            sb.AppendLine("clonedWindowRequest.hasWorkflow = false;");
-            sb.AppendLine();
-            sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            writerContext.AddClassBody(sb.ToString());
-
-
-        }
         static void ComponentWillMount(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
@@ -217,7 +189,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.AppendLine();
                 sb.AppendLine("this.sendRequestToServer(firstRequest, \"LoadData\");");
-                
             }
             else
             {
@@ -344,9 +315,33 @@ namespace BOA.OneDesigner.CodeGeneration
 
         static void FillWindowRequest(WriterContext writerContext)
         {
-            var function = new FillWindowRequestFunctionDefinition{FillRequestFromUI = writerContext.FillRequestFromUI,HasTabControl = writerContext.HasTabControl}.GetCode();
+            var function = new FillWindowRequestFunctionDefinition {FillRequestFromUI = writerContext.FillRequestFromUI, HasTabControl = writerContext.HasTabControl}.GetCode();
 
             writerContext.AddClassBody(function);
+        }
+
+        static void OnWindowRequestFilled(WriterContext writerContext)
+        {
+            if (!writerContext.HasWorkflow)
+            {
+                return;
+            }
+
+            var sb = new PaddedStringBuilder();
+            sb.AppendLine("onWindowRequestFilled(request: any)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, request.body);");
+            sb.AppendLine();
+            sb.AppendLine("clonedWindowRequest.hasWorkflow = false;");
+            sb.AppendLine();
+            sb.AppendLine("this.sendRequestToServer(clonedWindowRequest, \"LoadData\");");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
         }
 
         static void ProxyDidRespond(WriterContext writerContext)
@@ -362,7 +357,6 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("proxyDidRespond(proxyResponse: GenericProxyResponse<any>)");
             sb.AppendLine("{");
             sb.PaddingCount++;
-
 
             sb.AppendLine("if (proxyResponse.requestClass !== WindowRequestFullName)");
             sb.AppendLine("{");
@@ -450,16 +444,12 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("    value.statusMessage = null;");
             sb.AppendLine("}");
 
-            
-
-            
-                sb.AppendLine();
-                sb.AppendLine("this.setWindowRequest(");
-                sb.AppendLine("{");
-                sb.AppendLine("    body: value,");
-                sb.AppendLine("    type: WindowRequestFullName");
-                sb.AppendLine("});");
-            
+            sb.AppendLine();
+            sb.AppendLine("this.setWindowRequest(");
+            sb.AppendLine("{");
+            sb.AppendLine("    body: value,");
+            sb.AppendLine("    type: WindowRequestFullName");
+            sb.AppendLine("});");
 
             if (writerContext.BeforeSetStateOnProxyDidResponse?.Count > 0)
             {
@@ -480,8 +470,6 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.Append(");");
             sb.Append(Environment.NewLine);
 
-
-
             if (writerContext.HasTabControl)
             {
                 sb.AppendLine();
@@ -501,10 +489,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.PaddingCount--;
                 sb.AppendLine("}");
-
             }
 
-            
             if (writerContext.RequestIntellisenseData.HasPropertyLikeDialogResponse)
             {
                 writerContext.Imports.Add("import { BDialogHelper } from \"b-dialog-box\";");
@@ -514,7 +500,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("    BDialogHelper.close(this, value.dialogResponse, null);");
                 sb.AppendLine("}");
             }
-
 
             if (writerContext.CanWriteEvaluateActions)
             {
@@ -536,7 +521,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 ExtensionCode.afterProxyDidRespond(sb);
             }
 
-
             sb.AppendLine();
             sb.AppendLine("return success;");
 
@@ -551,7 +535,7 @@ namespace BOA.OneDesigner.CodeGeneration
         /// </summary>
         static void Render(WriterContext writerContext, DivAsCardContainer data)
         {
-            var function = new RenderFunctionDefinition{WriterContext = writerContext,Data = data, WindowRequestAccessPath = "this.getWindowRequest().body"};
+            var function = new RenderFunctionDefinition {WriterContext = writerContext, Data = data, WindowRequestAccessPath = "this.getWindowRequest().body"};
 
             writerContext.AddClassBody(new TypeScriptMemberInfo {Code = function.GetCode(), IsRender = true});
         }
@@ -627,7 +611,6 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             WriteWorkflowFields(writerContext);
-           
 
             WriteOnActionClick(writerContext);
             OnWindowRequestFilled(writerContext);
@@ -643,7 +626,6 @@ namespace BOA.OneDesigner.CodeGeneration
             WriteConstructor(writerContext);
 
             WriteTabManagementFields(writerContext);
-
 
             foreach (var member in writerContext.ClassBody)
             {
@@ -720,8 +702,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("this.executeWorkFlow = executeWorkFlow;");
                 sb.AppendLine();
 
-                
-
                 foreach (var resourceAction in resourceActions)
                 {
                     sb.AppendLine($"if (command.commandName === \"{resourceAction.CommandName}\")");
@@ -730,18 +710,20 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     var function = new ButtonActionInfoFunction
                     {
-                        OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
-                        OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
-                        OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
-                        DesignerLocation                                 = resourceAction.Name,
-                        WriterContext                                    = writerContext,
-                        ExtensionMethodName = resourceAction.ExtensionMethodName
+                        WriterContext = writerContext,
+                        Data = new ButtonActionInfo
+                        {
+                            OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
+                            OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
+                            OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
+                            DesignerLocation                                 = resourceAction.Name,
+                            ExtensionMethodName                              = resourceAction.ExtensionMethodName
+                        }
                     };
 
                     sb.AppendAll(function.GetCode());
 
                     sb.AppendLine();
-                    
 
                     sb.AppendLine("return false;");
                     sb.PaddingCount--;
@@ -749,9 +731,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     sb.AppendLine();
                 }
-
-
-                
 
                 sb.AppendLine("return true;");
 
@@ -773,23 +752,23 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-               
-
                 foreach (var resourceAction in resourceActions)
                 {
                     sb.AppendLine($"if (command.commandName === \"{resourceAction.CommandName}\")");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    
                     var function = new ButtonActionInfoFunction
                     {
-                        OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
-                        OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
-                        OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
-                        DesignerLocation                                 = resourceAction.Name,
-                        WriterContext                                    = writerContext,
-                        ExtensionMethodName = resourceAction.ExtensionMethodName
+                        WriterContext = writerContext,
+                        Data = new ButtonActionInfo
+                        {
+                            OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
+                            OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
+                            OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
+                            DesignerLocation                                 = resourceAction.Name,
+                            ExtensionMethodName                              = resourceAction.ExtensionMethodName
+                        }
                     };
 
                     sb.AppendAll(function.GetCode());
@@ -803,8 +782,6 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
                 }
 
-                
-
                 sb.AppendLine("return true;");
                 sb.PaddingCount--;
                 sb.AppendLine("}");
@@ -814,20 +791,20 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
+        static void WriteTabManagementFields(WriterContext writerContext)
+        {
+            if (writerContext.HasTabControl)
+            {
+                writerContext.AddClassBody(new TypeScriptMemberInfo {Code = "readonly onProxyDidRespond: any[] = [];", IsField   = true});
+                writerContext.AddClassBody(new TypeScriptMemberInfo {Code = "readonly onFillRequestFromUI: any[] = [];", IsField = true});
+            }
+        }
+
         static void WriteWorkflowFields(WriterContext writerContext)
         {
             if (writerContext.HasWorkflow)
             {
                 writerContext.AddClassBody(new TypeScriptMemberInfo {Code = "executeWorkFlow: () => void;", IsField = true});
-            }
-        }
-
-        static void WriteTabManagementFields(WriterContext writerContext)
-        {
-            if (writerContext.HasTabControl)
-            {
-                writerContext.AddClassBody(new TypeScriptMemberInfo {Code = "readonly onProxyDidRespond: any[] = [];", IsField = true});
-                writerContext.AddClassBody(new TypeScriptMemberInfo {Code = "readonly onFillRequestFromUI: any[] = [];", IsField = true});
             }
         }
         #endregion
