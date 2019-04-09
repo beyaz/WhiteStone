@@ -49,12 +49,15 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Methods
         void LoadUI()
         {
+            if (Header == null || (Header as string)?.HasValue() == false)
+            {
+                Header = "Label";
+            }
+
             Content = null;
             this.LoadJson(@"
 
 {
- Header:'Label',
- Margin:5,
  Content:
  {
     ui:'Grid',

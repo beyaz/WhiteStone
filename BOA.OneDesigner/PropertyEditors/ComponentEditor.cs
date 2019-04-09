@@ -12,6 +12,7 @@ namespace BOA.OneDesigner.PropertyEditors
     class ComponentEditorModel
     {
         #region Public Properties
+        public bool          CustomHandlerFunctionExpanderIsExpanded   { get; set; }
         public ComponentInfo Info                                      { get; set; }
         public bool          IsBoldVisible                             { get; set; }
         public bool          IsButtonClickedOrchestrationMethodVisible { get; set; }
@@ -32,7 +33,7 @@ namespace BOA.OneDesigner.PropertyEditors
         public bool   OpenFormWithResourceCodeDataParameterBindingPathIsVisible { get; set; }
         public bool   OpenFormWithResourceCodeIsVisible                         { get; set; }
         public string ValueBindingPathLabel                                     { get; set; }
-        public string ValueBindingPathToolTip { get; set; }
+        public string ValueBindingPathToolTip                                   { get; set; }
         #endregion
     }
 
@@ -40,9 +41,6 @@ namespace BOA.OneDesigner.PropertyEditors
     {
         #region Fields
         public ResourceCodeTextBox _resourceCodeTextBox;
-        #pragma warning disable 649
-        LabelEditor infoTextEditor;
-        #pragma warning restore 649
         #endregion
 
         #region Constructors
@@ -74,7 +72,8 @@ namespace BOA.OneDesigner.PropertyEditors
                 IsButtonClickedOrchestrationMethodVisible                 = info.Type.IsButton,
                 OpenFormWithResourceCodeIsVisible                         = info.Type.IsButton,
                 OpenFormWithResourceCodeDataParameterBindingPathIsVisible = info.Type.IsButton,
-                ValueBindingPathLabel                                     = "Value Binding Path"
+                ValueBindingPathLabel                                     = "Value Binding Path",
+                CustomHandlerFunctionExpanderIsExpanded                   = info.ExtensionMethodName.HasValue()
             };
 
             if (info.Type.IsCreditCardComponent)
@@ -186,6 +185,11 @@ namespace BOA.OneDesigner.PropertyEditors
 
         void LoadUI()
         {
+            if (Model.Info.OpenFormWithResourceCodeTitle == null)
+            {
+                Model.Info.OpenFormWithResourceCodeTitle = new LabelInfo();
+            }
+
             var template = @"
 {
     Childs:
@@ -232,7 +236,7 @@ namespace BOA.OneDesigner.PropertyEditors
             ui          : 'LabelEditor',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsInfoTextVisible) + @"}',
             DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.InfoText) + @"}',
-            Name        : 'infoTextEditor'
+            Header      : 'Info Text'
         }
         ,
         {
@@ -363,12 +367,12 @@ Name:'_resourceCodeTextBox',
                         ToolTip     : 'Seçili ise popup olarak açılır.'
                     }
                     ,
-                    {   
-                        ui          : 'OrchestrationIntellisense',
-                        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OrchestrationMethodOnDialogResponseIsOK) + @"}',
-                        Label       : 'On dialog response is OK',
-                        ToolTip     : 'Dialog response OK olduğu durumda gideceği orch metodu.',
-                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
+                    {
+                        ui          : 'LabelEditor',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}',
+                        DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeTitle) + @"}',
+                        Header      : 'Title',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
                     }
                     ,
                     {   
@@ -376,20 +380,32 @@ Name:'_resourceCodeTextBox',
                         Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CssOfDialog) + @"}',
                         Label       : 'Dialog Style',
                         ToolTip     : " + "\"Açılacak popup'ın css bilgisi. Örn:{width:'50%' , height:'50%'}\"" + @",
-                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
                     }
                     ,
-                    {
-                        ui      : 'TextBox',
-                        Label   : 'On Click Custom Handler (Extension Method Name)',
-                        Text    : '{Binding " + nameof(Model.Info.ExtensionMethodName) + @"}',
-                        ToolTip : 'Manuel function yazarak handle etmek istenildiğinde kullanılmalıdır.\nÖrnek:showCustomerXInfo yazılıp extension dosyasında custom olarak implement edilebilir.'
-                    }            
-
-
+                    {   
+                        ui          : 'OrchestrationIntellisense',
+                        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OrchestrationMethodOnDialogResponseIsOK) + @"}',
+                        Label       : 'On dialog response is OK',
+                        ToolTip     : 'Dialog response OK olduğu durumda gideceği orch metodu.',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
+                    }
                 ]
             }
-        }        
+        }
+        ,
+        {
+            ui          : 'Expander',
+            IsExpanded  : '{Binding " + Model.AccessPathOf(m => m.CustomHandlerFunctionExpanderIsExpanded) + @",Mode=OneWay}',
+            Header      : 'Custom Handler Function',
+            Content     :
+            {
+                ui      : 'TextBox',
+                Label   : 'On Click Custom Handler (Extension Method Name)',
+                Text    : '{Binding " + Model.AccessPathOf(m => m.Info.ExtensionMethodName) + @"}',
+                ToolTip : 'Manuel function yazarak handle etmek istenildiğinde kullanılmalıdır.\nÖrnek:showCustomerXInfo yazılıp extension dosyasında custom olarak implement edilebilir.'
+            }
+        }
         ,
         {
             ui      : 'Button',
@@ -406,7 +422,7 @@ Name:'_resourceCodeTextBox',
 
             _resourceCodeTextBox.Text = Model?.Info?.OpenFormWithResourceCode;
 
-            infoTextEditor.Header = "Info Text";
+            
 
             foreach (var child in Children)
             {
