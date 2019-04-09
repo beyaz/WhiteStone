@@ -175,11 +175,9 @@ this.internalProxyDidRespondCallback = () =>
 {
     const data:any = this.state.windowRequest.p.t;
 
-    const onClose: any = null;
-
     const style:any = ;
 
-    BFormManager.showDialog(""x"", data, /*title*/null, onClose, style );
+    BFormManager.showDialog(""x"", data, /*title*/null, /*onClose*/null, style );
 }
 
 this.executeWindowRequest(""GetInfo"");
@@ -193,11 +191,9 @@ this.state.pageInstance.internalProxyDidRespondCallback = () =>
 {
     const data:any = this.state.windowRequest.p.t;
 
-    const onClose: any = null;
-
     const style:any = ;
 
-    BFormManager.showDialog(""x"", data, /*title*/null, onClose, style );
+    BFormManager.showDialog(""x"", data, /*title*/null, /*onClose*/null, style );
 }
 
 this.state.pageInstance.executeWindowRequest(""GetInfo"");
@@ -212,17 +208,16 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
             {
                 OpenFormWithResourceCode                         = "x",
                 OrchestrationMethodName                          = "GetInfo",
-                OpenFormWithResourceCodeDataParameterBindingPath = "p.t",
                 OpenFormWithResourceCodeIsInDialogBox            = true,
-                OrchestrationMethodOnDialogResponseIsOK          = "pp"
+                OrchestrationMethodOnDialogResponseIsOK          = "pp",
+                CssOfDialog                                      = "{h}",
+                Title                                            = "'Aloha'"
             };
 
             OutputShouldBe(@"
 this.internalProxyDidRespondCallback = () =>
 {
-    const data:any = this.state.windowRequest.p.t;
-
-    const onClose: any = (dialogResponse:number) =>
+    const onClose: any = (dialogResponse: number) =>
     {
         if(dialogResponse === 1)
         {
@@ -230,9 +225,77 @@ this.internalProxyDidRespondCallback = () =>
         }
     };
 
-    const style:any = ;
+    const style:any = {h};
 
-    BFormManager.showDialog(""x"", data, /*title*/null, onClose, style );
+    const title = 'Aloha';
+
+    BFormManager.showDialog(""x"", /*data*/null, title, onClose, style );
+}
+
+this.executeWindowRequest(""GetInfo"");
+
+
+");
+
+            ChangeToTabPage();
+
+            OutputShouldBe(@"
+this.state.pageInstance.internalProxyDidRespondCallback = () =>
+{
+    const onClose: any = (dialogResponse: number) =>
+    {
+        if(dialogResponse === 1)
+        {
+            this.state.pageInstance.executeWindowRequest(""pp"");
+        }
+    };
+
+    const style:any = {h};
+    
+    const title = 'Aloha';
+
+    BFormManager.showDialog(""x"", /*data*/null, title, onClose, style );
+}
+
+this.state.pageInstance.executeWindowRequest(""GetInfo"");
+
+
+");
+        }
+
+        [TestMethod]
+        public void _8_open_form_in_dialogBox_with_data_after_orch_call_then_recall_if_success()
+        {
+            api.Data = new Data
+            {
+                OpenFormWithResourceCode                         = "x",
+                OrchestrationMethodName                          = "GetInfo",
+                OpenFormWithResourceCodeDataParameterBindingPath = "p.t",
+                OpenFormWithResourceCodeIsInDialogBox            = true,
+                OrchestrationMethodOnDialogResponseIsOK          = "pp",
+                CssOfDialog = "{h}",
+                Title = "'Aloha'"
+            };
+
+            OutputShouldBe(@"
+this.internalProxyDidRespondCallback = () =>
+{
+    const data:any = this.state.windowRequest.p.t;
+
+    const onClose: any = (dialogResponse: number, returnValue: any) =>
+    {
+        if(dialogResponse === 1)
+        {
+            this.state.windowRequest.p.t = returnValue;
+            this.executeWindowRequest(""pp"");
+        }
+    };
+
+    const style:any = {h};
+
+    const title = 'Aloha';
+
+    BFormManager.showDialog(""x"", data, title, onClose, style );
 }
 
 this.executeWindowRequest(""GetInfo"");
@@ -247,17 +310,20 @@ this.state.pageInstance.internalProxyDidRespondCallback = () =>
 {
     const data:any = this.state.windowRequest.p.t;
 
-    const onClose: any = (dialogResponse:number) =>
+    const onClose: any = (dialogResponse: number, returnValue: any) =>
     {
         if(dialogResponse === 1)
         {
+            this.state.windowRequest.p.t = returnValue;
             this.state.pageInstance.executeWindowRequest(""pp"");
         }
     };
 
-    const style:any = ;
+    const style:any = {h};
+    
+    const title = 'Aloha';
 
-    BFormManager.showDialog(""x"", data, /*title*/null, onClose, style );
+    BFormManager.showDialog(""x"", data, title, onClose, style );
 }
 
 this.state.pageInstance.executeWindowRequest(""GetInfo"");
@@ -288,10 +354,12 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
 
         void OutputShouldBe(string expected)
         {
-            var code = api.GetCode().Trim().Replace(" ", "");
-            expected = expected.Trim().Replace(" ", "");
+            Clear(api.GetCode()).Should().BeEquivalentTo(Clear(expected));
+        }
 
-            code.Should().BeEquivalentTo(expected);
+        static string Clear(string value)
+        {
+            return value.Trim().Replace(" ", "").Replace("\n", "").Replace("\r", "");
         }
         #endregion
     }

@@ -497,7 +497,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.AppendLine("if(value.dialogResponse > 0)");
                 sb.AppendLine("{");
-                sb.AppendLine("    BDialogHelper.close(this, value.dialogResponse, null);");
+                
+                sb.AppendLine($"    BDialogHelper.close(this, value.dialogResponse, value.{writerContext.DataContractAccessPathInWindowRequest});");
                 sb.AppendLine("}");
             }
 

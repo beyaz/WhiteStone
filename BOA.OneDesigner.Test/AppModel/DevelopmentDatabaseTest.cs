@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -31,7 +32,7 @@ namespace BOA.OneDesigner.AppModel
                 var data = new ScreenInfo
                 {
                     RequestName = "A,b",
-                    JsxModel    = new ScreenInfo {RequestName = "Aloha"}
+                    JsxModel    = new DivAsCardContainer() { Items = new List<BCard>{ new BCard{ TitleInfo = new LabelInfo{ FreeTextValue = "Aloha",IsFreeText = true}}}}
                 };
 
                 database.Save(data);
@@ -41,7 +42,7 @@ namespace BOA.OneDesigner.AppModel
                 var dataInDb = new ScreenInfo {RequestName = data.RequestName};
                 database.Load(dataInDb);
 
-                (dataInDb.JsxModel as ScreenInfo)?.RequestName.Should().Be("Aloha");
+                ((DivAsCardContainer)dataInDb.JsxModel ).Items[0].TitleInfo.FreeTextValue.Should().Be("Aloha");
 
                 database.DeleteByRequestName(data.RequestName).Should().Be(1);
             }
