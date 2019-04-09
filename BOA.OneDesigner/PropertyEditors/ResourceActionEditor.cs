@@ -34,12 +34,12 @@ namespace BOA.OneDesigner.PropertyEditors
                         ui: 'TabItem',
                         Header:'Simple',
                         Content:
-                        {
-                            ui:'RequestIntellisenseTextBox', 
-                            ShowOnlyOrchestrationMethods:true, 
-                            Margin:5, 
-                            Text:'{Binding " + nameof(Model.OrchestrationMethodName) + @"}', 
-                            Label:'Orchestration Method Name' 
+                        {   
+                            ui       : 'OrchestrationIntellisense',
+                            Text     :'{Binding " + nameof(Model.OrchestrationMethodName) + @"}',
+                            Label    : 'Orchestration Method Name',
+                            ToolTip  : 'Upload the form to orchestration side when button clicked.',
+                                             
                         }
                     }
                     ,
