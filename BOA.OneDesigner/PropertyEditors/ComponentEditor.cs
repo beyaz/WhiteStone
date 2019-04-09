@@ -15,7 +15,7 @@ namespace BOA.OneDesigner.PropertyEditors
         public bool          CustomHandlerFunctionExpanderIsExpanded   { get; set; }
         public ComponentInfo Info                                      { get; set; }
         public bool          IsBoldVisible                             { get; set; }
-        public bool          IsButtonClickedOrchestrationMethodVisible { get; set; }
+        
         public bool          IsDisabledEditorVisible                   { get; set; }
         public bool          IsInDialogBoxIsVisible                    { get; set; }
         public bool          IsInfoTextVisible                         { get; set; }
@@ -30,8 +30,8 @@ namespace BOA.OneDesigner.PropertyEditors
         public bool   IsValueBindingPathEditorVisible                           { get; set; }
         public bool   IsValueChangedOrchestrationMethodVisible                  { get; set; }
         public bool   IsVisibleEditorVisible                                    { get; set; }
-        public bool   OpenFormWithResourceCodeDataParameterBindingPathIsVisible { get; set; }
-        public bool   OpenFormWithResourceCodeIsVisible                         { get; set; }
+        
+        
         public string ValueBindingPathLabel                                     { get; set; }
         public string ValueBindingPathToolTip                                   { get; set; }
         #endregion
@@ -69,9 +69,8 @@ namespace BOA.OneDesigner.PropertyEditors
                 IsDisabledEditorVisible                                   = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
                 IsBoldVisible                                             = info.Type.IsLabel,
                 IsTextIntoVisible                                         = info.Type.IsLabel || info.Type.IsButton,
-                IsButtonClickedOrchestrationMethodVisible                 = info.Type.IsButton,
-                OpenFormWithResourceCodeIsVisible                         = info.Type.IsButton,
-                OpenFormWithResourceCodeDataParameterBindingPathIsVisible = info.Type.IsButton,
+                
+                
                 ValueBindingPathLabel                                     = "Value Binding Path",
                 CustomHandlerFunctionExpanderIsExpanded                   = info.ExtensionMethodName.HasValue()
             };
@@ -336,17 +335,17 @@ namespace BOA.OneDesigner.PropertyEditors
                         ui                          : 'OrchestrationIntellisense',
                         Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
                         Label                       : 'On Value Changed (Goto Orch)',
-                        IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsButtonClickedOrchestrationMethodVisible) + @"}'                   
+                        IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}'                   
                     }
                     ,
                     {
                         ui                  : 'ResourceCodeTextBox',
-Name:'_resourceCodeTextBox',
+                        Name                : '_resourceCodeTextBox',
                         SelectedValuePath   : 'ResourceCode',
                         DisplayMemberPath   : 'Description',
                         SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}',
                         Label               : 'Open Form With Resource Code',
-                        IsVisible           : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeIsVisible) + @"}'
+                        IsVisible           : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}'
                     }
                     ,
 		            {
@@ -354,12 +353,12 @@ Name:'_resourceCodeTextBox',
                         ShowOnlyClassProperties : true,      
                         Text                    : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  
                         Label                   : 'Open Form With Data',
-                        IsVisible               : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeDataParameterBindingPathIsVisible) + @"}'
+                        IsVisible               : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}'
                     }
                     ,
                     {   
                         ui          : 'CheckBox',
-                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCodeIsVisible) + @"}',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}',
                         Content     : 'Open In Dialog Box', 
                         IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}', 
                         Checked     : '" + nameof(OnIsInDialogBoxChanged) + @"',
