@@ -45,6 +45,8 @@
         ///     Gets or sets the orchestration method on dialog response is ok.
         /// </summary>
         public string OrchestrationMethodOnDialogResponseIsOK { get; set; }
+
+        public string Title { get; set; }
         #endregion
     }
 }

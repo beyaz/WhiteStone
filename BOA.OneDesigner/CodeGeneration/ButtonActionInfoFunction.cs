@@ -41,6 +41,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
             string dataParameter = null;
 
+            var dataParameterText = "/*data*/null";
+
             if (Data.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
             {
                 dataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(Data.OpenFormWithResourceCodeDataParameterBindingPath);
@@ -52,9 +54,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
+                
+
                 if (dataParameter.HasValue())
                 {
-                    sb.AppendLine("const data:any = " + dataParameter + ";");
+                    sb.AppendLine("const data: any = " + dataParameter + ";");
                 }
                 else
                 {
@@ -83,10 +87,19 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("const style:any = " + Data.CssOfDialog + ";");
                 }
 
+                var titleText = "/*title*/null";
+                if (Data.Title.HasValue())
+                {
+                    sb.AppendLine();
+                    sb.AppendLine("const title = " + Data.Title+ ";");
+
+                    titleText = "title";
+                }
+
                 if (Data.OpenFormWithResourceCodeIsInDialogBox)
                 {
                     sb.AppendLine();
-                    sb.AppendLine($"BFormManager.showDialog(\"{Data.OpenFormWithResourceCode}\", data, /*title*/null, onClose, style );");
+                    sb.AppendLine($"BFormManager.showDialog(\"{Data.OpenFormWithResourceCode}\", data, {titleText}, onClose, style );");
                 }
                 else
                 {

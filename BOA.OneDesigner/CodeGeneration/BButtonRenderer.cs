@@ -1,5 +1,6 @@
 ﻿using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.CodeGeneration
@@ -37,7 +38,8 @@ namespace BOA.OneDesigner.CodeGeneration
                     OrchestrationMethodOnDialogResponseIsOK          = data.OrchestrationMethodOnDialogResponseIsOK,
                     OpenFormWithResourceCodeIsInDialogBox            = data.OpenFormWithResourceCodeIsInDialogBox,
                     CssOfDialog                                      = data.CssOfDialog,
-                    ExtensionMethodName                              = data.ExtensionMethodName
+                    ExtensionMethodName                              = data.ExtensionMethodName,
+                    Title = RenderHelper.GetLabelValue(writerContext, data.OpenFormWithResourceCodeTitle)
                 },
                 WriterContext = writerContext
             };
