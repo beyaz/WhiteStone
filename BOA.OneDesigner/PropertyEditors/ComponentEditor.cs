@@ -13,6 +13,8 @@ namespace BOA.OneDesigner.PropertyEditors
     {
         #region Public Properties
         public bool          CustomHandlerFunctionExpanderIsExpanded   { get; set; }
+        public bool OpenFormOrGoToOrchExpanderIsExpanded { get; set; }
+
         public ComponentInfo Info                                      { get; set; }
         public bool          IsBoldVisible                             { get; set; }
         
@@ -72,7 +74,10 @@ namespace BOA.OneDesigner.PropertyEditors
                 
                 
                 ValueBindingPathLabel                                     = "Value Binding Path",
-                CustomHandlerFunctionExpanderIsExpanded                   = info.ExtensionMethodName.HasValue()
+                CustomHandlerFunctionExpanderIsExpanded                   = info.ExtensionMethodName.HasValue(),
+
+                OpenFormOrGoToOrchExpanderIsExpanded = info.OpenFormWithResourceCode.HasValue() ||
+                                                       info.ButtonClickedOrchestrationMethod.HasValue()
             };
 
             if (info.Type.IsCreditCardComponent)
@@ -329,17 +334,18 @@ namespace BOA.OneDesigner.PropertyEditors
             rows:
             [
                 {
-                    ui      : 'GroupBox',
-                    Header  : 'On Click',                    
-                    Content :
+                    ui          : 'Expander',
+                    Header      : 'On Click',
+                    IsExpanded  : '{Binding " + Model.AccessPathOf(m => m.OpenFormOrGoToOrchExpanderIsExpanded) + @",Mode=OneWay}',
+                    Content     :
                     {
                         ui: 'StackPanel',
                         Childs:
                         [
                             {   
-                                ui                          : 'OrchestrationIntellisense',
-                                Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
-                                Label                       : 'On Value Changed (Goto Orch)'
+                                ui                  : 'OrchestrationIntellisense',
+                                Text                : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
+                                Label               : 'Goto Orchestration'
                             }
                             ,
                             {
@@ -396,7 +402,7 @@ namespace BOA.OneDesigner.PropertyEditors
                 {
                     ui          : 'Expander',
                     IsExpanded  : '{Binding " + Model.AccessPathOf(m => m.CustomHandlerFunctionExpanderIsExpanded) + @",Mode=OneWay}',
-                    Header      : 'Custom Handler Function',
+                    Header      : 'On Click Custom Handler Function',
                     Content     :
                     {
                         ui      : 'TextBox',
