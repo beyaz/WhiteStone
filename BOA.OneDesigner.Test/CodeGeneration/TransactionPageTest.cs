@@ -18,20 +18,16 @@ namespace BOA.OneDesigner.CodeGeneration
             
             using (var database = new DevelopmentDatabase())
             {
-                var screens = database.GetAllScreens();
+                var screen = database.GetScreenInfo("BOA.Types.Card.CCO.Card360Request");
 
-                screens = screens.Where(x => x.RequestName.Contains("360")).ToList();
 
-                foreach (var screen in screens)
+                try
                 {
-                    try
-                    {
-                        Controller.Generate(screen);
-                    }
-                    catch (BusinessException e)
-                    {
-                        Console.WriteLine(e);
-                    }
+                    Controller.Generate(screen);
+                }
+                catch (BusinessException e)
+                {
+                    Console.WriteLine(e);
                 }
             }
         }
