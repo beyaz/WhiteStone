@@ -317,6 +317,13 @@ namespace BOA.OneDesigner.PropertyEditors
         }
         ,
         {
+            ui                           : 'OrchestrationIntellisense',
+            IsVisible                    : '{Binding " + Model.AccessPathOf(m => m.IsValueChangedOrchestrationMethodVisible) + @"}',
+            Text                         : '{Binding " + Model.AccessPathOf(m => m.Info.ValueChangedOrchestrationMethod) + @"}', 
+            Label                        : 'On Value Changed'
+        }
+        ,
+        {
             ui      : 'GroupBox',
             Header  : 'Events',
             Content :
@@ -324,13 +331,6 @@ namespace BOA.OneDesigner.PropertyEditors
                 ui: 'StackPanel',
                 Childs:
                 [
-                    {
-                        ui                           : 'OrchestrationIntellisense',
-                        IsVisible                    : '{Binding " + Model.AccessPathOf(m => m.IsValueChangedOrchestrationMethodVisible) + @"}',
-                        Text                         : '{Binding " + Model.AccessPathOf(m => m.Info.ValueChangedOrchestrationMethod) + @"}', 
-                        Label                        : 'On Value Changed'
-                    }               
-                    ,
                     {   
                         ui                          : 'OrchestrationIntellisense',
                         Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
