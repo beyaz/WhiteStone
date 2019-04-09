@@ -42,12 +42,7 @@ namespace BOA.OneDesigner.MainForm
             return solutionInfo.OneProjectFolder + @"ClientApp\pages\" + screenInfo.OutputTypeScriptFileName + ".tsx";
         }
 
-        public static bool HasExtensionFile(ScreenInfo screenInfo)
-        {
-            var hasAnyResourceActionContainsCustomFunction = screenInfo.ResourceActions?.Any(x => x.ExtensionMethodName.HasValue()) == true;
-
-            return screenInfo.ExtensionAfterConstructor || screenInfo.ExtensionAfterProxyDidRespond || hasAnyResourceActionContainsCustomFunction;
-        }
+       
 
         public void GenerateCodes()
         {

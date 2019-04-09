@@ -91,6 +91,7 @@
     <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoParameterComponent.cs" />
     <Compile Include="CodeGenerationHelper\BindingPathHelper.cs" />
     <Compile Include="CodeGenerationModel\JsBindingPathInfo.cs" />
+    <Compile Include="Helpers\Util.cs" />
     <Compile Include="JsxElementModel\ButtonActionInfo.cs" />
     <Compile Include="CodeGeneration\ButtonActionInfoFunction.cs" />
     <Compile Include="CodeGenerationModel\JsObject.cs" />

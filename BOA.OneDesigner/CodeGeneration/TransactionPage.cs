@@ -7,7 +7,7 @@ using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.OneDesigner.MainForm;
+// using BOA.OneDesigner.MainForm;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 
@@ -33,7 +33,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 SolutionInfo                           = SolutionInfo.CreateFromTfsFolderPath(screenInfo.TfsFolderName),
                 ThrowExceptionOnEmptyActionDefinition  = false,
                 ExecuteWindowRequestFunctionAccessPath = "this.executeWindowRequest",
-                HasExtensionFile                       = Controller.HasExtensionFile(screenInfo)
+                HasExtensionFile                       = Utilization.HasExtensionFile(screenInfo)
             };
 
             writerContext.Imports.AddRange(new List<string>
