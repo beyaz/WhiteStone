@@ -1,145 +1,108 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using BOA.Common.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
-    public class VisitContext
-    {
-        #region Public Properties
-        public List<object> History       { get; set; }
-        public int?         Index         { get; set; }
-        public object       Instance      { get; set; }
-        public PropertyInfo PropertyInfo  { get; set; }
-        public object       PropertyValue { get; set; }
-        public object       ValueAtIndex  { get; set; }
-        #endregion
-
-        public VisitContext Clone()
-        {
-            return new VisitContext
-            {
-                History       = History,
-                Index         = Index,
-                Instance      = Instance,
-                PropertyInfo  = PropertyInfo,
-                PropertyValue = PropertyValue,
-                ValueAtIndex  = ValueAtIndex
-            };
-        }
-       
-    }
-
     public static class VisitHelper
     {
         #region Public Methods
-        public static void ConvertToNewComponent(VisitContext context)
+        public static void ConvertToNewComponent(object component)
         {
-           
+            var ci = component as ComponentInfo;
+            if (ci == null)
+            {
+                return;
+            }
 
-            //var label = context.ValueAtIndex as BLabel;
-            //if (label != null)
-            //{
-            //    var componentInfo = new ComponentInfo
-            //    {
-            //        Type = new ComponentType
-            //        {
-            //            IsLabel = true
-            //        },
-            //        SizeInfo = label.SizeInfo,
-            //        TextInto = label.TextInto,
-            //        IsBold   = label.IsBold
-            //    };
+            if (!ci.Type.IsButton)
+            {
+                return;
+            }
 
-            //    if (context.Index == null)
-            //    {
-            //        throw new InvalidOperationException();
-            //    }
-
-            //    ((IList) context.PropertyValue)[context.Index.Value] = componentInfo;
-            //}
+            if (ci.ValueChangedOrchestrationMethod.HasValue())
+            {
+                return;
+            }
         }
 
-        public static void VisitAllChildren(object instance, Action<VisitContext> on)
+        public static void VisitComponents(ScreenInfo instance, Action<object> on)
         {
-            var visitContext = new VisitContext
-            {
-                History = new List<object>()
-            };
-
-            VisitAllChildren(visitContext, instance, on);
+            Visit(instance.JsxModel, on);
         }
         #endregion
 
         #region Methods
-        static void VisitAllChildren(VisitContext context, object instance, Action<VisitContext> on)
+        static void Visit(object component, Action<object> on)
         {
-            if (instance == null)
+            if (component == null)
             {
                 return;
             }
 
-            if (context.History.Contains(instance))
+            if (component is ComponentInfo componentInfo)
             {
+                on(componentInfo);
                 return;
             }
 
-            context.History.Add(instance);
-
-            foreach (var propertyInfo in instance.GetType().GetProperties().Where(p => p.CanRead))
+            if (component is BComboBox comboBox)
             {
-                var value = propertyInfo.GetValue(instance);
-
-                context.Instance      = instance;
-                context.PropertyInfo  = propertyInfo;
-                context.PropertyValue = value;
-
-                context.Index        = null;
-                context.ValueAtIndex = null;
-
-                on(context);
-
-                if (value == null
-                    || value is string
-                    || value is sbyte
-                    || value is byte
-                    || value is short
-                    || value is ushort
-                    || value is int
-                    || value is uint
-                    || value is long
-                    || value is ulong
-                    || value is bool)
-                {
-                    continue;
-                }
-
-                var list = value as IList;
-
-                if (list != null)
-                {
-                    for (var i = 0; i < list.Count; i++)
-                    {
-                        var obj = list[i];
-
-                        context.Index        = i;
-                        context.ValueAtIndex = obj;
-
-                        on(context);
-
-                        if (list[i] == obj)
-                        {
-                            VisitAllChildren(context.Clone(), obj, on);
-                        }
-                    }
-
-                    continue;
-                }
-
-                VisitAllChildren(context.Clone(), value, on);
+                on(comboBox);
+                return;
             }
+
+            if (component is BDataGrid dataGrid)
+            {
+                on(dataGrid);
+                return;
+            }
+
+            if (component is BTabBar tabBar)
+            {
+                on(tabBar);
+
+                foreach (var item in tabBar.Items)
+                {
+                    Visit(item, on);
+                }
+
+                return;
+            }
+
+            if (component is BTabBarPage tabBarPage)
+            {
+                on(tabBarPage);
+
+                Visit(tabBarPage.DivAsCardContainer,on);
+
+                return;
+            }
+
+            if (component is DivAsCardContainer divAsCardContainer)
+            {
+                on(divAsCardContainer);
+
+                foreach (var bCard in divAsCardContainer.Items)
+                {
+                    Visit(bCard, on);
+                }
+
+                return;
+            }
+
+            if (component is BCard card)
+            {
+                on(card);
+
+                foreach (var item in card.Items)
+                {
+                    Visit(item, on);
+                }
+
+                return;
+            }
+
+            throw new InvalidOperationException();
         }
         #endregion
     }

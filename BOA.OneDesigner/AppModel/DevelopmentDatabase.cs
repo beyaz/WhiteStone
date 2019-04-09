@@ -162,7 +162,7 @@ WHERE ({nameof(data.RequestName)} = @{nameof(data.RequestName)} OR {nameof(data.
             }
 
             // TODO: eski sisteme destek verebilmek için. Bütün ekranlarda bir kez denenip sonrasında bu satır kaldırılmalı.
-            VisitHelper.VisitAllChildren(data, VisitHelper.ConvertToNewComponent);
+            VisitHelper.VisitComponents(data, VisitHelper.ConvertToNewComponent);
 
             return true;
         }
