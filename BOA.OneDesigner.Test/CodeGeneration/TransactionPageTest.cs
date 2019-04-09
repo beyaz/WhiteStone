@@ -57,6 +57,7 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var excepts = new List<string>
             {
+                "BOA.Types.Card.CCO.Card360Request",
                 "BOA.Types.Card.KeyManagement.RSAKeyRequest" // sanırım ahmet sevgili sonra yapacakmış 
             };
 
@@ -69,10 +70,6 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
                 // screens = screens.Where(x => x.RequestName.StartsWith("BOA.Types.Card.CCO.") == false).ToList();
-
-
-
-                screens = screens.Where(x => x.OutputTypeScriptFileName=="manuel-installment-cancel").ToList();
 
                 
 

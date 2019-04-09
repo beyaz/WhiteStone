@@ -93,6 +93,15 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.AppendLine();
                 sb.AppendLine($"{data.JsBindingPath} = {data.GetAssignmentValueCode()};");
+
+                if (data is ComponentGetValueInfoDataGridSelectedValueChangedBindingValue )
+                {
+                    var hasSameValue = FillRequestFromUI.Any(x=>x.JsBindingPath.StartsWith(data.JsBindingPath+".") && x!= data);
+                    if (hasSameValue)
+                    {
+                        
+                    }
+                }
             }
 
             if (HasTabControl)
