@@ -1,7 +1,7 @@
 ﻿using BOA.OneDesigner.CodeGenerationModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Data = BOA.OneDesigner.CodeGeneration.ButtonActionInfo;
+using Data = BOA.OneDesigner.JsxElementModel.ButtonActionInfo;
 
 namespace BOA.OneDesigner.CodeGeneration
 {

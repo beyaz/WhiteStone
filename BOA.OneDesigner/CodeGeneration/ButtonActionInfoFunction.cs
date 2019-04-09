@@ -1,24 +1,10 @@
 ﻿using BOA.Common.Helpers;
 using BOA.OneDesigner.CodeGenerationModel;
+using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-    class ButtonActionInfo
-    {
-        #region Public Properties
-        public string CssOfDialog                                      { get; set; }
-        public string DesignerLocation                                 { get; set; }
-        public string ExtensionMethodName                              { get; set; }
-        public string OpenFormWithResourceCode                         { get; set; }
-        public string OpenFormWithResourceCodeDataParameterBindingPath { get; set; }
-        
-        public bool   OpenFormWithResourceCodeIsInDialogBox            { get; set; }
-        public string OrchestrationMethodName                          { get; set; }
-        public string OrchestrationMethodOnDialogResponseIsOK          { get; set; }
-        #endregion
-    }
-
     class ButtonActionInfoFunction
     {
         #region Public Properties
