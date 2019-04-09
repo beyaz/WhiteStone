@@ -16,6 +16,15 @@ namespace BOA.OneDesigner.Helpers
 
     public static class Error
     {
+
+        public static BusinessException DataGridSelectedRecordInvalidBindingPath(string bindingPath)
+        {
+            return new BusinessException(string.Join(Environment.NewLine,
+                                                     nameof(DataGridSelectedRecordInvalidBindingPath),
+                                                     nameof(bindingPath) + Path.VolumeSeparatorChar + bindingPath,
+                                         "DataGrid selected value alanı başka alanlara bind edilemez."));
+        }
+
         #region Public Methods
         public static BusinessException BindingPathShouldHaveValue(string location, string pathName)
         {

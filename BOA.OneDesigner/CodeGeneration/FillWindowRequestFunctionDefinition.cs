@@ -3,6 +3,7 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.CodeGenerationComponentGetValueModels;
 using BOA.OneDesigner.CodeGenerationHelper;
+using BOA.OneDesigner.Helpers;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
@@ -99,7 +100,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     var hasSameValue = FillRequestFromUI.Any(x=>x.JsBindingPath.StartsWith(data.JsBindingPath+".") && x!= data);
                     if (hasSameValue)
                     {
-                        
+                        throw Error.DataGridSelectedRecordInvalidBindingPath( data.JsBindingPath);
                     }
                 }
             }
