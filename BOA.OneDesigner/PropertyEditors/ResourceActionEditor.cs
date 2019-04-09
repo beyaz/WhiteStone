@@ -22,14 +22,28 @@ namespace BOA.OneDesigner.PropertyEditors
  Content:
  {
     ui:'StackPanel',
-	    rows:[
-		    {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true,    Margin:5, Text:'{Binding " + nameof(Model.IsVisibleBindingPath) + @"}',     Label:'Is Visible Binding Path' },
-            {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true,    Margin:5, Text:'{Binding " + nameof(Model.IsEnableBindingPath) + @"}',      Label:'Is Enable Binding Path' },
-            
-
+	    rows:
+        [
+		    {
+                ui                          : 'RequestIntellisenseTextBox', 
+                ShowOnlyBooleanProperties   : true,    
+                Margin                      : 5, 
+                Text                        : '{Binding " + nameof(Model.IsVisibleBindingPath) + @"}',     
+                Label                       : 'Is Visible Binding Path'
+            }
+            ,
+            {
+                ui                          : 'RequestIntellisenseTextBox',
+                Margin                      : 5,
+                Text                        : '{Binding " + nameof(Model.IsEnableBindingPath) + @"}',
+                Label                       : 'Is Enable Binding Path',
+                ShowOnlyBooleanProperties   : true
+            }
+            ,
             {
                 ui:'TabControl',
-                childs:[
+                childs:
+                [
                     {
                         ui: 'TabItem',
                         Header:'Simple',
@@ -56,9 +70,8 @@ namespace BOA.OneDesigner.PropertyEditors
 
                     }
                 ]
-
-            },
-
+            }
+            ,
             {
                 ui                  : 'ResourceCodeTextBox',   
                 SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCode) + @"}',
@@ -69,10 +82,13 @@ namespace BOA.OneDesigner.PropertyEditors
                 Margin              : 5
             }
             ,
-
-
-
-		    {ui:'RequestIntellisenseTextBox', ShowOnlyClassProperties:true,      Margin:5, Text:'{Binding " + nameof(Model.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  Label:'Open Form With Data' }
+		    {
+                ui                      : 'RequestIntellisenseTextBox',
+                Margin                  : 5,
+                Text                    : '{Binding " + nameof(Model.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',
+                Label                   : 'Open Form With Data',
+                ShowOnlyClassProperties : true
+            }
 
 	    ]
  }
