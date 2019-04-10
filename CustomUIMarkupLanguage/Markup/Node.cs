@@ -17,7 +17,7 @@ namespace CustomUIMarkupLanguage.Markup
         /// <summary>
         ///     Gets or sets the name to upper in english.
         /// </summary>
-        public string NameToUpperInEnglish => Name.ToUpperEN();
+        public string NameToUpperInEnglish => Name?.ToUpperEN();
 
         /// <summary>
         ///     Gets or sets the properties.

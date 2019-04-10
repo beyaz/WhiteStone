@@ -38,7 +38,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
             WpfExtra.RadioButton_Label,
             WpfExtra.IsVisible,
             WpfExtra.HorizontalAlignmentIsCenter,
-            WpfExtra.VerticalAlignmentIsCenter
+            WpfExtra.VerticalAlignmentIsCenter,
+            WpfExtra.MarginInChildren
         };
 
         /// <summary>
@@ -65,7 +66,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         readonly List<CreationCompletedCallback> _creationCompletedHandlers = new List<CreationCompletedCallback>
         {
-            ProcessGridRowsAndColumns
+            ProcessGridRowsAndColumns,
+            WpfExtra.MarginInChildrenEnd
         };
         #endregion
 

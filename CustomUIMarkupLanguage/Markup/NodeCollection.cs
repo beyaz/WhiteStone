@@ -44,6 +44,23 @@ namespace CustomUIMarkupLanguage.Markup
             }
         }
 
+        public Node this[params  string[] optionalNames]
+        {
+            get
+            {
+                foreach (var name in optionalNames)
+                {
+                    var node = this[name];
+                    if (node != null)
+                    {
+                        return node;
+                    }
+                }
+
+                return null;
+            }
+        }
+
         /// <summary>
         ///     Gets the <see cref="Node" /> at the specified index.
         /// </summary>

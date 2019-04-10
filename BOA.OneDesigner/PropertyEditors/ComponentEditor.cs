@@ -195,6 +195,10 @@ namespace BOA.OneDesigner.PropertyEditors
                 Model.Info.OpenFormWithResourceCodeTitle = new LabelInfo();
             }
 
+            
+
+            
+
             var template = @"
 {
     Childs:
@@ -341,7 +345,7 @@ namespace BOA.OneDesigner.PropertyEditors
                     Content     :
                     {
                         ui: 'StackPanel',
-                        MarginInChilds:10,
+                        Spacing:10,
                         Childs:
                         [
                             {   

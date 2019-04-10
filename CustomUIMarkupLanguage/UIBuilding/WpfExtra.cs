@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,43 +14,12 @@ namespace CustomUIMarkupLanguage.UIBuilding
     /// </summary>
     class WpfExtra
     {
-
-        class IsBoldConverter : IValueConverter
+        #region Static Fields
+        static readonly string[] MarginInChildrenNames =
         {
-            #region IValueConverter Members
-            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                if (value == null)
-                {
-                    return null;
-                }
-
-
-                if (System.Convert.ToBoolean(value))
-                {
-                    return FontWeights.Bold;
-                }
-
-                return FontWeights.Normal;
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                if (value == null)
-                {
-                    return null;
-                }
-
-                if (value is FontWeight )
-                {
-                    return ((FontWeight) value) == FontWeights.Bold;
-                }
-
-                return false;
-            }
-            #endregion
-        }
-
+            "SPACING"
+        };
+        #endregion
 
         #region Public Methods
         public static bool Button_Text(Builder builder, UIElement element, Node node)
@@ -63,20 +33,31 @@ namespace CustomUIMarkupLanguage.UIBuilding
             }
 
             return false;
-        } public static bool RadioButton_Label(Builder builder, UIElement element, Node node)
+        }
+
+        public static bool HorizontalAlignmentIsCenter(Builder builder, UIElement element, Node node)
         {
-            if (element is RadioButton)
+            if (node.NameToUpperInEnglish == "HORIZONTALALIGNISCENTER" ||
+                node.NameToUpperInEnglish == "HALIGNISCENTER")
             {
-                if (node.NameToUpperInEnglish == "LABEL" || node.NameToUpperInEnglish == "TEXT")
+                if (node.ValueIsBoolean)
                 {
-                    node.Name = "Content";
+                    if (node.ValueAsBoolean)
+                    {
+                        ((FrameworkElement) element).HorizontalAlignment = HorizontalAlignment.Center;
+                    }
+                    else
+                    {
+                        ((FrameworkElement) element).HorizontalAlignment = default(HorizontalAlignment);
+                    }
+
+                    return true;
                 }
             }
 
             return false;
         }
 
-        
         public static bool IsVisible(Builder builder, UIElement element, Node node)
         {
             if (node.NameToUpperInEnglish == "ISVISIBLE")
@@ -93,7 +74,6 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     }
 
                     return true;
-
                 }
 
                 if (node.ValueIsBindingExpression)
@@ -107,53 +87,90 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return false;
         }
 
-        public static bool VerticalAlignmentIsCenter(Builder builder, UIElement element, Node node)
+        public static UIElement ListBox_Create(Builder builder, Node node)
         {
-            if (node.NameToUpperInEnglish == "VERTICALALIGNISCENTER" ||
-                node.NameToUpperInEnglish == "VALIGNISCENTER")
+            if (node.UI == nameof(ListBox).ToUpperEN())
             {
-                if (node.ValueIsBoolean)
+                var ui = new ListBox();
+
+                ui.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Auto);
+
+                return ui;
+            }
+
+            return null;
+        }
+
+        public static bool MarginInChildren(Builder builder, UIElement element, Node node)
+        {
+            if (MarginInChildrenNames.Contains(node.NameToUpperInEnglish))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static void MarginInChildrenEnd(Builder builder, UIElement element, Node node)
+        {
+            node = node.Properties[MarginInChildrenNames];
+
+            if (node == null)
+            {
+                return;
+            }
+
+            var margin = Convert.ToDouble(node.ValueAsNumber);
+
+            if (element is StackPanel stackPanel)
+            {
+                var isFirst = true;
+
+                if (stackPanel.Orientation == Orientation.Vertical)
                 {
-                    if (node.ValueAsBoolean)
+                    foreach (FrameworkElement child in stackPanel.Children)
                     {
-                        ((FrameworkElement)element).VerticalAlignment = VerticalAlignment.Center;
+                        if (isFirst)
+                        {
+                            isFirst = false;
+                            continue;
+                        }
+
+                        child.Margin = new Thickness(child.Margin.Left, margin, child.Margin.Right, child.Margin.Bottom);
                     }
-                    else
+                }
+                else
+                {
+                    foreach (FrameworkElement child in stackPanel.Children)
                     {
-                        ((FrameworkElement)element).VerticalAlignment = default(VerticalAlignment);
+                        if (isFirst)
+                        {
+                            isFirst = false;
+                            continue;
+                        }
+
+                        child.Margin = new Thickness(margin, child.Margin.Top, child.Margin.Right, child.Margin.Bottom);
                     }
+                }
 
-                    return true;
+                return;
+            }
 
+            throw new ArgumentException(node.ToString());
+        }
+
+        public static bool RadioButton_Label(Builder builder, UIElement element, Node node)
+        {
+            if (element is RadioButton)
+            {
+                if (node.NameToUpperInEnglish == "LABEL" || node.NameToUpperInEnglish == "TEXT")
+                {
+                    node.Name = "Content";
                 }
             }
 
             return false;
         }
-        public static bool HorizontalAlignmentIsCenter(Builder builder, UIElement element, Node node)
-        {
-            if (node.NameToUpperInEnglish == "HORIZONTALALIGNISCENTER" ||
-                node.NameToUpperInEnglish == "HALIGNISCENTER")
-            {
-                if (node.ValueIsBoolean)
-                {
-                    if (node.ValueAsBoolean)
-                    {
-                        ((FrameworkElement)element).HorizontalAlignment = HorizontalAlignment.Center;
-                    }
-                    else
-                    {
-                        ((FrameworkElement)element).HorizontalAlignment = default(HorizontalAlignment);
-                    }
-
-                    return true;
-
-                }
-            }
-
-            return false;
-        }
-        
 
         /// <summary>
         ///     Riches the text box create.
@@ -170,21 +187,6 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
             return null;
         }
-
-        public static UIElement ListBox_Create(Builder builder, Node node)
-        {
-            if (node.UI == nameof(ListBox).ToUpperEN())
-            {
-                var ui = new ListBox();
-
-                ui.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty,ScrollBarVisibility.Auto);
-
-                return ui;
-            }
-
-            return null;
-        }
-         
 
         /// <summary>
         ///     Riches the text box text.
@@ -209,7 +211,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 {
                     var text = richTextBox.GetText();
 
-                    var propertyInfo = builder.Caller.GetType().GetProperty(node.ValueAsString,  isPublic: true,isStatic: false,ignoreCase: true,throwExceptionOnNotFound: true);
+                    var propertyInfo = builder.Caller.GetType().GetProperty(node.ValueAsString, isPublic: true, isStatic: false, ignoreCase: true, throwExceptionOnNotFound: true);
 
                     throw new Exception("TODO");
                     // propertyInfo.SetValue(builder.DataContext, text);
@@ -254,6 +256,38 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return false;
         }
 
+        public static JToken TransformTitleInStackPanel(JToken jToken)
+        {
+            var jObject = jToken as JObject;
+
+            if (jObject == null)
+            {
+                return jToken;
+            }
+
+            var value = jObject.GetValue("ui", StringComparison.OrdinalIgnoreCase) as JValue;
+
+            if (value?.ToString().Equals("StackPanel", StringComparison.OrdinalIgnoreCase) == true ||
+                value?.ToString().Equals("Grid", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                var jValue = jObject.GetValue("title", StringComparison.OrdinalIgnoreCase) as JValue;
+                if (jValue?.Value is string)
+                {
+                    jObject.Remove(jValue.Path);
+
+                    var groupBox = JObject.Parse("{ui:'GroupBox'}");
+
+                    groupBox.Add("Header", jValue);
+
+                    groupBox.Add("Content", jObject);
+
+                    return groupBox;
+                }
+            }
+
+            return jObject;
+        }
+
         /// <summary>
         ///     Transforms the name of the view.
         /// </summary>
@@ -268,39 +302,64 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 }
             });
         }
-        #endregion
 
-        public static JToken TransformTitleInStackPanel(JToken jToken)
+        public static bool VerticalAlignmentIsCenter(Builder builder, UIElement element, Node node)
         {
-
-            var jObject = jToken as JObject;
-
-            if (jObject == null)
+            if (node.NameToUpperInEnglish == "VERTICALALIGNISCENTER" ||
+                node.NameToUpperInEnglish == "VALIGNISCENTER")
             {
-                return jToken;
-            }
-
-            var value = jObject.GetValue("ui",StringComparison.OrdinalIgnoreCase) as JValue;
-
-            if(value?.ToString().Equals("StackPanel",StringComparison.OrdinalIgnoreCase) == true ||
-               value?.ToString().Equals("Grid",StringComparison.OrdinalIgnoreCase) == true)
-            {
-                var jValue = jObject.GetValue("title",StringComparison.OrdinalIgnoreCase) as JValue;
-                if(jValue?.Value is string)
+                if (node.ValueIsBoolean)
                 {
-                    jObject.Remove(jValue.Path);
+                    if (node.ValueAsBoolean)
+                    {
+                        ((FrameworkElement) element).VerticalAlignment = VerticalAlignment.Center;
+                    }
+                    else
+                    {
+                        ((FrameworkElement) element).VerticalAlignment = default(VerticalAlignment);
+                    }
 
-                    var groupBox = JObject.Parse("{ui:'GroupBox'}");
-
-                    groupBox.Add("Header",jValue);
-
-                    groupBox.Add("Content",jObject);
-
-                    return groupBox;
-
+                    return true;
                 }
             }
-            return jObject;
+
+            return false;
+        }
+        #endregion
+
+        class IsBoldConverter : IValueConverter
+        {
+            #region IValueConverter Members
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                if (value == null)
+                {
+                    return null;
+                }
+
+                if (System.Convert.ToBoolean(value))
+                {
+                    return FontWeights.Bold;
+                }
+
+                return FontWeights.Normal;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                if (value == null)
+                {
+                    return null;
+                }
+
+                if (value is FontWeight)
+                {
+                    return (FontWeight) value == FontWeights.Bold;
+                }
+
+                return false;
+            }
+            #endregion
         }
     }
 }
