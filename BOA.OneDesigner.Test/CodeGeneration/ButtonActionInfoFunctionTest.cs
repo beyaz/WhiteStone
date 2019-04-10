@@ -83,13 +83,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
 this.internalProxyDidRespondCallback = () =>
 {
-    const data:any = null;
-
     const showAsNewPage:boolean = true;
 
     const menuItemSuffix:string = null;
 
-    BFormManager.show(""x"", data, showAsNewPage,menuItemSuffix);
+    BFormManager.show(""x"", /*data*/null, showAsNewPage,menuItemSuffix);
 }
 
 this.executeWindowRequest(""GetInfo"");
@@ -101,13 +99,11 @@ this.executeWindowRequest(""GetInfo"");
 
 this.state.pageInstance.internalProxyDidRespondCallback = () =>
 {
-    const data:any = null;
-
     const showAsNewPage:boolean = true;
 
     const menuItemSuffix:string = null;
 
-    BFormManager.show(""x"", data, showAsNewPage,menuItemSuffix);
+    BFormManager.show(""x"", /*data*/null, showAsNewPage,menuItemSuffix);
 }
 
 this.state.pageInstance.executeWindowRequest(""GetInfo"");

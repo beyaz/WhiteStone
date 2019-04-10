@@ -53,24 +53,18 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                
 
+                var dataParameterText = "/*data*/null";
                 if (dataParameter.HasValue())
                 {
                     sb.AppendLine("const data: any = " + dataParameter + ";");
-                }
-                else
-                {
-                    sb.AppendLine("const data:any = null;");
+                    dataParameterText = "data";
                 }
 
                 var onCloseText = "/*onClose*/null";
 
                 if (Data.OpenFormWithResourceCodeIsInDialogBox)
                 {
-                    
-
-                    
                     if (Data.OrchestrationMethodOnDialogResponseIsOK.HasValue())
                     {
                         if (dataParameter.HasValue())
@@ -119,7 +113,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     }
 
                     sb.AppendLine();
-                    sb.AppendLine($"BFormManager.showDialog(\"{Data.OpenFormWithResourceCode}\", data, {titleText}, {onCloseText}, style );");
+                    sb.AppendLine($"BFormManager.showDialog(\"{Data.OpenFormWithResourceCode}\", {dataParameterText}, {titleText}, {onCloseText}, style );");
                 }
                 else
                 {
@@ -128,7 +122,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine();
                     sb.AppendLine("const menuItemSuffix:string = null;");
                     sb.AppendLine();
-                    sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", data, showAsNewPage,menuItemSuffix);");
+                    sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", {dataParameterText}, showAsNewPage,menuItemSuffix);");
                 }
 
                 sb.PaddingCount--;

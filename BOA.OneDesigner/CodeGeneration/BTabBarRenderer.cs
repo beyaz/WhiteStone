@@ -81,6 +81,12 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContextMain.Page.Add(sb.ToString());
             writerContextMain.Imports.AddRange(writerContext.Imports);
+
+            if ( writerContext.HandleProxyDidRespondCallback)
+            {
+                writerContextMain.HandleProxyDidRespondCallback = true;
+            }
+            
         }
 
         public static void Write(WriterContext writerContext, BTabBar data)
