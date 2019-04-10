@@ -61,6 +61,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 "BOA.Types.Card.KeyManagement.RSAKeyRequest" // sanırım ahmet sevgili sonra yapacakmış 
             };
 
+            
+            
+
             using (var database = new DevelopmentDatabase())
             {
                 var screens = database.GetAllScreens();
@@ -68,8 +71,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 screens = screens.Where(x => excepts.Contains(x.RequestName) == false).ToList();
 
 
-
-                // screens = screens.Where(x => x.RequestName.StartsWith("BOA.Types.Card.CCO.") == false).ToList();
+                 // screens = screens.Where(x => x.RequestName.StartsWith("BOA.Types.Card.Parameter.") == false).ToList();
 
                 
 
@@ -83,6 +85,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     {
                         Console.WriteLine(e);
                     }
+                    catch (System.UnauthorizedAccessException) { }
                 }
             }
         }

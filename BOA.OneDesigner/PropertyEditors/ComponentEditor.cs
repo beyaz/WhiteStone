@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
@@ -427,9 +428,10 @@ namespace BOA.OneDesigner.PropertyEditors
 ";
             this.LoadJson(template);
 
-            _resourceCodeTextBox.Text = Model?.Info?.OpenFormWithResourceCode;
-
-            
+            if (Model?.Info?.OpenFormWithResourceCode.HasValue() == true)
+            {
+                _resourceCodeTextBox.Text = ResourceCodeTextBox.Items.FirstOrDefault(x => x.ResourceCode == Model?.Info?.OpenFormWithResourceCode)?.Description;
+            }
 
             foreach (var child in Children)
             {
