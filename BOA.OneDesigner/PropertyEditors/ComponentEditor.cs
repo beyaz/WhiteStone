@@ -341,6 +341,7 @@ namespace BOA.OneDesigner.PropertyEditors
                     Content     :
                     {
                         ui: 'StackPanel',
+                        MarginInChilds:10,
                         Childs:
                         [
                             {   

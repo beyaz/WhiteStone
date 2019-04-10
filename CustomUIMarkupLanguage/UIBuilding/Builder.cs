@@ -12,6 +12,14 @@ using CustomUIMarkupLanguage.Markup;
 
 namespace CustomUIMarkupLanguage.UIBuilding
 {
+
+    public delegate void CreationCompletedCallback(Builder builder, UIElement element, Node node);
+
+    public delegate UIElement ElementCreationDelegate(Builder builder,   Node node);
+
+    public delegate bool CustomPropertyHandlerDelegate(Builder builder, UIElement element, Node node);
+
+
     #region Builder    
     /// <summary>
     ///     The builder
@@ -22,7 +30,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     The custom property handlers
         /// </summary>
-        static readonly List<Func<Builder, UIElement, Node, bool>> _customPropertyHandlers = new List<Func<Builder, UIElement, Node, bool>>
+        static readonly List<CustomPropertyHandlerDelegate> _customPropertyHandlers = new List<CustomPropertyHandlerDelegate>
         {
             WpfExtra.TextBlock_IsBold,
             WpfExtra.RichTextBox_Text,
@@ -36,7 +44,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     The try to create element
         /// </summary>
-        static readonly List<Func<Builder, Node, UIElement>> _tryToCreateElement = new List<Func<Builder, Node, UIElement>>
+        static readonly List<ElementCreationDelegate> _tryToCreateElement = new List<ElementCreationDelegate>
         {
             WpfExtra.RichTextBox_Create,
             WpfExtra.ListBox_Create
@@ -55,7 +63,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     The creation completed handlers
         /// </summary>
-        readonly List<Action<Builder, UIElement, Node>> _creationCompletedHandlers = new List<Action<Builder, UIElement, Node>>
+        readonly List<CreationCompletedCallback> _creationCompletedHandlers = new List<CreationCompletedCallback>
         {
             ProcessGridRowsAndColumns
         };
@@ -95,7 +103,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Registers the custom property.
         /// </summary>
-        public static void RegisterCustomProperty(Func<Builder, UIElement, Node, bool> execute)
+        public static void RegisterCustomProperty(CustomPropertyHandlerDelegate execute)
         {
             _customPropertyHandlers.Insert(0, execute);
         }
@@ -103,7 +111,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Registers the element creation.
         /// </summary>
-        public static void RegisterElementCreation(Func<Builder, Node, UIElement> func)
+        public static void RegisterElementCreation(ElementCreationDelegate func)
         {
             _tryToCreateElement.Add(func);
         }
@@ -113,7 +121,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         public static void RegisterElementCreation(string uiName, Type uiType)
         {
-            Func<Builder, Node, UIElement> func = (builder, node) =>
+            ElementCreationDelegate func = (builder, node) =>
             {
                 if (node.UI == uiName.ToUpperEN())
                 {
@@ -154,10 +162,11 @@ namespace CustomUIMarkupLanguage.UIBuilding
             BuildProperties(Caller, node);
         }
 
+        
         /// <summary>
         ///     Registers the on creation completed.
         /// </summary>
-        public void RegisterOnCreationCompleted(Action<Builder, UIElement, Node> action)
+        public void RegisterOnCreationCompleted(CreationCompletedCallback action)
         {
             _creationCompletedHandlers.Add(action);
         }
@@ -846,7 +855,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         void Assign(UIElement element, Node node)
         {
-            var tuple = new Func<Builder, UIElement, Node, bool>[]
+            var tuple = new CustomPropertyHandlerDelegate[]
             {
                 TryToSetName,
                 TryToHandleGravity,
