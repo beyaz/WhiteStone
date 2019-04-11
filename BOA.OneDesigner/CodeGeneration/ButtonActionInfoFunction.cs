@@ -39,12 +39,32 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var executeWindowRequest = WriterContext.ExecuteWindowRequestFunctionAccessPath;
 
+            if (Data.OrchestrationMethodName.HasValue() &&
+                Data.OpenFormWithResourceCode.IsNullOrEmpty())
+            {
+                sb.AppendLine($"{executeWindowRequest}(\"{Data.OrchestrationMethodName}\");");
+                return sb.ToString();
+            }
+
             string dataParameter = null;
-
-
             if (Data.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
             {
                 dataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(Data.OpenFormWithResourceCodeDataParameterBindingPath);
+            }
+
+            if (Data.OrchestrationMethodName.IsNullOrEmpty() &&
+                Data.OpenFormWithResourceCode.HasValue())
+            {
+                if (dataParameter.HasValue())
+                {
+                    sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", /*data*/{dataParameter}, true,null);");
+                }
+                else
+                {
+                    sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", /*data*/null, true,null);");
+                }
+
+                return sb.ToString();
             }
 
             if (Data.OpenFormWithResourceCode.HasValue() && Data.OrchestrationMethodName.HasValue())
@@ -52,7 +72,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"{mainFormPath}.internalProxyDidRespondCallback = () =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-
 
                 var dataParameterText = "/*data*/null";
                 if (dataParameter.HasValue())
@@ -90,16 +109,13 @@ namespace BOA.OneDesigner.CodeGeneration
                             sb.AppendLine("    }");
                             sb.AppendLine("};");
                         }
-                        
 
                         onCloseText = "onClose";
                     }
 
                     sb.AppendLine();
-                    sb.AppendLine("const style:any = " + Data.CssOfDialog + ";");
+                    sb.AppendLine("const style: any = " + Data.CssOfDialog + ";");
                 }
-
-                
 
                 if (Data.OpenFormWithResourceCodeIsInDialogBox)
                 {
@@ -107,7 +123,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     if (Data.Title.HasValue())
                     {
                         sb.AppendLine();
-                        sb.AppendLine("const title = " + Data.Title+ ";");
+                        sb.AppendLine("const title = " + Data.Title + ";");
 
                         titleText = "title";
                     }
@@ -132,21 +148,6 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"{executeWindowRequest}(\"{Data.OrchestrationMethodName}\");");
 
                 WriterContext.HandleProxyDidRespondCallback = true;
-            }
-            else if (Data.OpenFormWithResourceCode.HasValue())
-            {
-                if (dataParameter.HasValue())
-                {
-                    sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", /*data*/{dataParameter}, true,null);");
-                }
-                else
-                {
-                    sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", /*data*/null, true,null);");
-                }
-            }
-            else if (Data.OrchestrationMethodName.HasValue())
-            {
-                sb.AppendLine($"{executeWindowRequest}(\"{Data.OrchestrationMethodName}\");");
             }
 
             return sb.ToString();
