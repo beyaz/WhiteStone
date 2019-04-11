@@ -3,6 +3,7 @@ using BOA.Common.Helpers;
 using BOA.OneDesigner.CodeGenerationComponentGetValueModels;
 using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
 
@@ -189,15 +190,27 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var fieldPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.SelectedRowDataBindingPath);
 
+            var propertyDefinition = CecilHelper.FindPropertyInfo(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, writerContext.ScreenInfo.RequestName, data.SelectedRowDataBindingPath);
 
+            var isCollection = CecilHelper.IsCollection(propertyDefinition?.PropertyType);
 
             if (isBrowsePageDataGrid)
             {
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValueInBrowseForm { JsBindingPath = fieldPath,SnapName = data.SnapName});    
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValueInBrowseForm
+                {
+                    JsBindingPath = fieldPath,
+                    SnapName = data.SnapName,
+                    IsCollection = isCollection
+                });    
             }
             else
             {
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValue { JsBindingPath = fieldPath,SnapName = data.SnapName});    
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValue
+                {
+                    JsBindingPath = fieldPath,
+                    SnapName = data.SnapName,
+                    IsCollection = isCollection
+                });    
             }
             
 
