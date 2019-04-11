@@ -353,54 +353,65 @@ namespace BOA.OneDesigner.PropertyEditors
                                 Text                : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
                                 Label               : 'Goto Orchestration'
                             }
-                            ,
+                            ,                            
                             {
-                                ui                  : 'ResourceCodeTextBox',
-                                Name                : '_resourceCodeTextBox',
-                                SelectedValuePath   : 'ResourceCode',
-                                DisplayMemberPath   : 'Description',
-                                SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}',
-                                Label               : 'Open Form With Resource Code'
-                            }
-                            ,
-		                    {
-                                ui                      : 'RequestIntellisenseTextBox', 
-                                ShowOnlyClassProperties : true,      
-                                Text                    : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  
-                                Label                   : 'Open Form With Data'
-                            }
-                            ,
-                            {   
-                                ui          : 'CheckBox',
-                                Content     : 'Open In Dialog Box', 
-                                IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}', 
-                                Checked     : '" + nameof(OnIsInDialogBoxChanged) + @"',
-                                Unchecked   : '" + nameof(OnIsInDialogBoxChanged) + @"',
-                                ToolTip     : 'Seçili ise popup olarak açılır.'
-                            }
-                            ,
-                            {
-                                ui          : 'LabelEditor',
-                                DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeTitle) + @"}',
-                                Header      : 'Title',
-                                IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
-                            }
-                            ,
-                            {   
-                                ui          : 'TextBox',
-                                Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CssOfDialog) + @"}',
-                                Label       : 'Dialog Style',
-                                ToolTip     : " + "\"Açılacak popup'ın css bilgisi. Örn:{width:'50%' , height:'50%'}\"" + @",
-                                IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
-                            }
-                            ,
-                            {   
-                                ui          : 'OrchestrationIntellisense',
-                                Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OrchestrationMethodOnDialogResponseIsOK) + @"}',
-                                Label       : 'On dialog response is OK',
-                                ToolTip     : 'Dialog response OK olduğu durumda gideceği orch metodu.',
-                                IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
-                            }
+	                            ui		: 'GroupBox',
+	                            Header	: 'Open Form',
+	                            Content	:
+	                            {
+		                            ui	:'StackPanel',
+		                            rows:
+		                            [
+		                                {
+                                            ui                  : 'ResourceCodeTextBox',
+                                            Name                : '_resourceCodeTextBox',
+                                            SelectedValuePath   : 'ResourceCode',
+                                            DisplayMemberPath   : 'Description',
+                                            SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}',
+                                            Label               : 'Resource Code'
+                                        }
+                                        ,
+		                                {
+                                            ui                      : 'RequestIntellisenseTextBox', 
+                                            ShowOnlyClassProperties : true,      
+                                            Text                    : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  
+                                            Label                   : 'Data'
+                                        }
+                                        ,
+                                        {   
+                                            ui          : 'CheckBox',
+                                            Content     : 'Open In Dialog Box', 
+                                            IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}', 
+                                            Checked     : '" + nameof(OnIsInDialogBoxChanged) + @"',
+                                            Unchecked   : '" + nameof(OnIsInDialogBoxChanged) + @"',
+                                            ToolTip     : 'Seçili ise popup olarak açılır.'
+                                        }
+                                        ,
+                                        {
+                                            ui          : 'LabelEditor',
+                                            DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeTitle) + @"}',
+                                            Header      : 'Title',
+                                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
+                                        }
+                                        ,
+                                        {   
+                                            ui          : 'TextBox',
+                                            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CssOfDialog) + @"}',
+                                            Label       : 'Dialog Style',
+                                            ToolTip     : " + "\"Açılacak popup'ın css bilgisi. Örn:{width:'50%' , height:'50%'}\"" + @",
+                                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
+                                        }
+                                        ,
+                                        {   
+                                            ui          : 'OrchestrationIntellisense',
+                                            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OrchestrationMethodOnDialogResponseIsOK) + @"}',
+                                            Label       : 'On Dialog Response Is OK',
+                                            ToolTip     : 'Dialog response OK olduğu durumda gideceği orch metodu.',
+                                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
+                                        }
+		                            ]
+	                            }
+                            }                            
                         ]
                     }
                 }
