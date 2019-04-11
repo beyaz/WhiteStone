@@ -195,7 +195,10 @@ namespace BOA.OneDesigner.PropertyEditors
                 Model.Info.OpenFormWithResourceCodeTitle = new LabelInfo();
             }
 
-            
+            if (Model.Info.YesNoQuestion == null)
+            {
+                Model.Info.YesNoQuestion = new LabelInfo();
+            }
 
             
 
@@ -352,6 +355,18 @@ namespace BOA.OneDesigner.PropertyEditors
                                 ui                  : 'OrchestrationIntellisense',
                                 Text                : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
                                 Label               : 'Orchestration Call'
+                            }
+                            ,                            
+                            {
+                                ui          : 'LabelEditor',
+                                DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestion) + @"}',
+                                Header      : 'Yes - No Question'
+                            }
+                            ,
+                            {   
+                                ui                  : 'OrchestrationIntellisense',
+                                Text                : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestionAfterYesOrchestrationCall) + @"}',
+                                Label               : 'Orchestration Call On Yes'
                             }
                             ,                            
                             {

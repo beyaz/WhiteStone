@@ -116,6 +116,11 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public LabelInfo OpenFormWithResourceCodeTitle { get; set; }
 
+
+        public LabelInfo YesNoQuestion { get; set; }
+
+        public string YesNoQuestionAfterYesOrchestrationCall { get; set; }
+
         /// <summary>
         ///     Gets or sets the orchestration method on dialog response is ok.
         /// </summary>
