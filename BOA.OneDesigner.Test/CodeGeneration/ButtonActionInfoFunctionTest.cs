@@ -328,6 +328,99 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
 ");
         }
 
+
+        
+        // todo:t [TestMethod]
+        public void _9_open_form_in_dialogBox_with_data_after_orch_call_then_recall_if_success()
+        {
+            api.Data = new Data
+            {
+                OpenFormWithResourceCode                         = "x",
+                OrchestrationMethodName                          = "GetInfo",
+                OpenFormWithResourceCodeDataParameterBindingPath = "p.t",
+                OpenFormWithResourceCodeIsInDialogBox            = true,
+                OrchestrationMethodOnDialogResponseIsOK          = "pp",
+                CssOfDialog                                      = "{h}",
+                Title                                            = "'Aloha'",
+                YesNoQuestion = "MMM",
+                
+            };
+
+            OutputShouldBe(@"
+this.internalProxyDidRespondCallback = () =>
+{
+    BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
+        (dialogResponse: any) =>
+        {
+            if (dialogResponse === 1)
+            {
+                 const data:any = this.state.windowRequest.p.t;
+
+                const onClose: any = (dialogResponse: number, returnValue: any) =>
+                {
+                    if(dialogResponse === 1)
+                    {
+                        this.state.windowRequest.p.t = returnValue;
+                        this.executeWindowRequest(""pp"");
+                    }
+                };
+
+                const style:any = {h};
+
+                const title = 'Aloha';
+
+                BFormManager.showDialog(""x"", data, title, onClose, style );
+            }
+        }
+    );
+
+   
+}
+
+this.executeWindowRequest(""GetInfo"");
+
+
+");
+
+            ChangeToTabPage();
+
+            OutputShouldBe(@"
+this.state.pageInstance.internalProxyDidRespondCallback = () =>
+{
+    BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
+        (dialogResponse: any) =>
+        {
+            if (dialogResponse === 1)
+            {
+                const data:any = this.state.windowRequest.p.t;
+
+                const onClose: any = (dialogResponse: number, returnValue: any) =>
+                {
+                    if(dialogResponse === 1)
+                    {
+                        this.state.windowRequest.p.t = returnValue;
+                        this.state.pageInstance.executeWindowRequest(""pp"");
+                    }
+                };
+
+                const style:any = {h};
+                
+                const title = 'Aloha';
+
+                BFormManager.showDialog(""x"", data, title, onClose, style );
+            }
+        }
+    );    
+}
+
+this.state.pageInstance.executeWindowRequest(""GetInfo"");
+
+
+");
+        }
+
+
+
         [TestInitialize]
         public void ZTestInitialize()
         {

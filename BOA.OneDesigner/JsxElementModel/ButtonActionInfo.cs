@@ -5,6 +5,10 @@
     /// </summary>
     class ButtonActionInfo
     {
+        public string YesNoQuestion { get; set; }
+
+        public string YesNoQuestionAfterYesOrchestrationCall { get; set; }
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets the CSS of dialog.
