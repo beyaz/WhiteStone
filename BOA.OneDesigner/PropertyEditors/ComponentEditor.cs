@@ -200,7 +200,7 @@ namespace BOA.OneDesigner.PropertyEditors
                 Model.Info.YesNoQuestion = new LabelInfo();
             }
 
-            
+
 
             var template = @"
 {
@@ -372,9 +372,10 @@ namespace BOA.OneDesigner.PropertyEditors
                             {
 	                            ui		: 'GroupBox',
 	                            Header	: 'Open Form',
-	                            Content	:
+                                Content	:
 	                            {
-		                            ui	:'StackPanel',
+		                            ui	    :'StackPanel',
+                                    Spacing : 10,
 		                            rows:
 		                            [
 		                                {

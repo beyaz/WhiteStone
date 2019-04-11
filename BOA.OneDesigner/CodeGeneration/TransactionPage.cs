@@ -344,6 +344,32 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
+        static void OnActionClickAfter(WriterContext writerContext)
+        {
+            if (!writerContext.HasWorkflow)
+            {
+                return;
+            }
+
+            var sb = new PaddedStringBuilder();
+            sb.AppendLine("onActionClickAfter(command: any, workflowResponse: any)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("if (workflowResponse.success)");
+            sb.AppendLine("{");
+            sb.AppendLine("    this.onPageCloseClick();");
+            sb.AppendLine("}");
+            
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
+        }
+
+
+
         static void ProxyDidRespond(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
@@ -615,6 +641,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             WriteOnActionClick(writerContext);
             OnWindowRequestFilled(writerContext);
+            OnActionClickAfter(writerContext);
             ComponentWillMount(writerContext);
 
             EvaluateActions(writerContext);
