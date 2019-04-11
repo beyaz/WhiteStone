@@ -351,7 +351,7 @@ namespace BOA.OneDesigner.PropertyEditors
                             {   
                                 ui                  : 'OrchestrationIntellisense',
                                 Text                : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
-                                Label               : 'Goto Orchestration'
+                                Label               : 'Orchestration Call'
                             }
                             ,                            
                             {
@@ -405,7 +405,7 @@ namespace BOA.OneDesigner.PropertyEditors
                                         {   
                                             ui          : 'OrchestrationIntellisense',
                                             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OrchestrationMethodOnDialogResponseIsOK) + @"}',
-                                            Label       : 'On Dialog Response Is OK',
+                                            Label       : 'Orchestration Call On Dialog Response Is OK',
                                             ToolTip     : 'Dialog response OK olduğu durumda gideceği orch metodu.',
                                             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
                                         }
