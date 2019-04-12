@@ -129,6 +129,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     else if (propertyInfo.IsDate || propertyInfo.IsDateNullable)
                     {
                         jsObject.Add("type", "\"date\"");
+                        jsObject.Add("dateFormat", "\"L\"");
                     }
                     else if (propertyInfo.IsBoolean || propertyInfo.IsBooleanNullable)
                     {

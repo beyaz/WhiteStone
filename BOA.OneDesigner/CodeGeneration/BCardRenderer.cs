@@ -25,6 +25,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.AppendWithPadding("<BCard context={context}");
 
+                RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
+
                 if (isInTabPage)
                 {
                     if (data.IsVisibleBindingPath.HasValue())

@@ -18,8 +18,9 @@ namespace BOA.OneDesigner.PropertyEditors
             this.LoadJson(@"
 
 { 
-    Margin:10,
-	Childs:[
+    Margin : 10,
+    Spacing: 10,
+	Childs : [
 
 		{ui:'LabelEditor',Name:'_labelEditor', Header:'Title', MarginTop:10, DataContext:'{Binding " + nameof(Model.TitleInfo) + @"}'},
         
@@ -28,6 +29,7 @@ namespace BOA.OneDesigner.PropertyEditors
         {ui:'HorizontalLocationEditor', MarginTop:10, Value:'{Binding " + Model.AccessPathOf(m => m.LayoutProps.X)    + @"}' },
 
         {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true, Margin:5, Text:'{Binding " + nameof(Model.IsVisibleBindingPath) + @"}', Label:'Is Visible Binding Path' },
+        {ui:'RequestIntellisenseTextBox', ShowOnlyBooleanProperties:true, Margin:5, Text:'{Binding " + nameof(Model.IsDisabledBindingPath) + @"}', Label:'Is Disabled Binding Path' },
         
 
         {ui:'Button', Text:'Delete',Click:'" + nameof(Delete) + @"'}
