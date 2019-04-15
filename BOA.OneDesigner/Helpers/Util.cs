@@ -12,20 +12,20 @@ namespace BOA.OneDesigner.Helpers
         {
             return "$" + filePath.RemoveFromStart("d:\\work").Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         }
-        public static void TryWrite(string path, string oldContent, string newContent)
+        public static bool TryWrite(string path, string oldContent, string newContent)
         {
 
             var isEqual = StringHelper.IsEqualAsData(oldContent, newContent);
             if (isEqual)
             {
-                return;
+                return false;
             }
             
 
             if (!File.Exists(path))
             {
                 File.WriteAllText(path, newContent);
-                return;
+                return true;
             }
 
             var success = TFSAccessForBOA.CheckoutFile(path);
@@ -34,6 +34,8 @@ namespace BOA.OneDesigner.Helpers
                 Log.Push("Checkout is failed.");
             }
             File.WriteAllText(path, newContent);
+
+            return true;
         }
     }
 

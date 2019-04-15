@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using BOA.CodeGeneration.Util;
@@ -38,9 +37,15 @@ namespace BOA.OneDesigner.MainForm
                 oldContent = TFSAccessForBOA.GetFileContent(tfsPath);
             }
 
-            FileUtil.TryWrite(filePath, oldContent, tsxCode);
+            var message = "Dosya güncellendi. @filePath: " + filePath;
 
-            App.ShowSuccessNotification("Dosya güncellendi.@filePath: " + filePath);
+            var isWritten = FileUtil.TryWrite(filePath, oldContent, tsxCode);
+            if (isWritten)
+            {
+                message = "Dosya zaten güncel. @filePath: " + filePath;
+            }
+
+            App.ShowSuccessNotification(message);
         }
 
         public static string GetOutputFilePath(ScreenInfo screenInfo)
