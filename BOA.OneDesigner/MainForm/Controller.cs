@@ -30,7 +30,7 @@ namespace BOA.OneDesigner.MainForm
 
             var filePath = GetOutputFilePath(screenInfo);
 
-            var tfsPath = "$" + filePath.RemoveFromStart("d:\\work").Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            var tfsPath = FileUtil.GetTfsPath(filePath);
 
             var oldContent = string.Empty;
             if (TFSAccessForBOA.HasFile(tfsPath))
