@@ -101,6 +101,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
 this.addToProcessQueue(() =>
 {
+    this.executeWindowRequest(""GetInfo"");
+});
+
+this.addToProcessQueue(() =>
+{
     const showAsNewPage:boolean = true;
 
     const menuItemSuffix:string = null;
@@ -108,12 +113,18 @@ this.addToProcessQueue(() =>
     BFormManager.show(""x"", /*data*/null, showAsNewPage,menuItemSuffix);
 });
 
-this.executeWindowRequest(""GetInfo"");
+this.runProcessQueue();
+
 ");
 
             ChangeToTabPage();
 
             OutputShouldBe(@"
+
+this.state.pageInstance.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
 
 this.state.pageInstance.addToProcessQueue(() =>
 {
@@ -124,7 +135,8 @@ this.state.pageInstance.addToProcessQueue(() =>
     BFormManager.show(""x"", /*data*/null, showAsNewPage,menuItemSuffix);
 });
 
-this.state.pageInstance.executeWindowRequest(""GetInfo"");
+this.state.pageInstance.runProcessQueue();
+
 ");
         }
 
@@ -139,6 +151,10 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
             };
 
             OutputShouldBe(@"
+this.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
 
 this.addToProcessQueue( () =>
 {
@@ -151,12 +167,18 @@ this.addToProcessQueue( () =>
     BFormManager.show(""x"", data, showAsNewPage,menuItemSuffix);
 });
 
-this.executeWindowRequest(""GetInfo"");
+this.runProcessQueue();
+
 ");
 
             ChangeToTabPage();
 
             OutputShouldBe(@"
+
+this.state.pageInstance.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
 
 this.state.pageInstance.addToProcessQueue( () =>
 {
@@ -169,7 +191,7 @@ this.state.pageInstance.addToProcessQueue( () =>
     BFormManager.show(""x"", data, showAsNewPage,menuItemSuffix);
 });
 
-this.state.pageInstance.executeWindowRequest(""GetInfo"");
+this.state.pageInstance.runProcessQueue();
 ");
         }
 
@@ -185,6 +207,12 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
             };
 
             OutputShouldBe(@"
+
+this.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
+
 this.addToProcessQueue( () =>
 {
     const data:any = this.state.windowRequest.p.t;
@@ -194,13 +222,19 @@ this.addToProcessQueue( () =>
     BFormManager.showDialog(""x"", data, /*title*/null, /*onClose*/null, style );
 });
 
-this.executeWindowRequest(""GetInfo"");
+this.runProcessQueue();
 
 ");
 
             ChangeToTabPage();
 
             OutputShouldBe(@"
+
+this.state.pageInstance.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
+
 this.state.pageInstance.addToProcessQueue( () =>
 {
     const data:any = this.state.windowRequest.p.t;
@@ -210,7 +244,7 @@ this.state.pageInstance.addToProcessQueue( () =>
     BFormManager.showDialog(""x"", data, /*title*/null, /*onClose*/null, style );
 });
 
-this.state.pageInstance.executeWindowRequest(""GetInfo"");
+this.state.pageInstance.runProcessQueue();
 
 ");
         }
@@ -225,10 +259,16 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
                 OpenFormWithResourceCodeIsInDialogBox            = true,
                 OrchestrationMethodOnDialogResponseIsOK          = "pp",
                 CssOfDialog                                      = "{h}",
-                Title                                            = "'Aloha'"
+                DialogTitle                                            = "'Aloha'"
             };
 
             OutputShouldBe(@"
+
+this.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
+
 this.addToProcessQueue( () =>
 {
     const onClose: any = (dialogResponse: number) =>
@@ -246,7 +286,7 @@ this.addToProcessQueue( () =>
     BFormManager.showDialog(""x"", /*data*/null, title, onClose, style );
 });
 
-this.executeWindowRequest(""GetInfo"");
+this.runProcessQueue();
 
 
 ");
@@ -254,6 +294,12 @@ this.executeWindowRequest(""GetInfo"");
             ChangeToTabPage();
 
             OutputShouldBe(@"
+
+this.state.pageInstance.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
+
 this.state.pageInstance.addToProcessQueue( () =>
 {
     const onClose: any = (dialogResponse: number) =>
@@ -271,7 +317,7 @@ this.state.pageInstance.addToProcessQueue( () =>
     BFormManager.showDialog(""x"", /*data*/null, title, onClose, style );
 });
 
-this.state.pageInstance.executeWindowRequest(""GetInfo"");
+this.state.pageInstance.runProcessQueue();
 
 
 ");
@@ -288,10 +334,16 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
                 OpenFormWithResourceCodeIsInDialogBox            = true,
                 OrchestrationMethodOnDialogResponseIsOK          = "pp",
                 CssOfDialog = "{h}",
-                Title = "'Aloha'"
+                DialogTitle = "'Aloha'"
             };
 
             OutputShouldBe(@"
+
+this.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
+
 this.addToProcessQueue( () =>
 {
     const data:any = this.state.windowRequest.p.t;
@@ -312,7 +364,7 @@ this.addToProcessQueue( () =>
     BFormManager.showDialog(""x"", data, title, onClose, style );
 });
 
-this.executeWindowRequest(""GetInfo"");
+this.runProcessQueue();
 
 
 ");
@@ -320,6 +372,12 @@ this.executeWindowRequest(""GetInfo"");
             ChangeToTabPage();
 
             OutputShouldBe(@"
+
+this.state.pageInstance.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
+
 this.state.pageInstance.addToProcessQueue( () =>
 {
     const data:any = this.state.windowRequest.p.t;
@@ -340,7 +398,7 @@ this.state.pageInstance.addToProcessQueue( () =>
     BFormManager.showDialog(""x"", data, title, onClose, style );
 });
 
-this.state.pageInstance.executeWindowRequest(""GetInfo"");
+this.state.pageInstance.runProcessQueue();
 
 
 ");
@@ -348,7 +406,7 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
 
 
         
-        // [TestMethod]
+        [TestMethod]
         public void _9_open_form_in_dialogBox_with_data_after_orch_call_then_recall_if_success()
         {
             api.Data = new Data
@@ -359,12 +417,19 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
                 OpenFormWithResourceCodeIsInDialogBox            = true,
                 OrchestrationMethodOnDialogResponseIsOK          = "pp",
                 CssOfDialog                                      = "{h}",
-                Title                                            = "'Aloha'",
-                YesNoQuestion = "MMM",
+                DialogTitle                                            = "'Aloha'",
+                YesNoQuestion = "\"MMM\"",
+                YesNoQuestionAfterYesOrchestrationCall = null
                 
             };
 
             OutputShouldBe(@"
+
+this.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
+
 this.addToProcessQueue( () =>
 {
     BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
@@ -372,69 +437,43 @@ this.addToProcessQueue( () =>
         {
             if (dialogResponse === 1)
             {
-                 const data:any = this.state.windowRequest.p.t;
-
-                const onClose: any = (dialogResponse: number, returnValue: any) =>
-                {
-                    if(dialogResponse === 1)
-                    {
-                        this.state.windowRequest.p.t = returnValue;
-                        this.executeWindowRequest(""pp"");
-                    }
-                };
-
-                const style:any = {h};
-
-                const title = 'Aloha';
-
-                BFormManager.showDialog(""x"", data, title, onClose, style );
+                this.runProcessQueue();
+            }
+            else
+            {
+                this.processQueue.shift();
             }
         }
     );
-
    
 });
 
-this.executeWindowRequest(""GetInfo"");
-
-
-");
-
-            ChangeToTabPage();
-
-            OutputShouldBe(@"
-this.state.pageInstance.addToProcessQueue( () =>
+this.addToProcessQueue( () =>
 {
-    BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
-        (dialogResponse: any) =>
+    const data:any = this.state.windowRequest.p.t;
+
+    const onClose: any = (dialogResponse: number, returnValue: any) =>
+    {
+        if(dialogResponse === 1)
         {
-            if (dialogResponse === 1)
-            {
-                const data:any = this.state.windowRequest.p.t;
-
-                const onClose: any = (dialogResponse: number, returnValue: any) =>
-                {
-                    if(dialogResponse === 1)
-                    {
-                        this.state.windowRequest.p.t = returnValue;
-                        this.state.pageInstance.executeWindowRequest(""pp"");
-                    }
-                };
-
-                const style:any = {h};
-                
-                const title = 'Aloha';
-
-                BFormManager.showDialog(""x"", data, title, onClose, style );
-            }
+            this.state.windowRequest.p.t = returnValue;
+            this.executeWindowRequest(""pp"");
         }
-    );    
+    };
+
+    const style:any = {h};
+
+    const title = 'Aloha';
+
+    BFormManager.showDialog(""x"", data, title, onClose, style );
+   
 });
 
-this.state.pageInstance.executeWindowRequest(""GetInfo"");
+this.runProcessQueue();
 
 
 ");
+
         }
 
 
@@ -442,7 +481,7 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
         
 
         
-        // todo:t [TestMethod]
+        [TestMethod]
         public void _10_open_form_in_dialogBox_with_data_after_orch_call_then_recall_if_success()
         {
             api.Data = new Data
@@ -453,14 +492,18 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
                 OpenFormWithResourceCodeIsInDialogBox            = true,
                 OrchestrationMethodOnDialogResponseIsOK          = "pp",
                 CssOfDialog                                      = "{h}",
-                Title                                            = "'Aloha'",
-                YesNoQuestion = "MMM",
+                DialogTitle                                            = "'Aloha'",
+                YesNoQuestion = "\"MMM\"",
                 YesNoQuestionAfterYesOrchestrationCall = "call3"
                 
             };
 
             OutputShouldBe(@"
 
+this.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""GetInfo"");
+});
 
 this.addToProcessQueue( () =>
 {
@@ -469,70 +512,44 @@ this.addToProcessQueue( () =>
         {
             if (dialogResponse === 1)
             {
-				this.addToProcessQueue( () =>
-				{
-					const data:any = this.state.windowRequest.p.t;
-
-					const onClose: any = (dialogResponse: number, returnValue: any) =>
-					{
-						if(dialogResponse === 1)
-						{
-							this.state.windowRequest.p.t = returnValue;
-							this.executeWindowRequest(""pp"");
-						}
-					};
-
-					const style:any = {h};
-
-					const title = 'Aloha';
-
-					BFormManager.showDialog(""x"", data, title, onClose, style );
-				};
-				
-				this.executeWindowRequest(""call3"");
-                
+                this.runProcessQueue();
             }
-        }
-    );   
-});
-
-this.executeWindowRequest(""GetInfo"");
-
-
-");
-
-            ChangeToTabPage();
-
-            OutputShouldBe(@"
-this.state.pageInstance.addToProcessQueue( () =>
-{
-    BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
-        (dialogResponse: any) =>
-        {
-            if (dialogResponse === 1)
+            else
             {
-                const data:any = this.state.windowRequest.p.t;
-
-                const onClose: any = (dialogResponse: number, returnValue: any) =>
-                {
-                    if(dialogResponse === 1)
-                    {
-                        this.state.windowRequest.p.t = returnValue;
-                        this.state.pageInstance.executeWindowRequest(""pp"");
-                    }
-                };
-
-                const style:any = {h};
-                
-                const title = 'Aloha';
-
-                BFormManager.showDialog(""x"", data, title, onClose, style );
+                this.processQueue.shift();
             }
         }
-    );    
+    );
+   
 });
 
-this.state.pageInstance.executeWindowRequest(""GetInfo"");
+this.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""call3"");
+});
+
+this.addToProcessQueue( () =>
+{
+    const data:any = this.state.windowRequest.p.t;
+
+    const onClose: any = (dialogResponse: number, returnValue: any) =>
+    {
+        if(dialogResponse === 1)
+        {
+            this.state.windowRequest.p.t = returnValue;
+            this.executeWindowRequest(""pp"");
+        }
+    };
+
+    const style:any = {h};
+
+    const title = 'Aloha';
+
+    BFormManager.showDialog(""x"", data, title, onClose, style );
+   
+});
+
+this.runProcessQueue();
 
 
 ");

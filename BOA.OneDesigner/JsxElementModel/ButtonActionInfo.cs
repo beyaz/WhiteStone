@@ -5,10 +5,6 @@
     /// </summary>
     class ButtonActionInfo
     {
-        public string YesNoQuestion { get; set; }
-
-        public string YesNoQuestionAfterYesOrchestrationCall { get; set; }
-
         #region Public Properties
         /// <summary>
         ///     Gets or sets the CSS of dialog.
@@ -16,14 +12,12 @@
         public string CssOfDialog { get; set; }
 
         /// <summary>
-        ///     Gets or sets the designer location.
-        /// </summary>
-        public string DesignerLocation { get; set; }
-
-        /// <summary>
         ///     Gets or sets the name of the extension method.
         /// </summary>
         public string ExtensionMethodName { get; set; }
+
+
+        public string OpenFormWithResourceCodeCondition { get; set; }
 
         /// <summary>
         ///     Gets or sets the open form with resource code.
@@ -50,7 +44,13 @@
         /// </summary>
         public string OrchestrationMethodOnDialogResponseIsOK { get; set; }
 
-        public string Title { get; set; }
+        public string DialogTitle         { get; set; }
+
+        public string YesNoQuestion { get; set; }
+
+        public string YesNoQuestionCondition { get; set; }
+
+        public string YesNoQuestionAfterYesOrchestrationCall { get; set; }
         #endregion
     }
 }

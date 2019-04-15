@@ -72,9 +72,92 @@ namespace BOA.OneDesigner.CodeGeneration
                 return sb.ToString();
             }
 
+
+            sb.AppendLine();
             sb.AppendLine($"{mainFormPath}.addToProcessQueue(() =>");
             sb.AppendLine("{");
             sb.PaddingCount++;
+
+            sb.AppendLine($"this.executeWindowRequest(\"{Data.OrchestrationMethodName}\");");
+
+            sb.PaddingCount--;
+            sb.AppendLine("});");
+
+
+            if (Data.YesNoQuestion.HasValue())
+            {
+                sb.AppendLine();
+                sb.AppendLine($"{mainFormPath}.addToProcessQueue(() =>");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                if (Data.YesNoQuestionCondition.HasValue())
+                {
+                    sb.AppendLine($"if(!{Data.YesNoQuestionCondition})");
+                    sb.AppendLine("{");
+                    sb.AppendLine("    this.runProcessQueue();");
+                    sb.AppendLine("    return;");
+                    sb.AppendLine("}");
+                    
+                }
+
+                sb.AppendLine($@"BDialogHelper.show(form.state.context,{Data.YesNoQuestion}, DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",");
+                sb.PaddingCount++;
+                sb.AppendLine("(dialogResponse: any) =>");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine("if (dialogResponse === 1)");
+                sb.AppendLine("{");
+                sb.AppendLine("    this.runProcessQueue();");
+                sb.AppendLine("}");
+                sb.AppendLine("else");
+                sb.AppendLine("{");
+                sb.AppendLine("    this.processQueue.shift();");
+                sb.AppendLine("}");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+
+                sb.PaddingCount--;
+                sb.AppendLine(");");
+
+
+                sb.PaddingCount--;
+                sb.AppendLine("});");
+            }
+
+            if (Data.YesNoQuestionAfterYesOrchestrationCall.HasValue())
+            {
+                sb.AppendLine();
+                sb.AppendLine($"{mainFormPath}.addToProcessQueue(() =>");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine($"this.executeWindowRequest(\"{Data.YesNoQuestionAfterYesOrchestrationCall}\");");
+
+                sb.PaddingCount--;
+                sb.AppendLine("});");
+            }
+
+
+            sb.AppendLine();
+            sb.AppendLine($"{mainFormPath}.addToProcessQueue(() =>");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+
+            if (Data.OpenFormWithResourceCodeCondition.HasValue())
+            {
+                sb.AppendLine($"if(!{Data.OpenFormWithResourceCodeCondition})");
+                sb.AppendLine("{");
+                sb.AppendLine("    this.runProcessQueue();");
+                sb.AppendLine("    return;");
+                sb.AppendLine("}");
+                    
+            }
+
+
 
             var dataParameterText = "/*data*/null";
             if (dataParameter.HasValue())
@@ -121,10 +204,10 @@ namespace BOA.OneDesigner.CodeGeneration
 
 
                 var titleText = "/*title*/null";
-                if (Data.Title.HasValue())
+                if (Data.DialogTitle.HasValue())
                 {
                     sb.AppendLine();
-                    sb.AppendLine("const title = " + Data.Title + ";");
+                    sb.AppendLine("const title = " + Data.DialogTitle + ";");
 
                     titleText = "title";
                 }
@@ -144,9 +227,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.PaddingCount--;
             sb.AppendLine("});");
-            sb.AppendLine();
 
-            sb.AppendLine($"{executeWindowRequest}(\"{Data.OrchestrationMethodName}\");");
+            sb.AppendLine();
+            sb.AppendLine($"{mainFormPath}.runProcessQueue();");
 
             WriterContext.HandleProxyDidRespondCallback = true;
 

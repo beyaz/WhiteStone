@@ -759,7 +759,7 @@ addToProcessQueue(fn: Function)
                             OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
                             OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
                             OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
-                            DesignerLocation                                 = resourceAction.Name,
+                            
                             ExtensionMethodName                              = resourceAction.ExtensionMethodName
                         }
                     };
@@ -809,7 +809,7 @@ addToProcessQueue(fn: Function)
                             OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
                             OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
                             OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
-                            DesignerLocation                                 = resourceAction.Name,
+                            
                             ExtensionMethodName                              = resourceAction.ExtensionMethodName
                         }
                     };

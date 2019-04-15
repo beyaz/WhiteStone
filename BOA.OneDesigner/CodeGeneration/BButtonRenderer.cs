@@ -34,12 +34,12 @@ namespace BOA.OneDesigner.CodeGeneration
                     OrchestrationMethodName                          = data.ButtonClickedOrchestrationMethod,
                     OpenFormWithResourceCode                         = data.OpenFormWithResourceCode,
                     OpenFormWithResourceCodeDataParameterBindingPath = data.OpenFormWithResourceCodeDataParameterBindingPath,
-                    DesignerLocation                                 = data.Text,
+                    
                     OrchestrationMethodOnDialogResponseIsOK          = data.OrchestrationMethodOnDialogResponseIsOK,
                     OpenFormWithResourceCodeIsInDialogBox            = data.OpenFormWithResourceCodeIsInDialogBox,
                     CssOfDialog                                      = data.CssOfDialog,
                     ExtensionMethodName                              = data.ExtensionMethodName,
-                    Title = RenderHelper.GetLabelValue(writerContext, data.OpenFormWithResourceCodeTitle)
+                    DialogTitle = RenderHelper.GetLabelValue(writerContext, data.OpenFormWithResourceCodeTitle)
                 },
                 WriterContext = writerContext
             };
