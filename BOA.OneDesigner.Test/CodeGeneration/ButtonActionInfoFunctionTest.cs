@@ -5,9 +5,11 @@ using Data = BOA.OneDesigner.JsxElementModel.ButtonActionInfo;
 
 
     //orch call
+    // condition
     //soru sorma
     //orch call
 
+    // condition
     //ekran açma
     //rresource code
     //title
