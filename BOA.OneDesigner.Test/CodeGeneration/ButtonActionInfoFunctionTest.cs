@@ -99,14 +99,14 @@ namespace BOA.OneDesigner.CodeGeneration
 
             OutputShouldBe(@"
 
-this.internalProxyDidRespondCallback = () =>
+this.addToProcessQueue(() =>
 {
     const showAsNewPage:boolean = true;
 
     const menuItemSuffix:string = null;
 
     BFormManager.show(""x"", /*data*/null, showAsNewPage,menuItemSuffix);
-}
+});
 
 this.executeWindowRequest(""GetInfo"");
 ");
@@ -115,14 +115,14 @@ this.executeWindowRequest(""GetInfo"");
 
             OutputShouldBe(@"
 
-this.state.pageInstance.internalProxyDidRespondCallback = () =>
+this.state.pageInstance.addToProcessQueue(() =>
 {
     const showAsNewPage:boolean = true;
 
     const menuItemSuffix:string = null;
 
     BFormManager.show(""x"", /*data*/null, showAsNewPage,menuItemSuffix);
-}
+});
 
 this.state.pageInstance.executeWindowRequest(""GetInfo"");
 ");
@@ -140,7 +140,7 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
 
             OutputShouldBe(@"
 
-this.internalProxyDidRespondCallback = () =>
+this.addToProcessQueue( () =>
 {
     const data:any = this.state.windowRequest.p.t;
 
@@ -149,7 +149,7 @@ this.internalProxyDidRespondCallback = () =>
     const menuItemSuffix:string = null;
 
     BFormManager.show(""x"", data, showAsNewPage,menuItemSuffix);
-}
+});
 
 this.executeWindowRequest(""GetInfo"");
 ");
@@ -158,7 +158,7 @@ this.executeWindowRequest(""GetInfo"");
 
             OutputShouldBe(@"
 
-this.state.pageInstance.internalProxyDidRespondCallback = () =>
+this.state.pageInstance.addToProcessQueue( () =>
 {
     const data:any = this.state.windowRequest.p.t;
 
@@ -167,7 +167,7 @@ this.state.pageInstance.internalProxyDidRespondCallback = () =>
     const menuItemSuffix:string = null;
 
     BFormManager.show(""x"", data, showAsNewPage,menuItemSuffix);
-}
+});
 
 this.state.pageInstance.executeWindowRequest(""GetInfo"");
 ");
@@ -185,14 +185,14 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
             };
 
             OutputShouldBe(@"
-this.internalProxyDidRespondCallback = () =>
+this.addToProcessQueue( () =>
 {
     const data:any = this.state.windowRequest.p.t;
 
     const style:any = ;
 
     BFormManager.showDialog(""x"", data, /*title*/null, /*onClose*/null, style );
-}
+});
 
 this.executeWindowRequest(""GetInfo"");
 
@@ -201,14 +201,14 @@ this.executeWindowRequest(""GetInfo"");
             ChangeToTabPage();
 
             OutputShouldBe(@"
-this.state.pageInstance.internalProxyDidRespondCallback = () =>
+this.state.pageInstance.addToProcessQueue( () =>
 {
     const data:any = this.state.windowRequest.p.t;
 
     const style:any = ;
 
     BFormManager.showDialog(""x"", data, /*title*/null, /*onClose*/null, style );
-}
+});
 
 this.state.pageInstance.executeWindowRequest(""GetInfo"");
 
@@ -229,7 +229,7 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
             };
 
             OutputShouldBe(@"
-this.internalProxyDidRespondCallback = () =>
+this.addToProcessQueue( () =>
 {
     const onClose: any = (dialogResponse: number) =>
     {
@@ -244,7 +244,7 @@ this.internalProxyDidRespondCallback = () =>
     const title = 'Aloha';
 
     BFormManager.showDialog(""x"", /*data*/null, title, onClose, style );
-}
+});
 
 this.executeWindowRequest(""GetInfo"");
 
@@ -254,7 +254,7 @@ this.executeWindowRequest(""GetInfo"");
             ChangeToTabPage();
 
             OutputShouldBe(@"
-this.state.pageInstance.internalProxyDidRespondCallback = () =>
+this.state.pageInstance.addToProcessQueue( () =>
 {
     const onClose: any = (dialogResponse: number) =>
     {
@@ -269,7 +269,7 @@ this.state.pageInstance.internalProxyDidRespondCallback = () =>
     const title = 'Aloha';
 
     BFormManager.showDialog(""x"", /*data*/null, title, onClose, style );
-}
+});
 
 this.state.pageInstance.executeWindowRequest(""GetInfo"");
 
@@ -292,7 +292,7 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
             };
 
             OutputShouldBe(@"
-this.internalProxyDidRespondCallback = () =>
+this.addToProcessQueue( () =>
 {
     const data:any = this.state.windowRequest.p.t;
 
@@ -310,7 +310,7 @@ this.internalProxyDidRespondCallback = () =>
     const title = 'Aloha';
 
     BFormManager.showDialog(""x"", data, title, onClose, style );
-}
+});
 
 this.executeWindowRequest(""GetInfo"");
 
@@ -320,7 +320,7 @@ this.executeWindowRequest(""GetInfo"");
             ChangeToTabPage();
 
             OutputShouldBe(@"
-this.state.pageInstance.internalProxyDidRespondCallback = () =>
+this.state.pageInstance.addToProcessQueue( () =>
 {
     const data:any = this.state.windowRequest.p.t;
 
@@ -338,7 +338,7 @@ this.state.pageInstance.internalProxyDidRespondCallback = () =>
     const title = 'Aloha';
 
     BFormManager.showDialog(""x"", data, title, onClose, style );
-}
+});
 
 this.state.pageInstance.executeWindowRequest(""GetInfo"");
 
@@ -365,7 +365,7 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
             };
 
             OutputShouldBe(@"
-this.internalProxyDidRespondCallback = () =>
+this.addToProcessQueue( () =>
 {
     BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
         (dialogResponse: any) =>
@@ -393,7 +393,7 @@ this.internalProxyDidRespondCallback = () =>
     );
 
    
-}
+});
 
 this.executeWindowRequest(""GetInfo"");
 
@@ -403,7 +403,7 @@ this.executeWindowRequest(""GetInfo"");
             ChangeToTabPage();
 
             OutputShouldBe(@"
-this.state.pageInstance.internalProxyDidRespondCallback = () =>
+this.state.pageInstance.addToProcessQueue( () =>
 {
     BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
         (dialogResponse: any) =>
@@ -429,7 +429,7 @@ this.state.pageInstance.internalProxyDidRespondCallback = () =>
             }
         }
     );    
-}
+});
 
 this.state.pageInstance.executeWindowRequest(""GetInfo"");
 
@@ -462,14 +462,14 @@ this.state.pageInstance.executeWindowRequest(""GetInfo"");
             OutputShouldBe(@"
 
 
-this.internalProxyDidRespondCallback = () =>
+this.addToProcessQueue( () =>
 {
     BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
         (dialogResponse: any) =>
         {
             if (dialogResponse === 1)
             {
-				this.internalProxyDidRespondCallback = () =>
+				this.addToProcessQueue( () =>
 				{
 					const data:any = this.state.windowRequest.p.t;
 
@@ -494,7 +494,7 @@ this.internalProxyDidRespondCallback = () =>
             }
         }
     );   
-}
+});
 
 this.executeWindowRequest(""GetInfo"");
 
@@ -504,7 +504,7 @@ this.executeWindowRequest(""GetInfo"");
             ChangeToTabPage();
 
             OutputShouldBe(@"
-this.state.pageInstance.internalProxyDidRespondCallback = () =>
+this.state.pageInstance.addToProcessQueue( () =>
 {
     BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
         (dialogResponse: any) =>
@@ -530,7 +530,7 @@ this.state.pageInstance.internalProxyDidRespondCallback = () =>
             }
         }
     );    
-}
+});
 
 this.state.pageInstance.executeWindowRequest(""GetInfo"");
 

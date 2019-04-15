@@ -72,7 +72,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 return sb.ToString();
             }
 
-            sb.AppendLine($"{mainFormPath}.internalProxyDidRespondCallback = () =>");
+            sb.AppendLine($"{mainFormPath}.addToProcessQueue(() =>");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -143,7 +143,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
             sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.AppendLine("});");
             sb.AppendLine();
 
             sb.AppendLine($"{executeWindowRequest}(\"{Data.OrchestrationMethodName}\");");

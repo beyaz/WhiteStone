@@ -504,17 +504,32 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (writerContext.HandleProxyDidRespondCallback)
             {
+                writerContext.AddClassBody(new TypeScriptMemberInfo
+                {
+                    Code = @"// #region Process Queue
+processQueue: Function[] = [];
+
+runProcessQueue()
+{
+	const fn = this.processQueue.shift();
+	if (!fn)
+	{
+		return;
+	}
+
+	fn.apply(this);
+}
+
+addToProcessQueue(fn: Function)
+{
+	this.processQueue.push(fn);
+}
+// #endregion",
+                    IsField = true
+                });
+
                 sb.AppendLine();
-                sb.AppendLine("const me: any = this;");
-                sb.AppendLine("if(me.internalProxyDidRespondCallback)");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine("me.internalProxyDidRespondCallback();");
-                sb.AppendLine("me.internalProxyDidRespondCallback = null;");
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
+                sb.AppendLine("this.runProcessQueue();");
             }
 
             if (writerContext.RequestIntellisenseData.HasPropertyLikeDialogResponse)
