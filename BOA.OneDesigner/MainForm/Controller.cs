@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.CodeGeneration;
@@ -8,10 +10,8 @@ using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
-using BOAPlugins.Utility;
 using WhiteStone.UI.Container;
 using WhiteStone.UI.Container.Mvc;
-using Host = BOA.OneDesigner.AppModel.Host;
 
 namespace BOA.OneDesigner.MainForm
 {
@@ -30,7 +30,15 @@ namespace BOA.OneDesigner.MainForm
 
             var filePath = GetOutputFilePath(screenInfo);
 
-            Util.WriteFileIfContentNotEqual(filePath, tsxCode);
+            var tfsPath = "$" + filePath.RemoveFromStart("d:\\work").Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+            var oldContent = string.Empty;
+            if (TFSAccessForBOA.HasFile(tfsPath))
+            {
+                oldContent = TFSAccessForBOA.GetFileContent(tfsPath);
+            }
+
+            FileUtil.TryWrite(filePath, oldContent, tsxCode);
 
             App.ShowSuccessNotification("Dosya güncellendi.@filePath: " + filePath);
         }
@@ -41,8 +49,6 @@ namespace BOA.OneDesigner.MainForm
 
             return solutionInfo.OneProjectFolder + @"ClientApp\pages\" + screenInfo.OutputTypeScriptFileName + ".tsx";
         }
-
-       
 
         public void GenerateCodes()
         {

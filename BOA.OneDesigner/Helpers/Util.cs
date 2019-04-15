@@ -1,11 +1,38 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 
 namespace BOA.OneDesigner.Helpers
 {
+    static class FileUtil
+    {
+        public static void TryWrite(string path, string oldContent, string newContent)
+        {
+
+            var isEqual = StringHelper.IsEqualAsData(oldContent, newContent);
+            if (isEqual)
+            {
+                return;
+            }
+            
+
+            if (!File.Exists(path))
+            {
+                File.WriteAllText(path, newContent);
+                return;
+            }
+
+            TFSAccessForBOA.CheckoutFile(path);
+            File.WriteAllText(path, newContent);
+        }
+    }
+
     static class Utilization
     {
+      
+
         #region Public Methods
         public static bool HasExtensionFile(ScreenInfo screenInfo)
         {

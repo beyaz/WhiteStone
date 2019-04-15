@@ -126,6 +126,24 @@ namespace BOA.CodeGeneration.Util
             }
         }
 
+        public static bool HasFile(string path)
+        {
+            var ConstTfsServerUri = GetTfsServerPath(path);
+
+            using (var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(ConstTfsServerUri)))
+            {
+                if (pc == null)
+                {
+                    return false;
+                }
+
+                var version = pc.GetService(typeof(VersionControlServer)) as VersionControlServer;
+
+                return version?.ServerItemExists(path, ItemType.Any) == true;
+            }
+
+        }
+
         public static IReadOnlyList<string> GetSubFolderNames(string tfsPathWithSearchPattern)
         {
 
