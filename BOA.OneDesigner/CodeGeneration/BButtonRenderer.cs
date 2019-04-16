@@ -27,20 +27,11 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+            RenderHelper.InitLabelValues(writerContext, data.ButtonClickedActionInfo);
+
             var function = new ActionInfoFunction
             {
-                Data = new ActionInfo
-                {
-                    OrchestrationMethodName                          = data.ButtonClickedOrchestrationMethod,
-                    OpenFormWithResourceCode                         = data.OpenFormWithResourceCode,
-                    OpenFormWithResourceCodeDataParameterBindingPath = data.OpenFormWithResourceCodeDataParameterBindingPath,
-                    
-                    OrchestrationMethodOnDialogResponseIsOK          = data.OrchestrationMethodOnDialogResponseIsOK,
-                    OpenFormWithResourceCodeIsInDialogBox            = data.OpenFormWithResourceCodeIsInDialogBox,
-                    CssOfDialog                                      = data.CssOfDialog,
-                    ExtensionMethodName                              = data.ExtensionMethodName,
-                    DialogTitle = RenderHelper.GetLabelValue(writerContext, data.OpenFormWithResourceCodeTitle)
-                },
+                Data = data.ButtonClickedActionInfo,
                 WriterContext = writerContext
             };
 

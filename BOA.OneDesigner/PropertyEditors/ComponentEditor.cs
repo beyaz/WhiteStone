@@ -108,23 +108,7 @@ namespace BOA.OneDesigner.PropertyEditors
             Host.EventBus.Publish(EventBus.LabelChanged);
         }
 
-        public void OnIsInDialogBoxChanged()
-        {
-            if (Model.Info.CssOfDialog.IsNullOrWhiteSpace())
-            {
-                Model.Info.CssOfDialog = "{width:'60%' , height:'50%' }";
-            }
-
-            foreach (var element in this.FindChildren<OrchestrationIntellisense>())
-            {
-                element.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
-            }
-
-            foreach (var element in this.FindChildren<LabeledTextBox>())
-            {
-                element.GetBindingExpression(LabeledTextBox.TextProperty)?.UpdateTarget();
-            }
-        }
+       
 
         public void OnRowCountChanged()
         {
@@ -187,15 +171,8 @@ namespace BOA.OneDesigner.PropertyEditors
 
         void LoadUI()
         {
-            if (Model.Info.OpenFormWithResourceCodeTitle == null)
-            {
-                Model.Info.OpenFormWithResourceCodeTitle = new LabelInfo();
-            }
 
-            if (Model.Info.YesNoQuestion == null)
-            {
-                Model.Info.YesNoQuestion = new LabelInfo();
-            }
+            
 
 
 

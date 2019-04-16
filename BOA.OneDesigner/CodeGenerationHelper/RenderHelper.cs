@@ -9,6 +9,12 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 {
     static class RenderHelper
     {
+        public static void InitLabelValues(WriterContext writerContext, ActionInfo actionInfo)
+        {
+            actionInfo.DialogTitle   = RenderHelper.GetLabelValue(writerContext, actionInfo.DialogTitleInfo);
+            actionInfo.YesNoQuestion = RenderHelper.GetLabelValue(writerContext, actionInfo.YesNoQuestionInfo);
+
+        }
         #region Public Properties
         public static bool IsCommentEnabled => false;
         #endregion

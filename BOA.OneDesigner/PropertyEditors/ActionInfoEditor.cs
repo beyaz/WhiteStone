@@ -50,19 +50,22 @@ namespace BOA.OneDesigner.PropertyEditors
                 Info = info
             };
 
-            if (info.OrchestrationMethodName.HasValue())
-            {
-                model.OrchestrationCallExpanderIsExpanded = true;
-            }
 
-            if (info.ExtensionMethodName.HasValue())
-            {
-                model.CustomHandlerFunctionExpanderIsExpanded = true;
-            }
+           
+
+            
 
             if (info.OpenFormWithResourceCode.HasValue() || info.YesNoQuestion.HasValue())
             {
+                model.AdvancedIsExpanded = true;
+            }
+            else if (info.ExtensionMethodName.HasValue())
+            {
                 model.CustomHandlerFunctionExpanderIsExpanded = true;
+            }
+            else if (info.OrchestrationMethodName.HasValue())
+            {
+                model.OrchestrationCallExpanderIsExpanded = true;
             }
             
 
@@ -143,15 +146,33 @@ namespace BOA.OneDesigner.PropertyEditors
                         }
                         ,
                         {
+                            ui                          : 'RequestIntellisenseTextBox', 
+                            ShowOnlyBooleanProperties   : true, 
+                            Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestionCondition) + @"}', 
+                            Label                       : 'Yes - No Question Condition',
+                            ToolTip                     : 'Eğer burada verilen binding path deki değer true ise soruyu sor değil ise sorma.'
+                        }
+                        ,
+                        {
                             ui          : 'LabelEditor',
-                            DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestion) + @"}',
-                            Header      : 'Yes - No Question'
+                            DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestionInfo) + @"}',
+                            Header      : 'Yes - No Question',
+                            ToolTip     : 'Kullanıcıya sorulacak Yes - No sorusun metni.'
                         }
                         ,
                         {   
-                            ui                  : 'OrchestrationIntellisense',
-                            Text                : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestionAfterYesOrchestrationCall) + @"}',
-                            Label               : 'Orchestration Call On Yes'
+                            ui          : 'OrchestrationIntellisense',
+                            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestionAfterYesOrchestrationCall) + @"}',
+                            Label       : 'Orchestration Call On Yes',
+                            ToolTip     : 'Kullanıcı Yes seçeneğini seçer ise gideceği orchestration method ismi.'
+                        }
+                        ,
+                        {
+                            ui                          : 'RequestIntellisenseTextBox', 
+                            ShowOnlyBooleanProperties   : true, 
+                            Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeCondition) + @"}', 
+                            Label                       : 'Open Form if this is true',
+                            ToolTip                     : 'Eğer burada verilen binding path deki değer true ise formu aç de değil ise açma.'
                         }
                         ,
                         {
@@ -199,7 +220,7 @@ namespace BOA.OneDesigner.PropertyEditors
                             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OrchestrationMethodOnDialogResponseIsOK) + @"}',
                             Label       : 'Orchestration Call On Dialog Response Is OK',
                             ToolTip     : 'Dialog response OK olduğu durumda gideceği orch metodu.',
-                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
+                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
                         }
                     ]
                 }

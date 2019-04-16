@@ -22,7 +22,7 @@ namespace BOA.OneDesigner.JsxElementModel
             {
                 OrchestrationMethodName                          = ci.ButtonClickedOrchestrationMethod,
                 ExtensionMethodName                              = ci.ExtensionMethodName,
-                DialogTitleInfo                                  = new LabelInfo(),
+                DialogTitleInfo                                  = ci.OpenFormWithResourceCodeTitle ?? new LabelInfo(),
                 YesNoQuestionInfo                                = ci.YesNoQuestion ?? new LabelInfo(),
                 YesNoQuestionAfterYesOrchestrationCall           = ci.YesNoQuestionAfterYesOrchestrationCall,
                 OpenFormWithResourceCode                         = ci.OpenFormWithResourceCode,
@@ -32,8 +32,17 @@ namespace BOA.OneDesigner.JsxElementModel
                 OrchestrationMethodOnDialogResponseIsOK          = ci.OrchestrationMethodOnDialogResponseIsOK
             };
 
-            //ci.ButtonClickedOrchestrationMethod = null;
-            // ci.ExtensionMethodName              = null;
+            // clear old values.
+            ci.ButtonClickedOrchestrationMethod                 = null;
+            ci.ExtensionMethodName                              = null;
+            ci.OpenFormWithResourceCodeTitle                    = null;
+            ci.YesNoQuestion                                    = null;
+            ci.YesNoQuestionAfterYesOrchestrationCall           = null;
+            ci.OpenFormWithResourceCode                         = null;
+            ci.OpenFormWithResourceCodeDataParameterBindingPath = null;
+            ci.OpenFormWithResourceCodeIsInDialogBox            = false;
+            ci.CssOfDialog                                      = null;
+            ci.OrchestrationMethodOnDialogResponseIsOK          = null;
         }
 
         public static void VisitComponents(ScreenInfo instance, Action<object> on)
