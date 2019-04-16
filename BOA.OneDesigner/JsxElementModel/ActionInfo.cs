@@ -1,9 +1,12 @@
-﻿namespace BOA.OneDesigner.JsxElementModel
+﻿using System;
+
+namespace BOA.OneDesigner.JsxElementModel
 {
     /// <summary>
-    ///     The button action information
+    ///     The action information
     /// </summary>
-    class ActionInfo
+    [Serializable]
+    public class ActionInfo
     {
         #region Public Properties
         /// <summary>
@@ -11,6 +14,9 @@
         /// </summary>
         public string CssOfDialog { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the dialog title.
+        /// </summary>
         public string DialogTitle { get; set; }
 
         /// <summary>
@@ -23,6 +29,9 @@
         /// </summary>
         public string OpenFormWithResourceCode { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the open form with resource code condition.
+        /// </summary>
         public string OpenFormWithResourceCodeCondition { get; set; }
 
         /// <summary>
@@ -45,10 +54,19 @@
         /// </summary>
         public string OrchestrationMethodOnDialogResponseIsOK { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the yes no question.
+        /// </summary>
         public string YesNoQuestion { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the yes no question after yes orchestration call.
+        /// </summary>
         public string YesNoQuestionAfterYesOrchestrationCall { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the yes no question condition.
+        /// </summary>
         public string YesNoQuestionCondition { get; set; }
         #endregion
     }
