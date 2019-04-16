@@ -10,6 +10,8 @@ namespace BOA.OneDesigner.JsxElementModel
     [Serializable]
     public class ComponentInfo : BField
     {
+        public ActionInfo ButtonClickedActionInfo { get; set; }
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets the account number binding path.

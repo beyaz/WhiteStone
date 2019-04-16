@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
@@ -13,8 +12,7 @@ namespace BOA.OneDesigner.PropertyEditors
     class ComponentEditorModel
     {
         #region Public Properties
-        public bool          CustomHandlerFunctionExpanderIsExpanded   { get; set; }
-        public bool OpenFormOrGoToOrchExpanderIsExpanded { get; set; }
+        
 
         public ComponentInfo Info                                      { get; set; }
         public bool          IsBoldVisible                             { get; set; }
@@ -43,7 +41,7 @@ namespace BOA.OneDesigner.PropertyEditors
     class ComponentEditor : StackPanel
     {
         #region Fields
-        public ResourceCodeTextBox _resourceCodeTextBox;
+        public ActionInfoEditor _onClickActionInfoEditor;
         #endregion
 
         #region Constructors
@@ -75,10 +73,9 @@ namespace BOA.OneDesigner.PropertyEditors
                 
                 
                 ValueBindingPathLabel                                     = "Value Binding Path",
-                CustomHandlerFunctionExpanderIsExpanded                   = info.ExtensionMethodName.HasValue(),
+                
 
-                OpenFormOrGoToOrchExpanderIsExpanded = info.OpenFormWithResourceCode.HasValue() ||
-                                                       info.ButtonClickedOrchestrationMethod.HasValue()
+              
             };
 
             if (info.Type.IsCreditCardComponent)
@@ -337,114 +334,10 @@ namespace BOA.OneDesigner.PropertyEditors
         }
         ,
         {
-            ui          : 'StackPanel',
-            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}',
-            rows:
-            [
-                {
-                    ui          : 'Expander',
-                    Header      : 'On Click',
-                    IsExpanded  : '{Binding " + Model.AccessPathOf(m => m.OpenFormOrGoToOrchExpanderIsExpanded) + @",Mode=OneWay}',
-                    Content     :
-                    {
-                        ui: 'StackPanel',
-                        Spacing:10,
-                        Childs:
-                        [
-                            {   
-                                ui                  : 'OrchestrationIntellisense',
-                                Text                : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonClickedOrchestrationMethod) + @"}',
-                                Label               : 'Orchestration Call'
-                            }
-                            ,                            
-                            {
-                                ui          : 'LabelEditor',
-                                DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestion) + @"}',
-                                Header      : 'Yes - No Question'
-                            }
-                            ,
-                            {   
-                                ui                  : 'OrchestrationIntellisense',
-                                Text                : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestionAfterYesOrchestrationCall) + @"}',
-                                Label               : 'Orchestration Call On Yes'
-                            }
-                            ,                            
-                            {
-	                            ui		: 'GroupBox',
-	                            Header	: 'Open Form',
-                                Content	:
-	                            {
-		                            ui	    :'StackPanel',
-                                    Spacing : 10,
-		                            rows:
-		                            [
-		                                {
-                                            ui                  : 'ResourceCodeTextBox',
-                                            Name                : '_resourceCodeTextBox',
-                                            SelectedValuePath   : 'ResourceCode',
-                                            DisplayMemberPath   : 'Description',
-                                            SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}',
-                                            Label               : 'Resource Code'
-                                        }
-                                        ,
-		                                {
-                                            ui                      : 'RequestIntellisenseTextBox', 
-                                            ShowOnlyClassProperties : true,      
-                                            Text                    : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  
-                                            Label                   : 'Data'
-                                        }
-                                        ,
-                                        {   
-                                            ui          : 'CheckBox',
-                                            Content     : 'Open In Dialog Box', 
-                                            IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}', 
-                                            Checked     : '" + nameof(OnIsInDialogBoxChanged) + @"',
-                                            Unchecked   : '" + nameof(OnIsInDialogBoxChanged) + @"',
-                                            ToolTip     : 'Seçili ise popup olarak açılır.'
-                                        }
-                                        ,
-                                        {
-                                            ui          : 'LabelEditor',
-                                            DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeTitle) + @"}',
-                                            Header      : 'Title',
-                                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
-                                        }
-                                        ,
-                                        {   
-                                            ui          : 'TextBox',
-                                            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CssOfDialog) + @"}',
-                                            Label       : 'Dialog Style',
-                                            ToolTip     : " + "\"Açılacak popup'ın css bilgisi. Örn:{width:'50%' , height:'50%'}\"" + @",
-                                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
-                                        }
-                                        ,
-                                        {   
-                                            ui          : 'OrchestrationIntellisense',
-                                            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OrchestrationMethodOnDialogResponseIsOK) + @"}',
-                                            Label       : 'Orchestration Call On Dialog Response Is OK',
-                                            ToolTip     : 'Dialog response OK olduğu durumda gideceği orch metodu.',
-                                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
-                                        }
-		                            ]
-	                            }
-                            }                            
-                        ]
-                    }
-                }
-                ,
-                {
-                    ui          : 'Expander',
-                    IsExpanded  : '{Binding " + Model.AccessPathOf(m => m.CustomHandlerFunctionExpanderIsExpanded) + @",Mode=OneWay}',
-                    Header      : 'On Click Custom Handler Function',
-                    Content     :
-                    {
-                        ui      : 'TextBox',
-                        Label   : 'On Click Custom Handler (Extension Method Name)',
-                        Text    : '{Binding " + Model.AccessPathOf(m => m.Info.ExtensionMethodName) + @"}',
-                        ToolTip : 'Manuel function yazarak handle etmek istenildiğinde kullanılmalıdır.\nÖrnek:showCustomerXInfo yazılıp extension dosyasında custom olarak implement edilebilir.'
-                    }
-                }
-            ]
+            ui          : 'ActionInfoEditor',
+            Header      : 'On Click',
+            Name        : '_onClickActionInfoEditor',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}'
         }
         ,
         {
@@ -460,10 +353,7 @@ namespace BOA.OneDesigner.PropertyEditors
 ";
             this.LoadJson(template);
 
-            if (Model?.Info?.OpenFormWithResourceCode.HasValue() == true)
-            {
-                _resourceCodeTextBox.Text = ResourceCodeTextBox.Items.FirstOrDefault(x => x.ResourceCode == Model?.Info?.OpenFormWithResourceCode)?.Description;
-            }
+            
 
             foreach (var child in Children)
             {
@@ -480,6 +370,8 @@ namespace BOA.OneDesigner.PropertyEditors
             }
 
             OnValueBindingPathChanged();
+
+            _onClickActionInfoEditor.Load(Host,Model.Info.ButtonClickedActionInfo);
         }
         #endregion
     }

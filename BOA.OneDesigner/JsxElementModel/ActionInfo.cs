@@ -19,6 +19,9 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public string DialogTitle { get; set; }
 
+      
+        public LabelInfo DialogTitleInfo { get; set; }
+
         /// <summary>
         ///     Gets or sets the name of the extension method.
         /// </summary>
@@ -58,6 +61,8 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets the yes no question.
         /// </summary>
         public string YesNoQuestion { get; set; }
+
+        public LabelInfo YesNoQuestionInfo { get; set; }
 
         /// <summary>
         ///     Gets or sets the yes no question after yes orchestration call.

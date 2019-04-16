@@ -23,6 +23,9 @@ namespace BOA.OneDesigner.WpfControls
             Builder.RegisterElementCreation("ResourceCodeTextBox", typeof(ResourceCodeTextBox));
             
             Builder.RegisterElementCreation("OrchestrationIntellisense", typeof(OrchestrationIntellisense));
+
+            Builder.RegisterElementCreation("ActionInfoEditor", typeof(ActionInfoEditor));
+            
             
             
             

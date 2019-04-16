@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
+using MahApps.Metro.Controls;
+using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.PropertyEditors
 {
@@ -12,6 +15,9 @@ namespace BOA.OneDesigner.PropertyEditors
     {
         #region Public Properties
         public bool       CustomHandlerFunctionExpanderIsExpanded { get; set; }
+
+        public bool AdvancedIsExpanded { get; set; }
+
         public ActionInfo Info                                    { get; set; }
 
         public bool OrchestrationCallExpanderIsExpanded { get; set; }
@@ -32,12 +38,34 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Public Methods
         public void Load(Host host, ActionInfo info)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             Host = host;
 
             var model = new ActionInfoEditorModel
             {
                 Info = info
             };
+
+            if (info.OrchestrationMethodName.HasValue())
+            {
+                model.OrchestrationCallExpanderIsExpanded = true;
+            }
+
+            if (info.ExtensionMethodName.HasValue())
+            {
+                model.CustomHandlerFunctionExpanderIsExpanded = true;
+            }
+
+            if (info.OpenFormWithResourceCode.HasValue() || info.YesNoQuestion.HasValue())
+            {
+                model.CustomHandlerFunctionExpanderIsExpanded = true;
+            }
+            
+
 
             DataContext = model;
 
@@ -46,7 +74,23 @@ namespace BOA.OneDesigner.PropertyEditors
             LoadUI();
         }
         #endregion
+        public void OnIsInDialogBoxChanged()
+        {
+            if (Model.Info.CssOfDialog.IsNullOrWhiteSpace())
+            {
+                Model.Info.CssOfDialog = "{width:'60%' , height:'50%' }";
+            }
 
+            foreach (var element in this.FindChildren<OrchestrationIntellisense>())
+            {
+                element.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
+            }
+
+            foreach (var element in this.FindChildren<LabeledTextBox>())
+            {
+                element.GetBindingExpression(LabeledTextBox.TextProperty)?.UpdateTarget();
+            }
+        }
         #region Methods
         void LoadUI()
         {
@@ -76,9 +120,88 @@ namespace BOA.OneDesigner.PropertyEditors
                 Content     :
                 {
                     ui      : 'TextBox',
-                    Label   : 'On Click Custom Handler (Extension Method Name)',
+                    Label   : 'Extension Method Name in ...Extension.tsx file',
                     Text    : '{Binding " + Model.AccessPathOf(m => m.Info.ExtensionMethodName) + @"}',
                     ToolTip : 'Manuel function yazarak handle etmek istenildiğinde kullanılmalıdır.\nÖrnek:showCustomerXInfo yazılıp extension dosyasında custom olarak implement edilebilir.'
+                }
+            }
+            ,
+            {
+                ui          : 'Expander',
+                IsExpanded  : '{Binding " + Model.AccessPathOf(m => m.AdvancedIsExpanded) + @",Mode=OneWay}',
+                Header      : 'Advanced',
+                Content     :
+                {
+                     ui	    :'StackPanel',
+                    Spacing : 10,
+		            rows    :
+                    [
+                        {   
+                            ui      : 'OrchestrationIntellisense',
+                            Text    : '{Binding " + Model.AccessPathOf(m => m.Info.OrchestrationMethodName) + @"}',
+                            Label   : 'Orchestration Call'
+                        }
+                        ,
+                        {
+                            ui          : 'LabelEditor',
+                            DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestion) + @"}',
+                            Header      : 'Yes - No Question'
+                        }
+                        ,
+                        {   
+                            ui                  : 'OrchestrationIntellisense',
+                            Text                : '{Binding " + Model.AccessPathOf(m => m.Info.YesNoQuestionAfterYesOrchestrationCall) + @"}',
+                            Label               : 'Orchestration Call On Yes'
+                        }
+                        ,
+                        {
+                            ui                  : 'ResourceCodeTextBox',
+                            Name                : '_resourceCodeTextBox',
+                            SelectedValuePath   : 'ResourceCode',
+                            DisplayMemberPath   : 'Description',
+                            SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCode) + @"}',
+                            Label               : 'Resource Code'
+                        }
+                        ,
+		                {
+                            ui                      : 'RequestIntellisenseTextBox', 
+                            ShowOnlyClassProperties : true,      
+                            Text                    : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',  
+                            Label                   : 'Data Parameter'
+                        }
+                        ,
+                        {   
+                            ui          : 'CheckBox',
+                            Content     : 'Open In Dialog Box', 
+                            IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}', 
+                            Checked     : '" + nameof(OnIsInDialogBoxChanged) + @"',
+                            Unchecked   : '" + nameof(OnIsInDialogBoxChanged) + @"',
+                            ToolTip     : 'Seçili ise popup olarak açılır.'
+                        }
+                        ,
+                        {
+                            ui          : 'LabelEditor',
+                            DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.DialogTitleInfo) + @"}',
+                            Header      : 'Title',
+                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
+                        }
+                        ,
+                        {   
+                            ui          : 'TextBox',
+                            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CssOfDialog) + @"}',
+                            Label       : 'Dialog Style',
+                            ToolTip     : " + "\"Açılacak popup'ın css bilgisi. Örn:{width:'50%' , height:'50%'}\"" + @",
+                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'
+                        }
+                        ,
+                        {   
+                            ui          : 'OrchestrationIntellisense',
+                            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.OrchestrationMethodOnDialogResponseIsOK) + @"}',
+                            Label       : 'Orchestration Call On Dialog Response Is OK',
+                            ToolTip     : 'Dialog response OK olduğu durumda gideceği orch metodu.',
+                            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.OpenFormWithResourceCodeIsInDialogBox) + @"}'                   
+                        }
+                    ]
                 }
             }
         ]
@@ -87,6 +210,11 @@ namespace BOA.OneDesigner.PropertyEditors
 
 ";
             this.LoadJson(template);
+
+            if (Model.Info.OpenFormWithResourceCode.HasValue())
+            {
+                _resourceCodeTextBox.Text = ResourceCodeTextBox.Items.FirstOrDefault(x => x.ResourceCode == Model.Info.OpenFormWithResourceCode)?.Description;
+            }
         }
         #endregion
     }

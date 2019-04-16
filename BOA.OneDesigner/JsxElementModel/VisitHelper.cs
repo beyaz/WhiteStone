@@ -1,5 +1,4 @@
 ﻿using System;
-using BOA.Common.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -14,15 +13,27 @@ namespace BOA.OneDesigner.JsxElementModel
                 return;
             }
 
-            if (!ci.Type.IsButton)
+            if (ci.ButtonClickedActionInfo != null)
             {
                 return;
             }
 
-            if (ci.ValueChangedOrchestrationMethod.HasValue())
+            ci.ButtonClickedActionInfo = new ActionInfo
             {
-                return;
-            }
+                OrchestrationMethodName                          = ci.ButtonClickedOrchestrationMethod,
+                ExtensionMethodName                              = ci.ExtensionMethodName,
+                DialogTitleInfo                                  = new LabelInfo(),
+                YesNoQuestionInfo                                = ci.YesNoQuestion ?? new LabelInfo(),
+                YesNoQuestionAfterYesOrchestrationCall           = ci.YesNoQuestionAfterYesOrchestrationCall,
+                OpenFormWithResourceCode                         = ci.OpenFormWithResourceCode,
+                OpenFormWithResourceCodeDataParameterBindingPath = ci.OpenFormWithResourceCodeDataParameterBindingPath,
+                OpenFormWithResourceCodeIsInDialogBox            = ci.OpenFormWithResourceCodeIsInDialogBox,
+                CssOfDialog                                      = ci.CssOfDialog,
+                OrchestrationMethodOnDialogResponseIsOK          = ci.OrchestrationMethodOnDialogResponseIsOK
+            };
+
+            //ci.ButtonClickedOrchestrationMethod = null;
+            // ci.ExtensionMethodName              = null;
         }
 
         public static void VisitComponents(ScreenInfo instance, Action<object> on)
@@ -73,7 +84,7 @@ namespace BOA.OneDesigner.JsxElementModel
             {
                 on(tabBarPage);
 
-                Visit(tabBarPage.DivAsCardContainer,on);
+                Visit(tabBarPage.DivAsCardContainer, on);
 
                 return;
             }
