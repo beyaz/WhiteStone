@@ -75,7 +75,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
                 }
 
-                sb.AppendLine($"<{tag} value = {{{jsBindingPath.FullBindingPathInJs} || \"\"}}");
+                sb.AppendLine($"<{tag} value = {{{jsBindingPath.FullBindingPathInJs} === undefined ? null : {jsBindingPath.FullBindingPathInJs}}}");
                 sb.PaddingCount++;
 
                 // sb.AppendLine($"onChange = {{(e: any, value: string) => {jsBindingPath.BindingPathInJs} = value}}");
@@ -108,7 +108,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
                 else
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs} || \"\"}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs} === undefined ? null : {jsBindingPath.FullBindingPathInJs}}}");
                 }
 
                 sb.PaddingCount++;
@@ -158,11 +158,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (isNullableNumber)
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs} || \"\"}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs} === undefined ? null : {jsBindingPath.FullBindingPathInJs}}}");
                 }
                 else
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs}}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs} === undefined ? null : {jsBindingPath.FullBindingPathInJs}}}");
                 }
 
                 sb.PaddingCount++;

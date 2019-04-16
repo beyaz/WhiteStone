@@ -34,6 +34,9 @@ namespace BOA.OneDesigner.Helpers
                 Log.Push("Checkout is failed. @errorMessage:" + errorMessage);
             }
 
+
+            // File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
+
             File.WriteAllText(path, newContent);
 
             return true;

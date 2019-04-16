@@ -40,7 +40,7 @@ namespace BOA.OneDesigner.MainForm
             var message = "Dosya güncellendi. @filePath: " + filePath;
 
             var isWritten = FileUtil.TryWrite(filePath, oldContent, tsxCode);
-            if (isWritten)
+            if (!isWritten)
             {
                 message = "Dosya zaten güncel. @filePath: " + filePath;
             }
