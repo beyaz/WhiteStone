@@ -11,18 +11,19 @@
         /// </summary>
         public string CssOfDialog { get; set; }
 
+        public string DialogTitle { get; set; }
+
         /// <summary>
         ///     Gets or sets the name of the extension method.
         /// </summary>
         public string ExtensionMethodName { get; set; }
 
-
-        public string OpenFormWithResourceCodeCondition { get; set; }
-
         /// <summary>
         ///     Gets or sets the open form with resource code.
         /// </summary>
         public string OpenFormWithResourceCode { get; set; }
+
+        public string OpenFormWithResourceCodeCondition { get; set; }
 
         /// <summary>
         ///     Gets or sets the open form with resource code data parameter binding path.
@@ -44,13 +45,11 @@
         /// </summary>
         public string OrchestrationMethodOnDialogResponseIsOK { get; set; }
 
-        public string DialogTitle         { get; set; }
-
         public string YesNoQuestion { get; set; }
 
-        public string YesNoQuestionCondition { get; set; }
-
         public string YesNoQuestionAfterYesOrchestrationCall { get; set; }
+
+        public string YesNoQuestionCondition { get; set; }
         #endregion
     }
 }
