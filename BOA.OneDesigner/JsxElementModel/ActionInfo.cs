@@ -3,7 +3,7 @@
     /// <summary>
     ///     The button action information
     /// </summary>
-    class ButtonActionInfo
+    class ActionInfo
     {
         #region Public Properties
         /// <summary>

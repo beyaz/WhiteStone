@@ -27,9 +27,9 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            var function = new ButtonActionInfoFunction
+            var function = new ActionInfoFunction
             {
-                Data = new ButtonActionInfo
+                Data = new ActionInfo
                 {
                     OrchestrationMethodName                          = data.ButtonClickedOrchestrationMethod,
                     OpenFormWithResourceCode                         = data.OpenFormWithResourceCode,

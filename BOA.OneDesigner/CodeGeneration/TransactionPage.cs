@@ -751,10 +751,10 @@ addToProcessQueue(fn: Function)
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    var function = new ButtonActionInfoFunction
+                    var function = new ActionInfoFunction
                     {
                         WriterContext = writerContext,
-                        Data = new ButtonActionInfo
+                        Data = new ActionInfo
                         {
                             OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
                             OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
@@ -801,10 +801,10 @@ addToProcessQueue(fn: Function)
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    var function = new ButtonActionInfoFunction
+                    var function = new ActionInfoFunction
                     {
                         WriterContext = writerContext,
-                        Data = new ButtonActionInfo
+                        Data = new ActionInfo
                         {
                             OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
                             OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,

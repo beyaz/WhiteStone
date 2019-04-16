@@ -1,16 +1,21 @@
 ﻿using BOA.OneDesigner.CodeGenerationModel;
+using BOA.OneDesigner.JsxElementModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Data = BOA.OneDesigner.JsxElementModel.ButtonActionInfo;
 
+// 1 orch call
+    // 2 custom execution
+    // 3 advanced
 
-    // //orch call
 
     //orch call
+
+    // YES - NO Question
     // condition
     //soru sorma
     //orch call
 
+    // OPEN - FORM
     // condition
     //ekran açma
     //rresource code
@@ -26,17 +31,17 @@ using Data = BOA.OneDesigner.JsxElementModel.ButtonActionInfo;
 namespace BOA.OneDesigner.CodeGeneration
 {
     [TestClass]
-    public class ButtonActionInfoFunctionTest
+    public class ActionInfoFunctionTest
     {
         #region Fields
-        ButtonActionInfoFunction api;
+        ActionInfoFunction api;
         #endregion
 
         #region Public Methods
         [TestMethod]
         public void _0_only_OpenFormWithResourceCode()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 OpenFormWithResourceCode = "x"
             };
@@ -47,7 +52,7 @@ namespace BOA.OneDesigner.CodeGeneration
         [TestMethod]
         public void _1_only_ExtensionMethodName()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 ExtensionMethodName = "x"
             };
@@ -62,7 +67,7 @@ namespace BOA.OneDesigner.CodeGeneration
         [TestMethod]
         public void _2_only_OrchestrationMethodName()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 OrchestrationMethodName = "x"
             };
@@ -77,7 +82,7 @@ namespace BOA.OneDesigner.CodeGeneration
         [TestMethod]
         public void _3_OpenFormWithResourceCode_with_data()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 OpenFormWithResourceCode                         = "x",
                 OpenFormWithResourceCodeDataParameterBindingPath = "o.f"
@@ -93,7 +98,7 @@ namespace BOA.OneDesigner.CodeGeneration
         [TestMethod]
         public void _4_OpenFormWithResourceCode_after_orch_call()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 OpenFormWithResourceCode = "x",
                 OrchestrationMethodName  = "GetInfo"
@@ -145,7 +150,7 @@ this.state.pageInstance.runProcessQueue();
         [TestMethod]
         public void _5_OpenForm_with_data_after_orch_call()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 OpenFormWithResourceCode                         = "x",
                 OrchestrationMethodName                          = "GetInfo",
@@ -200,7 +205,7 @@ this.state.pageInstance.runProcessQueue();
         [TestMethod]
         public void _6_open_form_in_dialogBox_with_data_after_orch_call()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 OpenFormWithResourceCode                         = "x",
                 OrchestrationMethodName                          = "GetInfo",
@@ -254,7 +259,7 @@ this.state.pageInstance.runProcessQueue();
         [TestMethod]
         public void _7_open_form_in_dialogBox_with_data_after_orch_call_then_recall_if_success()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 OpenFormWithResourceCode                         = "x",
                 OrchestrationMethodName                          = "GetInfo",
@@ -328,7 +333,7 @@ this.state.pageInstance.runProcessQueue();
         [TestMethod]
         public void _8_open_form_in_dialogBox_with_data_after_orch_call_then_recall_if_success()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 OpenFormWithResourceCode                         = "x",
                 OrchestrationMethodName                          = "GetInfo",
@@ -411,7 +416,7 @@ this.state.pageInstance.runProcessQueue();
         [TestMethod]
         public void _9_open_form_in_dialogBox_with_data_after_orch_call_then_recall_if_success()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 OpenFormWithResourceCode                         = "x",
                 OrchestrationMethodName                          = "GetInfo",
@@ -486,7 +491,7 @@ this.runProcessQueue();
         [TestMethod]
         public void _10_open_form_in_dialogBox_with_data_after_orch_call_then_recall_if_success()
         {
-            api.Data = new Data
+            api.Data = new ActionInfo
             {
                 OpenFormWithResourceCode                         = "x",
                 OrchestrationMethodName                          = "GetInfo",
@@ -561,7 +566,7 @@ this.runProcessQueue();
         [TestInitialize]
         public void ZTestInitialize()
         {
-            api = new ButtonActionInfoFunction
+            api = new ActionInfoFunction
             {
                 WriterContext = new WriterContext
                 {

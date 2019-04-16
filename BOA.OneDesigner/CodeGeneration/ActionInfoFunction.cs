@@ -5,10 +5,10 @@ using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
-    class ButtonActionInfoFunction
+    class ActionInfoFunction
     {
         #region Public Properties
-        public ButtonActionInfo Data          { get; set; }
+        public ActionInfo Data          { get; set; }
         public WriterContext    WriterContext { get; set; }
         #endregion
 
