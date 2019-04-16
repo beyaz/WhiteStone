@@ -28,11 +28,12 @@ namespace BOA.OneDesigner.Helpers
                 return true;
             }
 
-            var success = TFSAccessForBOA.CheckoutFile(path);
-            if (!success)
+            var errorMessage = TFSAccessForBOA.CheckoutFile(path);
+            if (errorMessage.HasValue())
             {
-                Log.Push("Checkout is failed.");
+                Log.Push("Checkout is failed. @errorMessage:" + errorMessage);
             }
+
             File.WriteAllText(path, newContent);
 
             return true;

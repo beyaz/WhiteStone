@@ -70,20 +70,43 @@ namespace BOA.CodeGeneration.Util
             }
         }
 
-        public static bool CheckoutFile(string path)
+        static class   Messages
         {
-            var ConstTfsServerUri = GetTfsServerPath(path);
-
-            using (var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(ConstTfsServerUri)))
+            public static string IsNull(string parameter)
             {
-                if (pc == null)
+                return  parameter + " is null";
+            }
+        }
+
+        public static string CheckoutFile(string path)
+        {
+            var uri = GetTfsServerPath(path);
+
+            using (var teamProjectCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(uri)))
+            {
+                if (teamProjectCollection == null)
                 {
-                    return false;
+                    return Messages.IsNull(nameof(teamProjectCollection));
                 }
 
                 var workspaceInfo = Workstation.Current.GetLocalWorkspaceInfo(path);
-                var workspace     = workspaceInfo?.GetWorkspace(pc);
-                return workspace?.PendEdit(path, RecursionType.Full) == 1;
+                if (workspaceInfo == null)
+                {
+                    return Messages.IsNull(nameof(workspaceInfo));
+                }
+                var workspace     = workspaceInfo.GetWorkspace(teamProjectCollection);
+                if (workspace == null)
+                {
+                    return Messages.IsNull(nameof(workspace));
+                }
+
+                var count = workspace.PendEdit(path, RecursionType.Full);
+                if (count == 1)
+                {
+                    return null;
+                }
+
+                return "Number of checked files is " + count;
             }
         }
         public static bool UndoCheckoutFile(string path)
