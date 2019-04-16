@@ -4,6 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Data = BOA.OneDesigner.JsxElementModel.ButtonActionInfo;
 
 
+    // //orch call
+
     //orch call
     // condition
     //soru sorma
@@ -123,7 +125,7 @@ this.runProcessQueue();
 
 this.state.pageInstance.addToProcessQueue(() =>
 {
-    this.executeWindowRequest(""GetInfo"");
+    this.state.pageInstance.executeWindowRequest(""GetInfo"");
 });
 
 this.state.pageInstance.addToProcessQueue(() =>
@@ -177,7 +179,7 @@ this.runProcessQueue();
 
 this.state.pageInstance.addToProcessQueue(() =>
 {
-    this.executeWindowRequest(""GetInfo"");
+    this.state.pageInstance.executeWindowRequest(""GetInfo"");
 });
 
 this.state.pageInstance.addToProcessQueue( () =>
@@ -232,7 +234,7 @@ this.runProcessQueue();
 
 this.state.pageInstance.addToProcessQueue(() =>
 {
-    this.executeWindowRequest(""GetInfo"");
+    this.state.pageInstance.executeWindowRequest(""GetInfo"");
 });
 
 this.state.pageInstance.addToProcessQueue( () =>
@@ -297,7 +299,7 @@ this.runProcessQueue();
 
 this.state.pageInstance.addToProcessQueue(() =>
 {
-    this.executeWindowRequest(""GetInfo"");
+    this.state.pageInstance.executeWindowRequest(""GetInfo"");
 });
 
 this.state.pageInstance.addToProcessQueue( () =>
@@ -375,7 +377,7 @@ this.runProcessQueue();
 
 this.state.pageInstance.addToProcessQueue(() =>
 {
-    this.executeWindowRequest(""GetInfo"");
+    this.state.pageInstance.executeWindowRequest(""GetInfo"");
 });
 
 this.state.pageInstance.addToProcessQueue( () =>

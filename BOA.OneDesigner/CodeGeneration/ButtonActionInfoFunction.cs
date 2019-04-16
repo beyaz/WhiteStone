@@ -25,14 +25,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (Data.ExtensionMethodName.HasValue())
             {
-                if (WriterContext.IsTabPage)
-                {
-                    sb.AppendLine($"Extension.{Data.ExtensionMethodName}(this.state.pageInstance);");
-                }
-                else
-                {
-                    sb.AppendLine($"Extension.{Data.ExtensionMethodName}(this);");
-                }
+                sb.AppendLine($"Extension.{Data.ExtensionMethodName}({mainFormPath});");
 
                 return sb.ToString();
             }
@@ -78,7 +71,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"this.executeWindowRequest(\"{Data.OrchestrationMethodName}\");");
+            sb.AppendLine($"{mainFormPath}.executeWindowRequest(\"{Data.OrchestrationMethodName}\");");
 
             sb.PaddingCount--;
             sb.AppendLine("});");
@@ -95,7 +88,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 {
                     sb.AppendLine($"if(!{Data.YesNoQuestionCondition})");
                     sb.AppendLine("{");
-                    sb.AppendLine("    this.runProcessQueue();");
+                    sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
                     sb.AppendLine("    return;");
                     sb.AppendLine("}");
                     
@@ -109,11 +102,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.AppendLine("if (dialogResponse === 1)");
                 sb.AppendLine("{");
-                sb.AppendLine("    this.runProcessQueue();");
+                sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
                 sb.AppendLine("}");
                 sb.AppendLine("else");
                 sb.AppendLine("{");
-                sb.AppendLine("    this.processQueue.shift();");
+                sb.AppendLine($"    {mainFormPath}.processQueue.shift();");
                 sb.AppendLine("}");
 
                 sb.PaddingCount--;
@@ -134,7 +127,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"this.executeWindowRequest(\"{Data.YesNoQuestionAfterYesOrchestrationCall}\");");
+                sb.AppendLine($"{mainFormPath}.executeWindowRequest(\"{Data.YesNoQuestionAfterYesOrchestrationCall}\");");
 
                 sb.PaddingCount--;
                 sb.AppendLine("});");
@@ -151,7 +144,7 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 sb.AppendLine($"if(!{Data.OpenFormWithResourceCodeCondition})");
                 sb.AppendLine("{");
-                sb.AppendLine("    this.runProcessQueue();");
+                sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
                 sb.AppendLine("    return;");
                 sb.AppendLine("}");
                     
