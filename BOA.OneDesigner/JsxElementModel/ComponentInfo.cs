@@ -33,6 +33,9 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public string CardRefNumberBindingPath { get; set; }
 
+        public string ShadowCardNumberBindingPath { get; set; }
+        
+
         /// <summary>
         ///     Gets the credit card designer text.
         /// </summary>

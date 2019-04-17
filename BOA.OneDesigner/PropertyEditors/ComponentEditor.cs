@@ -200,6 +200,14 @@ namespace BOA.OneDesigner.PropertyEditors
         {
             ui          : 'RequestIntellisenseTextBox',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsCreditCardComponent) + @"}',
+            Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ShadowCardNumberBindingPath) + @"}', 
+            Label       : 'Shadow Card Number',
+            ToolTip     : 'Shadow Card Number alanının bind edileceği path.\n( Supports Only: Client to Server )'
+        }
+        ,
+        {
+            ui          : 'RequestIntellisenseTextBox',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsCreditCardComponent) + @"}',
             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.AccountNumberBindingPath) + @"}', 
             Label       : 'Account Number',
             ToolTip     : 'Account Number alanının bind edileceği path.\n( Supports Only: Client to Server )'

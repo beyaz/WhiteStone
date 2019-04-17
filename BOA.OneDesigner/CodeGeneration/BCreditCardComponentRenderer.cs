@@ -26,16 +26,38 @@ namespace BOA.OneDesigner.CodeGeneration
                 var jsBindingPathCardRefNumber = new JsBindingPathInfo(data.CardRefNumberBindingPath);
                 JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPathCardRefNumber);
                 writerContext.PushVariablesToRenderScope(jsBindingPathCardRefNumber);
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponentCardRefNumber {JsBindingPath = jsBindingPathCardRefNumber.FullBindingPathInJs, SnapName = data.SnapName});    
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent
+                {
+                    JsPropertyName = "cardRefNumber",
+                    JsBindingPath = jsBindingPathCardRefNumber.FullBindingPathInJs,
+                    SnapName = data.SnapName
+                });    
             }
 
+            if (data.ShadowCardNumberBindingPath.HasValue())
+            {
+                var jsBindingPathCardRefNumber = new JsBindingPathInfo(data.ShadowCardNumberBindingPath);
+                JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPathCardRefNumber);
+                writerContext.PushVariablesToRenderScope(jsBindingPathCardRefNumber);
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent
+                {
+                    JsPropertyName = "shadowCardNumber",
+                    JsBindingPath = jsBindingPathCardRefNumber.FullBindingPathInJs,
+                    SnapName = data.SnapName
+                });    
+            }
 
             if (data.AccountNumberBindingPath.HasValue())
             {
                 var jsBindingPath = new JsBindingPathInfo(data.AccountNumberBindingPath);
                 JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
                 writerContext.PushVariablesToRenderScope(jsBindingPath);
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponentAccountNumber {JsBindingPath = jsBindingPath.FullBindingPathInJs, SnapName = data.SnapName});    
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent
+                {
+                    JsPropertyName = "accountNumber",
+                    JsBindingPath = jsBindingPath.FullBindingPathInJs,
+                    SnapName = data.SnapName
+                });    
             }
 
 
@@ -50,7 +72,12 @@ namespace BOA.OneDesigner.CodeGeneration
                 };
                 JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
                 writerContext.PushVariablesToRenderScope(jsBindingPath);
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent {JsBindingPath = jsBindingPath.FullBindingPathInJs, SnapName = data.SnapName});
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent
+                {
+                    JsPropertyName = "clearCardNumber",
+                    JsBindingPath = jsBindingPath.FullBindingPathInJs,
+                    SnapName = data.SnapName
+                });
 
                 sb.AppendLine($"clearCardNumber={{{jsBindingPath.FullBindingPathInJs}}}");
             }
