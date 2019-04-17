@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
@@ -280,37 +279,7 @@ namespace BOA.OneDesigner.MainForm
                 return;
             }
 
-            List<Aut_ResourceAction> resourceActions = null;
-
-            using (var database = new DevelopmentDatabase())
-            {
-                resourceActions = database.GetResourceActions(resourceCode);
-            }
-
-            if (resourceActions.Count == 0)
-            {
-                return;
-            }
-
-            if (Model.ScreenInfo.ResourceActions == null)
-            {
-                Model.ScreenInfo.ResourceActions = resourceActions;
-                return;
-            }
-
-            // merge
-            foreach (var resourceAction in Model.ScreenInfo.ResourceActions)
-            {
-                var existingRecord = resourceActions.FirstOrDefault(x => x.CommandName == resourceAction.CommandName);
-                if (existingRecord == null)
-                {
-                    continue;
-                }
-
-                resourceAction.CopyTo(existingRecord);
-            }
-
-            Model.ScreenInfo.ResourceActions = resourceActions;
+            Model.ScreenInfo.ResourceActions = ResourceActionHelper.GetResourceActions(Model.ScreenInfo.ResourceActions, resourceCode);
         }
         #endregion
     }

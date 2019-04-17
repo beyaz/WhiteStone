@@ -754,14 +754,7 @@ addToProcessQueue(fn: Function)
                     var function = new ActionInfoFunction
                     {
                         WriterContext = writerContext,
-                        Data = new ActionInfo
-                        {
-                            OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
-                            OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
-                            OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
-                            
-                            ExtensionMethodName                              = resourceAction.ExtensionMethodName
-                        }
+                        Data = resourceAction.OnClickAction
                     };
 
                     sb.AppendAll(function.GetCode());
@@ -804,14 +797,7 @@ addToProcessQueue(fn: Function)
                     var function = new ActionInfoFunction
                     {
                         WriterContext = writerContext,
-                        Data = new ActionInfo
-                        {
-                            OrchestrationMethodName                          = resourceAction.OrchestrationMethodName,
-                            OpenFormWithResourceCode                         = resourceAction.OpenFormWithResourceCode,
-                            OpenFormWithResourceCodeDataParameterBindingPath = resourceAction.OpenFormWithResourceCodeDataParameterBindingPath,
-                            
-                            ExtensionMethodName                              = resourceAction.ExtensionMethodName
-                        }
+                        Data = resourceAction.OnClickAction
                     };
 
                     sb.AppendAll(function.GetCode());

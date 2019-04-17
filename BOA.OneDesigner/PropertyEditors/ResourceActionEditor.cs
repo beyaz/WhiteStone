@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using BOA.Common.Helpers;
+using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 
@@ -7,21 +7,36 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class ResourceActionEditor : GroupBox
     {
-        Aut_ResourceAction Model => (Aut_ResourceAction)DataContext;
+        #region Fields
+        public ActionInfoEditor _onClickActionInfoEditor;
 
         public ResourceCodeTextBox ResourceCodeTextBox;
+        #endregion
 
-        #region Constructors
+        #region Public Properties
+        public Host Host { get; set; }
+        #endregion
+
+        #region Properties
+        Aut_ResourceAction Model => (Aut_ResourceAction) DataContext;
+        #endregion
+
+        #region Public Methods
         public void LoadUI()
         {
+            if (Model.OnClickAction == null)
+            {
+                Model.OnClickAction = new ActionInfo();
+            }
+
             this.LoadJson(@"
 
 {
- Header:'Resource Action',
- Margin:5,
- Content:
- {
-    ui:'StackPanel',
+     Header:'Resource Action',
+     Margin:5,
+     Content:
+     {
+        ui:'StackPanel',
 	    rows:
         [
 		    {
@@ -41,70 +56,21 @@ namespace BOA.OneDesigner.PropertyEditors
             }
             ,
             {
-                ui:'TabControl',
-                childs:
-                [
-                    {
-                        ui: 'TabItem',
-                        Header:'Simple',
-                        Content:
-                        {   
-                            ui       : 'OrchestrationIntellisense',
-                            Text     :'{Binding " + nameof(Model.OrchestrationMethodName) + @"}',
-                            Label    : 'Orchestration Method Name',
-                            ToolTip  : 'Upload the form to orchestration side when button clicked.',
-                                             
-                        }
-                    }
-                    ,
-                    {
-                        ui: 'TabItem',
-                        Header:'Advanced',
-                        Content:
-                        {
-                            ui      : 'TextBox',
-                            Label   : 'Extension Method Name',
-                            Text    : '{Binding " + nameof(Model.ExtensionMethodName) + @"}',
-                            ToolTip : 'Manuel function yazarak handle etmek istenildiğinde kullanılmalıdır.\nÖrnek:showCustomerXInfo yazılıp extension dosyasında custom olarak implement edilebilir.'
-                        }
-
-                    }
-                ]
-            }
-            ,
-            {
-                ui                  : 'ResourceCodeTextBox',   
-                SelectedValue       : '{Binding " + Model.AccessPathOf(m => m.OpenFormWithResourceCode) + @"}',
-                Name                : 'ResourceCodeTextBox',
-                SelectedValuePath   : 'ResourceCode',
-                DisplayMemberPath   : 'Name',
-                Label               : 'Open Form With Resource Code',
-                Margin              : 5
-            }
-            ,
-		    {
-                ui                      : 'RequestIntellisenseTextBox',
-                Margin                  : 5,
-                Text                    : '{Binding " + nameof(Model.OpenFormWithResourceCodeDataParameterBindingPath) + @"}',
-                Label                   : 'Open Form With Data',
-                ShowOnlyClassProperties : true
-            }
+                ui          : 'ActionInfoEditor',
+                Header      : 'On Click',
+                Name        : '_onClickActionInfoEditor'
+            }           
 
 	    ]
- }
+     }
 
 }
 
 
 ");
 
-
-            ResourceCodeTextBox.Text = Model?.OpenFormWithResourceCode;
+            _onClickActionInfoEditor.Load(Host, Model.OnClickAction);
         }
         #endregion
-
-       
-
-       
     }
 }

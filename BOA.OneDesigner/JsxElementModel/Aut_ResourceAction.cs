@@ -29,6 +29,9 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public string Name { get; set; }
 
+
+        public ActionInfo OnClickAction { get; set; }
+
         /// <summary>
         ///     Gets or sets the open form with resource code.
         /// </summary>

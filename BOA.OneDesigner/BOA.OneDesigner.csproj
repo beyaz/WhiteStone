@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppModel\Aut_Resource.cs" />
+    <Compile Include="AppModel\ResourceActionHelper.cs" />
     <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfo.cs" />
     <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoAccountComponent.cs" />
     <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoAccountComponentSuffix.cs" />

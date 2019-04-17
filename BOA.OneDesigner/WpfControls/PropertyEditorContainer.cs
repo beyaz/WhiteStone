@@ -48,6 +48,7 @@ namespace BOA.OneDesigner.WpfControls
                 DataContext = actionButton.Model;
                 var resourceActionEditor = new ResourceActionEditor
                 {
+                    Host = Host,
                     DataContext = actionButton.Model
                 };
                 resourceActionEditor.LoadUI();
