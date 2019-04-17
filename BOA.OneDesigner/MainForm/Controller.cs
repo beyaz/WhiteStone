@@ -150,6 +150,18 @@ namespace BOA.OneDesigner.MainForm
                     };
                 }
             }
+            else
+            {
+                // Mayber converted browsepage to  transaction page
+                if (Model.ScreenInfo.JsxModel is DivAsCardContainer divAsCardContainer)
+                {
+                    foreach (var card in divAsCardContainer.Items)
+                    {
+                        card.IsBrowsePageCriteria          = false;
+                        card.IsBrowsePageDataGridContainer = false;
+                    }
+                }
+            }
 
             using (var database = new DevelopmentDatabase())
             {
