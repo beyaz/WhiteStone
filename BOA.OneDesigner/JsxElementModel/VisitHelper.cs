@@ -13,6 +13,12 @@ namespace BOA.OneDesigner.JsxElementModel
                 return;
             }
 
+            EnsureButtonClickedActionInfo(ci);
+
+        }
+
+        public static void EnsureButtonClickedActionInfo(ComponentInfo ci)
+        {
             if (ci.ButtonClickedActionInfo != null)
             {
                 return;

@@ -356,6 +356,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
             OnValueBindingPathChanged();
 
+            VisitHelper.EnsureButtonClickedActionInfo(Model.Info);
             _onClickActionInfoEditor.Load(Host,Model.Info.ButtonClickedActionInfo);
         }
         #endregion
