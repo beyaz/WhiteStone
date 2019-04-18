@@ -68,7 +68,7 @@
       },
       {
         "ui": "Button",
-        "Text": "Initialize Form Asisstant Default Codes",
+        "Text": "Update 'Extensions.designer.cs' file in orchestration project",
         "Click": "this.FireAction('InitializeFormAssistantDefaultCodes')",
         "Margin": 10
       },
