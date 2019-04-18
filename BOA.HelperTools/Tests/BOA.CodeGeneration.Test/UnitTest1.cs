@@ -89,10 +89,10 @@ SELECT '[' + s.NAME + '].[' + o.NAME + ']' AS 'table_name'
                 items.Add(new IndexInfo
                 {
                     Name           = reader["index_name"].ToString(),
-                    IsNonClustered = reader["description"].ToString().Contains("nonclustered"),
-                    IsClustered    = reader["description"].ToString().Contains("clustered"),
-                    IsUnique       = reader["description"].ToString().Contains("unique"),
-                    IsPrimaryKey   = reader["description"].ToString().Contains("primary key"),
+                    IsNonClustered = reader["index_description"].ToString().Contains("nonclustered"),
+                    IsClustered    = reader["index_description"].ToString().Contains("clustered") && !reader["index_description"].ToString().Contains("nonclustered"),
+                    IsUnique       = reader["index_description"].ToString().Contains("unique"),
+                    IsPrimaryKey   = reader["index_description"].ToString().Contains("primary key"),
                     ColumnNames    = reader["indexed_columns"].ToString().SplitAndClear(",").Select(x => x.Remove("[").Remove("]").Trim()).ToList()
                 });
 
