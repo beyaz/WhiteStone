@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BOA.CodeGeneration.Common;
+using BOA.CodeGeneration.Contracts.DaoHelper;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Services;
 using BOA.CodeGeneration.SQLParser;

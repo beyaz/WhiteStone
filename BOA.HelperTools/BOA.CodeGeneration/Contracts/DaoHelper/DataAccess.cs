@@ -5,7 +5,7 @@ using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using WhiteStone.Helpers;
 
-namespace BOA.CodeGeneration.Services
+namespace BOA.CodeGeneration.Contracts.DaoHelper
 {
     public sealed class DataAccess : IDisposable
     {

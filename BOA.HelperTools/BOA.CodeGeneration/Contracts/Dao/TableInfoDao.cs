@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using BOA.CodeGeneration.Contracts.DaoHelper;
 using BOA.CodeGeneration.Services;
 using BOA.DatabaseAccess;
 

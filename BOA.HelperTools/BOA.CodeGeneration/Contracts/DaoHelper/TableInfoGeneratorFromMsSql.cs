@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using BOA.CodeGeneration.Common;
 using BOA.Common.Helpers;
-using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
-namespace BOA.CodeGeneration.Services
+namespace BOA.CodeGeneration.Contracts.DaoHelper
 {
     public static class TableInfoGeneratorFromMsSql
     {
