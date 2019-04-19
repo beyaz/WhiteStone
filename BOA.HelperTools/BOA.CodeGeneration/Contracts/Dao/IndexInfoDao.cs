@@ -1,30 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.CodeGeneration
+namespace BOA.CodeGeneration.Contracts.Dao
 {
-    public class IndexInfo
-    {
-        public string Name { get; set; }
-        public bool IsClustered { get; set; }
-        public bool IsNonClustered { get; set; }
-        public bool IsUnique { get; set; }
-        public bool IsPrimaryKey { get; set; }
-
-        public IReadOnlyList<string> ColumnNames { get; set; }
-
-        
-    }
-
     public class IndexInfoDao
     {
+        #region Public Properties
         public IDatabase Database { get; set; }
+        #endregion
 
-        public  IReadOnlyList<IndexInfo> GetIndexInformation(string schema, string tableName)
+        #region Public Methods
+        public IReadOnlyList<IndexInfo> GetIndexInformation(string schema, string tableName)
         {
             var items = new List<IndexInfo>();
 
@@ -95,31 +83,10 @@ SELECT '[' + s.NAME + '].[' + o.NAME + ']' AS 'table_name'
                     IsPrimaryKey   = reader["index_description"].ToString().Contains("primary key"),
                     ColumnNames    = reader["indexed_columns"].ToString().SplitAndClear(",").Select(x => x.Remove("[").Remove("]").Trim()).ToList()
                 });
-
-
             }
-
 
             return items;
         }
-    }
-
-
-
-    [TestClass]
-    public class IndexInfoTest
-    {
-        [TestMethod]
-        public void TestMethod1()
-        {
-            var connectionString = string.Format("Server={0};Database={1};Trusted_Connection=True;",@"srvxdev\zumrut", "BOACard");
-
-            var dao = new IndexInfoDao { Database = new SqlDatabase(connectionString)};
-
-            var information = dao.GetIndexInformation("CRD","CARD_MASTER");
-
-
-        }
+        #endregion
     }
 }
-
