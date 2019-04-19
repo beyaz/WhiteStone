@@ -13,6 +13,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             var sb = new PaddedStringBuilder();
 
             sb.AppendLine("using System;");
+            sb.AppendLine("using System.Data;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using BOA.Types.Kernel.Card.DatabaseIntegration;");
@@ -45,7 +46,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendAll(new InsertSql{TableInfo = TableInfo}.ToString());
             sb.AppendLine();
 
-
+            sb.AppendLine();
             sb.AppendLine($"Databases {Names.ISupportDmlOperationInfo}.GetDatabase()");
             sb.AppendLine("{");
             sb.AppendLine($"    return Databases.{TableInfo.CatalogName};");
