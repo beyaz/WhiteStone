@@ -57,7 +57,13 @@ namespace BOA.CodeGeneration.Contracts.Transforms
                 sb.AppendLine(@"/// </summary>");
             }
 
-            sb.AppendLine("public " + data.DotNetType + " " + data.ColumnName.ToContractName() + " { get; set; }");
+            var dotNetType = data.DotNetType;
+            if (data.ColumnName == Names.VALID_FLAG)
+            {
+                dotNetType = Common.Names.DotNetBool;
+            }
+
+            sb.AppendLine("public " + dotNetType + " " + data.ColumnName.ToContractName() + " { get; set; }");
         }
         #endregion
     }

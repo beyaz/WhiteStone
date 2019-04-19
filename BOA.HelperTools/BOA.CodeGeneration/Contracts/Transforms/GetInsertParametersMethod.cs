@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using BOA.CodeGeneration.Common;
 using BOA.Common.Helpers;
 
 namespace BOA.CodeGeneration.Contracts.Transforms
@@ -18,7 +19,41 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 
             sb.AppendLine($"Name = \"@{columnInfo.ColumnName}\",");
             sb.AppendLine($"SqlDbType = SqlDbType.{columnInfo.SqlDatabaseTypeName},");
-            sb.AppendLine($"Value = {columnInfo.ColumnName.ToContractName()}");
+
+            if (columnInfo.ColumnName == Names.ROW_GUID)
+            {
+                sb.AppendLine($"Value = {@"Guid.NewGuid().ToString().ToUpper(new System.Globalization.CultureInfo(""en-US"", false))"}");
+                
+            }
+            else if (columnInfo.ColumnName == Names.VALID_FLAG)
+            {
+                sb.AppendLine($"Value = {columnInfo.ColumnName.ToContractName()} ? \"1\" : \"0\"");
+            }
+            else if (columnInfo.ColumnName == Names.UPDATE_DATE||
+                     columnInfo.ColumnName == Names.UPDATE_USER_ID||
+                     columnInfo.ColumnName == Names.UPDATE_TOKEN_ID)
+            {
+                sb.AppendLine("Value = null");
+            }
+
+            else if (columnInfo.ColumnName == Names.INSERT_DATE)
+            {
+                sb.AppendLine("Value = DateTime.Now");
+            }
+            else if (columnInfo.ColumnName == Names.INSERT_USER_ID)
+            {
+                sb.AppendLine("Value = context.AuthenticationUserName");
+            }
+            else if (columnInfo.ColumnName == Names.INSERT_TOKEN_ID)
+            {
+                sb.AppendLine("Value = Convert.ToString(context.EngineContextMainBusinessKey)");
+            }
+
+            else
+            {
+                sb.AppendLine($"Value = {columnInfo.ColumnName.ToContractName()}");    
+            }
+            
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -32,7 +67,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine("internal IReadOnlyList<Parameter> GetInsertParameters()");
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationInfo}.GetInsertParameters(ExecutionScope context)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -46,7 +81,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 
 
             sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.AppendLine("};");
 
 
 
