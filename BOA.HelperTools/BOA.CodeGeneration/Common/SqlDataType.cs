@@ -182,7 +182,7 @@ namespace BOA.CodeGeneration.Common
                 dataType.StartsWith("CHAR(", StringComparison.Ordinal) ||
                 dataType.StartsWith("CHAR", StringComparison.Ordinal) ||
                 dataType.StartsWith("NCHAR(", StringComparison.Ordinal) ||
-                dataType.StartsWith("NVARCHAR(", StringComparison.Ordinal)|
+                dataType.StartsWith("NVARCHAR(", StringComparison.Ordinal) |
                 dataType.StartsWith("NVARCHAR", StringComparison.Ordinal))
             {
                 return Names.DotNetStringName;
@@ -243,63 +243,75 @@ namespace BOA.CodeGeneration.Common
 
         public static string GetSqlReaderMethod(string dataType, bool isNullable)
         {
+            return GetSqlReaderMethodEnum(dataType, isNullable).ToString();
+        }
+        #endregion
+
+        #region Methods
+        internal static SqlReaderMethods GetSqlReaderMethod(Type t)
+        {
+            return SqlReaderMethodCache[t];
+        }
+
+        static SqlReaderMethods GetSqlReaderMethodEnum(string dataType, bool isNullable)
+        {
             if (dataType == Timestamp)
             {
-                return "GetTimeStampValue";
+                return SqlReaderMethods.GetTimeStampValue;
             }
 
             if (dataType == VarBinary ||
                 dataType == Binary ||
                 dataType == Image)
             {
-                return "GetBinaryValue";
+                return SqlReaderMethods.GetBinaryValue;
             }
 
             if (dataType == Float)
             {
-                return isNullable ? "GetSingleNullableValue" : "GetSingleValue";
+                return isNullable ? SqlReaderMethods.GetSingleNullableValue : SqlReaderMethods.GetSingleValue;
             }
 
             if (dataType == Real)
             {
-                return isNullable ? "GetDoubleNullableValue" : "GetDoubleValue";
+                return isNullable ? SqlReaderMethods.GetDoubleNullableValue : SqlReaderMethods.GetDoubleValue;
             }
 
             if (dataType == TinyInt)
             {
-                return isNullable ? "GetByteNullableValue" : "GetByteValue";
+                return isNullable ? SqlReaderMethods.GetByteNullableValue : SqlReaderMethods.GetByteValue;
             }
 
             if (dataType == SmallInt)
             {
-                return isNullable ? "GetInt16NullableValue" : "GetInt16Value";
+                return isNullable ? SqlReaderMethods.GetInt16NullableValue : SqlReaderMethods.GetInt16Value;
             }
 
             if (dataType == Int)
             {
-                return isNullable ? "GetInt32NullableValue" : "GetInt32Value";
+                return isNullable ? SqlReaderMethods.GetInt32NullableValue : SqlReaderMethods.GetInt32Value;
             }
 
             if (dataType == Time)
             {
-                return "GetTimeSpanValue";
+                return SqlReaderMethods.GetTimeSpanValue;
             }
 
             if (dataType == UniqueIdentifier)
             {
-                return "GetGUIDValue";
+                return SqlReaderMethods.GetGUIDValue;
             }
 
             if (dataType == BigInt)
             {
-                return isNullable ? "GetInt64NullableValue" : "GetInt64Value";
+                return isNullable ? SqlReaderMethods.GetInt64NullableValue : SqlReaderMethods.GetInt64Value;
             }
 
             if (dataType == DateTime ||
                 dataType == SmallDateTime ||
                 dataType == Date)
             {
-                return isNullable ? "GetDateTimeNullableValue" : "GetDateTimeValue";
+                return isNullable ? SqlReaderMethods.GetDateTimeNullableValue : SqlReaderMethods.GetDateTimeValue;
             }
 
             if (dataType.IsStartsWith("VARCHAR") ||
@@ -310,27 +322,20 @@ namespace BOA.CodeGeneration.Common
                 dataType == NText ||
                 dataType == Xml)
             {
-                return SqlReaderMethods.GetStringValue.ToString();
+                return SqlReaderMethods.GetStringValue;
             }
 
             if (dataType.IsStartsWith(Bit))
             {
-                return isNullable ? "GetBooleanNullableValue" : "GetBooleanValue";
+                return isNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
             }
 
             if (dataType.IsStartsWith("NUMERIC") || dataType.IsStartsWith("MONEY") || dataType == SmallMoney)
             {
-                return isNullable ? "GetDecimalNullableValue" : "GetDecimalValue";
+                return isNullable ? SqlReaderMethods.GetDecimalNullableValue : SqlReaderMethods.GetDecimalValue;
             }
 
             throw new ArgumentException(dataType);
-        }
-        #endregion
-
-        #region Methods
-        internal static SqlReaderMethods GetSqlReaderMethod(Type t)
-        {
-            return SqlReaderMethodCache[t];
         }
         #endregion
     }
