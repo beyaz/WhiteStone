@@ -177,7 +177,6 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             var sb = new StringBuilder();
 
             sb.AppendLine("#region Database Columns");
-            sb.AppendLine();
             foreach (var columnInfo in Columns)
             {
                 sb.AppendLine();
