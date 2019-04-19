@@ -7,6 +7,7 @@ using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
 using WhiteStone.Common;
 using WhiteStone.Helpers;
+using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {

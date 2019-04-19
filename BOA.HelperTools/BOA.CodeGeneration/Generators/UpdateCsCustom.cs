@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
+using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {
     class UpdateCsCustom : UpdateCs
     {
         #region Fields
-        readonly IEnumerable<ColumnInfo> _procedureParameters;
+        readonly IEnumerable<Contracts.ColumnInfo> _procedureParameters;
         #endregion
 
         #region Constructors

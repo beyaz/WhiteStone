@@ -27,7 +27,7 @@ namespace BOA.CodeGeneration.Model
         #region Properties
         internal NamingModel Naming { get; set; }
 
-        internal TableInfo Table { get; set; }
+        internal Contracts.TableInfo Table { get; set; }
         #endregion
     }
 }

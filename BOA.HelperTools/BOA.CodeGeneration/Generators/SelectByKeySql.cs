@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
+using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {
@@ -23,7 +24,7 @@ namespace BOA.CodeGeneration.Generators
         #region Properties
         protected string DatabaseTableFullPath => Context.Config.DatabaseTableFullPath;
 
-        protected IEnumerable<ColumnInfo> PrimaryKeyColumns => Context.Table.PrimaryKeyColumns;
+        protected IEnumerable<Contracts.ColumnInfo> PrimaryKeyColumns => Context.Table.PrimaryKeyColumns;
 
         bool? CanGenerateSetNoCountOn => Context.Config.CanGenerateSetNoCountOnWhenSelectByKey == true || GetType() == typeof(SelectByKeyListSql);
 

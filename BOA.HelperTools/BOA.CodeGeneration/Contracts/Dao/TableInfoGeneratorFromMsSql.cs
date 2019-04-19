@@ -1,32 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using BOA.CodeGeneration.Common;
-using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
+using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
 namespace BOA.CodeGeneration.Services
 {
     public static class TableInfoGeneratorFromMsSql
     {
         #region Public Methods
-        public static TableInfo CreateTable(DataTable table)
+        
+        public static IReadOnlyList<Contracts.ColumnInfo> CreateColumns(DataTable table)
         {
-            var info = new TableInfo();
+            var items = new List<Contracts.ColumnInfo>();
 
-            var len = table.Rows.Count;
-            for (var i = 0; i < len; i++)
+            for (var i = 0; i < table.Rows.Count; i++)
             {
                 var row = table.Rows[i];
 
-                info.AddColumn(CreateColumn(row));
+                items.Add(CreateColumn(row));
             }
 
-            return info;
+            return items;
         }
         #endregion
 
         #region Methods
-        static ColumnInfo CreateColumn(DataRow row)
+        static Contracts.ColumnInfo CreateColumn(DataRow row)
         {
             var columnName = row["COLUMN_NAME"].ToString();
 
@@ -109,10 +110,20 @@ namespace BOA.CodeGeneration.Services
             }
             #endregion
 
-            return new ColumnInfo(columnName,
-                                  row["IS_NULLABLE"].ToString() == "YES",
-                                  row["IsIdentity"] + "" == "True",
-                                  dataType);
+            var isIdentity = row["IsIdentity"] + "" == "True";
+
+            var isNullable = row["IS_NULLABLE"].ToString() == "YES";
+
+            return new ColumnInfo
+            {
+                ColumnName = columnName,
+                DataType = dataType,
+                IsIdentity = isIdentity,
+                IsNullable = isNullable,
+                SqlDatabaseTypeName = SqlDataType.GetSqlDbType(dataType),
+                DotNetType          = SqlDataType.GetDotNetType(dataType, isNullable),
+                SqlReaderMethod     = SqlDataType.GetSqlReaderMethod(dataType, isNullable)
+            };
         }
         #endregion
     }

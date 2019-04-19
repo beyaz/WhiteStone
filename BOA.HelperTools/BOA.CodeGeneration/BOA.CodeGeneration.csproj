@@ -279,7 +279,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\Dao\IndexInfoDao.cs" />
+    <Compile Include="Contracts\Dao\TableInfoDao.cs" />
     <Compile Include="Contracts\IndexInfo.cs" />
+    <Compile Include="Contracts\TableInfo.cs" />
     <Compile Include="Generators\InsertStructuredCs.cs" />
     <Compile Include="Generators\InsertStructuredSql.cs" />
     <Compile Include="Model\Confiuration.cs" />
@@ -331,7 +333,7 @@
     <Compile Include="Model\CustomSelectMethod.cs" />
     <Compile Include="Model\Where.cs" />
     <Compile Include="Model\TableConfig.cs" />
-    <Compile Include="Services\DataAccess.cs" />
+    <Compile Include="Contracts\Dao\DataAccess.cs" />
     <Compile Include="Generators\CSharpFileOutputGenerator.cs" />
     <Compile Include="Services\NamingConvention.cs" />
     <Compile Include="Generators\BusinessClassGenerator.cs" />
@@ -347,11 +349,9 @@
     <Compile Include="Generators\WriterBase.cs" />
     <Compile Include="Generators\InsertCs.cs" />
     <Compile Include="Generators\SelectByColumnsCs.cs" />
-    <Compile Include="Model\ColumnInfo.cs" />
     <Compile Include="Model\NamingModel.cs" />
-    <Compile Include="Model\TableInfo.cs" />
     <Compile Include="Common\Names.cs" />
-    <Compile Include="Services\TableInfoGeneratorFromMsSql.cs" />
+    <Compile Include="Contracts\Dao\TableInfoGeneratorFromMsSql.cs" />
     <Compile Include="Common\SqlDataType.cs" />
     <None Include="package.nuspec" />
     <None Include="packages.config" />

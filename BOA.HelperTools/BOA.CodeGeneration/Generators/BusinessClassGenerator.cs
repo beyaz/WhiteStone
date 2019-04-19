@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.CodeGeneration.Model;
+using TableInfo = BOA.CodeGeneration.Contracts.TableInfo;
 
 namespace BOA.CodeGeneration.Generators
 {

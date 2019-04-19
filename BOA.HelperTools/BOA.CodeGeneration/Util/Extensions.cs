@@ -6,6 +6,7 @@ using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
 using Mono.Cecil;
+using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
 namespace BOA.CodeGeneration.Util
 {
@@ -49,7 +50,7 @@ namespace BOA.CodeGeneration.Util
         ///     Where column not processed.@SearchValue" + ReflectionHelper.ExportObjectToCSharpCode(where) + Environment.NewLine +
         ///     "DataSource:" + ReflectionHelper.ExportObjectToCSharpCode(columns)
         /// </exception>
-        public static ColumnInfo FindColumn(this Where where, IReadOnlyList<ColumnInfo> columns)
+        public static Contracts.ColumnInfo FindColumn(this Where where, IReadOnlyList<Contracts.ColumnInfo> columns)
         {
             var c = columns.FirstOrDefault(x => x.ColumnName == where.Equal);
 

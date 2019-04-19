@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
+using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {
@@ -106,7 +107,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        protected virtual IEnumerable<ColumnInfo> GetUpdateColumns()
+        protected virtual IEnumerable<Contracts.ColumnInfo> GetUpdateColumns()
         {
             return Context.Table.Columns.Where(c => !(
                                                    c.ColumnName == Names.UserName ||

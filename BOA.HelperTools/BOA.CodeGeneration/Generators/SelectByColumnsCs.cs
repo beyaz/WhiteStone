@@ -4,6 +4,7 @@ using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
+using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {
@@ -73,7 +74,7 @@ namespace BOA.CodeGeneration.Generators
             }
         }
 
-        ColumnInfo SelectOnlySpecificColumn
+        Contracts.ColumnInfo SelectOnlySpecificColumn
         {
             get
             {

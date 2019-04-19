@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
+using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {
@@ -19,7 +20,7 @@ namespace BOA.CodeGeneration.Generators
 
         protected virtual string NameOfSqlProcedureUpdate => Context.Naming.NameOfSqlProcedureUpdate;
 
-        protected virtual IEnumerable<ColumnInfo> ProcedureParameters
+        protected virtual IEnumerable<Contracts.ColumnInfo> ProcedureParameters
         {
             get
             {
@@ -35,7 +36,7 @@ namespace BOA.CodeGeneration.Generators
             }
         }
 
-        protected virtual IEnumerable<ColumnInfo> WhereColumns => Context.Table.PrimaryKeyColumns;
+        protected virtual IEnumerable<Contracts.ColumnInfo> WhereColumns => Context.Table.PrimaryKeyColumns;
 
         bool CanGenerateSetNoCountOn
         {
@@ -50,7 +51,7 @@ namespace BOA.CodeGeneration.Generators
             }
         }
 
-        IReadOnlyList<ColumnInfo> Columns => Context.Table.Columns;
+        IReadOnlyList<Contracts.ColumnInfo> Columns => Context.Table.Columns;
 
         string DatabaseTableFullPath => Context.Config.DatabaseTableFullPath;
 

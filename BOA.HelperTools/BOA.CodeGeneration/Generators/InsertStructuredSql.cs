@@ -4,6 +4,8 @@ using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
+using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
+using TableInfo = BOA.CodeGeneration.Contracts.TableInfo;
 
 namespace BOA.CodeGeneration.Generators
 {
@@ -28,7 +30,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Properties
-        IReadOnlyList<ColumnInfo> Columns => Context.Table.Columns;
+        IReadOnlyList<Contracts.ColumnInfo> Columns => Context.Table.Columns;
 
         string DatabaseTableFullPath => Context.Config.DatabaseTableFullPath;
 
@@ -122,7 +124,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        List<ColumnInfo> GetInsertValuesColumns()
+        List<Contracts.ColumnInfo> GetInsertValuesColumns()
         {
             return Columns.Where(c => !(Names.GenericUpdateInformationColumns.Contains(c.ColumnName) ||
                                         c.IsIdentity ||
@@ -131,7 +133,7 @@ namespace BOA.CodeGeneration.Generators
                           .ToList();
         }
 
-        List<ColumnInfo> GetProcedureParameterColumns(TableInfo table, IReadOnlyList<ColumnInfo> columns)
+        List<Contracts.ColumnInfo> GetProcedureParameterColumns(TableInfo table, IReadOnlyList<ColumnInfo> columns)
         {
             columns = columns ?? Columns;
 

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Data;
-using System.Linq;
+﻿using System.Linq;
+using BOA.CodeGeneration.Contracts.Dao;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
+using TableInfo = BOA.CodeGeneration.Contracts.TableInfo;
 
 namespace BOA.CodeGeneration.Services
 {
@@ -75,7 +75,7 @@ namespace BOA.CodeGeneration.Services
             }
             else
             {
-                Context.Table = new TableInfo();
+                Context.Table = new Contracts.TableInfo();
             }
 
             Context.Naming = naming;
@@ -87,56 +87,27 @@ namespace BOA.CodeGeneration.Services
         {
             var tableConfig = Context.Config;
 
-            using (var dal = new DataAccess(tableConfig.GetDatabase()))
+            using (var database = tableConfig.GetDatabase())
             {
-                if (!dal.TableExists(tableConfig.SchemaName, TableNameInDatabase))
+                var dao = new TableInfoDao
                 {
-                    throw new ArgumentException("TableNotFoundInDatabase:" + TableNameInDatabase);
-                }
+                    Database = database
+                };
 
-                var table = dal.GetTableInformation(tableConfig.DatabaseName, tableConfig.SchemaName, TableNameInDatabase);
+                var tableInfo = dao.GetInfo(tableConfig.DatabaseName, tableConfig.SchemaName, TableNameInDatabase);
 
-                if (table.Rows.Count <= 0)
+                if (tableConfig.ExcludeColumns.HasValue())
                 {
-                    throw new ArgumentException("TableNotFoundInDatabase:" + TableNameInDatabase);
+                    var columnNames = tableConfig.ExcludeColumns.Split(',');
+
+                    tableInfo.Columns = tableInfo.Columns.Where(x => !columnNames.Contains(x.ColumnName)).ToList();
+
                 }
-
-                var primaryKeyColumns = dal.GetPrimaryColumns(tableConfig.SchemaName, TableNameInDatabase);
-
-                var tableInfo = TableInfoGeneratorFromMsSql.CreateTable(table);
-
-                tableInfo.ExcludeColumns(tableConfig.ExcludeColumns);
-
-                foreach (DataRow r in primaryKeyColumns.Rows)
-                {
-                    var indexName = r[0].ToString().Trim();
-
-                    (from c in tableInfo.Columns where c.ColumnName == indexName select c).First().IsPrimaryKey = true;
-                }
-
-                #region Update comments
-                foreach (var c in tableInfo.Columns)
-                {
-                    c.Comment = dal.GetColumnComment(tableConfig.SchemaName, TableNameInDatabase, c.ColumnName);
-                }
+                
 
                 return tableInfo;
-                #endregion
             }
         }
         #endregion
-
-        //    {
-        //    if (value == null)
-        //{
-
-        //static string HungarianNotation(string value)
-        //        throw new ArgumentNullException(nameof(value));
-        //    }
-
-        //    value = value.ToLowerEN();
-        //    value = value.First().ToString().ToUpperEN() + value.Substring(1);
-        //    return value;
-        //}
     }
 }

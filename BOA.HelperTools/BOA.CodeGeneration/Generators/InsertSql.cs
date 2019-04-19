@@ -3,6 +3,7 @@ using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
+using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {
@@ -29,7 +30,7 @@ namespace BOA.CodeGeneration.Generators
             }
         }
 
-        IReadOnlyList<ColumnInfo> Columns => Context.Table.Columns;
+        IReadOnlyList<Contracts.ColumnInfo> Columns => Context.Table.Columns;
 
         string DatabaseTableFullPath => Context.Config.DatabaseTableFullPath;
 
@@ -41,7 +42,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Public Methods
-        public static List<ColumnInfo> GetProcedureParameterColumns(IReadOnlyList<ColumnInfo> columns)
+        public static List<Contracts.ColumnInfo> GetProcedureParameterColumns(IReadOnlyList<Contracts.ColumnInfo> columns)
         {
             var returnList = new List<ColumnInfo>();
 
