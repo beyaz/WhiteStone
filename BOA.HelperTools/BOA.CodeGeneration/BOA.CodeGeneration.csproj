@@ -278,15 +278,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\ColumnInfo.cs" />
     <Compile Include="Contracts\Dao\IndexInfoDao.cs" />
     <Compile Include="Contracts\Dao\TableInfoDao.cs" />
     <Compile Include="Contracts\IndexInfo.cs" />
     <Compile Include="Contracts\TableInfo.cs" />
     <Compile Include="Contracts\Transforms\Contract.cs" />
     <Compile Include="Contracts\Transforms\ContractBodyDbMembers.cs" />
+    <Compile Include="Contracts\Transforms\GetDeleteParametersMethod.cs" />
+    <Compile Include="Contracts\Transforms\GetUpdateParametersMethod.cs" />
     <Compile Include="Contracts\Transforms\GetInsertParametersMethod.cs" />
-    <Compile Include="Contracts\Transforms\InsertSql.cs" />
+    <Compile Include="Contracts\Transforms\GetInsertSqlMethod.cs" />
+    <Compile Include="Contracts\Transforms\GetDeleteSqlMethod.cs" />
+    <Compile Include="Contracts\Transforms\GetUpdateSqlMethod.cs" />
+    <Compile Include="Contracts\Transforms\InsertHelperHelper.cs" />
     <Compile Include="Contracts\Transforms\Names.cs" />
+    <Compile Include="Contracts\Transforms\ParameterHelper.cs" />
+    <Compile Include="Contracts\Transforms\ReadContractMethod.cs" />
+    <Compile Include="Contracts\Transforms\UpdateHelper.cs" />
     <Compile Include="Generators\InsertStructuredCs.cs" />
     <Compile Include="Generators\InsertStructuredSql.cs" />
     <Compile Include="Model\Confiuration.cs" />

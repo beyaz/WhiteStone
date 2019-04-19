@@ -4,7 +4,7 @@ using BOA.Common.Helpers;
 
 namespace BOA.CodeGeneration.Contracts.Transforms
 {
-    class GetInsertParametersMethod
+    class GetDeleteSqlMethod
     {
         #region Public Properties
         public TableInfo TableInfo { get; set; }
@@ -15,22 +15,19 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationInfo}.GetInsertParameters(ExecutionScope context)");
+            sb.AppendLine($"string {Names.ISupportDmlOperationInfo}.GetDeleteSql()");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("return new List<Parameter>");
-            sb.AppendLine("{");
+            sb.AppendLine("return @\"");
             sb.PaddingCount++;
-
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetColumnsWillBeInsert().Select(ParameterHelper.ConvertToParameterDeclarationCode)));
-            sb.AppendLine();
-
+            sb.AppendLine($"DELETE FROM [{TableInfo.SchemaName}].[{TableInfo.TableName}] WHERE {string.Join(" , ", TableInfo.GetWhereParameters().Select(c => $"[{c.ColumnName}] = @{c.ColumnName}"))}");
             sb.PaddingCount--;
-            sb.AppendLine("};");
+            sb.AppendLine("\";");
 
             sb.PaddingCount--;
             sb.AppendLine("}");
+            sb.PaddingCount++;
 
             return sb.ToString();
         }

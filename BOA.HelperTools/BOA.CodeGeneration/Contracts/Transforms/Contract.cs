@@ -43,8 +43,34 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine();
             
             sb.AppendLine();
-            sb.AppendAll(new InsertSql{TableInfo = TableInfo}.ToString());
+            sb.AppendAll(new GetInsertSqlMethod{TableInfo = TableInfo}.ToString());
             sb.AppendLine();
+
+
+            sb.AppendLine();
+            sb.AppendAll(new GetUpdateParametersMethod{TableInfo = TableInfo}.ToString());
+            sb.AppendLine();
+
+            sb.AppendLine();
+            sb.AppendAll(new GetUpdateSqlMethod{TableInfo = TableInfo}.ToString());
+            sb.AppendLine();
+
+
+            // Delete
+            sb.AppendLine();
+            sb.AppendAll(new GetDeleteParametersMethod{TableInfo = TableInfo}.ToString());
+            sb.AppendLine();
+
+            sb.AppendLine();
+            sb.AppendAll(new GetDeleteSqlMethod{TableInfo = TableInfo}.ToString());
+            sb.AppendLine();
+
+
+            sb.AppendLine();
+            sb.AppendAll(new ReadContractMethod{TableInfo = TableInfo}.ToString());
+            sb.AppendLine();
+            
+
 
             sb.AppendLine();
             sb.AppendLine($"Databases {Names.ISupportDmlOperationInfo}.GetDatabase()");
