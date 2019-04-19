@@ -282,6 +282,7 @@
     <Compile Include="Contracts\Dao\TableInfoDao.cs" />
     <Compile Include="Contracts\IndexInfo.cs" />
     <Compile Include="Contracts\TableInfo.cs" />
+    <Compile Include="Contracts\Transforms\ContractBodyDbMembers.cs" />
     <Compile Include="Generators\InsertStructuredCs.cs" />
     <Compile Include="Generators\InsertStructuredSql.cs" />
     <Compile Include="Model\Confiuration.cs" />

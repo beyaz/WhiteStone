@@ -6,6 +6,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.CodeGeneration.Contracts.Dao
 {
+    public class BOACardDatabase : SqlDatabase
+    {
+        public BOACardDatabase():base($"Server={@"srvxdev\zumrut"};Database={@"BOACard"};Trusted_Connection=True;")
+        {
+            
+        }
+    }
+
     [TestClass]
     public class IndexInfoDaoTest
     {
@@ -13,9 +21,9 @@ namespace BOA.CodeGeneration.Contracts.Dao
         [TestMethod]
         public void Should_evaluates_IndexInformation_by_table_name()
         {
-            var connectionString = string.Format("Server={0};Database={1};Trusted_Connection=True;", @"srvxdev\zumrut", "BOACard");
+           
 
-            var dao = new IndexInfoDao {Database = new SqlDatabase(connectionString)};
+            var dao = new IndexInfoDao {Database = new BOACardDatabase()};
 
             var information = dao.GetIndexInformation("CRD", "CARD_MASTER");
 

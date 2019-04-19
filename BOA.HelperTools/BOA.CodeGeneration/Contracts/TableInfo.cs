@@ -11,6 +11,11 @@ namespace BOA.CodeGeneration.Contracts
     {
         #region Public Properties
         /// <summary>
+        ///     Gets or sets the name of the catalog.
+        /// </summary>
+        public string CatalogName { get; set; }
+
+        /// <summary>
         ///     Gets or sets the columns.
         /// </summary>
         public IReadOnlyList<ColumnInfo> Columns { get; set; }
@@ -29,6 +34,16 @@ namespace BOA.CodeGeneration.Contracts
         ///     Gets or sets the primary key columns.
         /// </summary>
         public IReadOnlyList<ColumnInfo> PrimaryKeyColumns { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the name of the schema.
+        /// </summary>
+        public string SchemaName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the name of the table.
+        /// </summary>
+        public string TableName { get; set; }
         #endregion
     }
 

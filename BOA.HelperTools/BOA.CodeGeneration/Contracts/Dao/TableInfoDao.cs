@@ -2,7 +2,6 @@
 using System.Data;
 using System.Linq;
 using BOA.CodeGeneration.Contracts.DaoHelper;
-using BOA.CodeGeneration.Services;
 using BOA.DatabaseAccess;
 
 namespace BOA.CodeGeneration.Contracts.Dao
@@ -48,6 +47,9 @@ namespace BOA.CodeGeneration.Contracts.Dao
 
                 return new TableInfo
                 {
+                    CatalogName       = tableCatalog,
+                    SchemaName        = schema,
+                    TableName         = tableName,
                     Columns           = columns,
                     IdentityColumn    = columns.FirstOrDefault(c => c.IsIdentity),
                     HasIdentityColumn = columns.Any(c => c.IsIdentity),
