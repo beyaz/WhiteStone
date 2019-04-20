@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BOA.CodeGeneration.Contracts
 {
@@ -13,6 +14,35 @@ namespace BOA.CodeGeneration.Contracts
         public bool                  IsPrimaryKey   { get; set; }
         public bool                  IsUnique       { get; set; }
         public string                Name           { get; set; }
+        #endregion
+
+        #region Public Methods
+        public override string ToString()
+        {
+            var properties = new List<string>();
+
+            if (IsPrimaryKey)
+            {
+                properties.Add("PrimaryKey");
+            }
+
+            if (IsUnique)
+            {
+                properties.Add("Unique");
+            }
+
+            if (IsClustered)
+            {
+                properties.Add("Clustered");
+            }
+
+            if (IsNonClustered)
+            {
+                properties.Add("NonClustered");
+            }
+
+            return $"[ {string.Join(" + ", properties)} ] index on {string.Join(" and ", ColumnNames.Select(x=>'"'+x+'"'))}";
+        }
         #endregion
     }
 }

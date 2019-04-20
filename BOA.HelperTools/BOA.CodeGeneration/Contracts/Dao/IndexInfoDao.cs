@@ -85,6 +85,8 @@ SELECT '[' + s.NAME + '].[' + o.NAME + ']' AS 'table_name'
                 });
             }
 
+            reader.Close();
+
             return items;
         }
         #endregion

@@ -1,4 +1,5 @@
-﻿using BOA.Common.Helpers;
+﻿using System.Collections.Generic;
+using BOA.Common.Helpers;
 
 namespace BOA.CodeGeneration.Contracts.Transforms
 {
@@ -7,6 +8,23 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         public TableInfo TableInfo { get; set; }
 
         string NamespaceFullName => $"BOA.Types.Kernel.Card.{TableInfo.SchemaName}";
+
+        bool IsSupportGetAll => TableInfo.SchemaName == "PRM";
+
+        List<string> GetInterfaces()
+        {
+            var interfaces = new List<string>
+            {
+                Names.ISupportDmlOperationInfo
+            };
+            
+            if (IsSupportGetAll)
+            {
+                interfaces.Add(Names.ISupportDmlOperationGetAll);
+            }
+
+            return interfaces;
+        }
 
         public override string ToString()
         {
@@ -25,13 +43,19 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 
            
 
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///     Entity contract for table {TableInfo.SchemaName}.{TableInfo.TableName}");
-            sb.AppendLine("/// </summary>");
+            WriteMainComment(sb);
+
             sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public class {TableInfo.TableName.ToContractName()}Contract : CardContractBase , {Names.ISupportDmlOperationInfo}" );
+            sb.AppendLine($"public sealed class {TableInfo.TableName.ToContractName()}Contract : CardContractBase , {string.Join(", ",GetInterfaces())}" );
             sb.AppendLine("{");
             sb.PaddingCount++;
+
+
+            WriteMainComment(sb);
+            sb.AppendLine("// ReSharper disable once EmptyConstructor");
+            sb.AppendLine($"public {TableInfo.TableName.ToContractName()}Contract()");
+            sb.AppendLine("{");
+            sb.AppendLine("}");
 
             sb.AppendAll(new ContractBodyDbMembers{Columns = TableInfo.Columns}.ToString());
             sb.AppendLine();
@@ -69,8 +93,14 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine();
             sb.AppendAll(new ReadContractMethod{TableInfo = TableInfo}.ToString());
             sb.AppendLine();
-            
 
+
+            if (IsSupportGetAll)
+            {
+                sb.AppendLine();
+                sb.AppendAll(new GetAllSqlMethod{TableInfo = TableInfo}.ToString());
+                sb.AppendLine();
+            }
 
             sb.AppendLine();
             sb.AppendLine($"Databases {Names.ISupportDmlOperationInfo}.GetDatabase()");
@@ -89,6 +119,19 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine("}");
 
             return sb.ToString();
+        }
+
+        void WriteMainComment(PaddedStringBuilder sb)
+        {
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///     Entity contract for table {TableInfo.SchemaName}.{TableInfo.TableName}");
+
+            foreach (var indexInfo in TableInfo.IndexInfoList)
+            {
+                sb.AppendLine($"///     <para>{indexInfo}</para>");
+            }
+
+            sb.AppendLine("/// </summary>");
         }
     }
 }

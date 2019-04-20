@@ -21,6 +21,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         public const string ExecutionScope = nameof(ExecutionScope);
 
         public const string ISupportDmlOperationInfo = nameof(ISupportDmlOperationInfo);
+        public const string ISupportDmlOperationGetAll = nameof(ISupportDmlOperationGetAll);
         
         
         #endregion

@@ -417,7 +417,7 @@ namespace BOA.CodeGeneration.Generators
         /// <exception cref="System.NotImplementedException">ProcedureNotFound: " + schemaName + "." + procedureName</exception>
         string GetProcedureDefinitionScript()
         {
-            var dal = new DataAccess(Model.Database);
+            var dal = new DataAccess {Database = Model.Database};
 
             var schemaName    = Model.ProcedureFullName.Split('.')[0];
             var procedureName = Model.ProcedureFullName.Split('.')[1];
@@ -450,7 +450,7 @@ namespace BOA.CodeGeneration.Generators
 
             if (model.Database == null)
             {
-                model.Database = new DataAccess(Context.Config.GetDatabase()).Database;
+                model.Database = Context.Config.GetDatabase();
             }
 
             if (model.ProcedureDefinitionScript == null)

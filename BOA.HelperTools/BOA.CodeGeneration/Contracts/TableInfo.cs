@@ -44,6 +44,8 @@ namespace BOA.CodeGeneration.Contracts
         ///     Gets or sets the name of the table.
         /// </summary>
         public string TableName { get; set; }
+
+        public IReadOnlyList<IndexInfo> IndexInfoList { get; set; }
         #endregion
     }
 }

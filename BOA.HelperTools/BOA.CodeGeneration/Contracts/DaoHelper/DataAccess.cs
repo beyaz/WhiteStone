@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
@@ -7,32 +6,13 @@ using WhiteStone.Helpers;
 
 namespace BOA.CodeGeneration.Contracts.DaoHelper
 {
-    public sealed class DataAccess : IDisposable
+    public sealed class DataAccess
     {
-        #region Constructors
-        public DataAccess(string serverName, string catalog)
-        {
-            var connection = "Server={0};Database={1};Trusted_Connection=True;".FormatCode(serverName, catalog);
-
-            Database = new SqlDatabase(connection);
-        }
-
-        public DataAccess(IDatabase database)
-        {
-            Database = database;
-        }
-        #endregion
-
         #region Public Properties
-        public IDatabase Database { get; }
+        public IDatabase Database { get; set; }
         #endregion
 
         #region Public Methods
-        public void Dispose()
-        {
-            Database.Dispose();
-        }
-
         public string GetColumnComment(string schemaName, string tableName, string columnName)
         {
             var sql = Database;
