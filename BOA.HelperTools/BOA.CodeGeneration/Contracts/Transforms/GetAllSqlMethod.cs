@@ -4,11 +4,9 @@ using BOA.Common.Helpers;
 
 namespace BOA.CodeGeneration.Contracts.Transforms
 {
-    class GetAllSqlMethod
+    class GetAllSqlMethod:GeneratorBase
     {
-        #region Public Properties
-        public TableInfo TableInfo { get; set; }
-        #endregion
+        
 
         #region Public Methods
         public override string ToString()

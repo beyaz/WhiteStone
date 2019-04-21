@@ -1,41 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using BOA.Common.Helpers;
 
 namespace BOA.CodeGeneration.Contracts.Transforms
 {
-    public class Contract
+    public class Contract : GeneratorBase
     {
-        public TableInfo TableInfo { get; set; }
-
-        string NamespaceFullName => $"BOA.Types.Kernel.Card.{TableInfo.SchemaName}";
-
-        bool IsSupportGetAll => TableInfo.SchemaName == "PRM";
-
-        bool IsSupportSave => TableInfo.PrimaryKeyColumns.Any();
-
-        List<string> GetInterfaces()
-        {
-            var interfaces = new List<string>();
-
-            if (IsSupportSave)
-            {
-                interfaces.Add(Names.ISupportDmlOperationSave);
-            }
-
-            if (IsSupportSave)
-            {
-                interfaces.Add(Names.ISupportDmlOperationDelete);
-            }
-
-            if (IsSupportGetAll)
-            {
-                interfaces.Add(Names.ISupportDmlOperationGetAll);
-            }
-
-            return interfaces;
-        }
-
+        #region Public Methods
         public override string ToString()
         {
             var sb = new PaddedStringBuilder();
@@ -47,19 +17,16 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine("using BOA.Types.Kernel.Card.DatabaseIntegration;");
 
             sb.AppendLine();
-            sb.AppendLine("namespace " + NamespaceFullName);
+            sb.AppendLine("namespace " + Data.NamespaceFullName);
             sb.AppendLine("{");
             sb.PaddingCount++;
-
-           
 
             WriteMainComment(sb);
 
             sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public sealed class {TableInfo.TableName.ToContractName()}Contract : CardContractBase , {string.Join(", ",GetInterfaces())}" );
+            sb.AppendLine($"public sealed class {TableInfo.TableName.ToContractName()}Contract : CardContractBase , {string.Join(", ", GetInterfaces())}");
             sb.AppendLine("{");
             sb.PaddingCount++;
-
 
             WriteMainComment(sb);
             sb.AppendLine("// ReSharper disable once EmptyConstructor");
@@ -67,48 +34,44 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine("{");
             sb.AppendLine("}");
 
-            sb.AppendAll(new ContractBodyDbMembers{Columns = TableInfo.Columns}.ToString());
+            sb.AppendAll(new ContractBodyDbMembers {Columns = TableInfo.Columns}.ToString());
             sb.AppendLine();
 
             sb.AppendLine();
             sb.AppendLine($"#region {Names.ISupportDmlOperation}");
             sb.AppendLine();
-            sb.AppendAll(new GetInsertParametersMethod{TableInfo = TableInfo}.ToString());
-            sb.AppendLine();
-            
-            sb.AppendLine();
-            sb.AppendAll(new GetInsertSqlMethod{TableInfo = TableInfo}.ToString());
-            sb.AppendLine();
-
-
-            sb.AppendLine();
-            sb.AppendAll(new GetUpdateParametersMethod{TableInfo = TableInfo}.ToString());
+            sb.AppendAll(Create<GetInsertParametersMethod>().ToString());
             sb.AppendLine();
 
             sb.AppendLine();
-            sb.AppendAll(new GetUpdateSqlMethod{TableInfo = TableInfo}.ToString());
+            sb.AppendAll(Create<GetInsertSqlMethod>().ToString());
             sb.AppendLine();
 
+            sb.AppendLine();
+            sb.AppendAll(Create<GetUpdateParametersMethod>().ToString());
+            sb.AppendLine();
+
+            sb.AppendLine();
+            sb.AppendAll(Create<GetUpdateSqlMethod>().ToString());
+            sb.AppendLine();
 
             // Delete
             sb.AppendLine();
-            sb.AppendAll(new GetDeleteParametersMethod{TableInfo = TableInfo}.ToString());
+            sb.AppendAll(Create<GetDeleteParametersMethod>().ToString());
             sb.AppendLine();
 
             sb.AppendLine();
-            sb.AppendAll(new GetDeleteSqlMethod{TableInfo = TableInfo}.ToString());
+            sb.AppendAll(Create<GetDeleteSqlMethod>().ToString());
             sb.AppendLine();
 
-
             sb.AppendLine();
-            sb.AppendAll(new ReadContractMethod{TableInfo = TableInfo}.ToString());
+            sb.AppendAll(Create<ReadContractMethod>().ToString());
             sb.AppendLine();
 
-
-            if (IsSupportGetAll)
+            if (Data.IsSupportGetAll)
             {
                 sb.AppendLine();
-                sb.AppendAll(new GetAllSqlMethod{TableInfo = TableInfo}.ToString());
+                sb.AppendAll(Create<GetAllSqlMethod>().ToString());
                 sb.AppendLine();
             }
 
@@ -124,11 +87,34 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-
             sb.PaddingCount--;
             sb.AppendLine("}");
 
             return sb.ToString();
+        }
+        #endregion
+
+        #region Methods
+        List<string> GetInterfaces()
+        {
+            var interfaces = new List<string>();
+
+            if (Data.IsSupportSave)
+            {
+                interfaces.Add(Names.ISupportDmlOperationSave);
+            }
+
+            if (Data.IsSupportSave)
+            {
+                interfaces.Add(Names.ISupportDmlOperationDelete);
+            }
+
+            if (Data.IsSupportGetAll)
+            {
+                interfaces.Add(Names.ISupportDmlOperationGetAll);
+            }
+
+            return interfaces;
         }
 
         void WriteMainComment(PaddedStringBuilder sb)
@@ -143,5 +129,6 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 
             sb.AppendLine("/// </summary>");
         }
+        #endregion
     }
 }
