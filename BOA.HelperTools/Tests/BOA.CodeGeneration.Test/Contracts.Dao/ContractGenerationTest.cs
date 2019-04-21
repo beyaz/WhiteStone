@@ -25,7 +25,7 @@ namespace BOA.CodeGeneration.Contracts.Dao
                     TableInfo = tableInfo
                 };
 
-                File.WriteAllText("d:\\A.cs", contract.ToString());
+                File.WriteAllText(@"D:\work\BOA.Kernel\Dev\BOA.Kernel.Card\Test\BOA.Process.Kernel.Card.Test\AddressTypeContract.cs", contract.ToString());
             }
         }
 
