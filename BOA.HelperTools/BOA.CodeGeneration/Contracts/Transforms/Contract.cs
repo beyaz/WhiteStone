@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BOA.Common.Helpers;
 
 namespace BOA.CodeGeneration.Contracts.Transforms
@@ -11,13 +12,22 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 
         bool IsSupportGetAll => TableInfo.SchemaName == "PRM";
 
+        bool IsSupportSave => TableInfo.PrimaryKeyColumns.Any();
+
         List<string> GetInterfaces()
         {
-            var interfaces = new List<string>
+            var interfaces = new List<string>();
+
+            if (IsSupportSave)
             {
-                Names.ISupportDmlOperationInfo
-            };
-            
+                interfaces.Add(Names.ISupportDmlOperationSave);
+            }
+
+            if (IsSupportSave)
+            {
+                interfaces.Add(Names.ISupportDmlOperationDelete);
+            }
+
             if (IsSupportGetAll)
             {
                 interfaces.Add(Names.ISupportDmlOperationGetAll);
@@ -61,7 +71,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine();
 
             sb.AppendLine();
-            sb.AppendLine($"#region {Names.ISupportDmlOperationInfo}");
+            sb.AppendLine($"#region {Names.ISupportDmlOperation}");
             sb.AppendLine();
             sb.AppendAll(new GetInsertParametersMethod{TableInfo = TableInfo}.ToString());
             sb.AppendLine();
@@ -103,7 +113,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             }
 
             sb.AppendLine();
-            sb.AppendLine($"Databases {Names.ISupportDmlOperationInfo}.GetDatabase()");
+            sb.AppendLine($"Databases {Names.ISupportDmlOperation}.GetDatabase()");
             sb.AppendLine("{");
             sb.AppendLine($"    return Databases.{TableInfo.CatalogName};");
             sb.AppendLine("}");

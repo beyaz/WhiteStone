@@ -15,7 +15,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationInfo}.GetUpdateParameters(ExecutionScope context)");
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSave}.GetUpdateParameters(ExecutionScope context)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 

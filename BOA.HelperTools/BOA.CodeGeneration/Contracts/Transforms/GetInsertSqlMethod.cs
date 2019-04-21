@@ -15,7 +15,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"string {Names.ISupportDmlOperationInfo}.GetInsertSql()");
+            sb.AppendLine($"string {Names.ISupportDmlOperationSave}.GetInsertSql()");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
