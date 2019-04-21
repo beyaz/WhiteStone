@@ -1,4 +1,6 @@
-﻿namespace BOA.CodeGeneration.Contracts.Transforms
+﻿using System.Collections.Generic;
+
+namespace BOA.CodeGeneration.Contracts.Transforms
 {
     public class GeneratorData
     {
@@ -10,6 +12,8 @@
         public string    NamespaceFullName { get; set; }
         public TableInfo TableInfo         { get; set; }
         public string DatabaseEnumName { get; set; }
+        public IReadOnlyList<IndexIdentifier> IndexIdentifiers { get; set; }
+        public bool IsSupportSelectByKey { get; set; }
         #endregion
     }
 }

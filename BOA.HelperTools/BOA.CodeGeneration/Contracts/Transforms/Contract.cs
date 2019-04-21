@@ -33,9 +33,18 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine($"public {TableInfo.TableName.ToContractName()}Contract()");
             sb.AppendLine("{");
             sb.AppendLine("}");
+            sb.AppendLine();
+
 
             sb.AppendAll(new ContractBodyDbMembers {Columns = TableInfo.Columns}.ToString());
             sb.AppendLine();
+
+
+            sb.AppendLine();
+            sb.AppendAll(Create<IndexIdentifiers>().ToString());
+            sb.AppendLine();
+
+            
 
             sb.AppendLine();
             sb.AppendLine($"#region {Names.ISupportDmlOperation}");
@@ -54,6 +63,16 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine();
             sb.AppendAll(Create<GetUpdateSqlMethod>().ToString());
             sb.AppendLine();
+
+
+            if (Data.IsSupportSelectByKey)
+            {
+                sb.AppendLine();
+                sb.AppendAll(Create<SelectByKeys>().ToString());
+                sb.AppendLine();
+            }
+         
+
 
             // Delete
             sb.AppendLine();
@@ -114,17 +133,24 @@ namespace BOA.CodeGeneration.Contracts.Transforms
                 interfaces.Add(Names.ISupportDmlOperationGetAll);
             }
 
+            if (Data.IsSupportSelectByKey)
+            {
+                interfaces.Add(Names.ISupportDmlOperationSelectByKey);
+            }
+
             return interfaces;
         }
+
+        
 
         void WriteMainComment(PaddedStringBuilder sb)
         {
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///     Entity contract for table {TableInfo.SchemaName}.{TableInfo.TableName}");
+            sb.AppendLine($"///{PaddingForComment}Entity contract for table {TableInfo.SchemaName}.{TableInfo.TableName}");
 
             foreach (var indexInfo in TableInfo.IndexInfoList)
             {
-                sb.AppendLine($"///     <para>{indexInfo}</para>");
+                sb.AppendLine($"///{PaddingForComment}<para>{indexInfo}</para>");
             }
 
             sb.AppendLine("/// </summary>");

@@ -295,6 +295,8 @@
     <Compile Include="Contracts\Transforms\GetInsertSqlMethod.cs" />
     <Compile Include="Contracts\Transforms\GetDeleteSqlMethod.cs" />
     <Compile Include="Contracts\Transforms\GetUpdateSqlMethod.cs" />
+    <Compile Include="Contracts\Transforms\SelectByKeys.cs" />
+    <Compile Include="Contracts\Transforms\IndexIdentifiers.cs" />
     <Compile Include="Contracts\Transforms\InsertHelperHelper.cs" />
     <Compile Include="Contracts\Transforms\Names.cs" />
     <Compile Include="Contracts\Transforms\ParameterHelper.cs" />

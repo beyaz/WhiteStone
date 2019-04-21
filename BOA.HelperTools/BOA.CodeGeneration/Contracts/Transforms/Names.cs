@@ -27,6 +27,8 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         public const string ISupportDmlOperationSave = nameof(ISupportDmlOperationSave);
         public const string ISupportDmlOperationDelete = nameof(ISupportDmlOperationDelete);
         public const string ISupportDmlOperationGetAll = nameof(ISupportDmlOperationGetAll);
+        public const string ISupportDmlOperationSelectByKey = nameof(ISupportDmlOperationSelectByKey);
+        public const string ISupportDmlOperationSelectByUniqueIndex = nameof(ISupportDmlOperationSelectByUniqueIndex);
 
         
         

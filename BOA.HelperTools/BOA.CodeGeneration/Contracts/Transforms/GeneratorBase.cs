@@ -2,6 +2,7 @@
 {
     public class GeneratorBase
     {
+        public const string PaddingForComment = "     ";
         #region Public Properties
         public GeneratorData Data      { get; set; }
         public TableInfo     TableInfo => Data.TableInfo;
