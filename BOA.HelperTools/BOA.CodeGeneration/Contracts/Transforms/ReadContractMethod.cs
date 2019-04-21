@@ -38,7 +38,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
                 return $"{c.ColumnName.ToContractName()}= DataReaderUtil.{c.SqlReaderMethod}(DataReaderUtil.ReadValue(reader, \"{c.ColumnName}\")) == \"1\";";
             }
 
-            return $"{c.ColumnName.ToContractName()}= DataReaderUtil.{c.SqlReaderMethod}(DataReaderUtil.ReadValue(reader, \"{c.ColumnName}\"));";
+            return $"{c.ColumnName.ToContractName()} = DataReaderUtil.{c.SqlReaderMethod}(DataReaderUtil.ReadValue(reader, \"{c.ColumnName}\"));";
         }
         #endregion
     }

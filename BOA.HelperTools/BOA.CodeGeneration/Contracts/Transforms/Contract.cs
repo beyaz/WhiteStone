@@ -24,7 +24,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             WriteMainComment(sb);
 
             sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public sealed class {TableInfo.TableName.ToContractName()}Contract : CardContractBase , {string.Join(", ", GetInterfaces())}");
+            sb.AppendLine($"public sealed class {TableInfo.TableName.ToContractName()}Contract : CardContractBase , {string.Join(", ", Data.ContractInterfaces)}");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -72,6 +72,12 @@ namespace BOA.CodeGeneration.Contracts.Transforms
                 sb.AppendLine();
             }
          
+            if (Data.IsSupportSelectByUniqueIndex)
+            {
+                sb.AppendLine();
+                sb.AppendAll(Create<SelectByUniqueIndex>().ToString());
+                sb.AppendLine();
+            }
 
 
             // Delete
@@ -114,32 +120,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         #endregion
 
         #region Methods
-        List<string> GetInterfaces()
-        {
-            var interfaces = new List<string>();
-
-            if (Data.IsSupportSave)
-            {
-                interfaces.Add(Names.ISupportDmlOperationSave);
-            }
-
-            if (Data.IsSupportSave)
-            {
-                interfaces.Add(Names.ISupportDmlOperationDelete);
-            }
-
-            if (Data.IsSupportGetAll)
-            {
-                interfaces.Add(Names.ISupportDmlOperationGetAll);
-            }
-
-            if (Data.IsSupportSelectByKey)
-            {
-                interfaces.Add(Names.ISupportDmlOperationSelectByKey);
-            }
-
-            return interfaces;
-        }
+        
 
         
 

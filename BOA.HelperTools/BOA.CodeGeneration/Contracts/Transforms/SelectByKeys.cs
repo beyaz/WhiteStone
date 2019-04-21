@@ -43,7 +43,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine("WHERE");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.PrimaryKeyColumns.Select(c => $"[{c.ColumnName}] = @{c.ColumnName}")));
+            sb.AppendAll(string.Join(" AND " + Environment.NewLine, TableInfo.PrimaryKeyColumns.Select(c => $"[{c.ColumnName}] = @{c.ColumnName}")));
             sb.AppendLine();
 
             sb.PaddingCount--;

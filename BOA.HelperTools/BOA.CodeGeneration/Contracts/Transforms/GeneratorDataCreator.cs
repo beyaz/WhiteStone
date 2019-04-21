@@ -15,45 +15,78 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         #region Public Methods
         public static GeneratorData Create(TableInfo tableInfo)
         {
-            var items = new List<IndexIdentifier>();
-
-            foreach (var indexInfo in tableInfo.IndexInfoList)
+            var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).Select(indexInfo => new IndexIdentifier
             {
-                if (indexInfo.IsUnique)
-                {
-                    items.Add(new IndexIdentifier
-                    {
-                        Name     = "UniqueIndexOn" + string.Join("And", indexInfo.ColumnNames.Select(x => x.ToContractName())),
-                        IsUnique = true,
-                        TypeName = "UniqueIndex",
-                        IndexInfo = indexInfo
-                    });
-                }
-                else
-                {
-                    items.Add(new IndexIdentifier
-                    {
-                        IndexInfo = indexInfo
-                        Name     = "IndexOn" + string.Join("And", indexInfo.ColumnNames.Select(x => x.ToContractName())),
-                        IsUnique = false,
-                        TypeName = "Index"
-                    });
-                }
-                
-                
+                Name      = "UniqueIndexOn" + string.Join("And", indexInfo.ColumnNames.Select(x => x.ToContractName())),
+                IsUnique  = true,
+                TypeName  = "UniqueIndex",
+                IndexInfo = indexInfo
+            }).ToList();
+
+
+            var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).Select(indexInfo => new IndexIdentifier
+            {
+                Name      = "IndexOn" + string.Join("And", indexInfo.ColumnNames.Select(x => x.ToContractName())),
+                IsUnique  = true,
+                TypeName  = "Index",
+                IndexInfo = indexInfo
+            }).ToList();
+
+          
+
+           
+
+            var isSupportGetAll = tableInfo.SchemaName == "PRM";
+            var isSupportSave = tableInfo.PrimaryKeyColumns.Any();
+            var isSupportSelectByKey = tableInfo.PrimaryKeyColumns.Any();
+            var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
+
+
+
+            var interfaces = new List<string>();
+
+            if (isSupportSave)
+            {
+                interfaces.Add(Names.ISupportDmlOperationSave);
             }
+
+            if (isSupportSave)
+            {
+                interfaces.Add(Names.ISupportDmlOperationDelete);
+            }
+
+            if (isSupportGetAll)
+            {
+                interfaces.Add(Names.ISupportDmlOperationGetAll);
+            }
+
+            if (isSupportSelectByKey)
+            {
+                interfaces.Add(Names.ISupportDmlOperationSelectByKey);
+            }
+
+            if (isSupportSelectByUniqueIndex)
+            {
+                interfaces.Add(Names.ISupportDmlOperationSelectByUniqueIndex);
+            }
+
 
             return new GeneratorData
             {
-                IndexIdentifiers = items,
+                ContractInterfaces = interfaces,
+                UniqueIndexIdentifiers = uniqueIndexIdentifiers,
+                NonUniqueIndexIdentifiers = nonUniqueIndexIdentifiers,
                 TableInfo         = tableInfo,
                 NamespaceFullName = $"BOA.Types.Kernel.Card.{tableInfo.SchemaName}",
-                IsSupportGetAll   = tableInfo.SchemaName == "PRM",
-                IsSupportSave     = tableInfo.PrimaryKeyColumns.Any(),
-                IsSupportSelectByKey = tableInfo.PrimaryKeyColumns.Any(),
+                IsSupportGetAll   = isSupportGetAll,
+                IsSupportSave     = isSupportSave,
+                IsSupportSelectByKey = isSupportSelectByKey,
+                IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex,
                 DatabaseEnumName =tableInfo.CatalogName
             };
         }
+
+        
         #endregion
     }
 }

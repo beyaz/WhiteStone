@@ -301,6 +301,7 @@
     <Compile Include="Contracts\Transforms\Names.cs" />
     <Compile Include="Contracts\Transforms\ParameterHelper.cs" />
     <Compile Include="Contracts\Transforms\ReadContractMethod.cs" />
+    <Compile Include="Contracts\Transforms\SelectByUniqueIndex.cs" />
     <Compile Include="Contracts\Transforms\UpdateHelper.cs" />
     <Compile Include="Generators\InsertStructuredCs.cs" />
     <Compile Include="Generators\InsertStructuredSql.cs" />
