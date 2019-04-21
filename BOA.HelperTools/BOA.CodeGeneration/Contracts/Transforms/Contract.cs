@@ -78,7 +78,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine();
             sb.AppendLine($"Databases {Names.ISupportDmlOperation}.GetDatabase()");
             sb.AppendLine("{");
-            sb.AppendLine($"    return Databases.{TableInfo.CatalogName};");
+            sb.AppendLine($"    return Databases.{Data.DatabaseEnumName};");
             sb.AppendLine("}");
 
             sb.AppendLine();

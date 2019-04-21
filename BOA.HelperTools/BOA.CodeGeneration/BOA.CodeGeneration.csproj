@@ -286,6 +286,8 @@
     <Compile Include="Contracts\Transforms\Contract.cs" />
     <Compile Include="Contracts\Transforms\ContractBodyDbMembers.cs" />
     <Compile Include="Contracts\Transforms\GeneratorBase.cs" />
+    <Compile Include="Contracts\Transforms\GeneratorData.cs" />
+    <Compile Include="Contracts\Transforms\GeneratorDataCreator.cs" />
     <Compile Include="Contracts\Transforms\GetAllSqlMethod.cs" />
     <Compile Include="Contracts\Transforms\GetDeleteParametersMethod.cs" />
     <Compile Include="Contracts\Transforms\GetUpdateParametersMethod.cs" />

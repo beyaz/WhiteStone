@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using BOA.CodeGeneration.Contracts.Transforms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -22,11 +23,21 @@ namespace BOA.CodeGeneration.Contracts.Dao
 
                 var contract = new Contract
                 {
-                    TableInfo = tableInfo
+                    Data = Create(tableInfo)
                 };
 
                 File.WriteAllText(@"D:\work\BOA.Kernel\Dev\BOA.Kernel.Card\Test\BOA.Process.Kernel.Card.Test\AddressTypeContract.cs", contract.ToString());
             }
+        }
+
+
+        public static GeneratorData Create(TableInfo tableInfo)
+        {
+            var data = GeneratorDataCreator.Create(tableInfo);
+
+            data.DatabaseEnumName = "BOACard";
+
+            return data;
         }
 
         //[TestMethod]
