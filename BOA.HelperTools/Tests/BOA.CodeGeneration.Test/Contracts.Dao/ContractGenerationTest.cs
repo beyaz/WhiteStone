@@ -1,20 +1,9 @@
 ﻿using System.IO;
 using BOA.CodeGeneration.Contracts.Transforms;
-using BOA.Common.Helpers;
-using BOA.DatabaseAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.CodeGeneration.Contracts.Dao
 {
-    public class TestDatabase : SqlDatabase
-    {
-        const string ConnectionString = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = D:\github\WhiteStone\BOA.HelperTools\Tests\BOA.CodeGeneration.Test\Database1.mdf; Integrated Security = True";
-        public TestDatabase():base(ConnectionString)
-        {
-            
-        }
-    }
-
     [TestClass]
     public class ContractGenerationTest
     {
@@ -29,7 +18,7 @@ namespace BOA.CodeGeneration.Contracts.Dao
                     Database = database
                 };
 
-                var tableInfo = dao.GetInfo("testDB", "TST", "Table1");
+                var tableInfo = dao.GetInfo(TestDatabase.CatalogName, "TST", "Table1");
 
                 var contract = new Contract
                 {
@@ -37,18 +26,25 @@ namespace BOA.CodeGeneration.Contracts.Dao
                 };
 
                 File.WriteAllText("d:\\A.cs", contract.ToString());
+            }
+        }
 
+        [TestMethod]
+        public void ToString_method_should_evaluate_csharp_code_2()
+        {
+            using (var database = new BOACardDatabase())
+            {
+                var dao = new TableInfoDao
+                {
+                    Database = database
+                };
 
-
-
-                contract = new Contract
+                var contract = new Contract
                 {
                     TableInfo = dao.GetInfo("BOACard", "CRD", "CARD_LIMIT_USED")
                 };
 
                 File.WriteAllText("d:\\B.cs", contract.ToString());
-
-
             }
         }
         #endregion

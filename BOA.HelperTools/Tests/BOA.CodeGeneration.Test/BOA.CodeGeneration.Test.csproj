@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Contracts.Dao\ContractGenerationTest.cs" />
     <Compile Include="Contracts.Dao\IndexInfoDaoTest.cs" />
+    <Compile Include="Contracts.Dao\TestDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
