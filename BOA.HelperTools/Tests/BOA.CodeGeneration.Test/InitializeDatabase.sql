@@ -6,6 +6,11 @@
 
 
 
+
+
+
+
+
 IF NOT EXISTS ( SELECT  *
                 FROM    sys.schemas
                 WHERE   name = N'TST' ) 
@@ -33,12 +38,25 @@ CREATE TABLE TST.Table1
 	Value4 DATETIME NULL,
 	Value5 DATETIME,
 	Value6 INT NULL,
-	Value7 INT
+	Value7 INT,
+	Value8 INT
 );
 
 
 CREATE UNIQUE INDEX index_1
 ON TST.Table1 (Value7);
 
+
+
+
+
 CREATE INDEX index_2
 ON TST.Table1 (Value0);
+
+
+CREATE UNIQUE INDEX index_3
+ON TST.Table1 (Value3,Value4);
+
+
+CREATE INDEX index_4
+ON TST.Table1 (Value7,Value8);
