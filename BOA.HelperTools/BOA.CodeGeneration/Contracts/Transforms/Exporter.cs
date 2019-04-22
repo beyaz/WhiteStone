@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BOA.CodeGeneration.Contracts.Dao;
 using BOA.DatabaseAccess;
 

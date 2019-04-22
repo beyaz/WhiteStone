@@ -41,7 +41,7 @@ SELECT name FROM sys.schemas WHERE principal_id = 1 and name<>'dbo'
 
             var sql = $@"
 
-SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' AND TABLE_SCHEMA = '{schema}'
+SELECT DISTINCT(TABLE_NAME) AS TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' AND TABLE_SCHEMA = '{schema}'
 
 ";
             database.CommandText = sql;
