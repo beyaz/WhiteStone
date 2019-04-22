@@ -9,9 +9,15 @@ namespace BOA.CodeGeneration.Contracts.Dao
         [TestMethod]
         public void ExportSchema()
         {
+
             using (var database = new TestDatabase())
             {
-                Exporter.ExportSchema(database, TestDatabase.CatalogName, "TST", data => { data.DatabaseEnumName = "BOACard"; });
+                foreach (var schemaName in SchemaInfoDao.GetAllUserCreatedSchemaNames(database))
+                {
+                    Exporter.ExportSchema(database, TestDatabase.CatalogName, schemaName, data => { data.DatabaseEnumName = "BOACard"; });    
+                }
+
+                
             }
         }
     }
