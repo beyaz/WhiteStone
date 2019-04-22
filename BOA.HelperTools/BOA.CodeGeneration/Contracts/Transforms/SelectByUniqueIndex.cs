@@ -16,7 +16,6 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 
             sb.AppendLine();
             sb.AppendAll(GetParametersPart());
-            sb.AppendLine();
 
             return sb.ToString();
         }

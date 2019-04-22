@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 
 namespace BOA.CodeGeneration.Contracts.Transforms
 {
@@ -35,70 +34,15 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine("}");
             sb.AppendLine();
 
-
             sb.AppendAll(new ContractBodyDbMembers {Columns = TableInfo.Columns}.ToString());
             sb.AppendLine();
-
 
             sb.AppendLine();
             sb.AppendAll(Create<IndexIdentifiers>().ToString());
             sb.AppendLine();
 
-            
-
             sb.AppendLine();
             sb.AppendLine($"#region {Names.ISupportDmlOperation}");
-            sb.AppendLine();
-            sb.AppendAll(Create<GetInsertParametersMethod>().ToString());
-            sb.AppendLine();
-
-            sb.AppendLine();
-            sb.AppendAll(Create<GetInsertSqlMethod>().ToString());
-            sb.AppendLine();
-
-            sb.AppendLine();
-            sb.AppendAll(Create<GetUpdateParametersMethod>().ToString());
-            sb.AppendLine();
-
-            sb.AppendLine();
-            sb.AppendAll(Create<GetUpdateSqlMethod>().ToString());
-            sb.AppendLine();
-
-
-            if (Data.IsSupportSelectByKey)
-            {
-                sb.AppendLine();
-                sb.AppendAll(Create<SelectByKeys>().ToString());
-                sb.AppendLine();
-            }
-         
-            if (Data.IsSupportSelectByUniqueIndex)
-            {
-                sb.AppendLine();
-                sb.AppendAll(Create<SelectByUniqueIndex>().ToString());
-                sb.AppendLine();
-            }
-
-
-            // Delete
-            sb.AppendLine();
-            sb.AppendAll(Create<GetDeleteParametersMethod>().ToString());
-            sb.AppendLine();
-
-            sb.AppendLine();
-            sb.AppendAll(Create<GetDeleteSqlMethod>().ToString());
-            sb.AppendLine();
-
-            sb.AppendLine();
-            sb.AppendAll(Create<ReadContractMethod>().ToString());
-            sb.AppendLine();
-
-            if (Data.IsSupportGetAll)
-            {
-                sb.AppendLine();
-                sb.AppendAll(Create<GetAllSqlMethod>().ToString());
-                sb.AppendLine();
-            }
 
             sb.AppendLine();
             sb.AppendLine($"Databases {Names.ISupportDmlOperation}.GetDatabase()");
@@ -107,23 +51,120 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine("}");
 
             sb.AppendLine();
+            sb.AppendAll(Create<ReadContractMethod>().ToString());
+            sb.AppendLine();
+
+            sb.AppendLine();
             sb.AppendLine("#endregion");
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+
+
+           
+
+
+            if (Data.IsSupportSave)
+            {
+
+                sb.AppendLine();
+                sb.AppendLine($"#region {Names.ISupportDmlOperationSave}");
+
+                sb.AppendLine();
+                sb.AppendAll(Create<GetInsertPart>().ToString());
+                sb.AppendLine();
+
+                
+
+
+                sb.AppendLine();
+                sb.AppendAll(Create<GetUpdatePart>().ToString());
+                sb.AppendLine();
+
+                sb.AppendLine();
+                sb.AppendLine("#endregion");
+            }
+
+            if (Data.IsSupportSelectByKey)
+            {
+                sb.AppendLine();
+                sb.AppendLine($"#region {Names.ISupportDmlOperationSelectByKey}");
+
+               
+                sb.AppendLine();
+                sb.AppendAll(Create<SelectByKeys>().ToString());
+                sb.AppendLine();
+
+                sb.AppendLine();
+                sb.AppendLine("#endregion");
+
+            }
+
+            if (Data.IsSupportSelectByUniqueIndex)
+            {
+
+                sb.AppendLine();
+                sb.AppendLine($"#region {Names.ISupportDmlOperationSelectByUniqueIndex}");
+
+                sb.AppendLine();
+                sb.AppendAll(Create<SelectByUniqueIndex>().ToString());
+                sb.AppendLine();
+
+                sb.AppendLine();
+                sb.AppendLine("#endregion");
+
+
+                
+            }
+
+            if (Data.IsSupportSelectByKey)
+            {
+
+                sb.AppendLine();
+                sb.AppendLine($"#region {Names.ISupportDmlOperationDelete}");
+
+               
+
+
+                sb.AppendLine();
+                sb.AppendAll(Create<GetDeletePart>().ToString());
+                sb.AppendLine();
+
+                sb.AppendLine();
+                sb.AppendLine("#endregion");
+            }
+
+           
+
+            if (Data.IsSupportGetAll)
+            {
+
+                sb.AppendLine();
+                sb.AppendLine($"#region {Names.ISupportDmlOperationDelete}");
+
+                
+
+                sb.AppendLine();
+                sb.AppendAll(Create<GetAll>().ToString());
+                sb.AppendLine();
+
+                sb.AppendLine();
+                sb.AppendLine("#endregion");
+            }
+
+           
+
+           
 
             sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.AppendLine("}"); // end of class
+
+            sb.PaddingCount--;
+            sb.AppendLine("}"); // end of namespace
 
             return sb.ToString();
         }
         #endregion
 
         #region Methods
-        
-
-        
-
         void WriteMainComment(PaddedStringBuilder sb)
         {
             sb.AppendLine("/// <summary>");
