@@ -13,9 +13,45 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         public IDatabase             Database           { get; set; }
         public Action<GeneratorData> OnTableDataCreated { get; set; }
         public string                SchemaName         { get; set; }
-        public Func<string,bool> TableNameFilter { get; set; }
+        public Func<string,string,bool> TableNameFilter { get; set; }
+        public IReadOnlyList<string> ReferencedAssemblies { get; set; }
         #endregion
     }
+
+    public class SchemaExporterDataForBOACard : SchemaExporterData
+    {
+        public SchemaExporterDataForBOACard()
+        {
+            CatalogName = "BOACard";
+            TableNameFilter =  IsReadyToExport;
+            ReferencedAssemblies = new List<string>
+            {
+                @"d:\boa\server\bin\BOA.Types.Kernel.Card.dll",
+                @"d:\boa\server\bin\BOA.Common.dll"
+            };
+        }
+
+        static bool IsReadyToExport(string schemaName, string tableName)
+        {
+            
+            if ($"{schemaName}.{tableName}" == "MRC.SENDING_REPORT_PARAMS_")
+            {
+                return false;
+            }
+
+            if ($"{schemaName}.{tableName}" == "POS.POS_INVENTORY_")
+            {
+                return false;
+            }
+            if ($"{schemaName}.{tableName}" == "STM.BUCKET_CLOSE_DETAIL") // todo aynı indexden iki tane var ?  sormak lazım
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
 
     public static class SchemaExporter
     {
@@ -28,7 +64,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 
             if (data.TableNameFilter != null)
             {
-                tableNames = tableNames.Where(data.TableNameFilter).ToList();
+                tableNames = tableNames.Where(x=> data.TableNameFilter(data.SchemaName,x)).ToList();
             }
             
 
@@ -53,7 +89,9 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 
             var compiler = new Compiler
             {
-                OutputAssemblyName = data.SchemaName, Sources = sources.ToArray()
+                OutputAssemblyName = data.SchemaName,
+                Sources = sources.ToArray(),
+                ReferencedAssemblies = data.ReferencedAssemblies
             };
 
             compiler.Compile();

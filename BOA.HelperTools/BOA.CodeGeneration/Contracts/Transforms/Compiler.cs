@@ -11,8 +11,9 @@ namespace BOA.CodeGeneration.Contracts.Transforms
     public class Compiler
     {
         #region Public Properties
-        public string   OutputAssemblyName { get; set; }
-        public string[] Sources            { get; set; }
+        public string                OutputAssemblyName   { get; set; }
+        public IReadOnlyList<string> ReferencedAssemblies { get; set; }
+        public string[]              Sources              { get; set; }
         #endregion
 
         #region Public Methods
@@ -31,10 +32,10 @@ namespace BOA.CodeGeneration.Contracts.Transforms
                 MS_CORE_LIB,
                 SYSTEM,
                 SYSTEM_CORE,
-                SYSTEM_DATA,
-                @"d:\boa\server\bin\BOA.Process.Kernel.Card.dll",
-                @"d:\boa\server\bin\BOA.Common.dll"
+                SYSTEM_DATA
             };
+
+            referencedAssemblies.AddRange(ReferencedAssemblies);
 
             const string OPTIONS  = "/target:library /optimize";
             const string LANGUAGE = "CSharp";
