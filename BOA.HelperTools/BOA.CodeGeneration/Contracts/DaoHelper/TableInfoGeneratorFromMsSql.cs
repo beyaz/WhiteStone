@@ -32,6 +32,12 @@ namespace BOA.CodeGeneration.Contracts.DaoHelper
 
             #region  var dataType = row["DATA_TYPE"
             var dataType = row["DATA_TYPE"].ToString().ToUpperEN();
+
+            if (dataType == "DATETIME2")
+            {
+                dataType = "DATETIME";
+            }
+
             if (dataType == "VARCHAR" || dataType == "NVARCHAR" || dataType == "CHAR" || dataType == "NCHAR")
             {
                 var characterLength = row["CHARACTER_MAXIMUM_LENGTH"].ToString();
