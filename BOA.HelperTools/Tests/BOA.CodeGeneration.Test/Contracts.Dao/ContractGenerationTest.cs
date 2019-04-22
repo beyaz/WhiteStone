@@ -1,44 +1,12 @@
-﻿using System.IO;
-using System.Linq;
-using BOA.CodeGeneration.Contracts.Transforms;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.CodeGeneration.Contracts.Dao
 {
     [TestClass]
     public class ContractGenerationTest
     {
-        #region Public Methods
-        [TestMethod]
-        public void ToString_method_should_evaluate_csharp_code()
-        {
-            using (var database = new TestDatabase())
-            {
-                var dao = new TableInfoDao
-                {
-                    Database = database
-                };
-
-                var tableInfo = dao.GetInfo(TestDatabase.CatalogName, "TST", "Table1");
-
-                var contract = new Contract
-                {
-                    Data = Create(tableInfo)
-                };
-
-                File.WriteAllText(@"D:\work\BOA.Kernel\Dev\BOA.Kernel.Card\Test\BOA.Process.Kernel.Card.Test\AddressTypeContract.cs", contract.ToString());
-            }
-        }
-
-
-        public static GeneratorData Create(TableInfo tableInfo)
-        {
-            var data = GeneratorDataCreator.Create(tableInfo);
-
-            data.DatabaseEnumName = "BOACard";
-
-            return data;
-        }
+    
+        
 
         //[TestMethod]
         //public void ToString_method_should_evaluate_csharp_code_2()
@@ -58,6 +26,5 @@ namespace BOA.CodeGeneration.Contracts.Dao
         //        File.WriteAllText("d:\\B.cs", contract.ToString());
         //    }
         //}
-        #endregion
     }
 }

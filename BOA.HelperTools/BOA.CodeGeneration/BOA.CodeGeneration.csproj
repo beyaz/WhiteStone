@@ -280,11 +280,14 @@
   <ItemGroup>
     <Compile Include="Contracts\ColumnInfo.cs" />
     <Compile Include="Contracts\Dao\IndexInfoDao.cs" />
+    <Compile Include="Contracts\Dao\SchemaInfoDao.cs" />
     <Compile Include="Contracts\Dao\TableInfoDao.cs" />
     <Compile Include="Contracts\IndexInfo.cs" />
     <Compile Include="Contracts\TableInfo.cs" />
+    <Compile Include="Contracts\Transforms\Compiler.cs" />
     <Compile Include="Contracts\Transforms\Contract.cs" />
     <Compile Include="Contracts\Transforms\ContractBodyDbMembers.cs" />
+    <Compile Include="Contracts\Transforms\Exporter.cs" />
     <Compile Include="Contracts\Transforms\GeneratorBase.cs" />
     <Compile Include="Contracts\Transforms\GeneratorData.cs" />
     <Compile Include="Contracts\Transforms\GeneratorDataCreator.cs" />
@@ -293,6 +296,7 @@
     <Compile Include="Contracts\Transforms\GetUpdatePart.cs" />
     <Compile Include="Contracts\Transforms\GetInsertPart.cs" />
     <Compile Include="Contracts\Transforms\IndexIdentifier.cs" />
+    <Compile Include="Contracts\Transforms\SelectByIndex.cs" />
     <Compile Include="Contracts\Transforms\SelectByKeys.cs" />
     <Compile Include="Contracts\Transforms\IndexIdentifiers.cs" />
     <Compile Include="Contracts\Transforms\InsertHelperHelper.cs" />

@@ -61,7 +61,8 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             }
 
             
-            sb.AppendLine("throw new ArgumentException(\"???TODO\");");
+            sb.AppendLine();
+            sb.AppendLine("throw new InvalidIndexException();");
 
 
             sb.PaddingCount--;
@@ -106,7 +107,8 @@ namespace BOA.CodeGeneration.Contracts.Transforms
                 
             }
 
-            sb.AppendLine("throw new ArgumentException(\"???TODO\");");
+            sb.AppendLine();
+            sb.AppendLine("throw new InvalidIndexException();");
            
 
 

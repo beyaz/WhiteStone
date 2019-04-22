@@ -6,6 +6,8 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 {
     static class Names
     {
+        
+
         #region Constants
         public const string Parameter       = nameof(Parameter);
         public const string ROW_GUID        = nameof(ROW_GUID);
@@ -29,6 +31,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         public const string ISupportDmlOperationGetAll = nameof(ISupportDmlOperationGetAll);
         public const string ISupportDmlOperationSelectByKey = nameof(ISupportDmlOperationSelectByKey);
         public const string ISupportDmlOperationSelectByUniqueIndex = nameof(ISupportDmlOperationSelectByUniqueIndex);
+        public const string ISupportDmlOperationSelectByIndex = nameof(ISupportDmlOperationSelectByIndex);
 
         
         

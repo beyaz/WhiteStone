@@ -114,6 +114,25 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 
                 
             }
+            
+            if (Data.IsSupportSelectByIndex)
+            {
+
+                sb.AppendLine();
+                sb.AppendLine($"#region {Names.ISupportDmlOperationSelectByIndex}");
+
+                sb.AppendLine();
+                sb.AppendAll(Create<SelectByIndex>().ToString());
+                sb.AppendLine();
+
+                sb.AppendLine();
+                sb.AppendLine("#endregion");
+
+
+                
+            }
+
+            
 
             if (Data.IsSupportSelectByKey)
             {
