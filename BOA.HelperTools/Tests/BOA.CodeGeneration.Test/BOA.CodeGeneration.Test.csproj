@@ -79,6 +79,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BikeStores Sample Database - create objects.sql" />
+    <Content Include="BikeStores Sample Database - drop all objects.sql" />
+    <Content Include="BikeStores Sample Database - load data.sql" />
     <Content Include="Database1 - Copy.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
