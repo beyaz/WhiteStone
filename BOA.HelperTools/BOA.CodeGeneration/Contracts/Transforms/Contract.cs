@@ -23,6 +23,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             WriteMainComment(sb);
 
             sb.AppendLine("[Serializable]");
+            
             sb.AppendLine($"public sealed class {TableInfo.TableName.ToContractName()}Contract : CardContractBase , {string.Join(", ", Data.ContractInterfaces)}");
             sb.AppendLine("{");
             sb.PaddingCount++;

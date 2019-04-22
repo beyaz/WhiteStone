@@ -30,7 +30,10 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
             var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
 
-            var interfaces = new List<string>();
+            var interfaces = new List<string>
+            {
+                Names.ISupportDmlOperation
+            };
 
             if (isSupportSave)
             {

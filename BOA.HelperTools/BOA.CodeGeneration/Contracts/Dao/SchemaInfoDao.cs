@@ -32,9 +32,16 @@ SELECT name FROM sys.schemas WHERE principal_id = 1 and name<>'dbo'
         #region Public Methods
         public static IReadOnlyList<string> GetAllTableNamesInSchema(IDatabase database, string schema)
         {
+//            var sql = $@"
+
+//SELECT TABLE_NAME FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE' AND TABLE_SCHEMA = '{schema}'
+
+//";
+
+
             var sql = $@"
 
-SELECT TABLE_NAME FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE' AND TABLE_SCHEMA = '{schema}'
+SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' AND TABLE_SCHEMA = '{schema}'
 
 ";
             database.CommandText = sql;

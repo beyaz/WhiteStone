@@ -22,7 +22,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine($"SELECT ");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetColumnsWillBeInsert().Select(c => "[" + c.ColumnName + "]")));
+            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.Columns.Select(c => "[" + c.ColumnName + "]")));
             sb.AppendLine();
 
             sb.PaddingCount--;
