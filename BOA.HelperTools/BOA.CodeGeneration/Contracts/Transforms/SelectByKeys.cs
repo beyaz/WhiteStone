@@ -25,12 +25,19 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"string {Names.ISupportDmlOperationSelectByKey}.GetSelectByKeySql()");
+            sb.AppendLine($"string {Names.ISupportDmlOperationSelectByKey}.SelectByKeySql");
+            #region body
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-           
 
+            #region get
+            sb.AppendLine("get");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+
+            #region get body
             sb.AppendLine("return @\"");
 
             sb.AppendLine("SELECT");
@@ -49,12 +56,16 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.PaddingCount--;
 
             sb.AppendLine("\";");
-
+            #endregion
 
 
             sb.PaddingCount--;
-            sb.AppendLine("}");
-            sb.PaddingCount++;
+            sb.AppendLine("}"); 
+            #endregion
+
+            sb.PaddingCount--;
+            sb.AppendLine("}"); 
+            #endregion
 
             return sb.ToString();
         }
@@ -64,10 +75,17 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSelectByKey}.GetSelectByKeyParameters()");
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSelectByKey}.SelectByKeySqlParameters");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+
+            sb.AppendLine("get");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+
+            #region body
             sb.AppendLine("return new List<Parameter>");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -76,7 +94,13 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine();
 
             sb.PaddingCount--;
-            sb.AppendLine("};");
+            sb.AppendLine("};"); 
+            #endregion
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+
 
             sb.PaddingCount--;
             sb.AppendLine("}");

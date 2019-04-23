@@ -45,11 +45,27 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine();
             sb.AppendLine($"#region {Names.ISupportDmlOperation}");
 
+
+            #region Database
             sb.AppendLine();
-            sb.AppendLine($"Databases {Names.ISupportDmlOperation}.GetDatabase()");
+            sb.AppendLine($"Databases {Names.ISupportDmlOperation}.Database");
             sb.AppendLine("{");
-            sb.AppendLine($"    return Databases.{Data.DatabaseEnumName};");
+            sb.PaddingCount++;
+
+            #region get
+            sb.AppendLine("get");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine($"return Databases.{Data.DatabaseEnumName};");
+            sb.PaddingCount--;
+            sb.AppendLine("}"); 
+            #endregion
+
+            sb.PaddingCount--;
             sb.AppendLine("}");
+
+            
+            #endregion
 
             sb.AppendLine();
             sb.AppendAll(Create<ReadContractMethod>().ToString());

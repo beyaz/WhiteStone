@@ -47,7 +47,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
 
             if (isSupportGetAll)
             {
-                interfaces.Add(Names.ISupportDmlOperationGetAll);
+                interfaces.Add(Names.ISupportDmlOperationSelectAll);
             }
 
             if (isSupportSelectByKey)

@@ -25,10 +25,15 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"string {Names.ISupportDmlOperationSave}.GetUpdateSql()");
+            sb.AppendLine($"string {Names.ISupportDmlOperationSave}.UpdateSql");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+            sb.AppendLine("get");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            #region body
             sb.AppendLine("return @\"");
 
             sb.AppendLine($"UPDATE [{TableInfo.SchemaName}].[{TableInfo.TableName}] SET");
@@ -47,10 +52,14 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.PaddingCount--;
 
             sb.AppendLine("\";");
+            #endregion
 
             sb.PaddingCount--;
             sb.AppendLine("}");
-            sb.PaddingCount++;
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+            
 
             return sb.ToString();
         }
@@ -61,7 +70,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSave}.GetUpdateParameters(ExecutionScope context)");
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSave}.GetUpdateSqlParameters(ExecutionScope context)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 

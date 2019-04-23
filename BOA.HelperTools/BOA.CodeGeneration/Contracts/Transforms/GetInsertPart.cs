@@ -25,10 +25,15 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"string {Names.ISupportDmlOperationSave}.GetInsertSql()");
+            sb.AppendLine($"string {Names.ISupportDmlOperationSave}.InsertSql");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+            sb.AppendLine("get");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            #region body
             sb.AppendLine("return @\"");
 
             sb.AppendLine($"INSERT INTO [{TableInfo.SchemaName}].[{TableInfo.TableName}]");
@@ -52,11 +57,16 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.PaddingCount--;
             sb.AppendLine(")");
 
-            sb.AppendLine("\";");
+            sb.AppendLine("\";"); 
+            #endregion
+
 
             sb.PaddingCount--;
             sb.AppendLine("}");
-            sb.PaddingCount++;
+
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
 
             return sb.ToString();
         }
@@ -67,7 +77,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSave}.GetInsertParameters(ExecutionScope context)");
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSave}.GetInsertSqlParameters(ExecutionScope context)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
