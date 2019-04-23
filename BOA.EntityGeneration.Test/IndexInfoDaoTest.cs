@@ -1,21 +1,11 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
-using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.DbModelDao;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.CodeGeneration.Contracts.Dao
+namespace BOA.EntityGeneration.DbModelDao
 {
-    public class BOACardDatabase : SqlDatabase
-    {
-        public BOACardDatabase():base($"Server={@"srvxdev\zumrut"};Database={@"BOACard"};Trusted_Connection=True;")
-        {
-            
-        }
-    }
-
     [TestClass]
     public class IndexInfoDaoTest
     {
@@ -23,8 +13,6 @@ namespace BOA.CodeGeneration.Contracts.Dao
         [TestMethod]
         public void Should_evaluates_IndexInformation_by_table_name()
         {
-           
-
             var dao = new IndexInfoDao {Database = new BOACardDatabase()};
 
             var information = dao.GetIndexInformation("CRD", "CARD_MASTER");

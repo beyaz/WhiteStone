@@ -61,11 +61,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOACardDatabase.cs" />
     <Compile Include="ContractGenerationTest.cs" />
     <Compile Include="ExporterTest.cs" />
     <Compile Include="IndexInfoDaoTest.cs" />
-    <Compile Include="TestDatabase.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

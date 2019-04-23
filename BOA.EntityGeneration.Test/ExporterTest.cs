@@ -1,7 +1,7 @@
-﻿using BOA.EntityGeneration.SchemaToDllExporting;
+﻿using BOA.EntityGeneration.DbModelDao;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.CodeGeneration.Contracts.Dao
+namespace BOA.EntityGeneration.SchemaToDllExporting
 {
     [TestClass]
     public class ExporterTest
