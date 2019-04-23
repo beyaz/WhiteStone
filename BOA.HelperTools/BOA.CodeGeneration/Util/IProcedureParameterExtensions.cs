@@ -1,6 +1,7 @@
 ﻿using System;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.SQLParser;
+using BOA.EntityGeneration.Common;
 
 namespace BOA.CodeGeneration.Util
 {

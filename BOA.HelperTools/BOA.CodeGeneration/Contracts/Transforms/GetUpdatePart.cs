@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.Common;
 
 namespace BOA.CodeGeneration.Contracts.Transforms
 {
@@ -30,14 +31,14 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             {
                 var keyColumn = TableInfo.PrimaryKeyColumns[0];
 
-                if (keyColumn.DotNetType == Common.Names.DotNetInt16 ||
-                    keyColumn.DotNetType == Common.Names.DotNetInt32 ||
-                    keyColumn.DotNetType == Common.Names.DotNetInt64)
+                if (keyColumn.DotNetType == DotNetTypeName.DotNetInt16 ||
+                    keyColumn.DotNetType == DotNetTypeName.DotNetInt32 ||
+                    keyColumn.DotNetType == DotNetTypeName.DotNetInt64)
                 {
                     sb.AppendLine($"return {keyColumn.ColumnName.ToContractName()} > 0;");
                     
                 }
-                else if (keyColumn.DotNetType == Common.Names.DotNetStringName)
+                else if (keyColumn.DotNetType == DotNetTypeName.DotNetStringName)
                 {
                     sb.AppendLine($"return !string.IsNullOrWhiteSpace({keyColumn.ColumnName.ToContractName()});");
                     

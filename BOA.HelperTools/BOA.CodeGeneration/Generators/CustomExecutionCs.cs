@@ -9,6 +9,7 @@ using BOA.CodeGeneration.Services;
 using BOA.CodeGeneration.SQLParser;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.Common;
 
 namespace BOA.CodeGeneration.Generators
 {

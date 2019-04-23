@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.Common;
 
 namespace BOA.CodeGeneration.Contracts.Transforms
 {
@@ -60,7 +61,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             var dotNetType = data.DotNetType;
             if (data.ColumnName == Names.VALID_FLAG)
             {
-                dotNetType = Common.Names.DotNetBool;
+                dotNetType = DotNetTypeName.DotNetBool;
             }
 
             sb.AppendLine("public " + dotNetType + " " + data.ColumnName.ToContractName() + " { get; set; }");

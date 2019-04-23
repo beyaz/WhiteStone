@@ -4,6 +4,7 @@ using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
+using BOA.EntityGeneration.Common;
 using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
@@ -36,7 +37,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Properties
-        bool       ColumnIsString  => ParameterColumn.DotNetType == Names.DotNetStringName;
+        bool       ColumnIsString  => ParameterColumn.DotNetType == DotNetTypeName.DotNetStringName;
         ColumnInfo ParameterColumn => Context.Table.Columns.First(c => c.ColumnName == GetColumnName());
 
         string ParameterType

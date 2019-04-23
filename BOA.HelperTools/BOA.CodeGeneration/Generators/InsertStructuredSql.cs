@@ -4,6 +4,7 @@ using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.Common;
 using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
 using TableInfo = BOA.CodeGeneration.Contracts.TableInfo;
 
