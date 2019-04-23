@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace BOA.EntityGeneration.SchemaToDllExporting
@@ -37,6 +38,8 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
 
             referencedAssemblies.AddRange(ReferencedAssemblies);
 
+            var fileNameWithoutExtension = $"BOA.Types.Kernel.Card.{OutputAssemblyName}";
+
             const string OPTIONS  = "/target:library /optimize";
             const string LANGUAGE = "CSharp";
             var          compiler = CodeDomProvider.CreateProvider(LANGUAGE);
@@ -45,7 +48,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 CompilerOptions         = OPTIONS,
                 GenerateExecutable      = false,
                 IncludeDebugInformation = false,
-                OutputAssembly          = $@"d:\boa\server\bin\BOA.Types.Kernel.Card.{OutputAssemblyName}.dll"
+                OutputAssembly          = $@"d:\boa\server\bin\{fileNameWithoutExtension}.dll"
             };
 
             var results = compiler.CompileAssemblyFromSource(compilerParams, Sources);
@@ -56,6 +59,14 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
             {
                 throw new ArgumentException(string.Join(Environment.NewLine, errors));
             }
+
+            var externalLibPath = $@"D:\work\BOA.ExternalLibraries\ExternalLibraries\AnyCPU\{fileNameWithoutExtension}\0.0.0.0\{fileNameWithoutExtension}.dll";
+
+            Directory.CreateDirectory($@"D:\work\BOA.ExternalLibraries\ExternalLibraries\AnyCPU\{fileNameWithoutExtension}\0.0.0.0\");
+
+            File.Copy($@"d:\boa\server\bin\{fileNameWithoutExtension}.dll",externalLibPath);
+
+
         }
         #endregion
 
