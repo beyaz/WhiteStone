@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BOA.DatabaseAccess;
 using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModelDao;
 
 namespace BOA.EntityGeneration.Generators
 {
     public class GeneratorDataCreator
     {
         #region Public Methods
-        public static GeneratorData Create(TableInfo tableInfo)
+        public static GeneratorData Create(TableInfo tableInfo, IDatabase database)
         {
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).Select(indexInfo => new IndexIdentifier
             {
@@ -29,7 +31,7 @@ namespace BOA.EntityGeneration.Generators
             var        isSupportGetAll = tableInfo.SchemaName == "PRM";
             const bool isSupportInsert = true;
             var        isSupportUpdate = tableInfo.PrimaryKeyColumns.Any();
-            // ReSharper disable once RedundantLogicalConditionalExpressionOperand
+
             var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
             var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
@@ -69,6 +71,19 @@ namespace BOA.EntityGeneration.Generators
                 interfaces.Add(Names.ISupportDmlOperationSelectByIndex);
             }
 
+            var sequenceName = "SEQ_" + tableInfo.TableName;
+
+            var hasSequenceInDatabase = database.HasSequenceLike(tableInfo.SchemaName, sequenceName);
+
+            var hasSequence = false;
+            if (hasSequenceInDatabase && tableInfo.PrimaryKeyColumns.Count == 1)
+            {
+                if (tableInfo.PrimaryKeyColumns[0].ColumnName == Names.RECORD_ID)
+                {
+                    hasSequence = true;
+                }
+            }
+
             return new GeneratorData
             {
                 ContractInterfaces           = interfaces,
@@ -82,7 +97,8 @@ namespace BOA.EntityGeneration.Generators
                 IsSupportSelectByKey         = isSupportSelectByKey,
                 IsSupportSelectByIndex       = isSupportSelectByIndex,
                 IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex,
-                DatabaseEnumName             = tableInfo.CatalogName
+                DatabaseEnumName             = tableInfo.CatalogName,
+                SequenceName                 = hasSequence ? tableInfo.SchemaName + "." + sequenceName : null
             };
         }
         #endregion

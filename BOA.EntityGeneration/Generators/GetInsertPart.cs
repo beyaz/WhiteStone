@@ -18,11 +18,52 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine();
             sb.AppendAll(GetInsertParameters());
 
+            sb.AppendLine();
+            sb.AppendAll(GetHasSequence());
+
+            sb.AppendLine();
+            sb.AppendAll(GetSequenceName());
+
+            sb.AppendLine();
+            sb.AppendAll(InitSequence());
+
             return sb.ToString();
         }
         #endregion
 
         #region Methods
+        string GetHasSequence()
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"bool {Names.ISupportDmlOperationInsert}.HasSequence");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("get");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            #region body
+            if (Data.SequenceName.HasValue())
+            {
+                sb.AppendLine("return true;");
+            }
+            else
+            {
+                sb.AppendLine("return false;");
+            }
+            #endregion
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+
         string GetInsertParameters()
         {
             var sb = new PaddedStringBuilder();
@@ -88,6 +129,59 @@ namespace BOA.EntityGeneration.Generators
 
             sb.PaddingCount--;
             sb.AppendLine("}");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+
+        string GetSequenceName()
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"string {Names.ISupportDmlOperationInsert}.SequenceName");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("get");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            #region body
+            if (Data.SequenceName.HasValue())
+            {
+                sb.AppendLine($"return \"{Data.SequenceName}\";");
+            }
+            else
+            {
+                sb.AppendLine("return null;");
+            }
+            #endregion
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+
+        string InitSequence()
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"void {Names.ISupportDmlOperationInsert}.InitSequence(long nextValue)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            #region body
+            if (Data.SequenceName.HasValue())
+            {
+                sb.AppendLine("RecordId = nextValue;");
+            }
+            #endregion
 
             sb.PaddingCount--;
             sb.AppendLine("}");

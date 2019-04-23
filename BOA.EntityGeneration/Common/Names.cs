@@ -22,6 +22,7 @@ namespace BOA.EntityGeneration.Common
         public const string ISupportDmlOperationSelectByUniqueIndex = nameof(ISupportDmlOperationSelectByUniqueIndex);
         public const string ISupportDmlOperationUpdate              = nameof(ISupportDmlOperationUpdate);
         public const string Parameter                               = nameof(Parameter);
+        public const string RECORD_ID                               = nameof(RECORD_ID);
         public const string ROW_GUID                                = nameof(ROW_GUID);
         public const string UPDATE_DATE                             = nameof(UPDATE_DATE);
         public const string UPDATE_TOKEN_ID                         = nameof(UPDATE_TOKEN_ID);

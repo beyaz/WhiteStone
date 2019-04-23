@@ -48,6 +48,7 @@
     <Compile Include="Common\SqlDataType.cs" />
     <Compile Include="Common\DotNetTypeName.cs" />
     <Compile Include="Common\SqlReaderMethods.cs" />
+    <Compile Include="DbModelDao\SequenceInfo.cs" />
     <Compile Include="DbModel\ColumnInfo.cs" />
     <Compile Include="DbModelDaoHelper\DataAccess.cs" />
     <Compile Include="DbModelDaoHelper\TableInfoGeneratorFromMsSql.cs" />

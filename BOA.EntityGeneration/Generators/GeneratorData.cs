@@ -19,6 +19,7 @@ namespace BOA.EntityGeneration.Generators
 
         public string                         NamespaceFullName         { get; set; }
         public IReadOnlyList<IndexIdentifier> NonUniqueIndexIdentifiers { get; set; }
+        public string                         SequenceName              { get; set; }
         public TableInfo                      TableInfo                 { get; set; }
         public IReadOnlyList<IndexIdentifier> UniqueIndexIdentifiers    { get; set; }
         #endregion

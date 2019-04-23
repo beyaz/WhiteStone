@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
 
                 var contract = new Contract
                 {
-                    Data = GeneratorDataCreator.Create(tableInfo)
+                    Data = GeneratorDataCreator.Create(tableInfo, data.Database)
                 };
 
                 data.OnTableDataCreated?.Invoke(contract.Data);

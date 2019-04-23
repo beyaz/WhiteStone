@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
@@ -16,8 +18,17 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("#region Database Columns");
             foreach (var columnInfo in TableInfo.Columns)
             {
+                var extraComment = string.Empty;
+
+                var indexInfo = TableInfo.IndexInfoList.FirstOrDefault(x => x.ColumnNames.Contains(columnInfo.ColumnName));
+
+                if (indexInfo != null)
+                {
+                    extraComment = indexInfo.ToString();
+                }
+
                 sb.AppendLine();
-                Write(sb, columnInfo);
+                Write(sb, columnInfo, extraComment);
             }
 
             sb.AppendLine();
@@ -28,15 +39,26 @@ namespace BOA.EntityGeneration.Generators
         #endregion
 
         #region Methods
-        static void Write(StringBuilder sb, ColumnInfo data)
+        static void Write(StringBuilder sb, ColumnInfo data, string extraComment)
         {
-
             var comment = data.Comment;
+
+            var commentList = new List<string>();
 
             if (comment.HasValue())
             {
+                commentList.AddRange(comment.Split(Environment.NewLine.ToCharArray()));
+            }
+
+            if (extraComment.HasValue())
+            {
+                commentList.Add(extraComment);
+            }
+
+            if (commentList.Any())
+            {
                 sb.AppendLine("/// <summary>");
-                var commentList    = comment.Split(Environment.NewLine.ToCharArray());
+
                 var isFirstComment = true;
                 foreach (var item in commentList)
                 {
