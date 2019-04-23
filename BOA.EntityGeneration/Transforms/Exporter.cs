@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BOA.CodeGeneration.Contracts.Dao;
 using BOA.DatabaseAccess;
+using BOA.EntityGeneration.Dao;
+using BOA.EntityGeneration.Generators;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Transforms
 {
     public class SchemaExporterData
     {

@@ -1,4 +1,6 @@
-﻿namespace BOA.CodeGeneration.Contracts.Transforms
+﻿using BOA.EntityGeneration.DbModel;
+
+namespace BOA.EntityGeneration.Transforms
 {
     public class IndexIdentifier
     {

@@ -2,7 +2,7 @@
 using System.Linq;
 using BOA.Common.Helpers;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Common
 {
     static class Names
     {

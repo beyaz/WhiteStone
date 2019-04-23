@@ -1,5 +1,7 @@
 ﻿using System.IO;
-using BOA.CodeGeneration.Contracts.Transforms;
+using BOA.EntityGeneration.Dao;
+using BOA.EntityGeneration.Generators;
+using BOA.EntityGeneration.Transforms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.CodeGeneration.Contracts.Dao

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.Common;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Generators
 {
     class SelectByKeys : GeneratorBase
     {

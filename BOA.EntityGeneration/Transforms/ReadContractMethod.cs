@@ -1,6 +1,9 @@
 ﻿using BOA.Common.Helpers;
+using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.Generators;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Transforms
 {
     class ReadContractMethod : GeneratorBase
     {

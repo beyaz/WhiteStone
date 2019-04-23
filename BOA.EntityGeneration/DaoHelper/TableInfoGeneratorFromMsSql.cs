@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Data;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.DbModel;
 
-namespace BOA.CodeGeneration.Contracts.DaoHelper
+namespace BOA.EntityGeneration.DaoHelper
 {
     public static class TableInfoGeneratorFromMsSql
     {
         #region Public Methods
         
-        public static IReadOnlyList<Contracts.ColumnInfo> CreateColumns(DataTable table)
+        public static IReadOnlyList<ColumnInfo> CreateColumns(DataTable table)
         {
-            var items = new List<Contracts.ColumnInfo>();
+            var items = new List<ColumnInfo>();
 
             for (var i = 0; i < table.Rows.Count; i++)
             {
@@ -26,7 +27,7 @@ namespace BOA.CodeGeneration.Contracts.DaoHelper
         #endregion
 
         #region Methods
-        static Contracts.ColumnInfo CreateColumn(DataRow row)
+        static ColumnInfo CreateColumn(DataRow row)
         {
             var columnName = row["COLUMN_NAME"].ToString();
 

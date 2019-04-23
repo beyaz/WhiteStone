@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.CodeGeneration.Contracts
+namespace BOA.EntityGeneration.DbModel
 {
     /// <summary>
     ///     The column information

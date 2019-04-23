@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BOA.DatabaseAccess;
 
-namespace BOA.CodeGeneration.Contracts.Dao
+namespace BOA.EntityGeneration.Dao
 {
     public static class SchemaInfoDao
     {

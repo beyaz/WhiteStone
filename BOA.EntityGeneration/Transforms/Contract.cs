@@ -1,6 +1,8 @@
 ﻿using BOA.Common.Helpers;
+using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.Generators;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Transforms
 {
     public class Contract : GeneratorBase
     {
@@ -35,7 +37,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             sb.AppendLine("}");
             sb.AppendLine();
 
-            sb.AppendAll(new ContractBodyDbMembers {Columns = TableInfo.Columns}.ToString());
+            sb.AppendAll(Create<ContractBodyDbMembers>().ToString());
             sb.AppendLine();
 
             sb.AppendLine();

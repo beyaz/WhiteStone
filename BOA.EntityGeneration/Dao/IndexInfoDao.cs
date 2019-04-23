@@ -2,8 +2,9 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.EntityGeneration.DbModel;
 
-namespace BOA.CodeGeneration.Contracts.Dao
+namespace BOA.EntityGeneration.Dao
 {
     public class IndexInfoDao
     {

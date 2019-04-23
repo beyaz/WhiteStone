@@ -1,4 +1,4 @@
-﻿using BOA.CodeGeneration.Contracts.Transforms;
+﻿using BOA.EntityGeneration.Transforms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.CodeGeneration.Contracts.Dao

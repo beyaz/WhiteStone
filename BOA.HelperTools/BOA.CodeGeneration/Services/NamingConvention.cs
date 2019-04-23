@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using BOA.CodeGeneration.Contracts.Dao;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
-using TableInfo = BOA.CodeGeneration.Contracts.TableInfo;
+using BOA.EntityGeneration.Dao;
+using TableInfo = BOA.EntityGeneration.DbModel.TableInfo;
 
 namespace BOA.CodeGeneration.Services
 {
@@ -75,7 +75,7 @@ namespace BOA.CodeGeneration.Services
             }
             else
             {
-                Context.Table = new Contracts.TableInfo();
+                Context.Table = new TableInfo();
             }
 
             Context.Naming = naming;

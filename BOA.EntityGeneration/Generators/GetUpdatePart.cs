@@ -2,8 +2,9 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.Transforms;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Generators
 {
 
         class GetSavePart:GeneratorBase

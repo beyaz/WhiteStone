@@ -3,7 +3,7 @@ using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using WhiteStone.Helpers;
 
-namespace BOA.CodeGeneration.Contracts.DaoHelper
+namespace BOA.EntityGeneration.DaoHelper
 {
     public sealed class DataAccess
     {

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using BOA.CodeGeneration.Contracts.DaoHelper;
 using BOA.DatabaseAccess;
+using BOA.EntityGeneration.DaoHelper;
+using BOA.EntityGeneration.DbModel;
 
-namespace BOA.CodeGeneration.Contracts.Dao
+namespace BOA.EntityGeneration.Dao
 {
     public class TableInfoDao
     {

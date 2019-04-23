@@ -1,28 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.DbModel;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Generators
 {
-    class ContractBodyDbMembers
+    class ContractBodyDbMembers : GeneratorBase
     {
-        #region Public Properties
-        public IReadOnlyCollection<ColumnInfo> Columns { get; set; }
-        #endregion
-
         #region Public Methods
         public override string ToString()
         {
             var sb = new StringBuilder();
 
             sb.AppendLine("#region Database Columns");
-            foreach (var columnInfo in Columns)
+            foreach (var columnInfo in TableInfo.Columns)
             {
                 sb.AppendLine();
                 Write(sb, columnInfo);
             }
+
             sb.AppendLine();
             sb.AppendLine("#endregion");
 

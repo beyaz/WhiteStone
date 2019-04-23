@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
-using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
+using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {
     class UpdateSqlCustom : UpdateSql
     {
         #region Fields
-        readonly IEnumerable<Contracts.ColumnInfo> _updateColumns;
+        readonly IEnumerable<ColumnInfo> _updateColumns;
         #endregion
 
         #region Constructors
@@ -64,9 +64,9 @@ namespace BOA.CodeGeneration.Generators
 
         protected override string NameOfSqlProcedureUpdate => CustomUpdate.SqlProcedureName;
 
-        protected override IEnumerable<Contracts.ColumnInfo> ProcedureParameters { get; }
+        protected override IEnumerable<ColumnInfo> ProcedureParameters { get; }
 
-        protected override IEnumerable<Contracts.ColumnInfo> WhereColumns { get; }
+        protected override IEnumerable<ColumnInfo> WhereColumns { get; }
         #endregion
 
         #region Methods

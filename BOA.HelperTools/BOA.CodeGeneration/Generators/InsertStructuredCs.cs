@@ -3,7 +3,7 @@ using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
-using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
+using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {
@@ -160,7 +160,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        List<Contracts.ColumnInfo> GetProcedureParameterColumns()
+        List<ColumnInfo> GetProcedureParameterColumns()
         {
             return InsertSql.GetProcedureParameterColumns(Columns);
         }

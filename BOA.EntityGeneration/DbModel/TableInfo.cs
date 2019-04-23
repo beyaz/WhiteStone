@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BOA.CodeGeneration.Contracts
+namespace BOA.EntityGeneration.DbModel
 {
     /// <summary>
     ///     The table information

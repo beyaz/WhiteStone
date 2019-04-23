@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.DbModel;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Transforms
 {
     static class UpdateHelper
     {

@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Text;
+using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.Generators;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Transforms
 {
     class IndexIdentifiers : GeneratorBase
     {

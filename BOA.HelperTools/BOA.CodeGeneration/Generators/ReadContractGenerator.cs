@@ -4,7 +4,7 @@ using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.EntityGeneration.Common;
-using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
+using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {
@@ -20,7 +20,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Properties
-        IReadOnlyList<Contracts.ColumnInfo> Columns => Context.Table.Columns;
+        IReadOnlyList<ColumnInfo> Columns => Context.Table.Columns;
 
         string ContractName => Context.Naming.ContractName;
 
@@ -80,7 +80,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        string GetReaderMethod(Contracts.ColumnInfo c)
+        string GetReaderMethod(ColumnInfo c)
         {
             var propertyName  = c.ColumnName;
             var readerMethod  = c.SqlReaderMethod;
@@ -99,7 +99,7 @@ namespace BOA.CodeGeneration.Generators
             return readerMethod;
         }
 
-        string GetSecureColumnReadMethod(Contracts.ColumnInfo columnInfo)
+        string GetSecureColumnReadMethod(ColumnInfo columnInfo)
         {
             if (columnInfo.SqlReaderMethod == SqlReaderMethods.GetStringValue.ToString())
             {
@@ -109,7 +109,7 @@ namespace BOA.CodeGeneration.Generators
             throw new InvalidOperationException("SqlReaderMethod not found." + columnInfo.SqlReaderMethod);
         }
 
-        bool IsDoNotTrimColumns(Contracts.ColumnInfo columnInfo)
+        bool IsDoNotTrimColumns(ColumnInfo columnInfo)
         {
             var doNotTrimColumns = Context.Config.DoNotTrimColumns;
             if (doNotTrimColumns == null)

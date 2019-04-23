@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.Common;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Generators
 {
-    class SelectByUniqueIndex : GeneratorBase
+    class SelectByIndex : GeneratorBase
     {
         #region Public Methods
         public override string ToString()
@@ -23,15 +24,15 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"string {Names.ISupportDmlOperationSelectByUniqueIndex}.GetSelectByUniqueIndexSql(UniqueIndex uniqueIndex)");
+            sb.AppendLine($"string {Names.ISupportDmlOperationSelectByIndex}.GetSelectByIndexSql(Index index)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
            
-            foreach (var item in Data.UniqueIndexIdentifiers)
+            foreach (var item in Data.NonUniqueIndexIdentifiers)
             {
                 sb.AppendLine();
-                sb.AppendLine($"if (uniqueIndex == {item.Name})");
+                sb.AppendLine($"if (index == {item.Name})");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
@@ -76,13 +77,13 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSelectByUniqueIndex}.GetSelectByUniqueIndexParameters(UniqueIndex uniqueIndex)");
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSelectByIndex}.GetSelectByIndexParameters(Index index)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            foreach (var item in Data.UniqueIndexIdentifiers)
+            foreach (var item in Data.NonUniqueIndexIdentifiers)
             {
-                sb.AppendLine($"if (uniqueIndex == {item.Name})");
+                sb.AppendLine($"if (index == {item.Name})");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 

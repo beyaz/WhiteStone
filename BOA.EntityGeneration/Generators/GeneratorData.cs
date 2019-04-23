@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.Transforms;
 
-namespace BOA.CodeGeneration.Contracts.Transforms
+namespace BOA.EntityGeneration.Generators
 {
     public class GeneratorData
     {

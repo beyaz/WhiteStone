@@ -2,7 +2,7 @@
 using System.Linq;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
-using ColumnInfo = BOA.CodeGeneration.Contracts.ColumnInfo;
+using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {

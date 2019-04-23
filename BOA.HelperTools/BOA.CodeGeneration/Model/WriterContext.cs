@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BOA.CodeGeneration.Util;
+using BOA.EntityGeneration.DbModel;
 
 namespace BOA.CodeGeneration.Model
 {
@@ -27,7 +28,7 @@ namespace BOA.CodeGeneration.Model
         #region Properties
         internal NamingModel Naming { get; set; }
 
-        internal Contracts.TableInfo Table { get; set; }
+        internal TableInfo Table { get; set; }
         #endregion
     }
 }
