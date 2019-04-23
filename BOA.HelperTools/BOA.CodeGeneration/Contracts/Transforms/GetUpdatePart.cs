@@ -30,7 +30,8 @@ namespace BOA.CodeGeneration.Contracts.Transforms
             {
                 var keyColumn = TableInfo.PrimaryKeyColumns[0];
 
-                if (keyColumn.DotNetType == Common.Names.DotNetInt32 ||
+                if (keyColumn.DotNetType == Common.Names.DotNetInt16 ||
+                    keyColumn.DotNetType == Common.Names.DotNetInt32 ||
                     keyColumn.DotNetType == Common.Names.DotNetInt64)
                 {
                     sb.AppendLine($"return {keyColumn.ColumnName.ToContractName()} > 0;");
