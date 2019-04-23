@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using BOA.CodeGeneration.Common;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
 

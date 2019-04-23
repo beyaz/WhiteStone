@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using WhiteStone.Helpers;
@@ -18,10 +17,10 @@ namespace BOA.CodeGeneration.Contracts.DaoHelper
             var sql = Database;
 
             sql.CommandText =
-                @"SELECT TOP 1 value
+                $@"SELECT TOP 1 value
     FROM sys.extended_properties
-   WHERE major_id = OBJECT_ID('{0}.{1}') AND
-         minor_id = COLUMNPROPERTY(major_id, '{2}', 'ColumnId')".FormatCode(schemaName, tableName, columnName);
+   WHERE major_id = OBJECT_ID('{schemaName}.{tableName}') AND
+         minor_id = COLUMNPROPERTY(major_id, '{columnName}', 'ColumnId')";
 
             return (string) sql.ExecuteScalar();
         }

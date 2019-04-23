@@ -278,33 +278,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\ColumnInfo.cs" />
-    <Compile Include="Contracts\Dao\IndexInfoDao.cs" />
-    <Compile Include="Contracts\Dao\SchemaInfoDao.cs" />
-    <Compile Include="Contracts\Dao\TableInfoDao.cs" />
-    <Compile Include="Contracts\IndexInfo.cs" />
-    <Compile Include="Contracts\TableInfo.cs" />
-    <Compile Include="Contracts\Transforms\Compiler.cs" />
-    <Compile Include="Contracts\Transforms\Contract.cs" />
-    <Compile Include="Contracts\Transforms\ContractBodyDbMembers.cs" />
-    <Compile Include="Contracts\Transforms\Exporter.cs" />
-    <Compile Include="Contracts\Transforms\GeneratorBase.cs" />
-    <Compile Include="Contracts\Transforms\GeneratorData.cs" />
-    <Compile Include="Contracts\Transforms\GeneratorDataCreator.cs" />
-    <Compile Include="Contracts\Transforms\GetAll.cs" />
-    <Compile Include="Contracts\Transforms\GetDeletePart.cs" />
-    <Compile Include="Contracts\Transforms\GetUpdatePart.cs" />
-    <Compile Include="Contracts\Transforms\GetInsertPart.cs" />
-    <Compile Include="Contracts\Transforms\IndexIdentifier.cs" />
-    <Compile Include="Contracts\Transforms\SelectByIndex.cs" />
-    <Compile Include="Contracts\Transforms\SelectByKeys.cs" />
-    <Compile Include="Contracts\Transforms\IndexIdentifiers.cs" />
-    <Compile Include="Contracts\Transforms\InsertHelperHelper.cs" />
-    <Compile Include="Contracts\Transforms\Names.cs" />
-    <Compile Include="Contracts\Transforms\ParameterHelper.cs" />
-    <Compile Include="Contracts\Transforms\ReadContractMethod.cs" />
-    <Compile Include="Contracts\Transforms\SelectByUniqueIndex.cs" />
-    <Compile Include="Contracts\Transforms\UpdateHelper.cs" />
     <Compile Include="Generators\InsertStructuredCs.cs" />
     <Compile Include="Generators\InsertStructuredSql.cs" />
     <Compile Include="Model\Confiuration.cs" />
@@ -356,7 +329,6 @@
     <Compile Include="Model\CustomSelectMethod.cs" />
     <Compile Include="Model\Where.cs" />
     <Compile Include="Model\TableConfig.cs" />
-    <Compile Include="Contracts\DaoHelper\DataAccess.cs" />
     <Compile Include="Generators\CSharpFileOutputGenerator.cs" />
     <Compile Include="Services\NamingConvention.cs" />
     <Compile Include="Generators\BusinessClassGenerator.cs" />
@@ -374,7 +346,6 @@
     <Compile Include="Generators\SelectByColumnsCs.cs" />
     <Compile Include="Model\NamingModel.cs" />
     <Compile Include="Common\Names.cs" />
-    <Compile Include="Contracts\DaoHelper\TableInfoGeneratorFromMsSql.cs" />
     <Compile Include="Common\SqlDataType.cs" />
     <None Include="package.nuspec" />
     <None Include="packages.config" />

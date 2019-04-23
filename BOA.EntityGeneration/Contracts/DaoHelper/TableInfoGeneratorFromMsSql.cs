@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using BOA.CodeGeneration.Common;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
 
