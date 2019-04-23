@@ -291,7 +291,8 @@ namespace BOA.CodeGeneration.Generators
                     var prop = Model.ReturnValueType.Properties.FirstOrDefault(p => p.Name == ci.ColumnName);
                     if (prop != null)
                     {
-                        readerMethod = SqlDataType.GetSqlReaderMethod(prop.PropertyType).ToString();
+                        // readerMethod = SqlDataType.GetSqlReaderMethod(prop.PropertyType,).ToString();
+                        throw new NotImplementedException();
                     }
 
                     if (readerMethod == SqlReaderMethods.GetGUIDValue.ToString() && Model.ReturnValueType.PropertyTypeIsGuid(ci.ColumnName))
@@ -352,7 +353,7 @@ namespace BOA.CodeGeneration.Generators
 
                 var ci = ProcedureInfoReturnColumns.First();
 
-                var readerMethod = SqlDataType.GetSqlReaderMethod(ci.DataType).ToString();
+                var readerMethod = SqlDataType.GetSqlReaderMethod(ci.DataType.Name,true).ToString();
 
                 WriteLine(@"list.Add(SQLDBHelper.{0}(reader[{1}]));", readerMethod, '"' + ci.ColumnName + '"');
 
