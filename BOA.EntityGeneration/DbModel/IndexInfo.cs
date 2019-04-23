@@ -41,7 +41,7 @@ namespace BOA.EntityGeneration.DbModel
                 properties.Add("NonClustered");
             }
 
-            return $"[ {string.Join(" + ", properties)} ] index on {string.Join(" and ", ColumnNames.Select(x=>'"'+x+'"'))}";
+            return $"[ {string.Join(" + ", properties)} ] index on {string.Join(" and ", ColumnNames.Select(x => '"' + x + '"'))}";
         }
         #endregion
     }

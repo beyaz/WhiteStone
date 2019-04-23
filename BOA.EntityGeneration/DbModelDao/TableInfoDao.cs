@@ -2,10 +2,10 @@
 using System.Data;
 using System.Linq;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.DaoHelper;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModelDaoHelper;
 
-namespace BOA.EntityGeneration.Dao
+namespace BOA.EntityGeneration.DbModelDao
 {
     public class TableInfoDao
     {

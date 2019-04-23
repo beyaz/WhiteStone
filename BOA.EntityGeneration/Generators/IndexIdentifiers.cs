@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using System.Text;
 using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.Generators;
 
-namespace BOA.EntityGeneration.Transforms
+namespace BOA.EntityGeneration.Generators
 {
     class IndexIdentifiers : GeneratorBase
     {
@@ -14,7 +13,6 @@ namespace BOA.EntityGeneration.Transforms
 
             if (Data.UniqueIndexIdentifiers.Any())
             {
-
                 sb.AppendLine();
                 sb.AppendLine("#region Unique Index Information");
                 foreach (var item in Data.UniqueIndexIdentifiers)
@@ -31,10 +29,8 @@ namespace BOA.EntityGeneration.Transforms
                 sb.AppendLine("#endregion");
             }
 
-
             if (Data.NonUniqueIndexIdentifiers.Any())
             {
-
                 sb.AppendLine();
                 sb.AppendLine("#region Index Information");
                 foreach (var item in Data.NonUniqueIndexIdentifiers)

@@ -3,7 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BOA.EntityGeneration.Transforms
+namespace BOA.EntityGeneration.SchemaToDllExporting
 {
     /// <summary>
     ///     The compiler

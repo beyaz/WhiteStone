@@ -30,6 +30,8 @@ namespace BOA.EntityGeneration.DbModel
         /// </summary>
         public ColumnInfo IdentityColumn { get; set; }
 
+        public IReadOnlyList<IndexInfo> IndexInfoList { get; set; }
+
         /// <summary>
         ///     Gets or sets the primary key columns.
         /// </summary>
@@ -44,8 +46,6 @@ namespace BOA.EntityGeneration.DbModel
         ///     Gets or sets the name of the table.
         /// </summary>
         public string TableName { get; set; }
-
-        public IReadOnlyList<IndexInfo> IndexInfoList { get; set; }
         #endregion
     }
 }

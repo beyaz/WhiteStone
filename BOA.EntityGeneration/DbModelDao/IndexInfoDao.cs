@@ -4,7 +4,7 @@ using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel;
 
-namespace BOA.EntityGeneration.Dao
+namespace BOA.EntityGeneration.DbModelDao
 {
     public class IndexInfoDao
     {

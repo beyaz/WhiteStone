@@ -1,4 +1,4 @@
-﻿using BOA.EntityGeneration.Transforms;
+﻿using BOA.EntityGeneration.SchemaToDllExporting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.CodeGeneration.Contracts.Dao

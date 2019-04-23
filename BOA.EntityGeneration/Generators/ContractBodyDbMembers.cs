@@ -30,7 +30,6 @@ namespace BOA.EntityGeneration.Generators
         #region Methods
         static void Write(StringBuilder sb, ColumnInfo data)
         {
-            const string PaddingForComment = "     ";
 
             var comment = data.Comment;
 

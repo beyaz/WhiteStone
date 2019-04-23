@@ -20,6 +20,48 @@ namespace BOA.EntityGeneration.Generators
 
             return sb.ToString();
         }
+        #endregion
+
+        #region Methods
+        string GetParametersPart()
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSelectByIndex}.GetSelectByIndexParameters(Index index)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            foreach (var item in Data.NonUniqueIndexIdentifiers)
+            {
+                sb.AppendLine($"if (index == {item.Name})");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine("return new List<Parameter>");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                var whereColumns = TableInfo.Columns.Where(x => item.IndexInfo.ColumnNames.Contains(x.ColumnName));
+
+                sb.AppendAll(string.Join("," + Environment.NewLine, whereColumns.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+                sb.AppendLine();
+
+                sb.PaddingCount--;
+                sb.AppendLine("};");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("throw new InvalidIndexException();");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+
         string GetSqlPart()
         {
             var sb = new PaddedStringBuilder();
@@ -28,7 +70,6 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-           
             foreach (var item in Data.NonUniqueIndexIdentifiers)
             {
                 sb.AppendLine();
@@ -61,58 +102,8 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("}");
             }
 
-            
             sb.AppendLine();
             sb.AppendLine("throw new InvalidIndexException();");
-
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            return sb.ToString();
-        }
-
-
-        string GetParametersPart()
-        {
-            var sb = new PaddedStringBuilder();
-
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSelectByIndex}.GetSelectByIndexParameters(Index index)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            foreach (var item in Data.NonUniqueIndexIdentifiers)
-            {
-                sb.AppendLine($"if (index == {item.Name})");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                
-                sb.AppendLine("return new List<Parameter>");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                var whereColumns = TableInfo.Columns.Where(x => item.IndexInfo.ColumnNames.Contains(x.ColumnName));
-          
-                sb.AppendAll(string.Join("," + Environment.NewLine, whereColumns.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
-                sb.AppendLine();
-
-                sb.PaddingCount--;
-                sb.AppendLine("};");
-
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-
-
-                
-            }
-
-            sb.AppendLine();
-            sb.AppendLine("throw new InvalidIndexException();");
-           
-
-
 
             sb.PaddingCount--;
             sb.AppendLine("}");

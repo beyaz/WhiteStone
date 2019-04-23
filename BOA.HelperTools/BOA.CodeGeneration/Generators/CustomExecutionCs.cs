@@ -9,7 +9,7 @@ using BOA.CodeGeneration.SQLParser;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.DaoHelper;
+using BOA.EntityGeneration.DbModelDaoHelper;
 
 namespace BOA.CodeGeneration.Generators
 {

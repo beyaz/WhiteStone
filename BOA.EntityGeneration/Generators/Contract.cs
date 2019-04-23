@@ -1,8 +1,7 @@
 ﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.Generators;
 
-namespace BOA.EntityGeneration.Transforms
+namespace BOA.EntityGeneration.Generators
 {
     public class Contract : GeneratorBase
     {
@@ -25,7 +24,7 @@ namespace BOA.EntityGeneration.Transforms
             WriteMainComment(sb);
 
             sb.AppendLine("[Serializable]");
-            
+
             sb.AppendLine($"public sealed class {TableInfo.TableName.ToContractName()}Contract : CardContractBase , {string.Join(", ", Data.ContractInterfaces)}");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -47,7 +46,6 @@ namespace BOA.EntityGeneration.Transforms
             sb.AppendLine();
             sb.AppendLine($"#region {Names.ISupportDmlOperation}");
 
-
             #region Database
             sb.AppendLine();
             sb.AppendLine($"Databases {Names.ISupportDmlOperation}.Database");
@@ -60,13 +58,11 @@ namespace BOA.EntityGeneration.Transforms
             sb.PaddingCount++;
             sb.AppendLine($"return Databases.{Data.DatabaseEnumName};");
             sb.PaddingCount--;
-            sb.AppendLine("}"); 
+            sb.AppendLine("}");
             #endregion
 
             sb.PaddingCount--;
             sb.AppendLine("}");
-
-            
             #endregion
 
             sb.AppendLine();
@@ -76,31 +72,24 @@ namespace BOA.EntityGeneration.Transforms
             sb.AppendLine();
             sb.AppendLine("#endregion");
 
-
-
-           
-
-
             if (Data.IsSupportInsert)
             {
-
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationInsert}");
 
                 sb.AppendLine();
                 sb.AppendAll(Create<GetInsertPart>().ToString());
                 sb.AppendLine();
-                
+
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
             }
 
             if (Data.IsSupportUpdate)
             {
-
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationUpdate}");
-                
+
                 sb.AppendLine();
                 sb.AppendAll(Create<GetUpdatePart>().ToString());
                 sb.AppendLine();
@@ -111,14 +100,13 @@ namespace BOA.EntityGeneration.Transforms
 
             if (Data.IsSupportSave)
             {
-
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationSave}");
 
                 sb.AppendLine();
                 sb.AppendAll(Create<GetSavePart>().ToString());
                 sb.AppendLine();
-                
+
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
             }
@@ -128,19 +116,16 @@ namespace BOA.EntityGeneration.Transforms
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationSelectByKey}");
 
-               
                 sb.AppendLine();
                 sb.AppendAll(Create<SelectByKeys>().ToString());
                 sb.AppendLine();
 
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
-
             }
 
             if (Data.IsSupportSelectByUniqueIndex)
             {
-
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationSelectByUniqueIndex}");
 
@@ -150,14 +135,10 @@ namespace BOA.EntityGeneration.Transforms
 
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
-
-
-                
             }
-            
+
             if (Data.IsSupportSelectByIndex)
             {
-
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationSelectByIndex}");
 
@@ -167,21 +148,12 @@ namespace BOA.EntityGeneration.Transforms
 
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
-
-
-                
             }
-
-            
 
             if (Data.IsSupportSelectByKey)
             {
-
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationDelete}");
-
-               
-
 
                 sb.AppendLine();
                 sb.AppendAll(Create<GetDeletePart>().ToString());
@@ -191,15 +163,10 @@ namespace BOA.EntityGeneration.Transforms
                 sb.AppendLine("#endregion");
             }
 
-           
-
             if (Data.IsSupportGetAll)
             {
-
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationDelete}");
-
-                
 
                 sb.AppendLine();
                 sb.AppendAll(Create<GetAll>().ToString());
@@ -208,10 +175,6 @@ namespace BOA.EntityGeneration.Transforms
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
             }
-
-           
-
-           
 
             sb.PaddingCount--;
             sb.AppendLine("}"); // end of class

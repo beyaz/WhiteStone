@@ -2,7 +2,6 @@
 using System.Linq;
 using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.Transforms;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -88,8 +87,8 @@ namespace BOA.EntityGeneration.Generators
                 TableInfo                    = tableInfo,
                 NamespaceFullName            = $"BOA.Types.Kernel.Card.{tableInfo.SchemaName}",
                 IsSupportGetAll              = isSupportGetAll,
-                IsSupportInsert = isSupportInsert,
-                IsSupportUpdate = isSupportUpdate,
+                IsSupportInsert              = isSupportInsert,
+                IsSupportUpdate              = isSupportUpdate,
                 IsSupportSave                = isSupportSave,
                 IsSupportSelectByKey         = isSupportSelectByKey,
                 IsSupportSelectByIndex       = isSupportSelectByIndex,

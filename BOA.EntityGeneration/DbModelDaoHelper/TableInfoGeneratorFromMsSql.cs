@@ -5,12 +5,11 @@ using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.DbModel;
 
-namespace BOA.EntityGeneration.DaoHelper
+namespace BOA.EntityGeneration.DbModelDaoHelper
 {
     public static class TableInfoGeneratorFromMsSql
     {
         #region Public Methods
-        
         public static IReadOnlyList<ColumnInfo> CreateColumns(DataTable table)
         {
             var items = new List<ColumnInfo>();
@@ -122,10 +121,10 @@ namespace BOA.EntityGeneration.DaoHelper
 
             return new ColumnInfo
             {
-                ColumnName = columnName,
-                DataType = dataType,
-                IsIdentity = isIdentity,
-                IsNullable = isNullable,
+                ColumnName          = columnName,
+                DataType            = dataType,
+                IsIdentity          = isIdentity,
+                IsNullable          = isNullable,
                 SqlDatabaseTypeName = SqlDataType.GetSqlDbType(dataType),
                 DotNetType          = SqlDataType.GetDotNetType(dataType, isNullable),
                 SqlReaderMethod     = SqlDataType.GetSqlReaderMethod(dataType, isNullable)

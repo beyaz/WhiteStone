@@ -1,8 +1,9 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using BOA.Common.Helpers;
+
 namespace BOA.EntityGeneration.Common
-{using System;
-    using System.Collections.Generic;
-    using BOA.Common.Helpers;
+{
     public static class SqlDataType
     {
         #region Static Fields
@@ -338,52 +339,4 @@ namespace BOA.EntityGeneration.Common
         }
         #endregion
     }
-}
-namespace BOA.EntityGeneration.Common
-{
-    public enum SqlReaderMethods
-    {
-        GetStringValue,
-        GetDecimalValue,
-        GetDecimalNullableValue,
-        GetBooleanValue,
-        GetBooleanNullableValue,
-        GetDateTimeValue,
-        GetDateTimeNullableValue,
-        GetInt64Value,
-        GetInt64NullableValue,
-        GetGUIDValue,
-        GetTimeSpanValue,
-        GetInt32NullableValue,
-        GetInt32Value,
-        GetInt16NullableValue,
-        GetInt16Value,
-        GetByteNullableValue,
-        GetByteValue,
-        GetDoubleNullableValue,
-        GetDoubleValue,
-        GetSingleNullableValue,
-        GetSingleValue,
-        GetBinaryValue,
-        GetTimeStampValue
-    }
-    public static class DotNetTypeName
-    {
-        public const string DotNetBool = "bool";
-        public const string DotNetByte = "byte";
-        public const string DotNetByteArray = "byte[]";
-        public const string DotNetDateTime = "DateTime";
-        public const string DotNetDecimal = "decimal";
-        public const string DotNetDouble = "double";
-        public const string DotNetGuid = "Guid";
-        public const string DotNetInt16 = "short";
-        public const string DotNetInt32 = "int";
-        public const string DotNetInt64 = "long";
-        public const string DotNetNullableDecimal = "decimal?";
-        public const string DotNetObject = "object";
-        public const string DotNetStringName = "string";
-        public const string DotNetTimeSpan = "TimeSpan";
-    }
-
-    
 }

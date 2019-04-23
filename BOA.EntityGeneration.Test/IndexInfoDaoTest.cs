@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.Dao;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModelDao;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

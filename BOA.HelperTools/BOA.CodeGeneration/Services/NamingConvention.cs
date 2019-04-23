@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.Dao;
+using BOA.EntityGeneration.DbModelDao;
 using TableInfo = BOA.EntityGeneration.DbModel.TableInfo;
 
 namespace BOA.CodeGeneration.Services

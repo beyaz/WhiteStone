@@ -2,78 +2,12 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.Transforms;
 
 namespace BOA.EntityGeneration.Generators
 {
-
-        class GetSavePart:GeneratorBase
+    class GetUpdatePart : GeneratorBase
     {
-
-       
-
-
-        public override string ToString()
-        {
-            var sb = new PaddedStringBuilder();
-
-            sb.AppendLine($"bool {Names.ISupportDmlOperationSave}.IsReadyToUpdate");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("get");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            #region body
-
-            if (TableInfo.PrimaryKeyColumns.Count ==1)
-            {
-                var keyColumn = TableInfo.PrimaryKeyColumns[0];
-
-                if (keyColumn.DotNetType == DotNetTypeName.DotNetInt16 ||
-                    keyColumn.DotNetType == DotNetTypeName.DotNetInt32 ||
-                    keyColumn.DotNetType == DotNetTypeName.DotNetInt64)
-                {
-                    sb.AppendLine($"return {keyColumn.ColumnName.ToContractName()} > 0;");
-                    
-                }
-                else if (keyColumn.DotNetType == DotNetTypeName.DotNetStringName)
-                {
-                    sb.AppendLine($"return !string.IsNullOrWhiteSpace({keyColumn.ColumnName.ToContractName()});");
-                    
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-           
-            #endregion
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-            
-
-            return sb.ToString();
-        }
-
-
         #region Public Methods
-        #endregion
-    }
-
-
-    class GetUpdatePart:GeneratorBase
-    {
-
         public override string ToString()
         {
             var sb = new PaddedStringBuilder();
@@ -86,7 +20,32 @@ namespace BOA.EntityGeneration.Generators
 
             return sb.ToString();
         }
+        #endregion
 
+        #region Methods
+        string GetUpdateParameters()
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationUpdate}.GetUpdateSqlParameters(ExecutionScope context)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("return new List<Parameter>");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetSqlInputParameters().Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+            sb.AppendLine();
+
+            sb.PaddingCount--;
+            sb.AppendLine("};");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            return sb.ToString();
+        }
 
         string GetUpdateSql()
         {
@@ -123,33 +82,6 @@ namespace BOA.EntityGeneration.Generators
 
             sb.PaddingCount--;
             sb.AppendLine("}");
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-            
-
-            return sb.ToString();
-        }
-
-
-        #region Public Methods
-        string GetUpdateParameters()
-        {
-            var sb = new PaddedStringBuilder();
-
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationUpdate}.GetUpdateSqlParameters(ExecutionScope context)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("return new List<Parameter>");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetSqlInputParameters().Select(ParameterHelper.ConvertToParameterDeclarationCode)));
-            sb.AppendLine();
-
-            sb.PaddingCount--;
-            sb.AppendLine("};");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

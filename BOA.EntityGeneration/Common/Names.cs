@@ -6,38 +6,28 @@ namespace BOA.EntityGeneration.Common
 {
     static class Names
     {
-        
-
         #region Constants
-        public const string Parameter       = nameof(Parameter);
-        public const string ROW_GUID        = nameof(ROW_GUID);
-        public const string UPDATE_DATE     = nameof(UPDATE_DATE);
-        public const string VALID_FLAG = nameof(VALID_FLAG);
-        public const string UPDATE_TOKEN_ID = nameof(UPDATE_TOKEN_ID);
-        public const string UPDATE_USER_ID  = nameof(UPDATE_USER_ID);
-
-        public const string INSERT_DATE = nameof(INSERT_DATE);
-        public const string INSERT_USER_ID = nameof(INSERT_USER_ID);
-        public const string INSERT_TOKEN_ID = nameof(INSERT_TOKEN_ID);
-
         public const string ExecutionScope = nameof(ExecutionScope);
 
-        
-        
+        public const string INSERT_DATE     = nameof(INSERT_DATE);
+        public const string INSERT_TOKEN_ID = nameof(INSERT_TOKEN_ID);
+        public const string INSERT_USER_ID  = nameof(INSERT_USER_ID);
 
-        public const string ISupportDmlOperation = nameof(ISupportDmlOperation);
-        public const string ISupportDmlOperationInsert = nameof(ISupportDmlOperationInsert);
-        public const string ISupportDmlOperationUpdate = nameof(ISupportDmlOperationUpdate);
-        public const string ISupportDmlOperationSave = nameof(ISupportDmlOperationSave);
-        public const string ISupportDmlOperationDelete = nameof(ISupportDmlOperationDelete);
-        public const string ISupportDmlOperationSelectAll = nameof(ISupportDmlOperationSelectAll);
-        public const string ISupportDmlOperationSelectByKey = nameof(ISupportDmlOperationSelectByKey);
+        public const string ISupportDmlOperation                    = nameof(ISupportDmlOperation);
+        public const string ISupportDmlOperationDelete              = nameof(ISupportDmlOperationDelete);
+        public const string ISupportDmlOperationInsert              = nameof(ISupportDmlOperationInsert);
+        public const string ISupportDmlOperationSave                = nameof(ISupportDmlOperationSave);
+        public const string ISupportDmlOperationSelectAll           = nameof(ISupportDmlOperationSelectAll);
+        public const string ISupportDmlOperationSelectByIndex       = nameof(ISupportDmlOperationSelectByIndex);
+        public const string ISupportDmlOperationSelectByKey         = nameof(ISupportDmlOperationSelectByKey);
         public const string ISupportDmlOperationSelectByUniqueIndex = nameof(ISupportDmlOperationSelectByUniqueIndex);
-        public const string ISupportDmlOperationSelectByIndex = nameof(ISupportDmlOperationSelectByIndex);
-
-        
-        
-        
+        public const string ISupportDmlOperationUpdate              = nameof(ISupportDmlOperationUpdate);
+        public const string Parameter                               = nameof(Parameter);
+        public const string ROW_GUID                                = nameof(ROW_GUID);
+        public const string UPDATE_DATE                             = nameof(UPDATE_DATE);
+        public const string UPDATE_TOKEN_ID                         = nameof(UPDATE_TOKEN_ID);
+        public const string UPDATE_USER_ID                          = nameof(UPDATE_USER_ID);
+        public const string VALID_FLAG                              = nameof(VALID_FLAG);
         #endregion
 
         #region Public Methods

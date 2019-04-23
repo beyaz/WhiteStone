@@ -42,7 +42,7 @@ namespace BOA.EntityGeneration.Generators
             #endregion
 
             sb.PaddingCount--;
-            sb.AppendLine("}"); 
+            sb.AppendLine("}");
             #endregion
 
             return sb.ToString();

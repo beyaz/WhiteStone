@@ -2,13 +2,12 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.Transforms;
 
 namespace BOA.EntityGeneration.Generators
 {
-    class GetInsertPart:GeneratorBase
+    class GetInsertPart : GeneratorBase
     {
-
+        #region Public Methods
         public override string ToString()
         {
             var sb = new PaddedStringBuilder();
@@ -21,9 +20,34 @@ namespace BOA.EntityGeneration.Generators
 
             return sb.ToString();
         }
+        #endregion
 
-     
-         string GetInsertSql()
+        #region Methods
+        string GetInsertParameters()
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationInsert}.GetInsertSqlParameters(ExecutionScope context)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("return new List<Parameter>");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetColumnsWillBeInsert().Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+            sb.AppendLine();
+
+            sb.PaddingCount--;
+            sb.AppendLine("};");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+
+        string GetInsertSql()
         {
             var sb = new PaddedStringBuilder();
 
@@ -59,39 +83,11 @@ namespace BOA.EntityGeneration.Generators
             sb.PaddingCount--;
             sb.AppendLine(")");
 
-            sb.AppendLine("\";"); 
+            sb.AppendLine("\";");
             #endregion
 
-
             sb.PaddingCount--;
             sb.AppendLine("}");
-
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            return sb.ToString();
-        }
-
-
-        #region Public Methods
-        string GetInsertParameters()
-        {
-            var sb = new PaddedStringBuilder();
-
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationInsert}.GetInsertSqlParameters(ExecutionScope context)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("return new List<Parameter>");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetColumnsWillBeInsert().Select(ParameterHelper.ConvertToParameterDeclarationCode)));
-            sb.AppendLine();
-
-            sb.PaddingCount--;
-            sb.AppendLine("};");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

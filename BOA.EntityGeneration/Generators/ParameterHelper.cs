@@ -26,16 +26,16 @@ namespace BOA.EntityGeneration.Generators
             {
                 sb.AppendLine($"Value = {columnInfo.ColumnName.ToContractName()} ? \"1\" : \"0\"");
             }
-            
-            else if (columnInfo.ColumnName == Names.INSERT_DATE||columnInfo.ColumnName == Names.UPDATE_DATE)
+
+            else if (columnInfo.ColumnName == Names.INSERT_DATE || columnInfo.ColumnName == Names.UPDATE_DATE)
             {
                 sb.AppendLine("Value = DateTime.Now");
             }
-            else if (columnInfo.ColumnName == Names.INSERT_USER_ID||columnInfo.ColumnName == Names.UPDATE_USER_ID)
+            else if (columnInfo.ColumnName == Names.INSERT_USER_ID || columnInfo.ColumnName == Names.UPDATE_USER_ID)
             {
                 sb.AppendLine("Value = context.AuthenticationUserName");
             }
-            else if (columnInfo.ColumnName == Names.INSERT_TOKEN_ID||columnInfo.ColumnName == Names.UPDATE_TOKEN_ID)
+            else if (columnInfo.ColumnName == Names.INSERT_TOKEN_ID || columnInfo.ColumnName == Names.UPDATE_TOKEN_ID)
             {
                 sb.AppendLine("Value = Convert.ToString(context.EngineContextMainBusinessKey)");
             }
