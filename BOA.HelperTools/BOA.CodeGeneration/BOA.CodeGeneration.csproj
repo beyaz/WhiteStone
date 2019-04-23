@@ -405,6 +405,12 @@
   <ItemGroup>
     <None Include="CodeAnalysis.FxCop" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
+      <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
+      <Name>BOA.EntityGeneration</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
