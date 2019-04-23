@@ -98,19 +98,6 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("#endregion");
             }
 
-            if (Data.IsSupportSave)
-            {
-                sb.AppendLine();
-                sb.AppendLine($"#region {Names.ISupportDmlOperationSave}");
-
-                sb.AppendLine();
-                sb.AppendAll(Create<GetSavePart>().ToString());
-                sb.AppendLine();
-
-                sb.AppendLine();
-                sb.AppendLine("#endregion");
-            }
-
             if (Data.IsSupportSelectByKey)
             {
                 sb.AppendLine();

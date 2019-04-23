@@ -16,7 +16,6 @@ namespace BOA.EntityGeneration.Common
         public const string ISupportDmlOperation                    = nameof(ISupportDmlOperation);
         public const string ISupportDmlOperationDelete              = nameof(ISupportDmlOperationDelete);
         public const string ISupportDmlOperationInsert              = nameof(ISupportDmlOperationInsert);
-        public const string ISupportDmlOperationSave                = nameof(ISupportDmlOperationSave);
         public const string ISupportDmlOperationSelectAll           = nameof(ISupportDmlOperationSelectAll);
         public const string ISupportDmlOperationSelectByIndex       = nameof(ISupportDmlOperationSelectByIndex);
         public const string ISupportDmlOperationSelectByKey         = nameof(ISupportDmlOperationSelectByKey);

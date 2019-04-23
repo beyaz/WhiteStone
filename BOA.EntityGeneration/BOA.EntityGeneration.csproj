@@ -56,7 +56,6 @@
     <Compile Include="DbModelDao\TableInfoDao.cs" />
     <Compile Include="DbModel\IndexInfo.cs" />
     <Compile Include="DbModel\TableInfo.cs" />
-    <Compile Include="Generators\GetSavePart.cs" />
     <Compile Include="SchemaToDllExporting\Compiler.cs" />
     <Compile Include="Generators\Contract.cs" />
     <Compile Include="Generators\ContractBodyDbMembers.cs" />

@@ -30,7 +30,6 @@ namespace BOA.EntityGeneration.Generators
             const bool isSupportInsert = true;
             var        isSupportUpdate = tableInfo.PrimaryKeyColumns.Any();
             // ReSharper disable once RedundantLogicalConditionalExpressionOperand
-            var isSupportSave                = isSupportInsert && isSupportUpdate;
             var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
             var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
@@ -45,16 +44,7 @@ namespace BOA.EntityGeneration.Generators
                 interfaces.Add(Names.ISupportDmlOperationUpdate);
             }
 
-            if (isSupportSave)
-            {
-                // remove already supported interfaces
-                interfaces.Remove(Names.ISupportDmlOperationUpdate);
-                interfaces.Remove(Names.ISupportDmlOperationInsert);
-
-                interfaces.Add(Names.ISupportDmlOperationSave);
-            }
-
-            if (isSupportSave)
+            if (isSupportUpdate)
             {
                 interfaces.Add(Names.ISupportDmlOperationDelete);
             }
@@ -89,19 +79,11 @@ namespace BOA.EntityGeneration.Generators
                 IsSupportGetAll              = isSupportGetAll,
                 IsSupportInsert              = isSupportInsert,
                 IsSupportUpdate              = isSupportUpdate,
-                IsSupportSave                = isSupportSave,
                 IsSupportSelectByKey         = isSupportSelectByKey,
                 IsSupportSelectByIndex       = isSupportSelectByIndex,
                 IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex,
                 DatabaseEnumName             = tableInfo.CatalogName
             };
-        }
-        #endregion
-
-        #region Methods
-        static bool ISupportInsert()
-        {
-            return true;
         }
         #endregion
     }

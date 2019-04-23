@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using BOA.EntityGeneration.DbModelDao;
+using BOA.EntityGeneration.SchemaToDllExporting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.EntityGeneration.Generators

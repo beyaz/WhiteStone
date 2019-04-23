@@ -12,7 +12,6 @@ namespace BOA.EntityGeneration.Generators
         public bool                  IsSupportGetAll    { get; set; }
         public bool                  IsSupportInsert    { get; set; }
 
-        public bool IsSupportSave                { get; set; }
         public bool IsSupportSelectByIndex       { get; set; }
         public bool IsSupportSelectByKey         { get; set; }
         public bool IsSupportSelectByUniqueIndex { get; set; }
