@@ -1,9 +1,74 @@
 ﻿using System;
 using System.Linq;
+using BOA.CodeGeneration.Common;
 using BOA.Common.Helpers;
 
 namespace BOA.CodeGeneration.Contracts.Transforms
 {
+
+        class GetSavePart:GeneratorBase
+    {
+
+       
+
+
+        public override string ToString()
+        {
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"bool {Names.ISupportDmlOperationSave}.IsReadyToUpdate");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("get");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            #region body
+
+            if (TableInfo.PrimaryKeyColumns.Count ==1)
+            {
+                var keyColumn = TableInfo.PrimaryKeyColumns[0];
+
+                if (keyColumn.DotNetType == Common.Names.DotNetInt32 ||
+                    keyColumn.DotNetType == Common.Names.DotNetInt64)
+                {
+                    sb.AppendLine($"return {keyColumn.ColumnName.ToContractName()} > 0;");
+                    
+                }
+                else if (keyColumn.DotNetType == Common.Names.DotNetStringName)
+                {
+                    sb.AppendLine($"return !string.IsNullOrWhiteSpace({keyColumn.ColumnName.ToContractName()});");
+                    
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+           
+            #endregion
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+            
+
+            return sb.ToString();
+        }
+
+
+        #region Public Methods
+        #endregion
+    }
+
+
     class GetUpdatePart:GeneratorBase
     {
 
@@ -25,7 +90,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"string {Names.ISupportDmlOperationSave}.UpdateSql");
+            sb.AppendLine($"string {Names.ISupportDmlOperationUpdate}.UpdateSql");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -70,7 +135,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSave}.GetUpdateSqlParameters(ExecutionScope context)");
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationUpdate}.GetUpdateSqlParameters(ExecutionScope context)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 

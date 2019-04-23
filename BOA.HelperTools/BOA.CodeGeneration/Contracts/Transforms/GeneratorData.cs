@@ -18,6 +18,8 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         public bool IsSupportSelectByUniqueIndex { get; set; }
         public IReadOnlyList<string> ContractInterfaces { get; set; }
         public IReadOnlyList<IndexIdentifier> NonUniqueIndexIdentifiers { get; set; }
+        public bool IsSupportInsert { get; set; }
+        public bool IsSupportUpdate { get; set; }
         #endregion
     }
 }

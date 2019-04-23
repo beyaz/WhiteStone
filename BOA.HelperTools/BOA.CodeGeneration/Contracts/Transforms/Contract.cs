@@ -79,6 +79,34 @@ namespace BOA.CodeGeneration.Contracts.Transforms
            
 
 
+            if (Data.IsSupportInsert)
+            {
+
+                sb.AppendLine();
+                sb.AppendLine($"#region {Names.ISupportDmlOperationInsert}");
+
+                sb.AppendLine();
+                sb.AppendAll(Create<GetInsertPart>().ToString());
+                sb.AppendLine();
+                
+                sb.AppendLine();
+                sb.AppendLine("#endregion");
+            }
+
+            if (Data.IsSupportUpdate)
+            {
+
+                sb.AppendLine();
+                sb.AppendLine($"#region {Names.ISupportDmlOperationUpdate}");
+                
+                sb.AppendLine();
+                sb.AppendAll(Create<GetUpdatePart>().ToString());
+                sb.AppendLine();
+
+                sb.AppendLine();
+                sb.AppendLine("#endregion");
+            }
+
             if (Data.IsSupportSave)
             {
 
@@ -86,16 +114,9 @@ namespace BOA.CodeGeneration.Contracts.Transforms
                 sb.AppendLine($"#region {Names.ISupportDmlOperationSave}");
 
                 sb.AppendLine();
-                sb.AppendAll(Create<GetInsertPart>().ToString());
+                sb.AppendAll(Create<GetSavePart>().ToString());
                 sb.AppendLine();
-
                 
-
-
-                sb.AppendLine();
-                sb.AppendAll(Create<GetUpdatePart>().ToString());
-                sb.AppendLine();
-
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
             }

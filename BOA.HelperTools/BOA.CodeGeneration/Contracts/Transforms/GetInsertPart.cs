@@ -25,7 +25,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"string {Names.ISupportDmlOperationSave}.InsertSql");
+            sb.AppendLine($"string {Names.ISupportDmlOperationInsert}.InsertSql");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -77,7 +77,7 @@ namespace BOA.CodeGeneration.Contracts.Transforms
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationSave}.GetInsertSqlParameters(ExecutionScope context)");
+            sb.AppendLine($"IReadOnlyList<Parameter> {Names.ISupportDmlOperationInsert}.GetInsertSqlParameters(ExecutionScope context)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 

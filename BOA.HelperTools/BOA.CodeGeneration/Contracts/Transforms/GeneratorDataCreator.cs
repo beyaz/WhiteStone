@@ -24,19 +24,31 @@ namespace BOA.CodeGeneration.Contracts.Transforms
                 IndexInfo = indexInfo
             }).ToList();
 
-            var isSupportGetAll              = tableInfo.SchemaName == "PRM";
-            var isSupportSave                = tableInfo.PrimaryKeyColumns.Any();
+            var        isSupportGetAll = tableInfo.SchemaName == "PRM";
+            const bool isSupportInsert = true;
+            var        isSupportUpdate = tableInfo.PrimaryKeyColumns.Any();
+            // ReSharper disable once RedundantLogicalConditionalExpressionOperand
+            var isSupportSave                = isSupportInsert && isSupportUpdate;
             var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
             var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
 
             var interfaces = new List<string>
             {
-                Names.ISupportDmlOperation
+                Names.ISupportDmlOperationInsert
             };
+
+            if (isSupportUpdate)
+            {
+                interfaces.Add(Names.ISupportDmlOperationUpdate);
+            }
 
             if (isSupportSave)
             {
+                // remove already supported interfaces
+                interfaces.Remove(Names.ISupportDmlOperationUpdate);
+                interfaces.Remove(Names.ISupportDmlOperationInsert);
+
                 interfaces.Add(Names.ISupportDmlOperationSave);
             }
 
@@ -73,12 +85,21 @@ namespace BOA.CodeGeneration.Contracts.Transforms
                 TableInfo                    = tableInfo,
                 NamespaceFullName            = $"BOA.Types.Kernel.Card.{tableInfo.SchemaName}",
                 IsSupportGetAll              = isSupportGetAll,
+                IsSupportInsert = isSupportInsert,
+                IsSupportUpdate = isSupportUpdate,
                 IsSupportSave                = isSupportSave,
                 IsSupportSelectByKey         = isSupportSelectByKey,
                 IsSupportSelectByIndex       = isSupportSelectByIndex,
                 IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex,
                 DatabaseEnumName             = tableInfo.CatalogName
             };
+        }
+        #endregion
+
+        #region Methods
+        static bool ISupportInsert()
+        {
+            return true;
         }
         #endregion
     }
