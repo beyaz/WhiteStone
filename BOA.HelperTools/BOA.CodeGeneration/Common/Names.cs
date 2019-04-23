@@ -1,4 +1,14 @@
-﻿namespace BOA.CodeGeneration.Common
+﻿
+namespace BOA.EntityGeneration.Common
+{
+
+    public static class DotNetName
+    {
+
+    }
+}
+
+namespace BOA.CodeGeneration.Common
 {
     public static class Names
     {
@@ -9,6 +19,7 @@
         public const string ChannelIdValue     = "Context.ApplicationContext.Authentication.Channel";
 
         public const string Contains              = "Contains";
+
         public const string DotNetBool            = "bool";
         public const string DotNetByte            = "byte";
         public const string DotNetByteArray       = "byte[]";
