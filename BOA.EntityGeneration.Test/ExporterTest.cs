@@ -35,7 +35,6 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 "PPD",
                 "PRM",
                 "RKL",
-                "SYSOP",
                 "STM",
                 "SWC",
                 "TMP",
