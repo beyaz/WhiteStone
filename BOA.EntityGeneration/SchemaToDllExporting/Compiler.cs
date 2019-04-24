@@ -64,7 +64,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
 
             Directory.CreateDirectory($@"D:\work\BOA.ExternalLibraries\ExternalLibraries\AnyCPU\{fileNameWithoutExtension}\0.0.0.0\");
 
-            File.Copy($@"d:\boa\server\bin\{fileNameWithoutExtension}.dll",externalLibPath);
+            File.Copy($@"d:\boa\server\bin\{fileNameWithoutExtension}.dll",externalLibPath,true);
 
 
         }
