@@ -47,7 +47,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
             {
                 CompilerOptions         = OPTIONS,
                 GenerateExecutable      = false,
-                IncludeDebugInformation = false,
+                IncludeDebugInformation = true,
                 OutputAssembly          = $@"d:\boa\server\bin\{fileNameWithoutExtension}.dll"
             };
 
