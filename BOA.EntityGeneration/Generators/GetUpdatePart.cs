@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -35,7 +36,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetSqlInputParameters().Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+            sb.AppendAll(string.Join("," + Environment.NewLine, UpdateByPrimaryKeyInfoCreator.Create(TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
             sb.AppendLine();
 
             sb.PaddingCount--;
@@ -60,22 +61,11 @@ namespace BOA.EntityGeneration.Generators
             sb.PaddingCount++;
 
             #region body
+            
             sb.AppendLine("return @\"");
 
-            sb.AppendLine($"UPDATE [{TableInfo.SchemaName}].[{TableInfo.TableName}] SET");
-            sb.PaddingCount++;
-
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetColumnsWillBeUpdate().Select(c => $"[{c.ColumnName}] = @{c.ColumnName}")));
+            sb.AppendAll(UpdateByPrimaryKeyInfoCreator.Create(TableInfo).Sql);
             sb.AppendLine();
-
-            sb.PaddingCount--;
-            sb.AppendLine("WHERE");
-            sb.PaddingCount++;
-
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetWhereParameters().Select(c => $"[{c.ColumnName}] = @{c.ColumnName}")));
-            sb.AppendLine();
-
-            sb.PaddingCount--;
 
             sb.AppendLine("\";");
             #endregion

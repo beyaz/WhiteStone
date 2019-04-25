@@ -77,12 +77,13 @@
     <Compile Include="Generators\SelectByIndex.cs" />
     <Compile Include="Generators\SelectByKeys.cs" />
     <Compile Include="Generators\SelectByUniqueIndex.cs" />
-    <Compile Include="Generators\UpdateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchemaToDllExporting\SchemaExporter.cs" />
     <Compile Include="SchemaToDllExporting\SchemaExporterDataForBOACard.cs" />
     <Compile Include="ScriptModelCreation\DeleteInfoCreator.cs" />
+    <Compile Include="ScriptModelCreation\UpdateByPrimaryKeyInfoCreator.cs" />
     <Compile Include="ScriptModel\DeleteInfo.cs" />
+    <Compile Include="ScriptModel\UpdateByPrimaryKeyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
