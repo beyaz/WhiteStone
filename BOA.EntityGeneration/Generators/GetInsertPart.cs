@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -76,7 +77,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetColumnsWillBeInsert().Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+            sb.AppendAll(string.Join("," + Environment.NewLine, InsertInfoCreator.Create(TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
             sb.AppendLine();
 
             sb.PaddingCount--;
@@ -103,26 +104,8 @@ namespace BOA.EntityGeneration.Generators
             #region body
             sb.AppendLine("return @\"");
 
-            sb.AppendLine($"INSERT INTO [{TableInfo.SchemaName}].[{TableInfo.TableName}]");
-            sb.AppendLine("(");
-            sb.PaddingCount++;
-
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetColumnsWillBeInsert().Select(c => "[" + c.ColumnName + "]")));
-            sb.AppendLine();
-
-            sb.PaddingCount--;
-            sb.AppendLine(")");
-
-            sb.AppendLine("VALUES");
-
-            sb.AppendLine("(");
-            sb.PaddingCount++;
-
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetColumnsWillBeInsert().Select(c => "@" + c.ColumnName)));
-            sb.AppendLine();
-
-            sb.PaddingCount--;
-            sb.AppendLine(")");
+           sb.AppendAll(InsertInfoCreator.Create(TableInfo).Sql);
+           sb.AppendLine();
 
             sb.AppendLine("\";");
             #endregion

@@ -81,10 +81,12 @@
     <Compile Include="SchemaToDllExporting\SchemaExporter.cs" />
     <Compile Include="SchemaToDllExporting\SchemaExporterDataForBOACard.cs" />
     <Compile Include="ScriptModelCreation\DeleteInfoCreator.cs" />
+    <Compile Include="ScriptModelCreation\InsertInfoCreator.cs" />
     <Compile Include="ScriptModelCreation\SelectAllInfoCreator.cs" />
     <Compile Include="ScriptModelCreation\SelectByPrimaryKeyInfoCreator.cs" />
     <Compile Include="ScriptModelCreation\UpdateByPrimaryKeyInfoCreator.cs" />
     <Compile Include="ScriptModel\DeleteInfo.cs" />
+    <Compile Include="ScriptModel\InsertInfo.cs" />
     <Compile Include="ScriptModel\SelectAllInfo.cs" />
     <Compile Include="ScriptModel\SelectByPrimaryKeyInfo.cs" />
     <Compile Include="ScriptModel\UpdateByPrimaryKeyInfo.cs" />
