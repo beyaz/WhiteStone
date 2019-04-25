@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -43,7 +44,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.GetWhereParameters().Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+            sb.AppendAll(string.Join("," + Environment.NewLine, DeleteInfoCreator.Create(TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
             sb.AppendLine();
 
             sb.PaddingCount--;
@@ -79,7 +80,8 @@ namespace BOA.EntityGeneration.Generators
             #region body
             sb.AppendLine("return @\"");
             sb.PaddingCount++;
-            sb.AppendLine($"DELETE FROM [{TableInfo.SchemaName}].[{TableInfo.TableName}] WHERE {string.Join(" , ", TableInfo.GetWhereParameters().Select(c => $"[{c.ColumnName}] = @{c.ColumnName}"))}");
+
+            sb.AppendLine(DeleteInfoCreator.Create(TableInfo).Sql);
             sb.PaddingCount--;
             sb.AppendLine("\";");
             #endregion
