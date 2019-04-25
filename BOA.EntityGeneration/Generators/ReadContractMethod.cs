@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.Generators
         {
             if (c.ColumnName == Names.VALID_FLAG)
             {
-                return $"{c.ColumnName.ToContractName()}= recordReader.{c.SqlReaderMethod}(DataRecordReader.ReadValue(reader, \"{c.ColumnName}\")) == \"1\";";
+                return $"{c.ColumnName.ToContractName()} = recordReader.{c.SqlReaderMethod}(DataRecordReader.ReadValue(reader, \"{c.ColumnName}\")) == \"1\";";
             }
 
             return $"{c.ColumnName.ToContractName()} = recordReader.{c.SqlReaderMethod}(DataRecordReader.ReadValue(reader, \"{c.ColumnName}\"));";
