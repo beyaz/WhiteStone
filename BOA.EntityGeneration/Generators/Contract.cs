@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            WriteMainComment(sb);
+            ContractCommentInfoCreator.Write(sb, TableInfo);
 
             sb.AppendLine("[Serializable]");
 
@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            WriteMainComment(sb);
+            ContractCommentInfoCreator.Write(sb, TableInfo);
             sb.AppendLine("// ReSharper disable once EmptyConstructor");
             sb.AppendLine($"public {TableInfo.TableName.ToContractName()}Contract()");
             sb.AppendLine("{");
@@ -171,21 +171,6 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("}"); // end of namespace
 
             return sb.ToString();
-        }
-        #endregion
-
-        #region Methods
-        void WriteMainComment(PaddedStringBuilder sb)
-        {
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{PaddingForComment}Entity contract for table {TableInfo.SchemaName}.{TableInfo.TableName}");
-
-            foreach (var indexInfo in TableInfo.IndexInfoList)
-            {
-                sb.AppendLine($"///{PaddingForComment}<para>{indexInfo}</para>");
-            }
-
-            sb.AppendLine("/// </summary>");
         }
         #endregion
     }

@@ -85,6 +85,7 @@
     <Compile Include="ScriptModelCreation\SelectByIndexInfoCreator.cs" />
     <Compile Include="ScriptModelCreation\SelectByPrimaryKeyInfoCreator.cs" />
     <Compile Include="ScriptModelCreation\UpdateByPrimaryKeyInfoCreator.cs" />
+    <Compile Include="ScriptModel\ContractBodyDbMembers.cs" />
     <Compile Include="ScriptModel\DeleteInfo.cs" />
     <Compile Include="ScriptModel\InsertInfo.cs" />
     <Compile Include="ScriptModel\SelectAllInfo.cs" />

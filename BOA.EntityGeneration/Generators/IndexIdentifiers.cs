@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.ScriptModel;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -19,7 +20,7 @@ namespace BOA.EntityGeneration.Generators
                 {
                     sb.AppendLine();
                     sb.AppendLine("/// <summary>");
-                    sb.AppendLine($"///{PaddingForComment} ... WHERE {string.Join(" and ", item.IndexInfo.ColumnNames.Select(x => x + " = " + x.ToContractName()))}");
+                    sb.AppendLine($"///{Padding.ForComment} ... WHERE {string.Join(" and ", item.IndexInfo.ColumnNames.Select(x => x + " = " + x.ToContractName()))}");
                     sb.AppendLine("/// </summary>");
 
                     sb.AppendLine($"public static readonly {item.TypeName} {item.Name} = new {item.TypeName}();");
@@ -37,7 +38,7 @@ namespace BOA.EntityGeneration.Generators
                 {
                     sb.AppendLine();
                     sb.AppendLine("/// <summary>");
-                    sb.AppendLine($"///{PaddingForComment} ... WHERE {string.Join(" and ", item.IndexInfo.ColumnNames.Select(x => x + " = " + x.ToContractName()))}");
+                    sb.AppendLine($"///{Padding.ForComment} ... WHERE {string.Join(" and ", item.IndexInfo.ColumnNames.Select(x => x + " = " + x.ToContractName()))}");
                     sb.AppendLine("/// </summary>");
 
                     sb.AppendLine($"public static readonly {item.TypeName} {item.Name} = new {item.TypeName}();");

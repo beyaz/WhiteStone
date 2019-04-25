@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using BOA.EntityGeneration.DbModel;
 
+
+namespace BOA.EntityGeneration.ScriptModel
+{
+    public static class Padding
+    {
+        public const string ForComment = "     ";
+    }
+}
 namespace BOA.EntityGeneration.ScriptModel
 {
 
@@ -16,10 +24,10 @@ namespace BOA.EntityGeneration.ScriptModel
 
 
     [Serializable]
-    public class ContractBodyDbMembers
+    public class ContractCommentInfo
     {
         #region Public Properties
-        public string                    PropertyDefinitions           { get; set; }
+        public string                    Comment           { get; set; }
         #endregion
     }
 }
