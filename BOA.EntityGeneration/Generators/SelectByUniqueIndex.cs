@@ -42,7 +42,7 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendAll(string.Join("," + Environment.NewLine, SelectByUniqueIndexInfoCreator.Create(TableInfo, item).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+                sb.AppendAll(string.Join("," + Environment.NewLine, SelectByIndexInfoCreator.Create(TableInfo, item).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
                 sb.AppendLine();
 
                 sb.PaddingCount--;
@@ -79,7 +79,7 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("return @\"");
                 sb.PaddingCount++;
 
-                sb.AppendAll(SelectByUniqueIndexInfoCreator.Create(TableInfo, item).Sql);
+                sb.AppendAll(SelectByIndexInfoCreator.Create(TableInfo, item).Sql);
                 sb.AppendLine();
 
                 sb.PaddingCount--;

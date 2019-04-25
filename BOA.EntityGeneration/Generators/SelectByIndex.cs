@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -41,9 +42,7 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                var whereColumns = TableInfo.Columns.Where(x => item.IndexInfo.ColumnNames.Contains(x.ColumnName));
-
-                sb.AppendAll(string.Join("," + Environment.NewLine, whereColumns.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+                sb.AppendAll(string.Join("," + Environment.NewLine, SelectByIndexInfoCreator.Create(TableInfo, item).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
                 sb.AppendLine();
 
                 sb.PaddingCount--;
@@ -80,20 +79,8 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("return @\"");
                 sb.PaddingCount++;
 
-                sb.AppendLine("SELECT");
-                sb.PaddingCount++;
-
-                sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.Columns.Select(c => $"[{c.ColumnName}]")));
+                sb.AppendAll(SelectByIndexInfoCreator.Create(TableInfo, item).Sql);
                 sb.AppendLine();
-                sb.AppendLine($"FROM [{TableInfo.SchemaName}].[{TableInfo.TableName}] WITH (NOLOCK)");
-                sb.PaddingCount--;
-                sb.AppendLine("WHERE");
-                sb.PaddingCount++;
-
-                sb.AppendAll(string.Join(" AND " + Environment.NewLine, item.IndexInfo.ColumnNames.Select(columnName => $"[{columnName}] = @{columnName}")));
-                sb.AppendLine();
-
-                sb.PaddingCount--;
 
                 sb.PaddingCount--;
                 sb.AppendLine("\";");

@@ -8,14 +8,14 @@ using BOA.EntityGeneration.ScriptModel;
 
 namespace BOA.EntityGeneration.ScriptModelCreation
 {
-    public static class SelectByUniqueIndexInfoCreator
+    public static class SelectByIndexInfoCreator
     {
         #region Public Methods
-        public static SelectByUniqueIndexInfo Create(TableInfo tableInfo, IndexIdentifier indexIdentifier)
+        public static SelectByIndexInfo Create(TableInfo tableInfo, IndexIdentifier indexIdentifier)
         {
             var sqlParameters = tableInfo.Columns.Where(x => indexIdentifier.IndexInfo.ColumnNames.Contains(x.ColumnName)).ToList();
 
-            return new SelectByUniqueIndexInfo
+            return new SelectByIndexInfo
             {
                 Sql           = GetSql(tableInfo, sqlParameters),
                 SqlParameters = sqlParameters

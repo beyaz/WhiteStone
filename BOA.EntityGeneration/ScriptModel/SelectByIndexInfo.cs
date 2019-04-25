@@ -5,7 +5,7 @@ using BOA.EntityGeneration.DbModel;
 namespace BOA.EntityGeneration.ScriptModel
 {
     [Serializable]
-    public class SelectByUniqueIndexInfo
+    public class SelectByIndexInfo
     {
         #region Public Properties
         public string                    Sql           { get; set; }

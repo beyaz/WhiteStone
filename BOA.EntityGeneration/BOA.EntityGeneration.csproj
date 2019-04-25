@@ -70,7 +70,6 @@
     <Compile Include="Generators\GetUpdatePart.cs" />
     <Compile Include="Common\IndexIdentifier.cs" />
     <Compile Include="Generators\IndexIdentifiers.cs" />
-    <Compile Include="Generators\InsertHelperHelper.cs" />
     <Compile Include="Common\Names.cs" />
     <Compile Include="Generators\ParameterHelper.cs" />
     <Compile Include="Generators\ReadContractMethod.cs" />
@@ -83,13 +82,13 @@
     <Compile Include="ScriptModelCreation\DeleteInfoCreator.cs" />
     <Compile Include="ScriptModelCreation\InsertInfoCreator.cs" />
     <Compile Include="ScriptModelCreation\SelectAllInfoCreator.cs" />
-    <Compile Include="ScriptModelCreation\SelectByUniqueIndexInfoCreator.cs" />
+    <Compile Include="ScriptModelCreation\SelectByIndexInfoCreator.cs" />
     <Compile Include="ScriptModelCreation\SelectByPrimaryKeyInfoCreator.cs" />
     <Compile Include="ScriptModelCreation\UpdateByPrimaryKeyInfoCreator.cs" />
     <Compile Include="ScriptModel\DeleteInfo.cs" />
     <Compile Include="ScriptModel\InsertInfo.cs" />
     <Compile Include="ScriptModel\SelectAllInfo.cs" />
-    <Compile Include="ScriptModel\SelectByUniqueIndexInfo.cs" />
+    <Compile Include="ScriptModel\SelectByIndexInfo.cs" />
     <Compile Include="ScriptModel\SelectByPrimaryKeyInfo.cs" />
     <Compile Include="ScriptModel\UpdateByPrimaryKeyInfo.cs" />
   </ItemGroup>
