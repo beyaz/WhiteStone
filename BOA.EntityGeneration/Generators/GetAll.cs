@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -25,14 +24,9 @@ namespace BOA.EntityGeneration.Generators
 
             #region body
             sb.AppendLine("return @\"");
-            sb.AppendLine("SELECT ");
-            sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.Columns.Select(c => "[" + c.ColumnName + "]")));
+            sb.AppendAll(SelectAllInfoCreator.Create(TableInfo).Sql);
             sb.AppendLine();
-
-            sb.PaddingCount--;
-            sb.AppendLine($"FROM [{TableInfo.SchemaName}].[{TableInfo.TableName}] WITH(NOLOCK)");
 
             sb.AppendLine("\";");
             #endregion

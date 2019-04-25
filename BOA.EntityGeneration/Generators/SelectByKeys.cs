@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -41,7 +42,8 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.PrimaryKeyColumns.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+            
+            sb.AppendAll(string.Join("," + Environment.NewLine, SelectByPrimaryKeyInfoCreator.Create(TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
             sb.AppendLine();
 
             sb.PaddingCount--;
@@ -75,20 +77,8 @@ namespace BOA.EntityGeneration.Generators
             #region get body
             sb.AppendLine("return @\"");
 
-            sb.AppendLine("SELECT");
-            sb.PaddingCount++;
-
-            sb.AppendAll(string.Join("," + Environment.NewLine, TableInfo.Columns.Select(c => $"[{c.ColumnName}]")));
+            sb.AppendAll(SelectByPrimaryKeyInfoCreator.Create(TableInfo).Sql);
             sb.AppendLine();
-            sb.AppendLine($"FROM [{TableInfo.SchemaName}].[{TableInfo.TableName}] WITH (NOLOCK)");
-            sb.PaddingCount--;
-            sb.AppendLine("WHERE");
-            sb.PaddingCount++;
-
-            sb.AppendAll(string.Join(" AND " + Environment.NewLine, TableInfo.PrimaryKeyColumns.Select(c => $"[{c.ColumnName}] = @{c.ColumnName}")));
-            sb.AppendLine();
-
-            sb.PaddingCount--;
 
             sb.AppendLine("\";");
             #endregion
