@@ -1,5 +1,6 @@
 ﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
+using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -36,7 +37,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("}");
             sb.AppendLine();
 
-            sb.AppendAll(Create<ContractBodyDbMembers>().ToString());
+            sb.AppendAll(ContractBodyDbMembersCreator.Create(TableInfo).PropertyDefinitions);
             sb.AppendLine();
 
             sb.AppendLine();

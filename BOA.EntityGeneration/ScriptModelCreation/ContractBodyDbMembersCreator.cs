@@ -5,13 +5,18 @@ using System.Text;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.ScriptModel;
 
-namespace BOA.EntityGeneration.Generators
+namespace BOA.EntityGeneration.ScriptModelCreation
 {
-    class ContractBodyDbMembers : GeneratorBase
+    public static class ContractBodyDbMembersCreator
     {
+        #region Properties
+        static string PaddingForComment => "     ";
+        #endregion
+
         #region Public Methods
-        public override string ToString()
+        public static ContractBodyDbMembers Create(TableInfo TableInfo)
         {
             var sb = new StringBuilder();
 
@@ -34,7 +39,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine();
             sb.AppendLine("#endregion");
 
-            return sb.ToString();
+            return new ContractBodyDbMembers {PropertyDefinitions = sb.ToString()};
         }
         #endregion
 

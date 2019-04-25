@@ -59,7 +59,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Properties
-        protected static string PaddingForComment => "     ";
+        public static string PaddingForComment => "     ";
 
         protected static int PaddingForMethodDeclaration => 2;
         #endregion
