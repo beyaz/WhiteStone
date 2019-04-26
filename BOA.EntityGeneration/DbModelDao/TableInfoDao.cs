@@ -4,12 +4,14 @@ using System.Linq;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModelDaoHelper;
+using Ninject;
 
 namespace BOA.EntityGeneration.DbModelDao
 {
     public class TableInfoDao
     {
         #region Public Properties
+        [Inject]
         public IDatabase Database { get; set; }
         #endregion
 

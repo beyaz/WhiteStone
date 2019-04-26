@@ -4,13 +4,17 @@ using BOA.DatabaseAccess;
 using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModelDao;
+using Ninject;
 
 namespace BOA.EntityGeneration.Generators
 {
     public class GeneratorDataCreator
     {
+        [Inject]
+        public IDatabase Database { get; set; }
+
         #region Public Methods
-        public static GeneratorData Create(TableInfo tableInfo, IDatabase database)
+        public  GeneratorData Create(TableInfo tableInfo)
         {
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).Select(indexInfo => new IndexIdentifier
             {
@@ -73,7 +77,7 @@ namespace BOA.EntityGeneration.Generators
 
             var sequenceName = "SEQ_" + tableInfo.TableName;
 
-            var hasSequenceInDatabase = database.HasSequenceLike(tableInfo.SchemaName, sequenceName);
+            var hasSequenceInDatabase = Database.HasSequenceLike(tableInfo.SchemaName, sequenceName);
 
             var hasSequence = false;
             if (hasSequenceInDatabase && tableInfo.PrimaryKeyColumns.Count == 1)

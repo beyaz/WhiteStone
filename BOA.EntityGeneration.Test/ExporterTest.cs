@@ -48,6 +48,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
             using (var kernel = new StandardKernel())
             {
                 kernel.Bind<Database>().To<BOACardDatabase>().InSingletonScope();
+                kernel.Bind<IDatabase>().To<BOACardDatabase>().InSingletonScope();
 
                 using (var database = kernel.Get<BOACardDatabase>())
                 {

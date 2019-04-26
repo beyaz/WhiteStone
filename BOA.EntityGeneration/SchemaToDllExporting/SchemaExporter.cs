@@ -12,6 +12,12 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         #region Public Properties
         [Inject]
         public Database Database { get; set; }
+
+        [Inject]
+        public TableInfoDao TableInfoDao { get; set; }
+
+        [Inject]
+        public GeneratorDataCreator GeneratorDataCreator { get; set; }
         #endregion
 
         #region Public Methods
@@ -28,16 +34,11 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
 
             foreach (var tableName in tableNames)
             {
-                var dao = new TableInfoDao
-                {
-                    Database = Database
-                };
-
-                var tableInfo = dao.GetInfo(data.CatalogName, data.SchemaName, tableName);
+                var tableInfo = TableInfoDao.GetInfo(data.CatalogName, data.SchemaName, tableName);
 
                 var contract = new Contract
                 {
-                    Data = GeneratorDataCreator.Create(tableInfo, Database)
+                    Data = GeneratorDataCreator.Create(tableInfo)
                 };
 
                 data.OnTableDataCreated?.Invoke(contract.Data);
