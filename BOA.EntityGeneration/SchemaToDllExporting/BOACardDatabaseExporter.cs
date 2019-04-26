@@ -1,16 +1,13 @@
 ﻿using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModelDao;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 
 namespace BOA.EntityGeneration.SchemaToDllExporting
 {
-    [TestClass]
-    public class ExporterTest
+    public class BOACardDatabaseExporter
     {
         #region Public Methods
-        [TestMethod]
-        public void ExportBOACardDatabase()
+        public static void Export()
         {
             var schemaNames = new[]
             {
@@ -50,23 +47,15 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 kernel.Bind<Database>().To<BOACardDatabase>().InSingletonScope();
                 kernel.Bind<IDatabase>().To<BOACardDatabase>().InSingletonScope();
 
-                using (var database = kernel.Get<BOACardDatabase>())
+                foreach (var schemaName in schemaNames)
                 {
-                    foreach (var schemaName in schemaNames)
-                    {
-                        var schemaExporter = kernel.Get<SchemaExporter>();
+                    var schemaExporter = kernel.Get<SchemaExporter>();
 
-                        schemaExporter.Export(new SchemaExporterDataForBOACard
-                        {
-                            Database   = database,
-                            SchemaName = schemaName
-                        });
-                    }
+                    schemaExporter.Export(schemaName);
                 }
+
+                kernel.Get<BOACardDatabase>().Dispose();
             }
-
-
-            
         }
         #endregion
     }

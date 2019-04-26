@@ -40,7 +40,7 @@ namespace BOA.EntityGeneration.Generators
         #endregion
 
         #region Public Methods
-        public string TransformText(GeneratorData data)
+        public string TransformText(ContractData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -53,7 +53,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("using BOA.Types.Kernel.Card.DatabaseIntegration;");
 
             sb.AppendLine();
-            sb.AppendLine("namespace " + data.NamespaceFullName);
+            sb.AppendLine("namespace " + data.NamespaceFullNameOfTypeAssembly);
             sb.AppendLine("{");
             sb.PaddingCount++;
 
