@@ -6,22 +6,26 @@ using System.Linq;
 
 namespace BOA.EntityGeneration.SchemaToDllExporting
 {
-    /// <summary>
-    ///     The compiler
-    /// </summary>
-    public class Compiler
+    public class CompilerData
     {
         #region Public Properties
         public string                OutputAssemblyName   { get; set; }
         public IReadOnlyList<string> ReferencedAssemblies { get; set; }
         public string[]              Sources              { get; set; }
         #endregion
+    }
+    /// <summary>
+    ///     The compiler
+    /// </summary>
+    public class Compiler
+    {
+       
 
         #region Public Methods
         /// <summary>
         ///     Compiles given source code
         /// </summary>
-        public void Compile()
+        public void Compile(CompilerData data)
         {
             const string SYSTEM_CORE = "System.Core.dll";
             const string SYSTEM_DATA = "System.Data.dll";
@@ -36,9 +40,9 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 SYSTEM_DATA
             };
 
-            referencedAssemblies.AddRange(ReferencedAssemblies);
+            referencedAssemblies.AddRange(data.ReferencedAssemblies);
 
-            var fileNameWithoutExtension = $"BOA.Types.Kernel.Card.{OutputAssemblyName}";
+            var fileNameWithoutExtension = $"BOA.Types.Kernel.Card.{data.OutputAssemblyName}";
 
             const string OPTIONS  = "/target:library /optimize";
             const string LANGUAGE = "CSharp";
@@ -51,7 +55,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 OutputAssembly          = $@"d:\boa\server\bin\{fileNameWithoutExtension}.dll"
             };
 
-            var results = compiler.CompileAssemblyFromSource(compilerParams, Sources);
+            var results = compiler.CompileAssemblyFromSource(compilerParams, data.Sources);
 
             var errors = ConvertToList(results.Errors);
 

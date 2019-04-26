@@ -1,13 +1,17 @@
 ﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.ScriptModelCreation;
+using Ninject;
 
 namespace BOA.EntityGeneration.Generators
 {
     public class Contract : GeneratorBase
     {
+        [Inject]
+        public GetAll GetAll { get; set; }
+
         #region Public Methods
-        public override string ToString()
+        public string TransformText(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -157,7 +161,8 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine($"#region {Names.ISupportDmlOperationDelete}");
 
                 sb.AppendLine();
-                sb.AppendAll(Create<GetAll>().ToString());
+                sb.AppendAll(GetAll.TransformText(data));
+
                 sb.AppendLine();
 
                 sb.AppendLine();

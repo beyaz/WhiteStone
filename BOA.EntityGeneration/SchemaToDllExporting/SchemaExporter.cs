@@ -11,13 +11,16 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
     {
         #region Public Properties
         [Inject]
+        public Compiler Compiler { get; set; }
+
+        [Inject]
         public Database Database { get; set; }
 
         [Inject]
-        public TableInfoDao TableInfoDao { get; set; }
+        public GeneratorDataCreator GeneratorDataCreator { get; set; }
 
         [Inject]
-        public GeneratorDataCreator GeneratorDataCreator { get; set; }
+        public TableInfoDao TableInfoDao { get; set; }
         #endregion
 
         #region Public Methods
@@ -46,14 +49,12 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 sources.Add(contract.ToString());
             }
 
-            var compiler = new Compiler
+            Compiler.Compile(new CompilerData
             {
                 OutputAssemblyName   = data.SchemaName,
                 Sources              = sources.ToArray(),
                 ReferencedAssemblies = data.ReferencedAssemblies
-            };
-
-            compiler.Compile();
+            });
         }
         #endregion
     }

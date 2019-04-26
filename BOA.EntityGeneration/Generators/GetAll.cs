@@ -4,10 +4,10 @@ using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
-    class GetAll : GeneratorBase
+    public class GetAll
     {
         #region Public Methods
-        public override string ToString()
+        public string TransformText(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -25,7 +25,7 @@ namespace BOA.EntityGeneration.Generators
             #region body
             sb.AppendLine("return @\"");
 
-            sb.AppendAll(SelectAllInfoCreator.Create(TableInfo).Sql);
+            sb.AppendAll(SelectAllInfoCreator.Create(data.TableInfo).Sql);
             sb.AppendLine();
 
             sb.AppendLine("\";");
