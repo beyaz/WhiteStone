@@ -19,7 +19,7 @@ namespace BOA.CodeGeneration.Generators
 
         #region Properties
         string ParametersPart => string.Join(" , ", from c in PrimaryKeyColumns
-                                                    select c.DotNetType + " " + c.ColumnName.AsMethodParameter());
+                                                    select c.DotNetType + " " + c.ColumnName.AsMethodParameter2());
         #endregion
 
         #region Public Methods
@@ -54,7 +54,7 @@ namespace BOA.CodeGeneration.Generators
             foreach (var c in PrimaryKeyColumns)
             {
                 WriteLine("DBLayer.AddInParameter(command, \"{0}\", SqlDbType.{1}, {2});",
-                          c.ColumnName, c.SqlDatabaseTypeName, c.ColumnName.AsMethodParameter());
+                          c.ColumnName, c.SqlDatabaseTypeName, c.ColumnName.AsMethodParameter2());
             }
 
             WriteLine("#endregion");

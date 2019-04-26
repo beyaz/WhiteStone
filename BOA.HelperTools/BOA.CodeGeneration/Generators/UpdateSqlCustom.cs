@@ -45,12 +45,12 @@ namespace BOA.CodeGeneration.Generators
             ProcedureParameters = from c in Context.Table.Columns
                                   where updateColumns.Contains(c.ColumnName) ||
                                         whereColumns.Contains(c.ColumnName) ||
-                                        Names.GenericUpdateInformationColumns.Contains(c.ColumnName)
+                                        Names2.GenericUpdateInformationColumns.Contains(c.ColumnName)
                                   select c;
 
             _updateColumns = from c in Context.Table.Columns
                              where updateColumns.Contains(c.ColumnName) ||
-                                   Names.GenericUpdateInformationColumns.Contains(c.ColumnName)
+                                   Names2.GenericUpdateInformationColumns.Contains(c.ColumnName)
                              select c;
         }
         #endregion

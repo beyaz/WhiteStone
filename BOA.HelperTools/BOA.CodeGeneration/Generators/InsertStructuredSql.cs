@@ -127,7 +127,7 @@ namespace BOA.CodeGeneration.Generators
         #region Methods
         List<ColumnInfo> GetInsertValuesColumns()
         {
-            return Columns.Where(c => !(Names.GenericUpdateInformationColumns.Contains(c.ColumnName) ||
+            return Columns.Where(c => !(Names2.GenericUpdateInformationColumns.Contains(c.ColumnName) ||
                                         c.IsIdentity ||
                                         c.DataType == SqlDataType.Timestamp))
                           .Select(y => y)
@@ -138,7 +138,7 @@ namespace BOA.CodeGeneration.Generators
         {
             columns = columns ?? Columns;
 
-            return columns.Where(c => !(Names.GenericUpdateInformationColumns.Contains(c.ColumnName) ||
+            return columns.Where(c => !(Names2.GenericUpdateInformationColumns.Contains(c.ColumnName) ||
                                         c.IsIdentity ||
                                         c.DataType == SqlDataType.Timestamp))
                           .Select(y => y)

@@ -26,7 +26,7 @@ namespace BOA.CodeGeneration.Util
         /// <summary>
         ///     Ases the method parameter.
         /// </summary>
-        public static string AsMethodParameter(this string columnName)
+        public static string AsMethodParameter2(this string columnName)
         {
             if (columnName == null)
             {
@@ -140,55 +140,55 @@ namespace BOA.CodeGeneration.Util
             c = columns.FirstOrDefault(x => x.ColumnName == where.BiggerThan);
             if (c != null)
             {
-                return Names.BiggerThan;
+                return Names2.BiggerThan;
             }
 
             c = columns.FirstOrDefault(x => x.ColumnName == where.LessThan);
             if (c != null)
             {
-                return Names.LessThan;
+                return Names2.LessThan;
             }
 
             c = columns.FirstOrDefault(x => x.ColumnName == where.LessThanOrEquals);
             if (c != null)
             {
-                return Names.LessThanOrEquals;
+                return Names2.LessThanOrEquals;
             }
 
             c = columns.FirstOrDefault(x => x.ColumnName == where.BiggerThanOrEquals);
             if (c != null)
             {
-                return Names.BiggerThanOrEquals;
+                return Names2.BiggerThanOrEquals;
             }
 
             c = columns.FirstOrDefault(x => x.ColumnName == where.StartsWith);
             if (c != null)
             {
-                return Names.StartsWith;
+                return Names2.StartsWith;
             }
 
             c = columns.FirstOrDefault(x => x.ColumnName == where.EndsWith);
             if (c != null)
             {
-                return Names.EndsWith;
+                return Names2.EndsWith;
             }
 
             c = columns.FirstOrDefault(x => x.ColumnName == where.Contains);
             if (c != null)
             {
-                return Names.Contains;
+                return Names2.Contains;
             }
 
             c = columns.FirstOrDefault(x => x.ColumnName == where.NotEqual);
             if (c != null)
             {
-                return Names.NotEqual;
+                return Names2.NotEqual;
             }
 
             c = columns.FirstOrDefault(x => x.ColumnName == where.IsNull);
             if (c != null)
             {
-                return Names.IsNull;
+                return Names2.IsNull;
             }
 
             throw new Exception("Column");

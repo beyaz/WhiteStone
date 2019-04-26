@@ -49,7 +49,7 @@ namespace BOA.CodeGeneration.Generators
 
             foreach (var columnInfo in columns)
             {
-                if (Names.GenericUpdateInformationColumns.Contains(columnInfo.ColumnName))
+                if (Names2.GenericUpdateInformationColumns.Contains(columnInfo.ColumnName))
                 {
                     continue;
                 }

@@ -26,10 +26,10 @@ namespace BOA.CodeGeneration.Generators
             get
             {
                 return Columns.Where(c => !(
-                                         c.ColumnName == Names.UserName ||
-                                         c.ColumnName == Names.HostName ||
-                                         c.ColumnName == Names.SystemDate ||
-                                         c.ColumnName == Names.HostIP ||
+                                         c.ColumnName == Names2.UserName ||
+                                         c.ColumnName == Names2.HostName ||
+                                         c.ColumnName == Names2.SystemDate ||
+                                         c.ColumnName == Names2.HostIP ||
                                          c.IsIdentity && !c.IsPrimaryKey ||
                                          c.DataType == SqlDataType.Timestamp))
                               .Select(y => y)
@@ -153,10 +153,10 @@ namespace BOA.CodeGeneration.Generators
         protected virtual IEnumerable<ColumnInfo> GetUpdateColumns()
         {
             return Columns.Where(c => !(
-                                     c.ColumnName == Names.UserName ||
-                                     c.ColumnName == Names.HostName ||
-                                     c.ColumnName == Names.SystemDate ||
-                                     c.ColumnName == Names.HostIP ||
+                                     c.ColumnName == Names2.UserName ||
+                                     c.ColumnName == Names2.HostName ||
+                                     c.ColumnName == Names2.SystemDate ||
+                                     c.ColumnName == Names2.HostIP ||
                                      c.IsIdentity ||
                                      c.DataType == SqlDataType.Timestamp))
                           .Select(y => y);

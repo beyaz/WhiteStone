@@ -10,6 +10,7 @@ using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.DbModelDaoHelper;
+using Names = BOA.CodeGeneration.Common.Names2;
 
 namespace BOA.CodeGeneration.Generators
 {

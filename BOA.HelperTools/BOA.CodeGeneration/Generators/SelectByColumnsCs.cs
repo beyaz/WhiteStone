@@ -119,47 +119,47 @@ namespace BOA.CodeGeneration.Generators
                         WriteLine("///" + PaddingForComment + "<param name=\"{0}\">WHERE {1} = {0}</param>",
                                   column.ColumnName.AsMethodParameter(), column.ColumnName);
                     }
-                    else if (propertyName == Names.NotEqual)
+                    else if (propertyName == Names2.NotEqual)
                     {
                         WriteLine("///" + PaddingForComment + "<param name=\"{0}\">WHERE {1} != {0} </param>",
                                   column.ColumnName.AsMethodParameter() + propertyName, column.ColumnName);
                     }
-                    else if (propertyName == Names.BiggerThan)
+                    else if (propertyName == Names2.BiggerThan)
                     {
                         WriteLine("///" + PaddingForComment + "<param name=\"{0}\">WHERE {1} &gt; {0}</param>",
                                   column.ColumnName.AsMethodParameter() + propertyName, column.ColumnName);
                     }
-                    else if (propertyName == Names.BiggerThanOrEquals)
+                    else if (propertyName == Names2.BiggerThanOrEquals)
                     {
                         WriteLine("///" + PaddingForComment + "<param name=\"{0}\">WHERE {1} &gt;= {0}</param>",
                                   column.ColumnName.AsMethodParameter() + propertyName, column.ColumnName);
                     }
-                    else if (propertyName == Names.LessThan)
+                    else if (propertyName == Names2.LessThan)
                     {
                         WriteLine("///" + PaddingForComment + "<param name=\"{0}\">WHERE {1} &lt; {0}</param>",
                                   column.ColumnName.AsMethodParameter() + propertyName, column.ColumnName);
                     }
-                    else if (propertyName == Names.LessThanOrEquals)
+                    else if (propertyName == Names2.LessThanOrEquals)
                     {
                         WriteLine("///" + PaddingForComment + "<param name=\"{0}\">WHERE {1} &lt;= {0}</param>",
                                   column.ColumnName.AsMethodParameter() + propertyName, column.ColumnName);
                     }
-                    else if (propertyName == Names.StartsWith)
+                    else if (propertyName == Names2.StartsWith)
                     {
                         WriteLine("///" + PaddingForComment + "<param name=\"{0}\">WHERE {1} LIKE {0} + '%'</param>",
                                   column.ColumnName.AsMethodParameter() + propertyName, column.ColumnName);
                     }
-                    else if (propertyName == Names.EndsWith)
+                    else if (propertyName == Names2.EndsWith)
                     {
                         WriteLine("///" + PaddingForComment + "<param name=\"{0}\">WHERE {1} LIKE '%' + {0}</param>",
                                   column.ColumnName.AsMethodParameter() + propertyName, column.ColumnName);
                     }
-                    else if (propertyName == Names.Contains)
+                    else if (propertyName == Names2.Contains)
                     {
                         WriteLine("///" + PaddingForComment + "<param name=\"{0}\">WHERE {1} LIKE '%' + {0} + '%'</param>",
                                   column.ColumnName.AsMethodParameter() + propertyName, column.ColumnName);
                     }
-                    else if (propertyName == Names.IsNull)
+                    else if (propertyName == Names2.IsNull)
                     {
                         WriteLine("///" + PaddingForComment + "<param name=\"{0}\">WHERE(( {0} = true AND {1} IS NULL ) OR ( {0} = false AND {1} IS NOT NULL )) </param>",
                                   column.ColumnName.AsMethodParameter() + propertyName, column.ColumnName);
@@ -195,7 +195,7 @@ namespace BOA.CodeGeneration.Generators
                 {
                     var column             = p.FindColumn(Columns);
                     var propertyName       = p.GetPropertyName(Columns);
-                    var propertyNameIsNull = propertyName == Names.IsNull;
+                    var propertyNameIsNull = propertyName == Names2.IsNull;
 
                     var parameterName = column.ColumnName.AsMethodParameter() + propertyName;
                     var parameterType = column.DotNetType;
@@ -247,7 +247,7 @@ namespace BOA.CodeGeneration.Generators
                     var parameterName = column.ColumnName.AsMethodParameter() + propertyName;
 
                     var sqlDatabaseTypeName = column.SqlDatabaseTypeName;
-                    if (p.GetPropertyName(Columns) == Names.IsNull)
+                    if (p.GetPropertyName(Columns) == Names2.IsNull)
                     {
                         sqlDatabaseTypeName = "TinyInt";
                         parameterName       = "(" + parameterName + " ? 1 : 0)";

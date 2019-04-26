@@ -295,25 +295,25 @@ namespace BOA.CodeGeneration.Generators
             if (UpdateUserName)
             {
                 contractUpdated = true;
-                WriteLine("contract.{0} = {1};", Names.UpdateUserName, Names.UpdateUserNameValue);
+                WriteLine("contract.{0} = {1};", Names2.UpdateUserName, Names2.UpdateUserNameValue);
             }
 
             if (UpdateHostName)
             {
                 contractUpdated = true;
-                WriteLine("contract.{0} = {1};", Names.UpdateHostName, Names.UpdateHostNameValue);
+                WriteLine("contract.{0} = {1};", Names2.UpdateHostName, Names2.UpdateHostNameValue);
             }
 
             if (UpdateHostIP)
             {
                 contractUpdated = true;
-                WriteLine("contract.{0} = {1};", Names.UpdateHostIP, Names.UpdateHostIPValue);
+                WriteLine("contract.{0} = {1};", Names2.UpdateHostIP, Names2.UpdateHostIPValue);
             }
 
             if (UpdateSystemDate)
             {
                 contractUpdated = true;
-                WriteLine("contract.{0} = {1};", Names.UpdateSystemDate, Names.UpdateSystemDateValue);
+                WriteLine("contract.{0} = {1};", Names2.UpdateSystemDate, Names2.UpdateSystemDateValue);
             }
 
             if (contractUpdated)

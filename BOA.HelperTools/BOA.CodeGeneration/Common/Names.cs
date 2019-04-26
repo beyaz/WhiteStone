@@ -3,7 +3,7 @@
 
 namespace BOA.CodeGeneration.Common
 {
-    public static class Names
+    public static class Names2
     {
         #region Constants
         public const string BiggerThan         = "BiggerThan";

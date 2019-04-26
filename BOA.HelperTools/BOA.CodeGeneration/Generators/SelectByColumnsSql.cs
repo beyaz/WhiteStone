@@ -101,7 +101,7 @@ namespace BOA.CodeGeneration.Generators
                     WritePadding();
 
                     var dataType = column.DataType;
-                    if (propertyName == Names.IsNull)
+                    if (propertyName == Names2.IsNull)
                     {
                         dataType = "TINYINT";
                     }
@@ -240,47 +240,47 @@ namespace BOA.CodeGeneration.Generators
                 return "{0} = @{0}".FormatCode(columnName);
             }
 
-            if (propertyName == Names.NotEqual)
+            if (propertyName == Names2.NotEqual)
             {
                 return ("{0} <> @{0}" + propertyName).FormatCode(columnName);
             }
 
-            if (propertyName == Names.BiggerThan)
+            if (propertyName == Names2.BiggerThan)
             {
                 return ("{0} > @{0}" + propertyName).FormatCode(columnName);
             }
 
-            if (propertyName == Names.BiggerThanOrEquals)
+            if (propertyName == Names2.BiggerThanOrEquals)
             {
                 return ("{0} >= @{0}" + propertyName).FormatCode(columnName);
             }
 
-            if (propertyName == Names.LessThan)
+            if (propertyName == Names2.LessThan)
             {
                 return ("{0} < @{0}" + propertyName).FormatCode(columnName);
             }
 
-            if (propertyName == Names.LessThanOrEquals)
+            if (propertyName == Names2.LessThanOrEquals)
             {
                 return ("{0} <= @{0}" + propertyName).FormatCode(columnName);
             }
 
-            if (propertyName == Names.StartsWith)
+            if (propertyName == Names2.StartsWith)
             {
                 return ("{0} LIKE @{0} + '%'" + propertyName).FormatCode(columnName);
             }
 
-            if (propertyName == Names.EndsWith)
+            if (propertyName == Names2.EndsWith)
             {
                 return ("{0} LIKE '%' + @{0}" + propertyName).FormatCode(columnName);
             }
 
-            if (propertyName == Names.Contains)
+            if (propertyName == Names2.Contains)
             {
                 return ("{0} LIKE '%' + @{0} + '%'" + propertyName).FormatCode(columnName);
             }
 
-            if (propertyName == Names.IsNull)
+            if (propertyName == Names2.IsNull)
             {
                 var parameterName = ("@{0}" + propertyName).FormatCode(columnName);
 

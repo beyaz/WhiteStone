@@ -61,28 +61,28 @@ namespace BOA.CodeGeneration.Generators
 
             var contractUpdated = false;
 
-            if (Columns.Any(c => c.ColumnName == Names.UserName))
+            if (Columns.Any(c => c.ColumnName == Names2.UserName))
             {
                 contractUpdated = true;
-                WriteLine("contract.UserName = {0};", Names.UserNameValue);
+                WriteLine("contract.UserName = {0};", Names2.UserNameValue);
             }
 
-            if (Columns.Any(c => c.ColumnName == Names.HostName))
+            if (Columns.Any(c => c.ColumnName == Names2.HostName))
             {
                 contractUpdated = true;
-                WriteLine("contract.HostName = {0};", Names.HostNameValue);
+                WriteLine("contract.HostName = {0};", Names2.HostNameValue);
             }
 
-            if (Columns.Any(c => c.ColumnName == Names.HostIP))
+            if (Columns.Any(c => c.ColumnName == Names2.HostIP))
             {
                 contractUpdated = true;
-                WriteLine("contract.HostIP = {0};", Names.HostIPValue);
+                WriteLine("contract.HostIP = {0};", Names2.HostIPValue);
             }
 
-            if (Columns.Any(c => c.ColumnName == Names.SystemDate))
+            if (Columns.Any(c => c.ColumnName == Names2.SystemDate))
             {
                 contractUpdated = true;
-                WriteLine("contract.SystemDate = {0};", Names.SystemDateValue);
+                WriteLine("contract.SystemDate = {0};", Names2.SystemDateValue);
             }
 
             if (contractUpdated)
