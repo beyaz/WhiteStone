@@ -1,18 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModelDao;
 using BOA.EntityGeneration.Generators;
+using Ninject;
 
 namespace BOA.EntityGeneration.SchemaToDllExporting
 {
-    public static class SchemaExporter
+    public class SchemaExporter
     {
+        #region Public Properties
+        [Inject]
+        public Database Database { get; set; }
+        #endregion
+
         #region Public Methods
-        public static void Export(SchemaExporterData data)
+        public void Export(SchemaExporterData data)
         {
             var sources = new List<string>();
 
-            var tableNames = SchemaInfoDao.GetAllTableNamesInSchema(data.Database, data.SchemaName).ToList();
+            var tableNames = SchemaInfoDao.GetAllTableNamesInSchema(Database, data.SchemaName).ToList();
 
             if (data.TableNameFilter != null)
             {
@@ -23,14 +30,14 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
             {
                 var dao = new TableInfoDao
                 {
-                    Database = data.Database
+                    Database = Database
                 };
 
                 var tableInfo = dao.GetInfo(data.CatalogName, data.SchemaName, tableName);
 
                 var contract = new Contract
                 {
-                    Data = GeneratorDataCreator.Create(tableInfo, data.Database)
+                    Data = GeneratorDataCreator.Create(tableInfo, Database)
                 };
 
                 data.OnTableDataCreated?.Invoke(contract.Data);
