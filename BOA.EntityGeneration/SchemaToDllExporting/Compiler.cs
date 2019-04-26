@@ -6,26 +6,26 @@ using System.Linq;
 
 namespace BOA.EntityGeneration.SchemaToDllExporting
 {
-    public class CompilerData
+    public class TypeDllCompilerData
     {
         #region Public Properties
-        public string                OutputAssemblyName   { get; set; }
-        public IReadOnlyList<string> ReferencedAssemblies { get; set; }
-        public string[]              Sources              { get; set; }
+        public string   SchemaName { get; set; }
+        public string[] Sources    { get; set; }
         #endregion
     }
+
     /// <summary>
     ///     The compiler
     /// </summary>
-    public class Compiler
+    public class TypeDllCompiler
     {
-       
+        const string outputDirectory = @"d:\boa\server\bin\";
 
         #region Public Methods
         /// <summary>
         ///     Compiles given source code
         /// </summary>
-        public void Compile(CompilerData data)
+        public void Compile(TypeDllCompilerData data)
         {
             const string SYSTEM_CORE = "System.Core.dll";
             const string SYSTEM_DATA = "System.Data.dll";
@@ -37,14 +37,16 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 MS_CORE_LIB,
                 SYSTEM,
                 SYSTEM_CORE,
-                SYSTEM_DATA
+                SYSTEM_DATA,
+                @"d:\boa\server\bin\BOA.Types.Kernel.Card.dll",
+                @"d:\boa\server\bin\BOA.Common.dll"
             };
 
-            referencedAssemblies.AddRange(data.ReferencedAssemblies);
+           
 
-            var fileNameWithoutExtension = $"BOA.Types.Kernel.Card.{data.OutputAssemblyName}";
+            var fileNameWithoutExtension = $"BOA.Types.Kernel.Card.{data.SchemaName}";
 
-            const string OPTIONS  = "/target:library /optimize";
+            var          OPTIONS  = $"/target:library /optimize /doc:{outputDirectory}{fileNameWithoutExtension}.xml";
             const string LANGUAGE = "CSharp";
             var          compiler = CodeDomProvider.CreateProvider(LANGUAGE);
             var compilerParams = new CompilerParameters(referencedAssemblies.Distinct().ToArray())
@@ -52,7 +54,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 CompilerOptions         = OPTIONS,
                 GenerateExecutable      = false,
                 IncludeDebugInformation = true,
-                OutputAssembly          = $@"d:\boa\server\bin\{fileNameWithoutExtension}.dll"
+                OutputAssembly          = $"{outputDirectory}{fileNameWithoutExtension}.dll"
             };
 
             var results = compiler.CompileAssemblyFromSource(compilerParams, data.Sources);
@@ -64,13 +66,21 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 throw new ArgumentException(string.Join(Environment.NewLine, errors));
             }
 
-            var externalLibPath = $@"D:\work\BOA.ExternalLibraries\ExternalLibraries\AnyCPU\{fileNameWithoutExtension}\0.0.0.0\{fileNameWithoutExtension}.dll";
+            
 
-            Directory.CreateDirectory($@"D:\work\BOA.ExternalLibraries\ExternalLibraries\AnyCPU\{fileNameWithoutExtension}\0.0.0.0\");
+            // CopyToTfs(fileNameWithoutExtension);
+        }
 
-            File.Copy($@"d:\boa\server\bin\{fileNameWithoutExtension}.dll",externalLibPath,true);
+        static void CopyToTfs(string fileNameWithoutExtension)
+        {
+            
+            var targetDirectory = $@"D:\work\BOA.ExternalLibraries\ExternalLibraries\AnyCPU\{fileNameWithoutExtension}\0.0.0.0\";
 
+            Directory.CreateDirectory(targetDirectory);
 
+            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.dll", $@"{targetDirectory}{fileNameWithoutExtension}.dll", true);
+            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.pdb", $@"{targetDirectory}{fileNameWithoutExtension}.pdb", true);
+            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.xml", $@"{targetDirectory}{fileNameWithoutExtension}.xml", true);
         }
         #endregion
 

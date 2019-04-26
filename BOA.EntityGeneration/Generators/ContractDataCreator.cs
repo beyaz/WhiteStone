@@ -22,16 +22,6 @@ namespace BOA.EntityGeneration.Generators
                 Names.ISupportDmlOperationInsert
             };
 
-            if (data.IsSupportUpdate)
-            {
-                interfaces.Add(Names.ISupportDmlOperationUpdate);
-            }
-
-            if (data.IsSupportUpdate)
-            {
-                interfaces.Add(Names.ISupportDmlOperationDelete);
-            }
-
             if (data.IsSupportGetAll)
             {
                 interfaces.Add(Names.ISupportDmlOperationSelectAll);
@@ -40,6 +30,8 @@ namespace BOA.EntityGeneration.Generators
             if (data.IsSupportSelectByKey)
             {
                 interfaces.Add(Names.ISupportDmlOperationSelectByKey);
+                interfaces.Add(Names.ISupportDmlOperationDelete);
+                interfaces.Add(Names.ISupportDmlOperationUpdate);
             }
 
             if (data.IsSupportSelectByUniqueIndex)

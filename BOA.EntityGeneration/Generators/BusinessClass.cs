@@ -40,6 +40,54 @@ namespace BOA.EntityGeneration.Generators
             ContractCommentInfoCreator.Write(sb, tableInfo);
             sb.AppendLine($"public {className}(ExecutionDataContext context) : base(context) {{ }}");
 
+            #region Delete
+            if (Data.IsSupportSelectByKey)
+            {
+                var deleteInfo = DeleteInfoCreator.Create(tableInfo);
+
+                var parameterPart = string.Join(", ", deleteInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+
+                sb.AppendLine();
+                sb.AppendLine($"public GenericResponse<int> Delete({parameterPart})");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{namespaceName}.{className}.Delete\");");
+
+                sb.AppendLine();
+                sb.AppendLine("const string sql = @\"");
+                sb.AppendAll(deleteInfo.Sql);
+                sb.AppendLine();
+                sb.AppendLine("\";");
+                sb.AppendLine();
+                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sql, null, CommandType.Text);");
+
+                if (deleteInfo.SqlParameters.Any())
+                {
+                    sb.AppendLine();
+                    foreach (var columnInfo in deleteInfo.SqlParameters)
+                    {
+                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDatabaseTypeName}, {columnInfo.ColumnName.AsMethodParameter()});");
+                    }
+                }
+
+                sb.AppendLine();
+                sb.AppendLine("var response = DBLayer.ExecuteNonQuery(command);");
+                sb.AppendLine("if (!response.Success)");
+                sb.AppendLine("{");
+                sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
+                sb.AppendLine("    return returnObject;");
+                sb.AppendLine("}");
+                sb.AppendLine();
+                sb.AppendLine("returnObject.Value = response.Value;");
+                sb.AppendLine();
+                sb.AppendLine("return returnObject;");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
+            #endregion
+
             #region Insert
             if (Data.IsSupportInsert)
             {
@@ -115,7 +163,7 @@ namespace BOA.EntityGeneration.Generators
             #endregion
 
             #region Update
-            if (Data.IsSupportUpdate)
+            if (Data.IsSupportSelectByKey)
             {
                 var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
@@ -179,7 +227,7 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{namespaceName}.{className}.SelectByKey\");");
+                sb.AppendLine($"var returnObject = InitializeGenericResponse<{typeContractName}>(\"{namespaceName}.{className}.SelectByKey\");");
 
                 sb.AppendLine();
                 sb.AppendLine("const string sql = @\"");
@@ -258,7 +306,7 @@ namespace BOA.EntityGeneration.Generators
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{namespaceName}.{className}.{methodName}\");");
+                    sb.AppendLine($"var returnObject = InitializeGenericResponse<{typeContractName}>(\"{namespaceName}.{className}.{methodName}\");");
 
                     sb.AppendLine();
                     sb.AppendLine("const string sql = @\"");
@@ -312,6 +360,87 @@ namespace BOA.EntityGeneration.Generators
 
                     sb.AppendLine();
                     sb.AppendLine("returnObject.Value = dataContract;");
+
+                    sb.AppendLine();
+                    sb.AppendLine("return returnObject;");
+
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                }
+            }
+            #endregion
+
+
+            #region SelectByNonUniqueIndex
+            if (Data.IsSupportSelectByIndex)
+            {
+                foreach (var indexIdentifier in Data.NonUniqueIndexIdentifiers)
+                {
+                    var indexInfo = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
+
+                    var parameterPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+
+                    var methodName = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+
+                    sb.AppendLine();
+                    sb.AppendLine($"public GenericResponse<List<{typeContractName}>> {methodName}({parameterPart})");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+
+                    sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{typeContractName}>>(\"{namespaceName}.{className}.{methodName}\");");
+
+                    sb.AppendLine();
+                    sb.AppendLine("const string sql = @\"");
+                    sb.AppendAll(indexInfo.Sql);
+                    sb.AppendLine();
+                    sb.AppendLine("\";");
+                    sb.AppendLine();
+                    sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sql, null, CommandType.Text);");
+
+                    if (indexInfo.SqlParameters.Any())
+                    {
+                        sb.AppendLine();
+                        foreach (var columnInfo in indexInfo.SqlParameters)
+                        {
+                            sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDatabaseTypeName}, {columnInfo.ColumnName.AsMethodParameter()});");
+                        }
+                    }
+
+                    sb.AppendLine();
+                    sb.AppendLine("var response = DBLayer.ExecuteReader(command);");
+                    sb.AppendLine("if (!response.Success)");
+                    sb.AppendLine("{");
+                    sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
+                    sb.AppendLine("    return returnObject;");
+                    sb.AppendLine("}");
+                    sb.AppendLine();
+                    sb.AppendLine("var reader = response.Value;");
+
+                    sb.AppendLine();
+                    sb.AppendLine("#region Fill from SqlDataReader to DataContract List");
+                    sb.AppendLine();
+                    sb.AppendLine("var listOfDataContract = new {0}();");
+                    sb.AppendLine();
+                    sb.AppendLine("while (reader.Read())");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    sb.AppendLine($"var dataContract = new {typeContractName}();");
+
+                    sb.AppendLine();
+
+                    sb.AppendLine("ReadContract(dataContract,reader);");
+
+                    sb.AppendLine();
+                    sb.AppendLine("listOfDataContract.Add(dataContract);");
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                    sb.AppendLine();
+                    sb.AppendLine("reader.Close();");
+                    sb.AppendLine();
+                    sb.AppendLine("#endregion");
+
+                    sb.AppendLine();
+                    sb.AppendLine("returnObject.Value = listOfDataContract;");
 
                     sb.AppendLine();
                     sb.AppendLine("return returnObject;");

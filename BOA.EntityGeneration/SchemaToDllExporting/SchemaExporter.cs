@@ -8,7 +8,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
     {
         #region Public Properties
         [Inject]
-        public Compiler Compiler { get; set; }
+        public TypeDllCompiler TypeDllCompiler { get; set; }
 
         [Inject]
         public Contract Contract { get; set; }
@@ -34,15 +34,10 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 sources.Add(Contract.TransformText(contractData));
             }
 
-            Compiler.Compile(new CompilerData
+            TypeDllCompiler.Compile(new TypeDllCompilerData
             {
-                OutputAssemblyName = schemaName,
-                Sources            = sources.ToArray(),
-                ReferencedAssemblies = new List<string>
-                {
-                    @"d:\boa\server\bin\BOA.Types.Kernel.Card.dll",
-                    @"d:\boa\server\bin\BOA.Common.dll"
-                }
+                SchemaName = schemaName,
+                Sources            = sources.ToArray()
             });
         }
         #endregion

@@ -121,7 +121,7 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("#endregion");
             }
 
-            if (data.IsSupportUpdate)
+            if (data.IsSupportSelectByKey)
             {
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationUpdate}");

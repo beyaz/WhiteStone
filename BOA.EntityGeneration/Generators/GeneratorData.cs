@@ -17,7 +17,6 @@ namespace BOA.EntityGeneration.Generators
         public bool IsSupportSelectByIndex       { get; set; }
         public bool IsSupportSelectByKey         { get; set; }
         public bool IsSupportSelectByUniqueIndex { get; set; }
-        public bool IsSupportUpdate              { get; set; }
 
         public string                         NamespaceFullNameOfTypeAssembly         { get; set; }
         public IReadOnlyList<IndexIdentifier> NonUniqueIndexIdentifiers { get; set; }
