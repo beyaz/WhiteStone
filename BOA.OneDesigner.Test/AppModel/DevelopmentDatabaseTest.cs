@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOAPlugins.TypescriptModelGeneration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,6 +12,15 @@ namespace BOA.OneDesigner.AppModel
     [TestClass]
     public class DevelopmentDatabaseTest
     {
+
+        [TestMethod]
+        public void AAA()
+        {
+            var info = SolutionInfo.CreateFrom(@"d:\work\BOA\Dev\BOA.SelfService\BOA.SelfService.sln");
+
+            info.ToString();
+        }
+
         #region Public Methods
         [TestMethod]
         public void GetAndSaveAllToDb()

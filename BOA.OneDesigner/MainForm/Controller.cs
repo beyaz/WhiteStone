@@ -232,6 +232,7 @@ namespace BOA.OneDesigner.MainForm
         {
             if (Model.ScreenInfo.TfsFolderName.HasValue())
             {
+
                 Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
                 Model.RequestNames = CecilHelper.GetAllRequestNames(Model.SolutionInfo.TypeAssemblyPathInServerBin);
             }

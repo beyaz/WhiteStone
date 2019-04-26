@@ -65,7 +65,14 @@ namespace BOAPlugins.TypescriptModelGeneration
                 throw new ArgumentNullException(nameof(slnFilePath));
             }
 
-            return new SolutionInfo
+            var isSelfService = slnFilePath.Equals(@"d:\work\BOA\Dev\BOA.SelfService\BOA.SelfService.sln", StringComparison.OrdinalIgnoreCase);
+            if (isSelfService)
+            {
+                isSelfService = true;
+                slnFilePath = @"D:\work\BOA\Dev\BOA.SelfService\BOA.SelfService.Manager.sln";
+            }
+
+            var info =  new SolutionInfo
             {
                 SlnFilePath                   = slnFilePath,
                 TypesProjectFolder            = Path.GetDirectoryName(slnFilePath) + Path.DirectorySeparatorChar + GetNamespaceNameForType(slnFilePath) + Path.DirectorySeparatorChar,
@@ -76,6 +83,17 @@ namespace BOAPlugins.TypescriptModelGeneration
                 TypeAssemblyName              = GetTypeAssemblyName(slnFilePath),
                 TypeAssemblyPathInServerBin   = $@"d:\boa\server\bin\{GetTypeAssemblyName(slnFilePath)}"
             };
+
+            if (isSelfService)
+            {
+                info.OneProjectFolder = @"D:\work\BOA\Dev\BOA.SelfService\One\BOA.One.Office.SelfService";
+                info.OrchestrationProjectFolder = @"D:\work\BOA\Dev\BOA.SelfService\Manager\BOA.Orchestration.SelfService.Manager\";
+                info.TypesProjectFolder = @"D:\work\BOA\Dev\BOA.SelfService\Manager\BOA.Types.SelfService.Manager\";
+                info.SlnFilePath = @"d:\work\BOA\Dev\BOA.SelfService\BOA.SelfService.sln";
+            }
+            
+
+            return info;
         }
 
         /// <summary>
