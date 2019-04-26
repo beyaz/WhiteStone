@@ -57,6 +57,7 @@
     <Compile Include="DbModelDao\TableInfoDao.cs" />
     <Compile Include="DbModel\IndexInfo.cs" />
     <Compile Include="DbModel\TableInfo.cs" />
+    <Compile Include="Generators\BusinessClass.cs" />
     <Compile Include="SchemaToDllExporting\Compiler.cs" />
     <Compile Include="Generators\Contract.cs" />
     <Compile Include="SchemaToDllExporting\SchemaExporterData.cs" />
@@ -95,6 +96,9 @@
     <Compile Include="ScriptModel\SelectByIndexInfo.cs" />
     <Compile Include="ScriptModel\SelectByPrimaryKeyInfo.cs" />
     <Compile Include="ScriptModel\UpdateByPrimaryKeyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

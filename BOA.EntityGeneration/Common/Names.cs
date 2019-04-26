@@ -1,10 +1,11 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using BOA.Common.Helpers;
 
 namespace BOA.EntityGeneration.Common
 {
-    static class Names
+    public static class Names
     {
         #region Constants
         public const string ExecutionScope = nameof(ExecutionScope);
@@ -47,6 +48,26 @@ namespace BOA.EntityGeneration.Common
 
             return string.Join(string.Empty, names.Select(name => name.Substring(0, 1).ToUpper(new CultureInfo("EN-US")) + name.Substring(1).ToLowerInvariant()));
         }
+
+        public static string AsMethodParameter(this string columnName)
+        {
+            if (columnName == null)
+            {
+                throw new ArgumentNullException(nameof(columnName));
+            }
+
+            columnName = ToContractName(columnName);
+
+            //return columnName[0].ToString().ToLowerTR() + columnName.Substring(1);
+            var firstChar = columnName[0].ToString().ToLowerTR();
+            if (firstChar == "ı")
+            {
+                firstChar = "i";
+            }
+
+            return firstChar + columnName.Substring(1);
+        }
+        
         #endregion
     }
 }
