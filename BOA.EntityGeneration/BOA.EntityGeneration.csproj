@@ -61,7 +61,6 @@
     <Compile Include="SchemaToDllExporting\Compiler.cs" />
     <Compile Include="Generators\Contract.cs" />
     <Compile Include="SchemaToDllExporting\SchemaExporterData.cs" />
-    <Compile Include="Generators\GeneratorBase.cs" />
     <Compile Include="Generators\GeneratorData.cs" />
     <Compile Include="Generators\GeneratorDataCreator.cs" />
     <Compile Include="Generators\GetAll.cs" />

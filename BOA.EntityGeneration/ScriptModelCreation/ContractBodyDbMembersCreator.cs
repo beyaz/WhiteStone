@@ -9,14 +9,14 @@ using BOA.EntityGeneration.ScriptModel;
 
 namespace BOA.EntityGeneration.ScriptModelCreation
 {
-    public static class ContractBodyDbMembersCreator
+    public  class ContractBodyDbMembersCreator
     {
         #region Properties
         static string PaddingForComment => "     ";
         #endregion
 
         #region Public Methods
-        public static ContractBodyDbMembers Create(TableInfo TableInfo)
+        public  ContractBodyDbMembers Create(TableInfo TableInfo)
         {
             var sb = new StringBuilder();
 

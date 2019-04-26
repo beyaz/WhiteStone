@@ -5,15 +5,46 @@ using Ninject;
 
 namespace BOA.EntityGeneration.Generators
 {
-    public class Contract : GeneratorBase
+    public class Contract
     {
+        #region Public Properties
+        [Inject]
+        public ContractBodyDbMembersCreator ContractBodyDbMembersCreator { get; set; }
+
         [Inject]
         public GetAll GetAll { get; set; }
+
+        [Inject]
+        public GetDeletePart GetDeletePart { get; set; }
+
+        [Inject]
+        public GetInsertPart GetInsertPart { get; set; }
+
+        [Inject]
+        public GetUpdatePart GetUpdatePart { get; set; }
+
+        [Inject]
+        public IndexIdentifiers IndexIdentifiers { get; set; }
+
+        [Inject]
+        public ReadContractMethod ReadContractMethod { get; set; }
+
+        [Inject]
+        public SelectByIndex SelectByIndex { get; set; }
+
+        [Inject]
+        public SelectByKeys SelectByKeys { get; set; }
+
+        [Inject]
+        public SelectByUniqueIndex SelectByUniqueIndex { get; set; }
+        #endregion
 
         #region Public Methods
         public string TransformText(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
+
+            var TableInfo = data.TableInfo;
 
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Data;");
@@ -22,7 +53,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("using BOA.Types.Kernel.Card.DatabaseIntegration;");
 
             sb.AppendLine();
-            sb.AppendLine("namespace " + Data.NamespaceFullName);
+            sb.AppendLine("namespace " + data.NamespaceFullName);
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -30,7 +61,7 @@ namespace BOA.EntityGeneration.Generators
 
             sb.AppendLine("[Serializable]");
 
-            sb.AppendLine($"public sealed class {TableInfo.TableName.ToContractName()}Contract : CardContractBase , {string.Join(", ", Data.ContractInterfaces)}");
+            sb.AppendLine($"public sealed class {TableInfo.TableName.ToContractName()}Contract : CardContractBase , {string.Join(", ", data.ContractInterfaces)}");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -45,7 +76,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine();
 
             sb.AppendLine();
-            sb.AppendAll(Create<IndexIdentifiers>().ToString());
+            sb.AppendAll(IndexIdentifiers.TransformText(data));
             sb.AppendLine();
 
             sb.AppendLine();
@@ -61,7 +92,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("get");
             sb.AppendLine("{");
             sb.PaddingCount++;
-            sb.AppendLine($"return Databases.{Data.DatabaseEnumName};");
+            sb.AppendLine($"return Databases.{data.DatabaseEnumName};");
             sb.PaddingCount--;
             sb.AppendLine("}");
             #endregion
@@ -71,91 +102,91 @@ namespace BOA.EntityGeneration.Generators
             #endregion
 
             sb.AppendLine();
-            sb.AppendAll(Create<ReadContractMethod>().ToString());
+            sb.AppendAll(ReadContractMethod.TransformText(data));
             sb.AppendLine();
 
             sb.AppendLine();
             sb.AppendLine("#endregion");
 
-            if (Data.IsSupportInsert)
+            if (data.IsSupportInsert)
             {
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationInsert}");
 
                 sb.AppendLine();
-                sb.AppendAll(Create<GetInsertPart>().ToString());
+                sb.AppendAll(GetInsertPart.TransformText(data));
                 sb.AppendLine();
 
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
             }
 
-            if (Data.IsSupportUpdate)
+            if (data.IsSupportUpdate)
             {
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationUpdate}");
 
                 sb.AppendLine();
-                sb.AppendAll(Create<GetUpdatePart>().ToString());
+                sb.AppendAll(GetUpdatePart.TransformText(data));
                 sb.AppendLine();
 
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
             }
 
-            if (Data.IsSupportSelectByKey)
+            if (data.IsSupportSelectByKey)
             {
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationSelectByKey}");
 
                 sb.AppendLine();
-                sb.AppendAll(Create<SelectByKeys>().ToString());
+                sb.AppendAll(SelectByKeys.TransformText(data));
                 sb.AppendLine();
 
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
             }
 
-            if (Data.IsSupportSelectByUniqueIndex)
+            if (data.IsSupportSelectByUniqueIndex)
             {
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationSelectByUniqueIndex}");
 
                 sb.AppendLine();
-                sb.AppendAll(Create<SelectByUniqueIndex>().ToString());
+                sb.AppendAll(SelectByUniqueIndex.TransformText(data));
                 sb.AppendLine();
 
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
             }
 
-            if (Data.IsSupportSelectByIndex)
+            if (data.IsSupportSelectByIndex)
             {
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationSelectByIndex}");
 
                 sb.AppendLine();
-                sb.AppendAll(Create<SelectByIndex>().ToString());
+                sb.AppendAll(SelectByIndex.TransformText(data));
                 sb.AppendLine();
 
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
             }
 
-            if (Data.IsSupportSelectByKey)
+            if (data.IsSupportSelectByKey)
             {
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationDelete}");
 
                 sb.AppendLine();
-                sb.AppendAll(Create<GetDeletePart>().ToString());
+                sb.AppendAll(GetDeletePart.TransformText(data));
                 sb.AppendLine();
 
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
             }
 
-            if (Data.IsSupportGetAll)
+            if (data.IsSupportGetAll)
             {
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationDelete}");

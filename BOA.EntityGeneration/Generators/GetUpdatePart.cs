@@ -6,25 +6,25 @@ using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
-    class GetUpdatePart : GeneratorBase
+    public class GetUpdatePart 
     {
         #region Public Methods
-        public override string ToString()
+        public string TransformText(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendAll(GetUpdateSql());
+            sb.AppendAll(GetUpdateSql(data));
             sb.AppendLine();
 
             sb.AppendLine();
-            sb.AppendAll(GetUpdateParameters());
+            sb.AppendAll(GetUpdateParameters(data));
 
             return sb.ToString();
         }
         #endregion
 
         #region Methods
-        string GetUpdateParameters()
+        string GetUpdateParameters(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -36,7 +36,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, UpdateByPrimaryKeyInfoCreator.Create(TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+            sb.AppendAll(string.Join("," + Environment.NewLine, UpdateByPrimaryKeyInfoCreator.Create(data.TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
             sb.AppendLine();
 
             sb.PaddingCount--;
@@ -48,7 +48,7 @@ namespace BOA.EntityGeneration.Generators
             return sb.ToString();
         }
 
-        string GetUpdateSql()
+        string GetUpdateSql(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -64,7 +64,7 @@ namespace BOA.EntityGeneration.Generators
             
             sb.AppendLine("return @\"");
 
-            sb.AppendAll(UpdateByPrimaryKeyInfoCreator.Create(TableInfo).Sql);
+            sb.AppendAll(UpdateByPrimaryKeyInfoCreator.Create(data.TableInfo).Sql);
             sb.AppendLine();
 
             sb.AppendLine("\";");

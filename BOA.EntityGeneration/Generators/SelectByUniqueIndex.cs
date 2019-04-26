@@ -6,25 +6,25 @@ using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
-    class SelectByUniqueIndex : GeneratorBase
+    public class SelectByUniqueIndex 
     {
         #region Public Methods
-        public override string ToString()
+        public string TransformText(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendAll(GetSqlPart());
+            sb.AppendAll(GetSqlPart(data));
             sb.AppendLine();
 
             sb.AppendLine();
-            sb.AppendAll(GetParametersPart());
+            sb.AppendAll(GetParametersPart(data));
 
             return sb.ToString();
         }
         #endregion
 
         #region Methods
-        string GetParametersPart()
+        string GetParametersPart(GeneratorData Data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -42,7 +42,7 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendAll(string.Join("," + Environment.NewLine, SelectByIndexInfoCreator.Create(TableInfo, item).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+                sb.AppendAll(string.Join("," + Environment.NewLine, SelectByIndexInfoCreator.Create(Data.TableInfo, item).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
                 sb.AppendLine();
 
                 sb.PaddingCount--;
@@ -61,7 +61,7 @@ namespace BOA.EntityGeneration.Generators
             return sb.ToString();
         }
 
-        string GetSqlPart()
+        string GetSqlPart(GeneratorData Data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -79,7 +79,7 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("return @\"");
                 sb.PaddingCount++;
 
-                sb.AppendAll(SelectByIndexInfoCreator.Create(TableInfo, item).Sql);
+                sb.AppendAll(SelectByIndexInfoCreator.Create(Data.TableInfo, item).Sql);
                 sb.AppendLine();
 
                 sb.PaddingCount--;

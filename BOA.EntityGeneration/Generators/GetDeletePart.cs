@@ -6,25 +6,25 @@ using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
-    class GetDeletePart : GeneratorBase
+    public class GetDeletePart 
     {
         #region Public Methods
-        public override string ToString()
+        public string TransformText(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendAll(GetDeleteSql());
+            sb.AppendAll(GetDeleteSql(data));
             sb.AppendLine();
 
             sb.AppendLine();
-            sb.AppendAll(GetDeleteParameters());
+            sb.AppendAll(GetDeleteParameters(data));
 
             return sb.ToString();
         }
         #endregion
 
         #region Methods
-        string GetDeleteParameters()
+        string GetDeleteParameters(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -44,7 +44,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, DeleteInfoCreator.Create(TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+            sb.AppendAll(string.Join("," + Environment.NewLine, DeleteInfoCreator.Create(data.TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
             sb.AppendLine();
 
             sb.PaddingCount--;
@@ -62,7 +62,7 @@ namespace BOA.EntityGeneration.Generators
             return sb.ToString();
         }
 
-        string GetDeleteSql()
+        string GetDeleteSql(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -81,7 +81,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("return @\"");
             sb.PaddingCount++;
 
-            sb.AppendLine(DeleteInfoCreator.Create(TableInfo).Sql);
+            sb.AppendLine(DeleteInfoCreator.Create(data.TableInfo).Sql);
             sb.PaddingCount--;
             sb.AppendLine("\";");
             #endregion

@@ -5,18 +5,18 @@ using BOA.EntityGeneration.ScriptModel;
 
 namespace BOA.EntityGeneration.Generators
 {
-    class IndexIdentifiers : GeneratorBase
+    public class IndexIdentifiers 
     {
         #region Public Methods
-        public override string ToString()
+        public string TransformText(GeneratorData data)
         {
             var sb = new StringBuilder();
 
-            if (Data.UniqueIndexIdentifiers.Any())
+            if (data.UniqueIndexIdentifiers.Any())
             {
                 sb.AppendLine();
                 sb.AppendLine("#region Unique Index Information");
-                foreach (var item in Data.UniqueIndexIdentifiers)
+                foreach (var item in data.UniqueIndexIdentifiers)
                 {
                     sb.AppendLine();
                     sb.AppendLine("/// <summary>");
@@ -30,11 +30,11 @@ namespace BOA.EntityGeneration.Generators
                 sb.AppendLine("#endregion");
             }
 
-            if (Data.NonUniqueIndexIdentifiers.Any())
+            if (data.NonUniqueIndexIdentifiers.Any())
             {
                 sb.AppendLine();
                 sb.AppendLine("#region Index Information");
-                foreach (var item in Data.NonUniqueIndexIdentifiers)
+                foreach (var item in data.NonUniqueIndexIdentifiers)
                 {
                     sb.AppendLine();
                     sb.AppendLine("/// <summary>");

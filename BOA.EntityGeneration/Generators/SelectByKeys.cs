@@ -6,18 +6,18 @@ using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
-    class SelectByKeys : GeneratorBase
+    public class SelectByKeys 
     {
         #region Public Methods
-        public override string ToString()
+        public string TransformText(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendAll(GetSqlPart());
+            sb.AppendAll(GetSqlPart(data));
             sb.AppendLine();
 
             sb.AppendLine();
-            sb.AppendAll(GetParametersPart());
+            sb.AppendAll(GetParametersPart(data));
             sb.AppendLine();
 
             return sb.ToString();
@@ -25,7 +25,7 @@ namespace BOA.EntityGeneration.Generators
         #endregion
 
         #region Methods
-        string GetParametersPart()
+        string GetParametersPart(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -43,7 +43,7 @@ namespace BOA.EntityGeneration.Generators
             sb.PaddingCount++;
 
             
-            sb.AppendAll(string.Join("," + Environment.NewLine, SelectByPrimaryKeyInfoCreator.Create(TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+            sb.AppendAll(string.Join("," + Environment.NewLine, SelectByPrimaryKeyInfoCreator.Create(data.TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
             sb.AppendLine();
 
             sb.PaddingCount--;
@@ -59,7 +59,7 @@ namespace BOA.EntityGeneration.Generators
             return sb.ToString();
         }
 
-        string GetSqlPart()
+        string GetSqlPart(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -77,7 +77,7 @@ namespace BOA.EntityGeneration.Generators
             #region get body
             sb.AppendLine("return @\"");
 
-            sb.AppendAll(SelectByPrimaryKeyInfoCreator.Create(TableInfo).Sql);
+            sb.AppendAll(SelectByPrimaryKeyInfoCreator.Create(data.TableInfo).Sql);
             sb.AppendLine();
 
             sb.AppendLine("\";");

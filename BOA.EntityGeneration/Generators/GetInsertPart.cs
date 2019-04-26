@@ -6,34 +6,34 @@ using BOA.EntityGeneration.ScriptModelCreation;
 
 namespace BOA.EntityGeneration.Generators
 {
-    class GetInsertPart : GeneratorBase
+    public class GetInsertPart 
     {
         #region Public Methods
-        public override string ToString()
+        public string TransformText(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
-            sb.AppendAll(GetInsertSql());
+            sb.AppendAll(GetInsertSql(data));
             sb.AppendLine();
 
             sb.AppendLine();
-            sb.AppendAll(GetInsertParameters());
+            sb.AppendAll(GetInsertParameters(data));
 
             sb.AppendLine();
-            sb.AppendAll(GetHasSequence());
+            sb.AppendAll(GetHasSequence(data));
 
             sb.AppendLine();
-            sb.AppendAll(GetSequenceName());
+            sb.AppendAll(GetSequenceName(data));
 
             sb.AppendLine();
-            sb.AppendAll(InitSequence());
+            sb.AppendAll(InitSequence(data));
 
             return sb.ToString();
         }
         #endregion
 
         #region Methods
-        string GetHasSequence()
+        string GetHasSequence(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -46,7 +46,7 @@ namespace BOA.EntityGeneration.Generators
             sb.PaddingCount++;
 
             #region body
-            if (Data.SequenceName.HasValue())
+            if (data.SequenceName.HasValue())
             {
                 sb.AppendLine("return true;");
             }
@@ -65,7 +65,7 @@ namespace BOA.EntityGeneration.Generators
             return sb.ToString();
         }
 
-        string GetInsertParameters()
+        string GetInsertParameters(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -77,7 +77,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, InsertInfoCreator.Create(TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
+            sb.AppendAll(string.Join("," + Environment.NewLine, InsertInfoCreator.Create(data.TableInfo).SqlParameters.Select(ParameterHelper.ConvertToParameterDeclarationCode)));
             sb.AppendLine();
 
             sb.PaddingCount--;
@@ -89,7 +89,7 @@ namespace BOA.EntityGeneration.Generators
             return sb.ToString();
         }
 
-        string GetInsertSql()
+        string GetInsertSql(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -104,7 +104,7 @@ namespace BOA.EntityGeneration.Generators
             #region body
             sb.AppendLine("return @\"");
 
-           sb.AppendAll(InsertInfoCreator.Create(TableInfo).Sql);
+           sb.AppendAll(InsertInfoCreator.Create(data.TableInfo).Sql);
            sb.AppendLine();
 
             sb.AppendLine("\";");
@@ -119,7 +119,7 @@ namespace BOA.EntityGeneration.Generators
             return sb.ToString();
         }
 
-        string GetSequenceName()
+        string GetSequenceName(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -132,9 +132,9 @@ namespace BOA.EntityGeneration.Generators
             sb.PaddingCount++;
 
             #region body
-            if (Data.SequenceName.HasValue())
+            if (data.SequenceName.HasValue())
             {
-                sb.AppendLine($"return \"{Data.SequenceName}\";");
+                sb.AppendLine($"return \"{data.SequenceName}\";");
             }
             else
             {
@@ -151,7 +151,7 @@ namespace BOA.EntityGeneration.Generators
             return sb.ToString();
         }
 
-        string InitSequence()
+        string InitSequence(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -160,7 +160,7 @@ namespace BOA.EntityGeneration.Generators
             sb.PaddingCount++;
 
             #region body
-            if (Data.SequenceName.HasValue())
+            if (data.SequenceName.HasValue())
             {
                 sb.AppendLine("RecordId = nextValue;");
             }

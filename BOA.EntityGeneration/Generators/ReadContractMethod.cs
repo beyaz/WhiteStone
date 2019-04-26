@@ -4,10 +4,10 @@ using BOA.EntityGeneration.DbModel;
 
 namespace BOA.EntityGeneration.Generators
 {
-    class ReadContractMethod : GeneratorBase
+    public class ReadContractMethod 
     {
         #region Public Methods
-        public override string ToString()
+        public string TransformText(GeneratorData data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            foreach (var columnInfo in TableInfo.Columns)
+            foreach (var columnInfo in data.TableInfo.Columns)
             {
                 sb.AppendLine(GetLine(columnInfo));
             }
