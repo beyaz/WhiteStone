@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModelDao;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ninject;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -11,19 +13,23 @@ namespace BOA.EntityGeneration.Generators
         [TestMethod]
         public void Generate()
         {
-            using (var database = new BOACardDatabase())
+            using (var kernel = new StandardKernel())
             {
-                var dao = new TableInfoDao
-                {
-                    Database = database
-                };
+                kernel.Bind<Database>().To<BOACardDatabase>().InSingletonScope();
+                kernel.Bind<IDatabase>().To<BOACardDatabase>().InSingletonScope();
 
-                var contract = new BusinessClass
+                using (var database = kernel.Get<BOACardDatabase>())
                 {
-                    Data = GeneratorDataCreator.Create(dao.GetInfo("BOACard", "CRD", "CARD_LIMIT_USED"), database)
-                };
+                    var tableInfoDao = kernel.Get<TableInfoDao>();
 
-                File.WriteAllText(@"D:\CardLimitUsedContract.cs", contract.TransformText());
+                    var businessClass = kernel.Get<BusinessClass>();
+
+                    var generatorData = kernel.Get<GeneratorDataCreator>().Create(tableInfoDao.GetInfo("BOACard", "CRD", "CARD_LIMIT_USED"));
+
+                    var generatedCode = businessClass.TransformText(generatorData);
+
+                    File.WriteAllText(@"D:\CardLimitUsedContract.cs", generatedCode);
+                }
             }
         }
         #endregion

@@ -7,12 +7,8 @@ namespace BOA.EntityGeneration.Generators
 {
     public class BusinessClass
     {
-        #region Public Properties
-        public GeneratorData Data { get; set; }
-        #endregion
-
         #region Public Methods
-        public string TransformText()
+        public string TransformText(GeneratorData Data)
         {
             var tableInfo             = Data.TableInfo;
             var typeContractName      = $"{tableInfo.TableName.ToContractName()}Contract";
@@ -249,83 +245,80 @@ namespace BOA.EntityGeneration.Generators
             #region SelectByUniqueIndex
             if (Data.IsSupportSelectByUniqueIndex)
             {
-
                 foreach (var indexIdentifier in Data.UniqueIndexIdentifiers)
                 {
-                    var indexInfo = SelectByIndexInfoCreator.Create(tableInfo,indexIdentifier);
+                    var indexInfo = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
 
-                var parameterPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+                    var parameterPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-                var methodName = "SelectBy"+string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+                    var methodName = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
-                sb.AppendLine();
-                sb.AppendLine($"public GenericResponse<{typeContractName}> {methodName}({parameterPart})");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{namespaceName}.{className}.{methodName}\");");
-
-                sb.AppendLine();
-                sb.AppendLine("const string sql = @\"");
-                sb.AppendAll(indexInfo.Sql);
-                sb.AppendLine();
-                sb.AppendLine("\";");
-                sb.AppendLine();
-                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sql, null, CommandType.Text);");
-
-                if (indexInfo.SqlParameters.Any())
-                {
                     sb.AppendLine();
-                    foreach (var columnInfo in indexInfo.SqlParameters)
+                    sb.AppendLine($"public GenericResponse<{typeContractName}> {methodName}({parameterPart})");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+
+                    sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{namespaceName}.{className}.{methodName}\");");
+
+                    sb.AppendLine();
+                    sb.AppendLine("const string sql = @\"");
+                    sb.AppendAll(indexInfo.Sql);
+                    sb.AppendLine();
+                    sb.AppendLine("\";");
+                    sb.AppendLine();
+                    sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sql, null, CommandType.Text);");
+
+                    if (indexInfo.SqlParameters.Any())
                     {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDatabaseTypeName}, {columnInfo.ColumnName.AsMethodParameter()});");
+                        sb.AppendLine();
+                        foreach (var columnInfo in indexInfo.SqlParameters)
+                        {
+                            sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDatabaseTypeName}, {columnInfo.ColumnName.AsMethodParameter()});");
+                        }
                     }
+
+                    sb.AppendLine();
+                    sb.AppendLine("var response = DBLayer.ExecuteReader(command);");
+                    sb.AppendLine("if (!response.Success)");
+                    sb.AppendLine("{");
+                    sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
+                    sb.AppendLine("    return returnObject;");
+                    sb.AppendLine("}");
+                    sb.AppendLine();
+                    sb.AppendLine("var reader = response.Value;");
+
+                    sb.AppendLine();
+                    sb.AppendLine("#region Fill from SqlDataReader to DataContract");
+                    sb.AppendLine();
+                    sb.AppendLine($"{typeContractName} dataContract = null;");
+                    sb.AppendLine();
+                    sb.AppendLine("while (reader.Read())");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+                    sb.AppendLine($"dataContract = new {typeContractName}();");
+
+                    sb.AppendLine();
+
+                    sb.AppendLine("ReadContract(dataContract,reader);");
+
+                    sb.AppendLine();
+                    sb.AppendLine("break;");
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                    sb.AppendLine();
+                    sb.AppendLine("reader.Close();");
+                    sb.AppendLine();
+                    sb.AppendLine("#endregion");
+
+                    sb.AppendLine();
+                    sb.AppendLine("returnObject.Value = dataContract;");
+
+                    sb.AppendLine();
+                    sb.AppendLine("return returnObject;");
+
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
                 }
-
-                sb.AppendLine();
-                sb.AppendLine("var response = DBLayer.ExecuteReader(command);");
-                sb.AppendLine("if (!response.Success)");
-                sb.AppendLine("{");
-                sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
-                sb.AppendLine("    return returnObject;");
-                sb.AppendLine("}");
-                sb.AppendLine();
-                sb.AppendLine("var reader = response.Value;");
-
-                sb.AppendLine();
-                sb.AppendLine("#region Fill from SqlDataReader to DataContract");
-                sb.AppendLine();
-                sb.AppendLine($"{typeContractName} dataContract = null;");
-                sb.AppendLine();
-                sb.AppendLine("while (reader.Read())");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                sb.AppendLine($"dataContract = new {typeContractName}();");
-
-                sb.AppendLine();
-
-                sb.AppendLine("ReadContract(dataContract,reader);");
-
-                sb.AppendLine();
-                sb.AppendLine("break;");
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                sb.AppendLine();
-                sb.AppendLine("reader.Close();");
-                sb.AppendLine();
-                sb.AppendLine("#endregion");
-
-                sb.AppendLine();
-                sb.AppendLine("returnObject.Value = dataContract;");
-
-                sb.AppendLine();
-                sb.AppendLine("return returnObject;");
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                }
-
-                
             }
             #endregion
 
