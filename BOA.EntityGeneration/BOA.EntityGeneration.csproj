@@ -59,6 +59,7 @@
     <Compile Include="DbModel\IndexInfo.cs" />
     <Compile Include="DbModel\TableInfo.cs" />
     <Compile Include="Generators\BusinessClass.cs" />
+    <Compile Include="Generators\ContractData.cs" />
     <Compile Include="Generators\ContractDataCreator.cs" />
     <Compile Include="SchemaToDllExporting\BOACardDatabaseExporter.cs" />
     <Compile Include="SchemaToDllExporting\Compiler.cs" />

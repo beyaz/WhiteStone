@@ -108,8 +108,7 @@ namespace BOA.EntityGeneration.Generators
             sb.AppendLine();
             sb.AppendLine("#endregion");
 
-            if (data.IsSupportInsert)
-            {
+            
                 sb.AppendLine();
                 sb.AppendLine($"#region {Names.ISupportDmlOperationInsert}");
 
@@ -119,7 +118,7 @@ namespace BOA.EntityGeneration.Generators
 
                 sb.AppendLine();
                 sb.AppendLine("#endregion");
-            }
+            
 
             if (data.IsSupportSelectByKey)
             {

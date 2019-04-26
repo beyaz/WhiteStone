@@ -34,7 +34,6 @@ namespace BOA.EntityGeneration.Generators
             }).ToList();
 
             var        isSupportGetAll = tableInfo.SchemaName == "PRM";
-            const bool isSupportInsert = true;
 
             var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
@@ -60,7 +59,6 @@ namespace BOA.EntityGeneration.Generators
                 TableInfo                       = tableInfo,
                 NamespaceFullNameOfTypeAssembly = $"BOA.Types.Kernel.Card.{tableInfo.SchemaName}",
                 IsSupportGetAll                 = isSupportGetAll,
-                IsSupportInsert                 = isSupportInsert,
                 IsSupportSelectByKey            = isSupportSelectByKey,
                 IsSupportSelectByIndex          = isSupportSelectByIndex,
                 IsSupportSelectByUniqueIndex    = isSupportSelectByUniqueIndex,

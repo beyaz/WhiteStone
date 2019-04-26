@@ -89,7 +89,7 @@ namespace BOA.EntityGeneration.Generators
             #endregion
 
             #region Insert
-            if (Data.IsSupportInsert)
+            if (true)
             {
                 var insertInfo = InsertInfoCreator.Create(tableInfo);
 
