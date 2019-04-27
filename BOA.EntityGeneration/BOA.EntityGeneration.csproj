@@ -61,7 +61,7 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\GeneratorOfBusinessClass.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BOACardDatabaseExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\GeneratorOfTypeClass.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\GeneratorData.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\TableInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\GeneratorDataCreator.cs" />
     <Compile Include="Names2.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ParameterHelper.cs" />

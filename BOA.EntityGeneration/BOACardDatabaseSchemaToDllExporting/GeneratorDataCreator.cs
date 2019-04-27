@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #endregion
 
         #region Public Methods
-        public GeneratorData Create(TableInfo tableInfo)
+        public TableInfo Create(DbModel.TableInfo tableInfo)
         {
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 
@@ -40,7 +40,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 }
             }
 
-            var data = JsonHelper.Deserialize<GeneratorData>(JsonHelper.Serialize(tableInfo));
+            var data = JsonHelper.Deserialize<TableInfo>(JsonHelper.Serialize(tableInfo));
 
             data.UniqueIndexInfoList             = uniqueIndexIdentifiers;
             data.NonUniqueIndexInfoList          = nonUniqueIndexIdentifiers;

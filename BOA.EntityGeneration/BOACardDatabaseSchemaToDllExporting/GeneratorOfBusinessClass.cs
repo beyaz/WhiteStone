@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     public class GeneratorOfBusinessClass
     {
         #region Public Methods
-        public string TransformText(GeneratorData tableInfo)
+        public string TransformText(TableInfo tableInfo)
         {
             var typeContractName      = $"{tableInfo.TableName.ToContractName()}Contract";
             var className             = tableInfo.TableName.ToContractName();

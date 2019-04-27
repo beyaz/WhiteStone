@@ -12,7 +12,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #endregion
 
         #region Public Methods
-        public string TransformText(GeneratorData tableInfo)
+        public string TransformText(TableInfo tableInfo)
         {
             var sb = new PaddedStringBuilder();
 

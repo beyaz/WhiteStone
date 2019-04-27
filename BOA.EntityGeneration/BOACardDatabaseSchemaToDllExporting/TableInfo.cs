@@ -8,7 +8,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     ///     The generator data
     /// </summary>
     [Serializable]
-    public class GeneratorData : TableInfo
+    public class TableInfo : DbModel.TableInfo
     {
         #region Public Properties
         /// <summary>
