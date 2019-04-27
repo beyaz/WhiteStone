@@ -6,7 +6,7 @@ using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
 using Mono.Cecil;
-using ColumnInfo = BOA.EntityGeneration.DbModel.Types.ColumnInfo;
+using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Util
 {

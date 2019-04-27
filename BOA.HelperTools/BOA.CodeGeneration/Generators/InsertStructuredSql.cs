@@ -4,10 +4,10 @@ using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.Common;
-using ColumnInfo = BOA.EntityGeneration.DbModel.Types.ColumnInfo;
+using BOA.EntityGeneration;
+using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 using Names2 = BOA.CodeGeneration.Common.Names2;
-using TableInfo = BOA.EntityGeneration.DbModel.Types.TableInfo;
+using TableInfo = BOA.EntityGeneration.DbModel.TableInfo;
 
 namespace BOA.CodeGeneration.Generators
 {

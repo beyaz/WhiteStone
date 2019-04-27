@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BOA.EntityGeneration.DbModel.Types;
+using BOA.EntityGeneration.DbModel;
 
-namespace BOA.EntityGeneration.ScriptModel.Types
+namespace BOA.EntityGeneration.ScriptModel
 {
     public class UpdateByPrimaryKeyInfo
     {

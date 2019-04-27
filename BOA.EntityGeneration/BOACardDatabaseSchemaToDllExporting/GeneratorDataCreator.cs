@@ -1,12 +1,10 @@
 ﻿using System.Linq;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.DbModel.DataAccess;
-using BOA.EntityGeneration.DbModel.Types;
+using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Ninject;
 
-namespace BOA.EntityGeneration.Generators
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     public class GeneratorDataCreator
     {

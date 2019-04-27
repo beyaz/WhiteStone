@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.DbModel.DataAccess;
-using BOA.EntityGeneration.Generators;
+using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting

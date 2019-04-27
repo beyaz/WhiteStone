@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BOA.EntityGeneration.Generators;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
@@ -11,7 +10,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         public TypeDllCompiler TypeDllCompiler { get; set; }
 
         [Inject]
-        public Contract Contract { get; set; }
+        public TypeContractCodeGenerator TypeContractCodeGenerator { get; set; }
 
         [Inject]
         public SchemaExporterDataPreparer DataPreparer { get; set; }
@@ -27,7 +26,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             foreach (var generatorData in items)
             {
-                sources.Add(Contract.TransformText(generatorData));
+                sources.Add(TypeContractCodeGenerator.TransformText(generatorData));
             }
 
             TypeDllCompiler.Compile(new TypeDllCompilerData

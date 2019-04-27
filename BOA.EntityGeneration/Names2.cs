@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using BOA.Common.Helpers;
 
-namespace BOA.EntityGeneration.Common
+namespace BOA.EntityGeneration
 {
     public static class Names2
     {

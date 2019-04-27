@@ -1,8 +1,6 @@
-﻿using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.DbModel.Types;
+﻿using BOA.EntityGeneration.DbModel;
 
-namespace BOA.EntityGeneration.Generators
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     static class ParameterHelper
     {

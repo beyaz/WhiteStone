@@ -1,4 +1,4 @@
-﻿namespace BOA.EntityGeneration.Common
+﻿namespace BOA.EntityGeneration
 {
     public enum SqlReaderMethods
     {

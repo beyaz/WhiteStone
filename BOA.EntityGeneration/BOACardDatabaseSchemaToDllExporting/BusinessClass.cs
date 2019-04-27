@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
-namespace BOA.EntityGeneration.Generators
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     public class BusinessClass
     {

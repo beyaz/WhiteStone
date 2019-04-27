@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.DbModel.Types;
-using BOA.EntityGeneration.ScriptModel.Types;
+using BOA.EntityGeneration.DbModel;
 
 namespace BOA.EntityGeneration.ScriptModel.Creators
 {

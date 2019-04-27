@@ -4,12 +4,10 @@ using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.DbModel.Types;
 using Ninject;
 using WhiteStone.Helpers;
 
-namespace BOA.EntityGeneration.DbModel.DataAccess
+namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     public class TableInfoDao
     {

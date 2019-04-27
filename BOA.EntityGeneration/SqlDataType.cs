@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using BOA.Common.Helpers;
 
-namespace BOA.EntityGeneration.Common
+namespace BOA.EntityGeneration
 {
     public static class SqlDataType
     {

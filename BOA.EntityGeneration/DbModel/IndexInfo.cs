@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BOA.EntityGeneration.DbModel.Types
+namespace BOA.EntityGeneration.DbModel
 {
     [Serializable]
     public class IndexInfo

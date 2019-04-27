@@ -1,6 +1,6 @@
 ﻿using BOA.DatabaseAccess;
 
-namespace BOA.EntityGeneration.DbModel.DataAccess
+namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     public static class SequenceInfo
     {

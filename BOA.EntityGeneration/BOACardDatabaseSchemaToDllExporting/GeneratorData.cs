@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.DbModel.Types;
 
-namespace BOA.EntityGeneration.Generators
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     /// <summary>
     ///     The generator data

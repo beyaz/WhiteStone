@@ -1,11 +1,10 @@
 ﻿using BOA.Common.Helpers;
-using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using Ninject;
 
-namespace BOA.EntityGeneration.Generators
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
-    public class Contract
+    public class TypeContractCodeGenerator
     {
         #region Public Properties
         [Inject]
