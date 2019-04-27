@@ -7,39 +7,25 @@ using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
-    public class FileData
-    {
-        public string ClassName { get; set; }
-        public string SourceCode { get; set; }
-    }
-    public class BusinessProjectExporterData
-    {
-        public string SchemaName { get; set; }
-        public IReadOnlyList<FileData> Files => files;
-
-        readonly List<FileData> files  = new List<FileData>();
-        public void Add(string className, string sourceCode)
-        {
-            files.Add(new FileData{ClassName = className,SourceCode = sourceCode});
-        }
-    }
-
     /// <summary>
     ///     The compiler
     /// </summary>
     public class BusinessDllCompiler
     {
+        #region Constants
+        const string outputDirectory = @"d:\boa\server\bin\";
+        #endregion
 
+        #region Public Properties
         [Inject]
         public NamingHelper NamingHelper { get; set; }
-
-        const string outputDirectory = @"d:\boa\server\bin\";
+        #endregion
 
         #region Public Methods
         /// <summary>
         ///     Compiles given source code
         /// </summary>
-        public void Compile(string schemaName, string[] sources)
+        public void Compile(string schemaName, string allInOneSourceCode)
         {
             const string SYSTEM_CORE = "System.Core.dll";
             const string SYSTEM_DATA = "System.Data.dll";
@@ -58,8 +44,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 $@"d:\boa\server\bin\{NamingHelper.GetTypeClassNamespace(schemaName)}.dll"
             };
 
-           
-
             var fileNameWithoutExtension = NamingHelper.GetBusinessClassNamespace(schemaName);
 
             var          OPTIONS  = $"/target:library /optimize /doc:{outputDirectory}{fileNameWithoutExtension}.xml";
@@ -73,7 +57,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 OutputAssembly          = $"{outputDirectory}{fileNameWithoutExtension}.dll"
             };
 
-            var results = compiler.CompileAssemblyFromSource(compilerParams, sources);
+            var results = compiler.CompileAssemblyFromSource(compilerParams, allInOneSourceCode);
 
             var errors = ConvertToList(results.Errors);
 
@@ -82,21 +66,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 throw new ArgumentException(string.Join(Environment.NewLine, errors));
             }
 
-            
-
             // CopyToTfs(fileNameWithoutExtension);
-        }
-
-        static void CopyToTfs(string fileNameWithoutExtension)
-        {
-            
-            var targetDirectory = $@"D:\work\BOA.ExternalLibraries\ExternalLibraries\AnyCPU\{fileNameWithoutExtension}\0.0.0.0\";
-
-            Directory.CreateDirectory(targetDirectory);
-
-            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.dll", $@"{targetDirectory}{fileNameWithoutExtension}.dll", true);
-            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.pdb", $@"{targetDirectory}{fileNameWithoutExtension}.pdb", true);
-            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.xml", $@"{targetDirectory}{fileNameWithoutExtension}.xml", true);
         }
         #endregion
 
@@ -113,6 +83,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             }
 
             return errors;
+        }
+
+        static void CopyToTfs(string fileNameWithoutExtension)
+        {
+            var targetDirectory = $@"D:\work\BOA.ExternalLibraries\ExternalLibraries\AnyCPU\{fileNameWithoutExtension}\0.0.0.0\";
+
+            Directory.CreateDirectory(targetDirectory);
+
+            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.dll", $@"{targetDirectory}{fileNameWithoutExtension}.dll", true);
+            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.pdb", $@"{targetDirectory}{fileNameWithoutExtension}.pdb", true);
+            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.xml", $@"{targetDirectory}{fileNameWithoutExtension}.xml", true);
         }
         #endregion
     }

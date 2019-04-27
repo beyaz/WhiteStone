@@ -8,7 +8,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Constructors
         public Kernel()
         {
-            Bind<Database>().To<BOACardDatabase>().InSingletonScope();
             Bind<IDatabase>().To<BOACardDatabase>().InSingletonScope();
             Bind<ScriptModel.Creators.InsertInfoCreator>().To<InsertInfoCreator>();
         }

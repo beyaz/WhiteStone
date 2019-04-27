@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
-
-
-    
-
     public class SchemaExporter
     {
         #region Public Properties
         [Inject]
+        public AllBusinessClassesInOne AllBusinessClassesInOne { get; set; }
+
+        [Inject]
         public BusinessDllCompiler BusinessDllCompiler { get; set; }
+
+        [Inject]
+        public BusinessProjectExporter BusinessProjectExporter { get; set; }
 
         [Inject]
         public SchemaExporterDataPreparer DataPreparer { get; set; }
@@ -25,10 +26,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
         [Inject]
         public TypeDllCompiler TypeDllCompiler { get; set; }
-
-        [Inject]
-        public BusinessProjectExporter BusinessProjectExporter { get; set; }
-        
         #endregion
 
         #region Public Methods
@@ -42,27 +39,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Methods
         void ExportBusinessDll(string schemaName)
         {
+            var allCodes = AllBusinessClassesInOne.GetCode(schemaName);
 
-            var projectExporterData = new BusinessProjectExporterData
-            {
-                SchemaName = schemaName,
-                
-            };
+            BusinessProjectExporter.Export(schemaName, allCodes);
 
-
-            var items = DataPreparer.Prepare(schemaName);
-
-            foreach (var tableInfo in items)
-            {
-                var sourceCode = GeneratorOfBusinessClass.TransformText(tableInfo);
-
-                projectExporterData.Add(tableInfo.TableName.ToContractName(),sourceCode);
-                
-            }
-
-            BusinessProjectExporter.Export(projectExporterData);
-
-            BusinessDllCompiler.Compile(schemaName, (from fileData in projectExporterData.Files select fileData.SourceCode).ToArray());
+            BusinessDllCompiler.Compile(schemaName, allCodes);
         }
 
         void ExportTypeDll(string schemaName)

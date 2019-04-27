@@ -10,7 +10,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     {
         #region Public Properties
         [Inject]
-        public Database Database { get; set; }
+        public IDatabase Database { get; set; }
 
         [Inject]
         public GeneratorDataCreator GeneratorDataCreator { get; set; }

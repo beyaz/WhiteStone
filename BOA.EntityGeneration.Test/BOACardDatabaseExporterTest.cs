@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using BOA.Common.Helpers;
+using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -46,9 +48,60 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
             #region Constructors
             public TestKernel()
             {
+                Unbind<IDatabase>();
+                Bind<IDatabase>().To<InvalidDb>();
                 Bind<SchemaExporterDataPreparer>().To<SchemaExporterDataPreparerFromLocalJsonFile>();
             }
             #endregion
+        }
+
+        public class InvalidDb:IDatabase
+        {
+            public void Dispose()
+            {
+               
+            }
+
+            public void BeginTransaction()
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public void Commit()
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public int ExecuteNonQuery()
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IDataReader ExecuteReader()
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public object ExecuteScalar()
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public void Rollback()
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public bool CommandIsStoredProcedure { get; set; }
+            public string CommandText { get; set; }
+            public int? CommandTimeout { get; set; }
+            public string ParameterPrefix { get; }
+
+            public object this[string parameterName]
+            {
+                get => throw new System.NotImplementedException();
+                set => throw new System.NotImplementedException();
+            }
         }
     }
 }

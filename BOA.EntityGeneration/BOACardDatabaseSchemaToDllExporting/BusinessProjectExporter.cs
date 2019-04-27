@@ -1,38 +1,32 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     public class BusinessProjectExporter
     {
+        #region Constants
         const string ExportDirectory = @"D:\temp\";
+        #endregion
 
+        #region Public Properties
         [Inject]
         public NamingHelper NamingHelper { get; set; }
+        #endregion
 
-        public void Export(BusinessProjectExporterData data)
+        #region Public Methods
+        public void Export(string schemaName, string allInOneSourceCode)
         {
-            var businessClassNamespace = NamingHelper.GetBusinessClassNamespace(data.SchemaName);
+            var businessClassNamespace = NamingHelper.GetBusinessClassNamespace(schemaName);
 
             var projectDirectory = $"{ExportDirectory}{businessClassNamespace}\\";
 
-            var csprojFilePath = $"{projectDirectory}{businessClassNamespace}.csproj";
+            var csprojFilePath       = $"{projectDirectory}{businessClassNamespace}.csproj";
             var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
 
+            const string allInOneFileName = "All";
 
-            foreach (var dataFile in data.Files)
-            {
-                FileHelper.WriteAllText($"{projectDirectory}{dataFile.ClassName}.cs",dataFile.SourceCode);
-            }
-
-            var fileList = string.Join(Environment.NewLine, from dataFile in data.Files select $"    <Compile Include=\"{dataFile.ClassName}.cs\" />" );
-
-            
-
-                                                
+            FileHelper.WriteAllText($"{projectDirectory}{allInOneFileName}.cs", allInOneSourceCode);
 
             var content = $@"
 
@@ -79,8 +73,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     <Reference Include=""BOA.Common"">
       <HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath>
     </Reference>
-    <Reference Include=""BOA.Types.Kernel.Card.{data.SchemaName}"">
-      <HintPath>D:\BOA\Server\bin\BOA.Types.Kernel.Card.{data.SchemaName}.dll</HintPath>
+    <Reference Include=""BOA.Types.Kernel.Card.{schemaName}"">
+      <HintPath>D:\BOA\Server\bin\BOA.Types.Kernel.Card.{schemaName}.dll</HintPath>
     </Reference>
     <Reference Include=""BOA.Messaging"">
       <HintPath>D:\BOA\Server\bin\BOA.Messaging.dll</HintPath>
@@ -96,7 +90,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
   </ItemGroup>
   <ItemGroup>
     <Compile Include=""Properties\AssemblyInfo.cs"" />
-    {fileList}
+    <Compile Include=""{allInOneFileName}.cs"" />
   </ItemGroup>
   <ItemGroup />
   <Import Project=""$(MSBuildToolsPath)\Microsoft.CSharp.targets"" />
@@ -107,7 +101,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
 ";
 
-            FileHelper.WriteAllText(csprojFilePath,content.Trim());
+            FileHelper.WriteAllText(csprojFilePath, content.Trim());
 
             var assemblyInfoContent = $@"
 using System.Reflection;
@@ -149,8 +143,7 @@ using System.Runtime.InteropServices;
 ";
 
             FileHelper.WriteAllText(assemblyInfoFilePath, assemblyInfoContent);
-
-
         }
+        #endregion
     }
 }

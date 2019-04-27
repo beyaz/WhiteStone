@@ -15,11 +15,24 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         public NamingHelper NamingHelper { get; set; }
 
         #region Public Methods
-        public string TransformText(TableInfo tableInfo)
+
+        public void WriteUsingList(PaddedStringBuilder sb,  TableInfo tableInfo)
+        {
+            sb.AppendLine("using BOA.Base;");
+            sb.AppendLine("using BOA.Base.Data;");
+            sb.AppendLine("using BOA.Common.Types;");
+            sb.AppendLine($"using {NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName)};");
+            sb.AppendLine("using System;");
+            sb.AppendLine("using System.Collections.Generic;");
+            sb.AppendLine("using System.Data;");
+
+        }
+
+        public void WriteClass(PaddedStringBuilder sb,TableInfo tableInfo)
         {
             var typeContractName      = $"{tableInfo.TableName.ToContractName()}Contract";
             var className             = tableInfo.TableName.ToContractName();
-            var contractParameterName = "contract";
+            const string contractParameterName = "contract";
 
             if (typeContractName =="TransactionLogContract") // resolve conflig
             {
@@ -28,21 +41,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             var businessClassNamespace = NamingHelper.GetBusinessClassNamespace(tableInfo.SchemaName);
 
-            var sb = new PaddedStringBuilder();
 
-            sb.AppendLine("using BOA.Base;");
-            sb.AppendLine("using BOA.Base.Data;");
-            sb.AppendLine("using BOA.Common.Types;");
-            sb.AppendLine($"using {NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName)};");
-            sb.AppendLine("using System;");
-            sb.AppendLine("using System.Collections.Generic;");
-            sb.AppendLine("using System.Data;");
-            sb.AppendLine();
+            
 
-            #region namespace
-            sb.AppendLine($"namespace {businessClassNamespace}");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+          
 
             #region class
             ContractCommentInfoCreator.Write(sb, tableInfo);
@@ -511,11 +513,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             sb.AppendLine("}");
             #endregion
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-            #endregion
+          
 
-            return sb.ToString();
+         
         }
         #endregion
     }

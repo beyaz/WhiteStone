@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\AllBusinessClassesInOneFileExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessDllCompiler.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessProjectExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\InsertInfoCreator.cs" />
