@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Ninject;
 
@@ -42,15 +41,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             var data = JsonHelper.Deserialize<TableInfo>(JsonHelper.Serialize(tableInfo));
 
-            data.UniqueIndexInfoList             = uniqueIndexIdentifiers;
-            data.NonUniqueIndexInfoList          = nonUniqueIndexIdentifiers;
-            data.NamespaceFullNameOfTypeAssembly = $"BOA.Types.Kernel.Card.{tableInfo.SchemaName}";
-            data.IsSupportGetAll                 = isSupportGetAll;
-            data.IsSupportSelectByKey            = isSupportSelectByKey;
-            data.IsSupportSelectByIndex          = isSupportSelectByIndex;
-            data.IsSupportSelectByUniqueIndex    = isSupportSelectByUniqueIndex;
-            data.DatabaseEnumName                = tableInfo.CatalogName;
-            data.SequenceName                    = hasSequence ? tableInfo.SchemaName + "." + sequenceName : null;
+            data.UniqueIndexInfoList          = uniqueIndexIdentifiers;
+            data.NonUniqueIndexInfoList       = nonUniqueIndexIdentifiers;
+            data.IsSupportGetAll              = isSupportGetAll;
+            data.IsSupportSelectByKey         = isSupportSelectByKey;
+            data.IsSupportSelectByIndex       = isSupportSelectByIndex;
+            data.IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex;
+            data.DatabaseEnumName             = tableInfo.CatalogName;
+            data.SequenceName                 = hasSequence ? tableInfo.SchemaName + "." + sequenceName : null;
 
             return data;
         }

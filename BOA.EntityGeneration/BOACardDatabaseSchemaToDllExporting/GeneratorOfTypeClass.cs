@@ -9,6 +9,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Public Properties
         [Inject]
         public ContractBodyDbMembersCreator ContractBodyDbMembersCreator { get; set; }
+
+        [Inject]
+        public NamingHelper NamingHelper { get; set; }
         #endregion
 
         #region Public Methods
@@ -16,13 +19,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         {
             var sb = new PaddedStringBuilder();
 
-
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using BOA.Common.Types;");
 
             sb.AppendLine();
-            sb.AppendLine("namespace " + tableInfo.NamespaceFullNameOfTypeAssembly);
+            sb.AppendLine("namespace " + NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName));
             sb.AppendLine("{");
             sb.PaddingCount++;
 

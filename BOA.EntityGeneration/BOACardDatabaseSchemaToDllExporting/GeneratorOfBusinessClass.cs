@@ -10,32 +10,37 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     {
         [Inject]
         public InsertInfoCreator InsertInfoCreator { get; set; }
+
+        [Inject]
+        public NamingHelper NamingHelper { get; set; }
+
         #region Public Methods
         public string TransformText(TableInfo tableInfo)
         {
             var typeContractName      = $"{tableInfo.TableName.ToContractName()}Contract";
             var className             = tableInfo.TableName.ToContractName();
-            var namespaceName         = $"BOA.Business.Kernel.Card.{tableInfo.SchemaName}";
             var contractParameterName = "contract";
 
             if (typeContractName =="TransactionLogContract") // resolve conflig
             {
-                typeContractName = $"{tableInfo.NamespaceFullNameOfTypeAssembly}.TransactionLogContract";
+                typeContractName = $"{NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName)}.TransactionLogContract";
             }
+
+            var businessClassNamespace = NamingHelper.GetBusinessClassNamespace(tableInfo.SchemaName);
 
             var sb = new PaddedStringBuilder();
 
             sb.AppendLine("using BOA.Base;");
             sb.AppendLine("using BOA.Base.Data;");
             sb.AppendLine("using BOA.Common.Types;");
-            sb.AppendLine($"using {tableInfo.NamespaceFullNameOfTypeAssembly};");
+            sb.AppendLine($"using {NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName)};");
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using System.Data;");
             sb.AppendLine();
 
             #region namespace
-            sb.AppendLine($"namespace {namespaceName}");
+            sb.AppendLine($"namespace {businessClassNamespace}");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -63,7 +68,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{namespaceName}.{className}.Delete\");");
+                sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{businessClassNamespace}.{className}.Delete\");");
 
                 sb.AppendLine();
                 sb.AppendLine("const string sql = @\"");
@@ -112,12 +117,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{namespaceName}.{className}.Insert\");");
+                sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{businessClassNamespace}.{className}.Insert\");");
 
                 sb.AppendLine();
                 sb.AppendLine("if (contract == null)");
                 sb.AppendLine("{");
-                sb.AppendLine(@"    returnObject.Results.Add(new Result { ErrorMessage = BOA.Messaging.MessagingHelper.GetMessage(""BOA"", ""CanNotBeNull"")});");
+                sb.AppendLine(@"    returnObject.Results.Add(new Result { ErrorMessage = Messaging.MessagingHelper.GetMessage(""BOA"", ""CanNotBeNull"")});");
                 sb.AppendLine("    return returnObject;");
                 sb.AppendLine("}");
 
@@ -189,12 +194,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{namespaceName}.{className}.Update\");");
+                sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{businessClassNamespace}.{className}.Update\");");
 
                 sb.AppendLine();
                 sb.AppendLine("if (contract == null)");
                 sb.AppendLine("{");
-                sb.AppendLine(@"    returnObject.Results.Add(new Result { ErrorMessage = BOA.Messaging.MessagingHelper.GetMessage(""BOA"", ""CanNotBeNull"")});");
+                sb.AppendLine(@"    returnObject.Results.Add(new Result { ErrorMessage = Messaging.MessagingHelper.GetMessage(""BOA"", ""CanNotBeNull"")});");
                 sb.AppendLine("    return returnObject;");
                 sb.AppendLine("}");
 
@@ -247,7 +252,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<{typeContractName}>(\"{namespaceName}.{className}.SelectByKey\");");
+                sb.AppendLine($"var returnObject = InitializeGenericResponse<{typeContractName}>(\"{businessClassNamespace}.{className}.SelectByKey\");");
 
                 sb.AppendLine();
                 sb.AppendLine("const string sql = @\"");
@@ -288,7 +293,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
                 sb.AppendLine();
 
-                sb.AppendLine("ReadContract(dataContract,reader);");
+                sb.AppendLine("ReadContract(reader, dataContract);");
 
                 sb.AppendLine();
                 sb.AppendLine("break;");
@@ -329,7 +334,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    sb.AppendLine($"var returnObject = InitializeGenericResponse<{typeContractName}>(\"{namespaceName}.{className}.{methodName}\");");
+                    sb.AppendLine($"var returnObject = InitializeGenericResponse<{typeContractName}>(\"{businessClassNamespace}.{className}.{methodName}\");");
 
                     sb.AppendLine();
                     sb.AppendLine("const string sql = @\"");
@@ -370,7 +375,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
                     sb.AppendLine();
 
-                    sb.AppendLine("ReadContract(dataContract,reader);");
+                    sb.AppendLine("ReadContract(reader, dataContract);");
 
                     sb.AppendLine();
                     sb.AppendLine("break;");
@@ -413,7 +418,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{typeContractName}>>(\"{namespaceName}.{className}.{methodName}\");");
+                    sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.{methodName}\");");
 
                     sb.AppendLine();
                     sb.AppendLine("const string sql = @\"");
@@ -445,7 +450,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     sb.AppendLine();
                     sb.AppendLine("#region Fill from SqlDataReader to DataContract List");
                     sb.AppendLine();
-                    sb.AppendLine("var listOfDataContract = new {0}();");
+                    sb.AppendLine($"var listOfDataContract = new List<{typeContractName}>();");
                     sb.AppendLine();
                     sb.AppendLine("while (reader.Read())");
                     sb.AppendLine("{");
@@ -454,7 +459,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
                     sb.AppendLine();
 
-                    sb.AppendLine("ReadContract(dataContract,reader);");
+                    sb.AppendLine("ReadContract(reader, dataContract);");
 
                     sb.AppendLine();
                     sb.AppendLine("listOfDataContract.Add(dataContract);");

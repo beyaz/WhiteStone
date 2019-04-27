@@ -37,11 +37,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         public bool IsSupportSelectByUniqueIndex { get; set; }
 
         /// <summary>
-        ///     Gets or sets the namespace full name of type assembly.
-        /// </summary>
-        public string NamespaceFullNameOfTypeAssembly { get; set; }
-
-        /// <summary>
         ///     Gets or sets the non unique index information list.
         /// </summary>
         public IReadOnlyList<IndexInfo> NonUniqueIndexInfoList { get; set; }

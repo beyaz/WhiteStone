@@ -11,11 +11,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
         public void Export(BusinessProjectExporterData data)
         {
-            var csprojFilePath = $"{ExportDirectory}{data.SchemaName}{Path.DirectorySeparatorChar}BOA.Business.Kernel.Card.{data.SchemaName}.csproj";
-            var assemblyInfoFilePath = $"{ExportDirectory}{data.SchemaName}{Path.DirectorySeparatorChar}BOA.Business.Kernel.Card.{data.SchemaName}\\Properties\\AssemblyInfo.cs";
+            var csprojFilePath = $"{ExportDirectory}BOA.Business.Kernel.Card.{data.SchemaName}.csproj";
+            var assemblyInfoFilePath = $"{ExportDirectory}BOA.Business.Kernel.Card.{data.SchemaName}\\Properties\\AssemblyInfo.cs";
 
 
-
+            foreach (var dataFile in data.Files)
+            {
+                FileHelper.WriteAllText($"{ExportDirectory}{data.SchemaName}{Path.DirectorySeparatorChar}BOA.Business.Kernel.Card.{data.SchemaName}\\{dataFile.ClassName}.cs",
+                                        dataFile.SourceCode);
+            }
 
             var fileList = string.Join(Environment.NewLine, from dataFile in data.Files select $"    <Compile Include=\"{dataFile.ClassName}.cs\" />" );
 
@@ -67,6 +71,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     </Reference>
     <Reference Include=""BOA.Common"">
       <HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath>
+    </Reference>
+    <Reference Include=""BOA.Types.Kernel.Card.{data.SchemaName}"">
+      <HintPath>D:\BOA\Server\bin\BOA.Types.Kernel.Card.{data.SchemaName}.dll</HintPath>
     </Reference>
     <Reference Include=""BOA.Messaging"">
       <HintPath>D:\BOA\Server\bin\BOA.Messaging.dll</HintPath>

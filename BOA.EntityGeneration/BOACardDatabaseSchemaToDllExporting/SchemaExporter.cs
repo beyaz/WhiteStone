@@ -4,6 +4,10 @@ using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
+
+
+    
+
     public class SchemaExporter
     {
         #region Public Properties
@@ -39,7 +43,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         void ExportBusinessDll(string schemaName)
         {
 
-            var projectExporterData = new BusinessProjectExporterData();
+            var projectExporterData = new BusinessProjectExporterData
+            {
+                SchemaName = schemaName,
+                
+            };
 
 
             var items = DataPreparer.Prepare(schemaName);
@@ -51,6 +59,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 projectExporterData.Add(tableInfo.TableName.ToContractName(),sourceCode);
                 
             }
+
+            BusinessProjectExporter.Export(projectExporterData);
 
             BusinessDllCompiler.Compile(schemaName, (from fileData in projectExporterData.Files select fileData.SourceCode).ToArray());
         }
