@@ -16,6 +16,8 @@ namespace BOA.EntityGeneration.DbModelDao
         #region Public Properties
         [Inject]
         public IDatabase Database { get; set; }
+        [Inject]
+        public IndexInfoAccess IndexInfoAccess { get; set; }
         #endregion
 
         #region Public Methods
@@ -49,11 +51,8 @@ namespace BOA.EntityGeneration.DbModelDao
                 c.Comment = GetColumnComment(schema, tableName, c.ColumnName);
             }
 
-            var indexInfoDao = new IndexInfoDao
-            {
-                Database = Database
-            };
-            indexInfoDao.GetIndexInformation(schema, tableName);
+           
+           
 
             return new TableInfo
             {
@@ -64,7 +63,7 @@ namespace BOA.EntityGeneration.DbModelDao
                 IdentityColumn    = columns.FirstOrDefault(c => c.IsIdentity),
                 HasIdentityColumn = columns.Any(c => c.IsIdentity),
                 PrimaryKeyColumns = columns.Where(c => c.IsPrimaryKey).ToList(),
-                IndexInfoList     = indexInfoDao.GetIndexInformation(schema, tableName)
+                IndexInfoList     = IndexInfoAccess.GetIndexInformation(schema, tableName)
             };
         }
         #endregion

@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.DbModelDao
         [TestMethod]
         public void Should_evaluates_IndexInformation_by_table_name()
         {
-            var dao = new IndexInfoDao {Database = new BOACardDatabase()};
+            var dao = new IndexInfoAccess {Database = new BOACardDatabase()};
 
             var information = dao.GetIndexInformation("CRD", "CARD_MASTER");
 

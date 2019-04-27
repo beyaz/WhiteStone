@@ -3,12 +3,14 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel;
+using Ninject;
 
 namespace BOA.EntityGeneration.DbModelDao
 {
-    public class IndexInfoDao
+    public class IndexInfoAccess
     {
         #region Public Properties
+        [Inject]
         public IDatabase Database { get; set; }
         #endregion
 

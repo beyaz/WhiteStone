@@ -23,7 +23,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         #region Public Methods
         public IReadOnlyList<GeneratorData> Prepare(string schemaName)
         {
-            var tableNames = SchemaInfoDao.GetAllTableNamesInSchema(Database, schemaName).ToList();
+            var tableNames = SchemaInfo.GetAllTableNamesInSchema(Database, schemaName).ToList();
 
             tableNames = tableNames.Where(x => IsReadyToExport(schemaName, x)).ToList();
 
