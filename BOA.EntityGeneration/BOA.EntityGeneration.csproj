@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessDllCompiler.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessProjectExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\InsertInfoCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Kernel.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TableCatalogName.cs" />

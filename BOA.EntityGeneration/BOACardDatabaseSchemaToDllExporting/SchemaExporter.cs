@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
@@ -20,6 +21,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
         [Inject]
         public TypeDllCompiler TypeDllCompiler { get; set; }
+
+        [Inject]
+        public BusinessProjectExporter BusinessProjectExporter { get; set; }
+        
         #endregion
 
         #region Public Methods
@@ -33,16 +38,21 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Methods
         void ExportBusinessDll(string schemaName)
         {
-            var sources = new List<string>();
+
+            var projectExporterData = new BusinessProjectExporterData();
+
 
             var items = DataPreparer.Prepare(schemaName);
 
-            foreach (var generatorData in items)
+            foreach (var tableInfo in items)
             {
-                sources.Add(GeneratorOfBusinessClass.TransformText(generatorData));
+                var sourceCode = GeneratorOfBusinessClass.TransformText(tableInfo);
+
+                projectExporterData.Add(tableInfo.TableName.ToContractName(),sourceCode);
+                
             }
 
-            BusinessDllCompiler.Compile(schemaName, sources.ToArray());
+            BusinessDllCompiler.Compile(schemaName, (from fileData in projectExporterData.Files select fileData.SourceCode).ToArray());
         }
 
         void ExportTypeDll(string schemaName)

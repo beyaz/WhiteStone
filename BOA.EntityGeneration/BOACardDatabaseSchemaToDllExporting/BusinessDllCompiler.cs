@@ -6,6 +6,23 @@ using System.Linq;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
+    public class FileData
+    {
+        public string ClassName { get; set; }
+        public string SourceCode { get; set; }
+    }
+    public class BusinessProjectExporterData
+    {
+        public string SchemaName { get; set; }
+        public IReadOnlyList<FileData> Files => files;
+
+        readonly List<FileData> files  = new List<FileData>();
+        public void Add(string className, string sourceCode)
+        {
+            files.Add(new FileData{ClassName = className,SourceCode = sourceCode});
+        }
+    }
+
     /// <summary>
     ///     The compiler
     /// </summary>
