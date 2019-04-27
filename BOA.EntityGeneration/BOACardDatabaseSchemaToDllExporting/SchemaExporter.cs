@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Ninject;
+﻿using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
@@ -8,6 +7,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Public Properties
         [Inject]
         public AllBusinessClassesInOne AllBusinessClassesInOne { get; set; }
+
+        [Inject]
+        public AllTypeClassesInOne AllTypeClassesInOne { get; set; }
 
         [Inject]
         public BusinessDllCompiler BusinessDllCompiler { get; set; }
@@ -26,6 +28,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
         [Inject]
         public TypeDllCompiler TypeDllCompiler { get; set; }
+
+        [Inject]
+        public TypesProjectExporter TypesProjectExporter { get; set; }
         #endregion
 
         #region Public Methods
@@ -39,25 +44,20 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Methods
         void ExportBusinessDll(string schemaName)
         {
-            var allCodes = AllBusinessClassesInOne.GetCode(schemaName);
+            var code = AllBusinessClassesInOne.GetCode(schemaName);
 
-            BusinessProjectExporter.Export(schemaName, allCodes);
+            BusinessProjectExporter.Export(schemaName, code);
 
-            BusinessDllCompiler.Compile(schemaName, allCodes);
+            BusinessDllCompiler.Compile(schemaName, code);
         }
 
         void ExportTypeDll(string schemaName)
         {
-            var sources = new List<string>();
+            var code = AllTypeClassesInOne.GetCode(schemaName);
 
-            var items = DataPreparer.Prepare(schemaName);
+            TypesProjectExporter.Export(schemaName, code);
 
-            foreach (var generatorData in items)
-            {
-                sources.Add(GeneratorOfTypeClass.TransformText(generatorData));
-            }
-
-            TypeDllCompiler.Compile(schemaName, sources.ToArray());
+            TypeDllCompiler.Compile(schemaName, code);
         }
         #endregion
     }

@@ -15,19 +15,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #endregion
 
         #region Public Methods
-        public string TransformText(TableInfo tableInfo)
+        public static void WriteUsingList(PaddedStringBuilder sb, TableInfo tableInfo)
         {
-            var sb = new PaddedStringBuilder();
-
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using BOA.Common.Types;");
+        }
 
-            sb.AppendLine();
-            sb.AppendLine("namespace " + NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName));
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
+        public void WriteClass(PaddedStringBuilder sb, TableInfo tableInfo)
+        {
             ContractCommentInfoCreator.Write(sb, tableInfo);
 
             sb.AppendLine("[Serializable]");
@@ -47,11 +43,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             sb.PaddingCount--;
             sb.AppendLine("}"); // end of class
-
-            sb.PaddingCount--;
-            sb.AppendLine("}"); // end of namespace
-
-            return sb.ToString();
         }
         #endregion
     }

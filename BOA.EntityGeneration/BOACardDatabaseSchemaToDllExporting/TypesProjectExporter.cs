@@ -3,7 +3,7 @@ using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
-    public class BusinessProjectExporter
+    public class TypesProjectExporter
     {
         #region Public Properties
         [Inject]
@@ -16,7 +16,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Public Methods
         public void Export(string schemaName, string allInOneSourceCode)
         {
-            var ns = NamingHelper.GetBusinessClassNamespace(schemaName);
+            var ns = NamingHelper.GetTypeClassNamespace(schemaName);
 
             var projectDirectory = $"{ProjectExportLocation.GetExportLocationOfBusinessProject(schemaName)}{ns}\\";
 
@@ -64,15 +64,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include=""BOA.Base"">
-      <HintPath>D:\BOA\Server\bin\BOA.Base.dll</HintPath>
-    </Reference>
+  <ItemGroup>    
     <Reference Include=""BOA.Common"">
       <HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath>
-    </Reference>
-    <Reference Include=""BOA.Types.Kernel.Card.{schemaName}"">
-      <HintPath>D:\BOA\Server\bin\BOA.Types.Kernel.Card.{schemaName}.dll</HintPath>
     </Reference>
     <Reference Include=""BOA.Messaging"">
       <HintPath>D:\BOA\Server\bin\BOA.Messaging.dll</HintPath>

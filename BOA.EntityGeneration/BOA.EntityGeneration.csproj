@@ -46,13 +46,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllBusinessClassesInOneFileExporter.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\AllTypeClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessDllCompiler.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessProjectExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\InsertInfoCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Kernel.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\NamingHelper.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExportLocation.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TableCatalogName.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TypeDllCompiler.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\TypesProjectExporter.cs" />
     <Compile Include="SqlDataType.cs" />
     <Compile Include="DotNetTypeName.cs" />
     <Compile Include="SqlReaderMethods.cs" />

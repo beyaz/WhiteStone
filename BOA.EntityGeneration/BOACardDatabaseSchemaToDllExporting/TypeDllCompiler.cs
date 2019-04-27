@@ -17,7 +17,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         /// <summary>
         ///     Compiles given source code
         /// </summary>
-        public void Compile(string schemaName,string[] sources)
+        public void Compile(string schemaName,string sources)
         {
             const string SYSTEM_CORE = "System.Core.dll";
             const string SYSTEM_DATA = "System.Data.dll";
