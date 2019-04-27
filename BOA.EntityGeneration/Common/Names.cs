@@ -8,12 +8,9 @@ namespace BOA.EntityGeneration.Common
     public static class Names
     {
         #region Constants
-        public const string ExecutionScope = nameof(ExecutionScope);
-
         public const string INSERT_DATE     = nameof(INSERT_DATE);
         public const string INSERT_TOKEN_ID = nameof(INSERT_TOKEN_ID);
         public const string INSERT_USER_ID  = nameof(INSERT_USER_ID);
-
         public const string RECORD_ID       = nameof(RECORD_ID);
         public const string ROW_GUID        = nameof(ROW_GUID);
         public const string UPDATE_DATE     = nameof(UPDATE_DATE);
