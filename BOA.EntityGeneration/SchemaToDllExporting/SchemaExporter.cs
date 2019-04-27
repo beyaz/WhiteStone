@@ -15,9 +15,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
 
         [Inject]
         public SchemaExporterDataPreparer DataPreparer { get; set; }
-
-        [Inject]
-        public ContractDataCreator ContractDataCreator { get; set; }
+        
         #endregion
 
         #region Public Methods
@@ -29,9 +27,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
 
             foreach (var generatorData in items)
             {
-                var contractData = ContractDataCreator.Create(generatorData);
-
-                sources.Add(Contract.TransformText(contractData));
+                sources.Add(Contract.TransformText(generatorData));
             }
 
             TypeDllCompiler.Compile(new TypeDllCompilerData

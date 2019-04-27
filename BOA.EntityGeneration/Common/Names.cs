@@ -14,14 +14,7 @@ namespace BOA.EntityGeneration.Common
         public const string INSERT_TOKEN_ID = nameof(INSERT_TOKEN_ID);
         public const string INSERT_USER_ID  = nameof(INSERT_USER_ID);
 
-        public const string ISupportDmlOperation                    = nameof(ISupportDmlOperation);
-        public const string ISupportDmlOperationDelete              = nameof(ISupportDmlOperationDelete);
-        public const string ISupportDmlOperationInsert              = nameof(ISupportDmlOperationInsert);
-        public const string ISupportDmlOperationSelectAll           = nameof(ISupportDmlOperationSelectAll);
-        public const string ISupportDmlOperationSelectByIndex       = nameof(ISupportDmlOperationSelectByIndex);
-        public const string ISupportDmlOperationSelectByKey         = nameof(ISupportDmlOperationSelectByKey);
-        public const string ISupportDmlOperationSelectByUniqueIndex = nameof(ISupportDmlOperationSelectByUniqueIndex);
-        public const string ISupportDmlOperationUpdate              = nameof(ISupportDmlOperationUpdate);
+        
         public const string Parameter                               = nameof(Parameter);
         public const string RECORD_ID                               = nameof(RECORD_ID);
         public const string ROW_GUID                                = nameof(ROW_GUID);

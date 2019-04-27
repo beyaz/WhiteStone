@@ -34,9 +34,8 @@ namespace BOA.EntityGeneration.Generators
 
                     var generatorData = kernel.Get<GeneratorDataCreator>().Create(tableInfoDao.GetInfo("BOACard", schemaName, tableName));
 
-                    var contractData = kernel.Get<ContractDataCreator>().Create(generatorData);
 
-                    var generatedCode = contract.TransformText(contractData);
+                    var generatedCode = contract.TransformText(generatorData);
 
                     File.WriteAllText(filePath, generatedCode);
                 }
