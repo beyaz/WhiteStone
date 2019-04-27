@@ -8,8 +8,8 @@ using BOA.CodeGeneration.Services;
 using BOA.CodeGeneration.SQLParser;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
+using BOA.DatabaseAccess;
 using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.DbModelDaoHelper;
 using Names = BOA.CodeGeneration.Common.Names2;
 
 namespace BOA.CodeGeneration.Generators
@@ -420,12 +420,11 @@ namespace BOA.CodeGeneration.Generators
         /// <exception cref="System.NotImplementedException">ProcedureNotFound: " + schemaName + "." + procedureName</exception>
         string GetProcedureDefinitionScript()
         {
-            var dal = new DataAccess {Database = Model.Database};
 
             var schemaName    = Model.ProcedureFullName.Split('.')[0];
             var procedureName = Model.ProcedureFullName.Split('.')[1];
 
-            var definition = dal.GetProcedureDefinition(schemaName, procedureName);
+            var definition = GetProcedureDefinition(Model.Database,schemaName, procedureName);
 
             if (definition.IsNullOrEmpty())
             {
@@ -433,6 +432,24 @@ namespace BOA.CodeGeneration.Generators
             }
 
             return definition;
+        }
+
+        static string GetProcedureDefinition(IDatabase Database , string schemaName, string procedureName)
+        {
+            var sql =
+                @"
+SELECT sm.definition
+	  FROM sys.sql_modules sm WITH(NOLOCK) 
+INNER JOIN sys.objects      o WITH(NOLOCK) ON sm.object_id = o.object_id  
+     WHERE o.name = @procedureName
+       AND SCHEMA_NAME(O.schema_id) = @schemaName
+";
+
+            Database.CommandText      = sql;
+            Database["procedureName"] = procedureName;
+            Database["schemaName"]    = schemaName;
+
+            return Cast.To<string>(Database.ExecuteScalar());
         }
 
         /// <summary>

@@ -51,8 +51,6 @@
     <Compile Include="DbModelDao\BOACardDatabase.cs" />
     <Compile Include="DbModelDao\SequenceInfo.cs" />
     <Compile Include="DbModel\ColumnInfo.cs" />
-    <Compile Include="DbModelDaoHelper\DataAccess.cs" />
-    <Compile Include="DbModelDaoHelper\TableInfoGeneratorFromMsSql.cs" />
     <Compile Include="DbModelDao\IndexInfoDao.cs" />
     <Compile Include="DbModelDao\SchemaInfoDao.cs" />
     <Compile Include="DbModelDao\TableInfoDao.cs" />
