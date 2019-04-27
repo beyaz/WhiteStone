@@ -26,8 +26,7 @@ namespace BOA.CodeGeneration.Util
 
             var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(tfsServerUri));
 
-            var workspaceInfo = Workstation.Current.GetLocalWorkspaceInfo(path);
-            var workspace     = workspaceInfo?.GetWorkspace(pc);
+            var workspace = GetWorkspaceOfSolution(pc, path);
 
             var change = workspace?.GetPendingChangesEnumerable().Where(p => p.LocalItem.ToUpperEN() == path.ToUpperEN()).ToArray();
             if (change?.Any() == true)
@@ -47,9 +46,7 @@ namespace BOA.CodeGeneration.Util
 
             var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(tfsServerUri));
 
-            var workspaceInfo = Workstation.Current.GetLocalWorkspaceInfo(solutionFilePath);
-
-            var workspace = workspaceInfo?.GetWorkspace(pc);
+            var workspace = GetWorkspaceOfSolution(pc, solutionFilePath);
 
             if (workspace == null)
             {
@@ -70,14 +67,6 @@ namespace BOA.CodeGeneration.Util
             }
         }
 
-        static class   Messages
-        {
-            public static string IsNull(string parameter)
-            {
-                return  parameter + " is null";
-            }
-        }
-
         public static string CheckoutFile(string path)
         {
             var uri = GetTfsServerPath(path);
@@ -89,12 +78,8 @@ namespace BOA.CodeGeneration.Util
                     return Messages.IsNull(nameof(teamProjectCollection));
                 }
 
-                var workspaceInfo = Workstation.Current.GetLocalWorkspaceInfo(path);
-                if (workspaceInfo == null)
-                {
-                    return Messages.IsNull(nameof(workspaceInfo));
-                }
-                var workspace     = workspaceInfo.GetWorkspace(teamProjectCollection);
+                var workspace = GetWorkspaceOfSolution(teamProjectCollection, path);
+
                 if (workspace == null)
                 {
                     return Messages.IsNull(nameof(workspace));
@@ -107,22 +92,6 @@ namespace BOA.CodeGeneration.Util
                 }
 
                 return "Number of checked files is " + count;
-            }
-        }
-        public static bool UndoCheckoutFile(string path)
-        {
-            var ConstTfsServerUri = GetTfsServerPath(path);
-
-            using (var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(ConstTfsServerUri)))
-            {
-                if (pc == null)
-                {
-                    return false;
-                }
-
-                var workspaceInfo = Workstation.Current.GetLocalWorkspaceInfo(path);
-                var workspace     = workspaceInfo?.GetWorkspace(pc);
-                return workspace?.Undo(path, RecursionType.Full) == 1;
             }
         }
 
@@ -149,6 +118,25 @@ namespace BOA.CodeGeneration.Util
             }
         }
 
+        public static IReadOnlyList<string> GetSubFolderNames(string tfsPathWithSearchPattern)
+        {
+            var ConstTfsServerUri = GetTfsServerPath(tfsPathWithSearchPattern);
+
+            using (var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(ConstTfsServerUri)))
+            {
+                if (pc == null)
+                {
+                    return null;
+                }
+
+                var version = pc.GetService(typeof(VersionControlServer)) as VersionControlServer;
+
+                var items = version?.GetItems(tfsPathWithSearchPattern);
+
+                return items?.Items.Select(x => x.ServerItem).ToList();
+            }
+        }
+
         public static bool HasFile(string path)
         {
             var ConstTfsServerUri = GetTfsServerPath(path);
@@ -164,28 +152,22 @@ namespace BOA.CodeGeneration.Util
 
                 return version?.ServerItemExists(path, ItemType.Any) == true;
             }
-
         }
 
-        public static IReadOnlyList<string> GetSubFolderNames(string tfsPathWithSearchPattern)
+        public static bool UndoCheckoutFile(string path)
         {
-
-            var ConstTfsServerUri = GetTfsServerPath(tfsPathWithSearchPattern);
+            var ConstTfsServerUri = GetTfsServerPath(path);
 
             using (var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(ConstTfsServerUri)))
             {
                 if (pc == null)
                 {
-                    return null;
+                    return false;
                 }
 
-                var version = pc.GetService(typeof(VersionControlServer)) as VersionControlServer;
+                var workspace = GetWorkspaceOfSolution(pc, path);
 
-                var items    = version?.GetItems(tfsPathWithSearchPattern);
-
-                return items?.Items.Select(x => x.ServerItem).ToList();
-
-
+                return workspace?.Undo(path, RecursionType.Full) == 1;
             }
         }
         #endregion
@@ -205,6 +187,23 @@ namespace BOA.CodeGeneration.Util
 
             return "http://srvtfs:8080/tfs/KT";
         }
+
+        static Workspace GetWorkspaceOfSolution(TfsTeamProjectCollection pc, string filePathInMappedFolder)
+        {
+            var workspaceInfo = Workstation.Current.GetLocalWorkspaceInfo(filePathInMappedFolder);
+
+            return workspaceInfo?.GetWorkspace(pc);
+        }
         #endregion
+
+        static class Messages
+        {
+            #region Public Methods
+            public static string IsNull(string parameter)
+            {
+                return parameter + " is null";
+            }
+            #endregion
+        }
     }
 }
