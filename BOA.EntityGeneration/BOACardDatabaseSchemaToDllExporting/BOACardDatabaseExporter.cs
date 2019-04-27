@@ -1,59 +1,62 @@
-﻿using BOA.DatabaseAccess;
-using Ninject;
+﻿using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     public class BOACardDatabaseExporter
     {
+        #region Static Fields
+        public static readonly string[] SchemaNames =
+        {
+            "BKM",
+            "BNS",
+            "CAP",
+            "CCA",
+            "CFG",
+            "CIS",
+            "CLR",
+            "COR",
+            "CRD",
+            "DBT",
+            "DLV",
+            "EMC",
+            "EMV",
+            "ESW",
+            "FRD",
+            "KMT",
+            "LOG",
+            "MRC",
+            "ORC",
+            "POS",
+            "PPD",
+            "PRM",
+            "RKL",
+            "STM",
+            "SWC",
+            "TMP",
+            "TMS",
+            "TRN",
+            "VIS"
+        };
+        #endregion
+
         #region Public Methods
         public static void Export()
         {
-            var schemaNames = new[]
+            using (var kernel = new Kernel())
             {
-                "BKM",
-                "BNS",
-                "CAP",
-                "CCA",
-                "CFG",
-                "CIS",
-                "CLR",
-                "COR",
-                "CRD",
-                "DBT",
-                "DLV",
-                "EMC",
-                "EMV",
-                "ESW",
-                "FRD",
-                "KMT",
-                "LOG",
-                "MRC",
-                "ORC",
-                "POS",
-                "PPD",
-                "PRM",
-                "RKL",
-                "STM",
-                "SWC",
-                "TMP",
-                "TMS",
-                "TRN",
-                "VIS"
-            };
+                Export(kernel);
 
-            using (var kernel = new StandardKernel())
+// TODO: ???                kernel.Get<BOACardDatabase>().Dispose();
+            }
+        }
+
+        public static void Export(Kernel kernel)
+        {
+            foreach (var schemaName in SchemaNames)
             {
-                kernel.Bind<Database>().To<BOACardDatabase>().InSingletonScope();
-                kernel.Bind<IDatabase>().To<BOACardDatabase>().InSingletonScope();
+                var schemaExporter = kernel.Get<SchemaExporter>();
 
-                foreach (var schemaName in schemaNames)
-                {
-                    var schemaExporter = kernel.Get<SchemaExporter>();
-
-                    schemaExporter.Export(schemaName);
-                }
-
-                kernel.Get<BOACardDatabase>().Dispose();
+                schemaExporter.Export(schemaName);
             }
         }
         #endregion

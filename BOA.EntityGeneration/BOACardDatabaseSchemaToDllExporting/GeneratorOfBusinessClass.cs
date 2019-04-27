@@ -1,11 +1,15 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     public class GeneratorOfBusinessClass
     {
+        [Inject]
+        public InsertInfoCreator InsertInfoCreator { get; set; }
         #region Public Methods
         public string TransformText(TableInfo tableInfo)
         {
@@ -14,11 +18,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             var namespaceName         = $"BOA.Business.Kernel.Card.{tableInfo.SchemaName}";
             var contractParameterName = "contract";
 
+            if (typeContractName =="TransactionLogContract") // resolve conflig
+            {
+                typeContractName = $"{tableInfo.NamespaceFullNameOfTypeAssembly}.TransactionLogContract";
+            }
+
             var sb = new PaddedStringBuilder();
 
             sb.AppendLine("using BOA.Base;");
             sb.AppendLine("using BOA.Base.Data;");
-            sb.AppendLine("using BOA.Types.Card.CCO;");
+            sb.AppendLine("using BOA.Common.Types;");
+            sb.AppendLine($"using {tableInfo.NamespaceFullNameOfTypeAssembly};");
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using System.Data;");
@@ -46,6 +56,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 var parameterPart = string.Join(", ", deleteInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
                 sb.AppendLine();
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"///{Padding.ForComment}Deletes only one record from '{tableInfo.SchemaName}.{tableInfo.TableName}' by using '{string.Join(" and ", deleteInfo.SqlParameters.Select(x=>x.ColumnName.AsMethodParameter()))}'");
+                sb.AppendLine("/// </summary>");
                 sb.AppendLine($"public GenericResponse<int> Delete({parameterPart})");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -92,6 +105,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 var insertInfo = InsertInfoCreator.Create(tableInfo);
 
                 sb.AppendLine();
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"///{Padding.ForComment} TODO:");
+                sb.AppendLine("/// </summary>");
                 sb.AppendLine($"public GenericResponse<int> Insert({typeContractName} {contractParameterName})");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -166,6 +182,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
                 sb.AppendLine();
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"///{Padding.ForComment} TODO:");
+                sb.AppendLine("/// </summary>");
                 sb.AppendLine($"public GenericResponse<int> Update({typeContractName} {contractParameterName})");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -221,6 +240,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 var parameterPart = string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
                 sb.AppendLine();
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"///{Padding.ForComment} TODO:");
+                sb.AppendLine("/// </summary>");
                 sb.AppendLine($"public GenericResponse<{typeContractName}> SelectByKey({parameterPart})");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -300,6 +322,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     var methodName = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
                     sb.AppendLine();
+                    sb.AppendLine("/// <summary>");
+                    sb.AppendLine($"///{Padding.ForComment} TODO:");
+                    sb.AppendLine("/// </summary>");
                     sb.AppendLine($"public GenericResponse<{typeContractName}> {methodName}({parameterPart})");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
@@ -381,6 +406,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     var methodName = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
                     sb.AppendLine();
+                    sb.AppendLine("/// <summary>");
+                    sb.AppendLine($"///{Padding.ForComment} TODO:");
+                    sb.AppendLine("/// </summary>");
                     sb.AppendLine($"public GenericResponse<List<{typeContractName}>> {methodName}({parameterPart})");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
@@ -451,7 +479,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             #region ReadContract
             sb.AppendLine();
-            sb.AppendLine($"static void ReadContract(SqlDataReader reader, {typeContractName} {contractParameterName})");
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///{Padding.ForComment} TODO:");
+            sb.AppendLine("/// </summary>");
+            sb.AppendLine($"static void ReadContract(IDataReader reader, {typeContractName} {contractParameterName})");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -459,11 +490,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             {
                 if (c.ColumnName == Names2.VALID_FLAG)
                 {
-                    sb.AppendLine($"{contractParameterName}.{c.ColumnName.ToContractName()} = SQLDBHelper.{c.SqlReaderMethod}(reader, \"{c.ColumnName}\") == \"1\";");
+                    sb.AppendLine($"{contractParameterName}.{c.ColumnName.ToContractName()} = SQLDBHelper.{c.SqlReaderMethod}(reader[\"{c.ColumnName}\"]) == \"1\";");
                 }
                 else
                 {
-                    sb.AppendLine($"{contractParameterName}.{c.ColumnName.ToContractName()} = SQLDBHelper.{c.SqlReaderMethod}(reader, \"{c.ColumnName}\");");
+                    sb.AppendLine($"{contractParameterName}.{c.ColumnName.ToContractName()} = SQLDBHelper.{c.SqlReaderMethod}(reader[\"{c.ColumnName}\"]);");
                 }
             }
 

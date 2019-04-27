@@ -17,6 +17,13 @@ namespace BOA.EntityGeneration
         public const string UPDATE_TOKEN_ID = nameof(UPDATE_TOKEN_ID);
         public const string UPDATE_USER_ID  = nameof(UPDATE_USER_ID);
         public const string VALID_FLAG      = nameof(VALID_FLAG);
+
+        public const string UpdateUserName = nameof(UpdateUserName);
+        public const string UpdateHostName = nameof(UpdateHostName);
+        public const string UpdateHostIP = nameof(UpdateHostIP);
+        public const string UpdateSystemDate = nameof(UpdateSystemDate);
+
+
         #endregion
 
         #region Public Methods

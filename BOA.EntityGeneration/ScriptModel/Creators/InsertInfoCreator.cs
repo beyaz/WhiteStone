@@ -6,10 +6,10 @@ using BOA.EntityGeneration.DbModel;
 
 namespace BOA.EntityGeneration.ScriptModel.Creators
 {
-    public static class InsertInfoCreator
+    public class InsertInfoCreator
     {
         #region Public Methods
-        public static InsertInfo Create(TableInfo tableInfo)
+        public InsertInfo Create(TableInfo tableInfo)
         {
             var columnsWillBeInsert = GetColumnsWillBeInsert(tableInfo);
 
@@ -22,19 +22,19 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #endregion
 
         #region Methods
-        static IReadOnlyList<ColumnInfo> GetColumnsWillBeInsert(TableInfo tableInfo)
+        protected virtual IReadOnlyList<ColumnInfo> GetColumnsWillBeInsert(TableInfo tableInfo)
         {
-            var excludedColumnNames = new List<string>
+            var excludedColumnNames = new List<string>();
+
+            if (tableInfo.HasIdentityColumn)
             {
-                Names2.UPDATE_DATE,
-                Names2.UPDATE_USER_ID,
-                Names2.UPDATE_TOKEN_ID
-            };
+                excludedColumnNames.Add(tableInfo.IdentityColumn.ColumnName);
+            }
 
             return tableInfo.Columns.Where(c => !excludedColumnNames.Contains(c.ColumnName)).ToList();
         }
 
-        static string GetSql(TableInfo tableInfo, IReadOnlyList<ColumnInfo> columnsWillBeInsert)
+        string GetSql(TableInfo tableInfo, IReadOnlyList<ColumnInfo> columnsWillBeInsert)
         {
             var sb = new PaddedStringBuilder();
 

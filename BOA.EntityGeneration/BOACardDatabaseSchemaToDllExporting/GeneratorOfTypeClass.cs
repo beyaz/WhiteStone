@@ -18,10 +18,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
 
             sb.AppendLine("using System;");
-            sb.AppendLine("using System.Data;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using BOA.Common.Types;");
-            sb.AppendLine("using BOA.Types.Kernel.Card.DatabaseIntegration;");
 
             sb.AppendLine();
             sb.AppendLine("namespace " + tableInfo.NamespaceFullNameOfTypeAssembly);
