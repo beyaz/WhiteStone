@@ -1,8 +1,7 @@
 ﻿using BOA.DatabaseAccess;
-using BOA.EntityGeneration.DbModelDao;
 using Ninject;
 
-namespace BOA.EntityGeneration.SchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     public class BOACardDatabaseExporter
     {

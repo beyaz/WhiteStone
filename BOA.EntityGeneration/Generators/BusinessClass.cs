@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.ScriptModelCreation;
+using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.Generators
 {
@@ -459,7 +459,7 @@ namespace BOA.EntityGeneration.Generators
 
             foreach (var c in tableInfo.Columns)
             {
-                if (c.ColumnName == Names.VALID_FLAG)
+                if (c.ColumnName == Names2.VALID_FLAG)
                 {
                     sb.AppendLine($"{contractParameterName}.{c.ColumnName.ToContractName()} = SQLDBHelper.{c.SqlReaderMethod}(reader, \"{c.ColumnName}\") == \"1\";");
                 }

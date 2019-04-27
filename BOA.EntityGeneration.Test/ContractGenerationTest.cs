@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using BOA.DatabaseAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
+using BOA.EntityGeneration.DbModel.DataAccess;
 using BOA.EntityGeneration.DbModelDao;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;

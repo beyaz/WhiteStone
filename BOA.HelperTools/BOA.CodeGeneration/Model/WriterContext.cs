@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BOA.CodeGeneration.Util;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.Types;
 
 namespace BOA.CodeGeneration.Model
 {

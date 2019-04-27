@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.EntityGeneration.DbModel
+namespace BOA.EntityGeneration.DbModel.Types
 {
     /// <summary>
     ///     The column information

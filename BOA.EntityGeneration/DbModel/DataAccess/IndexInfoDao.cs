@@ -2,10 +2,10 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.Types;
 using Ninject;
 
-namespace BOA.EntityGeneration.DbModelDao
+namespace BOA.EntityGeneration.DbModel.DataAccess
 {
     public class IndexInfoAccess
     {

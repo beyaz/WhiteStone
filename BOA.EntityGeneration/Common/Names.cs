@@ -5,7 +5,7 @@ using BOA.Common.Helpers;
 
 namespace BOA.EntityGeneration.Common
 {
-    public static class Names
+    public static class Names2
     {
         #region Constants
         public const string INSERT_DATE     = nameof(INSERT_DATE);

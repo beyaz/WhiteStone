@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.CodeGeneration.Model;
-using TableInfo = BOA.EntityGeneration.DbModel.TableInfo;
+using TableInfo = BOA.EntityGeneration.DbModel.Types.TableInfo;
 
 namespace BOA.CodeGeneration.Generators
 {

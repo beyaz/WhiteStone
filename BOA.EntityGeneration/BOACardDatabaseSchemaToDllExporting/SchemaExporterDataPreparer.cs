@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.DbModelDao;
+using BOA.EntityGeneration.DbModel.DataAccess;
 using BOA.EntityGeneration.Generators;
 using Ninject;
 
-namespace BOA.EntityGeneration.SchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     public class SchemaExporterDataPreparer
     {

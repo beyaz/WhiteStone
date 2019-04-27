@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.EntityGeneration.ScriptModel
+namespace BOA.EntityGeneration.ScriptModel.Types
 {
     [Serializable]
     public class ContractCommentInfo

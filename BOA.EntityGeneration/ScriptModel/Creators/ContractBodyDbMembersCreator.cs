@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.ScriptModel;
+using BOA.EntityGeneration.DbModel.Types;
+using BOA.EntityGeneration.ScriptModel.Types;
 
-namespace BOA.EntityGeneration.ScriptModelCreation
+namespace BOA.EntityGeneration.ScriptModel.Creators
 {
     public  class ContractBodyDbMembersCreator
     {
@@ -82,7 +82,7 @@ namespace BOA.EntityGeneration.ScriptModelCreation
             }
 
             var dotNetType = data.DotNetType;
-            if (data.ColumnName == Names.VALID_FLAG)
+            if (data.ColumnName == Names2.VALID_FLAG)
             {
                 dotNetType = DotNetTypeName.DotNetBool;
             }

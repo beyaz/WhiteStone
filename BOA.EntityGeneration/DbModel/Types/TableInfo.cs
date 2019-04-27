@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BOA.EntityGeneration.DbModel
+namespace BOA.EntityGeneration.DbModel.Types
 {
     /// <summary>
     ///     The table information

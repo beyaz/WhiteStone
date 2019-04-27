@@ -4,7 +4,7 @@ using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.EntityGeneration.Common;
-using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
+using ColumnInfo = BOA.EntityGeneration.DbModel.Types.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {

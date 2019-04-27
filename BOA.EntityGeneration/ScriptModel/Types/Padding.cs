@@ -1,4 +1,4 @@
-﻿namespace BOA.EntityGeneration.ScriptModel
+﻿namespace BOA.EntityGeneration.ScriptModel.Types
 {
     public static class Padding
     {

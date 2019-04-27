@@ -2,7 +2,8 @@
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.DbModelDao;
+using BOA.EntityGeneration.DbModel.DataAccess;
+using BOA.EntityGeneration.DbModel.Types;
 using Ninject;
 
 namespace BOA.EntityGeneration.Generators
@@ -34,7 +35,7 @@ namespace BOA.EntityGeneration.Generators
             var hasSequence = false;
             if (hasSequenceInDatabase && tableInfo.PrimaryKeyColumns.Count == 1)
             {
-                if (tableInfo.PrimaryKeyColumns[0].ColumnName == Names.RECORD_ID)
+                if (tableInfo.PrimaryKeyColumns[0].ColumnName == Names2.RECORD_ID)
                 {
                     hasSequence = true;
                 }

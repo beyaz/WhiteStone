@@ -2,7 +2,7 @@
 using BOA.EntityGeneration.Generators;
 using Ninject;
 
-namespace BOA.EntityGeneration.SchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     public class SchemaExporter
     {

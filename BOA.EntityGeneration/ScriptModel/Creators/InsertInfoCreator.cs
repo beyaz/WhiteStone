@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.ScriptModel;
+using BOA.EntityGeneration.DbModel.Types;
+using BOA.EntityGeneration.ScriptModel.Types;
 
-namespace BOA.EntityGeneration.ScriptModelCreation
+namespace BOA.EntityGeneration.ScriptModel.Creators
 {
     public static class InsertInfoCreator
     {
@@ -28,9 +28,9 @@ namespace BOA.EntityGeneration.ScriptModelCreation
         {
             var excludedColumnNames = new List<string>
             {
-                Names.UPDATE_DATE,
-                Names.UPDATE_USER_ID,
-                Names.UPDATE_TOKEN_ID
+                Names2.UPDATE_DATE,
+                Names2.UPDATE_USER_ID,
+                Names2.UPDATE_TOKEN_ID
             };
 
             return tableInfo.Columns.Where(c => !excludedColumnNames.Contains(c.ColumnName)).ToList();

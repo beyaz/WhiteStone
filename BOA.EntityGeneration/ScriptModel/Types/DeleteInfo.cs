@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.Types;
 
-namespace BOA.EntityGeneration.ScriptModel
+namespace BOA.EntityGeneration.ScriptModel.Types
 {
 
     [Serializable]

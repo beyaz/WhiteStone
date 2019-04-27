@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.DataAccess;
+using BOA.EntityGeneration.DbModel.Types;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.CodeGeneration.Model;
-using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
+using ColumnInfo = BOA.EntityGeneration.DbModel.Types.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {

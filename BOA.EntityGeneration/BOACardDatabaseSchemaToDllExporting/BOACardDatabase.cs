@@ -1,6 +1,6 @@
 ﻿using BOA.DatabaseAccess;
 
-namespace BOA.EntityGeneration.DbModelDao
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
     public class BOACardDatabase : SqlDatabase
     {

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.ScriptModel;
+using BOA.EntityGeneration.DbModel.Types;
+using BOA.EntityGeneration.ScriptModel.Types;
 
-namespace BOA.EntityGeneration.ScriptModelCreation
+namespace BOA.EntityGeneration.ScriptModel.Creators
 {
     public static class SelectByPrimaryKeyInfoCreator
     {

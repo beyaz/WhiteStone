@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.Common;
-using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.ScriptModel;
+using BOA.EntityGeneration.DbModel.Types;
+using BOA.EntityGeneration.ScriptModel.Types;
 
-namespace BOA.EntityGeneration.ScriptModelCreation
+namespace BOA.EntityGeneration.ScriptModel.Creators
 {
     public static class UpdateByPrimaryKeyInfoCreator
     {
@@ -32,11 +32,11 @@ namespace BOA.EntityGeneration.ScriptModelCreation
         {
             var excludedColumnNames = tableInfo.PrimaryKeyColumns.Select(x => x.ColumnName).ToList();
 
-            excludedColumnNames.Add(Names.INSERT_DATE);
-            excludedColumnNames.Add(Names.INSERT_TOKEN_ID);
-            excludedColumnNames.Add(Names.INSERT_USER_ID);
-            excludedColumnNames.Add(Names.ROW_GUID);
-            excludedColumnNames.Add(Names.INSERT_USER_ID);
+            excludedColumnNames.Add(Names2.INSERT_DATE);
+            excludedColumnNames.Add(Names2.INSERT_TOKEN_ID);
+            excludedColumnNames.Add(Names2.INSERT_USER_ID);
+            excludedColumnNames.Add(Names2.ROW_GUID);
+            excludedColumnNames.Add(Names2.INSERT_USER_ID);
 
             return tableInfo.Columns.Where(c => !excludedColumnNames.Contains(c.ColumnName)).ToList();
         }
