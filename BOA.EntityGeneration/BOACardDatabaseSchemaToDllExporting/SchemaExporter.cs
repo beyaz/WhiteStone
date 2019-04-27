@@ -10,7 +10,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         public TypeDllCompiler TypeDllCompiler { get; set; }
 
         [Inject]
-        public TypeContractCodeGenerator TypeContractCodeGenerator { get; set; }
+        public GeneratorOfTypeClass GeneratorOfTypeClass { get; set; }
 
         [Inject]
         public SchemaExporterDataPreparer DataPreparer { get; set; }
@@ -26,14 +26,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             foreach (var generatorData in items)
             {
-                sources.Add(TypeContractCodeGenerator.TransformText(generatorData));
+                sources.Add(GeneratorOfTypeClass.TransformText(generatorData));
             }
 
-            TypeDllCompiler.Compile(new TypeDllCompilerData
-            {
-                SchemaName = schemaName,
-                Sources            = sources.ToArray()
-            });
+            TypeDllCompiler.Compile(schemaName,sources.ToArray());
         }
         #endregion
     }

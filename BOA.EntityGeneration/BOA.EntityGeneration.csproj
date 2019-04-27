@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\TableCatalogName.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TypeDllCompiler.cs" />
     <Compile Include="SqlDataType.cs" />
     <Compile Include="DotNetTypeName.cs" />
@@ -57,10 +58,9 @@
     <Compile Include="DbModel\SqlServerDataAccess\TableInfoDao.cs" />
     <Compile Include="DbModel\IndexInfo.cs" />
     <Compile Include="DbModel\TableInfo.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessClass.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\GeneratorOfBusinessClass.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BOACardDatabaseExporter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\TypeDllCompilerData.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\TypeContractCodeGenerator.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\GeneratorOfTypeClass.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\GeneratorData.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\GeneratorDataCreator.cs" />
     <Compile Include="Names2.cs" />

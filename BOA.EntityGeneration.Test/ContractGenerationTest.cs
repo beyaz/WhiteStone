@@ -32,9 +32,9 @@ namespace BOA.EntityGeneration.Generators
                 {
                     var tableInfoDao = kernel.Get<TableInfoDao>();
 
-                    var contract = kernel.Get<TypeContractCodeGenerator>();
+                    var contract = kernel.Get<GeneratorOfTypeClass>();
 
-                    var generatorData = kernel.Get<GeneratorDataCreator>().Create(tableInfoDao.GetInfo("BOACard", schemaName, tableName));
+                    var generatorData = kernel.Get<GeneratorDataCreator>().Create(tableInfoDao.GetInfo(TableCatalogName.BOACard, schemaName, tableName));
 
 
                     var generatedCode = contract.TransformText(generatorData);

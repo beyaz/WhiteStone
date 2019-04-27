@@ -4,7 +4,7 @@ using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
-    public class TypeContractCodeGenerator
+    public class GeneratorOfTypeClass
     {
         #region Public Properties
         [Inject]

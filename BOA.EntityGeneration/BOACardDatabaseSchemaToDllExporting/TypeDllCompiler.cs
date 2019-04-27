@@ -17,7 +17,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         /// <summary>
         ///     Compiles given source code
         /// </summary>
-        public void Compile(TypeDllCompilerData data)
+        public void Compile(string schemaName,string[] sources)
         {
             const string SYSTEM_CORE = "System.Core.dll";
             const string SYSTEM_DATA = "System.Data.dll";
@@ -30,13 +30,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 SYSTEM,
                 SYSTEM_CORE,
                 SYSTEM_DATA,
-                @"d:\boa\server\bin\BOA.Types.Kernel.Card.dll",
                 @"d:\boa\server\bin\BOA.Common.dll"
             };
 
            
 
-            var fileNameWithoutExtension = $"BOA.Types.Kernel.Card.{data.SchemaName}";
+            var fileNameWithoutExtension = $"BOA.Types.Kernel.Card.{schemaName}";
 
             var          OPTIONS  = $"/target:library /optimize /doc:{outputDirectory}{fileNameWithoutExtension}.xml";
             const string LANGUAGE = "CSharp";
@@ -49,7 +48,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 OutputAssembly          = $"{outputDirectory}{fileNameWithoutExtension}.dll"
             };
 
-            var results = compiler.CompileAssemblyFromSource(compilerParams, data.Sources);
+            var results = compiler.CompileAssemblyFromSource(compilerParams, sources);
 
             var errors = ConvertToList(results.Errors);
 

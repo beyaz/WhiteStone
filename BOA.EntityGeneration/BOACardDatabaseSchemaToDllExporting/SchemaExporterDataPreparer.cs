@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #endregion
 
         #region Public Methods
-        public IReadOnlyList<GeneratorData> Prepare(string schemaName)
+        public virtual IReadOnlyList<GeneratorData> Prepare(string schemaName)
         {
             var tableNames = SchemaInfo.GetAllTableNamesInSchema(Database, schemaName).ToList();
 
@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             foreach (var tableName in tableNames)
             {
-                var tableInfo = TableInfoDao.GetInfo("BOACard", schemaName, tableName);
+                var tableInfo = TableInfoDao.GetInfo(TableCatalogName.BOACard, schemaName, tableName);
 
                 var generatorData = GeneratorDataCreator.Create(tableInfo);
 

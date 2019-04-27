@@ -4,7 +4,7 @@ using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
-    public class BusinessClass
+    public class GeneratorOfBusinessClass
     {
         #region Public Methods
         public string TransformText(GeneratorData Data)

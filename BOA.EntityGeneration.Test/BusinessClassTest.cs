@@ -24,9 +24,9 @@ namespace BOA.EntityGeneration.Generators
                 {
                     var tableInfoDao = kernel.Get<TableInfoDao>();
 
-                    var businessClass = kernel.Get<BusinessClass>();
+                    var businessClass = kernel.Get<GeneratorOfBusinessClass>();
 
-                    var generatorData = kernel.Get<GeneratorDataCreator>().Create(tableInfoDao.GetInfo("BOACard", "CRD", "CARD_LIMIT_USED"));
+                    var generatorData = kernel.Get<GeneratorDataCreator>().Create(tableInfoDao.GetInfo(TableCatalogName.BOACard, "CRD", "CARD_LIMIT_USED"));
 
                     var generatedCode = businessClass.TransformText(generatorData);
 
