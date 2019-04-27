@@ -18,7 +18,7 @@ namespace BasicSccExample
             args = new[]
             {
                 "http://srvtfs:8080/tfs/KT",
-                @"D:\temp\BOA.Business.Kernel.Card.BKM"
+                @"$/BOA.CardModules/Dev/BOA.Card.CCO/"
             };
 
             // Verify that we have the arguments we require.
@@ -43,13 +43,16 @@ namespace BasicSccExample
             versionControl.NewPendingChange += Example.OnNewPendingChange;
  
             // Create a workspace.
-            Workspace workspace = versionControl.CreateWorkspace("BasicSccExample", versionControl.AuthorizedUser);
+
+            
+            var workspace = versionControl.CreateWorkspace("BasicSccExample", versionControl.AuthorizedUser);    
+            
  
             String topDir = null;
  
             try
             {
-                String localDir = @"c:\temp\BasicSccExample";
+                String localDir = @"d:\temp\BasicSccExample";
                 Console.WriteLine("\r\n--- Create a mapping: {0} -> {1}", args[1], localDir);
                 workspace.Map(args[1], localDir);
  
