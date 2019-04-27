@@ -68,12 +68,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     <Reference Include=""BOA.Common"">
       <HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath>
     </Reference>
-    <Reference Include=""BOA.Messaging"">
-      <HintPath>D:\BOA\Server\bin\BOA.Messaging.dll</HintPath>
-    </Reference>
     <Reference Include=""System"" />
     <Reference Include=""System.Core"" />
-    <Reference Include=""System.Data"" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include=""Properties\AssemblyInfo.cs"" />
@@ -82,7 +78,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
   <ItemGroup />
   <Import Project=""$(MSBuildToolsPath)\Microsoft.CSharp.targets"" />
   <PropertyGroup>
-    <PostBuildEvent>copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\server\bin\""</PostBuildEvent>
+    <PostBuildEvent>copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\server\bin\""
+copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\client\bin\""</PostBuildEvent>
   </PropertyGroup>
 </Project>
 
