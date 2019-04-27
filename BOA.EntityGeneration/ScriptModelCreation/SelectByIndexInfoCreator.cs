@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 
@@ -11,9 +10,9 @@ namespace BOA.EntityGeneration.ScriptModelCreation
     public static class SelectByIndexInfoCreator
     {
         #region Public Methods
-        public static SelectByIndexInfo Create(TableInfo tableInfo, IndexIdentifier indexIdentifier)
+        public static SelectByIndexInfo Create(TableInfo tableInfo, IndexInfo indexInfo)
         {
-            var sqlParameters = tableInfo.Columns.Where(x => indexIdentifier.IndexInfo.ColumnNames.Contains(x.ColumnName)).ToList();
+            var sqlParameters = tableInfo.Columns.Where(x => indexInfo.ColumnNames.Contains(x.ColumnName)).ToList();
 
             return new SelectByIndexInfo
             {

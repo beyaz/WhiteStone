@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BOA.EntityGeneration.Common;
 using BOA.EntityGeneration.DbModel;
 
 namespace BOA.EntityGeneration.Generators
@@ -43,9 +42,9 @@ namespace BOA.EntityGeneration.Generators
         public string NamespaceFullNameOfTypeAssembly { get; set; }
 
         /// <summary>
-        ///     Gets or sets the non unique index identifiers.
+        ///     Gets or sets the non unique index information list.
         /// </summary>
-        public IReadOnlyList<IndexIdentifier> NonUniqueIndexIdentifiers { get; set; }
+        public IReadOnlyList<IndexInfo> NonUniqueIndexInfoList { get; set; }
 
         /// <summary>
         ///     Gets or sets the name of the sequence.
@@ -58,9 +57,9 @@ namespace BOA.EntityGeneration.Generators
         public TableInfo TableInfo { get; set; }
 
         /// <summary>
-        ///     Gets or sets the unique index identifiers.
+        ///     Gets or sets the unique index information list.
         /// </summary>
-        public IReadOnlyList<IndexIdentifier> UniqueIndexIdentifiers { get; set; }
+        public IReadOnlyList<IndexInfo> UniqueIndexInfoList { get; set; }
         #endregion
     }
 }

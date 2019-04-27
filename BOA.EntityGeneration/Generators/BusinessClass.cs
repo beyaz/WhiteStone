@@ -293,7 +293,7 @@ namespace BOA.EntityGeneration.Generators
             #region SelectByUniqueIndex
             if (Data.IsSupportSelectByUniqueIndex)
             {
-                foreach (var indexIdentifier in Data.UniqueIndexIdentifiers)
+                foreach (var indexIdentifier in Data.UniqueIndexInfoList)
                 {
                     var indexInfo = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
 
@@ -374,7 +374,7 @@ namespace BOA.EntityGeneration.Generators
             #region SelectByNonUniqueIndex
             if (Data.IsSupportSelectByIndex)
             {
-                foreach (var indexIdentifier in Data.NonUniqueIndexIdentifiers)
+                foreach (var indexIdentifier in Data.NonUniqueIndexInfoList)
                 {
                     var indexInfo = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
 

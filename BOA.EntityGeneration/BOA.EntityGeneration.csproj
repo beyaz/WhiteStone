@@ -64,7 +64,6 @@
     <Compile Include="Generators\Contract.cs" />
     <Compile Include="Generators\GeneratorData.cs" />
     <Compile Include="Generators\GeneratorDataCreator.cs" />
-    <Compile Include="Common\IndexIdentifier.cs" />
     <Compile Include="Common\Names.cs" />
     <Compile Include="Generators\ParameterHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -17,23 +17,11 @@ namespace BOA.EntityGeneration.Generators
         #region Public Methods
         public GeneratorData Create(TableInfo tableInfo)
         {
-            var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).Select(indexInfo => new IndexIdentifier
-            {
-                Name      = "UniqueIndexOn" + string.Join("And", indexInfo.ColumnNames.Select(x => x.ToContractName())),
-                IsUnique  = true,
-                TypeName  = "UniqueIndex",
-                IndexInfo = indexInfo
-            }).ToList();
+            var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 
-            var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).Select(indexInfo => new IndexIdentifier
-            {
-                Name      = "IndexOn" + string.Join("And", indexInfo.ColumnNames.Select(x => x.ToContractName())),
-                IsUnique  = true,
-                TypeName  = "Index",
-                IndexInfo = indexInfo
-            }).ToList();
+            var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).ToList();
 
-            var        isSupportGetAll = tableInfo.SchemaName == "PRM";
+            var isSupportGetAll = tableInfo.SchemaName == "PRM";
 
             var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
@@ -54,8 +42,8 @@ namespace BOA.EntityGeneration.Generators
 
             return new GeneratorData
             {
-                UniqueIndexIdentifiers          = uniqueIndexIdentifiers,
-                NonUniqueIndexIdentifiers       = nonUniqueIndexIdentifiers,
+                UniqueIndexInfoList             = uniqueIndexIdentifiers,
+                NonUniqueIndexInfoList          = nonUniqueIndexIdentifiers,
                 TableInfo                       = tableInfo,
                 NamespaceFullNameOfTypeAssembly = $"BOA.Types.Kernel.Card.{tableInfo.SchemaName}",
                 IsSupportGetAll                 = isSupportGetAll,
