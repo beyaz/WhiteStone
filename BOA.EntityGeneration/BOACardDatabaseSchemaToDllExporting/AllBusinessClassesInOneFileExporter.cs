@@ -1,4 +1,5 @@
-﻿using BOA.Common.Helpers;
+﻿using System.Linq;
+using BOA.Common.Helpers;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
@@ -51,8 +52,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 GeneratorOfBusinessClass.WriteClass(sb, tableInfo);
             }
 
-            sb.PaddingCount--;
-            sb.AppendLine("}"); // end of namespace
+            if (items.Any())
+            {
+                sb.PaddingCount--;
+                sb.AppendLine("}"); // end of namespace    
+            }
+            
         }
         #endregion
     }

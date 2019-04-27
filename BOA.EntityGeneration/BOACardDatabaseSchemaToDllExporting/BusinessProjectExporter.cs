@@ -36,7 +36,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
   <PropertyGroup>
     <Configuration Condition="" '$(Configuration)' == '' "">Debug</Configuration>
     <Platform Condition="" '$(Platform)' == '' "">AnyCPU</Platform>
-    <ProjectGuid>{{ED139276-0C8F-4CE3-945B-D57CD42EE73E}}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>{businessClassNamespace}</RootNamespace>
@@ -124,9 +123,6 @@ using System.Runtime.InteropServices;
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
-
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid(""09f7b05a-d5d9-4b89-a8e0-7db33ba51f81"")]
 
 // Version information for an assembly consists of the following four values:
 //

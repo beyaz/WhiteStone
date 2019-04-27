@@ -46,8 +46,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
           
 
-            #region class
-            ContractCommentInfoCreator.Write(sb, tableInfo);
+           ContractCommentInfoCreator.Write(sb, tableInfo);
             sb.AppendLine($"public sealed class {className} : ObjectHelper");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -511,8 +510,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             sb.PaddingCount--;
             sb.AppendLine("}");
-            #endregion
-
           
 
          
