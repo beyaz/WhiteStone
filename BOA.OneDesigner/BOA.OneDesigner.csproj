@@ -207,6 +207,7 @@
     <Compile Include="WpfControls\WpfHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="MainForm\View.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
