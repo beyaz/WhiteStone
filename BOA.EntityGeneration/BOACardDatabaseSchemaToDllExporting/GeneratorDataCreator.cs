@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
@@ -39,19 +40,19 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 }
             }
 
-            return new GeneratorData
-            {
-                UniqueIndexInfoList             = uniqueIndexIdentifiers,
-                NonUniqueIndexInfoList          = nonUniqueIndexIdentifiers,
-                TableInfo                       = tableInfo,
-                NamespaceFullNameOfTypeAssembly = $"BOA.Types.Kernel.Card.{tableInfo.SchemaName}",
-                IsSupportGetAll                 = isSupportGetAll,
-                IsSupportSelectByKey            = isSupportSelectByKey,
-                IsSupportSelectByIndex          = isSupportSelectByIndex,
-                IsSupportSelectByUniqueIndex    = isSupportSelectByUniqueIndex,
-                DatabaseEnumName                = tableInfo.CatalogName,
-                SequenceName                    = hasSequence ? tableInfo.SchemaName + "." + sequenceName : null
-            };
+            var data = JsonHelper.Deserialize<GeneratorData>(JsonHelper.Serialize(tableInfo));
+
+            data.UniqueIndexInfoList             = uniqueIndexIdentifiers;
+            data.NonUniqueIndexInfoList          = nonUniqueIndexIdentifiers;
+            data.NamespaceFullNameOfTypeAssembly = $"BOA.Types.Kernel.Card.{tableInfo.SchemaName}";
+            data.IsSupportGetAll                 = isSupportGetAll;
+            data.IsSupportSelectByKey            = isSupportSelectByKey;
+            data.IsSupportSelectByIndex          = isSupportSelectByIndex;
+            data.IsSupportSelectByUniqueIndex    = isSupportSelectByUniqueIndex;
+            data.DatabaseEnumName                = tableInfo.CatalogName;
+            data.SequenceName                    = hasSequence ? tableInfo.SchemaName + "." + sequenceName : null;
+
+            return data;
         }
         #endregion
     }

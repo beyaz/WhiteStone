@@ -7,9 +7,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     public class GeneratorOfBusinessClass
     {
         #region Public Methods
-        public string TransformText(GeneratorData Data)
+        public string TransformText(GeneratorData tableInfo)
         {
-            var tableInfo             = Data.TableInfo;
             var typeContractName      = $"{tableInfo.TableName.ToContractName()}Contract";
             var className             = tableInfo.TableName.ToContractName();
             var namespaceName         = $"BOA.Business.Kernel.Card.{tableInfo.SchemaName}";
@@ -40,7 +39,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             sb.AppendLine($"public {className}(ExecutionDataContext context) : base(context) {{ }}");
 
             #region Delete
-            if (Data.IsSupportSelectByKey)
+            if (tableInfo.IsSupportSelectByKey)
             {
                 var deleteInfo = DeleteInfoCreator.Create(tableInfo);
 
@@ -59,7 +58,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine();
                 sb.AppendLine("\";");
                 sb.AppendLine();
-                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sql, null, CommandType.Text);");
+                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
 
                 if (deleteInfo.SqlParameters.Any())
                 {
@@ -106,14 +105,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine("    return returnObject;");
                 sb.AppendLine("}");
 
-                if (Data.SequenceName.HasValue())
+                if (tableInfo.SequenceName.HasValue())
                 {
                     sb.AppendLine();
                     sb.AppendLine("#region Init Sequence");
 
-                    sb.AppendLine($"const string sqlNextSequence = @\"SELECT NEXT VALUE FOR {Data.SequenceName}\";");
+                    sb.AppendLine($"const string sqlNextSequence = @\"SELECT NEXT VALUE FOR {tableInfo.SequenceName}\";");
                     sb.AppendLine();
-                    sb.AppendLine($"var commandNextSequence = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sqlNextSequence, null, CommandType.Text);");
+                    sb.AppendLine($"var commandNextSequence = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sqlNextSequence, null, CommandType.Text);");
                     sb.AppendLine();
                     sb.AppendLine("var responseSequence = DBLayer.ExecuteScalar<long>(commandNextSequence);");
                     sb.AppendLine("if (!responseSequence.Success)");
@@ -133,7 +132,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine();
                 sb.AppendLine("\";");
                 sb.AppendLine();
-                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sql, null, CommandType.Text);");
+                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
 
                 if (insertInfo.SqlParameters.Any())
                 {
@@ -162,7 +161,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             #endregion
 
             #region Update
-            if (Data.IsSupportSelectByKey)
+            if (tableInfo.IsSupportSelectByKey)
             {
                 var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
@@ -186,7 +185,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine();
                 sb.AppendLine("\";");
                 sb.AppendLine();
-                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sql, null, CommandType.Text);");
+                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
 
                 if (updateInfo.SqlParameters.Any())
                 {
@@ -215,7 +214,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             #endregion
 
             #region SelectByKey
-            if (Data.IsSupportSelectByKey)
+            if (tableInfo.IsSupportSelectByKey)
             {
                 var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
 
@@ -234,7 +233,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine();
                 sb.AppendLine("\";");
                 sb.AppendLine();
-                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sql, null, CommandType.Text);");
+                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
 
                 if (selectByPrimaryKeyInfo.SqlParameters.Any())
                 {
@@ -290,9 +289,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             #endregion
 
             #region SelectByUniqueIndex
-            if (Data.IsSupportSelectByUniqueIndex)
+            if (tableInfo.IsSupportSelectByUniqueIndex)
             {
-                foreach (var indexIdentifier in Data.UniqueIndexInfoList)
+                foreach (var indexIdentifier in tableInfo.UniqueIndexInfoList)
                 {
                     var indexInfo = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
 
@@ -313,7 +312,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     sb.AppendLine();
                     sb.AppendLine("\";");
                     sb.AppendLine();
-                    sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sql, null, CommandType.Text);");
+                    sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
 
                     if (indexInfo.SqlParameters.Any())
                     {
@@ -371,9 +370,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
 
             #region SelectByNonUniqueIndex
-            if (Data.IsSupportSelectByIndex)
+            if (tableInfo.IsSupportSelectByIndex)
             {
-                foreach (var indexIdentifier in Data.NonUniqueIndexInfoList)
+                foreach (var indexIdentifier in tableInfo.NonUniqueIndexInfoList)
                 {
                     var indexInfo = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
 
@@ -394,7 +393,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     sb.AppendLine();
                     sb.AppendLine("\";");
                     sb.AppendLine();
-                    sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{Data.DatabaseEnumName}, sql, null, CommandType.Text);");
+                    sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
 
                     if (indexInfo.SqlParameters.Any())
                     {

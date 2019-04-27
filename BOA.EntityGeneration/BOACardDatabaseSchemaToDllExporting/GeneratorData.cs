@@ -8,7 +8,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     ///     The generator data
     /// </summary>
     [Serializable]
-    public class GeneratorData
+    public class GeneratorData : TableInfo
     {
         #region Public Properties
         /// <summary>
@@ -50,11 +50,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         ///     Gets or sets the name of the sequence.
         /// </summary>
         public string SequenceName { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the table information.
-        /// </summary>
-        public TableInfo TableInfo { get; set; }
 
         /// <summary>
         ///     Gets or sets the unique index information list.

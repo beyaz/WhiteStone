@@ -12,11 +12,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #endregion
 
         #region Public Methods
-        public string TransformText(GeneratorData data)
+        public string TransformText(GeneratorData tableInfo)
         {
             var sb = new PaddedStringBuilder();
 
-            var TableInfo = data.TableInfo;
 
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Data;");
@@ -25,25 +24,25 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             sb.AppendLine("using BOA.Types.Kernel.Card.DatabaseIntegration;");
 
             sb.AppendLine();
-            sb.AppendLine("namespace " + data.NamespaceFullNameOfTypeAssembly);
+            sb.AppendLine("namespace " + tableInfo.NamespaceFullNameOfTypeAssembly);
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            ContractCommentInfoCreator.Write(sb, TableInfo);
+            ContractCommentInfoCreator.Write(sb, tableInfo);
 
             sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public sealed class {TableInfo.TableName.ToContractName()}Contract : CardContractBase");
+            sb.AppendLine($"public sealed class {tableInfo.TableName.ToContractName()}Contract : CardContractBase");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            ContractCommentInfoCreator.Write(sb, TableInfo);
+            ContractCommentInfoCreator.Write(sb, tableInfo);
             sb.AppendLine("// ReSharper disable once EmptyConstructor");
-            sb.AppendLine($"public {TableInfo.TableName.ToContractName()}Contract()");
+            sb.AppendLine($"public {tableInfo.TableName.ToContractName()}Contract()");
             sb.AppendLine("{");
             sb.AppendLine("}");
             sb.AppendLine();
 
-            sb.AppendAll(ContractBodyDbMembersCreator.Create(TableInfo).PropertyDefinitions);
+            sb.AppendAll(ContractBodyDbMembersCreator.Create(tableInfo).PropertyDefinitions);
             sb.AppendLine();
 
             sb.PaddingCount--;
