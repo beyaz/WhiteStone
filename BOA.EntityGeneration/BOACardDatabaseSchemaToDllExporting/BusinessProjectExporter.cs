@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
+using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
@@ -9,16 +10,22 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     {
         const string ExportDirectory = @"D:\temp\";
 
+        [Inject]
+        public NamingHelper NamingHelper { get; set; }
+
         public void Export(BusinessProjectExporterData data)
         {
-            var csprojFilePath = $"{ExportDirectory}BOA.Business.Kernel.Card.{data.SchemaName}.csproj";
-            var assemblyInfoFilePath = $"{ExportDirectory}BOA.Business.Kernel.Card.{data.SchemaName}\\Properties\\AssemblyInfo.cs";
+            var businessClassNamespace = NamingHelper.GetBusinessClassNamespace(data.SchemaName);
+
+            var projectDirectory = $"{ExportDirectory}{businessClassNamespace}\\";
+
+            var csprojFilePath = $"{projectDirectory}{businessClassNamespace}.csproj";
+            var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
 
 
             foreach (var dataFile in data.Files)
             {
-                FileHelper.WriteAllText($"{ExportDirectory}{data.SchemaName}{Path.DirectorySeparatorChar}BOA.Business.Kernel.Card.{data.SchemaName}\\{dataFile.ClassName}.cs",
-                                        dataFile.SourceCode);
+                FileHelper.WriteAllText($"{projectDirectory}{dataFile.ClassName}.cs",dataFile.SourceCode);
             }
 
             var fileList = string.Join(Environment.NewLine, from dataFile in data.Files select $"    <Compile Include=\"{dataFile.ClassName}.cs\" />" );
@@ -38,8 +45,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     <ProjectGuid>{{ED139276-0C8F-4CE3-945B-D57CD42EE73E}}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BOA.Business.Kernel.Card.Parameter</RootNamespace>
-    <AssemblyName>BOA.Business.Kernel.Card.Parameter</AssemblyName>
+    <RootNamespace>{businessClassNamespace}</RootNamespace>
+    <AssemblyName>{businessClassNamespace}</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -110,11 +117,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle(""BOA.Business.Kernel.Card.Parameter"")]
+[assembly: AssemblyTitle(""{businessClassNamespace}"")]
 [assembly: AssemblyDescription("""")]
 [assembly: AssemblyConfiguration("""")]
 [assembly: AssemblyCompany("""")]
-[assembly: AssemblyProduct(""BOA.Business.Kernel.Card.Parameter"")]
+[assembly: AssemblyProduct(""{businessClassNamespace}"")]
 [assembly: AssemblyCopyright(""Copyright ©  2019"")]
 [assembly: AssemblyTrademark("""")]
 [assembly: AssemblyCulture("""")]

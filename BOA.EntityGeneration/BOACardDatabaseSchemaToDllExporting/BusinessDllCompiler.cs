@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
@@ -28,6 +29,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     /// </summary>
     public class BusinessDllCompiler
     {
+
+        [Inject]
+        public NamingHelper NamingHelper { get; set; }
+
         const string outputDirectory = @"d:\boa\server\bin\";
 
         #region Public Methods
@@ -50,12 +55,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 @"d:\boa\server\bin\BOA.Common.dll",
                 @"d:\boa\server\bin\BOA.Base.dll",
                 @"d:\boa\server\bin\BOA.Messaging.dll",
-                $@"d:\boa\server\bin\BOA.Types.Kernel.Card.{schemaName}.dll"
+                $@"d:\boa\server\bin\{NamingHelper.GetTypeClassNamespace(schemaName)}.dll"
             };
 
            
 
-            var fileNameWithoutExtension = $"BOA.Business.Kernel.Card.{schemaName}";
+            var fileNameWithoutExtension = NamingHelper.GetBusinessClassNamespace(schemaName);
 
             var          OPTIONS  = $"/target:library /optimize /doc:{outputDirectory}{fileNameWithoutExtension}.xml";
             const string LANGUAGE = "CSharp";
