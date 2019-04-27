@@ -144,6 +144,10 @@
       <Project>{8a56c904-32b1-41a8-a690-d39a7604beb3}</Project>
       <Name>BOA.OneDesigner</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BOA.TfsAccess\BOA.TfsAccess.csproj">
+      <Project>{819466b2-7d52-4c21-a270-61134a6a04c9}</Project>
+      <Name>BOA.TfsAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

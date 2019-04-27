@@ -8,9 +8,7 @@ namespace BOAPlugins.VSIntegration
     public static class FormAssistantProjectInitializer
     {
         
-        #region Properties
-        static TFSAccessForBOA Tfs => new TFSAccessForBOA();
-        #endregion
+      
 
         #region Public Methods
         public static void Initialize(GenerateFilePathInfo generateFilePathInfo)
