@@ -64,7 +64,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContractGenerationTest.cs" />
     <Compile Include="BOACardDatabaseExporterTest.cs" />
     <Compile Include="IndexInfoDaoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
