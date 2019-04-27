@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using BasicSccExample;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
 
@@ -12,8 +13,14 @@ namespace BasicSccExample
 {
     class Example
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            args = new[]
+            {
+                "http://srvtfs:8080/tfs/KT",
+                @"D:\temp\BOA.Business.Kernel.Card.BKM"
+            };
+
             // Verify that we have the arguments we require.
             if (args.Length < 2)
             {
@@ -143,7 +150,7 @@ namespace BOA.TfsAccess.Test
         [TestMethod]
         public void TestMethod1()
         {
-
+            Example.Main(null);
         }
     }
 }
