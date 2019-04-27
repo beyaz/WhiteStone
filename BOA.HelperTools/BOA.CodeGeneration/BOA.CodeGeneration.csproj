@@ -284,7 +284,6 @@
     <Compile Include="Util\BOAAssemblyResolver.cs" />
     <Compile Include="Util\Local.cs" />
     <Compile Include="Util\TFSAccessForBOA.cs" />
-    <Compile Include="Util\TFSUndoHelper.cs" />
     <None Include="BOA.CodeGeneration.config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
