@@ -168,7 +168,7 @@ namespace BOA.CodeGeneration.Generators
                 {
                     var sqlDatabaseTypeName = SqlDbTypeMap.GetSqlDbType(procedureParameter.SqlDataType);
 
-                    var parameterValue = procedureParameter.Name.AsMethodParameter();
+                    var parameterValue = procedureParameter.Name.AsMethodParameter2();
                     if (ParameterIsContract)
                     {
                         parameterValue = "contract." + procedureParameter.Name;
@@ -406,7 +406,7 @@ namespace BOA.CodeGeneration.Generators
                 {
                     var dotNetType = procedureParameter.GetDotNetType();
 
-                    sb.AppendFormat("{0} {1}", dotNetType, procedureParameter.Name.AsMethodParameter());
+                    sb.AppendFormat("{0} {1}", dotNetType, procedureParameter.Name.AsMethodParameter2());
 
                     if (procedureParameter.Name != last)
                     {

@@ -109,7 +109,7 @@ namespace BOA.CodeGeneration.Generators
 
         string GetMethodParameterName()
         {
-            return (GetColumnName() + "List").AsMethodParameter();
+            return (GetColumnName() + "List").AsMethodParameter2();
         }
 
         string GetSqlParameterName()

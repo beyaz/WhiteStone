@@ -91,7 +91,12 @@ namespace BOA.CodeGeneration.Services
             {
                 var dao = new TableInfoDao
                 {
-                    Database = database
+                    Database = database,
+                    IndexInfoAccess = new IndexInfoAccess
+                    {
+                        Database = database,
+                        
+                    }
                 };
 
                 var tableInfo = dao.GetInfo(tableConfig.DatabaseName, tableConfig.SchemaName, TableNameInDatabase);

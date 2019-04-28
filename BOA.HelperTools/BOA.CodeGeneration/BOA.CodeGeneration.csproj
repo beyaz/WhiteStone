@@ -209,7 +209,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-    </PostBuildEvent>
+
+
+</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)packages\Microsoft.TeamFoundationServer.ExtendedClient.14.102.0\build\Microsoft.TeamFoundationServer.ExtendedClient.targets" Condition="Exists('$(SolutionDir)packages\Microsoft.TeamFoundationServer.ExtendedClient.14.102.0\build\Microsoft.TeamFoundationServer.ExtendedClient.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -218,6 +220,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)packages\Microsoft.TeamFoundationServer.ExtendedClient.14.102.0\build\Microsoft.TeamFoundationServer.ExtendedClient.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\Microsoft.TeamFoundationServer.ExtendedClient.14.102.0\build\Microsoft.TeamFoundationServer.ExtendedClient.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
