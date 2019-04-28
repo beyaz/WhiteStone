@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BOA.Common.Helpers;
 using Ninject;
 
@@ -35,6 +36,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             var items = DataPreparer.Prepare(schemaName);
 
+            if (items.Count == 0)
+            {
+                throw new NotImplementedException(schemaName);
+            }
+
             foreach (var tableInfo in items)
             {
                 if (isFirst)
@@ -52,11 +58,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 GeneratorOfBusinessClass.WriteClass(sb, tableInfo);
             }
 
-            if (items.Any())
-            {
-                sb.PaddingCount--;
-                sb.AppendLine("}"); // end of namespace    
-            }
+            sb.PaddingCount--;
+            sb.AppendLine("}"); // end of namespace    
             
         }
         #endregion

@@ -9,7 +9,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         {
             "BKM",
             "BNS",
-            "CAP",
             "CCA",
             "CFG",
             "CIS",
