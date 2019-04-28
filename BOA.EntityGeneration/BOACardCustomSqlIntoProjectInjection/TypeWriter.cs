@@ -13,6 +13,146 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         [Inject]
         public IDatabase Database { get; set; }
 
+        static string GetDataTypeInDotnet(string dataType)
+        {
+            if (dataType.Equals("string",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "string";
+            }
+            if (dataType.Equals("varchar",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "string";
+            }
+
+            if (dataType.Equals("bigint",StringComparison.OrdinalIgnoreCase))
+            {
+                return "long?";
+            }
+
+            if (dataType.Equals("numeric",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "decimal?";
+            }
+
+            if (dataType.Equals("datetime",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "DateTime?";
+            }
+
+            if (dataType.Equals("Int16",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "short?";
+            }
+
+            if (dataType.Equals("smallint",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "short?";
+            }
+
+            if (dataType.Equals("int",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "int?";
+            }
+
+            if (dataType.Equals("date",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "DateTime?";
+            }
+
+            if (dataType.Equals("bit",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "bool?";
+            }
+            
+            if (dataType.Equals("long",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "long?";
+            }
+            
+            if (dataType.Equals("char",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "char?";
+            }
+
+            if (dataType.Equals("object",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "object";
+            }
+            
+            
+            if (dataType.Equals("decimal",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "decimal?";
+            }
+
+            throw  new NotImplementedException(dataType);
+        }
+
+        static string GetSqlDbTypeName(string dataType)
+        {
+
+            if (dataType.Equals("string",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "Varchar";
+            }
+            if (dataType.Equals("varchar",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "Varchar";
+            }
+
+            if (dataType.Equals("bigint",StringComparison.OrdinalIgnoreCase))
+            {
+                return "BigInt";
+            }
+
+            if (dataType.Equals("numeric",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "Decimal";
+            }
+
+            if (dataType.Equals("datetime",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "Date";
+            }
+
+            if (dataType.Equals("Int16",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "SmallInt";
+            }
+
+            if (dataType.Equals("smallint",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "SmallInt";
+            }
+
+            if (dataType.Equals("date",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "Date";
+            }
+
+            if (dataType.Equals("bit",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "Bit";
+            }
+
+            if (dataType.Equals("int",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "Int";
+            }
+
+            if (dataType.Equals("long",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "BigInt";
+            }
+
+            if (dataType.Equals("char",StringComparison.OrdinalIgnoreCase))
+            {
+                return  "Char";
+            }
+
+            throw new NotImplementedException(dataType);
+        }
+
         public ProjectCustomSqlInfo GetByProfileId(string profileId)
         {
 
@@ -48,8 +188,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                         DataType = reader["datatype"].ToString()
                     };
                     item.NameInDotnet = item.Name.ToContractName();
-                    item.DataTypeInDotnet = SqlDataType.GetDotNetType(item.DataType, true);
-                    item.SqlDatabaseTypeName = SqlDataType.GetSqlDbType(item.DataType);
+                    item.DataTypeInDotnet = GetDataTypeInDotnet(item.DataType);
+                    item.SqlDatabaseTypeName = GetSqlDbTypeName(item.DataType);
                     
                     items.Add(item);
                 }
@@ -74,8 +214,20 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                     };
 
                     item.NameInDotnet        = item.Name.ToContractName();
-                    item.DataTypeInDotnet    = SqlDataType.GetDotNetType(item.DataType, true);
-                    item.SqlReaderMethod = SqlDataType.GetSqlReaderMethod(item.DataType,true);
+                    item.DataTypeInDotnet   = GetDataTypeInDotnet(item.DataType);
+                    if (item.DataType.ToUpperEN() == "OBJECT")
+                    {
+                        item.SqlReaderMethod = "ttt";
+                    }
+                    else if (item.DataType.ToUpperEN() == "DECIMAL")
+                    {
+                        item.SqlReaderMethod = "ttt";
+                    }
+                    else
+                    {
+                        item.SqlReaderMethod = SqlDataType.GetSqlReaderMethod(item.DataType.ToUpperEN(),true);    
+                    }
+                    
 
                     items.Add(item);
                 }
