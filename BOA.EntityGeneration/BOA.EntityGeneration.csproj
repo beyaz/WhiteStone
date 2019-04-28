@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\TypeWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllBusinessClassesInOneFileExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllTypeClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessDllCompiler.cs" />
