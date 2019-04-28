@@ -22,6 +22,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         public void Reprocess(ColumnInfo item)
         {
             item.DotNetType = GetColumnDotnetType(item.ColumnName, item.DotNetType, item.IsNullable);
+
+            if (item.ColumnName.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
+            {
+                item.SqlReaderMethod = item.IsNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
+            }
         }
 
 

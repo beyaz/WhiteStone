@@ -26,7 +26,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             sb.AppendLine("using BOA.Base.Data;");
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine($"using {data.NamespaceNameOfType};");
-            sb.AppendLine("using System;");
             sb.AppendLine("using System.Data;");
             sb.AppendLine("using System.Collections.Generic;");
 

@@ -100,7 +100,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                     
                     item.DataTypeInDotnet = TableOverride.GetColumnDotnetType(item.Name, item.DataTypeInDotnet, item.IsNullable);
 
-                    if (item.DataType.Equals("char", StringComparison.OrdinalIgnoreCase))
+
+                    if (item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
                     {
                         item.SqlReaderMethod = item.IsNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
                     }

@@ -103,14 +103,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
             foreach (var item in data.ResultColumns)
             {
-                if (item.Name.EndsWith("_FLAG",StringComparison.OrdinalIgnoreCase))
-                {
-                    sb.AppendLine($"contract.{item.NameInDotnet} = SQLDBHelper.{item.SqlReaderMethod}(reader[\"{item.Name}\"]) == \"1\";");
-                }
-                else
-                {
-                    sb.AppendLine($"contract.{item.NameInDotnet} = SQLDBHelper.{item.SqlReaderMethod}(reader[\"{item.Name}\"]);");
-                }
+                sb.AppendLine($"contract.{item.NameInDotnet} = SQLDBHelper.{item.SqlReaderMethod}(reader[\"{item.Name}\"]);");
             }
 
             sb.PaddingCount--;
