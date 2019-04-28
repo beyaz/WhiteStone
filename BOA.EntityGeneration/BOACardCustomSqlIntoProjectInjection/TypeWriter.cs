@@ -42,11 +42,16 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                 reader = Database.ExecuteReader();
                 while (reader.Read())
                 {
-                    items.Add(new CustomSqlInfoParameter
+                    var item = new CustomSqlInfoParameter
                     {
-                        Name     = reader["objectid"].ToString(),
-                        DataType = reader["objectid"].ToString()
-                    });
+                        Name     = reader["parameterid"].ToString(),
+                        DataType = reader["datatype"].ToString()
+                    };
+                    item.NameInDotnet = item.Name.ToContractName();
+                    item.DataTypeInDotnet = SqlDataType.GetDotNetType(item.DataType, true);
+                    item.SqlDatabaseTypeName = SqlDataType.GetSqlDbType(item.DataType);
+                    
+                    items.Add(item);
                 }
                 reader.Close();
 
@@ -62,11 +67,17 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                 reader               = Database.ExecuteReader();
                 while (reader.Read())
                 {
-                    items.Add(new CustomSqlInfoResult
+                    var item = new CustomSqlInfoResult
                     {
                         Name     = reader["resultid"].ToString(),
-                        DataType = reader["objectid"].ToString()
-                    });
+                        DataType = reader["datatype"].ToString()
+                    };
+
+                    item.NameInDotnet        = item.Name.ToContractName();
+                    item.DataTypeInDotnet    = SqlDataType.GetDotNetType(item.DataType, true);
+                    item.SqlReaderMethod = SqlDataType.GetSqlReaderMethod(item.DataType,true);
+
+                    items.Add(item);
                 }
                 reader.Close();
 

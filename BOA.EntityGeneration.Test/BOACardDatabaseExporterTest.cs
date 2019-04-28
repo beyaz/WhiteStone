@@ -63,7 +63,6 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
             #region Constructors
             public TestKernel()
             {
-                Unbind<IDatabase>();
                 Bind<SchemaExporterDataPreparer>().To<SchemaExporterDataPreparerFromLocalJsonFile>();
             }
             #endregion
