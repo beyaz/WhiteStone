@@ -15,6 +15,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         public IReadOnlyList<CustomSqlInfoResult>    ResultColumns         { get; set; }
 
         public string ResultContractName => Name.ToContractName() + "Contract";
+
+        public string BusinessClassName => Name.ToContractName() ;
+
+        public string BusinessClassNamespace { get; set; }
+
         public string Sql                { get; set; }
         #endregion
     }
@@ -28,6 +33,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         public string Name             { get; set; }
 
         public string NameInDotnet { get; set; }
+        public string SqlDatabaseTypeName { get; set; }
         #endregion
     }
 
@@ -41,6 +47,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         public string Name             { get; set; }
 
         public string NameInDotnet { get; set; }
+        public string SqlReaderMethod { get; set; }
         #endregion
     }
 
