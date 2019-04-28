@@ -45,9 +45,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOneForBusinessDll.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOneForTypeDll.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\BusinessClassWriter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\CustomSqlInfo.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\CustomSqlInfoParameter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\CustomSqlInfoResult.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\DataAccess.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\ProjectCustomSqlInfo.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\ProjectInjector.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\TypeWriter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\AllBusinessClassesInOneFileExporter.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllTypeClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessDllCompiler.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessProjectExporter.cs" />

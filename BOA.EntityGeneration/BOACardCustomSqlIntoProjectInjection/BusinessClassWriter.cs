@@ -118,8 +118,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
 
 
-            sb.AppendLine("}");
             sb.PaddingCount--;
+            sb.AppendLine("}");
+            
 
 
 

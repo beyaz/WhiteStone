@@ -362,7 +362,8 @@ namespace BOA.EntityGeneration
                 return isNullable ? SqlReaderMethods.GetByteNullableValue : SqlReaderMethods.GetByteValue;
             }
 
-            if (dataType.IsEqual(SqlDbType.SmallInt))
+            if (dataType.IsEqual(SqlDbType.SmallInt)||
+                dataType.Equals(typeof(short).Name,StringComparison.OrdinalIgnoreCase))
             {
                 return isNullable ? SqlReaderMethods.GetInt16NullableValue : SqlReaderMethods.GetInt16Value;
             }
@@ -382,7 +383,8 @@ namespace BOA.EntityGeneration
                 return SqlReaderMethods.GetGUIDValue;
             }
 
-            if (dataType.IsEqual(SqlDbType.BigInt))
+            if (dataType.IsEqual(SqlDbType.BigInt)||
+                dataType.Equals("LONG", StringComparison.OrdinalIgnoreCase))
             {
                 return isNullable ? SqlReaderMethods.GetInt64NullableValue : SqlReaderMethods.GetInt64Value;
             }
@@ -410,7 +412,10 @@ namespace BOA.EntityGeneration
                 return isNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
             }
 
-            if (dataType.StartsWith("NUMERIC", StringComparison.OrdinalIgnoreCase) || dataType.StartsWith("MONEY", StringComparison.OrdinalIgnoreCase) || dataType.IsEqual(SqlDbType.SmallMoney))
+            if (dataType.StartsWith("NUMERIC", StringComparison.OrdinalIgnoreCase) || 
+                dataType.StartsWith("MONEY", StringComparison.OrdinalIgnoreCase) ||
+                dataType.IsEqual(SqlDbType.SmallMoney)||
+                dataType.IsEqual(SqlDbType.Decimal))
             {
                 return isNullable ? SqlReaderMethods.GetDecimalNullableValue : SqlReaderMethods.GetDecimalValue;
             }
