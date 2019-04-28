@@ -204,7 +204,7 @@ namespace BOA.CodeGeneration.Generators
 
                     if (p.CanBeNull)
                     {
-                        parameterType = SqlDataType.GetDotNetNullableType(parameterType);
+                        parameterType = DotNetTypeName.GetDotNetNullableType(parameterType);
                     }
 
                     if (propertyNameIsNull)

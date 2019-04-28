@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using BOA.Common.Helpers;
+using  static BOA.EntityGeneration.SqlDataType;
 
 namespace BOA.EntityGeneration
 {
-    public static class SqlDataType
+    public class SqlDbTypeMap
     {
         #region Static Fields
         static readonly Dictionary<string, SqlDbType> DataTypeToSqlDbType = new Dictionary<string, SqlDbType>
@@ -17,7 +18,7 @@ namespace BOA.EntityGeneration
             {Float, SqlDbType.Float},
             {Real, SqlDbType.Real},
             {SmallMoney, SqlDbType.SmallMoney},
-            {DateTime, SqlDbType.DateTime},
+            {SqlDataType.DateTime, SqlDbType.DateTime},
             {Date, SqlDbType.Date},
             {SmallDateTime, SqlDbType.SmallDateTime},
             {NVarChar, SqlDbType.NVarChar},
@@ -38,7 +39,7 @@ namespace BOA.EntityGeneration
             {SmallInt, DotNetTypeName.DotNetInt16},
             {Int, DotNetTypeName.DotNetInt32},
             {BigInt, DotNetTypeName.DotNetInt64},
-            {DateTime, DotNetTypeName.DotNetDateTime},
+            {SqlDataType.DateTime, DotNetTypeName.DotNetDateTime},
             {Date, DotNetTypeName.DotNetDateTime},
             {SmallDateTime, DotNetTypeName.DotNetDateTime},
             {Bit, DotNetTypeName.DotNetBool},
@@ -94,71 +95,57 @@ namespace BOA.EntityGeneration
         };
         #endregion
 
-        #region Public Properties
-        public static string BigInt => "BIGINT";
-
-        public static string Binary => "BINARY";
-
-        public static string Bit => "BIT";
-
-        public static string Date => "DATE";
-
-        public static string DateTime => "DATETIME";
-
-        public static string DECIMAL => "DECIMAL";
-
-        public static string Float => "FLOAT";
-
-        public static string Image => "IMAGE";
-
-        public static string Int => "INT";
-
-        public static string Money => "MONEY";
-
-        public static string NText => "NTEXT";
-
-        public static string NVarChar => "NVARCHAR";
-
-        public static string Real => "REAL";
-
-        public static string SmallDateTime => "SMALLDATETIME";
-
-        public static string SmallInt => "SMALLINT";
-
-        public static string SmallMoney => "SMALLMONEY";
-
-        public static string Text => "TEXT";
-
-        public static string Time => "TIME";
-
-        public static string Timestamp => "TIMESTAMP";
-
-        public static string TinyInt => "TINYINT";
-
-        public static string UniqueIdentifier => "UNIQUEIDENTIFIER";
-
-        public static string VarBinary => "VARBINARY";
-
-        public static string VARCHAR => "VARCHAR";
-
-        public static string Xml => "XML";
-        #endregion
-
-        #region Public Methods
-
-        public static string GetSqlReaderMethod(string dataType, bool isNullable)
+        
+        public virtual SqlDbType GetSqlDbType(string dataType)
         {
-            return GetSqlReaderMethodEnum(dataType, isNullable).ToString();
-        }
-        #endregion
+            
+            if (DataTypeToSqlDbType.ContainsKey(dataType))
+            {
+                return DataTypeToSqlDbType[dataType];
+            }
 
-        #region Methods
-        internal static SqlReaderMethods GetSqlReaderMethod(Type t)
-        {
-            return SqlReaderMethodCache[t];
+            if (dataType.StartsWith("VARCHAR",StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.VarChar;
+            }
+
+            if (dataType.StartsWith("CHAR(",StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.Char;
+            }
+
+            if (dataType.StartsWith("NVARCHAR",StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.NVarChar;
+            }
+
+            if (dataType.StartsWith("NCHAR",StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.NChar;
+            }
+
+            if (dataType.StartsWith("BIT",StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.Bit;
+            }
+
+            if (dataType.StartsWith("NUMERIC",StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.Decimal;
+            }
+
+            if (dataType.StartsWith("MONEY",StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.Money;
+            }
+
+            throw new ArgumentException(dataType);
         }
 
-        static SqlReaderMethods GetSqlReaderMethodEnum(string dataType, bool isNullable)
+
+
+        
+        public virtual SqlReaderMethods GetSqlReaderMethodEnum(string dataType, bool isNullable)
         {
             if (dataType == Timestamp)
             {
@@ -212,17 +199,17 @@ namespace BOA.EntityGeneration
                 return isNullable ? SqlReaderMethods.GetInt64NullableValue : SqlReaderMethods.GetInt64Value;
             }
 
-            if (dataType == DateTime ||
+            if (dataType == SqlDataType.DateTime ||
                 dataType == SmallDateTime ||
                 dataType == Date)
             {
                 return isNullable ? SqlReaderMethods.GetDateTimeNullableValue : SqlReaderMethods.GetDateTimeValue;
             }
 
-            if (dataType.IsStartsWith("VARCHAR") ||
-                dataType.IsStartsWith("CHAR(") ||
-                dataType.IsStartsWith("NCHAR") ||
-                dataType.IsStartsWith("NVARCHAR") ||
+            if (dataType.StartsWith("VARCHAR",StringComparison.OrdinalIgnoreCase) ||
+                dataType.StartsWith("CHAR(",StringComparison.OrdinalIgnoreCase) ||
+                dataType.StartsWith("NCHAR",StringComparison.OrdinalIgnoreCase) ||
+                dataType.StartsWith("NVARCHAR",StringComparison.OrdinalIgnoreCase) ||
                 dataType == Text ||
                 dataType == NText ||
                 dataType == Xml)
@@ -230,18 +217,54 @@ namespace BOA.EntityGeneration
                 return SqlReaderMethods.GetStringValue;
             }
 
-            if (dataType.IsStartsWith(Bit))
+            if (dataType.StartsWith(Bit,StringComparison.OrdinalIgnoreCase))
             {
                 return isNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
             }
 
-            if (dataType.IsStartsWith("NUMERIC") || dataType.IsStartsWith("MONEY") || dataType == SmallMoney)
+            if (dataType.StartsWith("NUMERIC",StringComparison.OrdinalIgnoreCase) || dataType.StartsWith("MONEY",StringComparison.OrdinalIgnoreCase) || dataType == SmallMoney)
             {
                 return isNullable ? SqlReaderMethods.GetDecimalNullableValue : SqlReaderMethods.GetDecimalValue;
             }
 
             throw new ArgumentException(dataType);
         }
-        #endregion
+
+
+
+        public  string GetDotNetType(string dataType, bool isNullable)
+        {
+            dataType = dataType.ToUpperEN();
+
+            if (DatabaseTypesToDotNetTypes.ContainsKey(dataType))
+            {
+                var dotNetType = DatabaseTypesToDotNetTypes[dataType];
+
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(dotNetType);
+                }
+
+                return dotNetType;
+            }
+
+            if (dataType.StartsWith("VARCHAR", StringComparison.Ordinal) ||
+                dataType.StartsWith("CHAR(", StringComparison.Ordinal) ||
+                dataType.StartsWith("CHAR", StringComparison.Ordinal) ||
+                dataType.StartsWith("NCHAR(", StringComparison.Ordinal) ||
+                dataType.StartsWith("NVARCHAR(", StringComparison.Ordinal) |
+                dataType.StartsWith("NVARCHAR", StringComparison.Ordinal))
+            {
+                return DotNetTypeName.DotNetStringName;
+            }
+
+            if (dataType.StartsWith("NUMERIC", StringComparison.Ordinal) || dataType.StartsWith("MONEY", StringComparison.Ordinal))
+            {
+                return isNullable ? DotNetTypeName.DotNetNullableDecimal : DotNetTypeName.DotNetDecimal;
+            }
+
+            throw new ArgumentException(dataType);
+        }
+
     }
 }

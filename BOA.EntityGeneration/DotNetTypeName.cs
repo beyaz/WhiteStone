@@ -1,4 +1,6 @@
-﻿namespace BOA.EntityGeneration
+﻿using System;
+
+namespace BOA.EntityGeneration
 {
     public static class DotNetTypeName
     {
@@ -19,5 +21,24 @@
         public const string DotNetStringName      = "string";
         public const string DotNetTimeSpan        = "TimeSpan";
         #endregion
+
+
+        public static string GetDotNetNullableType(string dotNetType)
+        {
+            if (dotNetType == null)
+            {
+                throw new ArgumentNullException(nameof(dotNetType));
+            }
+
+            if (dotNetType == DotNetTypeName.DotNetByteArray ||
+                dotNetType == DotNetTypeName.DotNetStringName ||
+                dotNetType == DotNetTypeName.DotNetObject ||
+                dotNetType.EndsWith("?"))
+            {
+                return dotNetType;
+            }
+
+            return dotNetType += "?";
+        }
     }
 }

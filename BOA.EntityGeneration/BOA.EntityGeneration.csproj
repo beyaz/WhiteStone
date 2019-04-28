@@ -60,6 +60,7 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TypesProjectExporter.cs" />
     <Compile Include="SqlDataType.cs" />
     <Compile Include="DotNetTypeName.cs" />
+    <Compile Include="SqlDbTypeMap.cs" />
     <Compile Include="SqlReaderMethods.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BOACardDatabase.cs" />
     <Compile Include="DbModel\SqlServerDataAccess\SequenceInfo.cs" />
