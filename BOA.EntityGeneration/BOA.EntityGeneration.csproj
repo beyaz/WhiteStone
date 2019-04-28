@@ -55,6 +55,7 @@
     <Compile Include="BOACardCustomSqlIntoProjectInjection\ProjectCustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\ProjectInjector.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\TypeWriter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\UIController.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllTypeClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessDllCompiler.cs" />

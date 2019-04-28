@@ -27,6 +27,22 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         #endregion
 
         #region Public Methods
+        public IReadOnlyList<string> GetByProfileIdList()
+        {
+            var items = new List<string>();
+
+            Database.CommandText = $"SELECT profileid  from BOACard.dbo.profileskt WITH (NOLOCK)";
+            var reader = Database.ExecuteReader();
+            while (reader.Read())
+
+            {
+                items.Add(reader["profileid"] + string.Empty);
+            }
+
+            reader.Close();
+
+            return items;
+        }
         public ProjectCustomSqlInfo GetByProfileId(string profileId)
         {
             var list = new List<CustomSqlInfo>();
