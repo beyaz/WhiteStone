@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 
 namespace BOA.EntityGeneration.DbModel
 {
@@ -47,7 +48,7 @@ namespace BOA.EntityGeneration.DbModel
         /// <summary>
         ///     Gets or sets the name of the SQL database type.
         /// </summary>
-        public string SqlDatabaseTypeName { get; set; }
+        public SqlDbType SqlDbType { get; set; }
 
         /// <summary>
         ///     Gets or sets the SQL reader method.

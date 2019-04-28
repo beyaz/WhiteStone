@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
@@ -247,15 +248,15 @@ namespace BOA.CodeGeneration.Generators
 
                     var parameterName = column.ColumnName.AsMethodParameter() + propertyName;
 
-                    var sqlDatabaseTypeName = column.SqlDatabaseTypeName;
+                    var sqlDatabaseTypeName = column.SqlDbType;
                     if (p.GetPropertyName(Columns) == Names2.IsNull)
                     {
-                        sqlDatabaseTypeName = "TinyInt";
+                        sqlDatabaseTypeName = SqlDbType.TinyInt;
                         parameterName       = "(" + parameterName + " ? 1 : 0)";
                     }
 
                     WriteLine("DBLayer.AddInParameter(command, \"{0}\", SqlDbType.{1}, {2});",
-                              column.ColumnName + propertyName, sqlDatabaseTypeName, parameterName);
+                              column.ColumnName + propertyName, sqlDatabaseTypeName.ToString(), parameterName);
                 }
 
                 WriteLine("#endregion");

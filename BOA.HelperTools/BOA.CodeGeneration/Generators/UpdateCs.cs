@@ -82,7 +82,7 @@ namespace BOA.CodeGeneration.Generators
                     inputValue = "CompressionHelper.CompressBuffer(" + inputValue + ")";
                 }
 
-                WriteLine("DBLayer." + dbLayerMethod + "(command, " + "\"{0}\", SqlDbType.{1}, " + inputValue + ");", c.ColumnName, c.SqlDatabaseTypeName);
+                WriteLine("DBLayer." + dbLayerMethod + "(command, " + "\"{0}\", SqlDbType.{1}, " + inputValue + ");", c.ColumnName, c.SqlDbType.ToString());
             }
 
             WriteLine("#endregion");

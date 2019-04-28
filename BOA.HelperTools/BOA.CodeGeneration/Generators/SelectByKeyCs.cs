@@ -128,7 +128,7 @@ namespace BOA.CodeGeneration.Generators
             foreach (var c in PrimaryKeyColumns)
             {
                 WriteLine("DBLayer.AddInParameter(command, \"{0}\", SqlDbType.{1}, {2});",
-                          c.ColumnName, c.SqlDatabaseTypeName, c.ColumnName.AsMethodParameter2());
+                          c.ColumnName, c.SqlDbType.ToString(), c.ColumnName.AsMethodParameter2());
             }
         }
         #endregion

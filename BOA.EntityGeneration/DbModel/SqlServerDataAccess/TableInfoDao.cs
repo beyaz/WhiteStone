@@ -166,7 +166,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
                 DataType            = dataType,
                 IsIdentity          = isIdentity,
                 IsNullable          = isNullable,
-                SqlDatabaseTypeName = SqlDataType.GetSqlDbType(dataType),
+                SqlDbType = SqlDataType.GetSqlDbTypeEnum(dataType),
                 DotNetType          = SqlDataType.GetDotNetType(dataType, isNullable),
                 SqlReaderMethod     = SqlDataType.GetSqlReaderMethod(dataType, isNullable)
             };

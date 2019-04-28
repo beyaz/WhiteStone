@@ -105,7 +105,7 @@ namespace BOA.CodeGeneration.Generators
                     inputValue = $"CompressionHelper.CompressBuffer({inputValue})";
                 }
 
-                WriteLine($"DBLayer.{dbLayerMethod}(command, \"{c.ColumnName}\", SqlDbType.{c.SqlDatabaseTypeName}, {inputValue});");
+                WriteLine($"DBLayer.{dbLayerMethod}(command, \"{c.ColumnName}\", SqlDbType.{c.SqlDbType.ToString()}, {inputValue});");
             }
 
             WriteLine("#endregion");

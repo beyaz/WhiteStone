@@ -161,7 +161,7 @@ namespace BOA.CodeGeneration.Generators
 
                 foreach (var procedureParameter in ProcedureParameters)
                 {
-                    var sqlDatabaseTypeName = SqlDataType.GetSqlDbType(procedureParameter.SqlDataType);
+                    var sqlDatabaseTypeName = SqlDataType.GetSqlDbTypeEnum(procedureParameter.SqlDataType);
 
                     var parameterValue = procedureParameter.Name.AsMethodParameter();
                     if (ParameterIsContract)
@@ -220,7 +220,7 @@ namespace BOA.CodeGeneration.Generators
                     }
 
                     WriteLine("DBLayer.AddInParameter(command, \"{0}\", SqlDbType.{1}, {2});",
-                              procedureParameter.Name, sqlDatabaseTypeName, parameterValue);
+                              procedureParameter.Name, sqlDatabaseTypeName.ToString(), parameterValue);
                 }
 
                 WriteLine();

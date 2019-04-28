@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using BOA.Common.Helpers;
 
 namespace BOA.EntityGeneration
@@ -7,28 +8,28 @@ namespace BOA.EntityGeneration
     public static class SqlDataType
     {
         #region Static Fields
-        static readonly Dictionary<string, string> DataTypeToSqlDbType = new Dictionary<string, string>
+        static readonly Dictionary<string, SqlDbType> DataTypeToSqlDbType = new Dictionary<string, SqlDbType>
         {
-            {Int, "Int"},
-            {BigInt, "BigInt"},
-            {TinyInt, "TinyInt"},
-            {SmallInt, "SmallInt"},
-            {Float, "Float"},
-            {Real, "Real"},
-            {SmallMoney, "SmallMoney"},
-            {DateTime, "DateTime"},
-            {Date, "Date"},
-            {SmallDateTime, "SmallDateTime"},
-            {NVarChar, "NVarChar"},
-            {UniqueIdentifier, "UniqueIdentifier"},
-            {VarBinary, "VarBinary"},
-            {Timestamp, "Timestamp"},
-            {Binary, "Binary"},
-            {Image, "Image"},
-            {NText, "NText"},
-            {Text, "Text"},
-            {Time, "Time"},
-            {Xml, "Xml"}
+            {Int, SqlDbType.Int},
+            {BigInt, SqlDbType.BigInt},
+            {TinyInt, SqlDbType.TinyInt},
+            {SmallInt, SqlDbType.SmallInt},
+            {Float, SqlDbType.Float},
+            {Real, SqlDbType.Real},
+            {SmallMoney, SqlDbType.SmallMoney},
+            {DateTime, SqlDbType.DateTime},
+            {Date, SqlDbType.Date},
+            {SmallDateTime, SqlDbType.SmallDateTime},
+            {NVarChar, SqlDbType.NVarChar},
+            {UniqueIdentifier, SqlDbType.UniqueIdentifier},
+            {VarBinary, SqlDbType.VarBinary},
+            {Timestamp, SqlDbType.Timestamp},
+            {Binary, SqlDbType.Binary},
+            {Image, SqlDbType.Image},
+            {NText, SqlDbType.NText},
+            {Text, SqlDbType.Text},
+            {Time, SqlDbType.Time},
+            {Xml, SqlDbType.Xml}
         };
 
         static readonly Dictionary<string, string> DatabaseTypesToDotNetTypes = new Dictionary<string, string>
@@ -42,7 +43,7 @@ namespace BOA.EntityGeneration
             {SmallDateTime, DotNetTypeName.DotNetDateTime},
             {Bit, DotNetTypeName.DotNetBool},
             {UniqueIdentifier, DotNetTypeName.DotNetGuid},
-            {Float, "float"},
+            {Float, DotNetTypeName.DotNetSingle},
             {SmallMoney, DotNetTypeName.DotNetDecimal},
             {Real, DotNetTypeName.DotNetDouble},
             {NText, DotNetTypeName.DotNetStringName},
@@ -198,6 +199,12 @@ namespace BOA.EntityGeneration
 
         public static string GetSqlDbType(string dataType)
         {
+            return GetSqlDbTypeEnum(dataType).ToString();
+        }
+
+        public static SqlDbType GetSqlDbTypeEnum(string dataType)
+        {
+            
             if (DataTypeToSqlDbType.ContainsKey(dataType))
             {
                 return DataTypeToSqlDbType[dataType];
@@ -205,37 +212,37 @@ namespace BOA.EntityGeneration
 
             if (dataType.IsStartsWith("VARCHAR"))
             {
-                return "VarChar";
+                return SqlDbType.VarChar;
             }
 
             if (dataType.IsStartsWith("CHAR("))
             {
-                return "Char";
+                return SqlDbType.Char;
             }
 
             if (dataType.IsStartsWith("NVARCHAR"))
             {
-                return "NVarChar";
+                return SqlDbType.NVarChar;
             }
 
             if (dataType.IsStartsWith("NCHAR"))
             {
-                return "NChar";
+                return SqlDbType.NChar;
             }
 
             if (dataType.IsStartsWith("BIT"))
             {
-                return "Bit";
+                return SqlDbType.Bit;
             }
 
             if (dataType.IsStartsWith("NUMERIC"))
             {
-                return "Decimal";
+                return SqlDbType.Decimal;
             }
 
             if (dataType.IsStartsWith("MONEY"))
             {
-                return "Money";
+                return SqlDbType.Money;
             }
 
             throw new ArgumentException(dataType);

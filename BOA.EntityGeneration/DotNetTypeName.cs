@@ -11,6 +11,7 @@
         public const string DotNetDouble          = "double";
         public const string DotNetGuid            = "Guid";
         public const string DotNetInt16           = "short";
+        public const string DotNetSingle = "float";
         public const string DotNetInt32           = "int";
         public const string DotNetInt64           = "long";
         public const string DotNetNullableDecimal = "decimal?";

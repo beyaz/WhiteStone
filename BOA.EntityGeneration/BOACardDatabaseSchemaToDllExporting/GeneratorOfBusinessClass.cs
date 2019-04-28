@@ -84,7 +84,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     sb.AppendLine();
                     foreach (var columnInfo in deleteInfo.SqlParameters)
                     {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDatabaseTypeName}, {columnInfo.ColumnName.AsMethodParameter()});");
+                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
                     }
                 }
 
@@ -161,7 +161,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     sb.AppendLine();
                     foreach (var columnInfo in insertInfo.SqlParameters)
                     {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDatabaseTypeName}, {ParameterHelper.GetValueForSqlInsert(columnInfo)});");
+                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlInsert(columnInfo)});");
                     }
                 }
 
@@ -217,7 +217,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     sb.AppendLine();
                     foreach (var columnInfo in updateInfo.SqlParameters)
                     {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDatabaseTypeName}, {ParameterHelper.GetValueForSqlUpdate(columnInfo)});");
+                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlUpdate(columnInfo)});");
                     }
                 }
 
@@ -268,7 +268,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     sb.AppendLine();
                     foreach (var columnInfo in selectByPrimaryKeyInfo.SqlParameters)
                     {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDatabaseTypeName}, {columnInfo.ColumnName.AsMethodParameter()});");
+                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
                     }
                 }
 
@@ -350,7 +350,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                         sb.AppendLine();
                         foreach (var columnInfo in indexInfo.SqlParameters)
                         {
-                            sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDatabaseTypeName}, {columnInfo.ColumnName.AsMethodParameter()});");
+                            sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
                         }
                     }
 
@@ -434,7 +434,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                         sb.AppendLine();
                         foreach (var columnInfo in indexInfo.SqlParameters)
                         {
-                            sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDatabaseTypeName}, {columnInfo.ColumnName.AsMethodParameter()});");
+                            sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
                         }
                     }
 
