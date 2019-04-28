@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
@@ -130,7 +131,7 @@ namespace BOA.CodeGeneration.Generators
         {
             return Columns.Where(c => !(Names2.GenericUpdateInformationColumns.Contains(c.ColumnName) ||
                                         c.IsIdentity ||
-                                        c.DataType == SqlDataType.Timestamp))
+                                        c.DataType.IsEqual(SqlDbType.Timestamp)))
                           .Select(y => y)
                           .ToList();
         }
@@ -141,7 +142,7 @@ namespace BOA.CodeGeneration.Generators
 
             return columns.Where(c => !(Names2.GenericUpdateInformationColumns.Contains(c.ColumnName) ||
                                         c.IsIdentity ||
-                                        c.DataType == SqlDataType.Timestamp))
+                                        c.DataType.IsEqual(SqlDbType.Timestamp)))
                           .Select(y => y)
                           .ToList();
         }
@@ -185,7 +186,7 @@ namespace BOA.CodeGeneration.Generators
                 }
 
                 var dataType = c.DataType;
-                if (dataType == SqlDataType.VarBinary)
+                if (dataType.IsEqual(SqlDbType.VarBinary))
                 {
                     dataType = dataType + "(MAX)";
                 }

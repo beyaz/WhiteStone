@@ -10,5 +10,11 @@ namespace BOA.EntityGeneration
         {
             return dbType.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase);
         }
+
+        public static bool StartsWith(this string dataType, SqlDbType dbType, StringComparison comparison)
+        {
+            return dbType.ToString().Equals(dataType, comparison);
+        }
+        
     }
 }

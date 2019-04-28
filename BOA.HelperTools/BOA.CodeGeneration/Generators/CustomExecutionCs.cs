@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using BOA.CodeGeneration.Common;
@@ -505,7 +506,7 @@ INNER JOIN sys.objects      o WITH(NOLOCK) ON sm.object_id = o.object_id
 
         internal static bool SqlDataTypeIsVarChar(this IProcedureParameter procedureParameter)
         {
-            return procedureParameter.SqlDataType == SqlDataType.VARCHAR;
+            return procedureParameter.SqlDataType.IsEqual(SqlDbType.VarChar);
         }
         #endregion
     }

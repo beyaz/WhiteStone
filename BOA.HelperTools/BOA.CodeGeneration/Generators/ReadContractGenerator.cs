@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
@@ -44,7 +45,7 @@ namespace BOA.CodeGeneration.Generators
                 var propertyName = r.ColumnName;
                 var readerMethod = GetReaderMethod(r);
 
-                if (r.DataType == SqlDataType.VarBinary && DoCompressionForVarBinaryColumns)
+                if (r.DataType.IsEqual(SqlDbType.VarBinary )&& DoCompressionForVarBinaryColumns)
                 {
                     WriteLine("contract." + propertyName + " = CompressionHelper.DecompressBuffer(SQLDBHelper." + readerMethod + "(reader[" + "\"" + propertyName + "\"]));");
                 }

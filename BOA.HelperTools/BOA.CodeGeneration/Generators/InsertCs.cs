@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
@@ -99,7 +100,7 @@ namespace BOA.CodeGeneration.Generators
 
                 var inputValue = $"contract.{c.ColumnName}";
 
-                if (c.DataType == SqlDataType.VarBinary &&
+                if (c.DataType.IsEqual(SqlDbType.VarBinary) &&
                     DoCompressionForVarBinaryColumns)
                 {
                     inputValue = $"CompressionHelper.CompressBuffer({inputValue})";

@@ -16,48 +16,48 @@ namespace BOA.CodeGeneration.Util
                 return null;
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDataType.VARCHAR, StringComparison.Ordinal))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.VarChar, StringComparison.Ordinal))
             {
                 return "''";
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDataType.Int, StringComparison.Ordinal))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.Int, StringComparison.Ordinal))
             {
                 return 0;
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDataType.DateTime, StringComparison.Ordinal) ||
-                procedureParameter.SqlDataType.StartsWith(SqlDataType.Date, StringComparison.Ordinal))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.DateTime, StringComparison.OrdinalIgnoreCase) ||
+                procedureParameter.SqlDataType.StartsWith(SqlDbType.Date, StringComparison.OrdinalIgnoreCase))
             {
                 return DateTime.MinValue;
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDataType.SmallDateTime, StringComparison.Ordinal))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.SmallDateTime, StringComparison.OrdinalIgnoreCase))
             {
                 return DateTime.Today.AddDays(-1).Date;
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDataType.SmallInt, StringComparison.Ordinal))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.SmallInt, StringComparison.OrdinalIgnoreCase))
             {
                 return (short) 0;
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDataType.Bit, StringComparison.Ordinal))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.Bit, StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.BigInt.ToString(), StringComparison.OrdinalIgnoreCase))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.BigInt, StringComparison.OrdinalIgnoreCase))
             {
                 return (long) 0;
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.Binary.ToString(), StringComparison.OrdinalIgnoreCase))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.Binary, StringComparison.OrdinalIgnoreCase))
             {
                 return new byte[0];
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.Float.ToString(), StringComparison.OrdinalIgnoreCase))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.Float, StringComparison.OrdinalIgnoreCase))
             {
                 return (float) 0;
             }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
@@ -60,7 +61,7 @@ namespace BOA.CodeGeneration.Generators
                     continue;
                 }
 
-                if (columnInfo.DataType == SqlDataType.Timestamp)
+                if (columnInfo.DataType.IsEqual(SqlDbType.Timestamp))
                 {
                     continue;
                 }
@@ -159,7 +160,7 @@ namespace BOA.CodeGeneration.Generators
             {
                 var dataType = column.DataType;
 
-                if (dataType == SqlDataType.VarBinary)
+                if (dataType.IsEqual(SqlDbType.VarBinary))
                 {
                     dataType = dataType + "(MAX)";
                 }
