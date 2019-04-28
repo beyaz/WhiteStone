@@ -22,8 +22,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             var typeCode     = AllInOneForTypeDll.GetCode(data);
             var businessCode = AllInOneForBusinessDll.GetCode(data);
 
-            File.WriteAllText(data.TypesProjectPath+"\\CustomSql.cs",typeCode);
-            File.WriteAllText(data.BusinessProjectPath+"\\CustomSql.cs",businessCode);
+            File.WriteAllText(data.TypesProjectPath+"\\Generated\\CustomSql.cs",typeCode);
+            File.WriteAllText(data.BusinessProjectPath+"\\Generated\\CustomSql.cs",businessCode);
 
         }
     }

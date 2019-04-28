@@ -12,6 +12,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
         public string NameInDotnet        { get; set; }
         public string SqlDatabaseTypeName { get; set; }
+        public bool IsNullable { get; set; }
         #endregion
     }
 }

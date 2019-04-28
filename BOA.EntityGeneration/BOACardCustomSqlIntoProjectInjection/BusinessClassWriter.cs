@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BOA.Common.Helpers;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
@@ -11,7 +12,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///     Data access part of '{data.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine("[Serializable]");
             sb.AppendLine($"public sealed class {data.BusinessClassName} : ObjectHelper");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -21,7 +21,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             sb.AppendLine("/// </summary>");
             sb.AppendLine($"public {data.BusinessClassName}(ExecutionDataContext context) : base(context) {{ }}");
 
-
+            sb.AppendLine();
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///     Executes the '{data.Name}' sql.");
+            sb.AppendLine("/// </summary>");
             sb.AppendLine($"public GenericResponse<List<{data.ResultContractName}>> Execute({data.ParameterContractName} request)");
             sb.AppendLine("{");
             sb.PaddingCount++;
@@ -31,7 +34,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
             sb.AppendLine();
             sb.AppendLine("const string sql = @\"");
-            sb.AppendAll("?");
+            sb.AppendAll(data.Sql);
             sb.AppendLine();
             sb.AppendLine("\";");
             sb.AppendLine();
@@ -58,8 +61,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             sb.AppendLine();
             sb.AppendLine("var reader = response.Value;");
 
-            sb.AppendLine();
-            sb.AppendLine("#region Fill from SqlDataReader to DataContract List");
+      
             sb.AppendLine();
             sb.AppendLine($"var listOfDataContract = new List<{data.ResultContractName}>();");
             sb.AppendLine();
@@ -78,8 +80,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             sb.AppendLine("}");
             sb.AppendLine();
             sb.AppendLine("reader.Close();");
-            sb.AppendLine();
-            sb.AppendLine("#endregion");
 
             sb.AppendLine();
             sb.AppendLine("returnObject.Value = listOfDataContract;");
@@ -103,7 +103,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
             foreach (var item in data.ResultColumns)
             {
-                if (item.Name== Names2.VALID_FLAG)
+                if (item.Name.EndsWith("_FLAG",StringComparison.OrdinalIgnoreCase))
                 {
                     sb.AppendLine($"contract.{item.NameInDotnet} = SQLDBHelper.{item.SqlReaderMethod}(reader[\"{item.Name}\"]) == \"1\";");
                 }
