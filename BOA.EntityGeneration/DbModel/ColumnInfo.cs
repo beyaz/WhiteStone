@@ -53,7 +53,7 @@ namespace BOA.EntityGeneration.DbModel
         /// <summary>
         ///     Gets or sets the SQL reader method.
         /// </summary>
-        public string SqlReaderMethod { get; set; }
+        public SqlReaderMethods SqlReaderMethod { get; set; }
         #endregion
 
         #region Public Methods

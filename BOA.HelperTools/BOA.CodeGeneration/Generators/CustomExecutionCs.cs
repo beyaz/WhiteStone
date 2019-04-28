@@ -16,6 +16,10 @@ namespace BOA.CodeGeneration.Generators
 {
     public class CustomExecutionCs : WriterBase
     {
+
+        public SqlDbTypeMap SqlDbTypeMap { get; set; } = new SqlDbTypeMap();
+
+
         #region Fields
         readonly BOAProcedureCommentParser BOAProcedureCommentParser;
         #endregion
@@ -69,7 +73,7 @@ namespace BOA.CodeGeneration.Generators
                 if (Model.ExecutionType == ExecutionType.ExecuteReaderForOneColumn)
                 {
                     var returnColumn = ProcedureInfoReturnColumns.First();
-                    return "IList<{0}>".FormatCode(SqlDataType.GetDotNetType(returnColumn.DataTypeName, returnColumn.AllowDBNull));
+                    return "IList<{0}>".FormatCode(SqlDbTypeMap.GetDotNetType(returnColumn.DataTypeName, returnColumn.AllowDBNull));
                 }
 
                 if (Model.ExecutionType == ExecutionType.ExecuteNonQuery)
@@ -161,7 +165,7 @@ namespace BOA.CodeGeneration.Generators
 
                 foreach (var procedureParameter in ProcedureParameters)
                 {
-                    var sqlDatabaseTypeName = SqlDataType.GetSqlDbTypeEnum(procedureParameter.SqlDataType);
+                    var sqlDatabaseTypeName = SqlDbTypeMap.GetSqlDbType(procedureParameter.SqlDataType);
 
                     var parameterValue = procedureParameter.Name.AsMethodParameter();
                     if (ParameterIsContract)
@@ -354,7 +358,7 @@ namespace BOA.CodeGeneration.Generators
 
                 var ci = ProcedureInfoReturnColumns.First();
 
-                var readerMethod = SqlDataType.GetSqlReaderMethod(ci.DataType.Name,true).ToString();
+                var readerMethod = SqlDbTypeMap.GetSqlReaderMethod(ci.DataType.Name,true).ToString();
 
                 WriteLine(@"list.Add(SQLDBHelper.{0}(reader[{1}]));", readerMethod, '"' + ci.ColumnName + '"');
 

@@ -58,6 +58,7 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TableCatalogName.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TypeDllCompiler.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TypesProjectExporter.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="SqlDataType.cs" />
     <Compile Include="DotNetTypeName.cs" />
     <Compile Include="SqlDbTypeMap.cs" />

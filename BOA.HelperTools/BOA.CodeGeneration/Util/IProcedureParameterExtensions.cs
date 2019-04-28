@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.SQLParser;
 using BOA.EntityGeneration;
@@ -46,23 +47,23 @@ namespace BOA.CodeGeneration.Util
                 return false;
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDataType.BigInt, StringComparison.Ordinal))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.BigInt.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 return (long) 0;
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDataType.Binary, StringComparison.Ordinal))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.Binary.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 return new byte[0];
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDataType.Float, StringComparison.Ordinal))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.Float.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 return (float) 0;
             }
 
-            if (procedureParameter.SqlDataType.StartsWith(SqlDataType.Money, StringComparison.Ordinal) ||
-                procedureParameter.SqlDataType.StartsWith(SqlDataType.SmallMoney, StringComparison.Ordinal))
+            if (procedureParameter.SqlDataType.StartsWith(SqlDbType.Money.ToString(), StringComparison.OrdinalIgnoreCase) ||
+                procedureParameter.SqlDataType.StartsWith(SqlDbType.SmallMoney.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 return (decimal) 0;
             }

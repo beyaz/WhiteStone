@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using BOA.CodeGeneration.Common;
+using BOA.EntityGeneration;
 using WhiteStone.Common;
 using WhiteStone.Helpers;
 using WhiteStone.Services;
@@ -123,7 +124,7 @@ namespace BOA.CodeGeneration.Model
 
         public Action<List<string>> OnUsingNamespacesWillbeGenerateInBusinessClassDesignerFile { get; set; }
 
-        public Dictionary<string, string> ReadContractSpecificReads { get; set; }
+        public Dictionary<string, SqlReaderMethods> ReadContractSpecificReads { get; set; }
 
         /// <summary>
         ///     Gets or sets the read value from data reader.
@@ -214,7 +215,7 @@ namespace BOA.CodeGeneration.Model
         #region Public Properties
         public string PropertyName       { get; set; }
         public string ReaderArgumentName { get; set; }
-        public string ReaderMethodName   { get; set; }
+        public SqlReaderMethods ReaderMethodName   { get; set; }
         #endregion
     }
 }

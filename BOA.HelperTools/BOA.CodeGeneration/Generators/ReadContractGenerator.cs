@@ -80,7 +80,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        string GetReaderMethod(ColumnInfo c)
+        SqlReaderMethods GetReaderMethod(ColumnInfo c)
         {
             var propertyName  = c.ColumnName;
             var readerMethod  = c.SqlReaderMethod;
@@ -99,11 +99,11 @@ namespace BOA.CodeGeneration.Generators
             return readerMethod;
         }
 
-        string GetSecureColumnReadMethod(ColumnInfo columnInfo)
+        SqlReaderMethods GetSecureColumnReadMethod(ColumnInfo columnInfo)
         {
-            if (columnInfo.SqlReaderMethod == SqlReaderMethods.GetStringValue.ToString())
+            if (columnInfo.SqlReaderMethod == SqlReaderMethods.GetStringValue)
             {
-                return "GetSecureStringValue";
+                return SqlReaderMethods.GetSecureStringValue;
             }
 
             throw new InvalidOperationException("SqlReaderMethod not found." + columnInfo.SqlReaderMethod);

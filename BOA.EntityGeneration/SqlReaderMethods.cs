@@ -24,6 +24,7 @@
         GetSingleNullableValue,
         GetSingleValue,
         GetBinaryValue,
-        GetTimeStampValue
+        GetTimeStampValue,
+        GetSecureStringValue
     }
 }

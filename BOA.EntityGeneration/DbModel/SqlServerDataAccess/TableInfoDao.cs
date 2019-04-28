@@ -11,6 +11,8 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     public class TableInfoDao
     {
+        static readonly SqlDbTypeMap SqlDbTypeMap  = new SqlDbTypeMap();
+
         #region Public Properties
         [Inject]
         public IDatabase Database { get; set; }
@@ -74,6 +76,51 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             #region  var dataType = row["DATA_TYPE"
             var dataType = row["DATA_TYPE"].ToString().ToUpperEN();
 
+            dataType = ReadDataType(row, dataType, columnName);
+            #endregion
+
+            var isIdentity = row["IsIdentity"] + "" == "True";
+
+            var isNullable = row["IS_NULLABLE"].ToString() == "YES";
+
+            return new ColumnInfo
+            {
+                ColumnName          = columnName,
+                DataType            = dataType,
+                IsIdentity          = isIdentity,
+                IsNullable          = isNullable,
+                SqlDbType = SqlDbTypeMap.GetSqlDbType(dataType),
+                DotNetType          = SqlDbTypeMap.GetDotNetType(dataType, isNullable),
+                SqlReaderMethod     = SqlDbTypeMap.GetSqlReaderMethod(dataType, isNullable)
+            };
+        }
+
+        static readonly SqlDbType[] AlreadySame = new[]
+        {
+            SqlDbType.SmallDateTime,
+            SqlDbType.TinyInt,
+            SqlDbType.DateTime,
+            SqlDbType.Date,
+            SqlDbType.SmallInt,
+            SqlDbType.Int,
+            SqlDbType.Bit,
+            SqlDbType.BigInt,
+            SqlDbType.Money,
+            SqlDbType.UniqueIdentifier,
+            SqlDbType.Float,
+            SqlDbType.SmallMoney,
+            SqlDbType.Image,
+            SqlDbType.VarBinary,
+            SqlDbType.Binary,
+            SqlDbType.Real,
+            SqlDbType.NText,
+            SqlDbType.Text,
+            SqlDbType.Time,
+            SqlDbType.Xml,
+            SqlDbType.Timestamp
+        };
+        static string ReadDataType(DataRow row, string dataType, string columnName)
+        {
             if (dataType == "DATETIME2")
             {
                 dataType = "DATETIME";
@@ -89,27 +136,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
                 dataType = dataType + "(" + characterLength + ")";
             }
-            else if (dataType == SqlDataType.SmallDateTime ||
-                     dataType == SqlDataType.TinyInt ||
-                     dataType == SqlDataType.DateTime ||
-                     dataType == SqlDataType.Date ||
-                     dataType == SqlDataType.SmallInt ||
-                     dataType == SqlDataType.Int ||
-                     dataType == SqlDataType.Bit ||
-                     dataType == SqlDataType.BigInt ||
-                     dataType == SqlDataType.Money ||
-                     dataType == SqlDataType.UniqueIdentifier ||
-                     dataType == SqlDataType.Float ||
-                     dataType == SqlDataType.SmallMoney ||
-                     dataType == SqlDataType.Image ||
-                     dataType == SqlDataType.VarBinary ||
-                     dataType == SqlDataType.Binary ||
-                     dataType == SqlDataType.Real ||
-                     dataType == SqlDataType.NText ||
-                     dataType == SqlDataType.Text ||
-                     dataType == SqlDataType.Time ||
-                     dataType == SqlDataType.Xml ||
-                     dataType == SqlDataType.Timestamp)
+            else if ( AlreadySame.Any(x=>x.ToString().Equals(dataType,StringComparison.OrdinalIgnoreCase)))
             {
             }
             else if (dataType == "NUMERIC")
@@ -138,14 +165,12 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
                 if (numericPrecision.IsNullOrWhiteSpace())
                 {
-                    throw new InvalidOperationException(nameof(numericPrecision))
-                        .AddData(nameof(columnName), columnName);
+                    throw new InvalidOperationException(nameof(numericPrecision)).AddData(nameof(columnName), columnName);
                 }
 
                 if (numericScale.IsNullOrWhiteSpace())
                 {
-                    throw new InvalidOperationException(nameof(numericScale))
-                        .AddData(nameof(columnName), columnName);
+                    throw new InvalidOperationException(nameof(numericScale)).AddData(nameof(columnName), columnName);
                 }
 
                 dataType = "NUMERIC" + "(" + numericPrecision + "," + numericScale + ")";
@@ -154,22 +179,8 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             {
                 throw new ArgumentException(dataType);
             }
-            #endregion
 
-            var isIdentity = row["IsIdentity"] + "" == "True";
-
-            var isNullable = row["IS_NULLABLE"].ToString() == "YES";
-
-            return new ColumnInfo
-            {
-                ColumnName          = columnName,
-                DataType            = dataType,
-                IsIdentity          = isIdentity,
-                IsNullable          = isNullable,
-                SqlDbType = SqlDataType.GetSqlDbTypeEnum(dataType),
-                DotNetType          = SqlDataType.GetDotNetType(dataType, isNullable),
-                SqlReaderMethod     = SqlDataType.GetSqlReaderMethod(dataType, isNullable)
-            };
+            return dataType;
         }
 
         static IReadOnlyList<ColumnInfo> CreateColumns(DataTable table)

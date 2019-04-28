@@ -11,6 +11,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
     public class DataAccess
     {
         [Inject]
+        public SqlDbTypeMap SqlDbTypeMap { get; set; }
+
+        [Inject]
         public IDatabase Database { get; set; }
 
         static string GetDataTypeInDotnet(string dataType)
@@ -224,11 +227,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
                     if (item.DataType.Equals("char",StringComparison.OrdinalIgnoreCase))
                     {
-                        item.SqlReaderMethod = "GetBooleanValue";
+                        item.SqlReaderMethod = SqlReaderMethods.GetBooleanValue;
                     }
                     else
                     {
-                        item.SqlReaderMethod = SqlDataType.GetSqlReaderMethod(item.DataType.ToUpperEN(),true);      
+                        item.SqlReaderMethod = SqlDbTypeMap.GetSqlReaderMethod(item.DataType.ToUpperEN(),true);      
                     }
                     
                     
@@ -426,7 +429,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         public string Name             { get; set; }
 
         public string NameInDotnet    { get; set; }
-        public string SqlReaderMethod { get; set; }
+        public SqlReaderMethods SqlReaderMethod { get; set; }
         #endregion
     }
 

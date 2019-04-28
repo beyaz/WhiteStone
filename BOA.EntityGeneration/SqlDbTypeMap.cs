@@ -1,62 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using BOA.Common.Helpers;
-using  static BOA.EntityGeneration.SqlDataType;
+// using static BOA.EntityGeneration.SqlDataType;
 
 namespace BOA.EntityGeneration
 {
     public class SqlDbTypeMap
     {
         #region Static Fields
-        static readonly Dictionary<string, SqlDbType> DataTypeToSqlDbType = new Dictionary<string, SqlDbType>
-        {
-            {Int, SqlDbType.Int},
-            {BigInt, SqlDbType.BigInt},
-            {TinyInt, SqlDbType.TinyInt},
-            {SmallInt, SqlDbType.SmallInt},
-            {Float, SqlDbType.Float},
-            {Real, SqlDbType.Real},
-            {SmallMoney, SqlDbType.SmallMoney},
-            {SqlDataType.DateTime, SqlDbType.DateTime},
-            {Date, SqlDbType.Date},
-            {SmallDateTime, SqlDbType.SmallDateTime},
-            {NVarChar, SqlDbType.NVarChar},
-            {UniqueIdentifier, SqlDbType.UniqueIdentifier},
-            {VarBinary, SqlDbType.VarBinary},
-            {Timestamp, SqlDbType.Timestamp},
-            {Binary, SqlDbType.Binary},
-            {Image, SqlDbType.Image},
-            {NText, SqlDbType.NText},
-            {Text, SqlDbType.Text},
-            {Time, SqlDbType.Time},
-            {Xml, SqlDbType.Xml}
-        };
+        
 
-        static readonly Dictionary<string, string> DatabaseTypesToDotNetTypes = new Dictionary<string, string>
-        {
-            {TinyInt, DotNetTypeName.DotNetByte},
-            {SmallInt, DotNetTypeName.DotNetInt16},
-            {Int, DotNetTypeName.DotNetInt32},
-            {BigInt, DotNetTypeName.DotNetInt64},
-            {SqlDataType.DateTime, DotNetTypeName.DotNetDateTime},
-            {Date, DotNetTypeName.DotNetDateTime},
-            {SmallDateTime, DotNetTypeName.DotNetDateTime},
-            {Bit, DotNetTypeName.DotNetBool},
-            {UniqueIdentifier, DotNetTypeName.DotNetGuid},
-            {Float, DotNetTypeName.DotNetSingle},
-            {SmallMoney, DotNetTypeName.DotNetDecimal},
-            {Real, DotNetTypeName.DotNetDouble},
-            {NText, DotNetTypeName.DotNetStringName},
-            {VarBinary, DotNetTypeName.DotNetByteArray},
-            {Timestamp, DotNetTypeName.DotNetByteArray},
-            {Binary, DotNetTypeName.DotNetByteArray},
-            {Image, DotNetTypeName.DotNetObject},
-            {Text, DotNetTypeName.DotNetStringName},
-            {Time, DotNetTypeName.DotNetTimeSpan},
-            {Xml, DotNetTypeName.DotNetStringName},
-            {DECIMAL, DotNetTypeName.DotNetDecimal}
-        };
+       
 
         static readonly Dictionary<Type, SqlReaderMethods> SqlReaderMethodCache = new Dictionary<Type, SqlReaderMethods>
         {
@@ -95,170 +49,230 @@ namespace BOA.EntityGeneration
         };
         #endregion
 
-        
-        public virtual SqlDbType GetSqlDbType(string dataType)
+        #region Public Methods
+        public string GetDotNetType(string dataType, bool isNullable)
         {
-            
-            if (DataTypeToSqlDbType.ContainsKey(dataType))
+            if (SqlDbType.TinyInt.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
             {
-                return DataTypeToSqlDbType[dataType];
-            }
-
-            if (dataType.StartsWith("VARCHAR",StringComparison.OrdinalIgnoreCase))
-            {
-                return SqlDbType.VarChar;
-            }
-
-            if (dataType.StartsWith("CHAR(",StringComparison.OrdinalIgnoreCase))
-            {
-                return SqlDbType.Char;
-            }
-
-            if (dataType.StartsWith("NVARCHAR",StringComparison.OrdinalIgnoreCase))
-            {
-                return SqlDbType.NVarChar;
-            }
-
-            if (dataType.StartsWith("NCHAR",StringComparison.OrdinalIgnoreCase))
-            {
-                return SqlDbType.NChar;
-            }
-
-            if (dataType.StartsWith("BIT",StringComparison.OrdinalIgnoreCase))
-            {
-                return SqlDbType.Bit;
-            }
-
-            if (dataType.StartsWith("NUMERIC",StringComparison.OrdinalIgnoreCase))
-            {
-                return SqlDbType.Decimal;
-            }
-
-            if (dataType.StartsWith("MONEY",StringComparison.OrdinalIgnoreCase))
-            {
-                return SqlDbType.Money;
-            }
-
-            throw new ArgumentException(dataType);
-        }
-
-
-
-        
-        public virtual SqlReaderMethods GetSqlReaderMethodEnum(string dataType, bool isNullable)
-        {
-            if (dataType == Timestamp)
-            {
-                return SqlReaderMethods.GetTimeStampValue;
-            }
-
-            if (dataType == VarBinary ||
-                dataType == Binary ||
-                dataType == Image)
-            {
-                return SqlReaderMethods.GetBinaryValue;
-            }
-
-            if (dataType == Float)
-            {
-                return isNullable ? SqlReaderMethods.GetSingleNullableValue : SqlReaderMethods.GetSingleValue;
-            }
-
-            if (dataType == Real)
-            {
-                return isNullable ? SqlReaderMethods.GetDoubleNullableValue : SqlReaderMethods.GetDoubleValue;
-            }
-
-            if (dataType == TinyInt)
-            {
-                return isNullable ? SqlReaderMethods.GetByteNullableValue : SqlReaderMethods.GetByteValue;
-            }
-
-            if (dataType == SmallInt)
-            {
-                return isNullable ? SqlReaderMethods.GetInt16NullableValue : SqlReaderMethods.GetInt16Value;
-            }
-
-            if (dataType == Int)
-            {
-                return isNullable ? SqlReaderMethods.GetInt32NullableValue : SqlReaderMethods.GetInt32Value;
-            }
-
-            if (dataType == Time)
-            {
-                return SqlReaderMethods.GetTimeSpanValue;
-            }
-
-            if (dataType == UniqueIdentifier)
-            {
-                return SqlReaderMethods.GetGUIDValue;
-            }
-
-            if (dataType == BigInt)
-            {
-                return isNullable ? SqlReaderMethods.GetInt64NullableValue : SqlReaderMethods.GetInt64Value;
-            }
-
-            if (dataType == SqlDataType.DateTime ||
-                dataType == SmallDateTime ||
-                dataType == Date)
-            {
-                return isNullable ? SqlReaderMethods.GetDateTimeNullableValue : SqlReaderMethods.GetDateTimeValue;
-            }
-
-            if (dataType.StartsWith("VARCHAR",StringComparison.OrdinalIgnoreCase) ||
-                dataType.StartsWith("CHAR(",StringComparison.OrdinalIgnoreCase) ||
-                dataType.StartsWith("NCHAR",StringComparison.OrdinalIgnoreCase) ||
-                dataType.StartsWith("NVARCHAR",StringComparison.OrdinalIgnoreCase) ||
-                dataType == Text ||
-                dataType == NText ||
-                dataType == Xml)
-            {
-                return SqlReaderMethods.GetStringValue;
-            }
-
-            if (dataType.StartsWith(Bit,StringComparison.OrdinalIgnoreCase))
-            {
-                return isNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
-            }
-
-            if (dataType.StartsWith("NUMERIC",StringComparison.OrdinalIgnoreCase) || dataType.StartsWith("MONEY",StringComparison.OrdinalIgnoreCase) || dataType == SmallMoney)
-            {
-                return isNullable ? SqlReaderMethods.GetDecimalNullableValue : SqlReaderMethods.GetDecimalValue;
-            }
-
-            throw new ArgumentException(dataType);
-        }
-
-
-
-        public  string GetDotNetType(string dataType, bool isNullable)
-        {
-            dataType = dataType.ToUpperEN();
-
-            if (DatabaseTypesToDotNetTypes.ContainsKey(dataType))
-            {
-                var dotNetType = DatabaseTypesToDotNetTypes[dataType];
-
                 if (isNullable)
                 {
-                    return DotNetTypeName.GetDotNetNullableType(dotNetType);
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetByte);
                 }
 
-                return dotNetType;
+                return DotNetTypeName.DotNetByte;
             }
 
-            if (dataType.StartsWith("VARCHAR", StringComparison.Ordinal) ||
-                dataType.StartsWith("CHAR(", StringComparison.Ordinal) ||
-                dataType.StartsWith("CHAR", StringComparison.Ordinal) ||
-                dataType.StartsWith("NCHAR(", StringComparison.Ordinal) ||
-                dataType.StartsWith("NVARCHAR(", StringComparison.Ordinal) |
-                dataType.StartsWith("NVARCHAR", StringComparison.Ordinal))
+            if (SqlDbType.SmallInt.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetInt16);
+                }
+
+                return DotNetTypeName.DotNetInt16;
+            }
+
+            if (SqlDbType.Int.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetInt32);
+                }
+
+                return DotNetTypeName.DotNetInt32;
+            }
+
+            if (SqlDbType.BigInt.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetInt64);
+                }
+
+                return DotNetTypeName.DotNetInt64;
+            }
+
+            if (SqlDbType.DateTime.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetDateTime);
+                }
+
+                return DotNetTypeName.DotNetDateTime;
+            }
+
+            if (SqlDbType.Date.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetDateTime);
+                }
+
+                return DotNetTypeName.DotNetDateTime;
+            }
+
+            if (SqlDbType.SmallDateTime.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetDateTime);
+                }
+
+                return DotNetTypeName.DotNetDateTime;
+            }
+
+            if (SqlDbType.Bit.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
+                }
+
+                return DotNetTypeName.DotNetBool;
+            }
+
+            if (SqlDbType.UniqueIdentifier.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetGuid);
+                }
+
+                return DotNetTypeName.DotNetGuid;
+            }
+
+            if (SqlDbType.Float.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetSingle);
+                }
+
+                return DotNetTypeName.DotNetSingle;
+            }
+
+            if (SqlDbType.SmallMoney.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetDecimal);
+                }
+
+                return DotNetTypeName.DotNetDecimal;
+            }
+
+            if (SqlDbType.Real.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetDouble);
+                }
+
+                return DotNetTypeName.DotNetDouble;
+            }
+
+            if (SqlDbType.NText.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetStringName);
+                }
+
+                return DotNetTypeName.DotNetStringName;
+            }
+
+            if (SqlDbType.VarBinary.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetByteArray);
+                }
+
+                return DotNetTypeName.DotNetByteArray;
+            }
+
+            if (SqlDbType.Timestamp.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetByteArray);
+                }
+
+                return DotNetTypeName.DotNetByteArray;
+            }
+
+            if (SqlDbType.Binary.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetByteArray);
+                }
+
+                return DotNetTypeName.DotNetByteArray;
+            }
+
+            if (SqlDbType.Image.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetObject);
+                }
+
+                return DotNetTypeName.DotNetObject;
+            }
+
+            if (SqlDbType.Text.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetStringName);
+                }
+
+                return DotNetTypeName.DotNetStringName;
+            }
+
+            if (SqlDbType.Time.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetTimeSpan);
+                }
+
+                return DotNetTypeName.DotNetTimeSpan;
+            }
+
+            if (SqlDbType.Xml.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetStringName);
+                }
+
+                return DotNetTypeName.DotNetStringName;
+            }
+
+            if (SqlDbType.Decimal.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetDecimal);
+                }
+
+                return DotNetTypeName.DotNetDecimal;
+            }
+
+            if (dataType.StartsWith("VARCHAR", StringComparison.OrdinalIgnoreCase) ||
+                dataType.StartsWith("CHAR(", StringComparison.OrdinalIgnoreCase) ||
+                dataType.StartsWith("CHAR", StringComparison.OrdinalIgnoreCase) ||
+                dataType.StartsWith("NCHAR(", StringComparison.OrdinalIgnoreCase) ||
+                dataType.StartsWith("NVARCHAR(", StringComparison.OrdinalIgnoreCase) |
+                dataType.StartsWith("NVARCHAR", StringComparison.OrdinalIgnoreCase))
             {
                 return DotNetTypeName.DotNetStringName;
             }
 
-            if (dataType.StartsWith("NUMERIC", StringComparison.Ordinal) || dataType.StartsWith("MONEY", StringComparison.Ordinal))
+            if (dataType.StartsWith("NUMERIC", StringComparison.OrdinalIgnoreCase) || dataType.StartsWith("MONEY", StringComparison.OrdinalIgnoreCase))
             {
                 return isNullable ? DotNetTypeName.DotNetNullableDecimal : DotNetTypeName.DotNetDecimal;
             }
@@ -266,5 +280,143 @@ namespace BOA.EntityGeneration
             throw new ArgumentException(dataType);
         }
 
+        public virtual SqlDbType GetSqlDbType(string dataType)
+        {
+            try
+            {
+                return (SqlDbType)Enum.Parse(typeof(SqlDbType), dataType, true);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+           
+
+            if (dataType.StartsWith("VARCHAR", StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.VarChar;
+            }
+
+            if (dataType.StartsWith("CHAR(", StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.Char;
+            }
+
+            if (dataType.StartsWith("NVARCHAR", StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.NVarChar;
+            }
+
+            if (dataType.StartsWith("NCHAR", StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.NChar;
+            }
+
+            if (dataType.StartsWith("BIT", StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.Bit;
+            }
+
+            if (dataType.StartsWith("NUMERIC", StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.Decimal;
+            }
+
+            if (dataType.StartsWith("MONEY", StringComparison.OrdinalIgnoreCase))
+            {
+                return SqlDbType.Money;
+            }
+
+            throw new ArgumentException(dataType);
+        }
+
+        
+
+        public virtual SqlReaderMethods GetSqlReaderMethod(string dataType, bool isNullable)
+        {
+            if (dataType.IsEqual(SqlDbType.Timestamp))
+            {
+                return SqlReaderMethods.GetTimeStampValue;
+            }
+
+            if (dataType.IsEqual(SqlDbType.VarBinary) ||
+                dataType.IsEqual(SqlDbType . Binary) ||
+                dataType.IsEqual(SqlDbType.Image))
+            {
+                return SqlReaderMethods.GetBinaryValue;
+            }
+
+            if (dataType.IsEqual(SqlDbType. Float))
+            {
+                return isNullable ? SqlReaderMethods.GetSingleNullableValue : SqlReaderMethods.GetSingleValue;
+            }
+
+            if (dataType.IsEqual(SqlDbType.Real))
+            {
+                return isNullable ? SqlReaderMethods.GetDoubleNullableValue : SqlReaderMethods.GetDoubleValue;
+            }
+
+            if (dataType.IsEqual(SqlDbType.TinyInt))
+            {
+                return isNullable ? SqlReaderMethods.GetByteNullableValue : SqlReaderMethods.GetByteValue;
+            }
+
+            if (dataType.IsEqual(SqlDbType.SmallInt))
+            {
+                return isNullable ? SqlReaderMethods.GetInt16NullableValue : SqlReaderMethods.GetInt16Value;
+            }
+
+            if (dataType.IsEqual(SqlDbType.Int))
+            {
+                return isNullable ? SqlReaderMethods.GetInt32NullableValue : SqlReaderMethods.GetInt32Value;
+            }
+
+            if (dataType.IsEqual(SqlDbType.Time))
+            {
+                return SqlReaderMethods.GetTimeSpanValue;
+            }
+
+            if (dataType.IsEqual(SqlDbType.UniqueIdentifier))
+            {
+                return SqlReaderMethods.GetGUIDValue;
+            }
+
+            if (dataType.IsEqual(SqlDbType.BigInt))
+            {
+                return isNullable ? SqlReaderMethods.GetInt64NullableValue : SqlReaderMethods.GetInt64Value;
+            }
+
+            if (dataType.IsEqual(SqlDbType.DateTime )||
+                dataType.IsEqual(SqlDbType.SmallDateTime) ||
+                dataType.IsEqual(SqlDbType.Date))
+            {
+                return isNullable ? SqlReaderMethods.GetDateTimeNullableValue : SqlReaderMethods.GetDateTimeValue;
+            }
+
+            if (dataType.StartsWith("VARCHAR", StringComparison.OrdinalIgnoreCase) ||
+                dataType.StartsWith("CHAR(", StringComparison.OrdinalIgnoreCase) ||
+                dataType.StartsWith("NCHAR", StringComparison.OrdinalIgnoreCase) ||
+                dataType.StartsWith("NVARCHAR", StringComparison.OrdinalIgnoreCase) ||
+                dataType.IsEqual(SqlDbType.Text) ||
+                dataType.IsEqual(SqlDbType.NText) ||
+                dataType.IsEqual(SqlDbType.Xml))
+            {
+                return SqlReaderMethods.GetStringValue;
+            }
+
+            if (dataType.StartsWith(SqlDbType.Bit.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                return isNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
+            }
+
+            if (dataType.StartsWith("NUMERIC", StringComparison.OrdinalIgnoreCase) || dataType.StartsWith("MONEY", StringComparison.OrdinalIgnoreCase) || dataType.IsEqual(SqlDbType.SmallMoney))
+            {
+                return isNullable ? SqlReaderMethods.GetDecimalNullableValue : SqlReaderMethods.GetDecimalValue;
+            }
+
+            throw new ArgumentException(dataType);
+        }
+        #endregion
     }
 }

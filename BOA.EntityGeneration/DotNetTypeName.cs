@@ -30,10 +30,10 @@ namespace BOA.EntityGeneration
                 throw new ArgumentNullException(nameof(dotNetType));
             }
 
-            if (dotNetType == DotNetTypeName.DotNetByteArray ||
-                dotNetType == DotNetTypeName.DotNetStringName ||
-                dotNetType == DotNetTypeName.DotNetObject ||
-                dotNetType.EndsWith("?"))
+            if (dotNetType.Equals( DotNetTypeName.DotNetByteArray,StringComparison.OrdinalIgnoreCase) ||
+                dotNetType.Equals( DotNetTypeName.DotNetStringName ,StringComparison.OrdinalIgnoreCase)||
+                dotNetType.Equals( DotNetTypeName.DotNetObject,StringComparison.OrdinalIgnoreCase) ||
+                dotNetType.EndsWith("?",StringComparison.OrdinalIgnoreCase))
             {
                 return dotNetType;
             }
