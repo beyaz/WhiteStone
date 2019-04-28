@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 {
@@ -11,7 +12,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         public string Name             { get; set; }
 
         public string NameInDotnet        { get; set; }
-        public string SqlDatabaseTypeName { get; set; }
+        public SqlDbType SqlDatabaseTypeName { get; set; }
         public bool IsNullable { get; set; }
         #endregion
     }

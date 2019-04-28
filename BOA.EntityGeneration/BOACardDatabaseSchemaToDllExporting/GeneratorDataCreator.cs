@@ -1,16 +1,57 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
+    public class TableOverride
+    {
+        public void Override(DbModel.TableInfo data)
+        {
+            foreach (var item in data.Columns)
+            {
+                Reprocess(item);
+            }
+        }
+
+
+        public void Reprocess(ColumnInfo item)
+        {
+            item.DotNetType = GetColumnDotnetType(item.ColumnName, item.DotNetType, item.IsNullable);
+        }
+
+
+        public string GetColumnDotnetType(string dbColumnName,string dotnetType,bool isNullable)
+        {
+            if (dbColumnName.EndsWith("_FLAG",StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
+                }
+
+                return  DotNetTypeName.DotNetBool;
+                
+            }
+
+            return dotnetType;
+        }
+
+
+
+    }
     public class GeneratorDataCreator
     {
         #region Public Properties
         [Inject]
         public IDatabase Database { get; set; }
+
+        [Inject]
+        public TableOverride TableOverride { get; set; }
         #endregion
 
         #region Public Methods
@@ -49,6 +90,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             data.IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex;
             data.DatabaseEnumName             = tableInfo.CatalogName;
             data.SequenceName                 = hasSequence ? tableInfo.SchemaName + "." + sequenceName : null;
+
+            TableOverride.Override(data);
 
             return data;
         }

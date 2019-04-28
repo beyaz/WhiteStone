@@ -20,6 +20,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         public string BusinessClassNamespace { get; set; }
 
         public string Sql { get; set; }
+        public string SchemaName { get; set; }
         #endregion
     }
 }

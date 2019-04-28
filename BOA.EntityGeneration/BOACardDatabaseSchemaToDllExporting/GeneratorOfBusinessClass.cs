@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
@@ -494,7 +495,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             foreach (var c in tableInfo.Columns)
             {
-                if (c.ColumnName == Names2.VALID_FLAG)
+                if (c.ColumnName.EndsWith("_FLAG",StringComparison.OrdinalIgnoreCase))
                 {
                     sb.AppendLine($"{contractParameterName}.{c.ColumnName.ToContractName()} = SQLDBHelper.{c.SqlReaderMethod}(reader[\"{c.ColumnName}\"]) == \"1\";");
                 }
