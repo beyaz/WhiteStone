@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.TfsAccess.Test", "BOA.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomSqlInjectionToProject", "CustomSqlInjectionToProject\CustomSqlInjectionToProject.csproj", "{E77C8B62-B365-4D86-98E8-4C05C20895A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOACardEntityGenerationWrapper", "BOACardEntityGenerationWrapper\BOACardEntityGenerationWrapper.csproj", "{BD40C245-D3CD-4021-BEBD-3ECA714C2BB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{E77C8B62-B365-4D86-98E8-4C05C20895A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E77C8B62-B365-4D86-98E8-4C05C20895A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E77C8B62-B365-4D86-98E8-4C05C20895A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD40C245-D3CD-4021-BEBD-3ECA714C2BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD40C245-D3CD-4021-BEBD-3ECA714C2BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD40C245-D3CD-4021-BEBD-3ECA714C2BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD40C245-D3CD-4021-BEBD-3ECA714C2BB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

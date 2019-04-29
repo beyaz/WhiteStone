@@ -89,3 +89,5 @@ WhiteStone.Test/obj
 /BOA.TfsAccess.Test/bin/
 /CustomSqlInjectionToProject/bin/
 /CustomSqlInjectionToProject/obj/
+/BOACardEntityGenerationWrapper/bin
+/BOACardEntityGenerationWrapper/obj

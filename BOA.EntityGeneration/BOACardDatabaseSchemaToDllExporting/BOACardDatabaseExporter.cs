@@ -42,8 +42,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             using (var kernel = new Kernel())
             {
                 Export(kernel);
+            }
+        }
 
-// TODO: ???                kernel.Get<BOACardDatabase>().Dispose();
+        public static void Export(string schemaName)
+        {
+            using (var kernel = new Kernel())
+            {
+                var schemaExporter = kernel.Get<SchemaExporter>();
+
+                schemaExporter.Export(schemaName);
             }
         }
 
