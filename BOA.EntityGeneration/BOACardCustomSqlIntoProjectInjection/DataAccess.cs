@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
@@ -12,6 +13,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 {
     public class DataAccess
     {
+
+        [Inject]
+        public Tracer Tracer { get; set; }
+
         #region Public Properties
         [Inject]
         public IDatabase Database { get; set; }
@@ -65,6 +70,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             {
                 var items = new List<CustomSqlInfoParameter>();
 
+                Tracer.Trace($"Fetching data for {customSqlInfo.Name}");
+
                 Database.CommandText = $"select parameterid,datatype,nullableflag from dbo.objectparameters WITH (NOLOCK) WHERE profileid = '{profileId}' AND objectid = '{customSqlInfo.Name}'";
                 reader               = Database.ExecuteReader();
                 while (reader.Read())
@@ -92,6 +99,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             foreach (var customSqlInfo in list)
             {
                 var items = new List<CustomSqlInfoResult>();
+
+                
 
                 Database.CommandText = $"select resultid,datatype, nullableflag from dbo.objectresults WITH (NOLOCK) WHERE profileid = '{profileId}' AND objectid = '{customSqlInfo.Name}'";
                 reader               = Database.ExecuteReader();

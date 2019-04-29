@@ -1,4 +1,5 @@
 ﻿using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
@@ -8,6 +9,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
         [Inject]
         public BusinessClassWriter BusinessClassWriter { get; set; }
+        [Inject]
+        public Tracer Tracer { get; set; }
+        
 
         public string GetCode( ProjectCustomSqlInfo data)
         {
@@ -36,6 +40,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
             foreach (var item in data.CustomSqlInfoList)
             {
+
+                Tracer.Trace($"Fetching data for {item.BusinessClassName}");
+
                 sb.AppendLine();
                 BusinessClassWriter.Write(sb,item);
             }
