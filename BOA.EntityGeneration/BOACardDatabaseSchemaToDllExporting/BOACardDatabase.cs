@@ -1,4 +1,5 @@
-﻿using BOA.DatabaseAccess;
+﻿using System;
+using BOA.DatabaseAccess;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
@@ -7,6 +8,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Constructors
         public BOACardDatabase() : base($"Server={@"srvxdev\zumrut"};Database={@"BOACard"};Trusted_Connection=True;")
         {
+            CommandTimeout = 1000 * 60 * 5;
         }
         #endregion
     }

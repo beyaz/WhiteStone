@@ -8,6 +8,8 @@ namespace BOACardEntityGenerationWrapper
         #region Methods
         static void Main(string[] args)
         {
+            // args = new[] {"BKM"};
+
             if (args == null || args.Length == 0)
             {
                 throw new ArgumentException(nameof(args));

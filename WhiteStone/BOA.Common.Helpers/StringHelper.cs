@@ -83,7 +83,15 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static string RemoveFromEnd(this string data, string value)
         {
-            if (data.EndsWith(value, StringComparison.CurrentCulture))
+            return RemoveFromEnd(data, value, StringComparison.CurrentCulture);
+        }
+
+        /// <summary>
+        ///     Removes from end.
+        /// </summary>
+        public static string RemoveFromEnd(this string data, string value, StringComparison comparison)
+        {
+            if (data.EndsWith(value, comparison))
             {
                 return data.Substring(0, data.Length - value.Length);
             }
@@ -96,12 +104,20 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static string RemoveFromStart(this string data, string value)
         {
+            return RemoveFromStart(data, value, StringComparison.CurrentCulture);
+        }
+
+        /// <summary>
+        ///     Removes value from start of str
+        /// </summary>
+        public static string RemoveFromStart(this string data, string value, StringComparison comparison)
+        {
             if (data == null)
             {
                 return null;
             }
 
-            if (data.StartsWith(value, StringComparison.CurrentCulture))
+            if (data.StartsWith(value, comparison))
             {
                 return data.Substring(value.Length, data.Length - value.Length);
             }
@@ -166,8 +182,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Returns a copy of this string converted to lowercase, using the casing rules of 'English' culture
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static string ToLowerEN(this string value)
         {
             return value.ToLower(new CultureInfo("en-US"));
@@ -176,8 +190,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Returns a copy of this string converted to lowercase, using the casing rules of 'Turkish' culture
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static string ToLowerTR(this string value)
         {
             return value.ToLower(new CultureInfo("tr-TR"));
@@ -186,8 +198,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Returns a copy of this string converted to uppercase, using the casing rules of 'English' culture
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static string ToUpperEN(this string value)
         {
             return value.ToUpper(new CultureInfo("en-US"));
@@ -196,8 +206,6 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Returns a copy of this string converted to uppercase, using the casing rules of Turkish culture
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static string ToUpperTR(this string value)
         {
             return value.ToUpper(new CultureInfo("tr-TR"));

@@ -60,7 +60,7 @@ namespace BOA.TfsAccess
         #region Methods
         static string GetTfsPath(string filePath)
         {
-            return "$" + filePath.RemoveFromStart("d:\\work").Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            return "$" + filePath.RemoveFromStart(@"d:\work",StringComparison.OrdinalIgnoreCase).Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         }
         #endregion
     }
