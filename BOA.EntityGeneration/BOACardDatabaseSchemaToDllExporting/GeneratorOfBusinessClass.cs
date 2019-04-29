@@ -274,8 +274,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine("var reader = response.Value;");
 
                 sb.AppendLine();
-                sb.AppendLine("#region Fill from SqlDataReader to DataContract");
-                sb.AppendLine();
                 sb.AppendLine($"{typeContractName} dataContract = null;");
                 sb.AppendLine();
                 sb.AppendLine("while (reader.Read())");
@@ -293,8 +291,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 sb.AppendLine("}");
                 sb.AppendLine();
                 sb.AppendLine("reader.Close();");
-                sb.AppendLine();
-                sb.AppendLine("#endregion");
 
                 sb.AppendLine();
                 sb.AppendLine("returnObject.Value = dataContract;");
