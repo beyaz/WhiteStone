@@ -56,5 +56,11 @@
       <Name>BOA.TfsAccess</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="deploy.bat" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(ProjectDir)\deploy.bat</PostBuildEvent>
+  </PropertyGroup>
 </Project>
