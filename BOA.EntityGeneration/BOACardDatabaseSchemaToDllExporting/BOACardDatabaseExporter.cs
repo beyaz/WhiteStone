@@ -30,7 +30,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             "RKL",
             "STM",
             "SWC",
-            "TMP",
             "TMS",
             "TRN",
             "VIS"
