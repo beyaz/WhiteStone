@@ -4,7 +4,9 @@
         xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local = "clr-namespace:CustomSqlInjectionToProject"
-        mc:Ignorable = "d"
+        x:Name="CodeBehind" DataContext="{Binding ElementName = CodeBehind}"
+        mc:Ignorable="d"
+
         Title = "Custom Sql Injection to Project" Height = "400" Width = "800" >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -14,9 +16,9 @@
 
         <DockPanel Grid.Column = "0" >
 
-            <ComboBox DockPanel.Dock="Top"></ComboBox>
+            <ComboBox SelectionChanged="Selector_OnSelectionChanged" DockPanel.Dock="Top" ItemsSource="{Binding Model.Profiles,Mode=OneWay}" SelectedItem="{Binding Model.SelectedProfile,Mode=TwoWay}" ></ComboBox>
 
-            <ListBox  DockPanel.Dock="Bottom"></ListBox>
+            <ListBox  DockPanel.Dock="Bottom" ItemsSource="{Binding Model.SelectedProfileCustomSqlList.CustomSqlInfoList,Mode=OneWay}" ></ListBox>
 
         </DockPanel>
 
