@@ -495,14 +495,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             foreach (var c in tableInfo.Columns)
             {
-                if (c.ColumnName.EndsWith("_FLAG",StringComparison.OrdinalIgnoreCase))
-                {
-                    sb.AppendLine($"{contractParameterName}.{c.ColumnName.ToContractName()} = SQLDBHelper.{c.SqlReaderMethod}(reader[\"{c.ColumnName}\"]) == \"1\";");
-                }
-                else
-                {
-                    sb.AppendLine($"{contractParameterName}.{c.ColumnName.ToContractName()} = SQLDBHelper.{c.SqlReaderMethod}(reader[\"{c.ColumnName}\"]);");
-                }
+                sb.AppendLine($"{contractParameterName}.{c.ColumnName.ToContractName()} = SQLDBHelper.{c.SqlReaderMethod}(reader[\"{c.ColumnName}\"]);");
             }
 
             sb.PaddingCount--;

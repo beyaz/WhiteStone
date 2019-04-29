@@ -24,7 +24,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             "KMT",
             "LOG",
             "MRC",
-            "ORC",
             "POS",
             "PPD",
             "PRM",
