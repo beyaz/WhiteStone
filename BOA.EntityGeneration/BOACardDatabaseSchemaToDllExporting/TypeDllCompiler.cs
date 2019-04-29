@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
@@ -11,6 +12,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     /// </summary>
     public class TypeDllCompiler
     {
+        [Inject]
+        public Tracer Tracer { get; set; }
+
         const string outputDirectory = @"d:\boa\server\bin\";
 
         #region Public Methods
@@ -19,6 +23,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         /// </summary>
         public void Compile(string schemaName,string sources)
         {
+
+            Tracer.Trace($"Compiling type dll for {schemaName}");
+
             const string SYSTEM_CORE = "System.Core.dll";
             const string SYSTEM_DATA = "System.Data.dll";
             const string MS_CORE_LIB = "mscorlib.dll";
@@ -59,19 +66,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             
 
-            // CopyToTfs(fileNameWithoutExtension);
-        }
-
-        static void CopyToTfs(string fileNameWithoutExtension)
-        {
-            
-            var targetDirectory = $@"D:\work\BOA.ExternalLibraries\ExternalLibraries\AnyCPU\{fileNameWithoutExtension}\0.0.0.0\";
-
-            Directory.CreateDirectory(targetDirectory);
-
-            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.dll", $@"{targetDirectory}{fileNameWithoutExtension}.dll", true);
-            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.pdb", $@"{targetDirectory}{fileNameWithoutExtension}.pdb", true);
-            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.xml", $@"{targetDirectory}{fileNameWithoutExtension}.xml", true);
+            Tracer.Trace($"Compiling type dll for {schemaName} is success");
         }
         #endregion
 

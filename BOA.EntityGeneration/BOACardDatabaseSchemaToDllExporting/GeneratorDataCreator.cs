@@ -51,6 +51,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     }
     public class GeneratorDataCreator
     {
+        [Inject]
+        public Tracer Tracer { get; set; }
+
         #region Public Properties
         [Inject]
         public IDatabase Database { get; set; }
@@ -62,6 +65,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Public Methods
         public TableInfo Create(DbModel.TableInfo tableInfo)
         {
+            Tracer.Trace($"Fetching table information of {tableInfo.TableName}");
+
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 
             var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).ToList();

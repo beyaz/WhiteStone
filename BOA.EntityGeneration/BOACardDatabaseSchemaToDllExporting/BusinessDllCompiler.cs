@@ -21,12 +21,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         public NamingHelper NamingHelper { get; set; }
         #endregion
 
+        [Inject]
+        public Tracer Tracer { get; set; }
+
         #region Public Methods
         /// <summary>
         ///     Compiles given source code
         /// </summary>
         public void Compile(string schemaName, string allInOneSourceCode)
         {
+            Tracer.Trace($"Started to compile business dll for {schemaName}");
+
             const string SYSTEM_CORE = "System.Core.dll";
             const string SYSTEM_DATA = "System.Data.dll";
             const string MS_CORE_LIB = "mscorlib.dll";
@@ -66,7 +71,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 throw new ArgumentException(string.Join(Environment.NewLine, errors));
             }
 
-            // CopyToTfs(fileNameWithoutExtension);
+            Tracer.Trace($@"Business dll for {schemaName} is successfully compiled and moved to d:\boa\server\bin\");
+            
         }
         #endregion
 
@@ -85,16 +91,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             return errors;
         }
 
-        static void CopyToTfs(string fileNameWithoutExtension)
-        {
-            var targetDirectory = $@"D:\work\BOA.ExternalLibraries\ExternalLibraries\AnyCPU\{fileNameWithoutExtension}\0.0.0.0\";
-
-            Directory.CreateDirectory(targetDirectory);
-
-            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.dll", $@"{targetDirectory}{fileNameWithoutExtension}.dll", true);
-            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.pdb", $@"{targetDirectory}{fileNameWithoutExtension}.pdb", true);
-            File.Copy($@"{outputDirectory}{fileNameWithoutExtension}.xml", $@"{targetDirectory}{fileNameWithoutExtension}.xml", true);
-        }
+       
         #endregion
     }
 }

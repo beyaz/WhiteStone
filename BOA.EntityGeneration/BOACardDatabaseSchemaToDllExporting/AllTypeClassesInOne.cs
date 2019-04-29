@@ -1,11 +1,21 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BOA.Common.Helpers;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
+    public class Tracer
+    {
+        public void Trace(string message)
+        {
+            Console.WriteLine(message);
+        }
+    }
     public class AllTypeClassesInOne
     {
+        [Inject]
+        public Tracer Tracer { get; set; }
         #region Public Properties
         [Inject]
         public SchemaExporterDataPreparer DataPreparer { get; set; }
@@ -48,6 +58,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                     isFirst = false;
                 }
 
+                Tracer.Trace($"Generating type class for {tableInfo.TableName}");
                 sb.AppendLine();
                 GeneratorOfTypeClass.WriteClass(sb, tableInfo);
             }

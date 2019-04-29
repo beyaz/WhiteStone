@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 
 namespace BOACardEntityGenerationWrapper
@@ -16,6 +17,8 @@ namespace BOACardEntityGenerationWrapper
             }
 
             BOACardDatabaseExporter.Export(args[0].Trim());
+
+            Thread.Sleep(3000);
         }
         #endregion
     }

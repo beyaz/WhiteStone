@@ -53,7 +53,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
                     isFirst = false;
                 }
-
+                Tracer.Trace($"Generating Business class for {tableInfo.TableName}");
                 sb.AppendLine();
                 GeneratorOfBusinessClass.WriteClass(sb, tableInfo);
             }
@@ -62,6 +62,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             sb.AppendLine("}"); // end of namespace    
             
         }
+
+        [Inject]
+        public Tracer Tracer { get; set; }
         #endregion
     }
 }
