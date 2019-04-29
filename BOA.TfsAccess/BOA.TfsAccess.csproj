@@ -239,8 +239,13 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WhiteStone">
+      <HintPath>..\WhiteStone\bin\Debug\WhiteStone.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileAccess.cs" />
+    <Compile Include="FileAccessWriteResult.cs" />
     <Compile Include="TFSAccessForBOA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

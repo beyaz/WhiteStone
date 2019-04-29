@@ -1,4 +1,5 @@
 ﻿using BOA.Common.Helpers;
+using BOA.TfsAccess;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
@@ -6,6 +7,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
     public class BusinessProjectExporter
     {
         #region Public Properties
+        [Inject]
+        public FileAccess FileAccess { get; set; }
+
         [Inject]
         public NamingHelper NamingHelper { get; set; }
 
@@ -25,7 +29,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
             const string allInOneFileName = "All";
 
-            FileHelper.WriteAllText($"{projectDirectory}{allInOneFileName}.cs", allInOneSourceCode);
+            FileAccess.WriteAllText($"{projectDirectory}{allInOneFileName}.cs", allInOneSourceCode);
 
             var content = $@"
 
@@ -94,7 +98,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
 ";
 
-            FileHelper.WriteAllText(csprojFilePath, content.Trim());
+            FileAccess.WriteAllText(csprojFilePath, content.Trim());
 
             var assemblyInfoContent = $@"
 using System.Reflection;
@@ -113,7 +117,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion(""1.0.0.0"")]
 ";
 
-            FileHelper.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
+            FileAccess.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
         }
         #endregion
     }

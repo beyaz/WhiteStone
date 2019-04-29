@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
+using BOA.TfsAccess;
 using BOAPlugins.TypescriptModelGeneration;
 using WhiteStone.UI.Container;
 using WhiteStone.UI.Container.Mvc;
@@ -28,23 +28,28 @@ namespace BOA.OneDesigner.MainForm
 
             var filePath = GetOutputFilePath(screenInfo);
 
-            var tfsPath = FileUtil.GetTfsPath(filePath);
-
-            var oldContent = string.Empty;
-            if (TFSAccessForBOA.HasFile(tfsPath))
-            {
-                oldContent = TFSAccessForBOA.GetFileContent(tfsPath);
-            }
-
             var message = "Dosya güncellendi. @filePath: " + filePath;
 
-            var isWritten = FileUtil.TryWrite(filePath, oldContent, tsxCode);
-            if (!isWritten)
+            var result = new FileAccess().WriteAllText(filePath, tsxCode);
+            if (result.TfsVersionAndNewContentIsSameSoNothingDoneAnything)
             {
-                message = "Dosya zaten güncel. @filePath: " + filePath;
+                App.ShowSuccessNotification($"Dosya zaten güncel. @filePath:{filePath}");
+                return;
             }
 
-            App.ShowSuccessNotification(message);
+            if (result.ThereIsNoFileAndFileCreated)
+            {
+                App.ShowSuccessNotification($"Dosya oluşturuldu. @filePath:{filePath}");
+                return;
+            }
+
+            if (result.Exception != null)
+            {
+                App.ShowErrorNotification(result.Exception.Message);
+                return;
+            }
+
+            App.ShowSuccessNotification($"Dosya güncellendi. @filePath:{filePath}");
         }
 
         public static string GetOutputFilePath(ScreenInfo screenInfo)
@@ -232,7 +237,6 @@ namespace BOA.OneDesigner.MainForm
         {
             if (Model.ScreenInfo.TfsFolderName.HasValue())
             {
-
                 Model.SolutionInfo = SolutionInfo.CreateFromTfsFolderPath(Model.ScreenInfo.TfsFolderName);
                 Model.RequestNames = CecilHelper.GetAllRequestNames(Model.SolutionInfo.TypeAssemblyPathInServerBin);
             }
