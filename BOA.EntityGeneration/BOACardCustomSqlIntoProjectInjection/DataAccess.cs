@@ -56,7 +56,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                 {
                     Name       = reader["objectid"].ToString(),
                     Sql        = reader["text"] + string.Empty,
-                    SchemaName = reader["schemaname"] + string.Empty
+                    SchemaName = reader["schemaname"] + string.Empty,
+                    SqlResultIsCollection = (reader["resultcollectionflag"] + string.Empty) == "1"
+                    
                 });
             }
 
