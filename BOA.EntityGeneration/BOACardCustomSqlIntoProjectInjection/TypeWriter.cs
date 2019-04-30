@@ -35,7 +35,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
             foreach (var item in data.Parameters)
             {
-                sb.AppendLine($"public {item.CSharpPropertyTypeName} {item.CSharpPropertyName} {{get; set;}}");
+                sb.AppendLine($"public {item.CSharpPropertyTypeName} {item.CSharpPropertyName} {{ get; set; }}");
             }
 
             sb.PaddingCount--;
