@@ -751,6 +751,8 @@ addToProcessQueue(fn: Function)
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
+                    RenderHelper.InitLabelValues(writerContext, resourceAction.OnClickAction);
+
                     var function = new ActionInfoFunction
                     {
                         WriterContext = writerContext,
@@ -794,6 +796,7 @@ addToProcessQueue(fn: Function)
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
+                    RenderHelper.InitLabelValues(writerContext, resourceAction.OnClickAction);
                     var function = new ActionInfoFunction
                     {
                         WriterContext = writerContext,

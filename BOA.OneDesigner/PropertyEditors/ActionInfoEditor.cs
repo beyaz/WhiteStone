@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
+using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
 using MahApps.Metro.Controls;
@@ -54,8 +55,8 @@ namespace BOA.OneDesigner.PropertyEditors
            
 
             
-
-            if (info.OpenFormWithResourceCode.HasValue() || info.YesNoQuestion.HasValue())
+            
+            if (info.OpenFormWithResourceCode.HasValue() || info.YesNoQuestionInfo.GetDesignerText().HasValue() )
             {
                 model.AdvancedIsExpanded = true;
             }

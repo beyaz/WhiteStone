@@ -1,4 +1,5 @@
-﻿using BOA.OneDesigner.CodeGenerationModel;
+﻿using BOA.OneDesigner.CodeGenerationHelper;
+using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.JsxElementModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -570,9 +571,10 @@ this.runProcessQueue();
         {
             api.Data = new ActionInfo
             {
-                YesNoQuestionInfo = new LabelInfo { FreeTextValue = "Aloha",IsFreeText = true},
+                YesNoQuestion = "\"Aloha\"",
                 YesNoQuestionAfterYesOrchestrationCall  = "CallOnYesAloha"
             };
+
 
             OutputShouldBe(@"
 

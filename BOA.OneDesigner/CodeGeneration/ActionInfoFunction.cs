@@ -8,8 +8,8 @@ namespace BOA.OneDesigner.CodeGeneration
     class ActionInfoFunction
     {
         #region Public Properties
-        public ActionInfo Data          { get; set; }
-        public WriterContext    WriterContext { get; set; }
+        public ActionInfo    Data          { get; set; }
+        public WriterContext WriterContext { get; set; }
         #endregion
 
         #region Public Methods
@@ -60,23 +60,26 @@ namespace BOA.OneDesigner.CodeGeneration
                 return sb.ToString();
             }
 
-            if (!Data.OpenFormWithResourceCode.HasValue() || !Data.OrchestrationMethodName.HasValue())
+            if (Data.OpenFormWithResourceCode.IsNullOrWhiteSpace() && Data.OrchestrationMethodName.IsNullOrWhiteSpace() &&
+                Data.YesNoQuestion.IsNullOrWhiteSpace())
             {
                 return sb.ToString();
             }
 
+            if (Data.OrchestrationMethodName.HasValue())
+            {
+                sb.AppendLine();
+                sb.AppendLine($"{mainFormPath}.addToProcessQueue(() =>");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
 
-            sb.AppendLine();
-            sb.AppendLine($"{mainFormPath}.addToProcessQueue(() =>");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+                sb.AppendLine($"{mainFormPath}.executeWindowRequest(\"{Data.OrchestrationMethodName}\");");
 
-            sb.AppendLine($"{mainFormPath}.executeWindowRequest(\"{Data.OrchestrationMethodName}\");");
+                sb.PaddingCount--;
+                sb.AppendLine("});");
+            }
 
-            sb.PaddingCount--;
-            sb.AppendLine("});");
-
-
+            #region YesNoQuestion
             if (Data.YesNoQuestion.HasValue())
             {
                 sb.AppendLine();
@@ -91,7 +94,6 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
                     sb.AppendLine("    return;");
                     sb.AppendLine("}");
-                    
                 }
 
                 sb.AppendLine($@"BDialogHelper.show(form.state.context,{Data.YesNoQuestion}, DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",");
@@ -115,111 +117,111 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.PaddingCount--;
                 sb.AppendLine(");");
 
-
                 sb.PaddingCount--;
                 sb.AppendLine("});");
-            }
 
-            if (Data.YesNoQuestionAfterYesOrchestrationCall.HasValue())
+
+                if (Data.YesNoQuestionAfterYesOrchestrationCall.HasValue())
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"{mainFormPath}.addToProcessQueue(() =>");
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+
+                    sb.AppendLine($"{mainFormPath}.executeWindowRequest(\"{Data.YesNoQuestionAfterYesOrchestrationCall}\");");
+
+                    sb.PaddingCount--;
+                    sb.AppendLine("});");
+                }
+            }
+            #endregion
+
+            #region Open Form with resource code
+            if (Data.OpenFormWithResourceCode.HasValue())
             {
                 sb.AppendLine();
                 sb.AppendLine($"{mainFormPath}.addToProcessQueue(() =>");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"{mainFormPath}.executeWindowRequest(\"{Data.YesNoQuestionAfterYesOrchestrationCall}\");");
+                if (Data.OpenFormWithResourceCodeCondition.HasValue())
+                {
+                    sb.AppendLine($"if(!{Data.OpenFormWithResourceCodeCondition})");
+                    sb.AppendLine("{");
+                    sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
+                    sb.AppendLine("    return;");
+                    sb.AppendLine("}");
+                }
+
+                var dataParameterText = "/*data*/null";
+                if (dataParameter.HasValue())
+                {
+                    sb.AppendLine("const data: any = " + dataParameter + ";");
+                    dataParameterText = "data";
+                }
+
+                var onCloseText = "/*onClose*/null";
+
+                if (Data.OpenFormWithResourceCodeIsInDialogBox)
+                {
+                    if (Data.OrchestrationMethodOnDialogResponseIsOK.HasValue())
+                    {
+                        if (dataParameter.HasValue())
+                        {
+                            sb.AppendLine();
+                            sb.AppendLine("const onClose: any = (dialogResponse:number, returnValue: any) =>");
+                            sb.AppendLine("{");
+                            sb.AppendLine("    if(dialogResponse === 1)");
+                            sb.AppendLine("    {");
+                            sb.AppendLine($"        {dataParameter} = returnValue;");
+                            sb.AppendLine($"        {executeWindowRequest}(\"{Data.OrchestrationMethodOnDialogResponseIsOK}\");");
+                            sb.AppendLine("    }");
+                            sb.AppendLine("};");
+                        }
+                        else
+                        {
+                            sb.AppendLine();
+                            sb.AppendLine("const onClose: any = (dialogResponse:number) =>");
+                            sb.AppendLine("{");
+                            sb.AppendLine("    if(dialogResponse === 1)");
+                            sb.AppendLine("    {");
+                            sb.AppendLine($"        {executeWindowRequest}(\"{Data.OrchestrationMethodOnDialogResponseIsOK}\");");
+                            sb.AppendLine("    }");
+                            sb.AppendLine("};");
+                        }
+
+                        onCloseText = "onClose";
+                    }
+
+                    sb.AppendLine();
+                    sb.AppendLine("const style: any = " + Data.CssOfDialog + ";");
+
+                    var titleText = "/*title*/null";
+                    if (Data.DialogTitle.HasValue())
+                    {
+                        sb.AppendLine();
+                        sb.AppendLine("const title = " + Data.DialogTitle + ";");
+
+                        titleText = "title";
+                    }
+
+                    sb.AppendLine();
+                    sb.AppendLine($"BFormManager.showDialog(\"{Data.OpenFormWithResourceCode}\", {dataParameterText}, {titleText}, {onCloseText}, style );");
+                }
+                else
+                {
+                    sb.AppendLine();
+                    sb.AppendLine("const showAsNewPage: boolean = true;");
+                    sb.AppendLine();
+                    sb.AppendLine("const menuItemSuffix: string = null;");
+                    sb.AppendLine();
+                    sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", {dataParameterText}, showAsNewPage, menuItemSuffix);");
+                }
 
                 sb.PaddingCount--;
                 sb.AppendLine("});");
             }
-
-
-            sb.AppendLine();
-            sb.AppendLine($"{mainFormPath}.addToProcessQueue(() =>");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-
-            if (Data.OpenFormWithResourceCodeCondition.HasValue())
-            {
-                sb.AppendLine($"if(!{Data.OpenFormWithResourceCodeCondition})");
-                sb.AppendLine("{");
-                sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
-                sb.AppendLine("    return;");
-                sb.AppendLine("}");
-                    
-            }
-
-
-
-            var dataParameterText = "/*data*/null";
-            if (dataParameter.HasValue())
-            {
-                sb.AppendLine("const data: any = " + dataParameter + ";");
-                dataParameterText = "data";
-            }
-
-            var onCloseText = "/*onClose*/null";
-
-            if (Data.OpenFormWithResourceCodeIsInDialogBox)
-            {
-                if (Data.OrchestrationMethodOnDialogResponseIsOK.HasValue())
-                {
-                    if (dataParameter.HasValue())
-                    {
-                        sb.AppendLine();
-                        sb.AppendLine("const onClose: any = (dialogResponse:number, returnValue: any) =>");
-                        sb.AppendLine("{");
-                        sb.AppendLine("    if(dialogResponse === 1)");
-                        sb.AppendLine("    {");
-                        sb.AppendLine($"        {dataParameter} = returnValue;");
-                        sb.AppendLine($"        {executeWindowRequest}(\"{Data.OrchestrationMethodOnDialogResponseIsOK}\");");
-                        sb.AppendLine("    }");
-                        sb.AppendLine("};");
-                    }
-                    else
-                    {
-                        sb.AppendLine();
-                        sb.AppendLine("const onClose: any = (dialogResponse:number) =>");
-                        sb.AppendLine("{");
-                        sb.AppendLine("    if(dialogResponse === 1)");
-                        sb.AppendLine("    {");
-                        sb.AppendLine($"        {executeWindowRequest}(\"{Data.OrchestrationMethodOnDialogResponseIsOK}\");");
-                        sb.AppendLine("    }");
-                        sb.AppendLine("};");
-                    }
-
-                    onCloseText = "onClose";
-                }
-
-                sb.AppendLine();
-                sb.AppendLine("const style: any = " + Data.CssOfDialog + ";");
-
-
-                var titleText = "/*title*/null";
-                if (Data.DialogTitle.HasValue())
-                {
-                    sb.AppendLine();
-                    sb.AppendLine("const title = " + Data.DialogTitle + ";");
-
-                    titleText = "title";
-                }
-
-                sb.AppendLine();
-                sb.AppendLine($"BFormManager.showDialog(\"{Data.OpenFormWithResourceCode}\", {dataParameterText}, {titleText}, {onCloseText}, style );");
-            }
-            else
-            {
-                sb.AppendLine();
-                sb.AppendLine("const showAsNewPage: boolean = true;");
-                sb.AppendLine();
-                sb.AppendLine("const menuItemSuffix: string = null;");
-                sb.AppendLine();
-                sb.AppendLine($"BFormManager.show(\"{Data.OpenFormWithResourceCode}\", {dataParameterText}, showAsNewPage, menuItemSuffix);");
-            }
-
-            sb.PaddingCount--;
-            sb.AppendLine("});");
+            #endregion
 
             sb.AppendLine();
             sb.AppendLine($"{mainFormPath}.runProcessQueue();");
