@@ -26,7 +26,7 @@ namespace BOA.TfsAccess
 
             if (!File.Exists(path))
             {
-                File.WriteAllText(path, content);
+                FileHelper.WriteAllText(path, content);
                 return new FileAccessWriteResult {ThereIsNoFileAndFileCreated = true};
             }
 
@@ -55,6 +55,8 @@ namespace BOA.TfsAccess
 
             return result;
         }
+
+
         #endregion
 
         #region Methods

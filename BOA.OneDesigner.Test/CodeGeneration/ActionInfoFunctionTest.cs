@@ -563,6 +563,49 @@ this.runProcessQueue();
         }
 
 
+
+        
+        [TestMethod]
+        public void _11_ask_question_and_call_orch_on_yes()
+        {
+            api.Data = new ActionInfo
+            {
+                YesNoQuestionInfo = new LabelInfo { FreeTextValue = "Aloha",IsFreeText = true},
+                YesNoQuestionAfterYesOrchestrationCall  = "CallOnYesAloha"
+            };
+
+            OutputShouldBe(@"
+
+this.addToProcessQueue( () =>
+{
+    BDialogHelper.show(form.state.context,""Aloha"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
+        (dialogResponse: any) =>
+        {
+            if (dialogResponse === 1)
+            {
+                this.runProcessQueue();
+            }
+            else
+            {
+                this.processQueue.shift();
+            }
+        }
+    );
+   
+});
+
+this.addToProcessQueue(() =>
+{
+    this.executeWindowRequest(""CallOnYesAloha"");
+});
+
+this.runProcessQueue();
+
+");
+        }
+
+
+
         [TestInitialize]
         public void ZTestInitialize()
         {
