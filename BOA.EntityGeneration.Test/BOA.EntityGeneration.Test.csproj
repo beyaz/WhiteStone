@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="BOACardDatabaseExporterTest.cs" />
     <Compile Include="IndexInfoDaoTest.cs" />
+    <Compile Include="ProjectInjectorDebug.cs" />
     <Compile Include="ProjectInjectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
