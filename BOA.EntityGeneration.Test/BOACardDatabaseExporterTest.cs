@@ -1,7 +1,5 @@
-﻿using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
+﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ninject;
 
 namespace BOA.EntityGeneration.SchemaToDllExporting
 {
@@ -9,14 +7,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
     public class BOACardDatabaseExporterTest
     {
         #region Public Methods
-        [TestMethod]
-        public void CustomSqlInjection()
-        {
-            using (var kernel = new TestKernel())
-            {
-                kernel.Get<ProjectInjector>().Inject("CC_OPERATIONS");
-            }
-        }
+        
 
         [TestMethod]
         public void Export()
@@ -34,8 +25,9 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         }
         #endregion
 
-        class TestKernel : Kernel
-        {
-        }
+        
+    }
+    class TestKernel : Kernel
+    {
     }
 }
