@@ -46,7 +46,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                 sb.AppendLine();
                 foreach (var item in data.Parameters)
                 {
-                    sb.AppendLine($"DBLayer.AddInParameter(command, \"@{item.Name}\", SqlDbType.{item.SqlDatabaseTypeName}, request.{item.NameInDotnet});");
+                    sb.AppendLine($"DBLayer.AddInParameter(command, \"@{item.Name}\", SqlDbType.{item.SqlDbTypeName}, request.{item.CSharpPropertyName});");
                 }
             }
             

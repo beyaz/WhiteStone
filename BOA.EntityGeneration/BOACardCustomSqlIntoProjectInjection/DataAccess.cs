@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
@@ -13,10 +12,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 {
     public class DataAccess
     {
-
-        [Inject]
-        public Tracer Tracer { get; set; }
-
         #region Public Properties
         [Inject]
         public IDatabase Database { get; set; }
@@ -29,26 +24,27 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
         [Inject]
         public TableOverride TableOverride { get; set; }
+
+        [Inject]
+        public Tracer Tracer { get; set; }
         #endregion
 
         #region Public Methods
-        public IReadOnlyList<string> GetByProfileIdList()
+        public ProjectCustomSqlInfo GetByProfileId(string profileId)
         {
-            var items = new List<string>();
+            var project = GetByProfileIdFromDatabase(profileId);
 
-            Database.CommandText = $"SELECT profileid  from BOACard.dbo.profileskt WITH (NOLOCK)";
-            var reader = Database.ExecuteReader();
-            while (reader.Read())
-
+            foreach (var customSqlInfo in project.CustomSqlInfoList)
             {
-                items.Add(reader["profileid"] + string.Empty);
+                Fill(customSqlInfo);
             }
 
-            reader.Close();
-
-            return items;
+            return project;
         }
-        public ProjectCustomSqlInfo GetByProfileId(string profileId)
+        #endregion
+
+        #region Methods
+        protected virtual ProjectCustomSqlInfo GetByProfileIdFromDatabase(string profileId)
         {
             var list = new List<CustomSqlInfo>();
 
@@ -73,7 +69,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                 Tracer.Trace($"Fetching data for {customSqlInfo.Name}");
 
                 Database.CommandText = $"select parameterid,datatype,nullableflag from dbo.objectparameters WITH (NOLOCK) WHERE profileid = '{profileId}' AND objectid = '{customSqlInfo.Name}'";
-                reader               = Database.ExecuteReader();
+
+                reader = Database.ExecuteReader();
                 while (reader.Read())
                 {
                     var item = new CustomSqlInfoParameter
@@ -82,11 +79,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                         DataType   = reader["datatype"].ToString(),
                         IsNullable = reader["nullableflag"] + string.Empty == "1"
                     };
-                    item.NameInDotnet        = item.Name.ToContractName();
-                    item.DataTypeInDotnet    = GetDataTypeInDotnet(item.DataType, item.IsNullable);
-                    item.SqlDatabaseTypeName = GetSqlDbTypeName(item.DataType);
-
-                    item.DataTypeInDotnet = TableOverride.GetColumnDotnetType(item.Name, item.DataTypeInDotnet, item.IsNullable);
 
                     items.Add(item);
                 }
@@ -100,8 +92,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             {
                 var items = new List<CustomSqlInfoResult>();
 
-                
-
                 Database.CommandText = $"select resultid,datatype, nullableflag from dbo.objectresults WITH (NOLOCK) WHERE profileid = '{profileId}' AND objectid = '{customSqlInfo.Name}'";
                 reader               = Database.ExecuteReader();
                 while (reader.Read())
@@ -113,67 +103,19 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                         IsNullable = reader["nullableflag"] + string.Empty == "1"
                     };
 
-                    item.NameInDotnet = item.Name.ToContractName();
-
-                    if (item.DataType.Equals("object", StringComparison.OrdinalIgnoreCase))
-                    {
-                        items.Add(item);
-                        continue;
-                    }
-
-                    item.DataTypeInDotnet = GetDataTypeInDotnet(item.DataType, item.IsNullable);
-                    
-                    item.DataTypeInDotnet = TableOverride.GetColumnDotnetType(item.Name, item.DataTypeInDotnet, item.IsNullable);
-
-
-                    if (item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
-                    {
-                        item.SqlReaderMethod = item.IsNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
-                    }
-                    else
-                    {
-                        item.SqlReaderMethod = SqlDbTypeMap.GetSqlReaderMethod(item.DataType.ToUpperEN(), item.IsNullable);
-                    }
-
                     items.Add(item);
                 }
 
                 reader.Close();
 
                 customSqlInfo.ResultColumns = items;
-
-                if (items.Any(x => x.DataType.Equals("object", StringComparison.OrdinalIgnoreCase)))
-                {
-                    if (items.Count == 1)
-                    {
-                        var tableInfo = TableInfoDao.GetInfo(TableCatalogName.BOACard, customSqlInfo.SchemaName, items[0].Name);
-
-                        TableOverride.Override(tableInfo);
-
-                        customSqlInfo.ResultColumns = (from columnInfo in tableInfo.Columns
-                                                       select
-                                                           new CustomSqlInfoResult
-                                                           {
-                                                               Name = columnInfo.ColumnName,
-                                                               DataType = columnInfo.DataType,
-                                                               IsNullable = columnInfo.IsNullable,
-                                                               DataTypeInDotnet = columnInfo.DotNetType,
-                                                               NameInDotnet = columnInfo.ColumnName.ToContractName(),
-                                                               SqlReaderMethod = columnInfo.SqlReaderMethod
-                                                           })
-                            .ToList();
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
-                }
             }
 
             var returnValue = new ProjectCustomSqlInfo
             {
                 CustomSqlInfoList = list
             };
+
             Database.CommandText = $@"SELECT typesnamespace,typesprojectpath, businessnamespace,businessprojectpath FROM dbo.profileskt WITH(NOLOCK) WHERE profileid = '{profileId}'";
 
             reader = Database.ExecuteReader();
@@ -190,9 +132,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
             return returnValue;
         }
-        #endregion
 
-        #region Methods
         static string GetDataTypeInDotnet(string dataType, bool isNullable)
         {
             if (dataType.Equals("string", StringComparison.OrdinalIgnoreCase))
@@ -254,7 +194,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
             if (dataType.Equals("char", StringComparison.OrdinalIgnoreCase))
             {
-                return "char" + suffix;
+                return "string";
             }
 
             if (dataType.Equals("object", StringComparison.OrdinalIgnoreCase))
@@ -333,6 +273,79 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             }
 
             throw new NotImplementedException(dataType);
+        }
+
+        void Fill(CustomSqlInfo customSqlInfo)
+        {
+            foreach (var item in customSqlInfo.Parameters)
+            {
+                item.CSharpPropertyName        = item.Name.ToContractName();
+                item.CSharpPropertyTypeName    = GetDataTypeInDotnet(item.DataType, item.IsNullable);
+                item.SqlDbTypeName = GetSqlDbTypeName(item.DataType);
+
+                item.CSharpPropertyTypeName = TableOverride.GetColumnDotnetType(item.Name, item.CSharpPropertyTypeName, item.IsNullable);
+            }
+
+            if (customSqlInfo.ResultColumns.Any(x => x.DataType.Equals("object", StringComparison.OrdinalIgnoreCase)))
+            {
+                if (customSqlInfo.ResultColumns.Count == 1)
+                {
+                    var tableInfo = TableInfoDao.GetInfo(TableCatalogName.BOACard, customSqlInfo.SchemaName, customSqlInfo.ResultColumns[0].Name);
+
+                    TableOverride.Override(tableInfo);
+
+                    customSqlInfo.ResultColumns = (from columnInfo in tableInfo.Columns
+                                                   select
+                                                       new CustomSqlInfoResult
+                                                       {
+                                                           Name             = columnInfo.ColumnName,
+                                                           DataType         = columnInfo.DataType,
+                                                           IsNullable       = columnInfo.IsNullable,
+                                                           DataTypeInDotnet = columnInfo.DotNetType,
+                                                           NameInDotnet     = columnInfo.ColumnName.ToContractName(),
+                                                           SqlReaderMethod  = columnInfo.SqlReaderMethod
+                                                       }).ToList();
+
+                    return;
+                }
+
+                throw new NotImplementedException();
+            }
+
+            foreach (var item in customSqlInfo.ResultColumns)
+            {
+                item.NameInDotnet = item.Name.ToContractName();
+
+                item.DataTypeInDotnet = GetDataTypeInDotnet(item.DataType, item.IsNullable);
+
+                item.DataTypeInDotnet = TableOverride.GetColumnDotnetType(item.Name, item.DataTypeInDotnet, item.IsNullable);
+
+                if (item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
+                {
+                    item.SqlReaderMethod = item.IsNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
+                }
+                else
+                {
+                    item.SqlReaderMethod = SqlDbTypeMap.GetSqlReaderMethod(item.DataType.ToUpperEN(), item.IsNullable);
+                }
+            }
+        }
+
+        IReadOnlyList<string> GetByProfileIdList()
+        {
+            var items = new List<string>();
+
+            Database.CommandText = "SELECT profileid  from BOACard.dbo.profileskt WITH (NOLOCK)";
+            var reader = Database.ExecuteReader();
+            while (reader.Read())
+
+            {
+                items.Add(reader["profileid"] + string.Empty);
+            }
+
+            reader.Close();
+
+            return items;
         }
         #endregion
     }
