@@ -21,6 +21,8 @@ namespace BOA.TfsAccess
             var isEqual = StringHelper.IsEqualAsData(oldContent, content);
             if (isEqual)
             {
+                WriteToFileSystem(path,content,new FileAccessWriteResult());
+
                 return new FileAccessWriteResult {TfsVersionAndNewContentIsSameSoNothingDoneAnything = true};
             }
 
@@ -38,24 +40,28 @@ namespace BOA.TfsAccess
                 result.CheckoutError = errorMessage;
             }
 
-            if (new FileInfo(path).IsReadOnly)
-            {
-                File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
-                result.FileReadOnlyAttributeRemoved = true;
-            }
+            WriteToFileSystem(path,content,result);
+            
+            return result;
+        }
 
+        static void WriteToFileSystem(string path, string content, FileAccessWriteResult result)
+        {
             try
             {
-                File.WriteAllText(path, content);
+                if (new FileInfo(path).IsReadOnly)
+                {
+                    File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
+                    result.FileReadOnlyAttributeRemoved = true;
+                }
+
+                FileHelper.WriteAllText(path, content);
             }
             catch (Exception e)
             {
                 result.Exception = e;
             }
-
-            return result;
         }
-
 
         #endregion
 
