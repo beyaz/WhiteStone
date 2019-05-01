@@ -54,11 +54,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             {
                 list.Add(new CustomSqlInfo
                 {
-                    Name       = reader["objectid"].ToString(),
-                    Sql        = reader["text"] + string.Empty,
-                    SchemaName = reader["schemaname"] + string.Empty,
-                    SqlResultIsCollection = (reader["resultcollectionflag"] + string.Empty) == "1"
-                    
+                    Name                  = reader["objectid"].ToString(),
+                    Sql                   = reader["text"] + string.Empty,
+                    SchemaName            = reader["schemaname"] + string.Empty,
+                    SqlResultIsCollection = reader["resultcollectionflag"] + string.Empty == "1"
                 });
             }
 
@@ -229,13 +228,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                 return SqlDbType.BigInt;
             }
 
-            if (dataType.Equals("numeric", StringComparison.OrdinalIgnoreCase)||
+            if (dataType.Equals("numeric", StringComparison.OrdinalIgnoreCase) ||
                 dataType.Equals("decimal", StringComparison.OrdinalIgnoreCase))
             {
                 return SqlDbType.Decimal;
             }
-
-            
 
             if (dataType.Equals("Int16", StringComparison.OrdinalIgnoreCase))
             {
@@ -280,55 +277,69 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         {
             foreach (var item in customSqlInfo.Parameters)
             {
-                item.CSharpPropertyName        = item.Name.ToContractName();
-                item.CSharpPropertyTypeName    = GetDataTypeInDotnet(item.DataType, item.IsNullable);
-                item.SqlDbTypeName = GetSqlDbTypeName(item.DataType);
+                item.CSharpPropertyName     = item.Name.ToContractName();
+                item.CSharpPropertyTypeName = GetDataTypeInDotnet(item.DataType, item.IsNullable);
+                item.SqlDbTypeName          = GetSqlDbTypeName(item.DataType);
 
                 item.CSharpPropertyTypeName = TableOverride.GetColumnDotnetType(item.Name, item.CSharpPropertyTypeName, item.IsNullable);
             }
 
             if (customSqlInfo.ResultColumns.Any(x => x.DataType.Equals("object", StringComparison.OrdinalIgnoreCase)))
             {
-                if (customSqlInfo.ResultColumns.Count == 1)
+                var customSqlInfoResults = new List<CustomSqlInfoResult>();
+
+                foreach (var item in customSqlInfo.ResultColumns)
                 {
-                    var tableInfo = TableInfoDao.GetInfo(TableCatalogName.BOACard, customSqlInfo.SchemaName, customSqlInfo.ResultColumns[0].Name);
+                    if (item.DataType.Equals("object", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var tableInfo = TableInfoDao.GetInfo(TableCatalogName.BOACard, customSqlInfo.SchemaName, item.Name);
 
-                    TableOverride.Override(tableInfo);
+                        TableOverride.Override(tableInfo);
 
-                    customSqlInfo.ResultColumns = (from columnInfo in tableInfo.Columns
-                                                   select
-                                                       new CustomSqlInfoResult
-                                                       {
-                                                           Name             = columnInfo.ColumnName,
-                                                           DataType         = columnInfo.DataType,
-                                                           IsNullable       = columnInfo.IsNullable,
-                                                           DataTypeInDotnet = columnInfo.DotNetType,
-                                                           NameInDotnet     = columnInfo.ColumnName.ToContractName(),
-                                                           SqlReaderMethod  = columnInfo.SqlReaderMethod
-                                                       }).ToList();
+                        customSqlInfoResults.AddRange(from columnInfo in tableInfo.Columns
+                                                      select new CustomSqlInfoResult
+                                                      {
+                                                          Name             = columnInfo.ColumnName,
+                                                          DataType         = columnInfo.DataType,
+                                                          IsNullable       = columnInfo.IsNullable,
+                                                          DataTypeInDotnet = columnInfo.DotNetType,
+                                                          NameInDotnet     = columnInfo.ColumnName.ToContractName(),
+                                                          SqlReaderMethod  = columnInfo.SqlReaderMethod
+                                                      });
 
-                    return;
+                        continue;
+                    }
+
+                    Fill(item);
+                    customSqlInfoResults.Add(item);
                 }
 
-                throw new NotImplementedException();
+                customSqlInfo.ResultColumns = customSqlInfoResults;
+
+                return;
             }
 
             foreach (var item in customSqlInfo.ResultColumns)
             {
-                item.NameInDotnet = item.Name.ToContractName();
+                Fill(item);
+            }
+        }
 
-                item.DataTypeInDotnet = GetDataTypeInDotnet(item.DataType, item.IsNullable);
+        void Fill(CustomSqlInfoResult item)
+        {
+            item.NameInDotnet = item.Name.ToContractName();
 
-                item.DataTypeInDotnet = TableOverride.GetColumnDotnetType(item.Name, item.DataTypeInDotnet, item.IsNullable);
+            item.DataTypeInDotnet = GetDataTypeInDotnet(item.DataType, item.IsNullable);
 
-                if (item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
-                {
-                    item.SqlReaderMethod = item.IsNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
-                }
-                else
-                {
-                    item.SqlReaderMethod = SqlDbTypeMap.GetSqlReaderMethod(item.DataType.ToUpperEN(), item.IsNullable);
-                }
+            item.DataTypeInDotnet = TableOverride.GetColumnDotnetType(item.Name, item.DataTypeInDotnet, item.IsNullable);
+
+            if (item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
+            {
+                item.SqlReaderMethod = item.IsNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
+            }
+            else
+            {
+                item.SqlReaderMethod = SqlDbTypeMap.GetSqlReaderMethod(item.DataType.ToUpperEN(), item.IsNullable);
             }
         }
 

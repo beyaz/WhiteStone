@@ -14,9 +14,9 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
             using (var kernel = new Kernel())
             {
                 //kernel.Get<ProjectInjector>().Inject("ACQUIRING");
-                kernel.Get<ProjectInjector>().Inject("ACQUIRING_APPLICATION");
-                //kernel.Get<ProjectInjector>().Inject("BKM_MANAGEMENT");
-                //kernel.Get<ProjectInjector>().Inject("CARD_APPLICATION");
+                // // kernel.Get<ProjectInjector>().Inject("ACQUIRING_APPLICATION");
+                // // kernel.Get<ProjectInjector>().Inject("BKM_MANAGEMENT");
+                kernel.Get<ProjectInjector>().Inject("CARD_APPLICATION");
                 //kernel.Get<ProjectInjector>().Inject("CC_OPERATIONS");
                 //kernel.Get<ProjectInjector>().Inject("CLEARING_COMMON");
                 //kernel.Get<ProjectInjector>().Inject("CRD_INSTANT");

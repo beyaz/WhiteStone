@@ -407,6 +407,11 @@ namespace BOA.EntityGeneration
                 return SqlReaderMethods.GetStringValue;
             }
 
+            if (dataType.Equals("char", StringComparison.OrdinalIgnoreCase) )
+            {
+                return SqlReaderMethods.GetStringValue;
+            }
+
             if (dataType.StartsWith(SqlDbType.Bit.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 return isNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
