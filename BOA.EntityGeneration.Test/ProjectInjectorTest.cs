@@ -10,17 +10,34 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
     [TestClass]
     public class ProjectInjectorTest
     {
-        #region Enums
-        enum Rule
+        #region Public Methods
+        [TestMethod]
+        public void RequestPropertiesShouldMatchSqlInputs()
         {
-            when_input_data_type_is_BigInt_then_request_property_type_should_be_long,
-            when_input_data_type_is_Int_then_request_property_type_should_be_int,
-            when_input_data_type_is_VarChar_and_Name_contains_FLAG_suffix_then_request_property_type_should_be_boolean,
-            when_input_data_type_is_VarChar_then_request_property_type_should_be_string,
-            when_input_data_type_is_Char_then_request_property_type_should_be_string
-        }
-        #endregion
+            using (var kernel = new Kernel())
+            {
+                kernel.Bind<DataAccess>().To<DataAccess2>();
 
+                var projectCustomSqlInfo = kernel.Get<DataAccess>().GetByProfileId(string.Empty);
+
+                var code = kernel.Get<AllInOneForTypeDll>().GetCode(projectCustomSqlInfo);
+
+                code.Should().Contain("public long? RecordId { get; set; }");
+                code.Should().Contain("public long RecordIdNotNull { get; set; }");
+                code.Should().Contain("public int? CustomerId { get; set; }");
+                code.Should().Contain("public bool? SupplementaryCardFlag { get; set; }");
+                code.Should().Contain("public string CardRefNumber { get; set; }");
+                code.Should().Contain("public string MainCardRefNumber { get; set; }");
+                code.Should().Contain("public DateTime? PartDate { get; set; }");
+                code.Should().Contain("public DateTime? PartDateTime { get; set; }");
+                code.Should().Contain("public long? PartLong { get; set; }");
+                code.Should().Contain("public string PartString { get; set; }");
+                code.Should().Contain("public bool? PartBit { get; set; }");
+                code.Should().Contain("public decimal? PartDecimal { get; set; }");
+                code.Should().Contain("public short? PartShort { get; set; }");
+                code.Should().Contain("public short? PartSmallInt { get; set; }");
+            }
+        }
 
         [TestMethod]
         public void SqlParametersShouldMatchRequestProperties()
@@ -39,43 +56,15 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 code.Should().Contain("DBLayer.AddInParameter(command, \"@SUPPLEMENTARY_CARD_FLAG\", SqlDbType.VarChar, request.SupplementaryCardFlag);");
                 code.Should().Contain("DBLayer.AddInParameter(command, \"@CARD_REF_NUMBER\", SqlDbType.VarChar, request.CardRefNumber);");
                 code.Should().Contain("DBLayer.AddInParameter(command, \"@MAIN_CARD_REF_NUMBER\", SqlDbType.Char, request.MainCardRefNumber);");
-                
 
-
-            }
-        }
-        #region Public Methods
-        [TestMethod]
-        public void RequestPropertiesShouldMatchSqlInputs()
-        {
-            using (var kernel = new Kernel())
-            {
-                kernel.Bind<DataAccess>().To<DataAccess2>();
-
-                var projectCustomSqlInfo = kernel.Get<DataAccess>().GetByProfileId(string.Empty);
-
-                var code = kernel.Get<AllInOneForTypeDll>().GetCode(projectCustomSqlInfo);
-
-                code.Should().Contain("public long? RecordId { get; set; }",
-                                      Rule.when_input_data_type_is_BigInt_then_request_property_type_should_be_long.ToString());
-
-                code.Should().Contain("public long RecordIdNotNull { get; set; }",
-                                      Rule.when_input_data_type_is_BigInt_then_request_property_type_should_be_long.ToString());
-
-                code.Should().Contain("public int? CustomerId { get; set; }",
-                                      Rule.when_input_data_type_is_Int_then_request_property_type_should_be_int.ToString());
-
-                code.Should().Contain("public bool? SupplementaryCardFlag { get; set; }",
-                                      Rule.when_input_data_type_is_VarChar_and_Name_contains_FLAG_suffix_then_request_property_type_should_be_boolean.ToString());
-
-                code.Should().Contain("public string CardRefNumber { get; set; }",
-                                      Rule.when_input_data_type_is_VarChar_then_request_property_type_should_be_string.ToString());
-
-
-                code.Should().Contain("public string MainCardRefNumber { get; set; }",
-                                      Rule.when_input_data_type_is_Char_then_request_property_type_should_be_string.ToString());
-
-
+                code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_DATE\", SqlDbType.DateTime, request.PartDate);");
+                code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_DATE_TIME\", SqlDbType.DateTime, request.PartDateTime);");
+                code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_LONG\", SqlDbType.BigInt, request.PartLong);");
+                code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_STRING\", SqlDbType.VarChar, request.PartString);");
+                code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_BIT\", SqlDbType.Bit, request.PartBit);");
+                code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_DECIMAL\", SqlDbType.Decimal, request.PartDecimal);");
+                code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_SHORT\", SqlDbType.SmallInt, request.PartShort);");
+                code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_SMALL_INT\", SqlDbType.SmallInt, request.PartSmallInt);");
             }
         }
         #endregion
@@ -134,8 +123,59 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                                     IsNullable = true
                                 },
 
-                                
-                                
+                                new CustomSqlInfoParameter
+                                {
+                                    Name       = "PART_DATE",
+                                    DataType   = "daTe",
+                                    IsNullable = true
+                                },
+                                new CustomSqlInfoParameter
+                                {
+                                    Name       = "PART_DATE_TIME",
+                                    DataType   = "daTeTime",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoParameter
+                                {
+                                    Name       = "PART_LONG",
+                                    DataType   = "long",
+                                    IsNullable = true
+                                },
+                                new CustomSqlInfoParameter
+                                {
+                                    Name       = "PART_STRING",
+                                    DataType   = "string",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoParameter
+                                {
+                                    Name       = "PART_BIT",
+                                    DataType   = "bit",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoParameter
+                                {
+                                    Name       = "PART_DECIMAL",
+                                    DataType   = "decimal",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoParameter
+                                {
+                                    Name       = "PART_SHORT",
+                                    DataType   = "Int16",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoParameter
+                                {
+                                    Name       = "PART_SMALL_INT",
+                                    DataType   = "smallint",
+                                    IsNullable = true
+                                }
                             },
                             ResultColumns = new List<CustomSqlInfoResult>()
                         }

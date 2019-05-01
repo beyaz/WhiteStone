@@ -48,7 +48,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         {
             var list = new List<CustomSqlInfo>();
 
-            Database.CommandText = $"SELECT objectid, text, schemaname  FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL'";
+            Database.CommandText = $"SELECT objectid, text, schemaname, resultcollectionflag FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL'";
             var reader = Database.ExecuteReader();
             while (reader.Read())
             {
@@ -229,15 +229,13 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                 return SqlDbType.BigInt;
             }
 
-            if (dataType.Equals("numeric", StringComparison.OrdinalIgnoreCase))
+            if (dataType.Equals("numeric", StringComparison.OrdinalIgnoreCase)||
+                dataType.Equals("decimal", StringComparison.OrdinalIgnoreCase))
             {
                 return SqlDbType.Decimal;
             }
 
-            if (dataType.Equals("datetime", StringComparison.OrdinalIgnoreCase))
-            {
-                return SqlDbType.Date;
-            }
+            
 
             if (dataType.Equals("Int16", StringComparison.OrdinalIgnoreCase))
             {
@@ -249,9 +247,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
                 return SqlDbType.SmallInt;
             }
 
-            if (dataType.Equals("date", StringComparison.OrdinalIgnoreCase))
+            if (dataType.Equals("date", StringComparison.OrdinalIgnoreCase) ||
+                dataType.Equals("datetime", StringComparison.OrdinalIgnoreCase))
             {
-                return SqlDbType.Date;
+                return SqlDbType.DateTime;
             }
 
             if (dataType.Equals("bit", StringComparison.OrdinalIgnoreCase))
