@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using BOA.TfsAccess;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
@@ -14,11 +14,12 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 
         [Inject]
         public DataAccess DataAccess { get; set; }
+
+        [Inject]
+        public FileAccess FileAccess { get; set; }
         #endregion
 
         #region Public Methods
-        
-
         public void Inject(string profileId)
         {
             Inject(DataAccess.GetByProfileId(profileId));
@@ -36,8 +37,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             var typeCode     = AllInOneForTypeDll.GetCode(data);
             var businessCode = AllInOneForBusinessDll.GetCode(data);
 
-            File.WriteAllText(data.TypesProjectPath + "\\Generated\\CustomSql.cs", typeCode);
-            File.WriteAllText(data.BusinessProjectPath + "\\Generated\\CustomSql.cs", businessCode);
+            FileAccess.WriteAllText(data.TypesProjectPath + "\\Generated\\CustomSql.cs", typeCode);
+            FileAccess.WriteAllText(data.BusinessProjectPath + "\\Generated\\CustomSql.cs", businessCode);
         }
         #endregion
     }
