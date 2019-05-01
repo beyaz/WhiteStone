@@ -6,22 +6,22 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 {
     public class AllInOneForBusinessDll
     {
-
+        #region Public Properties
         [Inject]
         public BusinessClassWriter BusinessClassWriter { get; set; }
+
         [Inject]
         public Tracer Tracer { get; set; }
-        
+        #endregion
 
-        public string GetCode( ProjectCustomSqlInfo data)
+        #region Public Methods
+        public string GetCode(ProjectCustomSqlInfo data)
         {
             var sb = new PaddedStringBuilder();
 
-            Write(sb,data);
-
+            Write(sb, data);
 
             return sb.ToString();
-
         }
 
         public void Write(PaddedStringBuilder sb, ProjectCustomSqlInfo data)
@@ -38,18 +38,17 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+            BusinessClassWriter.Write_CustomSqlClass(sb, data);
+
             foreach (var item in data.CustomSqlInfoList)
             {
-
-                Tracer.Trace($"Fetching data for {item.BusinessClassName}");
-
                 sb.AppendLine();
-                BusinessClassWriter.Write(sb,item);
+                BusinessClassWriter.Write(sb, item);
             }
-
 
             sb.PaddingCount--;
             sb.AppendLine("}");
         }
+        #endregion
     }
 }

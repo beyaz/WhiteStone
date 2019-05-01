@@ -59,6 +59,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         ///     Gets or sets a value indicating whether [SQL result is collection].
         /// </summary>
         public bool SqlResultIsCollection { get; set; }
+
+        public int SwitchCaseIndex { get; set; }
         #endregion
     }
 }

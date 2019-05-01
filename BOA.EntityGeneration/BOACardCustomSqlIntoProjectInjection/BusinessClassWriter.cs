@@ -6,6 +6,49 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 {
     public class BusinessClassWriter
     {
+        public void Write_CustomSqlClass(PaddedStringBuilder sb, ProjectCustomSqlInfo project)
+        {
+            sb.AppendLine("public static class CustomSql");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+
+            sb.AppendLine("public static TOutput Execute<TOutput, T>(ObjectHelper objectHelper, ICustomSqlProxy<TOutput, T> input) where TOutput : GenericResponse<T>");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+
+            sb.AppendLine("switch (input.Index)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            foreach (var item in project.CustomSqlInfoList)
+            {
+                sb.AppendLine($"case {item.SwitchCaseIndex}:");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine($"return (TOutput) (object) new {item.BusinessClassName}(objectHelper.Context).Execute(({item.ParameterContractName}) input);");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("throw new System.InvalidOperationException(input.GetType().FullName);");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+        }
+
         #region Public Methods
         public void Write(PaddedStringBuilder sb, CustomSqlInfo data)
         {

@@ -30,6 +30,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+            TypeWriter.Write_ICustomSqlProxy(sb);
+
             foreach (var item in data.CustomSqlInfoList)
             {
                 sb.AppendLine();

@@ -28,6 +28,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         #region Methods
         void Inject(ProjectCustomSqlInfo data)
         {
+            for (var i = 0; i < data.CustomSqlInfoList.Count; i++)
+            {
+                data.CustomSqlInfoList[i].SwitchCaseIndex = i;
+            }
+
             var typeCode     = AllInOneForTypeDll.GetCode(data);
             var businessCode = AllInOneForBusinessDll.GetCode(data);
 
