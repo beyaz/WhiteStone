@@ -2,6 +2,7 @@
 using System.Threading;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
+using BOA.TfsAccess;
 using Ninject;
 
 namespace CustomSqlInjectionToProject
@@ -19,6 +20,7 @@ namespace CustomSqlInjectionToProject
 
             using (var kernel = new Kernel())
             {
+                kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>();
                 kernel.Get<ProjectInjector>().Inject(args[0].Trim());
             }
 

@@ -7,7 +7,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Static Fields
         public static readonly string[] SchemaNames =
         {
-            
             "BKM",
             "BNS",
             "CCA",
@@ -34,28 +33,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             "TMS",
             "TRN",
             "VIS",
-            "EMB",
-            
+            "EMB"
         };
         #endregion
 
         #region Public Methods
-        public static void Export()
+        public static void Export(Kernel kernel, string schemaName)
         {
-            using (var kernel = new Kernel())
-            {
-                Export(kernel);
-            }
-        }
+            var schemaExporter = kernel.Get<SchemaExporter>();
 
-        public static void Export(string schemaName)
-        {
-            using (var kernel = new Kernel())
-            {
-                var schemaExporter = kernel.Get<SchemaExporter>();
-
-                schemaExporter.Export(schemaName);
-            }
+            schemaExporter.Export(schemaName);
         }
 
         public static void Export(Kernel kernel)

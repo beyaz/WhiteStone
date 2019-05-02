@@ -9,5 +9,6 @@ namespace BOA.TfsAccess
         public string    CheckoutError                                      { get; set; }
         public bool      FileReadOnlyAttributeRemoved                       { get; set; }
         public Exception Exception                                          { get; set; }
+        public bool FileIsCheckOutFromTfs { get; set; }
     }
 }

@@ -7,8 +7,6 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
     public class BOACardDatabaseExporterTest
     {
         #region Public Methods
-        
-
         [TestMethod]
         public void Export()
         {
@@ -21,12 +19,14 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         [TestMethod]
         public void ExportPRM()
         {
-            BOACardDatabaseExporter.Export("DLV");
+            using (var kernel = new TestKernel())
+            {
+                BOACardDatabaseExporter.Export(kernel, "DLV");
+            }
         }
         #endregion
-
-        
     }
+
     class TestKernel : Kernel
     {
     }

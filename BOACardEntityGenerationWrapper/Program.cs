@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
+using BOA.TfsAccess;
 
 namespace BOACardEntityGenerationWrapper
 {
@@ -16,7 +17,13 @@ namespace BOACardEntityGenerationWrapper
                 throw new ArgumentException(nameof(args));
             }
 
-            BOACardDatabaseExporter.Export(args[0].Trim());
+            var schemaName = args[0].Trim();
+
+            using (var kernel = new Kernel())
+            {
+                kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>();
+                BOACardDatabaseExporter.Export(kernel, schemaName);
+            }
 
             Thread.Sleep(3000);
         }

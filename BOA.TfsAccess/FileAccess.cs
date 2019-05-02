@@ -8,7 +8,7 @@ namespace BOA.TfsAccess
     public class FileAccess
     {
         #region Public Methods
-        public FileAccessWriteResult WriteAllText(string path, string content)
+        public virtual FileAccessWriteResult WriteAllText(string path, string content)
         {
             var tfsPath = GetTfsPath(path);
 
@@ -38,6 +38,10 @@ namespace BOA.TfsAccess
             if (errorMessage.HasValue())
             {
                 result.CheckoutError = errorMessage;
+            }
+            else
+            {
+                result.FileIsCheckOutFromTfs = true;
             }
 
             WriteToFileSystem(path,content,result);
