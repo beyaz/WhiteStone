@@ -81,8 +81,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
   <ItemGroup />
   <Import Project=""$(MSBuildToolsPath)\Microsoft.CSharp.targets"" />
   <PropertyGroup>
-    <PostBuildEvent>copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\server\bin\""
-copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\client\bin\""</PostBuildEvent>
+    <PostBuildEvent>
+        copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\server\bin\""
+        copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\client\bin\""
+        copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\one\""
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
 

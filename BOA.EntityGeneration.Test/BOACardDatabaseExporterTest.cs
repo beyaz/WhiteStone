@@ -1,4 +1,5 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
+﻿using System.IO;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.EntityGeneration.SchemaToDllExporting
@@ -25,6 +26,28 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
             }
         }
         #endregion
+    }
+
+    class BatExporter
+    {
+        public void Export(string schemaName)
+        {
+            const string dir = @"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\";
+
+            var content = $@"
+cd\
+cd windows
+cd system32
+
+robocopy ""{dir}Generator"" ""d:\boa\BOACard.EntityGeneration"" /E
+
+start D:\boa\BOACard.EntityGeneration\BOACardEntityGenerationWrapper.exe %~n0
+
+exit
+
+";
+            File.WriteAllText(dir+schemaName+".bat", content);
+        }
     }
 
     class TestKernel : Kernel
