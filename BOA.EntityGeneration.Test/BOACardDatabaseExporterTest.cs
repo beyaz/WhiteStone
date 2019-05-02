@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         {
             using (var kernel = new TestKernel())
             {
-                BOACardDatabaseExporter.Export(kernel, "DLV");
+                BOACardDatabaseExporter.Export(kernel, "CRD");
             }
         }
         #endregion

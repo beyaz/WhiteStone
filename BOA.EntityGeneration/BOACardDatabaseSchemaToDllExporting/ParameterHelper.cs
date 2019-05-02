@@ -1,4 +1,5 @@
-﻿using BOA.EntityGeneration.DbModel;
+﻿using System.Data;
+using BOA.EntityGeneration.DbModel;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 {
@@ -12,7 +13,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 return $"{@"Guid.NewGuid().ToString().ToUpper(new System.Globalization.CultureInfo(""en-US"", false))"}";
             }
 
-            if (columnInfo.ColumnName == Names2.VALID_FLAG)
+            
+            if (columnInfo.DotNetType == DotNetTypeName.DotNetBool && columnInfo.SqlDbType == SqlDbType.Char)
             {
                 return $"{contractVariableName}.{columnInfo.ColumnName.ToContractName()} ? \"1\" : \"0\"";
             }
@@ -37,7 +39,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
 
         public static string GetValueForSqlUpdate(ColumnInfo columnInfo, string contractVariableName = "contract")
         {
-            if (columnInfo.ColumnName == Names2.VALID_FLAG)
+            if (columnInfo.DotNetType == DotNetTypeName.DotNetBool && columnInfo.SqlDbType == SqlDbType.Char)
             {
                 return $"{contractVariableName}.{columnInfo.ColumnName.ToContractName()} ? \"1\" : \"0\"";
             }
