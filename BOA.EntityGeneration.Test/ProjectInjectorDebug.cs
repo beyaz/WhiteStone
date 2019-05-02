@@ -13,11 +13,11 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         {
             using (var kernel = new Kernel())
             {
-                // kernel.Get<ProjectInjector>().Inject("ACQUIRING");
-                // kernel.Get<ProjectInjector>().Inject("CRD_MANAGEMENT");
-                // kernel.Get<ProjectInjector>().Inject("TMS");
+                 
+                 // bize ait değil kernel.Get<ProjectInjector>().Inject("CRD_MANAGEMENT");
+                 kernel.Get<ProjectInjector>().Inject("TMS");
 
-                
+                // // kernel.Get<ProjectInjector>().Inject("ACQUIRING");
                 // // kernel.Get<ProjectInjector>().Inject("ACQUIRING_APPLICATION");
                 // // kernel.Get<ProjectInjector>().Inject("BKM_MANAGEMENT");
                 // // kernel.Get<ProjectInjector>().Inject("CARD_APPLICATION");

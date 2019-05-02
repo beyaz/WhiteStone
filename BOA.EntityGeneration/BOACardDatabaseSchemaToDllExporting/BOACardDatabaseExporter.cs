@@ -7,6 +7,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         #region Static Fields
         public static readonly string[] SchemaNames =
         {
+            //"EMB",
             "BKM",
             "BNS",
             "CCA",
