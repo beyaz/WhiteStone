@@ -34,7 +34,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
             "TMS",
             "TRN",
             "VIS",
-            "EMB"
+            "EMB",
+            
         };
         #endregion
 

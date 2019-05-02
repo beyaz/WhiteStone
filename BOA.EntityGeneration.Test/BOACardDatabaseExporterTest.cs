@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         [TestMethod]
         public void ExportPRM()
         {
-            BOACardDatabaseExporter.Export("PRM");
+            BOACardDatabaseExporter.Export("DLV");
         }
         #endregion
 
