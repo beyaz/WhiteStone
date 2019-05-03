@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model
+namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
 {
     /// <summary>
     ///     The custom SQL information parameter

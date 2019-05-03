@@ -1,6 +1,6 @@
 ﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 {
