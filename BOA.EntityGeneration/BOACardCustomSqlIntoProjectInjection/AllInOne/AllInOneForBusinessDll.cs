@@ -44,7 +44,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 
             foreach (var item in data.CustomSqlInfoList)
             {
-                Tracer.Trace($"Writing parameter class {item.ParameterContractName}");
+                Tracer.Trace($"Writing business class {item.ParameterContractName}");
                 sb.AppendLine();
                 BusinessClassWriter.Write(sb, item);
             }
