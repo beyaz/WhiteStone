@@ -10,7 +10,7 @@ using Ninject;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 {
-    public class DataAccess
+    public class ProjectCustomSqlInfoDataAccess
     {
         #region Public Properties
         [Inject]

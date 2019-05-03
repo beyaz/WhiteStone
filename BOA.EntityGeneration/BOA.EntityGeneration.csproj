@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -45,16 +45,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOneForBusinessDll.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOneForTypeDll.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\BusinessClassWriter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\CustomSqlInfo.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\CustomSqlInfoParameter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\CustomSqlInfoResult.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\DataAccess.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\ProjectCustomSqlInfo.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\ProjectInjector.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\TypeWriter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\AllInOneForBusinessDll.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\AllInOneForTypeDll.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassWriter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Model\CustomSqlInfo.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Model\CustomSqlInfoParameter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Model\CustomSqlInfoResult.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\DataAccess\DataAccess.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Model\ProjectCustomSqlInfo.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Injectors\ProjectInjector.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\TypeWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllTypeClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessDllCompiler.cs" />

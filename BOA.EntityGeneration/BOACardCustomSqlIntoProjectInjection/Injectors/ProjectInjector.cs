@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         public AllInOneForTypeDll AllInOneForTypeDll { get; set; }
 
         [Inject]
-        public DataAccess DataAccess { get; set; }
+        public ProjectCustomSqlInfoDataAccess ProjectCustomSqlInfoDataAccess { get; set; }
 
         [Inject]
         public FileAccess FileAccess { get; set; }
@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
         #region Public Methods
         public void Inject(string profileId)
         {
-            Inject(DataAccess.GetByProfileId(profileId));
+            Inject(ProjectCustomSqlInfoDataAccess.GetByProfileId(profileId));
         }
         #endregion
 

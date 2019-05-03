@@ -16,9 +16,9 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         {
             using (var kernel = new Kernel())
             {
-                kernel.Bind<DataAccess>().To<DataAccess2>();
+                kernel.Bind<ProjectCustomSqlInfoDataAccess>().To<ProjectCustomSqlInfoDataAccess2>();
 
-                var projectCustomSqlInfo = kernel.Get<DataAccess>().GetByProfileId(string.Empty);
+                var projectCustomSqlInfo = kernel.Get<ProjectCustomSqlInfoDataAccess>().GetByProfileId(string.Empty);
 
                 var code = kernel.Get<AllInOneForTypeDll>().GetCode(projectCustomSqlInfo);
 
@@ -44,9 +44,9 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         {
             using (var kernel = new Kernel())
             {
-                kernel.Bind<DataAccess>().To<DataAccess2>();
+                kernel.Bind<ProjectCustomSqlInfoDataAccess>().To<ProjectCustomSqlInfoDataAccess2>();
 
-                var projectCustomSqlInfo = kernel.Get<DataAccess>().GetByProfileId(string.Empty);
+                var projectCustomSqlInfo = kernel.Get<ProjectCustomSqlInfoDataAccess>().GetByProfileId(string.Empty);
 
                 var code = kernel.Get<AllInOneForBusinessDll>().GetCode(projectCustomSqlInfo);
 
@@ -69,7 +69,7 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         }
         #endregion
 
-        class DataAccess2 : DataAccess
+        class ProjectCustomSqlInfoDataAccess2 : ProjectCustomSqlInfoDataAccess
         {
             #region Methods
             protected override ProjectCustomSqlInfo GetByProfileIdFromDatabase(string profileId)
