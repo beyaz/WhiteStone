@@ -10,6 +10,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model
     public class CustomSqlInfo
     {
         #region Public Properties
+
+        public string ProfileId{ get; set; }
         /// <summary>
         ///     Gets the name of the business class.
         /// </summary>

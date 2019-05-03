@@ -52,6 +52,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             var list = new List<CustomSqlInfo>();
 
             Database.CommandText = $"SELECT objectid, text, schemaname, resultcollectionflag FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL'";
+
             var reader = Database.ExecuteReader();
             while (reader.Read())
             {
@@ -60,7 +61,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
                     Name                  = reader["objectid"].ToString(),
                     Sql                   = reader["text"] + string.Empty,
                     SchemaName            = reader["schemaname"] + string.Empty,
-                    SqlResultIsCollection = reader["resultcollectionflag"] + string.Empty == "1"
+                    SqlResultIsCollection = reader["resultcollectionflag"] + string.Empty == "1",
+                    ProfileId             = profileId
                 });
             }
 
@@ -68,67 +70,31 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
             foreach (var customSqlInfo in list)
             {
-                var items = new List<CustomSqlInfoParameter>();
-
-                Tracer.Trace($"Fetching data for {customSqlInfo.Name}");
-
-                Database.CommandText = $"select parameterid,datatype,nullableflag from dbo.objectparameters WITH (NOLOCK) WHERE profileid = '{profileId}' AND objectid = '{customSqlInfo.Name}'";
-
-                reader = Database.ExecuteReader();
-                while (reader.Read())
-                {
-                    var item = new CustomSqlInfoParameter
-                    {
-                        Name       = reader["parameterid"].ToString(),
-                        DataType   = reader["datatype"].ToString(),
-                        IsNullable = reader["nullableflag"] + string.Empty == "1"
-                    };
-
-                    items.Add(item);
-                }
-
-                reader.Close();
-
-                customSqlInfo.Parameters = items;
+                Tracer.Trace($"Fetching inputs parameters for {customSqlInfo.Name}");
+                customSqlInfo.Parameters = ReadInputParameters(customSqlInfo);
             }
 
             foreach (var customSqlInfo in list)
             {
-                var items = new List<CustomSqlInfoResult>();
-
-                Database.CommandText = $"select resultid,datatype, nullableflag from dbo.objectresults WITH (NOLOCK) WHERE profileid = '{profileId}' AND objectid = '{customSqlInfo.Name}'";
-                reader               = Database.ExecuteReader();
-                while (reader.Read())
-                {
-                    var item = new CustomSqlInfoResult
-                    {
-                        Name       = reader["resultid"].ToString(),
-                        DataType   = reader["datatype"].ToString(),
-                        IsNullable = reader["nullableflag"] + string.Empty == "1"
-                    };
-
-                    items.Add(item);
-                }
-
-                reader.Close();
-
-                customSqlInfo.ResultColumns = items;
+                Tracer.Trace($"Fetching result columns for {customSqlInfo.Name}");
+                customSqlInfo.ResultColumns = ReadResultColumns(customSqlInfo);
             }
 
-            var returnValue = new ProjectCustomSqlInfo
-            {
-                CustomSqlInfoList = list
-            };
+            ProjectCustomSqlInfo returnValue = null;
 
             Database.CommandText = $@"SELECT typesnamespace,typesprojectpath, businessnamespace,businessprojectpath FROM dbo.profileskt WITH(NOLOCK) WHERE profileid = '{profileId}'";
 
             reader = Database.ExecuteReader();
             while (reader.Read())
             {
-                returnValue.TypesProjectPath        = reader["typesprojectpath"].ToString();
-                returnValue.BusinessProjectPath     = reader["businessprojectpath"].ToString();
-                returnValue.NamespaceNameOfType     = reader["typesnamespace"].ToString();
-                returnValue.NamespaceNameOfBusiness = reader["businessnamespace"].ToString();
+                returnValue = new ProjectCustomSqlInfo
+                {
+                    CustomSqlInfoList       = list,
+                    TypesProjectPath        = reader["typesprojectpath"].ToString(),
+                    BusinessProjectPath     = reader["businessprojectpath"].ToString(),
+                    NamespaceNameOfType     = reader["typesnamespace"].ToString(),
+                    NamespaceNameOfBusiness = reader["businessnamespace"].ToString()
+                };
                 break;
             }
 
@@ -356,6 +322,55 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
             {
                 items.Add(reader["profileid"] + string.Empty);
+            }
+
+            reader.Close();
+
+            return items;
+        }
+
+        IReadOnlyList<CustomSqlInfoParameter> ReadInputParameters(CustomSqlInfo customSqlInfo)
+        {
+            var items = new List<CustomSqlInfoParameter>();
+
+            Database.CommandText = $"select parameterid,datatype,nullableflag from dbo.objectparameters WITH (NOLOCK) WHERE profileid = '{customSqlInfo.ProfileId}' AND objectid = '{customSqlInfo.Name}'";
+
+            var reader = Database.ExecuteReader();
+            while (reader.Read())
+            {
+                var item = new CustomSqlInfoParameter
+                {
+                    Name       = reader["parameterid"].ToString(),
+                    DataType   = reader["datatype"].ToString(),
+                    IsNullable = reader["nullableflag"] + string.Empty == "1"
+                };
+
+                items.Add(item);
+            }
+
+            reader.Close();
+
+            return items;
+        }
+
+        IReadOnlyList<CustomSqlInfoResult> ReadResultColumns(CustomSqlInfo customSqlInfo)
+        {
+            var items = new List<CustomSqlInfoResult>();
+
+            Database.CommandText = $"select resultid,datatype, nullableflag from dbo.objectresults WITH (NOLOCK) WHERE profileid = '{customSqlInfo.ProfileId}' AND objectid = '{customSqlInfo.Name}'";
+
+            var reader = Database.ExecuteReader();
+
+            while (reader.Read())
+            {
+                var item = new CustomSqlInfoResult
+                {
+                    Name       = reader["resultid"].ToString(),
+                    DataType   = reader["datatype"].ToString(),
+                    IsNullable = reader["nullableflag"] + string.Empty == "1"
+                };
+
+                items.Add(item);
             }
 
             reader.Close();
