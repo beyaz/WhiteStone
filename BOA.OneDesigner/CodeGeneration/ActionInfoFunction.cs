@@ -96,7 +96,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("}");
                 }
 
-                sb.AppendLine($@"BDialogHelper.show(form.state.context,{Data.YesNoQuestion}, DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",");
+                sb.AppendLine($@"BDialogHelper.show({mainFormPath}.state.context,{Data.YesNoQuestion}, DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",");
                 sb.PaddingCount++;
                 sb.AppendLine("(dialogResponse: any) =>");
                 sb.AppendLine("{");
