@@ -440,7 +440,7 @@ this.addToProcessQueue(() =>
 
 this.addToProcessQueue( () =>
 {
-    BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
+    BDialogHelper.show(this.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
         (dialogResponse: any) =>
         {
             if (dialogResponse === 1)
@@ -515,7 +515,7 @@ this.addToProcessQueue(() =>
 
 this.addToProcessQueue( () =>
 {
-    BDialogHelper.show(form.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
+    BDialogHelper.show(this.state.context,""MMM"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
         (dialogResponse: any) =>
         {
             if (dialogResponse === 1)
@@ -580,7 +580,7 @@ this.runProcessQueue();
 
 this.addToProcessQueue( () =>
 {
-    BDialogHelper.show(form.state.context,""Aloha"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
+    BDialogHelper.show(this.state.context,""Aloha"", DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",
         (dialogResponse: any) =>
         {
             if (dialogResponse === 1)

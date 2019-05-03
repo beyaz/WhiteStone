@@ -17,78 +17,91 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
             var information = dao.GetIndexInformation("CRD", "CARD_MASTER");
 
-            information.Should().BeEquivalentTo(JsonHelper.Deserialize<IReadOnlyList<IndexInfo>>(@"[
+            information.Should().BeEquivalentTo(JsonHelper.Deserialize<IReadOnlyList<IndexInfo>>(@"
+  [
   {
-    'Name': 'CARD_MASTER_LOYALTY_NO',
-    'IsClustered': false,
-    'IsNonClustered': true,
-    'IsUnique': false,
-    'IsPrimaryKey': false,
     'ColumnNames': [
       'LOYALTY_NO'
-    ]
-  },
-  {
-    'Name': 'IX_CARD_MASTER_1',
+    ],
     'IsClustered': false,
     'IsNonClustered': true,
-    'IsUnique': false,
     'IsPrimaryKey': false,
+    'IsUnique': false,
+    'Name': 'CARD_MASTER_LOYALTY_NO'
+  },
+  {
     'ColumnNames': [
       'CUSTOMER_NUMBER'
-    ]
-  },
-  {
-    'Name': 'IX_CARD_MASTER_2',
+    ],
     'IsClustered': false,
     'IsNonClustered': true,
-    'IsUnique': true,
     'IsPrimaryKey': false,
+    'IsUnique': false,
+    'Name': 'IX_CARD_MASTER_1'
+  },
+  {
     'ColumnNames': [
       'SHADOW_CARD_NUMBER'
-    ]
-  },
-  {
-    'Name': 'IX_CARD_MASTER_CARD_REF_NUMBER',
+    ],
     'IsClustered': false,
     'IsNonClustered': true,
-    'IsUnique': true,
     'IsPrimaryKey': false,
+    'IsUnique': true,
+    'Name': 'IX_CARD_MASTER_2'
+  },
+  {
     'ColumnNames': [
       'CARD_REF_NUMBER'
-    ]
-  },
-  {
-    'Name': 'IX_CARD_MASTER_MAIN_CARD_REF_NUMBER',
+    ],
     'IsClustered': false,
     'IsNonClustered': true,
-    'IsUnique': false,
     'IsPrimaryKey': false,
+    'IsUnique': false,
+    'Name': 'IX_CARD_MASTER_CARD_REF_NUMBER'
+  },
+  {
+    'ColumnNames': [
+      'ROW_GUID'
+    ],
+    'IsClustered': false,
+    'IsNonClustered': true,
+    'IsPrimaryKey': false,
+    'IsUnique': true,
+    'Name': 'IX_CARD_MASTER_CARD_REF_NUMBER_MASKED_CARD_NUMBER'
+  },
+  {
     'ColumnNames': [
       'MAIN_CARD_REF_NUMBER'
-    ]
-  },
-  {
-    'Name': 'IX_CARD_MASTER_MAIN_CUSTOMER_NUMBER',
+    ],
     'IsClustered': false,
     'IsNonClustered': true,
-    'IsUnique': false,
     'IsPrimaryKey': false,
-    'ColumnNames': [
-      'MAIN_CUSTOMER_NUMBER'
-    ]
+    'IsUnique': false,
+    'Name': 'IX_CARD_MASTER_MAIN_CARD_REF_NUMBER'
   },
   {
-    'Name': 'PK_CARD_MASTER',
-    'IsClustered': true,
-    'IsNonClustered': false,
-    'IsUnique': true,
-    'IsPrimaryKey': true,
+    'ColumnNames': [
+      'MAIN_CUSTOMER_NUMBER'
+    ],
+    'IsClustered': false,
+    'IsNonClustered': true,
+    'IsPrimaryKey': false,
+    'IsUnique': false,
+    'Name': 'IX_CARD_MASTER_MAIN_CUSTOMER_NUMBER'
+  },
+  {
     'ColumnNames': [
       'RECORD_ID'
-    ]
+    ],
+    'IsClustered': true,
+    'IsNonClustered': false,
+    'IsPrimaryKey': true,
+    'IsUnique': true,
+    'Name': 'PK_CARD_MASTER'
   }
-]"));
+]
+
+"));
         }
         #endregion
     }
