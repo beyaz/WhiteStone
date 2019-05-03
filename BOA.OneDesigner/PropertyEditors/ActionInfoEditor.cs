@@ -15,11 +15,10 @@ namespace BOA.OneDesigner.PropertyEditors
     public class ActionInfoEditorModel
     {
         #region Public Properties
-        public bool       CustomHandlerFunctionExpanderIsExpanded { get; set; }
+        public bool AdvancedIsExpanded                      { get; set; }
+        public bool CustomHandlerFunctionExpanderIsExpanded { get; set; }
 
-        public bool AdvancedIsExpanded { get; set; }
-
-        public ActionInfo Info                                    { get; set; }
+        public ActionInfo Info { get; set; }
 
         public bool OrchestrationCallExpanderIsExpanded { get; set; }
         #endregion
@@ -51,12 +50,7 @@ namespace BOA.OneDesigner.PropertyEditors
                 Info = info
             };
 
-
-           
-
-            
-            
-            if (info.OpenFormWithResourceCode.HasValue() || info.YesNoQuestionInfo.GetDesignerText().HasValue() )
+            if (info.OpenFormWithResourceCode.HasValue() || info.YesNoQuestionInfo.HasValue())
             {
                 model.AdvancedIsExpanded = true;
             }
@@ -68,8 +62,6 @@ namespace BOA.OneDesigner.PropertyEditors
             {
                 model.OrchestrationCallExpanderIsExpanded = true;
             }
-            
-
 
             DataContext = model;
 
@@ -77,7 +69,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
             LoadUI();
         }
-        #endregion
+
         public void OnIsInDialogBoxChanged()
         {
             if (Model.Info.CssOfDialog.IsNullOrWhiteSpace())
@@ -95,6 +87,8 @@ namespace BOA.OneDesigner.PropertyEditors
                 element.GetBindingExpression(LabeledTextBox.TextProperty)?.UpdateTarget();
             }
         }
+        #endregion
+
         #region Methods
         void LoadUI()
         {

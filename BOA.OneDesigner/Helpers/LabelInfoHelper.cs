@@ -46,6 +46,16 @@ namespace BOA.OneDesigner.Helpers
 
             return "?";
         }
+
+        public static bool HasValue(this LabelInfo labelInfo)
+        {
+            if (labelInfo == null)
+            {
+                return false;
+            }
+
+            return labelInfo.IsFreeText || labelInfo.IsFromMessaging || labelInfo.IsRequestBindingPath;
+        }
         #endregion
     }
 }
