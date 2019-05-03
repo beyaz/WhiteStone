@@ -1,12 +1,14 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.EntityGeneration.SchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
     [TestClass]
     public class BOACardDatabaseExporterTest
     {
+        class TestKernel : Kernel
+        {
+        }
+
         #region Public Methods
         [TestMethod]
         public void Export()
@@ -28,7 +30,5 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
         #endregion
     }
 
-    class TestKernel : Kernel
-    {
-    }
+    
 }

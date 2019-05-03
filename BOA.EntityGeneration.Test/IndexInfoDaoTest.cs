@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
-using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.EntityGeneration.DbModelDao
+namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     [TestClass]
     public class IndexInfoDaoTest

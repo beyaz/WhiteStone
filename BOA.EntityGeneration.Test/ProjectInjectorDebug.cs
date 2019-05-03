@@ -1,11 +1,8 @@
-﻿using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 
-namespace BOA.EntityGeneration.SchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
 {
     [TestClass]
     public class ProjectInjectorDebug
