@@ -6,7 +6,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
     public class AllInOneForTypeDll
     {
         [Inject]
-        public TypeWriter TypeWriter { get; set; }
+        public TypeClassWriter TypeClassWriter { get; set; }
 
         public string GetCode( ProjectCustomSqlInfo data)
         {
@@ -30,12 +30,12 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            TypeWriter.Write_ICustomSqlProxy(sb);
+            TypeClassWriter.Write_ICustomSqlProxy(sb);
 
             foreach (var item in data.CustomSqlInfoList)
             {
                 sb.AppendLine();
-                TypeWriter.Write(sb,item);
+                TypeClassWriter.Write(sb,item);
             }
 
 

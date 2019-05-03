@@ -3,7 +3,7 @@ using BOA.EntityGeneration.ScriptModel;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
 {
-    public class TypeWriter
+    public class TypeClassWriter
     {
         public void Write_ICustomSqlProxy(PaddedStringBuilder sb)
         {
