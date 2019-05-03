@@ -7,12 +7,22 @@ using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-// using BOA.OneDesigner.MainForm;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
+
+    static class Imports
+    {
+        public const string DialogHelper  = "import { BDialogHelper } from \"b-dialog-box\";";
+
+        public const string DialogType = "import { DialogType } from \"b-component\";";
+        public const string DialogResponseStyle = "import { DialogResponseStyle } from \"b-component\";";
+        public const string DialogResponse = "import { DialogResponse } from \"b-component\";";
+        
+    }
+
     static class TransactionPage
     {
         #region Public Methods
@@ -534,7 +544,7 @@ addToProcessQueue(fn: Function)
 
             if (writerContext.RequestIntellisenseData.HasPropertyLikeDialogResponse)
             {
-                writerContext.Imports.Add("import { BDialogHelper } from \"b-dialog-box\";");
+                writerContext.Imports.Add(Imports.DialogHelper);
 
                 sb.AppendLine("if(value.dialogResponse > 0)");
                 sb.AppendLine("{");

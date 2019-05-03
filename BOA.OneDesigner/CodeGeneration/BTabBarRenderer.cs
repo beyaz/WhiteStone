@@ -86,6 +86,8 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 writerContextMain.HandleProxyDidRespondCallback = true;
             }
+
+            writerContextMain.Imports.AddRange(writerContext.Imports);
             
         }
 

@@ -33,7 +33,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var executeWindowRequest = WriterContext.ExecuteWindowRequestFunctionAccessPath;
 
             if (Data.OrchestrationMethodName.HasValue() &&
-                Data.OpenFormWithResourceCode.IsNullOrEmpty())
+                Data.OpenFormWithResourceCode.IsNullOrEmpty() && Data.YesNoQuestion.IsNullOrWhiteSpace())
             {
                 sb.AppendLine($"{executeWindowRequest}(\"{Data.OrchestrationMethodName}\");");
                 return sb.ToString();
@@ -96,7 +96,12 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("}");
                 }
 
-                sb.AppendLine($@"BDialogHelper.show({mainFormPath}.state.context,{Data.YesNoQuestion}, DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",");
+                WriterContext.Imports.Add(Imports.DialogHelper);
+                WriterContext.Imports.Add(Imports.DialogType);
+                WriterContext.Imports.Add(Imports.DialogResponseStyle);
+                WriterContext.Imports.Add(Imports.DialogResponse);
+
+                sb.AppendLine($@"BDialogHelper.show({mainFormPath}.state.context, {Data.YesNoQuestion}, DialogType.QUESTION, DialogResponseStyle.YESNO, ""Soru"",");
                 sb.PaddingCount++;
                 sb.AppendLine("(dialogResponse: any) =>");
                 sb.AppendLine("{");
