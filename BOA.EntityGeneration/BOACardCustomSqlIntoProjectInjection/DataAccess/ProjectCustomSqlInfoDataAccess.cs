@@ -5,8 +5,6 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
