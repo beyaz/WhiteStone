@@ -1,8 +1,6 @@
 ﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
@@ -46,6 +44,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 
             foreach (var item in data.CustomSqlInfoList)
             {
+                Tracer.Trace($"Writing parameter class {item.ParameterContractName}");
                 sb.AppendLine();
                 BusinessClassWriter.Write(sb, item);
             }
