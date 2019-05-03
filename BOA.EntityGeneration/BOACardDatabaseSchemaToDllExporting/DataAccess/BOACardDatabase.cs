@@ -1,7 +1,6 @@
-﻿using System;
-using BOA.DatabaseAccess;
+﻿using BOA.DatabaseAccess;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
     public class BOACardDatabase : SqlDatabase
     {

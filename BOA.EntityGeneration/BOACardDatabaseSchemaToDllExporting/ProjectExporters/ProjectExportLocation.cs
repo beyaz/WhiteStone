@@ -1,4 +1,4 @@
-﻿namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+﻿namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
     public class ProjectExportLocation
     {

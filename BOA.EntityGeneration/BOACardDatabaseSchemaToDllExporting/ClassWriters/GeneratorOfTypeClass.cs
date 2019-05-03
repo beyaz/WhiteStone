@@ -1,8 +1,10 @@
 ﻿using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using Ninject;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     public class GeneratorOfTypeClass
     {

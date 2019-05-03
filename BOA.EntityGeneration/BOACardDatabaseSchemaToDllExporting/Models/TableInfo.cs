@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using BOA.EntityGeneration.DbModel;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
 {
     /// <summary>
     ///     The generator data

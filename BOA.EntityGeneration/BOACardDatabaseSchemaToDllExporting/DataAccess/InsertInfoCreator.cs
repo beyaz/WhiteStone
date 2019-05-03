@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.EntityGeneration.DbModel;
-using static BOA.EntityGeneration.Names2;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
     public class InsertInfoCreator : ScriptModel.Creators.InsertInfoCreator
     {
@@ -12,14 +11,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         {
             var excludedColumnNames = new List<string>
             {
-                UPDATE_DATE,
-                UPDATE_USER_ID,
-                UPDATE_TOKEN_ID,
+                Names2.UPDATE_DATE,
+                Names2.UPDATE_USER_ID,
+                Names2.UPDATE_TOKEN_ID,
 
-                UpdateUserName,
-                UpdateHostName,
-                UpdateHostIP,
-                UpdateSystemDate
+                Names2.UpdateUserName,
+                Names2.UpdateHostName,
+                Names2.UpdateHostIP,
+                Names2.UpdateSystemDate
             };
 
             if (tableInfo.HasIdentityColumn)

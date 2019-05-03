@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using BOA.EntityGeneration.DbModel;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
 {
     static class ParameterHelper
     {

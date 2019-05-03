@@ -2,11 +2,14 @@
 using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using Ninject;
+using InsertInfoCreator = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess.InsertInfoCreator;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     public class GeneratorOfBusinessClass
     {

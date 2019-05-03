@@ -1,7 +1,8 @@
 ﻿using BOA.DatabaseAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using Ninject;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
     public class Kernel : StandardKernel
     {

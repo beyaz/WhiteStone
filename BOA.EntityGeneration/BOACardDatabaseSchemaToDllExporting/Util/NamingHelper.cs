@@ -1,4 +1,4 @@
-﻿namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+﻿namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
 {
     public class NamingHelper
     {

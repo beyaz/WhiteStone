@@ -1,6 +1,6 @@
 ﻿using Ninject;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
     public class BOACardDatabaseExporter
     {
