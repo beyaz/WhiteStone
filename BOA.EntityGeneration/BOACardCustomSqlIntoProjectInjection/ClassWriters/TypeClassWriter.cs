@@ -1,7 +1,7 @@
 ﻿using BOA.Common.Helpers;
-using BOA.EntityGeneration.ScriptModel;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
+namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 {
     public class TypeClassWriter
     {

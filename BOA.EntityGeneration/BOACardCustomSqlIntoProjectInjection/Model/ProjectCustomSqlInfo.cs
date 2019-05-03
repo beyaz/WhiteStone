@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
+namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model
 {
     [Serializable]
     public class ProjectCustomSqlInfo

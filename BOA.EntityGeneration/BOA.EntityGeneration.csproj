@@ -51,10 +51,10 @@
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Model\CustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Model\CustomSqlInfoParameter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Model\CustomSqlInfoResult.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\DataAccess\DataAccess.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\DataAccess\ProjectCustomSqlInfoDataAccess.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Model\ProjectCustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Injectors\ProjectInjector.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\TypeWriter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\TypeClassWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllTypeClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\BusinessDllCompiler.cs" />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
+namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model
 {
     [Serializable]
     public class CustomSqlInfoResult

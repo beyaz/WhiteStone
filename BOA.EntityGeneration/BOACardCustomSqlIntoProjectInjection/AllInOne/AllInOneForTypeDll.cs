@@ -1,7 +1,9 @@
 ﻿using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model;
 using Ninject;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
+namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 {
     public class AllInOneForTypeDll
     {

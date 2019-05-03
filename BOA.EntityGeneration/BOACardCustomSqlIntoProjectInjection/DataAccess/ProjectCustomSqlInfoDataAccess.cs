@@ -4,11 +4,12 @@ using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Ninject;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
+namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 {
     public class ProjectCustomSqlInfoDataAccess
     {

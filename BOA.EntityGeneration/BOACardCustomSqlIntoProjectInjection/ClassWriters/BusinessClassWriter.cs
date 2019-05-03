@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection
+namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 {
     public class BusinessClassWriter
     {

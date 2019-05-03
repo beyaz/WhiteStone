@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Model;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
