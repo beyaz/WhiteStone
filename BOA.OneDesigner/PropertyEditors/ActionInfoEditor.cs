@@ -43,6 +43,11 @@ namespace BOA.OneDesigner.PropertyEditors
                 throw new ArgumentNullException(nameof(info));
             }
 
+            if (info.YesNoQuestionInfo == null)
+            {
+                info.YesNoQuestionInfo = new LabelInfo();
+            }
+
             Host = host;
 
             var model = new ActionInfoEditorModel

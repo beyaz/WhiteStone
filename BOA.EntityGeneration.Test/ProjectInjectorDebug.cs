@@ -14,13 +14,13 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
             {
                  
                  // bize ait değil kernel.Get<ProjectInjector>().Inject("CRD_MANAGEMENT");
-                 kernel.Get<ProjectInjector>().Inject("TMS");
+                 // kernel.Get<ProjectInjector>().Inject("TMS");
 
                 // // kernel.Get<ProjectInjector>().Inject("ACQUIRING");
                 // // kernel.Get<ProjectInjector>().Inject("ACQUIRING_APPLICATION");
                 // // kernel.Get<ProjectInjector>().Inject("BKM_MANAGEMENT");
                 // // kernel.Get<ProjectInjector>().Inject("CARD_APPLICATION");
-                // // kernel.Get<ProjectInjector>().Inject("CC_OPERATIONS");
+                 kernel.Get<ProjectInjector>().Inject("CC_OPERATIONS");
                 // // kernel.Get<ProjectInjector>().Inject("CLEARING_COMMON");
                 // // kernel.Get<ProjectInjector>().Inject("CRD_INSTANT");
                 // // kernel.Get<ProjectInjector>().Inject("CRD_ISSUING");
