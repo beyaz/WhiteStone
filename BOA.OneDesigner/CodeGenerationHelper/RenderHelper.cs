@@ -14,7 +14,21 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             actionInfo.DialogTitle   = RenderHelper.GetLabelValue(writerContext, actionInfo.DialogTitleInfo);
             actionInfo.YesNoQuestion = RenderHelper.GetLabelValue(writerContext, actionInfo.YesNoQuestionInfo);
 
+            if (actionInfo.YesNoQuestionInfo.HasValue() && 
+                actionInfo.YesNoQuestionInfo.IsRequestBindingPath && 
+                actionInfo.YesNoQuestion.StartsWith(Config.BindingPrefixInJs,StringComparison.OrdinalIgnoreCase))
+            {
+                actionInfo.YesNoQuestion = actionInfo.YesNoQuestion.Replace(Config.BindingPrefixInJs, "this.state.windowRequest.");
+            }
+
+            if (actionInfo.DialogTitleInfo.HasValue()&&
+                actionInfo.DialogTitleInfo.IsRequestBindingPath && 
+                actionInfo.DialogTitle.StartsWith(Config.BindingPrefixInJs,StringComparison.OrdinalIgnoreCase))
+            {
+                actionInfo.DialogTitle = actionInfo.DialogTitle.Replace(Config.BindingPrefixInJs, "this.state.windowRequest.");
+            }
         }
+
         #region Public Properties
         public static bool IsCommentEnabled => false;
         #endregion

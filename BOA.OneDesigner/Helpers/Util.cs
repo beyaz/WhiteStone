@@ -9,7 +9,7 @@ namespace BOA.OneDesigner.Helpers
         #region Public Methods
         public static bool HasExtensionFile(ScreenInfo screenInfo)
         {
-            var hasAnyResourceActionContainsCustomFunction = screenInfo.ResourceActions?.Any(x => x.ExtensionMethodName.HasValue()) == true;
+            var hasAnyResourceActionContainsCustomFunction = screenInfo.ResourceActions?.Any(x => x.OnClickAction?.ExtensionMethodName?.HasValue() == true) == true;
 
             return screenInfo.ExtensionAfterConstructor || screenInfo.ExtensionAfterProxyDidRespond || hasAnyResourceActionContainsCustomFunction;
         }
