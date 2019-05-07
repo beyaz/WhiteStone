@@ -5,10 +5,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
     [TestClass]
     public class BOACardDatabaseExporterTest
     {
-        class TestKernel : Kernel
-        {
-        }
-
         #region Public Methods
         [TestMethod]
         public void Export()
@@ -28,7 +24,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             }
         }
         #endregion
-    }
 
-    
+        class TestKernel : Kernel
+        {
+        }
+    }
 }

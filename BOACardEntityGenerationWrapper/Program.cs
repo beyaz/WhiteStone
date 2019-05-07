@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.TfsAccess;
 

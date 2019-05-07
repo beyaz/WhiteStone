@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.TfsAccess;
 using Ninject;
@@ -14,7 +12,6 @@ namespace CustomSqlInjectionToProject
         #region Methods
         static void Main(string[] args)
         {
-
             if (args == null || args.Length == 0)
             {
                 throw new ArgumentException(nameof(args));
