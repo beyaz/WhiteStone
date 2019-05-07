@@ -10,17 +10,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
     public class CustomSqlInfo
     {
         #region Public Properties
-
-        public string ProfileId{ get; set; }
         /// <summary>
         ///     Gets the name of the business class.
         /// </summary>
         public string BusinessClassName => Name.ToContractName();
-
-        /// <summary>
-        ///     Gets or sets the business class namespace.
-        /// </summary>
-        public string BusinessClassNamespace { get; set; }
 
         /// <summary>
         ///     Gets or sets the name.
@@ -36,6 +29,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
         ///     Gets or sets the parameters.
         /// </summary>
         public IReadOnlyList<CustomSqlInfoParameter> Parameters { get; set; }
+
+        public string ProfileId { get; set; }
 
         /// <summary>
         ///     Gets or sets the result columns.

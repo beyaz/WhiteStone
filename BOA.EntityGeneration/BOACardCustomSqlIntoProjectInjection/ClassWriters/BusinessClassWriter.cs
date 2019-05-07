@@ -6,6 +6,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 {
     public class BusinessClassWriter
     {
+        
         public void Write_CustomSqlClass(PaddedStringBuilder sb, ProjectCustomSqlInfo project)
         {
             sb.AppendLine("public static class CustomSql");
@@ -50,8 +51,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
         }
 
         #region Public Methods
-        public void Write(PaddedStringBuilder sb, CustomSqlInfo data)
+        public void Write(PaddedStringBuilder sb, CustomSqlInfo data,ProjectCustomSqlInfo projectCustomSqlInfo)
         {
+
+            var key = $"{projectCustomSqlInfo.NamespaceNameOfBusiness}.{data.BusinessClassName}.Execute";
+
             WriteComment(sb, data);
             sb.AppendLine($"public sealed class {data.BusinessClassName} : ObjectHelper");
             sb.AppendLine("{");
@@ -70,7 +74,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{data.ResultContractName}>>(\"{data.BusinessClassNamespace}.{data.BusinessClassName}.Execute\");");
+                sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{data.ResultContractName}>>(\"{key}\");");
 
 
                 sb.AppendLine();
@@ -137,7 +141,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<{data.ResultContractName}>(\"{data.BusinessClassNamespace}.{data.BusinessClassName}.Execute\");");
+                sb.AppendLine($"var returnObject = InitializeGenericResponse<{data.ResultContractName}>(\"{key}\");");
 
 
                 sb.AppendLine();
