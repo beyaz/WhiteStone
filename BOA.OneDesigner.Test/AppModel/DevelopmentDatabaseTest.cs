@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.TypescriptModelGeneration;
@@ -61,6 +62,11 @@ namespace BOA.OneDesigner.AppModel
         [TestMethod]
         public void SaveToFile()
         {
+            //var items = BinarySerialization.Deserialize<List<ScreenInfo>>(File.ReadAllBytes("SaveToFile-3-29-11-33.bin"));
+
+            //var visa = items.Where(x=>x.OutputTypeScriptFileName.IndexOf("visa",StringComparison.OrdinalIgnoreCase) >=0).ToList();
+
+
             using (var database = new DevelopmentDatabase())
             {
                 var path = nameof(SaveToFile) + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + ".bin";
