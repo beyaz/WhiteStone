@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Ninject;
 
@@ -9,6 +10,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
     public class SchemaExporterDataPreparer
     {
+        #region Fields
+        static readonly Dictionary<string, IReadOnlyList<TableInfo>> Cache = new Dictionary<string, IReadOnlyList<TableInfo>>();
+        #endregion
+
         #region Public Properties
         [Inject]
         public IDatabase Database { get; set; }
@@ -18,11 +23,20 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
         [Inject]
         public TableInfoDao TableInfoDao { get; set; }
+
+        [Inject]
+        public Tracer Tracer { get; set; }
         #endregion
 
         #region Public Methods
-        public virtual IReadOnlyList<TableInfo> Prepare(string schemaName)
+        public IReadOnlyList<TableInfo> Prepare(string schemaName)
         {
+            if (Cache.ContainsKey(schemaName))
+            {
+                Tracer.Trace($"Fetching from cache {schemaName}");
+                return Cache[schemaName];
+            }
+
             var tableNames = SchemaInfo.GetAllTableNamesInSchema(Database, schemaName).ToList();
 
             tableNames = tableNames.Where(x => IsReadyToExport(schemaName, x)).ToList();
@@ -37,6 +51,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
                 items.Add(generatorData);
             }
+
+            Cache[schemaName] = items;
 
             return items;
         }

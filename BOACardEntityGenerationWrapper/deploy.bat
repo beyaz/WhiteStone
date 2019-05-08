@@ -1,12 +1,11 @@
-cd\
-cd windows
-cd system32
 
 
 
 rmdir /q/s "\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\Generator"
 
 robocopy "D:\github\WhiteStone\BOACardEntityGenerationWrapper\bin\Debug" "\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\Generator" /E
+
+robocopy "D:\github\WhiteStone\BOA.EntityGeneration\bin\Debug" "\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\Generator" /E
 
 
 

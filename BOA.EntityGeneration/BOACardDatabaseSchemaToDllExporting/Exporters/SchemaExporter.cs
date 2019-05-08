@@ -2,6 +2,7 @@
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
@@ -18,8 +19,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         [Inject]
         public BatExporter BatExporter { get; set; }
 
-        
-
         [Inject]
         public BusinessProjectExporter BusinessProjectExporter { get; set; }
 
@@ -32,16 +31,22 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         [Inject]
         public GeneratorOfTypeClass GeneratorOfTypeClass { get; set; }
 
-        
-
         [Inject]
         public TypesProjectExporter TypesProjectExporter { get; set; }
         #endregion
+        [Inject]
+        public Tracer Tracer { get; set; }
+
 
         #region Public Methods
         public void Export(string schemaName)
         {
+
+            Tracer.Trace($"*** Started to export type classes {schemaName} ***");
+
             ExportTypeDll(schemaName);
+
+            Tracer.Trace($"*** Started to export business classes {schemaName} ***");
             ExportBusinessDll(schemaName);
 
             BatExporter.Export(schemaName);
@@ -54,8 +59,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             var code = AllBusinessClassesInOne.GetCode(schemaName);
 
             BusinessProjectExporter.Export(schemaName, code);
-
-            // BusinessDllCompiler.Compile(schemaName, code);
         }
 
         void ExportTypeDll(string schemaName)
@@ -63,8 +66,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             var code = AllTypeClassesInOne.GetCode(schemaName);
 
             TypesProjectExporter.Export(schemaName, code);
-
-            //TypeDllCompiler.Compile(schemaName, code);
         }
         #endregion
     }

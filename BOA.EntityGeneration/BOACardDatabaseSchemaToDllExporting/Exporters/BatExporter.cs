@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         #region Public Properties
         public string MsBuildExe     { get; set; } = @"%programfiles(x86)%\MSBuild\12.0\Bin\MSBuild.exe";
         public string SharedDir      { get; set; } = @"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\";
-        public string TargetLocalDir { get; set; } = @"d:\boa\BOACard.EntityGeneration\";
+        public string TargetLocalDir { get; set; } = @"d:\boa\BOACard.EntityGeneration";
         #endregion
     }
 
@@ -40,13 +40,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             var typeClassNamespace = NamingHelper.GetTypeClassNamespace(schemaName);
 
             var content = $@"
-cd\
-cd windows
-cd system32
-
 robocopy ""{BatFileLocationInfo.SharedDir}Generator"" ""{BatFileLocationInfo.TargetLocalDir}"" /E
 
-{BatFileLocationInfo.TargetLocalDir}BOACardEntityGenerationWrapper.exe %~n0
+{BatFileLocationInfo.TargetLocalDir}\BOACardEntityGenerationWrapper.exe %~n0
 
 ""{BatFileLocationInfo.MsBuildExe}"" ""{projectLocationParentDir}{typeClassNamespace}\{typeClassNamespace}.csproj""
 ""{BatFileLocationInfo.MsBuildExe}"" ""{projectLocationParentDir}{businessClassNamespace}\{businessClassNamespace}.csproj""
@@ -66,9 +62,7 @@ if NOT [""%errorlevel%""]==[""0""] pause
 
             var lines = new List<string>
             {
-                @"cd\
-cd windows
-cd system32
+                $@"
 robocopy ""{BatFileLocationInfo.SharedDir}Generator"" ""{BatFileLocationInfo.TargetLocalDir}"" /E
 "
             };
@@ -84,7 +78,7 @@ robocopy ""{BatFileLocationInfo.SharedDir}Generator"" ""{BatFileLocationInfo.Tar
                 lines.Add($@"
 
 
-{BatFileLocationInfo.TargetLocalDir}BOACardEntityGenerationWrapper.exe {schemaName}
+{BatFileLocationInfo.TargetLocalDir}\BOACardEntityGenerationWrapper.exe {schemaName}
 
 ""{BatFileLocationInfo.MsBuildExe}"" ""{projectLocationParentDir}{typeClassNamespace}\{typeClassNamespace}.csproj""
 ""{BatFileLocationInfo.MsBuildExe}"" ""{projectLocationParentDir}{businessClassNamespace}\{businessClassNamespace}.csproj""

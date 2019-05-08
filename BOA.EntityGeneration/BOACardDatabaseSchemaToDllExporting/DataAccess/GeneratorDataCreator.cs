@@ -1,25 +1,24 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Ninject;
-using TableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.TableInfo;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
     public class GeneratorDataCreator
     {
-        [Inject]
-        public Tracer Tracer { get; set; }
-
         #region Public Properties
         [Inject]
         public IDatabase Database { get; set; }
 
         [Inject]
         public TableOverride TableOverride { get; set; }
+
+        [Inject]
+        public Tracer Tracer { get; set; }
         #endregion
 
         #region Public Methods
