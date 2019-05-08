@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
@@ -34,7 +35,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         #region Methods
         void Write(PaddedStringBuilder sb, string schemaName)
         {
-            var isFirst = true;
 
             var items = DataPreparer.Prepare(schemaName);
 
@@ -43,18 +43,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
                 throw new NotImplementedException(schemaName);
             }
 
+            GeneratorOfBusinessClass.WriteUsingList(sb, items.First());
+            sb.AppendLine();
+            sb.AppendLine($"namespace {NamingHelper.GetBusinessClassNamespace(schemaName)}");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            ReadNullableFlag(sb);
+
             foreach (var tableInfo in items)
             {
-                if (isFirst)
-                {
-                    GeneratorOfBusinessClass.WriteUsingList(sb, tableInfo);
-                    sb.AppendLine();
-                    sb.AppendLine($"namespace {NamingHelper.GetBusinessClassNamespace(schemaName)}");
-                    sb.AppendLine("{");
-                    sb.PaddingCount++;
-
-                    isFirst = false;
-                }
                 Tracer.Trace($"Generating Business class for {tableInfo.TableName}");
                 sb.AppendLine();
                 GeneratorOfBusinessClass.WriteClass(sb, tableInfo);
@@ -63,6 +61,28 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
             sb.PaddingCount--;
             sb.AppendLine("}"); // end of namespace    
             
+        }
+
+        static void ReadNullableFlag(PaddedStringBuilder sb)
+        {
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine("///     Utility methods");
+            sb.AppendLine("/// </summary>");
+            sb.AppendLine("static class Util");
+            sb.AppendLine("{");
+            sb.AppendLine("     /// <summary>");
+            sb.AppendLine("	    ///     Read nullable flag");
+            sb.AppendLine("	    /// </summary>");
+            sb.AppendLine("	    public static bool? ReadNullableFlag(string flag)");
+            sb.AppendLine("	    {");
+            sb.AppendLine("		    if (flag == null)");
+            sb.AppendLine("		    {");
+            sb.AppendLine("			    return null;");
+            sb.AppendLine("		    }");
+            sb.AppendLine();
+            sb.AppendLine("		    return flag == \"1\";");
+            sb.AppendLine("	    }");
+            sb.AppendLine("}");
         }
 
         [Inject]

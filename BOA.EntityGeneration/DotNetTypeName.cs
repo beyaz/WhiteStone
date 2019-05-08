@@ -6,6 +6,7 @@ namespace BOA.EntityGeneration
     {
         #region Constants
         public const string DotNetBool            = "bool";
+        public const string DotNetBoolNullable = "bool?";
         public const string DotNetByte            = "byte";
         public const string DotNetByteArray       = "byte[]";
         public const string DotNetDateTime        = "DateTime";

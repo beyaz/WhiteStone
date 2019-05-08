@@ -14,9 +14,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
             }
 
             
-            if (columnInfo.DotNetType == DotNetTypeName.DotNetBool && columnInfo.SqlDbType == SqlDbType.Char)
+            if (columnInfo.SqlDbType == SqlDbType.Char &&
+                columnInfo.DotNetType == DotNetTypeName.DotNetBool )
             {
                 return $"{contractVariableName}.{columnInfo.ColumnName.ToContractName()} ? \"1\" : \"0\"";
+            }
+
+            if (columnInfo.SqlDbType == SqlDbType.Char &&
+                columnInfo.DotNetType == DotNetTypeName.DotNetBoolNullable)
+            {
+                return $"{contractVariableName}.{columnInfo.ColumnName.ToContractName()} == true ? \"1\" : \"0\"";
             }
 
             if (columnInfo.ColumnName == Names2.INSERT_DATE || columnInfo.ColumnName == Names2.UPDATE_DATE)
@@ -39,9 +46,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
 
         public static string GetValueForSqlUpdate(ColumnInfo columnInfo, string contractVariableName = "contract")
         {
-            if (columnInfo.DotNetType == DotNetTypeName.DotNetBool && columnInfo.SqlDbType == SqlDbType.Char)
+            if (columnInfo.SqlDbType == SqlDbType.Char &&
+                columnInfo.DotNetType == DotNetTypeName.DotNetBool )
             {
                 return $"{contractVariableName}.{columnInfo.ColumnName.ToContractName()} ? \"1\" : \"0\"";
+            }
+
+            if (columnInfo.SqlDbType == SqlDbType.Char &&
+                columnInfo.DotNetType == DotNetTypeName.DotNetBoolNullable)
+            {
+                return $"{contractVariableName}.{columnInfo.ColumnName.ToContractName()} == true ? \"1\" : \"0\"";
             }
 
             if (columnInfo.ColumnName == Names2.INSERT_DATE || columnInfo.ColumnName == Names2.UPDATE_DATE)

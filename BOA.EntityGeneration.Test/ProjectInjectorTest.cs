@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
@@ -38,6 +39,8 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 code.Should().Contain("public decimal? PartDecimal { get; set; }");
                 code.Should().Contain("public short? PartShort { get; set; }");
                 code.Should().Contain("public short? PartSmallInt { get; set; }");
+                code.Should().Contain("public string PartChar { get; set; }");
+                code.Should().Contain("public bool? PartCharWithFlag { get; set; }");
             }
         }
 
@@ -67,6 +70,8 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_DECIMAL\", SqlDbType.Decimal, request.PartDecimal);");
                 code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_SHORT\", SqlDbType.SmallInt, request.PartShort);");
                 code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_SMALL_INT\", SqlDbType.SmallInt, request.PartSmallInt);");
+                code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_CHAR\", SqlDbType.Char, request.PartChar);");
+                code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_CHAR_WITH_FLAG\", SqlDbType.Char, request.PartCharWithFlag ? \"1\" : \"0\");");
             }
         }
         #endregion
@@ -176,6 +181,18 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                                 {
                                     Name       = "PART_SMALL_INT",
                                     DataType   = "smallint",
+                                    IsNullable = true
+                                },
+                                new CustomSqlInfoParameter
+                                {
+                                    Name       = "PART_CHAR",
+                                    DataType   = "char",
+                                    IsNullable = true
+                                },
+                                new CustomSqlInfoParameter
+                                {
+                                    Name       = "PART_CHAR_WITH_FLAG",
+                                    DataType   = "char",
                                     IsNullable = true
                                 }
                             },

@@ -481,9 +481,24 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            foreach (var c in tableInfo.Columns)
+            foreach (var columnInfo in tableInfo.Columns)
             {
-                sb.AppendLine($"{contractParameterName}.{c.ColumnName.ToContractName()} = SQLDBHelper.{c.SqlReaderMethod}(reader[\"{c.ColumnName}\"]);");
+                if (columnInfo.SqlDbType == SqlDbType.Char &&
+                    columnInfo.DotNetType == DotNetTypeName.DotNetBool )
+                {
+                    sb.AppendLine($"{contractParameterName}.{columnInfo.ColumnName.ToContractName()} = SQLDBHelper.GetStringValue(reader[\"{columnInfo.ColumnName}\"]) == \"1\";");
+                }
+                else if (columnInfo.SqlDbType == SqlDbType.Char &&
+                    columnInfo.DotNetType == DotNetTypeName.DotNetBoolNullable)
+                {
+                    sb.AppendLine($"{contractParameterName}.{columnInfo.ColumnName.ToContractName()} = Util.ReadNullableFlag(SQLDBHelper.GetStringValue(reader[\"{columnInfo.ColumnName}\"]));");
+                }
+                else
+                {
+                    sb.AppendLine($"{contractParameterName}.{columnInfo.ColumnName.ToContractName()} = SQLDBHelper.{columnInfo.SqlReaderMethod}(reader[\"{columnInfo.ColumnName}\"]);");    
+                }
+
+                
             }
 
             sb.PaddingCount--;

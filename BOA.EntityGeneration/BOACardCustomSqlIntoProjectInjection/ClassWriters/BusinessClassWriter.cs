@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Data;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
 
@@ -89,9 +91,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
                 if (data.Parameters.Any())
                 {
                     sb.AppendLine();
+                    
                     foreach (var item in data.Parameters)
                     {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{item.Name}\", SqlDbType.{item.SqlDbTypeName}, request.{item.CSharpPropertyName});");
+                        AddInParameter(sb, item);
                     }
                 }
 
@@ -158,7 +161,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
                     sb.AppendLine();
                     foreach (var item in data.Parameters)
                     {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{item.Name}\", SqlDbType.{item.SqlDbTypeName}, request.{item.CSharpPropertyName});");
+                        AddInParameter(sb, item);
                     }
                 }
 
@@ -233,6 +236,20 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 
 
             
+        }
+
+        static void AddInParameter(PaddedStringBuilder sb, CustomSqlInfoParameter item)
+        {
+            var value = $"request.{item.CSharpPropertyName}";
+
+            if (item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase) &&
+                item.SqlDbTypeName == SqlDbType.Char &&
+                (item.CSharpPropertyTypeName == DotNetTypeName.DotNetBool || item.CSharpPropertyTypeName == DotNetTypeName.DotNetBool + "?"))
+            {
+                value = $"request.{item.CSharpPropertyName} ? \"1\" : \"0\"";
+            }
+
+            sb.AppendLine($"DBLayer.AddInParameter(command, \"@{item.Name}\", SqlDbType.{item.SqlDbTypeName}, {value});");
         }
 
         static void WriteComment(PaddedStringBuilder sb, CustomSqlInfo data)
