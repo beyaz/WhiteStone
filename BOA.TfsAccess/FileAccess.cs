@@ -53,7 +53,7 @@ namespace BOA.TfsAccess
         {
             try
             {
-                if (new FileInfo(path).IsReadOnly)
+                if (new FileInfo(path).Exists && new FileInfo(path).IsReadOnly)
                 {
                     File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
                     result.FileReadOnlyAttributeRemoved = true;

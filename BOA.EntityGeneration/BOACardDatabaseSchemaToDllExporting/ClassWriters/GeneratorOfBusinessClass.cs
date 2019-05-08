@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     public class GeneratorOfBusinessClass
     {
-        #region Public Properties
+        #region Public Propertiesreader
         [Inject]
         public InsertInfoCreator InsertInfoCreator { get; set; }
 
