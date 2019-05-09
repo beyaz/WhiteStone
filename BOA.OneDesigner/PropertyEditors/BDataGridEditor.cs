@@ -22,16 +22,37 @@ namespace BOA.OneDesigner.PropertyEditors
 { 
   MinHeight:300,
    Margin:5,
-	Childs:[  
-		{ui:'RequestIntellisenseTextBox', ShowOnlyCollectionProperties:true, Text:'{Binding " + nameof(BDataGrid.DataSourceBindingPath) + @"}', Label:'Data Source Binding' },
-
+	Childs:
+    [  
+		{
+            ui:'RequestIntellisenseTextBox', 
+            ShowOnlyCollectionProperties:true, 
+            Text:'{Binding " + nameof(BDataGrid.DataSourceBindingPath) + @"}', 
+            Label:'Data Source Binding' 
+        }
+        ,
         {
-            ui:'Groupbox',Header:'Row Selection Changed',Margin:10,Name:'_rowSelectionChangedGroupBox',
+            ui:'Groupbox',
+            Header:'Row Selection Changed',
+            Margin:10,
+            Name:'_rowSelectionChangedGroupBox',
             Content:
             {
-                ui:'Grid',rows:[
-                    {ui:'RequestIntellisenseTextBox', ShowOnlyOrchestrationMethods:true, Text:'{Binding " + nameof(BDataGrid.RowSelectionChangedOrchestrationMethod) + @"}', Label:'Orchestration' },    
-                    {ui:'RequestIntellisenseTextBox', Text:'{Binding " + nameof(BDataGrid.SelectedRowDataBindingPath) + @"}', Label:'Binding Path' }
+                ui:'Grid',
+                rows:
+                [
+                    {
+                        ui:'RequestIntellisenseTextBox', 
+                        ShowOnlyOrchestrationMethods:true, 
+                        Text:'{Binding " + nameof(BDataGrid.RowSelectionChangedOrchestrationMethod) + @"}', 
+                        Label:'Orchestration' 
+                    }
+                    ,
+                    {
+                        ui:'RequestIntellisenseTextBox', 
+                        Text:'{Binding " + nameof(BDataGrid.SelectedRowDataBindingPath) + @"}', 
+                        Label:'Binding Path' 
+                    }
                 ]
             }
         },
