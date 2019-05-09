@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     public class GeneratorOfBusinessClass
     {
-        #region Public Propertiesreader
+        #region Public Properties
         [Inject]
         public InsertInfoCreator InsertInfoCreator { get; set; }
 
@@ -104,9 +104,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine($"///{Padding.ForComment} Inserts new record into table.");
                 if (tableInfo.SequenceName.HasValue())
                 {
-                    sb.AppendLine($"///{Padding.ForComment} <para>Automatically initialize RecordId property by using {tableInfo.SequenceName} sequence.</para>");    
+                    sb.AppendLine($"///{Padding.ForComment} <para>Automatically initialize RecordId property by using {tableInfo.SequenceName} sequence.</para>");
                 }
-                
+
                 sb.AppendLine("/// </summary>");
                 sb.AppendLine($"public GenericResponse<int> Insert({typeContractName} {contractParameterName})");
                 sb.AppendLine("{");
@@ -484,21 +484,19 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             foreach (var columnInfo in tableInfo.Columns)
             {
                 if (columnInfo.SqlDbType == SqlDbType.Char &&
-                    columnInfo.DotNetType == DotNetTypeName.DotNetBool )
+                    columnInfo.DotNetType == DotNetTypeName.DotNetBool)
                 {
                     sb.AppendLine($"{contractParameterName}.{columnInfo.ColumnName.ToContractName()} = SQLDBHelper.GetStringValue(reader[\"{columnInfo.ColumnName}\"]) == \"1\";");
                 }
                 else if (columnInfo.SqlDbType == SqlDbType.Char &&
-                    columnInfo.DotNetType == DotNetTypeName.DotNetBoolNullable)
+                         columnInfo.DotNetType == DotNetTypeName.DotNetBoolNullable)
                 {
                     sb.AppendLine($"{contractParameterName}.{columnInfo.ColumnName.ToContractName()} = Util.ReadNullableFlag(SQLDBHelper.GetStringValue(reader[\"{columnInfo.ColumnName}\"]));");
                 }
                 else
                 {
-                    sb.AppendLine($"{contractParameterName}.{columnInfo.ColumnName.ToContractName()} = SQLDBHelper.{columnInfo.SqlReaderMethod}(reader[\"{columnInfo.ColumnName}\"]);");    
+                    sb.AppendLine($"{contractParameterName}.{columnInfo.ColumnName.ToContractName()} = SQLDBHelper.{columnInfo.SqlReaderMethod}(reader[\"{columnInfo.ColumnName}\"]);");
                 }
-
-                
             }
 
             sb.PaddingCount--;
@@ -507,146 +505,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             if (tableInfo.SchemaName == "PRM")
             {
-                #region Select All
-                var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
-
                 sb.AppendLine();
-                sb.AppendLine("/// <summary>");
-                sb.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName}");
-                sb.AppendLine("/// </summary>");
-                sb.AppendLine($"public GenericResponse<List<{typeContractName}>> Select()");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.Select\");");
-
-                sb.AppendLine();
-                sb.AppendLine("const string sql = @\"");
-                sb.AppendAll(selectAllInfo.Sql);
-                sb.AppendLine();
-                sb.AppendLine("\";");
-                sb.AppendLine();
-                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
-
-                if (selectAllInfo.SqlParameters.Any())
-                {
-                    sb.AppendLine();
-                    foreach (var columnInfo in selectAllInfo.SqlParameters)
-                    {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
-                    }
-                }
-
-                sb.AppendLine();
-                sb.AppendLine("var response = DBLayer.ExecuteReader(command);");
-                sb.AppendLine("if (!response.Success)");
-                sb.AppendLine("{");
-                sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
-                sb.AppendLine("    return returnObject;");
-                sb.AppendLine("}");
-                sb.AppendLine();
-                sb.AppendLine("var reader = response.Value;");
-
-                sb.AppendLine();
-                sb.AppendLine($"var listOfDataContract = new List<{typeContractName}>();");
-                sb.AppendLine();
-                sb.AppendLine("while (reader.Read())");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                sb.AppendLine($"var dataContract = new {typeContractName}();");
-
-                sb.AppendLine();
-
-                sb.AppendLine("ReadContract(reader, dataContract);");
-
-                sb.AppendLine();
-                sb.AppendLine("listOfDataContract.Add(dataContract);");
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                sb.AppendLine();
-                sb.AppendLine("reader.Close();");
-
-                sb.AppendLine();
-                sb.AppendLine("returnObject.Value = listOfDataContract;");
-
-                sb.AppendLine();
-                sb.AppendLine("return returnObject;");
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                #endregion
-
-                if (tableInfo.Columns.Any(x=>x.ColumnName.Equals("VALID_FLAG",StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))
-                {
-                    #region Select By ValidFlag
-
-                sb.AppendLine();
-                sb.AppendLine("/// <summary>");
-                sb.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName} where ValidFlag is true.");
-                sb.AppendLine("/// </summary>");
-                sb.AppendLine($"public GenericResponse<List<{typeContractName}>> SelectByValidFlag()");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.SelectByValidFlag\");");
-
-                sb.AppendLine();
-                sb.AppendLine("const string sql = @\"");
-                sb.AppendAll(selectAllInfo.Sql + " WHERE [VALID_FLAG] = '1'");
-                sb.AppendLine();
-                sb.AppendLine("\";");
-                sb.AppendLine();
-                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
-
-                if (selectAllInfo.SqlParameters.Any())
-                {
-                    sb.AppendLine();
-                    foreach (var columnInfo in selectAllInfo.SqlParameters)
-                    {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
-                    }
-                }
-
-                sb.AppendLine();
-                sb.AppendLine("var response = DBLayer.ExecuteReader(command);");
-                sb.AppendLine("if (!response.Success)");
-                sb.AppendLine("{");
-                sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
-                sb.AppendLine("    return returnObject;");
-                sb.AppendLine("}");
-                sb.AppendLine();
-                sb.AppendLine("var reader = response.Value;");
-
-                sb.AppendLine();
-                sb.AppendLine($"var listOfDataContract = new List<{typeContractName}>();");
-                sb.AppendLine();
-                sb.AppendLine("while (reader.Read())");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                sb.AppendLine($"var dataContract = new {typeContractName}();");
-
-                sb.AppendLine();
-
-                sb.AppendLine("ReadContract(reader, dataContract);");
-
-                sb.AppendLine();
-                sb.AppendLine("listOfDataContract.Add(dataContract);");
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                sb.AppendLine();
-                sb.AppendLine("reader.Close();");
-
-                sb.AppendLine();
-                sb.AppendLine("returnObject.Value = listOfDataContract;");
-
-                sb.AppendLine();
-                sb.AppendLine("return returnObject;");
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                #endregion
-                }
+                SelectAll(sb, tableInfo, typeContractName, businessClassNamespace, className);
                 
+                if (tableInfo.Columns.Any(x => x.ColumnName.Equals("VALID_FLAG", StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))
+                {
+                    var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
+                    sb.AppendLine();
+                    SelectByValidFlag(sb, tableInfo, typeContractName, businessClassNamespace, className, selectAllInfo);
+                }
             }
 
             sb.PaddingCount--;
@@ -662,6 +529,144 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using System.Data;");
+        }
+        #endregion
+
+        #region Methods
+        static void SelectAll(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName, string businessClassNamespace, string className)
+        {
+            var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
+
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName}");
+            sb.AppendLine("/// </summary>");
+            sb.AppendLine($"public GenericResponse<List<{typeContractName}>> Select()");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.Select\");");
+
+            sb.AppendLine();
+            sb.AppendLine("const string sql = @\"");
+            sb.AppendAll(selectAllInfo.Sql);
+            sb.AppendLine();
+            sb.AppendLine("\";");
+            sb.AppendLine();
+            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+
+            if (selectAllInfo.SqlParameters.Any())
+            {
+                sb.AppendLine();
+                foreach (var columnInfo in selectAllInfo.SqlParameters)
+                {
+                    sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("var response = DBLayer.ExecuteReader(command);");
+            sb.AppendLine("if (!response.Success)");
+            sb.AppendLine("{");
+            sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
+            sb.AppendLine("    return returnObject;");
+            sb.AppendLine("}");
+            sb.AppendLine();
+            sb.AppendLine("var reader = response.Value;");
+
+            sb.AppendLine();
+            sb.AppendLine($"var listOfDataContract = new List<{typeContractName}>();");
+            sb.AppendLine();
+            sb.AppendLine("while (reader.Read())");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine($"var dataContract = new {typeContractName}();");
+
+            sb.AppendLine();
+
+            sb.AppendLine("ReadContract(reader, dataContract);");
+
+            sb.AppendLine();
+            sb.AppendLine("listOfDataContract.Add(dataContract);");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+            sb.AppendLine();
+            sb.AppendLine("reader.Close();");
+
+            sb.AppendLine();
+            sb.AppendLine("returnObject.Value = listOfDataContract;");
+
+            sb.AppendLine();
+            sb.AppendLine("return returnObject;");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+        }
+
+        static void SelectByValidFlag(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName, string businessClassNamespace, string className, SelectAllInfo selectAllInfo)
+        {
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName} where ValidFlag is true.");
+            sb.AppendLine("/// </summary>");
+            sb.AppendLine($"public GenericResponse<List<{typeContractName}>> SelectByValidFlag()");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.SelectByValidFlag\");");
+
+            sb.AppendLine();
+            sb.AppendLine("const string sql = @\"");
+            sb.AppendAll(selectAllInfo.Sql + " WHERE [VALID_FLAG] = '1'");
+            sb.AppendLine();
+            sb.AppendLine("\";");
+            sb.AppendLine();
+            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+
+            if (selectAllInfo.SqlParameters.Any())
+            {
+                sb.AppendLine();
+                foreach (var columnInfo in selectAllInfo.SqlParameters)
+                {
+                    sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("var response = DBLayer.ExecuteReader(command);");
+            sb.AppendLine("if (!response.Success)");
+            sb.AppendLine("{");
+            sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
+            sb.AppendLine("    return returnObject;");
+            sb.AppendLine("}");
+            sb.AppendLine();
+            sb.AppendLine("var reader = response.Value;");
+
+            sb.AppendLine();
+            sb.AppendLine($"var listOfDataContract = new List<{typeContractName}>();");
+            sb.AppendLine();
+            sb.AppendLine("while (reader.Read())");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            sb.AppendLine($"var dataContract = new {typeContractName}();");
+
+            sb.AppendLine();
+
+            sb.AppendLine("ReadContract(reader, dataContract);");
+
+            sb.AppendLine();
+            sb.AppendLine("listOfDataContract.Add(dataContract);");
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+            sb.AppendLine();
+            sb.AppendLine("reader.Close();");
+
+            sb.AppendLine();
+            sb.AppendLine("returnObject.Value = listOfDataContract;");
+
+            sb.AppendLine();
+            sb.AppendLine("return returnObject;");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
         }
         #endregion
     }
