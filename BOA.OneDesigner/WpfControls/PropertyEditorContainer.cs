@@ -90,7 +90,7 @@ namespace BOA.OneDesigner.WpfControls
             var dataGridInfo = DataContext as BDataGrid;
             if (dataGridInfo != null)
             {
-                SetContent(Host.Create<BDataGridEditor>(dataGridInfo));
+                SetContent(BDataGridEditor.Create(Host,dataGridInfo));
                 return;
             }
 

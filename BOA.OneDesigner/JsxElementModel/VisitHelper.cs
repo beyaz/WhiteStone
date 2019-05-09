@@ -1,4 +1,5 @@
 ﻿using System;
+using BOA.Common.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -7,14 +8,43 @@ namespace BOA.OneDesigner.JsxElementModel
         #region Public Methods
         public static void ConvertToNewComponent(object component)
         {
-            var ci = component as ComponentInfo;
+            ProcessButtonClick(component);
+            DataGridRowSelectionChangeMethod(component);
+        }
+
+        public static void VisitComponents(ScreenInfo instance, Action<object> on)
+        {
+            Visit(instance.JsxModel, on);
+        }
+        #endregion
+
+        #region Methods
+        static void DataGridRowSelectionChangeMethod(object component)
+        {
+            var ci = component as BDataGrid;
             if (ci == null)
             {
                 return;
             }
 
-            EnsureButtonClickedActionInfo(ci);
+            if (ci.RowSelectionChangedActionInfo != null)
+            {
+                if (ci.RowSelectionChangedActionInfo.OrchestrationMethodName.IsNullOrWhiteSpace() && ci.RowSelectionChangedOrchestrationMethod.HasValue())
+                {
+                    ci.RowSelectionChangedActionInfo.OrchestrationMethodName = ci.RowSelectionChangedOrchestrationMethod;
 
+                    ci.RowSelectionChangedOrchestrationMethod = null;
+                }
+
+                return;
+            }
+
+            ci.RowSelectionChangedActionInfo = new ActionInfo
+            {
+                OrchestrationMethodName = ci.RowSelectionChangedOrchestrationMethod
+            };
+
+            ci.RowSelectionChangedOrchestrationMethod = null;
         }
 
         public static void EnsureButtonClickedActionInfo(ComponentInfo ci)
@@ -51,13 +81,17 @@ namespace BOA.OneDesigner.JsxElementModel
             ci.OrchestrationMethodOnDialogResponseIsOK          = null;
         }
 
-        public static void VisitComponents(ScreenInfo instance, Action<object> on)
+        static void ProcessButtonClick(object component)
         {
-            Visit(instance.JsxModel, on);
-        }
-        #endregion
+            var ci = component as ComponentInfo;
+            if (ci == null)
+            {
+                return;
+            }
 
-        #region Methods
+            EnsureButtonClickedActionInfo(ci);
+        }
+
         static void Visit(object component, Action<object> on)
         {
             if (component == null)

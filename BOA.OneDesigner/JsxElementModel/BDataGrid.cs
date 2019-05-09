@@ -28,7 +28,10 @@ namespace BOA.OneDesigner.JsxElementModel
         /// <summary>
         ///     Gets or sets the row selection changed orchestration method.
         /// </summary>
-        public string RowSelectionChangedOrchestrationMethod { get; set; }
+        public string RowSelectionChangedOrchestrationMethod { get; set; } // TODO: kullanılmıyor artık
+
+
+        public ActionInfo RowSelectionChangedActionInfo { get; set; }
 
         /// <summary>
         ///     Gets or sets the selected row data binding path.

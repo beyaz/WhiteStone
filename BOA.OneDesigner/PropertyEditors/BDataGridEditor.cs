@@ -13,10 +13,25 @@ namespace BOA.OneDesigner.PropertyEditors
         public Button      _removeButton;
         public GroupBox    _rowSelectionChangedGroupBox;
         public SizeEditor  _sizeEditor;
+
+        public ActionInfoEditor _rowSelectionChangedActionInfoEditor;
+
         #endregion
 
+        public static BDataGridEditor Create(Host host, BDataGrid info)
+        {
+            var componentEditor = new BDataGridEditor
+            {
+                Host        = host,
+                DataContext = info
+            };
+            componentEditor.LoadUI();
+
+            return componentEditor;
+        }
         #region Constructors
-        public BDataGridEditor()
+
+        void LoadUI()
         {
             this.LoadJson(@"
 { 
@@ -49,6 +64,12 @@ namespace BOA.OneDesigner.PropertyEditors
                     }
                     ,
                     {
+                        ui          : 'ActionInfoEditor',
+                        Header      : 'On Row Selection Changed',
+                        Name        : '"+nameof(_rowSelectionChangedActionInfoEditor)+@"'
+                    }
+                    ,
+                    {
                         ui:'RequestIntellisenseTextBox', 
                         Text:'{Binding " + nameof(BDataGrid.SelectedRowDataBindingPath) + @"}', 
                         Label:'Binding Path' 
@@ -68,26 +89,28 @@ namespace BOA.OneDesigner.PropertyEditors
 
 ");
 
-            Loaded += (s, e) =>
+
+            if (Model.SizeInfo == null)
             {
-                if (Model.SizeInfo == null)
+                Model.SizeInfo = new SizeInfo
                 {
-                    Model.SizeInfo = new SizeInfo
-                    {
-                        IsMedium = true
-                    };
-                }
+                    IsMedium = true
+                };
+            }
 
-                _sizeEditor.Host  = Host;
-                _labelEditor.Host = Host;
+            _sizeEditor.Host  = Host;
+            _labelEditor.Host = Host;
 
-                if (Model?.ParentIsComboBox == true)
-                {
-                    _sizeEditor.Visibility                  = Visibility.Collapsed;
-                    _rowSelectionChangedGroupBox.Visibility = Visibility.Collapsed;
-                }
-            };
+            if (Model?.ParentIsComboBox == true)
+            {
+                _sizeEditor.Visibility                  = Visibility.Collapsed;
+                _rowSelectionChangedGroupBox.Visibility = Visibility.Collapsed;
+            }
+
+            _rowSelectionChangedActionInfoEditor.Load(Host,Model.RowSelectionChangedActionInfo);
+
         }
+        
         #endregion
 
         #region Public Properties

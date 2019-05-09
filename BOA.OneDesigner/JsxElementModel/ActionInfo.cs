@@ -1,4 +1,6 @@
 ﻿using System;
+using BOA.Common.Helpers;
+using BOA.OneDesigner.Helpers;
 
 namespace BOA.OneDesigner.JsxElementModel
 {
@@ -74,5 +76,26 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public string YesNoQuestionCondition { get; set; }
         #endregion
+
+        public bool HasValue()
+        {
+
+            if (OrchestrationMethodName.HasValue() || 
+                YesNoQuestionInfo.HasValue())
+            {
+                return true;
+            }
+
+            if (OpenFormWithResourceCode.HasValue())
+            {
+                return true;
+            }
+            if (ExtensionMethodName.HasValue())
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

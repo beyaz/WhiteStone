@@ -23,7 +23,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var methodNameOfGridColumns = EvaluateMethodNameOfGridColumns(writerContext, data);
             writerContext.AddClassBody(EvaluateMethodBodyOfGridColumns(methodNameOfGridColumns, writerContext, data));
 
-            var canWriteRowSelectionChangedMethod = string.IsNullOrWhiteSpace(data.RowSelectionChangedOrchestrationMethod) == false;
+            var canWriteRowSelectionChangedMethod = data.RowSelectionChangedActionInfo.HasValue();
 
             var rowSelectionChangedMethodName = EvaluateMethodNameOfGridRowSelectionChanged(writerContext, data);
 
@@ -215,9 +215,21 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             
 
+            RenderHelper.InitLabelValues(writerContext, data.RowSelectionChangedActionInfo);
+
+            var function = new ActionInfoFunction
+            {
+                WriterContext = writerContext,
+                Data          = data.RowSelectionChangedActionInfo
+            };
+
+            sb.AppendAll(function.GetCode());
+
+            sb.AppendLine();
+
             
            
-            sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.RowSelectionChangedOrchestrationMethod}\");");
+            
 
             sb.PaddingCount--;
             sb.AppendLine("}");
