@@ -36,6 +36,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
                 tableInfo.ShouldGenerateSelectAllMethodInBusinessClass = true;
             }
 
+            if (tableInfo.SchemaName == "MRC" && tableInfo.TableName == "INDORSEMENT_COMMISSION_PROFILE")
+            {
+                tableInfo.ShouldGenerateSelectAllMethodInBusinessClass = true;
+            }
+
             if (tableInfo.SchemaName == "PRM" && tableInfo.ShouldGenerateSelectAllMethodInBusinessClass)
             {
                 if (tableInfo.Columns.Any(x => x.ColumnName.Equals("VALID_FLAG", StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))

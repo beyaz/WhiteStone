@@ -605,5 +605,21 @@ namespace BOA.OneDesigner.Helpers
             }
         }
         #endregion
+
+        public static IReadOnlyCollection<string> GetAttributeAttachedPropertyNames(string assemblyPath, string className, string attributeName)
+        {
+            var typeDefinition = FindType(assemblyPath, className);
+            if (typeDefinition == null)
+            {
+                throw new ArgumentException("AssemblyNotfound."+assemblyPath);
+            }
+
+            return (from p in typeDefinition.Properties where p.CustomAttributes.Any(a => a.AttributeType.Name == attributeName) select p.Name).ToList();
+        }
+
+        public static IReadOnlyCollection<string> GetAttributeAttachedPropertyNames_DoNotSendToServerFromClientAttribute(string assemblyPath, string className)
+        {
+            return GetAttributeAttachedPropertyNames( assemblyPath,  className,  "DoNotSendToServerFromClientAttribute");
+        }
     }
 }

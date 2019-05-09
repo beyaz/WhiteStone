@@ -58,21 +58,15 @@ namespace BOA.OneDesigner.PropertyEditors
                 [
                     {
                         ui:'RequestIntellisenseTextBox', 
-                        ShowOnlyOrchestrationMethods:true, 
-                        Text:'{Binding " + nameof(BDataGrid.RowSelectionChangedOrchestrationMethod) + @"}', 
-                        Label:'Orchestration' 
+                        Text:'{Binding " + nameof(BDataGrid.SelectedRowDataBindingPath) + @"}', 
+                        Label:'Binding Path' 
                     }
                     ,
                     {
                         ui          : 'ActionInfoEditor',
                         Header      : 'On Row Selection Changed',
-                        Name        : '"+nameof(_rowSelectionChangedActionInfoEditor)+@"'
-                    }
-                    ,
-                    {
-                        ui:'RequestIntellisenseTextBox', 
-                        Text:'{Binding " + nameof(BDataGrid.SelectedRowDataBindingPath) + @"}', 
-                        Label:'Binding Path' 
+                        Name        : '"+nameof(_rowSelectionChangedActionInfoEditor)+@"',
+                        MarginTop   : 10
                     }
                 ]
             }
@@ -107,6 +101,10 @@ namespace BOA.OneDesigner.PropertyEditors
                 _rowSelectionChangedGroupBox.Visibility = Visibility.Collapsed;
             }
 
+            if (Model.RowSelectionChangedActionInfo == null)
+            {
+                Model.RowSelectionChangedActionInfo = new ActionInfo();
+            }
             _rowSelectionChangedActionInfoEditor.Load(Host,Model.RowSelectionChangedActionInfo);
 
         }

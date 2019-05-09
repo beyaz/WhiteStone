@@ -453,6 +453,26 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
+
+            var propertyNames = CecilHelper.GetAttributeAttachedPropertyNames_DoNotSendToServerFromClientAttribute(writerContext.SolutionInfo.TypeAssemblyPathInServerBin,writerContext.ScreenInfo.RequestName);
+
+            if (propertyNames.Any())
+            {
+                sb.AppendLine("if(this.state.windowRequest)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                foreach (var propertyName in propertyNames)
+                {
+                    var propertyNameInJs = TypescriptNaming.NormalizeBindingPath(propertyName);
+
+                    sb.AppendLine($"value.{propertyNameInJs} = value.{propertyNameInJs} || this.state.windowRequest.{propertyNameInJs};");
+                }
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                
+            }
+
             if (writerContext.HasWorkflow)
             {
                 sb.AppendLine();
@@ -606,6 +626,23 @@ addToProcessQueue(fn: Function)
             sb.AppendLine("sendRequestToServer(request: any, orchestrationMethodName: string)");
             sb.AppendLine("{");
             sb.PaddingCount++;
+
+
+            var propertyNames = CecilHelper.GetAttributeAttachedPropertyNames_DoNotSendToServerFromClientAttribute(writerContext.SolutionInfo.TypeAssemblyPathInServerBin,writerContext.ScreenInfo.RequestName);
+
+            if (propertyNames.Any())
+            {
+                sb.AppendLine("request = Object.assign({}, request);");
+                foreach (var propertyName in propertyNames)
+                {
+                    var propertyNameInJs = TypescriptNaming.NormalizeBindingPath(propertyName);
+
+                    sb.AppendLine($"request.{propertyNameInJs} = null;");
+                }
+                sb.AppendLine();
+            }
+
+
 
             sb.AppendLine("request.methodName = orchestrationMethodName;");
 

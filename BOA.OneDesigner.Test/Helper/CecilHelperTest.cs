@@ -27,6 +27,16 @@ namespace BOA.OneDesigner.Helper
         }
 
         [TestMethod]
+        public void PropertyHasAttribute()
+        {
+            var data = CecilHelper.GetAttributeAttachedPropertyNames(@"d:\boa\server\bin\BOA.Types.Card.Clearing.Visa.dll", "BOA.Types.Card.Clearing.Visa.GetVisaIssuerByCustomCriteriaRequest","DoNotSendToServerFromClientAttribute");
+
+            data.Should().Contain("Records");
+        }
+
+
+
+        [TestMethod]
         public void GetAllBindPropertiesOfCollection()
         {
             var data = CecilHelper.GetRequestIntellisenseData(@"d:\boa\server\bin\BOA.Types.CardGeneral.DebitCard.dll", "BOA.Types.CardGeneral.DebitCard.ChargebackListFormRequest");
