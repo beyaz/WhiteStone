@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
@@ -503,12 +502,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("}");
             #endregion
 
-            if (tableInfo.SchemaName == "PRM")
+            if (tableInfo.ShouldGenerateSelectAllMethodInBusinessClass)
             {
                 sb.AppendLine();
                 SelectAll(sb, tableInfo, typeContractName, businessClassNamespace, className);
                 
-                if (tableInfo.Columns.Any(x => x.ColumnName.Equals("VALID_FLAG", StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))
+                if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
                 {
                     var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
                     sb.AppendLine();

@@ -46,6 +46,8 @@ namespace BOA.EntityGeneration.DbModel
         ///     Gets or sets the name of the table.
         /// </summary>
         public string TableName { get; set; }
+
+        
         #endregion
     }
 }

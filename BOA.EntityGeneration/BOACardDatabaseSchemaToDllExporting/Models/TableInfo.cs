@@ -50,6 +50,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
         ///     Gets or sets the unique index information list.
         /// </summary>
         public IReadOnlyList<IndexInfo> UniqueIndexInfoList { get; set; }
+
+        public bool ShouldGenerateSelectAllMethodInBusinessClass { get; set; }
+        public bool ShouldGenerateSelectAllByValidFlagMethodInBusinessClass { get; set; }
         #endregion
     }
 }

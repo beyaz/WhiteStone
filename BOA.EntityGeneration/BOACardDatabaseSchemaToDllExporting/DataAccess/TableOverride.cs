@@ -1,18 +1,49 @@
 ﻿using System;
+using System.Data;
+using System.Linq;
 using BOA.EntityGeneration.DbModel;
+using TableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.TableInfo;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
     public class TableOverride
     {
-        public void Override(DbModel.TableInfo data)
+        #region Public Methods
+        public string GetColumnDotnetType(string dbColumnName, string dotnetType, bool isNullable)
         {
-            foreach (var item in data.Columns)
+            if (dbColumnName.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
+            {
+                if (isNullable)
+                {
+                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
+                }
+
+                return DotNetTypeName.DotNetBool;
+            }
+
+            return dotnetType;
+        }
+
+        public void Override(TableInfo tableInfo)
+        {
+            foreach (var item in tableInfo.Columns)
             {
                 Reprocess(item);
             }
-        }
 
+            if (tableInfo.SchemaName == "PRM")
+            {
+                tableInfo.ShouldGenerateSelectAllMethodInBusinessClass = true;
+            }
+
+            if (tableInfo.SchemaName == "PRM" && tableInfo.ShouldGenerateSelectAllMethodInBusinessClass)
+            {
+                if (tableInfo.Columns.Any(x => x.ColumnName.Equals("VALID_FLAG", StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))
+                {
+                    tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass = true;
+                }
+            }
+        }
 
         public void Reprocess(ColumnInfo item)
         {
@@ -23,25 +54,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
                 item.SqlReaderMethod = item.IsNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
             }
         }
-
-
-        public string GetColumnDotnetType(string dbColumnName, string dotnetType, bool isNullable)
-        {
-            if (dbColumnName.EndsWith("_FLAG",StringComparison.OrdinalIgnoreCase))
-            {
-                if (isNullable)
-                {
-                    return DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
-                }
-
-                return  DotNetTypeName.DotNetBool;
-                
-            }
-
-            return dotnetType;
-        }
-
-
-
+        #endregion
     }
 }
