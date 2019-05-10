@@ -80,7 +80,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
             if (info.Type.IsCreditCardComponent)
             {
-                dataContext.ValueBindingPathLabel = "Açık Kart No";
+                dataContext.ValueBindingPathLabel = "Açık Kart No (bunu kullanma shadow card numberı kullan)";
             }
 
             if (info.Type.IsExcelBrowser)
