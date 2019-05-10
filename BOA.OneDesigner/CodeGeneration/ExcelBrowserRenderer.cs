@@ -40,6 +40,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
+            sb.AppendLine("valueType={\"99\"} // ALL_TYPE");
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;
