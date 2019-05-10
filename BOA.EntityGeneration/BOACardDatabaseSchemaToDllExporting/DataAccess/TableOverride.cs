@@ -36,9 +36,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
                 tableInfo.ShouldGenerateSelectAllMethodInBusinessClass = true;
             }
 
-            if (tableInfo.SchemaName == "MRC" && tableInfo.TableName == "INDORSEMENT_COMMISSION_PROFILE")
+            if ((tableInfo.SchemaName == "MRC" && tableInfo.TableName == "INDORSEMENT_COMMISSION_PROFILE") ||
+                (tableInfo.SchemaName == "POS" && tableInfo.TableName == "FEE_DUES_PROFILE")||
+                (tableInfo.SchemaName == "POS" && tableInfo.TableName == "FEE_UNPRODUCTIVITY_PROFILE"))
             {
                 tableInfo.ShouldGenerateSelectAllMethodInBusinessClass = true;
+                tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass = true;
             }
 
             if (tableInfo.SchemaName == "PRM" && tableInfo.ShouldGenerateSelectAllMethodInBusinessClass)
@@ -48,6 +51,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
                     tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass = true;
                 }
             }
+
+
+
         }
 
         public void Reprocess(ColumnInfo item)
