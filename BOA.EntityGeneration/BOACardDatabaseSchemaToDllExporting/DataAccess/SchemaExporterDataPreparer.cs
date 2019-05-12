@@ -28,6 +28,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         public Tracer Tracer { get; set; }
         #endregion
 
+
+
         #region Public Methods
         public IReadOnlyList<TableInfo> Prepare(string schemaName)
         {
@@ -45,9 +47,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
             foreach (var tableName in tableNames)
             {
-                var tableInfo = TableInfoDao.GetInfo(TableCatalogName.BOACard, schemaName, tableName);
-
-                var generatorData = GeneratorDataCreator.Create(tableInfo);
+                var generatorData = GetTableInfo(schemaName, tableName);
 
                 items.Add(generatorData);
             }
@@ -55,6 +55,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             Cache[schemaName] = items;
 
             return items;
+        }
+
+        public TableInfo GetTableInfo(string schemaName, string tableName)
+        {
+            var tableInfo = TableInfoDao.GetInfo(TableCatalogName.BOACard, schemaName, tableName);
+
+            var generatorData = GeneratorDataCreator.Create(tableInfo);
+            return generatorData;
         }
         #endregion
 

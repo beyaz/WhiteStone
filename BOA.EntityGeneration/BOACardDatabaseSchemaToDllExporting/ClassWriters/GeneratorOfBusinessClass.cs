@@ -502,6 +502,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("}");
             #endregion
 
+            var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
             if (tableInfo.ShouldGenerateSelectAllMethodInBusinessClass)
             {
                 sb.AppendLine();
@@ -509,11 +510,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 
                 if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
                 {
-                    var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
+                    
                     sb.AppendLine();
                     SelectByValidFlag(sb, tableInfo, typeContractName, businessClassNamespace, className, selectAllInfo);
                 }
             }
+
+            sb.AppendLine();
+            GetDbColumnInfo(sb,tableInfo,typeContractName);
+            sb.AppendLine();
+            SelectByWhereConditions(sb, tableInfo, typeContractName, businessClassNamespace, className, selectAllInfo);
+
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -525,9 +532,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("using BOA.Base.Data;");
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine($"using {NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName)};");
+            sb.AppendLine("using BOA.Types.Kernel.Card.EntityConditions;");
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using System.Data;");
+            sb.AppendLine("using System.Text;");
         }
         #endregion
 
@@ -601,6 +610,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("}");
         }
 
+
         static void SelectByValidFlag(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName, string businessClassNamespace, string className, SelectAllInfo selectAllInfo)
         {
             sb.AppendLine("/// <summary>");
@@ -668,5 +678,131 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("}");
         }
         #endregion
+
+        
+
+        static void GetDbColumnInfo(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName)
+        {
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///{Padding.ForComment}Gets the database column information.");
+            sb.AppendLine("/// </summary>");
+            sb.AppendLine($"static DbColumnInfo GetDbColumnInfo(string propertyNameInContract)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+            
+            foreach (var columnInfo in tableInfo.Columns)
+            {
+                sb.AppendAll($@"
+
+if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.ToContractName()}))
+{{
+    return new DbColumnInfo
+    {{
+        Name      = ""{columnInfo.ColumnName}"",
+        SqlDbType = SqlDbType.{columnInfo.SqlDbType.ToString()}
+    }};
+}}
+
+".Trim());
+                sb.AppendLine();
+            }
+
+
+            sb.AppendLine();
+            sb.AppendLine("throw new ArgumentException(propertyNameInContract);");
+           
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+        }
+
+
+        static void SelectByWhereConditions(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName, string businessClassNamespace, string className, SelectAllInfo selectAllInfo)
+        {
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///{Padding.ForComment}Selects records by given  <paramref name=\"whereConditions\"/>.");
+            sb.AppendLine("/// </summary>");
+            sb.AppendLine($"public GenericResponse<List<{typeContractName}>> Select(params WhereCondition[] whereConditions)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.Select\");");
+            
+            sb.AppendAll(@"
+
+if (whereConditions == null || whereConditions.Length == 0)
+{
+    returnObject.Results.Add(new Result { ErrorMessage = Util.CannotBeEmpty(nameof(whereConditions))});
+    return returnObject;
+}
+
+const string sqlSelectPart = @""
+"+selectAllInfo.Sql+@"
+"";
+
+var sql = new StringBuilder(sqlSelectPart);
+
+var parameters = new List<DbParameterInfo>();
+
+var whereLines = new List<string>();
+
+foreach (var whereCondition in whereConditions)
+{
+    var dbColumn = GetDbColumnInfo(whereCondition.ColumnName);
+
+    Util.ProcessCondition(whereCondition, whereLines, dbColumn, parameters);
+}
+
+sql.AppendLine(Util.WhereSymbol);
+
+sql.AppendLine(whereLines[0]);
+
+for (var i = 1; i < whereLines.Count; i++)
+{
+    sql.AppendLine(Util.AndSymbol + whereLines[i]);
+}
+
+var command = DBLayer.GetDBCommand(Databases.BOACard, sql.ToString(), null, CommandType.Text);
+
+foreach (var parameter in parameters)
+{
+    DBLayer.AddInParameter(command, ""@""+parameter.Name, parameter.SqlDbType, parameter.Value );    
+}
+
+var response = DBLayer.ExecuteReader(command);
+if (!response.Success)
+{
+    returnObject.Results.AddRange(response.Results);
+    return returnObject;
+}
+var reader = response.Value;
+
+var records = new List<"+typeContractName+@">();
+
+while (reader.Read())
+{
+    var record = new "+typeContractName+@"();
+
+    ReadContract(reader, record);
+
+    records.Add(record);
+}
+
+reader.Close();
+
+returnObject.Value = records;
+
+return returnObject;
+
+".Trim());
+            sb.AppendLine();
+
+           
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+        }
+
+
     }
 }

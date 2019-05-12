@@ -31,7 +31,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine($"return (TOutput) (object) new {item.BusinessClassName}(objectHelper.Context).Execute(({item.ParameterContractName}) input);");
+                sb.AppendLine($"return (TOutput) (object) new {item.BusinessClassName}(objectHelper.Context).Execute(({item.ParameterContractName})(object) input);");
 
                 sb.PaddingCount--;
                 sb.AppendLine("}");

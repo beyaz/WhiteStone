@@ -49,7 +49,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            ReadNullableFlag(sb);
+            UtilClass(sb);
 
             foreach (var tableInfo in items)
             {
@@ -63,27 +63,256 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
             
         }
 
-        static void ReadNullableFlag(PaddedStringBuilder sb)
+
+        
+        
+
+        
+        
+
+        
+        
+
+        static void UtilClass(PaddedStringBuilder sb)
         {
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine("///     Utility methods");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine("static class Util");
-            sb.AppendLine("{");
-            sb.AppendLine("     /// <summary>");
-            sb.AppendLine("	    ///     Read nullable flag");
-            sb.AppendLine("	    /// </summary>");
-            sb.AppendLine("	    public static bool? ReadNullableFlag(string flag)");
-            sb.AppendLine("	    {");
-            sb.AppendLine("		    if (flag == null)");
-            sb.AppendLine("		    {");
-            sb.AppendLine("			    return null;");
-            sb.AppendLine("		    }");
-            sb.AppendLine();
-            sb.AppendLine("		    return flag == \"1\";");
-            sb.AppendLine("	    }");
-            sb.AppendLine("}");
+            sb.AppendAll(@"
+
+/// <summary>
+///     Utility methods
+/// </summary>
+static class Util
+{
+    /// <summary>
+    ///     AND
+    /// </summary>
+    public const string AndSymbol = ""            AND "";
+
+    /// <summary>
+    ///     WHERE
+    /// </summary>
+    public const string WhereSymbol = ""            WHERE "";
+
+    /// <summary>
+    ///     Cannots the be empty.
+    /// </summary>
+    public static string CannotBeEmpty(string valueName)
+    {
+        const string format = ""'{0}' boş olmamalıdır."";
+
+        return string.Format(format, valueName);
+    }
+
+    /// <summary>
+    ///     Processes the condition.
+    /// </summary>
+    public static void ProcessCondition(WhereCondition whereCondition, List<string> whereLines, DbColumnInfo dbColumn, List<DbParameterInfo> parameters)
+    {
+        const string prefix = ""@"";
+
+        switch (whereCondition.ConditionType)
+        {
+            case ConditionType.Equal:
+            {
+                const string operand = "" = "";
+
+                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            case ConditionType.NotEqual:
+            {
+                const string operand = "" != "";
+
+                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            case ConditionType.GreaterThan:
+            {
+                const string operand = "" > "";
+
+                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            case ConditionType.GreaterOrEqual:
+            {
+                const string operand = "" >= "";
+
+                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            case ConditionType.LessThan:
+            {
+                const string operand = "" < "";
+
+                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            case ConditionType.LessOrEqual:
+            {
+                const string operand = "" <= "";
+
+                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            case ConditionType.IsNull:
+            {
+                const string operand = "" IS NULL "";
+
+                whereLines.Add(dbColumn.Name + operand);
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            case ConditionType.IsNotNull:
+            {
+                const string operand = "" IS NOT NULL "";
+
+                whereLines.Add(dbColumn.Name + operand);
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            case ConditionType.StartsWith:
+            {
+                const string operand = "" LIKE "";
+
+                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name + "" + '%'"");
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            case ConditionType.EndsWith:
+            {
+                const string operand = "" LIKE '%' + "";
+
+                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            case ConditionType.Contains:
+            {
+                const string operand = "" LIKE '%' + "";
+
+                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name + "" + '%'"");
+
+                parameters.Add(new DbParameterInfo
+                {
+                    Name      = dbColumn.Name,
+                    SqlDbType = dbColumn.SqlDbType,
+                    Value     = whereCondition.Value
+                });
+
+                return;
+            }
+
+            default:
+            {
+                throw new ArgumentOutOfRangeException();
+            }
         }
+    }
+
+    /// <summary>
+    ///     Read nullable flag
+    /// </summary>
+    public static bool? ReadNullableFlag(string flag)
+    {
+        if (flag == null)
+        {
+            return null;
+        }
+
+        return flag == ""1"";
+    }
+}
+
+
+".Trim());
+           sb.AppendLine();
+        }
+
 
         [Inject]
         public Tracer Tracer { get; set; }
