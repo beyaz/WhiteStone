@@ -66,7 +66,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (writerContext.HasExtensionFile)
             {
-                writerContext.Imports.Add($"import {{ {writerContext.ClassName}Extension }} from \"./{screenInfo.OutputTypeScriptFileName}-extension\";");
+                writerContext.Imports.Add($"import {{ {writerContext.ClassName}Extension }} from \"./{screenInfo.OutputTypeScriptFileName.Split('\\').Last()}-extension\";");
             }
 
             writerContext.RequestIntellisenseData = CecilHelper.GetRequestIntellisenseData(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, screenInfo.RequestName);
