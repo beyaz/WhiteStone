@@ -103,6 +103,16 @@ static class Util
     }
 
     /// <summary>
+    ///     Cannots the be null.
+    /// </summary>
+    public static string CannotBeNull(string valueName)
+    {
+        const string format = ""'{0}' is null."";
+
+        return string.Format(format, valueName);
+    }
+
+    /// <summary>
     ///     Processes the condition.
     /// </summary>
     public static void ProcessCondition(WhereCondition whereCondition, List<string> whereLines, DbColumnInfo dbColumn, List<DbParameterInfo> parameters)

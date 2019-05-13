@@ -81,10 +81,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     </Reference>
     <Reference Include=""BOA.Types.Kernel.Card"">
       <HintPath>d:\boa\server\bin\BOA.Types.Kernel.Card.dll</HintPath>
-    </Reference>
-    <Reference Include=""BOA.Messaging"">
-      <HintPath>D:\BOA\Server\bin\BOA.Messaging.dll</HintPath>
-    </Reference>
+    </Reference>    
     <Reference Include=""System"" />
     <Reference Include=""System.Core"" />
     <Reference Include=""System.Data"" />

@@ -116,7 +116,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine();
                 sb.AppendLine("if (contract == null)");
                 sb.AppendLine("{");
-                sb.AppendLine(@"    returnObject.Results.Add(new Result { ErrorMessage = Messaging.MessagingHelper.GetMessage(""BOA"", ""CanNotBeNull"")});");
+                sb.AppendLine(@"    returnObject.Results.Add(new Result { ErrorMessage = Util.CannotBeNull(nameof("+contractParameterName+"))});");
                 sb.AppendLine("    return returnObject;");
                 sb.AppendLine("}");
 
@@ -193,7 +193,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine();
                 sb.AppendLine("if (contract == null)");
                 sb.AppendLine("{");
-                sb.AppendLine(@"    returnObject.Results.Add(new Result { ErrorMessage = Messaging.MessagingHelper.GetMessage(""BOA"", ""CanNotBeNull"")});");
+                sb.AppendLine(@"    returnObject.Results.Add(new Result { ErrorMessage = Util.CannotBeNull(nameof("+contractParameterName+"))});");
                 sb.AppendLine("    return returnObject;");
                 sb.AppendLine("}");
 
