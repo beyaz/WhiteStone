@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
     public class BatFileLocationInfo
     {
         #region Public Properties
-        public string MsBuildExe     { get; set; } = @"%programfiles(x86)%\MSBuild\12.0\Bin\MSBuild.exe";
+        public string MsBuildExe     { get; set; } = @"%programfiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe";
         public string SharedDir      { get; set; } = @"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\";
         public string TargetLocalDir { get; set; } = @"d:\boa\BOACard.EntityGeneration";
         #endregion
