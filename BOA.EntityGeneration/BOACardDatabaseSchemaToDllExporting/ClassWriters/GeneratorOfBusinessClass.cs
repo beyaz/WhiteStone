@@ -503,17 +503,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             #endregion
 
             var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
-            if (tableInfo.ShouldGenerateSelectAllMethodInBusinessClass)
-            {
-                sb.AppendLine();
-                SelectAll(sb, tableInfo, typeContractName, businessClassNamespace, className);
+
+            sb.AppendLine();
+            SelectAll(sb, tableInfo, typeContractName, businessClassNamespace, className);
                 
-                if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
-                {
+            if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
+            {
                     
-                    sb.AppendLine();
-                    SelectByValidFlag(sb, tableInfo, typeContractName, businessClassNamespace, className, selectAllInfo);
-                }
+                sb.AppendLine();
+                SelectByValidFlag(sb, tableInfo, typeContractName, businessClassNamespace, className, selectAllInfo);
             }
 
             sb.AppendLine();

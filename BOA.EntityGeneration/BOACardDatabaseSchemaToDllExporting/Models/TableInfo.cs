@@ -51,7 +51,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
         /// </summary>
         public IReadOnlyList<IndexInfo> UniqueIndexInfoList { get; set; }
 
-        public bool ShouldGenerateSelectAllMethodInBusinessClass { get; set; }
         public bool ShouldGenerateSelectAllByValidFlagMethodInBusinessClass { get; set; }
         #endregion
     }
