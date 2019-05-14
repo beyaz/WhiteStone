@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
@@ -72,6 +71,22 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                 code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_SMALL_INT\", SqlDbType.SmallInt, request.PartSmallInt);");
                 code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_CHAR\", SqlDbType.Char, request.PartChar);");
                 code.Should().Contain("DBLayer.AddInParameter(command, \"@PART_CHAR_WITH_FLAG\", SqlDbType.Char, request.PartCharWithFlag ? \"1\" : \"0\");");
+
+
+                code.Should().Contain("contract.RecordId = SQLDBHelper.GetInt64NullableValue(reader[\"RECORD_ID\"]);");
+                code.Should().Contain("contract.RecordIdNotNull = SQLDBHelper.GetInt64Value(reader[\"RECORD_ID_NOT_NULL\"]);");
+                code.Should().Contain("contract.CustomerId = SQLDBHelper.GetInt32NullableValue(reader[\"Customer_ID\"]);");
+                code.Should().Contain("contract.SupplementaryCardFlag = SQLDBHelper.GetBooleanNullableValue2(reader[\"SUPPLEMENTARY_CARD_FLAG\"]);");
+                code.Should().Contain("contract.CardRefNumber = SQLDBHelper.GetStringValue(reader[\"CARD_REF_NUMBER\"]);");
+                code.Should().Contain("contract.MainCardRefNumber = SQLDBHelper.GetStringValue(reader[\"MAIN_CARD_REF_NUMBER\"]);");
+                code.Should().Contain("contract.PartDate = SQLDBHelper.GetDateTimeNullableValue(reader[\"PART_DATE\"]);");
+                code.Should().Contain("contract.PartDateTime = SQLDBHelper.GetDateTimeNullableValue(reader[\"PART_DATE_TIME\"]);");
+                code.Should().Contain("contract.PartLong = SQLDBHelper.GetInt64NullableValue(reader[\"PART_LONG\"]);");
+                code.Should().Contain("contract.PartBit = SQLDBHelper.GetBooleanNullableValue(reader[\"PART_BIT\"]);");
+                code.Should().Contain("contract.PartDecimal = SQLDBHelper.GetDecimalNullableValue(reader[\"PART_DECIMAL\"]);");
+                code.Should().Contain("contract.PartSmallInt = SQLDBHelper.GetInt16NullableValue(reader[\"PART_SMALL_INT\"]);");
+                code.Should().Contain("contract.PartChar = SQLDBHelper.GetStringValue(reader[\"PART_CHAR\"]);");
+                code.Should().Contain("contract.PartCharWithFlag = SQLDBHelper.GetBooleanNullableValue2(reader[\"PART_CHAR_WITH_FLAG\"]);");
             }
         }
         #endregion
@@ -196,7 +211,101 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                                     IsNullable = true
                                 }
                             },
-                            ResultColumns = new List<CustomSqlInfoResult>()
+                            ResultColumns = new List<CustomSqlInfoResult>
+                            {
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "RECORD_ID",
+                                    DataType   = "bigInt",
+                                    IsNullable = true
+                                },
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "RECORD_ID_NOT_NULL",
+                                    DataType   = "bigInt",
+                                    IsNullable = false
+                                },
+
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "Customer_ID",
+                                    DataType   = "Int",
+                                    IsNullable = true
+                                },
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "SUPPLEMENTARY_CARD_FLAG",
+                                    DataType   = "Varchar",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "CARD_REF_NUMBER",
+                                    DataType   = "Varchar",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "MAIN_CARD_REF_NUMBER",
+                                    DataType   = "char",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "PART_DATE",
+                                    DataType   = "Date",
+                                    IsNullable = true
+                                },
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "PART_DATE_TIME",
+                                    DataType   = "daTeTime",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "PART_LONG",
+                                    DataType   = "long",
+                                    IsNullable = true
+                                },
+                                
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "PART_BIT",
+                                    DataType   = "bit",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "PART_DECIMAL",
+                                    DataType   = "decimal",
+                                    IsNullable = true
+                                },
+
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "PART_SMALL_INT",
+                                    DataType   = "smallint",
+                                    IsNullable = true
+                                },
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "PART_CHAR",
+                                    DataType   = "char",
+                                    IsNullable = true
+                                },
+                                new CustomSqlInfoResult
+                                {
+                                    Name       = "PART_CHAR_WITH_FLAG",
+                                    DataType   = "char",
+                                    IsNullable = true
+                                }
+                            }
                         }
                     }
                 };

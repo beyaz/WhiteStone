@@ -304,7 +304,21 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
             if (item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
             {
-                item.SqlReaderMethod = item.IsNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
+                var sqlDataTypeIsChar = item.DataType.EndsWith("char",StringComparison.OrdinalIgnoreCase);
+                if (!sqlDataTypeIsChar)
+                {
+                    throw new InvalidOperationException($"{item.Name} column should be char.");
+                }
+
+                var dotNetPropertyTypeIsBoolean = item.DataTypeInDotnet == DotNetTypeName.DotNetBool ||
+                                                  item.DataTypeInDotnet == DotNetTypeName.DotNetBoolNullable;
+
+                if (!dotNetPropertyTypeIsBoolean)
+                {
+                    throw new InvalidOperationException($"{item.Name} property should be boolean.");
+                }
+
+                item.SqlReaderMethod = item.IsNullable ? SqlReaderMethods.GetBooleanNullableValue2 : SqlReaderMethods.GetBooleanValue;
             }
             else
             {

@@ -26,8 +26,8 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public string Title => TitleInfo.GetDesignerText();
 
-        public string ClassName => "PageModule_"+Title.Replace(" ", "_").Replace("/", "_").ToString(GlobalizationUtility.EnglishCulture);
-        public string ComposedName => "Tab_"+Title.Replace(" ", "_").Replace("/", "_").ToString(GlobalizationUtility.EnglishCulture);
+        public string ClassName => "PageModule_"+Title.Replace(" ", "_").Replace("/", "_").Replace("-", "_").Replace("\\", "_").ToString(GlobalizationUtility.EnglishCulture);
+        public string ComposedName => "Tab_"+Title.Replace(" ", "_").Replace("/", "_").Replace("-", "_").Replace("\\", "_").ToString(GlobalizationUtility.EnglishCulture);
 
         /// <summary>
         ///     Gets or sets the title information.
