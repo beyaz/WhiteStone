@@ -74,6 +74,7 @@
     <Compile Include="BOA.Common.Helpers\CompressionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\ConfigHelper.cs" />
     <Compile Include="BOA.Common.Helpers\DateTimeExtensions.cs" />
+    <Compile Include="BOA.Common.Helpers\EmbeddedAssembly.cs" />
     <Compile Include="BOA.Common.Helpers\ExceptionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\FileHelper.cs" />
     <Compile Include="BOA.Common.Helpers\JsonHelper.cs" />
