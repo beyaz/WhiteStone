@@ -1,0 +1,10 @@
+{
+  "$type": "System.Object[], mscorlib",
+  "$values":
+  [
+    {
+      "$type": "CustomSqlInjectionToProject.PublisherData, CustomSqlInjectionToProject",
+      "TfsComment": "2235# - Auto checkin for project injector."
+    }
+  ]
+}

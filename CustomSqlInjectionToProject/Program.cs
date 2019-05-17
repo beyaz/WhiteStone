@@ -1,29 +1,21 @@
 ﻿using System;
-using System.Threading;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
-using BOA.TfsAccess;
-using Ninject;
+using System.Collections.Generic;
+using BOA.Common.Helpers;
 
 namespace CustomSqlInjectionToProject
 {
+    
     public class Program
     {
         #region Methods
         static void Main(string[] args)
         {
-            if (args == null || args.Length == 0)
-            {
-                throw new ArgumentException(nameof(args));
-            }
+           
 
-            using (var kernel = new Kernel())
-            {
-                kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>();
-                kernel.Get<ProjectInjector>().Inject(args[0].Trim());
-            }
+            Injection.Inject(args);
+            // Publisher.Publish(new PublisherData());
 
-            Thread.Sleep(3000);
+            
         }
         #endregion
     }

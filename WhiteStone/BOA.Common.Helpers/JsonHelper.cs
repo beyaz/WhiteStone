@@ -26,6 +26,19 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Deserializes the name of the with type.
+        /// </summary>
+        public static object DeserializeWithTypeName(string serializedContent)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            };
+
+            return JsonConvert.DeserializeObject(serializedContent, settings);
+        }
+
+        /// <summary>
         ///     Serializes the specified value.
         /// </summary>
         public static string Serialize(object value)
@@ -34,6 +47,21 @@ namespace BOA.Common.Helpers
             {
                 Formatting        = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore
+            };
+
+            return JsonConvert.SerializeObject(value, settings);
+        }
+
+        /// <summary>
+        ///     Serializes the name of the with type.
+        /// </summary>
+        public static string SerializeWithTypeName(object value)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                Formatting        = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                TypeNameHandling  = TypeNameHandling.All
             };
 
             return JsonConvert.SerializeObject(value, settings);

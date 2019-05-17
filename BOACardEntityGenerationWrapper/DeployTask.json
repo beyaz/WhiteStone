@@ -1,0 +1,10 @@
+{
+  "$type": "System.Object[], mscorlib",
+  "$values":
+  [
+    {
+      "$type": "BOACardEntityGenerationWrapper.PublisherData, BOACardEntityGenerationWrapper",
+      "TfsComment": "2235# - Auto checkin for project injector."
+    }
+  ]
+}

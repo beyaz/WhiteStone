@@ -54,7 +54,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             sb.AppendLine("WHERE");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, whereParameters.Select(c => $"[{c.ColumnName}] = @{c.ColumnName}")));
+            sb.AppendAll(string.Join(", AND " + Environment.NewLine, whereParameters.Select(c => $"[{c.ColumnName}] = @{c.ColumnName}")));
             sb.AppendLine();
 
             sb.PaddingCount--;

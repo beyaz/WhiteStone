@@ -36,10 +36,18 @@
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="WhiteStone, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\WhiteStone.dll</HintPath>
+    </Reference>
+    <Reference Include="WhiteStone.Tasks">
+      <HintPath>..\bin\WhiteStone.Tasks.exe</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Publisher.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
@@ -53,9 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="deploy.bat" />
+    <None Include="DeployTask.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(ProjectDir)\deploy.bat</PostBuildEvent>
+    <PostBuildEvent>$(TargetDir)\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
   </PropertyGroup>
 </Project>

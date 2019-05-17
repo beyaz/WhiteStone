@@ -27,7 +27,7 @@ namespace BOA.CodeGeneration.Util
 
             var workspace = GetWorkspaceOfSolution(pc, path);
 
-            var change = workspace?.GetPendingChangesEnumerable().Where(p => p.LocalItem.Equals(path, StringComparison.OrdinalIgnoreCase)).ToArray();
+            var change = workspace?.GetPendingChangesEnumerable().Where(p => p.LocalItem.StartsWith(path, StringComparison.OrdinalIgnoreCase)).ToArray();
             if (change?.Any() == true)
             {
                 workspace.CheckIn(change.ToArray(), comment);
