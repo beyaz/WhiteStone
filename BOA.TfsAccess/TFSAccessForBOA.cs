@@ -17,6 +17,8 @@ namespace BOA.CodeGeneration.Util
         #endregion
     }
 
+   
+
     public class TFSAccessForBOA
     {
         #region Public Methods
@@ -116,12 +118,6 @@ namespace BOA.CodeGeneration.Util
 
                 return new StreamReader(stream).ReadToEnd();
             }
-        }
-
-
-        public static void DownloadFolder(string tfsPath,string destination)
-        {
-            
         }
 
         public static IReadOnlyList<string> GetSubFolderNames(string tfsPathWithSearchPattern)
