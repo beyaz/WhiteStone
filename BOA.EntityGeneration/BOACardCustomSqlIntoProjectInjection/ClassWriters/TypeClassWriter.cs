@@ -46,7 +46,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
             sb.AppendLine($"///     Parameter class of '{data.Name}' sql.");
             sb.AppendLine("/// </summary>");
             sb.AppendLine("[Serializable]");
-            if (data.ProfileId == "CC_OPERATIONS")
+
+            if (data.ProfileId == "CC_OPERATIONS" ||
+                data.ProfileId == "ACQUIRING_KERNEL"||
+                data.ProfileId == "CC_OPERATIONS_KERNEL"||
+                data.ProfileId == "EMC_MANAGEMENT")
             {
                 sb.AppendLine($"public sealed class {data.ParameterContractName} : {interfaceName}");
             }
