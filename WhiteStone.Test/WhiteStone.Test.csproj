@@ -84,7 +84,7 @@
     <Compile Include="UI.Types\BindingPathExpressionHelperTest.cs" />
     <Compile Include="UI.Types\DataGridInfoTest.cs" />
     <Compile Include="WhiteStone.Tasks\CopyFilesTest.cs" />
-    <Compile Include="WhiteStone.Tasks\SemanticUIIconNamesEvaluaterTest.cs" />
+    <Compile Include="WhiteStone.Tasks\MsBuildTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

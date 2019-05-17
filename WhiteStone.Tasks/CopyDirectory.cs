@@ -1,18 +1,25 @@
-﻿using BOA.Common.Helpers;
+﻿using System;
+using BOA.Common.Helpers;
 
 namespace WhiteStone.Tasks
 {
-    public class CopyDirectory : TaskBase
+    [Serializable]
+    public class CopyDirectoryData
     {
-        #region Properties
-        string Source => GetKey(nameof(Source));
-        string Target => GetKey(nameof(Target));
+        #region Public Properties
+        public string Source { get; set; }
+        public string Destination { get; set; }
         #endregion
+    }
+
+    public class CopyDirectory 
+    {
+      
 
         #region Public Methods
-        public override void Run()
+        public static void Run(CopyDirectoryData data)
         {
-            FileHelper.CopyDirectory(Source, Target, true);
+            FileHelper.CopyDirectory(data.Source, data.Destination, true);
         }
         #endregion
     }

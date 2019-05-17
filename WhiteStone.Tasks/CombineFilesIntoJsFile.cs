@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
-using WhiteStone.Helpers;
 using WhiteStone.Services;
 
 namespace WhiteStone.Tasks
 {
-    public class CombineFilesIntoJsFile : TaskBase
+    [Serializable]
+    public class CombineFilesIntoJsFileData
     {
-        #region Properties
-        bool? ClearXml => GetKeyAsBoolean(nameof(ClearXml));
-        string JsObjectPath => GetKey(nameof(JsObjectPath));
-        string Source => GetKey(nameof(Source));
-        string Target => GetKey(nameof(Target));
+        #region Public Properties
+        public bool?  ClearXml     { get; set; }
+        public string JsObjectPath { get; set; }
+        public string Source       { get; set; }
+        public string Destination       { get; set; }
         #endregion
+    }
 
+    public class CombineFilesIntoJsFile
+    {
         #region Public Methods
-        public override void Run()
+        public static void Run(CombineFilesIntoJsFileData data)
         {
-            var strings = Source.Split('*');
+            var strings = data.Source.Split('*');
 
             var dir = strings[0];
 
@@ -32,7 +35,7 @@ namespace WhiteStone.Tasks
 
                 var isXmlFile = filePath.EndsWith(".xml", StringComparison.OrdinalIgnoreCase);
 
-                if (ClearXml == true && isXmlFile)
+                if (data.ClearXml == true && isXmlFile)
                 {
                     fileContent = XmlHelper.ClearXml(fileContent);
                 }
@@ -40,7 +43,7 @@ namespace WhiteStone.Tasks
                 dictionary[GetDictionaryKey(dir, filePath)] = fileContent;
             }
 
-            FileHelper.WriteAllText(Target, JsObjectPath + " = " + new JsonSerializer().Serialize(dictionary));
+            FileHelper.WriteAllText(data.Destination, data.JsObjectPath + " = " + new JsonSerializer().Serialize(dictionary));
         }
         #endregion
 

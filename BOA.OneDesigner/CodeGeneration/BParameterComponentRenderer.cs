@@ -29,9 +29,11 @@ namespace BOA.OneDesigner.CodeGeneration
             // sb.AppendLine($" onParameterSelect = {{(selectedParameter: BOA.Types.Kernel.General.ParameterContract) => {{{jsBindingPath.BindingPathInJs}}} = selectedParameter ? selectedParameter.paramCode : null}}");
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
             sb.AppendLine("paramType = \"" + data.ParamType + "\"");
+            sb.AppendLine("displayMemberPath={'paramDescription'}");
 
             RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, " hintText");
             RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, " labelText");
+
 
             if (data.IsAllOptionIncluded)
             {
@@ -43,8 +45,8 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
             sb.AppendLine("paramColumns={[");
-            //sb.AppendLine("{ name: \"paramCode\",        header: Message.Code,        visible: false },");
-            sb.AppendLine("{ name: \"paramDescription\", header: 'Açıklama',  width:   200 }");
+            sb.AppendLine("{    name: \"paramCode\",        header: 'Kod',       visible: false },");
+            sb.AppendLine("{    name: \"paramDescription\", header: 'Açıklama',  width: 200 }");
             sb.AppendLine("]}");
 
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);

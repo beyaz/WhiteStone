@@ -38,6 +38,8 @@ namespace WhiteStone.Tasks
                 throw new InvalidOperationException(nameof(process));
             }
 
+            process.WaitForExit();
+
             var hasError = process.ExitCode > 0;
             if (hasError)
             {

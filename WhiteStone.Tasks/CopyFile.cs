@@ -3,18 +3,22 @@ using System.IO;
 
 namespace WhiteStone.Tasks
 {
-    public class CopyFile : TaskBase
+    [Serializable]
+    public class CopyFileData
     {
-        #region Properties
-        string Source => GetKey(nameof(Source));
-        string Target => GetKey(nameof(Target));
+        #region Public Properties
+        public string Source { get; set; }
+        public string Destination { get; set; }
         #endregion
+    }
 
+    public static class CopyFile
+    {
         #region Public Methods
-        public override void Run()
+        public static void Run(CopyFileData data)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(Target).AssertNotNull());
-            File.Copy(Source, Target, true);
+            Directory.CreateDirectory(Path.GetDirectoryName(data.Destination).AssertNotNull());
+            File.Copy(data.Source, data.Destination, true);
         }
         #endregion
     }

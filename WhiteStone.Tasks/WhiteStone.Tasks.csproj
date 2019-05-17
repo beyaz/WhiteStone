@@ -50,18 +50,9 @@
     <Compile Include="CopyDirectory.cs" />
     <Compile Include="CopyFile.cs" />
     <Compile Include="CopyFiles.cs" />
-    <Compile Include="CreateDirectory.cs" />
-    <Compile Include="GetFileContentFromWebIfNotInTarggetDir.cs" />
-    <Compile Include="ITask.cs" />
     <Compile Include="MSBuild.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReplaceInFile.cs" />
-    <Compile Include="SemanticUIIconNamesEvaluater.cs" />
-    <Compile Include="TaskInfo.cs" />
-    <Compile Include="TaskInfoFile.cs" />
-    <Compile Include="TaskInfoFileNormalizer.cs" />
-    <Compile Include="TaskRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WhiteStone\WhiteStone.csproj">

@@ -1,20 +1,13 @@
-﻿using System;
-using BOA.CodeGeneration.Util;
+﻿using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 
 namespace BOACardEntityGenerationWrapper
 {
-    [Serializable]
-    public class PublisherData
-    {
-        #region Public Properties
-        public string TfsComment { get; set; } = "2235# - Auto checkin for project injector.";
-        #endregion
-    }
-    
     public static class Publisher
     {
-        const string source = @"D:\github\WhiteStone\BOACardEntityGenerationWrapper\bin\Debug";
+        #region Constants
+        const string Source = @"D:\github\WhiteStone\BOACardEntityGenerationWrapper\bin\Debug";
+        #endregion
 
         #region Public Methods
         public static void Publish(PublisherData data)
@@ -32,18 +25,15 @@ namespace BOACardEntityGenerationWrapper
 
             TFSAccessForBOA.CheckoutFile(destination);
 
-            FileHelper.CopyDirectory(source, destination, true);
+            FileHelper.CopyDirectory(Source, destination, true);
 
             TFSAccessForBOA.CheckInFile(destination, data.TfsComment);
         }
 
         static void CopyDirectoryToUnitSharedDirectory(PublisherData data)
         {
-            
-
-
-            FileHelper.CopyDirectory(source, @"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\Generator", true);
-            FileHelper.CopyDirectory(source,@"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\Generator",true);
+            FileHelper.CopyDirectory(Source, @"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\Generator", true);
+            FileHelper.CopyDirectory(Source, @"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\Generator", true);
         }
         #endregion
     }

@@ -177,6 +177,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
                 return "decimal" + suffix;
             }
 
+            if (SqlDbType.TinyInt.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
+            {
+                return DotNetTypeName.DotNetByte +suffix;
+            }
+
             throw new NotImplementedException(dataType);
         }
 

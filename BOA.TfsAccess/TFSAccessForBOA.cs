@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.TeamFoundation.Client;
+using Microsoft.TeamFoundation.Server;
 using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace BOA.CodeGeneration.Util
@@ -115,6 +116,12 @@ namespace BOA.CodeGeneration.Util
 
                 return new StreamReader(stream).ReadToEnd();
             }
+        }
+
+
+        public static void DownloadFolder(string tfsPath,string destination)
+        {
+            
         }
 
         public static IReadOnlyList<string> GetSubFolderNames(string tfsPathWithSearchPattern)
