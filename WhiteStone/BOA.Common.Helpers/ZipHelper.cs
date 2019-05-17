@@ -9,7 +9,7 @@ namespace BOA.BOA.Common.Helpers
     /// <summary>
     ///     The zip helper
     /// </summary>
-    static class ZipHelper
+    public static class ZipHelper
     {
         #region Public Methods
         /// <summary>
