@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
@@ -57,7 +58,8 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var excepts = new List<string>
             {
-                "BOA.Types.Card.KeyManagement.RSAKeyRequest" // sanırım ahmet sevgili sonra yapacakmış 
+                "BOA.Types.Card.CCO.Card360EditRequest", // sanırım ahmet sevgili sonra yapacakmış ,
+                "BOA.Types.Card.Parameter.TrnCodeMatrixTransactionRequest"
             };
 
             
@@ -82,10 +84,12 @@ namespace BOA.OneDesigner.CodeGeneration
                     }
                     catch (BusinessException e)
                     {
+                        File.WriteAllText($@"d:\temp\{screen.RequestName}.txt",e.ToString());
                         Console.WriteLine(e);
                     }
                     catch (System.UnauthorizedAccessException e2)
                     {
+                        File.WriteAllText($@"d:\temp\{screen.RequestName}_2.txt",e2.ToString());
                         Console.WriteLine(e2);
                     }
                 }

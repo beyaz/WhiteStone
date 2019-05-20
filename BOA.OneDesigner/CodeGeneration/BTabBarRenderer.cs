@@ -27,7 +27,12 @@ namespace BOA.OneDesigner.CodeGeneration
                 ExecuteWindowRequestFunctionAccessPath = "this.state.pageInstance.executeWindowRequest"
             };
 
-            var functionRender = new RenderFunctionDefinition {WriterContext = writerContext, Data = tabPage.DivAsCardContainer, WindowRequestAccessPath = "this.state.pageInstance.getWindowRequest().body"};
+            var functionRender = new RenderFunctionDefinition {
+                WriterContext = writerContext,
+                Data = tabPage.DivAsCardContainer,
+                WindowRequestAccessPath = "this.state.pageInstance.state.windowRequest"
+
+            };
             var renderMethod   = functionRender.GetCode();
 
             var functionFillWindowRequest = new FillWindowRequestFunctionDefinition {FillRequestFromUI = writerContext.FillRequestFromUI, HasTabControl = false};

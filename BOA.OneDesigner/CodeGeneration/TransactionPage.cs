@@ -480,7 +480,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("if (hasWorkflow)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine("const windowRequestInForm = this.getWindowRequest().body || {};");
+                sb.AppendLine("const windowRequestInForm = this.state.windowRequest || {};");
                 sb.AppendLine();
                 sb.AppendLine("value.hasWorkflow = windowRequestInForm.hasWorkflow;");
                 sb.AppendLine();
@@ -607,7 +607,7 @@ addToProcessQueue(fn: Function)
         /// </summary>
         static void Render(WriterContext writerContext, DivAsCardContainer data)
         {
-            var function = new RenderFunctionDefinition {WriterContext = writerContext, Data = data, WindowRequestAccessPath = "this.getWindowRequest().body"};
+            var function = new RenderFunctionDefinition {WriterContext = writerContext, Data = data, WindowRequestAccessPath = "this.state.windowRequest"};
 
             writerContext.AddClassBody(new TypeScriptMemberInfo {Code = function.GetCode(), IsRender = true});
         }
