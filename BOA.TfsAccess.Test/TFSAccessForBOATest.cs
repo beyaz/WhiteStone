@@ -1,5 +1,4 @@
 ﻿using BOA.CodeGeneration.Util;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.TfsAccess.Test
@@ -8,18 +7,10 @@ namespace BOA.TfsAccess.Test
     public class TFSAccessForBOATest
     {
         #region Public Methods
-        [TestMethod]
-        public void CheckInSolution()
+        // [TestMethod]
+        public void CreateWorkspace()
         {
-            var data = new CheckInSolutionInput
-            {
-                SolutionFilePath = @"D:\work\BOA.Kernel\Dev\BOA.Kernel.Card\BOA.Kernel.Card.sln",
-                Comment          = "2235# - fix"
-            };
-
-            TFSAccessForBOA.CheckInSolution(data);
-
-            data.ResultMessage.Should().BeNull();
+            TFSAccessForBOA.CreateWorkspace(TFSAccessForBOA.KT,"BT3UG105NB2","$/",@"D:\work");
         }
         #endregion
     }

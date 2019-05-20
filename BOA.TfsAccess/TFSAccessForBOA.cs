@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.TeamFoundation.Client;
-using Microsoft.TeamFoundation.Server;
 using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace BOA.CodeGeneration.Util
@@ -17,10 +16,12 @@ namespace BOA.CodeGeneration.Util
         #endregion
     }
 
-   
-
     public class TFSAccessForBOA
     {
+        #region Public Properties
+         public static TfsTeamProjectCollection KT => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri("http://srvtfs:8080/tfs/KT"));
+        #endregion
+
         #region Public Methods
         public static void CheckInFile(string path, string comment)
         {
@@ -95,6 +96,15 @@ namespace BOA.CodeGeneration.Util
 
                 return "Number of checked files is " + count;
             }
+        }
+
+        public static void CreateWorkspace(TfsTeamProjectCollection tfsTeamProjectCollection, string name, string serverPath, string localPath)
+        {
+            var _versionControl = tfsTeamProjectCollection.GetService<VersionControlServer>();
+
+            var _workspace = _versionControl.CreateWorkspace(name, _versionControl.AuthorizedUser);
+
+            _workspace.Map(serverPath, localPath);
         }
 
         public static string GetFileContent(string path)
