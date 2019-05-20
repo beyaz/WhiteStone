@@ -84,7 +84,10 @@ namespace BOA.OneDesigner.CodeGeneration
                     {
                         Console.WriteLine(e);
                     }
-                    catch (System.UnauthorizedAccessException) { }
+                    catch (System.UnauthorizedAccessException e2)
+                    {
+                        Console.WriteLine(e2);
+                    }
                 }
             }
         }
