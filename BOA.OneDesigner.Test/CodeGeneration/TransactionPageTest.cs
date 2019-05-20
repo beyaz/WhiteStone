@@ -57,7 +57,6 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var excepts = new List<string>
             {
-                "BOA.Types.Card.CCO.Card360Request",
                 "BOA.Types.Card.KeyManagement.RSAKeyRequest" // sanırım ahmet sevgili sonra yapacakmış 
             };
 
