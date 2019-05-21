@@ -6,6 +6,9 @@ using WhiteStone.Services;
 
 namespace WhiteStone.Tasks
 {
+    /// <summary>
+    /// The combine files into js file data
+    /// </summary>
     [Serializable]
     public class CombineFilesIntoJsFileData
     {
@@ -13,7 +16,7 @@ namespace WhiteStone.Tasks
         public bool?  ClearXml     { get; set; }
         public string JsObjectPath { get; set; }
         public string Source       { get; set; }
-        public string Destination       { get; set; }
+        public string Destination       { get; set; } 
         #endregion
     }
 
