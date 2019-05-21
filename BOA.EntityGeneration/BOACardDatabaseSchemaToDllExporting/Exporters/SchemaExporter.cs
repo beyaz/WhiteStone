@@ -1,4 +1,5 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
+﻿using System;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
@@ -32,16 +33,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         public GeneratorOfTypeClass GeneratorOfTypeClass { get; set; }
 
         [Inject]
-        public TypesProjectExporter TypesProjectExporter { get; set; }
-        #endregion
-        [Inject]
         public Tracer Tracer { get; set; }
 
+        [Inject]
+        public TypesProjectExporter TypesProjectExporter { get; set; }
+        #endregion
 
         #region Public Methods
         public void Export(string schemaName)
         {
-
             Tracer.Trace($"*** Started to export type classes {schemaName} ***");
 
             ExportTypeDll(schemaName);
@@ -49,7 +49,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             Tracer.Trace($"*** Started to export business classes {schemaName} ***");
             ExportBusinessDll(schemaName);
 
-            BatExporter.Export(schemaName);
+            ExportRelatedBatFile(schemaName);
         }
         #endregion
 
@@ -59,6 +59,18 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             var code = AllBusinessClassesInOne.GetCode(schemaName);
 
             BusinessProjectExporter.Export(schemaName, code);
+        }
+
+        void ExportRelatedBatFile(string schemaName)
+        {
+            try
+            {
+                BatExporter.Export(schemaName);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Tracer.Trace("Warning: UnauthorizedAccessException occured.");
+            }
         }
 
         void ExportTypeDll(string schemaName)
