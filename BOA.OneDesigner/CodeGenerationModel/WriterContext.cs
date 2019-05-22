@@ -64,16 +64,16 @@ namespace BOA.OneDesigner.CodeGenerationModel
         #region Public Methods
         const string JsCode_formatDate = @"formatDate(date: Date, format: string)
 {
-	var dd   = date.getDate().tostring().padStart(2,'0');
-	var mm   = (date.getMonth() + 1).tostring().padStart(2,'0');
+	var dd   = (""00"" + date.getDate()).slice(-2);
+	var mm   = (""00"" + (date.getMonth() + 1)).slice(-2);
 	var yyyy = date.getFullYear();	
 	
-	if((/dd/MM/YYYY/i).test(format))
+	if(""dd/MM/YYYY"".toLowerCase() === format.toLowerCase())
 	{
-		return dd + '/' + mm + '/' + yyyy;	
+		return dd + ""/"" + mm + ""/"" + yyyy;
 	}
 	
-	throw 'NotImplementedDateFormat' + format;
+	throw ""NotImplementedDateFormat:"" + format;
 }";
 
         public void SupportDateFormat()
