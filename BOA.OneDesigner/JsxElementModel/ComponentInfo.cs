@@ -141,6 +141,8 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public int? RowCount { get; set; }
 
+      
+
         /// <summary>
         ///     Gets or sets the size information.
         /// </summary>

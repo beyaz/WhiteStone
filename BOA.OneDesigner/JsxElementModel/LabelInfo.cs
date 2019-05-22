@@ -43,6 +43,11 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets the request binding path.
         /// </summary>
         public string RequestBindingPath { get; set; }
+
+     
+
+        public string DateFormat { get; set; }
+
         #endregion
     }
 }

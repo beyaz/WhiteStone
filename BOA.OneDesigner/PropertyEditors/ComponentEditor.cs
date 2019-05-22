@@ -11,6 +11,8 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class ComponentEditorModel
     {
+        
+
         #region Public Properties
         
 
@@ -28,6 +30,9 @@ namespace BOA.OneDesigner.PropertyEditors
 
         public bool   IsSizeEditorVisible                                       { get; set; }
         public bool   IsTextIntoVisible                                         { get; set; }
+        
+        
+
         public bool   IsValueBindingPathEditorVisible                           { get; set; }
         public bool   IsValueChangedOrchestrationMethodVisible                  { get; set; }
         public bool   IsVisibleEditorVisible                                    { get; set; }
@@ -144,8 +149,12 @@ namespace BOA.OneDesigner.PropertyEditors
             {
                 element.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
             }
+            
+
         }
         #endregion
+
+        
 
         #region Methods
         bool CanShowValueChangedEventInput()
@@ -360,5 +369,7 @@ namespace BOA.OneDesigner.PropertyEditors
             _onClickActionInfoEditor.Load(Host,Model.Info.ButtonClickedActionInfo);
         }
         #endregion
+
+        
     }
 }

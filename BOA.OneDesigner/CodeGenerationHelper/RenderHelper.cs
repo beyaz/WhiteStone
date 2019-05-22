@@ -146,6 +146,12 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                     return jsBindingPath.FullBindingPathInJs;
                 }
 
+                if (propertyInfo.IsDateTime)
+                {
+                    writerContext.SupportDateFormat();
+                    return $"this.formatDate({jsBindingPath.FullBindingPathInJs},'{data.DateFormat}')";
+                }
+
                 if (propertyInfo.IsNullableNumber ||
                     propertyInfo.IsNonNullableNumber ||
                     propertyInfo.IsDecimalNullable ||

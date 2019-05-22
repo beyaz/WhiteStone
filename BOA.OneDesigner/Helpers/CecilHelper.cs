@@ -50,6 +50,11 @@ namespace BOA.OneDesigner.Helpers
         public List<string> RequestJsSupportTypesPropertyIntellisense { get; set; }
 
         public List<string>                              RequestStringPropertyIntellisense       { get; set; }
+
+        public List<string> RequestDatePropertyIntellisense { get; set; }
+        
+
+
         public string                                    RequestTypeFullName                     { get; set; }
         public TypeDefinition                            TypeDefinition                          { get; set; }
         public List<string> RequestNullableInt32PropertyIntellisense { get; set; }
@@ -323,6 +328,7 @@ namespace BOA.OneDesigner.Helpers
                 RequestPropertyIntellisense             = new List<string>(),
                 RequestJsSupportTypesPropertyIntellisense = new List<string>(),
                 RequestStringPropertyIntellisense       = new List<string>(),
+                RequestDatePropertyIntellisense = new List<string>(),
                 RequestNotNullInt32PropertyIntellisense = new List<string>(),
                 RequestNullableInt32PropertyIntellisense = new List<string>(),
 
@@ -446,6 +452,12 @@ namespace BOA.OneDesigner.Helpers
                     propertyDefinition.PropertyType.FullName == FullNameOfNullableBoolean)
                 {
                     data.RequestBooleanPropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
+                }
+
+                if (propertyDefinition.PropertyType.FullName == typeof(DateTime).FullName ||
+                    propertyDefinition.PropertyType.FullName == FullNameOfNullableDateTime)
+                {
+                    data.RequestDatePropertyIntellisense.Add(pathPrefix + propertyDefinition.Name);
                 }
 
                 if (propertyDefinition.PropertyType.FullName == typeof(string).FullName)

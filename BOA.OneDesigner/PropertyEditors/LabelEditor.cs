@@ -1,18 +1,53 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
+using WhiteStone.UI.Container;
 
 namespace BOA.OneDesigner.PropertyEditors
 {
     class LabelEditor : GroupBox, IHostItem
     {
+        public LabeledTextBox _dateFormatInput;
+
+
+        void RefreshDateFormatVisibility( )
+        {
+            var data = (LabelInfo) DataContext;
+            if (data == null || _dateFormatInput == null)
+            {
+                return;
+            }
+
+            if (data.IsRequestBindingPath)
+            {
+                var isBooleanProperty = ( Host ?? SM.Get<Host>())?.RequestIntellisenseData?.RequestDatePropertyIntellisense?.Contains(data.RequestBindingPath) == true;
+                
+                if (isBooleanProperty)
+                {
+                    _dateFormatInput.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    _dateFormatInput.Visibility = Visibility.Collapsed;
+                }
+
+            }
+            else
+            {
+                _dateFormatInput.Visibility = Visibility.Collapsed;
+            }
+        }
+
         #region Constructors
         public LabelEditor()
         {
             LoadUI();
+            DataContextChanged += (s, e) => { RefreshDateFormatVisibility(); };
         }
+        
         #endregion
 
         #region Public Properties
@@ -30,7 +65,11 @@ namespace BOA.OneDesigner.PropertyEditors
             var host = Host ?? SM.Get<Host>();
 
             host.EventBus.Publish(EventBus.LabelChanged);
+
+            RefreshDateFormatVisibility();
         }
+
+
 
         public void OnCheckedChanged()
         {
@@ -88,6 +127,12 @@ namespace BOA.OneDesigner.PropertyEditors
                 IsVisible               : '{Binding " + nameof(LabelInfo.IsRequestBindingPath) + @"}',
                 KeyUp                   : 'FirePropertyChanged',
                 ShowOnlyDotnetCoreTypes : true
+            },
+            {
+                ui          : 'TextBox',
+                Name       : '_dateFormatInput',
+                Text        : '{Binding DateFormat}', 
+                Label       : 'Date Format (Örn:DD/MM//YYYY)'
             }
 
 	    ]

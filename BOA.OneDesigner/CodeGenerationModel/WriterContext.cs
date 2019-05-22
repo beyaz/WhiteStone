@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.CodeGenerationComponentGetValueModels;
 using BOA.OneDesigner.Helpers;
@@ -61,6 +62,37 @@ namespace BOA.OneDesigner.CodeGenerationModel
         #endregion
 
         #region Public Methods
+        const string JsCode_formatDate = @"formatDate(date: Date, format: string)
+{
+	var dd   = date.getDate().tostring().padStart(2,'0');
+	var mm   = (date.getMonth() + 1).tostring().padStart(2,'0');
+	var yyyy = date.getFullYear();	
+	
+	if((/dd/MM/YYYY/i).test(format))
+	{
+		return dd + '/' + mm + '/' + yyyy;	
+	}
+	
+	throw 'NotImplementedDateFormat' + format;
+}";
+
+        public void SupportDateFormat()
+        {
+            if (_classBody.Any(x=>x.Code == JsCode_formatDate))
+            {
+                return;
+            }
+
+            var memberInfo = new TypeScriptMemberInfo
+            {
+                IsMethod = true,
+                Code     = JsCode_formatDate
+            };
+
+            _classBody.Add(memberInfo);
+            _classBody.Sort(TypeScriptMemberInfo.Compare);
+        }
+
         public void AddClassBody(TypeScriptMemberInfo info)
         {
             _classBody.Add(info);
