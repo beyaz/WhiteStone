@@ -27,6 +27,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var rowSelectionChangedMethodName = EvaluateMethodNameOfGridRowSelectionChanged(writerContext, data);
 
+            if (data.SelectedRowDataBindingPath.HasValue())
+            {
+                FillRequest(writerContext, data, isBrowsePageDataGrid);
+            }
+
             if (canWriteRowSelectionChangedMethod)
             {
                 writerContext.AddClassBody(EvaluateMethodBodyOfGridRowSelectionChanged(rowSelectionChangedMethodName, writerContext, data, isBrowsePageDataGrid));
@@ -40,6 +45,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     writerContext.ConstructorBody.Add($"this.{rowSelectionChangedMethodName} = this.{rowSelectionChangedMethodName}.bind(this);");
                 }
             }
+           
 
             if (isBrowsePageDataGrid)
             {
@@ -174,6 +180,33 @@ namespace BOA.OneDesigner.CodeGeneration
             return sb.ToString();
         }
 
+        static void FillRequest(WriterContext writerContext, BDataGrid data, bool isBrowsePageDataGrid)
+        {
+            var fieldPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.SelectedRowDataBindingPath);
+
+            var propertyDefinition = CecilHelper.FindPropertyInfo(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, writerContext.ScreenInfo.RequestName, data.SelectedRowDataBindingPath);
+
+            var isCollection = CecilHelper.IsCollection(propertyDefinition?.PropertyType);
+
+            if (isBrowsePageDataGrid)
+            {
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValueInBrowseForm
+                {
+                    JsBindingPath = fieldPath,
+                    SnapName      = data.SnapName,
+                    IsCollection  = isCollection
+                });    
+            }
+            else
+            {
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValue
+                {
+                    JsBindingPath = fieldPath,
+                    SnapName      = data.SnapName,
+                    IsCollection  = isCollection
+                });    
+            }
+        }
         internal static string EvaluateMethodBodyOfGridRowSelectionChanged(string methodName, WriterContext writerContext, BDataGrid data, bool isBrowsePageDataGrid)
         {
             var sb = new PaddedStringBuilder();
@@ -189,31 +222,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            var fieldPath = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.SelectedRowDataBindingPath);
-
-            var propertyDefinition = CecilHelper.FindPropertyInfo(writerContext.SolutionInfo.TypeAssemblyPathInServerBin, writerContext.ScreenInfo.RequestName, data.SelectedRowDataBindingPath);
-
-            var isCollection = CecilHelper.IsCollection(propertyDefinition?.PropertyType);
-
-            if (isBrowsePageDataGrid)
-            {
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValueInBrowseForm
-                {
-                    JsBindingPath = fieldPath,
-                    SnapName = data.SnapName,
-                    IsCollection = isCollection
-                });    
-            }
-            else
-            {
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoDataGridSelectedValueChangedBindingValue
-                {
-                    JsBindingPath = fieldPath,
-                    SnapName = data.SnapName,
-                    IsCollection = isCollection
-                });    
-            }
-            
+         
 
             RenderHelper.InitLabelValues(writerContext, data.RowSelectionChangedActionInfo);
 
