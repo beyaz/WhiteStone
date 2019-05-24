@@ -92,6 +92,17 @@ namespace BOA.OneDesigner.CodeGeneration
                     continue;
                 }
 
+                if (data is ComponentGetValueInfoExcelBrowser excelBrowser)
+                {
+                    sb.AppendLine("{");
+                    sb.PaddingCount++;
+
+                    excelBrowser.Write(sb);
+
+                    sb.PaddingCount--;
+                    sb.AppendLine("}");
+                    continue;
+                }
                 sb.AppendLine();
                 sb.AppendLine($"{data.JsBindingPath} = {data.GetAssignmentValueCode()};");
 

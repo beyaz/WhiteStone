@@ -232,7 +232,7 @@ namespace BOA.OneDesigner.Helpers
 
                 if (typeDefinition == null)
                 {
-                    throw Error.InvalidOperation();
+                    throw Error.InvalidBindingPath(propertyPath);
                 }
 
                 if (i == list.Count - 1)

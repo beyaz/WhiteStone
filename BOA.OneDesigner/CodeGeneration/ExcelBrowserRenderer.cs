@@ -22,6 +22,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoExcelBrowser
             {
+                ValueBindingPathInDotNet = data.ValueBindingPath,
                 JsBindingPath = jsBindingPath.FullBindingPathInJs,
                 SnapName = data.SnapName
             });

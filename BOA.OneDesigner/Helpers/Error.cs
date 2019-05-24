@@ -33,7 +33,12 @@ namespace BOA.OneDesigner.Helpers
                                                              nameof(location) + Path.AltDirectorySeparatorChar + location,
                                                              nameof(pathName) + Path.AltDirectorySeparatorChar + pathName));
         }
-
+        public static BusinessException InvalidBindingPath( string bindingPath)
+        {
+            return new BusinessException(string.Join(Environment.NewLine,
+                                                     nameof(InvalidBindingPath),
+                                                     nameof(bindingPath) + Path.VolumeSeparatorChar + bindingPath));
+        }
         public static BusinessException InvalidBindingPath(string container, string bindingPath)
         {
             return new BusinessException(string.Join(Environment.NewLine,

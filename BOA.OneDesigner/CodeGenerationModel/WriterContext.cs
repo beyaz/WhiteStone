@@ -62,11 +62,18 @@ namespace BOA.OneDesigner.CodeGenerationModel
         #endregion
 
         #region Public Methods
-        const string JsCode_formatDate = @"formatDate(date: Date, format: string)
+        const string JsCode_formatDate = @"formatDate(dateAsString: string, format: string)
 {
-	var dd   = (""00"" + date.getDate()).slice(-2);
-	var mm   = (""00"" + (date.getMonth() + 1)).slice(-2);
-	var yyyy = date.getFullYear();	
+	if (dateAsString == null || dateAsString === ""0001-01-01T00:00:00"")
+	{
+		return null;
+	}
+
+	const date = new Date(dateAsString);
+
+	const dd   = (""00"" + date.getDate()).slice(-2);
+	const mm   = (""00"" + (date.getMonth() + 1)).slice(-2);
+	const yyyy = date.getFullYear();	
 	
 	if(""dd/MM/YYYY"".toLowerCase() === format.toLowerCase())
 	{
