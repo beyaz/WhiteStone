@@ -11,8 +11,6 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #region Public Methods
         public static SelectAllInfo Create(TableInfo tableInfo)
         {
-            var parameters = tableInfo.PrimaryKeyColumns;
-
             return new SelectAllInfo
             {
                 Sql           = GetSql(tableInfo),
@@ -20,24 +18,38 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             };
         }
 
-        static string GetSql(TableInfo tableInfo)
+        public static void WriteSql(TableInfo tableInfo, PaddedStringBuilder sb, string topCountParameterName = null)
         {
-            var sb = new PaddedStringBuilder();
+            if (topCountParameterName == null)
+            {
+                sb.AppendLine("SELECT ");
+            }
+            else
+            {
+                sb.AppendLine($"SELECT TOP({topCountParameterName}) ");
+            }
 
-
-            sb.AppendLine("SELECT ");
             sb.PaddingCount++;
 
-            sb.AppendAll(string.Join("," + Environment.NewLine, tableInfo.Columns.Select(c => "[" + c.ColumnName + "]")));
+            var columnNames = tableInfo.Columns.Select(c => "[" + c.ColumnName + "]");
+
+            sb.AppendAll(string.Join("," + Environment.NewLine, columnNames));
             sb.AppendLine();
 
             sb.PaddingCount--;
             sb.AppendLine($"FROM [{tableInfo.SchemaName}].[{tableInfo.TableName}] WITH(NOLOCK)");
+        }
+        #endregion
 
+        #region Methods
+        static string GetSql(TableInfo tableInfo)
+        {
+            var sb = new PaddedStringBuilder();
+
+            WriteSql(tableInfo, sb);
 
             return sb.ToString();
         }
-
         #endregion
     }
 }

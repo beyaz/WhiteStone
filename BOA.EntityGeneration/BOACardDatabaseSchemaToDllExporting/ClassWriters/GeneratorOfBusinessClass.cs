@@ -611,7 +611,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine();
             GetDbColumnInfo(sb,tableInfo,typeContractName);
             sb.AppendLine();
-            SelectByWhereConditions(sb, tableInfo, typeContractName, businessClassNamespace, className, selectAllInfo);
+            SelectByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectAllInfo);
 
 
             sb.PaddingCount--;
@@ -809,7 +809,7 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
         }
 
 
-        static void SelectByWhereConditions(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName, string businessClassNamespace, string className, SelectAllInfo selectAllInfo)
+        static void SelectByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, SelectAllInfo selectAllInfo)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Selects records by given  <paramref name=\"whereConditions\"/>.");
