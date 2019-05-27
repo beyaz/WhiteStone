@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
@@ -151,6 +152,34 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
                 if (insertInfo.SqlParameters.Any())
                 {
+                    var contractInitializations = new List<string>();
+
+                    if (insertInfo.SqlParameters.Any(c=>c.ColumnName == Names2.ROW_GUID))
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{Names2.ROW_GUID.ToContractName()} = Guid.NewGuid().ToString().ToUpper(new System.Globalization.CultureInfo(\"en-US\", false));");
+                    }
+                    if (insertInfo.SqlParameters.Any(c=>c.ColumnName == Names2.INSERT_DATE))
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_DATE.ToContractName()} = DateTime.Now;");
+                    }
+                    if (insertInfo.SqlParameters.Any(c=>c.ColumnName == Names2.INSERT_USER_ID))
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
+                    }
+                    if (insertInfo.SqlParameters.Any(c=>c.ColumnName == Names2.INSERT_TOKEN_ID))
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_TOKEN_ID.ToContractName()} = Convert.ToString(Context.EngineContext.MainBusinessKey);");
+                    }
+
+                    if (contractInitializations.Any())
+                    {
+                        sb.AppendLine();
+                        foreach (var item in contractInitializations)
+                        {
+                            sb.AppendLine(item);
+                        }
+                    }
+
                     sb.AppendLine();
                     foreach (var columnInfo in insertInfo.SqlParameters)
                     {
@@ -207,6 +236,31 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
                 if (updateInfo.SqlParameters.Any())
                 {
+                    var contractInitializations = new List<string>();
+
+                   
+                    if (updateInfo.SqlParameters.Any(c=>c.ColumnName == Names2.UPDATE_DATE))
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_DATE.ToContractName()} = DateTime.Now;");
+                    }
+                    if (updateInfo.SqlParameters.Any(c=>c.ColumnName == Names2.UPDATE_USER_ID))
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
+                    }
+                    if (updateInfo.SqlParameters.Any(c=>c.ColumnName == Names2.UPDATE_TOKEN_ID))
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_TOKEN_ID.ToContractName()} = Convert.ToString(Context.EngineContext.MainBusinessKey);");
+                    }
+
+                    if (contractInitializations.Any())
+                    {
+                        sb.AppendLine();
+                        foreach (var item in contractInitializations)
+                        {
+                            sb.AppendLine(item);
+                        }
+                    }
+
                     sb.AppendLine();
                     foreach (var columnInfo in updateInfo.SqlParameters)
                     {

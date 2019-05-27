@@ -32,8 +32,8 @@ namespace BOACardEntityGenerationWrapper
 
         static void CopyDirectoryToUnitSharedDirectory(PublisherData data)
         {
-            FileHelper.CopyDirectory(Source, @"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\Generator", true);
-            FileHelper.CopyDirectory(Source, @"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\Generator", true);
+            const string destinationDirectory = @"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\BOACardEntityGeneration\Generator";
+            FileHelper.CopyDirectory(Source, destinationDirectory, true);
         }
         #endregion
     }
