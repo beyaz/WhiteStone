@@ -87,7 +87,7 @@ CREATE TABLE DLV.SAMPLE_TABLE
         {
             using (var kernel = new TestKernel())
             {
-                BOACardDatabaseExporter.Export(kernel, "KMT");
+                BOACardDatabaseExporter.Export(kernel, "EMB");
             }
         }
         #endregion

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
@@ -166,9 +167,23 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                     {
                         contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
                     }
-                    if (insertInfo.SqlParameters.Any(c=>c.ColumnName == Names2.INSERT_TOKEN_ID))
+
+                    var tokenIdColumn = insertInfo.SqlParameters.FirstOrDefault(c => c.ColumnName == Names2.INSERT_TOKEN_ID);
+                    if (tokenIdColumn!= null)
                     {
-                        contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_TOKEN_ID.ToContractName()} = Convert.ToString(Context.EngineContext.MainBusinessKey);");
+                        if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32||
+                            tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32Nullable)
+                        {
+                            contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = decimal.ToInt32(Context.EngineContext.MainBusinessKey);");    
+                        }
+                        else if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetStringName)
+                        {
+                            contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = Context.EngineContext.MainBusinessKey.ToString();");    
+                        }
+                        else
+                        {
+                            throw new NotImplementedException(tokenIdColumn.DotNetType);
+                        }
                     }
 
                     if (contractInitializations.Any())
@@ -247,9 +262,23 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                     {
                         contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
                     }
-                    if (updateInfo.SqlParameters.Any(c=>c.ColumnName == Names2.UPDATE_TOKEN_ID))
+                    
+                    var tokenIdColumn = updateInfo.SqlParameters.FirstOrDefault(c => c.ColumnName == Names2.UPDATE_TOKEN_ID);
+                    if (tokenIdColumn!= null)
                     {
-                        contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_TOKEN_ID.ToContractName()} = Convert.ToString(Context.EngineContext.MainBusinessKey);");
+                        if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32||
+                            tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32Nullable)
+                        {
+                            contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = decimal.ToInt32(Context.EngineContext.MainBusinessKey);");    
+                        }
+                        else if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetStringName)
+                        {
+                            contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = Context.EngineContext.MainBusinessKey.ToString();");    
+                        }
+                        else
+                        {
+                            throw new NotImplementedException(tokenIdColumn.DotNetType);
+                        }
                     }
 
                     if (contractInitializations.Any())

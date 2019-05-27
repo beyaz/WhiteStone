@@ -16,6 +16,7 @@ namespace BOA.EntityGeneration
         public const string DotNetInt16           = "short";
         public const string DotNetSingle = "float";
         public const string DotNetInt32           = "int";
+        public const string DotNetInt32Nullable = "int?";
         public const string DotNetInt64           = "long";
         public const string DotNetNullableDecimal = "decimal?";
         public const string DotNetObject          = "object";
