@@ -85,7 +85,8 @@ namespace BOA.OneDesigner.PropertyEditors
 
             if (info.Type.IsCreditCardComponent)
             {
-                dataContext.ValueBindingPathLabel = "Açık Kart No (bunu kullanma shadow card numberı kullan)";
+                dataContext.ValueBindingPathLabel = "Açık Kart No";
+                dataContext.ValueBindingPathToolTip = "Ekranın default olarak bir kart no ile açılması istenir ise bu alan bind edilebilir.";
             }
 
             if (info.Type.IsExcelBrowser)
