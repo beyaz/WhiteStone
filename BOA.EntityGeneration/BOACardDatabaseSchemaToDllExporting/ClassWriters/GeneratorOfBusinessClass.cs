@@ -147,6 +147,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine("const string sql = @\"");
                 sb.AppendAll(insertInfo.Sql);
                 sb.AppendLine();
+                if (tableInfo.HasIdentityColumn)
+                {
+                    sb.AppendLine("SELECT CAST(SCOPE_IDENTITY() AS INT)");
+                }
                 sb.AppendLine("\";");
                 sb.AppendLine();
                 sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
@@ -203,7 +207,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 }
 
                 sb.AppendLine();
-                sb.AppendLine("var response = DBLayer.ExecuteNonQuery(command);");
+                if (tableInfo.HasIdentityColumn)
+                {
+                    sb.AppendLine("var response = DBLayer.ExecuteScalar<int>(command);");
+                }
+                else
+                {
+                    sb.AppendLine("var response = DBLayer.ExecuteNonQuery(command);");
+                }
                 sb.AppendLine("if (!response.Success)");
                 sb.AppendLine("{");
                 sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
