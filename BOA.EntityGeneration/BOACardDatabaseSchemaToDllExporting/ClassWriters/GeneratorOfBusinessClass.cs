@@ -217,82 +217,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             #region Update
             if (tableInfo.IsSupportSelectByKey)
             {
-                var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
-
                 sb.AppendLine();
-                sb.AppendLine("/// <summary>");
-                sb.AppendLine($"///{Padding.ForComment} Updates records by primary keys.");
-                sb.AppendLine("/// </summary>");
-                sb.AppendLine($"public GenericResponse<int> Update({typeContractName} {contractParameterName})");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
 
-                sb.AppendLine("if (contract == null)");
-                sb.AppendLine("{");
-                sb.AppendLine("    return this.ContractCannotBeNull();");
-                sb.AppendLine("}");
-
-                sb.AppendLine();
-                sb.AppendLine("const string sql = @\"");
-                sb.AppendAll(updateInfo.Sql);
-                sb.AppendLine();
-                sb.AppendLine("\";");
-                sb.AppendLine();
-                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
-
-                if (updateInfo.SqlParameters.Any())
-                {
-                    var contractInitializations = new List<string>();
-
-                   
-                    if (updateInfo.SqlParameters.Any(c=>c.ColumnName == Names2.UPDATE_DATE))
-                    {
-                        contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_DATE.ToContractName()} = DateTime.Now;");
-                    }
-                    if (updateInfo.SqlParameters.Any(c=>c.ColumnName == Names2.UPDATE_USER_ID))
-                    {
-                        contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
-                    }
-                    
-                    var tokenIdColumn = updateInfo.SqlParameters.FirstOrDefault(c => c.ColumnName == Names2.UPDATE_TOKEN_ID);
-                    if (tokenIdColumn!= null)
-                    {
-                        if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32||
-                            tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32Nullable)
-                        {
-                            contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = decimal.ToInt32(Context.EngineContext.MainBusinessKey);");    
-                        }
-                        else if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetStringName)
-                        {
-                            contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = Context.EngineContext.MainBusinessKey.ToString();");    
-                        }
-                        else
-                        {
-                            throw new NotImplementedException(tokenIdColumn.DotNetType);
-                        }
-                    }
-
-                    if (contractInitializations.Any())
-                    {
-                        sb.AppendLine();
-                        foreach (var item in contractInitializations)
-                        {
-                            sb.AppendLine(item);
-                        }
-                    }
-
-                    sb.AppendLine();
-                    foreach (var columnInfo in updateInfo.SqlParameters)
-                    {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlUpdate(columnInfo)});");
-                    }
-                }
-
-                sb.AppendLine();
-                sb.AppendLine("return this.ExecuteNonQuery(command);");
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
+                Update(sb, tableInfo, typeContractName, contractParameterName);
             }
             #endregion
 
@@ -478,6 +405,85 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             SelectAllInfoCreator.WriteSql(tableInfo, selectTopNRecordsSql, ParameterIdentifier + TopCountParameterName);
             SelectTopNByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectTopNRecordsSql.ToString());
 
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+        }
+
+        static void Update(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName, string contractParameterName)
+        {
+            var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
+
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///{Padding.ForComment} Updates records by primary keys.");
+            sb.AppendLine("/// </summary>");
+            sb.AppendLine($"public GenericResponse<int> Update({typeContractName} {contractParameterName})");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("if (contract == null)");
+            sb.AppendLine("{");
+            sb.AppendLine("    return this.ContractCannotBeNull();");
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("const string sql = @\"");
+            sb.AppendAll(updateInfo.Sql);
+            sb.AppendLine();
+            sb.AppendLine("\";");
+            sb.AppendLine();
+            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+
+            if (updateInfo.SqlParameters.Any())
+            {
+                var contractInitializations = new List<string>();
+
+                if (updateInfo.SqlParameters.Any(c => c.ColumnName == Names2.UPDATE_DATE))
+                {
+                    contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_DATE.ToContractName()} = DateTime.Now;");
+                }
+
+                if (updateInfo.SqlParameters.Any(c => c.ColumnName == Names2.UPDATE_USER_ID))
+                {
+                    contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
+                }
+
+                var tokenIdColumn = updateInfo.SqlParameters.FirstOrDefault(c => c.ColumnName == Names2.UPDATE_TOKEN_ID);
+                if (tokenIdColumn != null)
+                {
+                    if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32 ||
+                        tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32Nullable)
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = decimal.ToInt32(Context.EngineContext.MainBusinessKey);");
+                    }
+                    else if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetStringName)
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = Context.EngineContext.MainBusinessKey.ToString();");
+                    }
+                    else
+                    {
+                        throw new NotImplementedException(tokenIdColumn.DotNetType);
+                    }
+                }
+
+                if (contractInitializations.Any())
+                {
+                    sb.AppendLine();
+                    foreach (var item in contractInitializations)
+                    {
+                        sb.AppendLine(item);
+                    }
+                }
+
+                sb.AppendLine();
+                foreach (var columnInfo in updateInfo.SqlParameters)
+                {
+                    sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlUpdate(columnInfo)});");
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("return this.ExecuteNonQuery(command);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");
