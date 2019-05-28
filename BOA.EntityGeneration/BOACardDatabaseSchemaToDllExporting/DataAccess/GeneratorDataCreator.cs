@@ -38,6 +38,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
             var sequenceName = "SEQ_" + tableInfo.TableName;
 
+            
             var hasSequenceInDatabase = Database.HasSequenceLike(tableInfo.SchemaName, sequenceName);
 
             var hasSequence = false;

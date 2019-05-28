@@ -115,6 +115,21 @@ static class Util
     }
 
     /// <summary>
+    ///     'columnNames' parameter cannot be null.
+    /// </summary>
+    public static GenericResponse<int> ColumnNamesCannotBeNullOrEmpty(this ObjectHelper objectHelper, [CallerMemberName] string memberName = null)
+    {
+        var returnObject = InitializeResponse<int>(objectHelper, memberName);
+
+        const string errorMessage = ""'columnNames' parameter cannot be null or empty."";
+
+        returnObject.Results.Add(new Result {ErrorMessage = errorMessage});
+
+        return returnObject;
+    }
+
+
+    /// <summary>
     ///     Executes the command and returns effected row count.
     /// </summary>
     public static GenericResponse<int> ExecuteNonQuery(this ObjectHelper objectHelper, SqlCommand command, [CallerMemberName] string memberName = null)

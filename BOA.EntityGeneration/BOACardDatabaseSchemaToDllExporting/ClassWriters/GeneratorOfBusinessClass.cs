@@ -18,6 +18,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         const string ParameterIdentifier = "@";
 
         const string TopCountParameterName = "$resultCount";
+        const string ParameterNameOf_columnNames = "columnNames";
         #endregion
 
         #region Public Properties
@@ -226,8 +227,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             if (tableInfo.IsSupportSelectByKey)
             {
                 sb.AppendLine();
-
                 Update(sb, tableInfo, typeContractName, contractParameterName);
+
+                sb.AppendLine();
+                UpdateSpecificColumns(sb, tableInfo, typeContractName, contractParameterName);
             }
             #endregion
 
@@ -663,7 +666,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment} Updates records by primary keys.");
+            sb.AppendLine($"///{Padding.ForComment} Updates only one record by primary keys.");
             sb.AppendLine("/// </summary>");
             sb.AppendLine($"public GenericResponse<int> Update({typeContractName} {contractParameterName})");
             sb.AppendLine("{");
@@ -736,6 +739,142 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.PaddingCount--;
             sb.AppendLine("}");
         }
+
+        
+        static void UpdateSpecificColumns(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName, string contractParameterName)
+        {
+            var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
+
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///{Padding.ForComment} Updates only one record's specific columns by primary keys.");
+            sb.AppendLine("/// </summary>");
+            sb.AppendLine($"public GenericResponse<int> UpdateSpecificColumns({typeContractName} {contractParameterName}, params string[] {ParameterNameOf_columnNames})");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine($"if ({contractParameterName} == null)");
+            sb.AppendLine("{");
+            sb.AppendLine("    return this.ContractCannotBeNull();");
+            sb.AppendLine("}");
+
+            sb.AppendLine($"if ({ParameterNameOf_columnNames} == null || {ParameterNameOf_columnNames}.Length == 0)");
+            sb.AppendLine("{");
+            sb.AppendLine("    return this.ColumnNamesCannotBeNullOrEmpty();");
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("var sql = new StringBuilder();");
+
+            
+
+            sb.AppendLine($"sql.Append(\"UPDATE [{tableInfo.SchemaName}].[{tableInfo.TableName}] SET \");");
+
+            foreach (var columnInfo in updateInfo.ColumnsWillBeUpdate)
+            {
+                sb.AppendLine();
+                if (columnInfo.ColumnName == Names2.UPDATE_DATE||
+                    columnInfo.ColumnName == Names2.UPDATE_USER_ID||
+                    columnInfo.ColumnName == Names2.UPDATE_TOKEN_ID)
+                {
+                    sb.AppendLine($"sql.Append(\"[{columnInfo.ColumnName}] = @{columnInfo.ColumnName},\");");
+                    continue;
+                }
+
+                sb.AppendLine($"if(Array.IndexOf({ParameterNameOf_columnNames}, nameof({typeContractName}.{columnInfo.ColumnName.ToContractName()})) >= 0)");
+                sb.AppendLine("{");
+                sb.AppendLine($"    sql.Append(\"[{columnInfo.ColumnName}] = @{columnInfo.ColumnName},\");");
+                sb.AppendLine("}");
+            }
+
+            sb.AppendLine("sql.Remove(sql.Length - 1, 1);");
+            sb.AppendLine("sql.Append(\" WHERE \");");
+
+            foreach (var columnInfo in updateInfo.WhereParameters)
+            {
+                sb.AppendLine($"sql.Append(\"[{columnInfo.ColumnName}] = @{columnInfo.ColumnName} AND\");");
+            }
+
+            sb.AppendLine("sql.Remove(sql.Length - 4, 4);");
+
+
+            sb.AppendLine();
+            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql.ToString(), null, CommandType.Text);");
+
+            if (updateInfo.SqlParameters.Any())
+            {
+                var contractInitializations = new List<string>();
+
+                if (updateInfo.SqlParameters.Any(c => c.ColumnName == Names2.UPDATE_DATE))
+                {
+                    contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_DATE.ToContractName()} = DateTime.Now;");
+                }
+
+                if (updateInfo.SqlParameters.Any(c => c.ColumnName == Names2.UPDATE_USER_ID))
+                {
+                    contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
+                }
+
+                var tokenIdColumn = updateInfo.SqlParameters.FirstOrDefault(c => c.ColumnName == Names2.UPDATE_TOKEN_ID);
+                if (tokenIdColumn != null)
+                {
+                    if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32 ||
+                        tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32Nullable)
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = decimal.ToInt32(Context.EngineContext.MainBusinessKey);");
+                    }
+                    else if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetStringName)
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = Context.EngineContext.MainBusinessKey.ToString();");
+                    }
+                    else
+                    {
+                        throw new NotImplementedException(tokenIdColumn.DotNetType);
+                    }
+                }
+
+                if (contractInitializations.Any())
+                {
+                    sb.AppendLine();
+                    foreach (var item in contractInitializations)
+                    {
+                        sb.AppendLine(item);
+                    }
+                }
+
+                sb.AppendLine();
+                foreach (var columnInfo in updateInfo.SqlParameters)
+                {
+                    var addParameterLine = $"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlUpdate(columnInfo)});";
+
+                    if (updateInfo.WhereParameters.Any(x=>x.ColumnName == columnInfo.ColumnName))
+                    {
+                        sb.AppendLine(addParameterLine);
+                        continue;
+                    }
+
+                    if (columnInfo.ColumnName == Names2.UPDATE_DATE||
+                        columnInfo.ColumnName == Names2.UPDATE_USER_ID||
+                        columnInfo.ColumnName == Names2.UPDATE_TOKEN_ID)
+                    {
+                        sb.AppendLine(addParameterLine);
+                        continue;
+                    }
+
+                    sb.AppendLine();
+                    sb.AppendLine($"if(Array.IndexOf({ParameterNameOf_columnNames}, nameof({typeContractName}.{columnInfo.ColumnName.ToContractName()})) >= 0)");
+                    sb.AppendLine("{");
+                    sb.AppendLine($"    {addParameterLine}");
+                    sb.AppendLine("}");
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("return this.ExecuteNonQuery(command);");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+        }
+
         #endregion
     }
 }
