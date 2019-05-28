@@ -59,7 +59,7 @@ CREATE TABLE DLV.SAMPLE_TABLE
             }
         }
 
-        // [TestMethod]
+        //[TestMethod]
         public void Export()
         {
             using (var kernel = new TestKernel())
