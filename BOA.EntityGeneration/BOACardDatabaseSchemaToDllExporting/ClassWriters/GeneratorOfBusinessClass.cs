@@ -473,10 +473,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine();
             SelectByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectAllInfo.Sql);
 
-            //sb.AppendLine();
-            //var selectTopNRecordsSql = new PaddedStringBuilder();
-            //SelectAllInfoCreator.WriteSql(tableInfo,selectTopNRecordsSql,ParameterIdentifier+TopCountParameterName);
-            //SelectTopNByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectTopNRecordsSql.ToString());
+            sb.AppendLine();
+            var selectTopNRecordsSql = new PaddedStringBuilder();
+            SelectAllInfoCreator.WriteSql(tableInfo, selectTopNRecordsSql, ParameterIdentifier + TopCountParameterName);
+            SelectTopNByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectTopNRecordsSql.ToString());
 
 
             sb.PaddingCount--;
@@ -693,8 +693,7 @@ return this.ExecuteReader<"+typeContractName+@">(command, ReadContract);
 
 if (whereConditions == null || whereConditions.Length == 0)
 {
-    returnObject.Results.Add(new Result { ErrorMessage = Util.CannotBeEmpty(nameof(whereConditions))});
-    return returnObject;
+    return this.WhereConditionsCannotBeNullOrEmpty<"+typeContractName+@">();
 }
 
 const string sqlSelectPart = @""
@@ -738,30 +737,7 @@ foreach (var parameter in parameters)
     DBLayer.AddInParameter(command, ""@""+parameter.Name, parameter.SqlDbType, parameter.Value );    
 }
 
-var response = DBLayer.ExecuteReader(command);
-if (!response.Success)
-{
-    returnObject.Results.AddRange(response.Results);
-    return returnObject;
-}
-var reader = response.Value;
-
-var records = new List<"+typeContractName+@">();
-
-while (reader.Read())
-{
-    var record = new "+typeContractName+@"();
-
-    ReadContract(reader, record);
-
-    records.Add(record);
-}
-
-reader.Close();
-
-returnObject.Value = records;
-
-return returnObject;
+return this.ExecuteReader<"+typeContractName+@">(command, ReadContract);
 
 ".Trim());
             sb.AppendLine();

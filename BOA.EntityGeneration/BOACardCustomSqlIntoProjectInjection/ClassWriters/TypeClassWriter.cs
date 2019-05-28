@@ -50,6 +50,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
             if (data.ProfileId == "CC_OPERATIONS" ||
                 data.ProfileId == "ACQUIRING_KERNEL"||
                 data.ProfileId == "CC_OPERATIONS_KERNEL"||
+                data.ProfileId == "CreditCardExtract"||
+                data.ProfileId == "ACCOUNTING"||
                 data.ProfileId == "EMC_MANAGEMENT")
             {
                 sb.AppendLine($"public sealed class {data.ParameterContractName} : {interfaceName}");
