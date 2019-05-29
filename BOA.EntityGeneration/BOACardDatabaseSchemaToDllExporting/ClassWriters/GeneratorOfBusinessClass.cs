@@ -311,11 +311,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment} Inserts new record into table.");
-            if (tableInfo.SequenceName.HasValue())
+            foreach (var sequenceInfo in tableInfo.SequenceList)
             {
-                sb.AppendLine($"///{Padding.ForComment} <para>Automatically initialize RecordId property by using {tableInfo.SequenceName} sequence.</para>");
+                sb.AppendLine($"///{Padding.ForComment} <para>Automatically initialize '{sequenceInfo.TargetColumnName.ToContractName()}' property by using '{sequenceInfo.Name}' sequence.</para>");
             }
-
+            
             sb.AppendLine("/// </summary>");
             sb.AppendLine($"public GenericResponse<int> Insert({typeContractName} {contractParameterName})");
             sb.AppendLine("{");
@@ -326,11 +326,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("    return this.ContractCannotBeNull();");
             sb.AppendLine("}");
 
-            if (tableInfo.SequenceName.HasValue())
+            foreach (var sequenceInfo in tableInfo.SequenceList)
             {
+                
                 sb.AppendLine();
-                sb.AppendLine("// Init Sequence");
-                sb.AppendLine($"const string sqlNextSequence = @\"SELECT NEXT VALUE FOR {tableInfo.SequenceName}\";");
+
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine($"// Init sequence for {sequenceInfo.TargetColumnName.ToContractName()}");
+                sb.AppendLine();
+                sb.AppendLine($"const string sqlNextSequence = @\"SELECT NEXT VALUE FOR {sequenceInfo.Name}\";");
                 sb.AppendLine();
                 sb.AppendLine($"var commandNextSequence = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sqlNextSequence, null, CommandType.Text);");
                 sb.AppendLine();
@@ -340,7 +346,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine("    return this.SequenceFetchError(responseSequence);");
                 sb.AppendLine("}");
                 sb.AppendLine();
-                sb.AppendLine($"{contractParameterName}.RecordId = responseSequence.Value;");
+                sb.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = responseSequence.Value;");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                
+            
             }
 
             sb.AppendLine();

@@ -42,11 +42,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
         ///     Gets or sets the non unique index information list.
         /// </summary>
         public IReadOnlyList<IndexInfo> NonUniqueIndexInfoList { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the name of the sequence.
-        /// </summary>
-        public string SequenceName { get; set; }
+        
 
         public IReadOnlyList<SequenceInfo> SequenceList { get; set; }
 
@@ -70,7 +66,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
     {
         public static IReadOnlyList<SequenceInfo> GetSequenceListOfTable(this IDatabase Database, string schema, string tableName)
         {
-            Database.CommandText = $"select  DISTINCT(columnname) AS TargetColumnName , sequencename AS Name from BOACard.dbo.tablesequences WHERE schemaname = '{schema}' AND tablename = '{tableName}'";
+            Database.CommandText = $"select  DISTINCT(columnname) AS TargetColumnName , (schemaname +'.' + sequencename) AS Name from BOACard.dbo.tablesequences WHERE schemaname = '{schema}' AND tablename = '{tableName}'";
 
             return Database.ExecuteReader().ToList<SequenceInfo>();
         }

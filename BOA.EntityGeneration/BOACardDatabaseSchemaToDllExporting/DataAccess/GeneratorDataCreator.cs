@@ -3,7 +3,6 @@ using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
@@ -36,21 +35,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
             var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
 
-            var sequenceName = "SEQ_" + tableInfo.TableName;
+         
 
 
             
             
-            var hasSequenceInDatabase = Database.HasSequenceLike(tableInfo.SchemaName, sequenceName);
+         
 
-            var hasSequence = false;
-            if (hasSequenceInDatabase && tableInfo.PrimaryKeyColumns.Count == 1)
-            {
-                if (tableInfo.PrimaryKeyColumns[0].ColumnName == Names2.RECORD_ID)
-                {
-                    hasSequence = true;
-                }
-            }
+            
 
             var data = JsonHelper.Deserialize<TableInfo>(JsonHelper.Serialize(tableInfo));
 
@@ -61,7 +53,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             data.IsSupportSelectByIndex       = isSupportSelectByIndex;
             data.IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex;
             data.DatabaseEnumName             = tableInfo.CatalogName;
-            data.SequenceName                 = hasSequence ? tableInfo.SchemaName + "." + sequenceName : null;
             data.SequenceList = Database.GetSequenceListOfTable(tableInfo.SchemaName, tableInfo.TableName);
 
             TableOverride.Override(data);
