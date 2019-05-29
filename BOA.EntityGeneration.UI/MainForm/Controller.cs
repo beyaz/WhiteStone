@@ -2,6 +2,7 @@
 using System.Threading;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.TfsAccess;
 using WhiteStone.UI.Container.Mvc;
 
@@ -31,7 +32,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         public void GetCapture()
         {
             Model.ProcessIndicatorValue = v++;
-            Model.ProcessIndicatorText  = Model.ProcessIndicatorValue.ToString();
+            Model.ProcessIndicatorText = Tracer.LastTrace;
         }
 
         public override void OnViewLoaded()
