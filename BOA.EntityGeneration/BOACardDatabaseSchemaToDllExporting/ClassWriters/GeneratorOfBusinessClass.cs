@@ -805,6 +805,10 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
                 {
                     sb.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = Convert.ToInt32(responseSequence.Value);");
                 }
+                else if (columnInfo.DotNetType == DotNetTypeName.DotNetStringName)
+                {
+                    sb.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = Convert.ToString(responseSequence.Value);");
+                }
                 else
                 {
                     sb.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = Convert.ToInt64(responseSequence.Value);");
