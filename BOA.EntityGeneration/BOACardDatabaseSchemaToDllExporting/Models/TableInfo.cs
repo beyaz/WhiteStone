@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel;
+using WhiteStone.Helpers;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
 {
@@ -46,6 +48,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
         /// </summary>
         public string SequenceName { get; set; }
 
+        public IReadOnlyList<SequenceInfo> SequenceList { get; set; }
+
         /// <summary>
         ///     Gets or sets the unique index information list.
         /// </summary>
@@ -54,4 +58,22 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
         public bool ShouldGenerateSelectAllByValidFlagMethodInBusinessClass { get; set; }
         #endregion
     }
+
+    [Serializable]
+    public class SequenceInfo
+    {
+        public string Name { get; set; }
+        public string TargetColumnName { get; set; }
+    }
+
+    static class SequenceInfoHelper
+    {
+        public static IReadOnlyList<SequenceInfo> GetSequenceListOfTable(this IDatabase Database, string schema, string tableName)
+        {
+            Database.CommandText = $"select  DISTINCT(columnname) AS TargetColumnName , sequencename AS Name from BOACard.dbo.tablesequences WHERE schemaname = '{schema}' AND tablename = '{tableName}'";
+
+            return Database.ExecuteReader().ToList<SequenceInfo>();
+        }
+    }
+
 }

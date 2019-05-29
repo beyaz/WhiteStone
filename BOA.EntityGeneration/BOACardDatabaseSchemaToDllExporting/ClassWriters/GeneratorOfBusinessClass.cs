@@ -105,9 +105,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             #region Insert
             if (true)
             {
+                sb.AppendLine();
+
                 var insertInfo = InsertInfoCreator.Create(tableInfo);
 
-                sb.AppendLine();
+                
                 sb.AppendLine("/// <summary>");
                 sb.AppendLine($"///{Padding.ForComment} Inserts new record into table.");
                 if (tableInfo.SequenceName.HasValue())
@@ -211,7 +213,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine();
                 if (tableInfo.HasIdentityColumn)
                 {
-                    sb.AppendLine("return this.ExecuteScalar(command);");
+                    sb.AppendLine("var response = this.ExecuteScalar(command);");
+                    sb.AppendLine();
+                    sb.AppendLine($"{contractParameterName}.{tableInfo.IdentityColumn.ColumnName.ToContractName()} = response.Value;");
+                    sb.AppendLine();
+                    sb.AppendLine("return response;");
                 }
                 else
                 {

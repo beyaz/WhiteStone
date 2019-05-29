@@ -38,6 +38,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
             var sequenceName = "SEQ_" + tableInfo.TableName;
 
+
+            
             
             var hasSequenceInDatabase = Database.HasSequenceLike(tableInfo.SchemaName, sequenceName);
 
@@ -60,6 +62,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             data.IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex;
             data.DatabaseEnumName             = tableInfo.CatalogName;
             data.SequenceName                 = hasSequence ? tableInfo.SchemaName + "." + sequenceName : null;
+            data.SequenceList = Database.GetSequenceListOfTable(tableInfo.SchemaName, tableInfo.TableName);
 
             TableOverride.Override(data);
 

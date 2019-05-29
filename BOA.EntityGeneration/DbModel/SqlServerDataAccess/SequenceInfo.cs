@@ -1,4 +1,5 @@
-﻿using BOA.DatabaseAccess;
+﻿using System.Collections.Generic;
+using BOA.DatabaseAccess;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
@@ -11,6 +12,8 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
             return Database.ExecuteScalar() != null;
         }
+
+        
         #endregion
     }
 }
