@@ -15,10 +15,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
     public class GeneratorOfBusinessClass
     {
         #region Constants
-        const string ParameterIdentifier = "@";
+        const string contractParameterName       = "contract";
+        const string ParameterIdentifier         = "@";
+        const string ParameterNameOf_columnNames = "columnNames";
 
         const string TopCountParameterName = "$resultCount";
-        const string ParameterNameOf_columnNames = "columnNames";
         #endregion
 
         #region Public Properties
@@ -28,13 +29,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         [Inject]
         public NamingHelper NamingHelper { get; set; }
         #endregion
-        const string contractParameterName = "contract";
+
         #region Public Methods
         public void WriteClass(PaddedStringBuilder sb, TableInfo tableInfo)
         {
-            var          typeContractName      = $"{tableInfo.TableName.ToContractName()}Contract";
-            var          className             = tableInfo.TableName.ToContractName();
-            
+            var typeContractName = $"{tableInfo.TableName.ToContractName()}Contract";
+            var className        = tableInfo.TableName.ToContractName();
 
             if (typeContractName == "TransactionLogContract") // resolve conflig
             {
@@ -300,139 +300,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             var selectTopNRecordsSql = new PaddedStringBuilder();
             SelectAllInfoCreator.WriteSql(tableInfo, selectTopNRecordsSql, ParameterIdentifier + TopCountParameterName);
             SelectTopNByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectTopNRecordsSql.ToString());
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-        }
-
-        void Insert(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName)
-        {
-            var insertInfo = InsertInfoCreator.Create(tableInfo);
-
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment} Inserts new record into table.");
-            foreach (var sequenceInfo in tableInfo.SequenceList)
-            {
-                sb.AppendLine($"///{Padding.ForComment} <para>Automatically initialize '{sequenceInfo.TargetColumnName.ToContractName()}' property by using '{sequenceInfo.Name}' sequence.</para>");
-            }
-            
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public GenericResponse<int> Insert({typeContractName} {contractParameterName})");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("if (contract == null)");
-            sb.AppendLine("{");
-            sb.AppendLine("    return this.ContractCannotBeNull();");
-            sb.AppendLine("}");
-
-            foreach (var sequenceInfo in tableInfo.SequenceList)
-            {
-                
-                sb.AppendLine();
-
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine($"// Init sequence for {sequenceInfo.TargetColumnName.ToContractName()}");
-                sb.AppendLine();
-                sb.AppendLine($"const string sqlNextSequence = @\"SELECT NEXT VALUE FOR {sequenceInfo.Name}\";");
-                sb.AppendLine();
-                sb.AppendLine($"var commandNextSequence = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sqlNextSequence, null, CommandType.Text);");
-                sb.AppendLine();
-                sb.AppendLine("var responseSequence = DBLayer.ExecuteScalar<long>(commandNextSequence);");
-                sb.AppendLine("if (!responseSequence.Success)");
-                sb.AppendLine("{");
-                sb.AppendLine("    return this.SequenceFetchError(responseSequence);");
-                sb.AppendLine("}");
-                sb.AppendLine();
-                sb.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = responseSequence.Value;");
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                
-            
-            }
-
-            sb.AppendLine();
-            sb.AppendLine("const string sql = @\"");
-            sb.AppendAll(insertInfo.Sql);
-            sb.AppendLine();
-            if (tableInfo.HasIdentityColumn)
-            {
-                sb.AppendLine("SELECT CAST(SCOPE_IDENTITY() AS INT)");
-            }
-
-            sb.AppendLine("\";");
-            sb.AppendLine();
-            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
-
-            if (insertInfo.SqlParameters.Any())
-            {
-                var contractInitializations = new List<string>();
-
-                if (insertInfo.SqlParameters.Any(c => c.ColumnName == Names2.ROW_GUID))
-                {
-                    contractInitializations.Add($"{contractParameterName}.{Names2.ROW_GUID.ToContractName()} = Guid.NewGuid().ToString().ToUpper(new System.Globalization.CultureInfo(\"en-US\", false));");
-                }
-
-                if (insertInfo.SqlParameters.Any(c => c.ColumnName == Names2.INSERT_DATE))
-                {
-                    contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_DATE.ToContractName()} = DateTime.Now;");
-                }
-
-                if (insertInfo.SqlParameters.Any(c => c.ColumnName == Names2.INSERT_USER_ID))
-                {
-                    contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
-                }
-
-                var tokenIdColumn = insertInfo.SqlParameters.FirstOrDefault(c => c.ColumnName == Names2.INSERT_TOKEN_ID);
-                if (tokenIdColumn != null)
-                {
-                    if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32 ||
-                        tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32Nullable)
-                    {
-                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = decimal.ToInt32(Context.EngineContext.MainBusinessKey);");
-                    }
-                    else if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetStringName)
-                    {
-                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = Context.EngineContext.MainBusinessKey.ToString();");
-                    }
-                    else
-                    {
-                        throw new NotImplementedException(tokenIdColumn.DotNetType);
-                    }
-                }
-
-                if (contractInitializations.Any())
-                {
-                    sb.AppendLine();
-                    foreach (var item in contractInitializations)
-                    {
-                        sb.AppendLine(item);
-                    }
-                }
-
-                sb.AppendLine();
-                foreach (var columnInfo in insertInfo.SqlParameters)
-                {
-                    sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlInsert(columnInfo)});");
-                }
-            }
-
-            sb.AppendLine();
-            if (tableInfo.HasIdentityColumn)
-            {
-                sb.AppendLine("var response = this.ExecuteScalar(command);");
-                sb.AppendLine();
-                sb.AppendLine($"{contractParameterName}.{tableInfo.IdentityColumn.ColumnName.ToContractName()} = response.Value;");
-                sb.AppendLine();
-                sb.AppendLine("return response;");
-            }
-            else
-            {
-                sb.AppendLine("return this.ExecuteNonQuery(command);");
-            }
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -761,7 +628,6 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
-        
         static void UpdateSpecificColumns(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName)
         {
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
@@ -786,15 +652,13 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine();
             sb.AppendLine("var sql = new StringBuilder();");
 
-            
-
             sb.AppendLine($"sql.Append(\"UPDATE [{tableInfo.SchemaName}].[{tableInfo.TableName}] SET \");");
 
             foreach (var columnInfo in updateInfo.ColumnsWillBeUpdate)
             {
                 sb.AppendLine();
-                if (columnInfo.ColumnName == Names2.UPDATE_DATE||
-                    columnInfo.ColumnName == Names2.UPDATE_USER_ID||
+                if (columnInfo.ColumnName == Names2.UPDATE_DATE ||
+                    columnInfo.ColumnName == Names2.UPDATE_USER_ID ||
                     columnInfo.ColumnName == Names2.UPDATE_TOKEN_ID)
                 {
                     sb.AppendLine($"sql.Append(\"[{columnInfo.ColumnName}] = @{columnInfo.ColumnName},\");");
@@ -816,7 +680,6 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             }
 
             sb.AppendLine("sql.Remove(sql.Length - 4, 4);");
-
 
             sb.AppendLine();
             sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql.ToString(), null, CommandType.Text);");
@@ -867,14 +730,14 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
                 {
                     var addParameterLine = $"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlUpdate(columnInfo)});";
 
-                    if (updateInfo.WhereParameters.Any(x=>x.ColumnName == columnInfo.ColumnName))
+                    if (updateInfo.WhereParameters.Any(x => x.ColumnName == columnInfo.ColumnName))
                     {
                         sb.AppendLine(addParameterLine);
                         continue;
                     }
 
-                    if (columnInfo.ColumnName == Names2.UPDATE_DATE||
-                        columnInfo.ColumnName == Names2.UPDATE_USER_ID||
+                    if (columnInfo.ColumnName == Names2.UPDATE_DATE ||
+                        columnInfo.ColumnName == Names2.UPDATE_USER_ID ||
                         columnInfo.ColumnName == Names2.UPDATE_TOKEN_ID)
                     {
                         sb.AppendLine(addParameterLine);
@@ -896,6 +759,144 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
+        void Insert(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName)
+        {
+            var insertInfo = InsertInfoCreator.Create(tableInfo);
+
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///{Padding.ForComment} Inserts new record into table.");
+            foreach (var sequenceInfo in tableInfo.SequenceList)
+            {
+                sb.AppendLine($"///{Padding.ForComment} <para>Automatically initialize '{sequenceInfo.TargetColumnName.ToContractName()}' property by using '{sequenceInfo.Name}' sequence.</para>");
+            }
+
+            sb.AppendLine("/// </summary>");
+            sb.AppendLine($"public GenericResponse<int> Insert({typeContractName} {contractParameterName})");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("if (contract == null)");
+            sb.AppendLine("{");
+            sb.AppendLine("    return this.ContractCannotBeNull();");
+            sb.AppendLine("}");
+
+            foreach (var sequenceInfo in tableInfo.SequenceList)
+            {
+                sb.AppendLine();
+
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine($"// Init sequence for {sequenceInfo.TargetColumnName.ToContractName()}");
+                sb.AppendLine();
+                sb.AppendLine($"const string sqlNextSequence = @\"SELECT NEXT VALUE FOR {sequenceInfo.Name}\";");
+                sb.AppendLine();
+                sb.AppendLine($"var commandNextSequence = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sqlNextSequence, null, CommandType.Text);");
+                sb.AppendLine();
+                sb.AppendLine("var responseSequence = DBLayer.ExecuteScalar<object>(commandNextSequence);");
+                sb.AppendLine("if (!responseSequence.Success)");
+                sb.AppendLine("{");
+                sb.AppendLine("    return this.SequenceFetchError(responseSequence);");
+                sb.AppendLine("}");
+                sb.AppendLine();
+
+                var columnInfo = tableInfo.Columns.First(x => x.ColumnName == sequenceInfo.TargetColumnName);
+                if (columnInfo.DotNetType == DotNetTypeName.DotNetInt32 || columnInfo.DotNetType == DotNetTypeName.DotNetInt32Nullable)
+                {
+                    sb.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = Convert.ToInt32(responseSequence.Value);");
+                }
+                else
+                {
+                    sb.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = Convert.ToInt64(responseSequence.Value);");
+                }
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("const string sql = @\"");
+            sb.AppendAll(insertInfo.Sql);
+            sb.AppendLine();
+            if (tableInfo.HasIdentityColumn)
+            {
+                sb.AppendLine("SELECT CAST(SCOPE_IDENTITY() AS INT)");
+            }
+
+            sb.AppendLine("\";");
+            sb.AppendLine();
+            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+
+            if (insertInfo.SqlParameters.Any())
+            {
+                var contractInitializations = new List<string>();
+
+                if (insertInfo.SqlParameters.Any(c => c.ColumnName == Names2.ROW_GUID))
+                {
+                    contractInitializations.Add($"{contractParameterName}.{Names2.ROW_GUID.ToContractName()} = Guid.NewGuid().ToString().ToUpper(new System.Globalization.CultureInfo(\"en-US\", false));");
+                }
+
+                if (insertInfo.SqlParameters.Any(c => c.ColumnName == Names2.INSERT_DATE))
+                {
+                    contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_DATE.ToContractName()} = DateTime.Now;");
+                }
+
+                if (insertInfo.SqlParameters.Any(c => c.ColumnName == Names2.INSERT_USER_ID))
+                {
+                    contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
+                }
+
+                var tokenIdColumn = insertInfo.SqlParameters.FirstOrDefault(c => c.ColumnName == Names2.INSERT_TOKEN_ID);
+                if (tokenIdColumn != null)
+                {
+                    if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32 ||
+                        tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32Nullable)
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = decimal.ToInt32(Context.EngineContext.MainBusinessKey);");
+                    }
+                    else if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetStringName)
+                    {
+                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = Context.EngineContext.MainBusinessKey.ToString();");
+                    }
+                    else
+                    {
+                        throw new NotImplementedException(tokenIdColumn.DotNetType);
+                    }
+                }
+
+                if (contractInitializations.Any())
+                {
+                    sb.AppendLine();
+                    foreach (var item in contractInitializations)
+                    {
+                        sb.AppendLine(item);
+                    }
+                }
+
+                sb.AppendLine();
+                foreach (var columnInfo in insertInfo.SqlParameters)
+                {
+                    sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlInsert(columnInfo)});");
+                }
+            }
+
+            sb.AppendLine();
+            if (tableInfo.HasIdentityColumn)
+            {
+                sb.AppendLine("var response = this.ExecuteScalar(command);");
+                sb.AppendLine();
+                sb.AppendLine($"{contractParameterName}.{tableInfo.IdentityColumn.ColumnName.ToContractName()} = response.Value;");
+                sb.AppendLine();
+                sb.AppendLine("return response;");
+            }
+            else
+            {
+                sb.AppendLine("return this.ExecuteNonQuery(command);");
+            }
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+        }
         #endregion
     }
 }

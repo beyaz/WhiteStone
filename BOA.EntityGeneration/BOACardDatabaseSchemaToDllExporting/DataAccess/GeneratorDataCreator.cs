@@ -35,15 +35,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
             var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
 
-         
-
-
-            
-            
-         
-
-            
-
             var data = JsonHelper.Deserialize<TableInfo>(JsonHelper.Serialize(tableInfo));
 
             data.UniqueIndexInfoList          = uniqueIndexIdentifiers;
@@ -53,7 +44,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             data.IsSupportSelectByIndex       = isSupportSelectByIndex;
             data.IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex;
             data.DatabaseEnumName             = tableInfo.CatalogName;
-            data.SequenceList = Database.GetSequenceListOfTable(tableInfo.SchemaName, tableInfo.TableName);
+            data.SequenceList = Database.GetSequenceListOfTable(tableInfo.SchemaName, tableInfo.TableName)
+                                        .Where(x => tableInfo.Columns.Any(c => c.ColumnName == x.TargetColumnName)).ToList();
 
             TableOverride.Override(data);
 
