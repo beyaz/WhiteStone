@@ -1,0 +1,30 @@
+{
+  "Title": "Entity Generator",
+  "Width": 400,
+  "Height": 300,
+  "Content": {
+    "ui": "Grid",
+    "rows": [
+      {
+        "view": "StackPanel",
+        "Spacing": 10,
+        "Rows": [
+          {
+            "view": "Textbox",
+            "Text": "Success",
+            "Label": "Tfs check-in Comment"
+          },
+          {
+            "view": "Combo",
+            "Label": "Schema"
+          },
+          {
+            "view": "Button",
+            "Content": "Generate"
+          }
+        ]
+      }
+
+    ]
+  }
+}
