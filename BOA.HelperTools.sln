@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomSqlInjectionToProject
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOACardEntityGenerationWrapper", "BOACardEntityGenerationWrapper\BOACardEntityGenerationWrapper.csproj", "{BD40C245-D3CD-4021-BEBD-3ECA714C2BB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.EntityGeneration.UI", "BOA.EntityGeneration.UI\BOA.EntityGeneration.UI.csproj", "{2DFCDE26-897D-4D8F-8A07-BF4BAB5E80B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{BD40C245-D3CD-4021-BEBD-3ECA714C2BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD40C245-D3CD-4021-BEBD-3ECA714C2BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD40C245-D3CD-4021-BEBD-3ECA714C2BB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DFCDE26-897D-4D8F-8A07-BF4BAB5E80B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DFCDE26-897D-4D8F-8A07-BF4BAB5E80B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DFCDE26-897D-4D8F-8A07-BF4BAB5E80B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DFCDE26-897D-4D8F-8A07-BF4BAB5E80B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
