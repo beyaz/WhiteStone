@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2DFCDE26-897D-4D8F-8A07-BF4BAB5E80B3}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>BOA.EntityGeneration.UI</RootNamespace>
     <AssemblyName>BOA.EntityGeneration.UI</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\MahApps.Metro.dll</HintPath>
@@ -43,6 +46,9 @@
     </Reference>
     <Reference Include="CustomUIMarkupLanguage">
       <HintPath>D:\github\WhiteStone\CustomUIMarkupLanguage\bin\Debug\CustomUIMarkupLanguage.dll</HintPath>
+    </Reference>
+    <Reference Include="WhiteStone.UI.Container">
+      <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\WhiteStone.UI.Container.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -60,6 +66,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainForm\Controller.cs" />
+    <Compile Include="MainForm\Model.cs" />
     <Compile Include="MainForm\View.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -85,7 +93,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="WhiteStone.UI.Container.exe.config" />
+    <None Include="WhiteStone.UI.Container.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
