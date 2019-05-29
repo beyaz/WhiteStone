@@ -41,6 +41,7 @@
     <Reference Include="MahApps.Metro">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7" />
     <Reference Include="WhiteStone">
       <HintPath>D:\github\WhiteStone\bin\WhiteStone.dll</HintPath>
     </Reference>
@@ -96,6 +97,16 @@
     <None Include="WhiteStone.UI.Container.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
+      <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
+      <Name>BOA.EntityGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BOA.TfsAccess\BOA.TfsAccess.csproj">
+      <Project>{819466b2-7d52-4c21-a270-61134a6a04c9}</Project>
+      <Name>BOA.TfsAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

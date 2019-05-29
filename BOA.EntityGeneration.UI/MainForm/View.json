@@ -11,13 +11,13 @@
         "Rows": [
           {
             "view": "Textbox",
-            "Text": "Success",
+            "Text": "{Binding CheckInComment}",
             "Label": "Tfs check-in Comment"
           },
           {
-            "view": "Combo",
-            "Label": "Schema",
-            "MarginTop": 10
+            "view": "Textbox",
+            "Text": "{Binding SchemaName}",
+            "Label": "Schema"
           },
 
           {

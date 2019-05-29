@@ -9,5 +9,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         public int ProcessIndicatorValue { get; set; }
         public string ProcessIndicatorText { get; set; }
         public bool StartTimer { get; set; }
+        public string SchemaName { get; set; }
+        public string CheckInComment { get; set; }
     }
 }

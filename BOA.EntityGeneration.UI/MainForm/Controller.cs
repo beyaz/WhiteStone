@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using BOA.TfsAccess;
 using WhiteStone.UI.Container.Mvc;
 
 namespace BOA.EntityGeneration.UI.MainForm
@@ -12,13 +16,22 @@ namespace BOA.EntityGeneration.UI.MainForm
         #region Public Methods
         public void Generate()
         {
+            if (Model.SchemaName.IsNullOrWhiteSpace())
+            {
+                Model.ViewMessage = "SchemaName girilmelidir.";
+                Model.ViewMessageTypeIsError = true;
+                return;
+            }
+
             Model.StartTimer = true;
+
+            new Thread(Start).Start();
         }
 
         public void GetCapture()
         {
             Model.ProcessIndicatorValue = v++;
-            Model.ProcessIndicatorText = Model.ProcessIndicatorValue.ToString();
+            Model.ProcessIndicatorText  = Model.ProcessIndicatorValue.ToString();
         }
 
         public override void OnViewLoaded()
@@ -26,7 +39,10 @@ namespace BOA.EntityGeneration.UI.MainForm
             Model = new Model
             {
                 ProcessIndicatorValue = 44,
-                ProcessIndicatorText = "Ready",
+                ProcessIndicatorText  = "Ready",
+                CheckInComment = "2235# - AutoCheckInByEntityGenerator",
+                SchemaName = "CRD",
+
 
                 ActionButtons = new List<ActionButtonInfo>
                 {
@@ -37,6 +53,17 @@ namespace BOA.EntityGeneration.UI.MainForm
                     }
                 }
             };
+        }
+        #endregion
+
+        #region Methods
+        void Start()
+        {
+            using (var kernel = new Kernel())
+            {
+                kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>();
+                BOACardDatabaseExporter.Export(kernel, Model.SchemaName);
+            }
         }
         #endregion
     }
