@@ -1,0 +1,46 @@
+{
+  "Title": "Custom Sql Generation",
+  "Width": 340,
+  "Height": 300,
+  "Content": {
+    "ui": "Grid",
+    "rows": [
+      {
+        "view": "StackPanel",
+        "Margin": 10,
+        "Rows": [
+          {
+            "view": "Textbox",
+            "Text": "{Binding CheckInComment}",
+            "Label": "Tfs check-in Comment"
+          },
+          {
+            "view": "Textbox",
+            "Text": "{Binding ProfileId}",
+            "Label": "ProfileId"
+          },
+
+          {
+            "view": "ProgressBar",
+            "Minimum": 0,
+            "Maximum": 100,
+            "Value": "{Binding CustomSqlGenerationOfProfileIdProcess.PercentageOfCompletion, Mode = OneWay}",
+            "MarginTop": 10
+          },
+          {
+            "view": "Label",
+            "Content": "{Binding CustomSqlGenerationOfProfileIdProcess.Text}"
+          },
+          {
+            "ui": "StackPanel",
+            "Name": "ActionPanel",
+            "FlowDirection": "RightToLeft",
+            "Orientation": "Horizontal",
+            "MarginTop": 10
+          }
+        ]
+      }
+
+    ]
+  }
+}

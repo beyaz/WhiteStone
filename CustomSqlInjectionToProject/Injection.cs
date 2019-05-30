@@ -4,26 +4,29 @@ using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.TfsAccess;
 using Ninject;
+using WhiteStone.UI.Container;
 
 namespace CustomSqlInjectionToProject
 {
     public static class Injection
     {
+        public static string ProfileId;
+
         #region Methods
         public static void Inject(string[] args)
         {
+
+           
+
+
             if (args == null || args.Length == 0)
             {
                 throw new ArgumentException(nameof(args));
             }
 
-            using (var kernel = new Kernel())
-            {
-                kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>();
-                kernel.Get<ProjectInjector>().Inject(args[0].Trim());
-            }
+            ProfileId = args[0];
 
-            Thread.Sleep(3000);
+            App.Main();
         }
         #endregion
     }

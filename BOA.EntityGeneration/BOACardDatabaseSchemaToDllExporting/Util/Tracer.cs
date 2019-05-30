@@ -32,6 +32,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
         public ProcessInfo SchemaGenerationProcess { get; set; } = new ProcessInfo();
 
         public ProcessInfo AllSchemaGenerationProcess { get; set; } = new ProcessInfo();
+
+        public ProcessInfo CustomSqlGenerationOfProfileIdProcess { get; set; } = new ProcessInfo();
+
+
+
+        
         #endregion
 
         #region Public Methods

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.TfsAccess;
 using Ninject;
 using WhiteStone.UI.Container.Mvc;
-using FileAccess = BOA.TfsAccess.FileAccess;
 
-namespace BOA.EntityGeneration.UI.MainForm
+namespace CustomSqlInjectionToProject.MainForm
 {
     public class Controller : ControllerBase<Model>
     {
@@ -27,24 +26,17 @@ namespace BOA.EntityGeneration.UI.MainForm
                 Model.ViewMessageTypeIsError = true;
                 return;
             }
-            if (Model.SchemaName.IsNullOrWhiteSpace())
+
+            if (Model.ProfileId.IsNullOrWhiteSpace())
             {
-                Model.ViewMessage            = "SchemaName girilmelidir.";
+                Model.ViewMessage            = "ProfileId girilmelidir.";
                 Model.ViewMessageTypeIsError = true;
                 return;
             }
 
             CheckInCommentAccess.SaveCheckInComment(Model.CheckInComment);
 
-            if (Model.SchemaName.Trim() == "*")
-            {
-                Model.AllSchemaGenerationProcessIsVisible = true;
-                new Thread(StartAll).Start();
-            }
-            else
-            {
-                new Thread(Start).Start();
-            }
+            new Thread(Start).Start();
 
             Model.StartTimer = true;
         }
@@ -56,30 +48,25 @@ namespace BOA.EntityGeneration.UI.MainForm
                 return;
             }
 
-            Model.SchemaGenerationProcess    = Tracer.SchemaGenerationProcess;
-            Model.AllSchemaGenerationProcess = Tracer.AllSchemaGenerationProcess;
+            Model.CustomSqlGenerationOfProfileIdProcess = Tracer.CustomSqlGenerationOfProfileIdProcess;
 
             if (IsFinished)
             {
-                Model.FinishTimer = true;
-
-                Model.SchemaGenerationProcess.Text        = "Finished.";
-                Model.AllSchemaGenerationProcessIsVisible = false;
+                Model.FinishTimer       = true;
+                Model.ViewShouldBeClose = true;
             }
         }
 
         public override void OnViewLoaded()
         {
-            
-
             Model = new Model
             {
-                SchemaGenerationProcess = new ProcessInfo
+                ProfileId = Injection.ProfileId,
+                CustomSqlGenerationOfProfileIdProcess = new ProcessInfo
                 {
                     Text = "Ready"
                 },
                 CheckInComment = CheckInCommentAccess.GetCheckInComment(),
-                SchemaName     = "CRD",
 
                 ActionButtons = new List<ActionButtonInfo>
                 {
@@ -111,18 +98,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         {
             using (var kernel = CreateKernel())
             {
-                BOACardDatabaseExporter.Export(kernel, Model.SchemaName);
-
-                IsFinished = true;
-            }
-        }
-
-        void StartAll()
-        {
-            using (var kernel = CreateKernel())
-            {
-                BOACardDatabaseExporter.Export(kernel);
-
+                kernel.Get<ProjectInjector>().Inject(Model.ProfileId.Trim());
                 IsFinished = true;
             }
         }

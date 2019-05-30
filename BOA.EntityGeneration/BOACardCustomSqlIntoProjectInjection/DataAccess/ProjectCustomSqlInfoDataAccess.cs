@@ -49,6 +49,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         #region Methods
         protected virtual ProjectCustomSqlInfo GetByProfileIdFromDatabase(string profileId)
         {
+            
             var list = new List<CustomSqlInfo>();
 
             Database.CommandText = $"SELECT objectid, text, schemaname, resultcollectionflag FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL'";
@@ -68,15 +69,24 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
             reader.Close();
 
-            foreach (var customSqlInfo in list)
-            {
-                Tracer.Trace($"Fetching inputs parameters for {customSqlInfo.Name}");
-                customSqlInfo.Parameters = ReadInputParameters(customSqlInfo);
-            }
+            Tracer.CustomSqlGenerationOfProfileIdProcess.Total = list.Count;
+            Tracer.CustomSqlGenerationOfProfileIdProcess.Current = 0;
 
             foreach (var customSqlInfo in list)
             {
-                Tracer.Trace($"Fetching result columns for {customSqlInfo.Name}");
+                Tracer.CustomSqlGenerationOfProfileIdProcess.Text = $"Fetching inputs parameters for {customSqlInfo.Name}";
+                Tracer.CustomSqlGenerationOfProfileIdProcess.Current++;
+
+                customSqlInfo.Parameters = ReadInputParameters(customSqlInfo);
+            }
+
+
+            Tracer.CustomSqlGenerationOfProfileIdProcess.Current = 0;
+            foreach (var customSqlInfo in list)
+            {
+                Tracer.CustomSqlGenerationOfProfileIdProcess.Text = $"Fetching result columns for {customSqlInfo.Name}";
+                Tracer.CustomSqlGenerationOfProfileIdProcess.Current++;
+
                 customSqlInfo.ResultColumns = ReadResultColumns(customSqlInfo);
             }
 
