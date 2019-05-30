@@ -51,9 +51,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
             UtilClass(sb);
 
-            foreach (var tableInfo in items)
+            for (var i = 0; i < items.Count; i++)
             {
-                Tracer.Trace($"Generating Business class for {tableInfo.TableName}");
+                var tableInfo = items[i];
+                
+                Tracer.CurrentSchemaProcess.Text = $"Generating Business class for {tableInfo.TableName}";
+
+                Tracer.CurrentSchemaProcess.PercentageOfCompletion = (i / items.Count) * 100;
+
+
                 sb.AppendLine();
                 GeneratorOfBusinessClass.WriteClass(sb, tableInfo);
             }

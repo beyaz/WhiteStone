@@ -4,15 +4,14 @@ using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.TfsAccess;
+using Ninject;
 using WhiteStone.UI.Container.Mvc;
 
 namespace BOA.EntityGeneration.UI.MainForm
 {
     public class Controller : ControllerBase<Model>
     {
-        #region Static Fields
-        static int v = 1;
-        #endregion
+       
 
         #region Public Methods
         public void Generate()
@@ -31,8 +30,8 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         public void GetCapture()
         {
-            Model.ProcessIndicatorValue = v++;
-            Model.ProcessIndicatorText = Tracer.LastTrace;
+            Model.ProcessIndicatorValue = Tracer.CurrentSchemaProcess.PercentageOfCompletion;
+            Model.ProcessIndicatorText = Tracer.CurrentSchemaProcess.Text;
         }
 
         public override void OnViewLoaded()
@@ -57,12 +56,18 @@ namespace BOA.EntityGeneration.UI.MainForm
         }
         #endregion
 
+        static Tracer Tracer;
+
         #region Methods
         void Start()
         {
             using (var kernel = new Kernel())
             {
                 kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>();
+
+                kernel.Bind<Tracer>().To<Tracer>().InSingletonScope();
+
+                Tracer = kernel.Get<Tracer>();
                 BOACardDatabaseExporter.Export(kernel, Model.SchemaName);
             }
         }

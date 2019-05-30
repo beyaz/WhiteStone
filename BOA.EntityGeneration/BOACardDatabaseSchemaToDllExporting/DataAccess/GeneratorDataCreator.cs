@@ -2,7 +2,6 @@
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
@@ -15,16 +14,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
         [Inject]
         public TableOverride TableOverride { get; set; }
-
-        [Inject]
-        public Tracer Tracer { get; set; }
         #endregion
 
         #region Public Methods
         public TableInfo Create(DbModel.TableInfo tableInfo)
         {
-            Tracer.Trace($"Fetching table information of {tableInfo.TableName}");
-
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 
             var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).ToList();
