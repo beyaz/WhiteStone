@@ -68,19 +68,7 @@ CREATE TABLE DLV.SAMPLE_TABLE
             }
         }
 
-        [TestMethod]
-        public void ExportAllBatFiles()
-        {
-            using (var kernel = new TestKernel())
-            {
-                kernel.Get<BatExporter>().ExportAllInOne();
-
-                foreach (var schemaName in kernel.Get<BOACardDatabaseSchemaNames>().SchemaNames)
-                {
-                    kernel.Get<BatExporter>().Export(schemaName);
-                }
-            }
-        }
+       
 
         [TestMethod]
         public void ExportPRM()

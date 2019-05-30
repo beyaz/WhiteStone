@@ -12,6 +12,7 @@ namespace BOA.EntityGeneration.UI.MainForm
     public class Controller : ControllerBase<Model>
     {
         #region Static Fields
+        static bool   IsFinished;
         static Tracer Tracer;
         #endregion
 
@@ -25,9 +26,17 @@ namespace BOA.EntityGeneration.UI.MainForm
                 return;
             }
 
-            Model.StartTimer = true;
+            if (Model.SchemaName.Trim() == "*")
+            {
+                Model.AllSchemaGenerationProcessIsVisible = true;
+                new Thread(StartAll).Start();
+            }
+            else
+            {
+                new Thread(Start).Start();
+            }
 
-            new Thread(Start).Start();
+            Model.StartTimer = true;
         }
 
         public void GetCapture()
@@ -37,12 +46,15 @@ namespace BOA.EntityGeneration.UI.MainForm
                 return;
             }
 
-            Model.ProcessIndicatorValue = Tracer.CurrentSchemaProcess.PercentageOfCompletion;
-            Model.ProcessIndicatorText  = Tracer.CurrentSchemaProcess.Text;
+            Model.SchemaGenerationProcess    = Tracer.SchemaGenerationProcess;
+            Model.AllSchemaGenerationProcess = Tracer.AllSchemaGenerationProcess;
+
             if (IsFinished)
             {
                 Model.FinishTimer = true;
-                Model.ProcessIndicatorText = "Finished.";
+
+                Model.SchemaGenerationProcess.Text        = "Finished.";
+                Model.AllSchemaGenerationProcessIsVisible = false;
             }
         }
 
@@ -50,10 +62,12 @@ namespace BOA.EntityGeneration.UI.MainForm
         {
             Model = new Model
             {
-                ProcessIndicatorValue = 44,
-                ProcessIndicatorText  = "Ready",
-                CheckInComment        = "2235# - AutoCheckInByEntityGenerator",
-                SchemaName            = "CRD",
+                SchemaGenerationProcess = new ProcessInfo
+                {
+                    Text = "Ready"
+                },
+                CheckInComment = "2235# - AutoCheckInByEntityGenerator",
+                SchemaName     = "CRD",
 
                 ActionButtons = new List<ActionButtonInfo>
                 {
@@ -67,19 +81,35 @@ namespace BOA.EntityGeneration.UI.MainForm
         }
         #endregion
 
-        static bool IsFinished;
         #region Methods
+        Kernel CreateKernel()
+        {
+            var kernel = new Kernel();
+
+            kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>().OnActivation(x => x.CheckInComment = Model.CheckInComment);
+
+            kernel.Bind<Tracer>().To<Tracer>().InSingletonScope();
+
+            Tracer = kernel.Get<Tracer>();
+
+            return kernel;
+        }
+
         void Start()
         {
-            using (var kernel = new Kernel())
+            using (var kernel = CreateKernel())
             {
-                kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>().OnActivation(x => x.CheckInComment = Model.CheckInComment);
-
-                kernel.Bind<Tracer>().To<Tracer>().InSingletonScope();
-
-                Tracer = kernel.Get<Tracer>();
-
                 BOACardDatabaseExporter.Export(kernel, Model.SchemaName);
+
+                IsFinished = true;
+            }
+        }
+
+        void StartAll()
+        {
+            using (var kernel = CreateKernel())
+            {
+                BOACardDatabaseExporter.Export(kernel);
 
                 IsFinished = true;
             }

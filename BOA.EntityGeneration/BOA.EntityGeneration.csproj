@@ -60,7 +60,6 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\BOACardDatabaseSchemaNames.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Util\Tracer.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\TableOverride.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\BatExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\BusinessProjectExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\InsertInfoCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\Kernel.cs" />

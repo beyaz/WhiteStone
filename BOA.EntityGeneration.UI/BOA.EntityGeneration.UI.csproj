@@ -48,6 +48,9 @@
     <Reference Include="CustomUIMarkupLanguage">
       <HintPath>D:\github\WhiteStone\CustomUIMarkupLanguage\bin\Debug\CustomUIMarkupLanguage.dll</HintPath>
     </Reference>
+    <Reference Include="WhiteStone.Tasks">
+      <HintPath>..\bin\WhiteStone.Tasks.exe</HintPath>
+    </Reference>
     <Reference Include="WhiteStone.UI.Container">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\WhiteStone.UI.Container.exe</HintPath>
     </Reference>
@@ -83,10 +86,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Publisher.cs" />
+    <Compile Include="PublisherData.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="DeployTask.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="MainForm\View.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -109,4 +117,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(TargetDir)\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
+  </PropertyGroup>
 </Project>

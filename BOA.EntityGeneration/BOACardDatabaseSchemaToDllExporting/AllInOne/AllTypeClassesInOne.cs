@@ -41,8 +41,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
             var items = DataPreparer.Prepare(schemaName);
 
-            Tracer.CurrentSchemaProcess.Total   = items.Count;
-            Tracer.CurrentSchemaProcess.Current = 0;
+            Tracer.SchemaGenerationProcess.Total   = items.Count;
+            Tracer.SchemaGenerationProcess.Current = 0;
 
             foreach (var tableInfo in items)
             {
@@ -57,9 +57,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
                     isFirst = false;
                 }
 
-                Tracer.CurrentSchemaProcess.Text = $"Generating Type class for {tableInfo.TableName}";
+                Tracer.SchemaGenerationProcess.Text = $"Generating Type class for {tableInfo.TableName}";
 
-                Tracer.CurrentSchemaProcess.Current++;
+                Tracer.SchemaGenerationProcess.Current++;
 
 
                 sb.AppendLine();

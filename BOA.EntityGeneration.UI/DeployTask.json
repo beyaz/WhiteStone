@@ -1,0 +1,10 @@
+{
+  "$type": "System.Object[], mscorlib",
+  "$values":
+  [
+    {
+      "$type": "BOA.EntityGeneration.UI.PublisherData, BOA.EntityGeneration.UI",
+      "TfsComment": "2235# - Auto checkin for entity generation."
+    }
+  ]
+}

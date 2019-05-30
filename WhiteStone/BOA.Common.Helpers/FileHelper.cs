@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Web.Configuration;
 using System.Windows.Threading;
 using WhiteStone.Helpers;
 
@@ -11,6 +12,19 @@ namespace BOA.Common.Helpers
     /// </summary>
     public static class FileHelper
     {
+        /// <summary>
+        /// Removes the read only flag.
+        /// </summary>
+        public static bool RemoveReadOnlyFlag(string path)
+        {
+            if (new FileInfo(path).Exists && new FileInfo(path).IsReadOnly)
+            {
+                File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
+                return true;
+            }
+
+            return false;
+        }
         #region Public Methods
         /// <summary>
         ///     Appends to end of file.

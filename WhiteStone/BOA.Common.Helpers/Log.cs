@@ -61,11 +61,20 @@ namespace BOA.Common.Helpers
         /// </summary>
         static void PushInternal(string message, string callerMemberName)
         {
-            var filePath = Directory + "Log.txt";
+            try
+            {
+                var filePath = Directory + "Log.txt";
 
-            var value = Environment.NewLine + Environment.NewLine + string.Empty.PadLeft(Indent, ' ') + $"{callerMemberName} -> {message}";
+                var value = Environment.NewLine + Environment.NewLine + string.Empty.PadLeft(Indent, ' ') + $"{callerMemberName} -> {message}";
 
-            FileHelper.AppendToEndOfFile(filePath, value);
+                FileHelper.RemoveReadOnlyFlag(filePath);
+
+                FileHelper.AppendToEndOfFile(filePath, value);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
         #endregion
     }

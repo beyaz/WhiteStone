@@ -6,8 +6,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
     public class BOACardDatabaseExporter
     {
-        
-
         #region Public Methods
         public static void Export(Kernel kernel, string schemaName)
         {
@@ -22,22 +20,20 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
             var schemaNames = kernel.Get<BOACardDatabaseSchemaNames>().SchemaNames;
 
-            Tracer.GenerateAllSchemaProcess.Total   = schemaNames.Length;
-            Tracer.GenerateAllSchemaProcess.Current = 0;
-
+            Tracer.AllSchemaGenerationProcess.Total   = schemaNames.Length;
+            Tracer.AllSchemaGenerationProcess.Current = 0;
 
             foreach (var schemaName in schemaNames)
             {
-                Tracer.GenerateAllSchemaProcess.Text = $"Schema: {schemaName}";
+                Tracer.AllSchemaGenerationProcess.Text = $"Schema: {schemaName}";
 
-                Tracer.GenerateAllSchemaProcess.Current++;
+                Tracer.AllSchemaGenerationProcess.Current++;
 
                 var schemaExporter = kernel.Get<SchemaExporter>();
 
                 schemaExporter.Export(schemaName);
             }
-
-            kernel.Get<BatExporter>().ExportAllInOne();
+            
         }
         #endregion
     }

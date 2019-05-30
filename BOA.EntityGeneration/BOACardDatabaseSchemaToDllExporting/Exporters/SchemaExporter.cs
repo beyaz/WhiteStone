@@ -1,5 +1,4 @@
-﻿using System;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
+﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
@@ -17,8 +16,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         [Inject]
         public AllTypeClassesInOne AllTypeClassesInOne { get; set; }
 
-        [Inject]
-        public BatExporter BatExporter { get; set; }
+      
 
         [Inject]
         public BusinessProjectExporter BusinessProjectExporter { get; set; }
@@ -49,7 +47,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             Tracer.Trace($"*** Started to export business classes {schemaName} ***");
             ExportBusinessDll(schemaName);
 
-            ExportRelatedBatFile(schemaName);
         }
         #endregion
 
@@ -61,17 +58,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             BusinessProjectExporter.Export(schemaName, code);
         }
 
-        void ExportRelatedBatFile(string schemaName)
-        {
-            try
-            {
-                BatExporter.Export(schemaName);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Tracer.Trace("Warning: UnauthorizedAccessException occured.");
-            }
-        }
+        
 
         void ExportTypeDll(string schemaName)
         {

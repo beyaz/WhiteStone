@@ -1,7 +1,7 @@
 {
   "Title": "Entity Generator",
   "Width": 340,
-  "Height": 270,
+  "Height": 300,
   "Content": {
     "ui": "Grid",
     "rows": [
@@ -19,17 +19,29 @@
             "Text": "{Binding SchemaName}",
             "Label": "Schema"
           },
-
           {
             "view": "ProgressBar",
             "Minimum": 0,
             "Maximum": 100,
-            "Value": "{Binding ProcessIndicatorValue}" ,
+            "Value": "{Binding AllSchemaGenerationProcess.PercentageOfCompletion, Mode = OneWay}",
+            "IsVisible": "{Binding AllSchemaGenerationProcessIsVisible}",
             "MarginTop": 10
           },
           {
             "view": "Label",
-            "Content": "{Binding ProcessIndicatorText}"
+            "Content": "{Binding AllSchemaGenerationProcess.Text}",
+            "IsVisible": "{Binding AllSchemaGenerationProcessIsVisible}"
+          },
+          {
+            "view": "ProgressBar",
+            "Minimum": 0,
+            "Maximum": 100,
+            "Value": "{Binding SchemaGenerationProcess.PercentageOfCompletion, Mode = OneWay}",
+            "MarginTop": 10
+          },
+          {
+            "view": "Label",
+            "Content": "{Binding SchemaGenerationProcess.Text}"
           },
           {
             "ui": "StackPanel",

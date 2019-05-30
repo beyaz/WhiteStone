@@ -8,6 +8,7 @@ using CustomUIMarkupLanguage.UIBuilding;
 using DotNetKit.Windows.Controls;
 using MahApps.Metro.Controls;
 using Notifications.Wpf;
+using WhiteStone.Services.FileLogging;
 
 namespace WhiteStone.UI.Container
 {
@@ -74,14 +75,17 @@ namespace WhiteStone.UI.Container
         [STAThread]
         public static void Main()
         {
+            Log.Push(nameof(Main));
+
             InitializeBuilder();
+
+            AppDomain.CurrentDomain.UnhandledException += MyHandler;
 
             var application = new App
             {
                 MainWindow = StartupMainWindow()
             };
 
-            AppDomain.CurrentDomain.UnhandledException += MyHandler;
 
             application.MainWindow.Show();
             application.Run();

@@ -52,14 +52,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
             UtilClass(sb);
 
-            Tracer.CurrentSchemaProcess.Total   = items.Count;
-            Tracer.CurrentSchemaProcess.Current = 0;
+            Tracer.SchemaGenerationProcess.Total   = items.Count;
+            Tracer.SchemaGenerationProcess.Current = 0;
 
             foreach (var tableInfo in items)
             {
-                Tracer.CurrentSchemaProcess.Text = $"Generating business class: {tableInfo.TableName}";
+                Tracer.SchemaGenerationProcess.Text = $"Generating business class: {tableInfo.TableName}";
 
-                Tracer.CurrentSchemaProcess.Current++;
+                Tracer.SchemaGenerationProcess.Current++;
 
 
                 sb.AppendLine();
