@@ -3,6 +3,7 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
@@ -51,13 +52,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
             UtilClass(sb);
 
-            for (var i = 0; i < items.Count; i++)
-            {
-                var tableInfo = items[i];
-                
-                Tracer.CurrentSchemaProcess.Text = $"Generating Business class for {tableInfo.TableName}";
+            Tracer.CurrentSchemaProcess.Total   = items.Count;
+            Tracer.CurrentSchemaProcess.Current = 0;
 
-                Tracer.CurrentSchemaProcess.PercentageOfCompletion = (i / items.Count) * 100;
+            foreach (var tableInfo in items)
+            {
+                Tracer.CurrentSchemaProcess.Text = $"Generating business class: {tableInfo.TableName}";
+
+                Tracer.CurrentSchemaProcess.Current++;
 
 
                 sb.AppendLine();

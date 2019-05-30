@@ -11,5 +11,6 @@ namespace BOA.EntityGeneration.UI.MainForm
         public bool StartTimer { get; set; }
         public string SchemaName { get; set; }
         public string CheckInComment { get; set; }
+        public bool FinishTimer { get; set; }
     }
 }

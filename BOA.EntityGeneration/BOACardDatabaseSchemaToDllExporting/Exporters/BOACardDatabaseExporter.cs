@@ -21,13 +21,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             var Tracer = kernel.Get<Tracer>();
 
             var schemaNames = kernel.Get<BOACardDatabaseSchemaNames>().SchemaNames;
-            for (var i = 0; i < schemaNames.Length; i++)
-            {
-                var schemaName = schemaNames[i];
 
+            Tracer.GenerateAllSchemaProcess.Total   = schemaNames.Length;
+            Tracer.GenerateAllSchemaProcess.Current = 0;
+
+
+            foreach (var schemaName in schemaNames)
+            {
                 Tracer.GenerateAllSchemaProcess.Text = $"Schema: {schemaName}";
 
-                Tracer.GenerateAllSchemaProcess.PercentageOfCompletion = (i / schemaNames.Length) * 100;
+                Tracer.GenerateAllSchemaProcess.Current++;
 
                 var schemaExporter = kernel.Get<SchemaExporter>();
 

@@ -45,13 +45,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
             var items = new List<TableInfo>();
 
-            for (var i = 0; i < tableNames.Count; i++)
-            {
-                var tableName = tableNames[i];
 
+            Tracer.CurrentSchemaProcess.Total = tableNames.Count;
+            Tracer.CurrentSchemaProcess.Current = 0;
+
+            foreach (var tableName in tableNames)
+            {
                 Tracer.CurrentSchemaProcess.Text = $"Fetching table information of {tableName}";
-                
-                Tracer.CurrentSchemaProcess.PercentageOfCompletion = (int) ((i / (double)tableNames.Count) * (double)100);
+                Tracer.CurrentSchemaProcess.Current++;
 
                 var generatorData = GetTableInfo(schemaName, tableName);
 

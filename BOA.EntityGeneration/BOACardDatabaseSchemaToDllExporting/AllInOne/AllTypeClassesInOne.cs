@@ -2,6 +2,7 @@
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
@@ -40,9 +41,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
             var items = DataPreparer.Prepare(schemaName);
 
-            for (var i = 0; i < items.Count; i++)
+            Tracer.CurrentSchemaProcess.Total   = items.Count;
+            Tracer.CurrentSchemaProcess.Current = 0;
+
+            foreach (var tableInfo in items)
             {
-                var tableInfo = items[i];
                 if (isFirst)
                 {
                     GeneratorOfTypeClass.WriteUsingList(sb, tableInfo);
@@ -56,7 +59,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
                 Tracer.CurrentSchemaProcess.Text = $"Generating Type class for {tableInfo.TableName}";
 
-                Tracer.CurrentSchemaProcess.PercentageOfCompletion = (i / items.Count) * 100;
+                Tracer.CurrentSchemaProcess.Current++;
 
 
                 sb.AppendLine();

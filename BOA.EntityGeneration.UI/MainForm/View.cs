@@ -28,6 +28,11 @@ namespace BOA.EntityGeneration.UI.MainForm
                 Model.StartTimer = false;
                 StartTimer();
             }
+
+            if (Model.FinishTimer)
+            {
+                _timer.Stop();
+            }
         }
 
         public void StartTimer()

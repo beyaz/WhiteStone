@@ -4,6 +4,10 @@ namespace BOA.TfsAccess
 {
     public class FileAccessWithAutoCheckIn : FileAccess
     {
+        #region Public Properties
+        public string CheckInComment { get; set; } = "2235# - AutoCheckIn";
+        #endregion
+
         #region Public Methods
         public override FileAccessWriteResult WriteAllText(string path, string content)
         {
@@ -11,7 +15,7 @@ namespace BOA.TfsAccess
 
             if (result.FileIsCheckOutFromTfs)
             {
-                TFSAccessForBOA.CheckInFile(path, "2235# - AutoCheckIn");
+                TFSAccessForBOA.CheckInFile(path, CheckInComment);
             }
 
             return result;
