@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.Common.Helpers
@@ -31,6 +32,17 @@ namespace BOA.Common.Helpers
     [TestClass]
     public class RandomValueTest
     {
+        class ByteArrayFieldContainer
+        {
+            public byte[] Bytes { get; set; }
+        }
+        [TestMethod]
+        public void ShouldSupportByteArray()
+        {
+            var instance = RandomValue.Object<ByteArrayFieldContainer>();
+            instance.Bytes.Length.Should().BeGreaterThan(0);
+        }
+
         #region Public Methods
         [TestMethod]
         public void If_Property_Has_Already_Value_Do_Not_Change_It()

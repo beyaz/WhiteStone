@@ -611,7 +611,19 @@ namespace BOA.Common.Helpers
         {
             if (type.IsArray)
             {
-                return ICollection(type.GetElementType()).ToArray();
+                var elementType = type.GetElementType();
+                if (elementType == null)
+                {
+                    throw new InvalidOperationException(type.FullName);
+                }
+
+                var array = ICollection(elementType).ToArray();
+
+                var typedArray = System.Array.CreateInstance(elementType, array.Length);
+
+                System.Array.Copy(array, 0, typedArray, 0, array.Length);
+
+                return typedArray;
             }
 
             if (type.IsGenericType &&
@@ -688,6 +700,7 @@ namespace BOA.Common.Helpers
                         : propertyType.GetGenericArguments()[0];
                     return GetListMethodOfCollections(propertyType, collectionType);
                 }
+
                 case SupportType.Nullable:
                     return NullableMethodCall(propertyType);
                 case SupportType.UserDefined:
