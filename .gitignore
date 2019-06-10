@@ -93,3 +93,4 @@ WhiteStone.Test/obj
 /BOACardEntityGenerationWrapper/obj
 /BOA.EntityGeneration.UI/obj/
 /BOA.EntityGeneration.UI/bin/
+*.suo

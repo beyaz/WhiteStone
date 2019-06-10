@@ -30,7 +30,8 @@
             "TMS",
             "TRN",
             "VIS",
-            "EMB"
+            "EMB",
+            "SYSOP"
         };
     }
 }

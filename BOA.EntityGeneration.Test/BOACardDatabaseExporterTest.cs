@@ -75,7 +75,7 @@ CREATE TABLE DLV.SAMPLE_TABLE
         {
             using (var kernel = new TestKernel())
             {
-                BOACardDatabaseExporter.Export(kernel, "CRD");
+                BOACardDatabaseExporter.Export(kernel, "SYSOP");
             }
         }
         #endregion
