@@ -155,7 +155,7 @@ namespace BOAPlugins.TypescriptModelGeneration
             }
             else
             {
-                foreach (var propertyDefinition in typeDefinition.Properties)
+                foreach (var propertyDefinition in typeDefinition.Properties.Where(p=>!IsImplicitDefinition(p)))
                 {
                     var typeName = GetTSTypeName(propertyDefinition.PropertyType, typeDefinition.Namespace);
 
@@ -165,6 +165,7 @@ namespace BOAPlugins.TypescriptModelGeneration
                     {
                         name += "?";
                     }
+                    
 
                     sb.AppendLine($"{name} : {typeName};");
                 }
@@ -172,6 +173,13 @@ namespace BOAPlugins.TypescriptModelGeneration
 
             sb.PaddingCount--;
             sb.AppendLine("}");
+        }
+
+        
+
+         static bool IsImplicitDefinition(PropertyDefinition propertyDefinition)
+        {
+            return propertyDefinition.Name.Contains(".");
         }
 
         static string GenerateTypeProperties(TypeDefinition typeDefinition)
@@ -195,7 +203,7 @@ namespace BOAPlugins.TypescriptModelGeneration
             }
             else
             {
-                foreach (var propertyDefinition in typeDefinition.Properties)
+                foreach (var propertyDefinition in typeDefinition.Properties.Where(p=>!IsImplicitDefinition(p)))
                 {
                     var name = TypescriptNaming.GetResolvedPropertyName(propertyDefinition.Name);
                     fieldNames.Add(name);

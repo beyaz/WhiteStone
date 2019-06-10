@@ -11,10 +11,11 @@ namespace BOAPlugins.ExportingModel
         [TestMethod]
         public void GenerateType()
         {
-            var path   = @"D:\work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\BOA.CardGeneral.DebitCard.sln";
+            // const string path = @"D:\work\BOA.BusinessModules\Dev\BOA.CardGeneral.DebitCard\BOA.CardGeneral.DebitCard.sln";
+            const string path = @"D:\work\BOA.CardModules\Dev\BOA.Card.Switch.BKM\BOA.Card.Switch.BKM.sln";
+            
 
             BOAPlugins.TypescriptModelGeneration.Handler.Handle(path);
-
         }
 
         [TestMethod]

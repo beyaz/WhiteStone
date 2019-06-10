@@ -42,7 +42,7 @@ namespace BOA.CodeGeneration.Util
             var path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";
             // path = @"D:\workde\BOA.BusinessModules\Dev\BOA.Card.CreditCardOperation\BOA.Business.Card.CreditCardOperation\BOA.Business.Kernel.CreditCard\CreditCardInstallmentTransaction.designer.cs";
 
-            TFSAccessForBOA.CheckoutFile(path).Should().BeTrue();
+            TFSAccessForBOA.CheckoutFile(path).Should().BeNull();
             TFSAccessForBOA.UndoCheckoutFile(path).Should().BeTrue();
         }
 
