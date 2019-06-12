@@ -4,8 +4,6 @@ using System.IO;
 using System.Threading.Tasks;
 using BOA.Common.Helpers;
 using BOAPlugins.Utility;
-using WhiteStone;
-using WhiteStone.Services;
 
 namespace BOAPlugins.VSIntegration
 {
@@ -54,11 +52,11 @@ namespace BOAPlugins.VSIntegration
                 AppDomain.CurrentDomain.AddAssemblySearchDirectory(WhiteStoneBinDirectory);
             }
 
-            DownloadHelper.EnsureNewtonsoftJson();
+            new DownloadHelper().EnsureNewtonsoftJson();
 
             
 
-            Task.Run(() => DownloadHelper.CheckDeepEndsDownloaded(host));
+            Task.Run(() => new DownloadHelper().CheckDeepEndsDownloaded());
         }
         #endregion
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
@@ -7,7 +8,7 @@ namespace BOAPlugins.Utility
     public class DownloadHelper
     {
         #region Public Methods
-        public static void CheckDeepEndsDownloaded(Host host)
+        public void CheckDeepEndsDownloaded()
         {
             var serverFiles = new[]
             {
@@ -38,7 +39,7 @@ namespace BOAPlugins.Utility
             DownloadDeepEnds(ConstConfiguration.BOAPluginDirectory_DeepEnds, serverFiles);
         }
 
-        public static void EnsureNewtonsoftJson()
+        public void EnsureNewtonsoftJson()
         {
             const string Newtonsoft_Json = "Newtonsoft.Json.dll";
 
@@ -47,7 +48,12 @@ namespace BOAPlugins.Utility
         #endregion
 
         #region Methods
-        internal static void DownloadDeepEnds(string pluginDirectory, IReadOnlyCollection<string> serverFiles)
+        protected internal  virtual bool FileExists(string saveFilePath)
+        {
+            return File.Exists(saveFilePath);
+        }
+
+        void DownloadDeepEnds(string pluginDirectory, IReadOnlyCollection<string> serverFiles)
         {
             foreach (var fileName in serverFiles)
             {
@@ -55,9 +61,9 @@ namespace BOAPlugins.Utility
             }
         }
 
-        static void GetFile(string fileName, string saveFilePath)
+        void GetFile(string fileName, string saveFilePath)
         {
-            if (File.Exists(saveFilePath))
+            if (FileExists(saveFilePath))
             {
                 return;
             }
@@ -66,7 +72,24 @@ namespace BOAPlugins.Utility
 
             var url = DllDataSourceDirectory + fileName + "?raw=true";
 
-            FileHelper.DownloadFile(url, saveFilePath, true);
+            try
+            {
+                FileHelper.DownloadFile(url, saveFilePath,true);
+            }
+            catch (Exception exception)
+            {
+                Log.Push(exception);
+
+                try
+                {
+                    File.Copy(@"\\srvktfs\KTBirimlerArasi\BT-Uygulama Gelistirme 3\Abdullah_Beyaztas\DeepEnds\"+fileName,saveFilePath,true);
+                }
+                catch (Exception exception1)
+                {
+                    Log.Push(exception1);
+                }
+
+            }
         }
         #endregion
     }

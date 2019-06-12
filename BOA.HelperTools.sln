@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.EntityGeneration.UI", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.Test", "BOA.HelperTools\Tests\BOAPlugins.Test\BOAPlugins.Test.csproj", "{3BA245FB-B218-441D-BEFB-17CC7BD71454}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.VSIntegration", "..\BOA.HelperTools\BOAPlugins.VSIntegration\BOAPlugins.VSIntegration.csproj", "{63A30D6E-5BF3-4320-B1F7-22E87BD5EF52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.VSIntegration", "BOA.HelperTools\BOAPlugins.VSIntegration\BOAPlugins.VSIntegration.csproj", "{63A30D6E-5BF3-4320-B1F7-22E87BD5EF52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

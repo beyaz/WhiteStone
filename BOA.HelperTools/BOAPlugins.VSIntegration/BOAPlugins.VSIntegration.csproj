@@ -237,6 +237,10 @@
     <Content Include="Resources\Command1Package.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BOA.TfsAccess\BOA.TfsAccess.csproj">
+      <Project>{819466b2-7d52-4c21-a270-61134a6a04c9}</Project>
+      <Name>BOA.TfsAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BOAPlugins\BOAPlugins.csproj">
       <Project>{92502f72-d2a3-4b2f-aa82-3e4f286599aa}</Project>
       <Name>BOAPlugins</Name>

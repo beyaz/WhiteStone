@@ -13,7 +13,7 @@ namespace WhiteStone.Tasks
         #region Methods
         static void Main(string[] args)
         {
-             // args = new[] {@"D:\github\WhiteStone\CustomSqlInjectionToProject\DeployTask.json"};
+              // args = new[] {@"D:\github\WhiteStone\WhiteStone.Tasks\bin\Debug\DeployTask.json"};
             if (args == null || args.Length == 0)
             {
                 throw new ArgumentException(nameof(args));

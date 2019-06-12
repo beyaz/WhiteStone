@@ -1,5 +1,6 @@
 ﻿using BOAPlugins.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace BOAPlugins.Test
 {
@@ -10,7 +11,9 @@ namespace BOAPlugins.Test
         [TestMethod]
         public void DownloadDeepEnds()
         {
-            DownloadHelper.EnsureNewtonsoftJson();
+            var mock = new Mock<DownloadHelper>();
+            mock.Setup(m => m.FileExists(It.IsAny<string>())).Returns(false);
+            mock.Object.EnsureNewtonsoftJson();
         }
         #endregion
     }
