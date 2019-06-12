@@ -14,10 +14,7 @@ namespace BOAPlugins.VSIntegration
         #endregion
 
         #region Properties
-        
-
-        internal static string      WhiteStoneBinDirectory => ConstConfiguration.PluginDirectory + "bin" + Path.DirectorySeparatorChar;
-        
+        internal static string WhiteStoneBinDirectory => ConstConfiguration.PluginDirectory + "bin" + Path.DirectorySeparatorChar;
         #endregion
 
         #region Public Methods
@@ -51,12 +48,10 @@ namespace BOAPlugins.VSIntegration
                 AppDomain.CurrentDomain.AddAssemblySearchDirectory(ConstConfiguration.PluginDirectory);
                 AppDomain.CurrentDomain.AddAssemblySearchDirectory(WhiteStoneBinDirectory);
             }
-
-            new DownloadHelper().EnsureNewtonsoftJson();
-
             
-
+            Log.Push("Started to download deepends");
             Task.Run(() => new DownloadHelper().CheckDeepEndsDownloaded());
+            Log.Push("Started to download deepends passed.");
         }
         #endregion
     }

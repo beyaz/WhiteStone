@@ -13,7 +13,7 @@ namespace BOAPlugins.Test
         {
             var mock = new Mock<DownloadHelper>();
             mock.Setup(m => m.FileExists(It.IsAny<string>())).Returns(false);
-            mock.Object.EnsureNewtonsoftJson();
+            mock.Object.CheckDeepEndsDownloaded();
         }
         #endregion
     }

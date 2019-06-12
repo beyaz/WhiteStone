@@ -39,12 +39,6 @@ namespace BOAPlugins.Utility
             DownloadDeepEnds(ConstConfiguration.BOAPluginDirectory_DeepEnds, serverFiles);
         }
 
-        public void EnsureNewtonsoftJson()
-        {
-            const string Newtonsoft_Json = "Newtonsoft.Json.dll";
-
-            GetFile(Newtonsoft_Json, ConstConfiguration.PluginDirectory + Newtonsoft_Json);
-        }
         #endregion
 
         #region Methods
