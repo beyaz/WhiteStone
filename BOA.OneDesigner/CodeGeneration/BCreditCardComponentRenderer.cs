@@ -79,7 +79,7 @@ namespace BOA.OneDesigner.CodeGeneration
                     SnapName = data.SnapName
                 });
 
-                sb.AppendLine($"clearCardNumber={{{jsBindingPath.FullBindingPathInJs}}}");
+                sb.AppendLine($"clearCardNumber={{{jsBindingPath.FullBindingPathInJs}||\"\"}}");
             }
 
 

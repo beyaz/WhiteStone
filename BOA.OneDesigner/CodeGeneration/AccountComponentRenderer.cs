@@ -24,14 +24,18 @@ namespace BOA.OneDesigner.CodeGeneration
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPathAccountNumber);
             writerContext.PushVariablesToRenderScope(jsBindingPathAccountNumber);
 
-            writerContext.GrabValuesToRequest(new ComponentGetValueInfoAccountComponent{ JsBindingPath = jsBindingPathAccountNumber.FullBindingPathInJs,SnapName = data.SnapName});
+
+            var bindingPathPropertyInfo = writerContext.ScreenInfo.GetBindingPathPropertyInfo(data.ValueBindingPath);
             
-                                              
-                                              
-                                              
+            writerContext.GrabValuesToRequest(new ComponentGetValueInfoAccountComponent
+            {
+                JsBindingPath = jsBindingPathAccountNumber.FullBindingPathInJs,
+                SnapName = data.SnapName,
+                BindPropertyTypeIsNonNullableNumber = bindingPathPropertyInfo?.IsNonNullableNumber
+            });
 
             JsBindingPathInfo jsBindingPathAccountSuffix = null;
-            var writeAccountSuffix = data.AccountSuffixBindingPath.HasValue();
+            var               writeAccountSuffix         = data.AccountSuffixBindingPath.HasValue();
             if (writeAccountSuffix)
             {
                 jsBindingPathAccountSuffix = new JsBindingPathInfo(data.AccountSuffixBindingPath)
@@ -40,9 +44,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 };
                 JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPathAccountSuffix);
 
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoAccountComponentSuffix{ JsBindingPath = jsBindingPathAccountSuffix.FullBindingPathInJs,SnapName = data.SnapName});
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoAccountComponentSuffix {JsBindingPath = jsBindingPathAccountSuffix.FullBindingPathInJs, SnapName = data.SnapName});
             }
-            
 
             writerContext.AddToBeforeSetStateOnProxyDidResponse(GetAccountComponentValueCorrection(data.SnapName, data.ValueBindingPathInTypeScript));
 
@@ -67,16 +70,15 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                sb.AppendLine("isVisibleAccountSuffix={false}");    
+                sb.AppendLine("isVisibleAccountSuffix={false}");
             }
 
-            
             // sb.AppendLine("enableShowDialogMessagesInCallback={false}");
             sb.AppendLine("isVisibleIBAN={false}");
 
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
             RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
-            RenderHelper.WriteSize(data.SizeInfo,sb.AppendLine);
+            RenderHelper.WriteSize(data.SizeInfo, sb.AppendLine);
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 

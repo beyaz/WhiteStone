@@ -6,6 +6,7 @@
         {
             return $"snaps.{SnapName}.getInstance().getValue().accountNumber";    
         }
-        
+
+        public bool? BindPropertyTypeIsNonNullableNumber { get; set; }
     }
 }

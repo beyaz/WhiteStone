@@ -105,6 +105,17 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
                 sb.AppendLine();
                 sb.AppendLine($"{data.JsBindingPath} = {data.GetAssignmentValueCode()};");
+                if (data is ComponentGetValueInfoAccountComponent accountComponent)
+                {
+                    if (accountComponent.BindPropertyTypeIsNonNullableNumber == true)
+                    {
+                        sb.AppendLine($"if({data.JsBindingPath} === \"\")");
+                        sb.AppendLine("{");
+                        sb.AppendLine($"    {data.JsBindingPath} = undefined;");
+                        sb.AppendLine("}");
+                    }
+                }
+                
 
                 if (data is ComponentGetValueInfoDataGridSelectedValueChangedBindingValue )
                 {
