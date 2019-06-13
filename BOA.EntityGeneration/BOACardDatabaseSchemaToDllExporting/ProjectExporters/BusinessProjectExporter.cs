@@ -1,6 +1,7 @@
 ﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.TfsAccess;
 using Ninject;
+using WhiteStone.Tasks;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
@@ -15,6 +16,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
         [Inject]
         public ProjectExportLocation ProjectExportLocation { get; set; }
+
+        [Inject]
+        public Tracer Tracer { get; set; }
         #endregion
 
         #region Public Methods
@@ -119,6 +123,14 @@ using System.Runtime.InteropServices;
 ";
 
             FileAccess.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
+
+            Tracer.SchemaGenerationProcess.Text = "Compile started.";
+            MSBuild.Build(new MSBuildData
+            {
+                ProjectFilePath = csprojFilePath,
+                
+            });
+            Tracer.SchemaGenerationProcess.Text = "Compile finished.";
         }
         #endregion
     }

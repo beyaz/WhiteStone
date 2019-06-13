@@ -43,6 +43,9 @@
     <Reference Include="WhiteStone">
       <HintPath>D:\github\WhiteStone\bin\WhiteStone.dll</HintPath>
     </Reference>
+    <Reference Include="WhiteStone.Tasks">
+      <HintPath>..\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks.exe</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\AllInOneForBusinessDll.cs" />
