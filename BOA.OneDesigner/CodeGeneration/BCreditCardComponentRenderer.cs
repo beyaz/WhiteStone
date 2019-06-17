@@ -13,13 +13,9 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var sb = writerContext.Output;
 
-
             writerContext.Imports.Add("import { BCreditCardComponent } from \"b-credit-card-component\"");
 
             SnapNamingHelper.InitSnapName(writerContext, data);
-
-           
-
 
             if (data.CardRefNumberBindingPath.HasValue())
             {
@@ -29,9 +25,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent
                 {
                     JsPropertyName = "cardRefNumber",
-                    JsBindingPath = jsBindingPathCardRefNumber.FullBindingPathInJs,
-                    SnapName = data.SnapName
-                });    
+                    JsBindingPath  = jsBindingPathCardRefNumber.FullBindingPathInJs,
+                    SnapName       = data.SnapName
+                });
             }
 
             if (data.ShadowCardNumberBindingPath.HasValue())
@@ -42,9 +38,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent
                 {
                     JsPropertyName = "shadowCardNumber",
-                    JsBindingPath = jsBindingPathCardRefNumber.FullBindingPathInJs,
-                    SnapName = data.SnapName
-                });    
+                    JsBindingPath  = jsBindingPathCardRefNumber.FullBindingPathInJs,
+                    SnapName       = data.SnapName
+                });
             }
 
             if (data.AccountNumberBindingPath.HasValue())
@@ -55,11 +51,10 @@ namespace BOA.OneDesigner.CodeGeneration
                 writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent
                 {
                     JsPropertyName = "accountNumber",
-                    JsBindingPath = jsBindingPath.FullBindingPathInJs,
-                    SnapName = data.SnapName
-                });    
+                    JsBindingPath  = jsBindingPath.FullBindingPathInJs,
+                    SnapName       = data.SnapName
+                });
             }
-
 
             sb.AppendLine("<BCreditCardComponent");
             sb.PaddingCount++;
@@ -75,13 +70,18 @@ namespace BOA.OneDesigner.CodeGeneration
                 writerContext.GrabValuesToRequest(new ComponentGetValueInfoCreditCardComponent
                 {
                     JsPropertyName = "clearCardNumber",
-                    JsBindingPath = jsBindingPath.FullBindingPathInJs,
-                    SnapName = data.SnapName
+                    JsBindingPath  = jsBindingPath.FullBindingPathInJs,
+                    SnapName       = data.SnapName
                 });
 
                 sb.AppendLine($"clearCardNumber={{{jsBindingPath.FullBindingPathInJs}||\"\"}}");
-            }
 
+                var code = $"this.syncCardComponent(this.snaps.{data.SnapName}, {RenderHelper.ConvertBindingPathToIncomingRequest(data.ValueBindingPathInTypeScript)});";
+
+                writerContext.AddToBeforeSetStateOnProxyDidResponse(code);
+
+                writerContext.Support_syncCardComponent();
+            }
 
             if (data.ValueChangedOrchestrationMethod.HasValue())
             {
@@ -95,10 +95,9 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("}}");
             }
 
-
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
-            
-            RenderHelper.WriteSize(data.SizeInfo,sb.AppendLine);
+
+            RenderHelper.WriteSize(data.SizeInfo, sb.AppendLine);
 
             sb.AppendLine("context = {context}/>");
 

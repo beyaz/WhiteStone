@@ -1,4 +1,5 @@
 ﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
@@ -12,6 +13,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             var schemaExporter = kernel.Get<SchemaExporter>();
 
             schemaExporter.Export(schemaName);
+
+            kernel.Get<MsBuildQueue>().Build();
         }
 
         public static void Export(Kernel kernel)
@@ -33,6 +36,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
                 schemaExporter.Export(schemaName);
             }
+
+            kernel.Get<MsBuildQueue>().Build();
             
         }
         #endregion

@@ -12,6 +12,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         public FileAccess FileAccess { get; set; }
 
         [Inject]
+        public MsBuildQueue MsBuildQueue { get; set; }
+
+        [Inject]
         public NamingHelper NamingHelper { get; set; }
 
         [Inject]
@@ -125,10 +128,9 @@ using System.Runtime.InteropServices;
             FileAccess.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
 
             Tracer.SchemaGenerationProcess.Text = "Compile started.";
-            MSBuild.Build(new MSBuildData
+            MsBuildQueue.Push(new MSBuildData
             {
-                ProjectFilePath = csprojFilePath,
-                
+                ProjectFilePath = csprojFilePath
             });
             Tracer.SchemaGenerationProcess.Text = "Compile finished.";
         }

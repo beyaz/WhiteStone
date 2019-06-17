@@ -100,6 +100,43 @@ namespace BOA.OneDesigner.CodeGenerationModel
             _classBody.Sort(TypeScriptMemberInfo.Compare);
         }
 
+
+        const string syncCardComponent = @"syncCardComponent(creditCardComponent: any, clearCardNumber: any)
+{
+    if (creditCardComponent == null)
+    {
+        return;
+    }
+
+    const clearCardNumberInComponent = creditCardComponent.getValue().clearCardNumber;
+
+    if (clearCardNumberInComponent == null || clearCardNumberInComponent.length === 0)
+    {
+        return;
+    }
+
+    if (clearCardNumber == null)
+    {
+        creditCardComponent.resetValue();
+    }
+}";
+        public void Support_syncCardComponent()
+        {
+            if (_classBody.Any(x=>x.Code == syncCardComponent))
+            {
+                return;
+            }
+
+            var memberInfo = new TypeScriptMemberInfo
+            {
+                IsMethod = true,
+                Code     = syncCardComponent
+            };
+
+            _classBody.Add(memberInfo);
+            _classBody.Sort(TypeScriptMemberInfo.Compare);
+        }
+
         public void AddClassBody(TypeScriptMemberInfo info)
         {
             _classBody.Add(info);
