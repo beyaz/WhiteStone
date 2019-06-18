@@ -10,5 +10,6 @@
         public bool IsNullableNumber  { get; set; }
         public bool IsNonNullableNumber { get; set; }
         public bool IsValueType{ get; set; }
+        public bool IsNullableDateTime { get; set; }
     }
 }

@@ -58,8 +58,7 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var excepts = new List<string>
             {
-                "BOA.Types.Card.CCO.Card360EditRequest", // sanırım ahmet sevgili sonra yapacakmış ,
-                "BOA.Types.Card.Parameter.TrnCodeMatrixTransactionRequest"
+                "BOA.Types.Card.Parameter.TrnCodeMatrixTransactionRequest" // sanırım ahmet sevgili sonra yapacakmış ,
             };
 
             

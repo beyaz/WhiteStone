@@ -55,6 +55,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
             var returnValue = new BindingPathPropertyInfo
             {
+                
                 IsString          = isString,
                 IsDecimal         = typeFullName == typeof(decimal).FullName,
                 IsDecimalNullable = CecilHelper.FullNameOfNullableDecimal == typeFullName,
@@ -73,8 +74,11 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
                 IsBoolean = CecilHelper.FullNameOfNullableBoolean == typeFullName ||
                             typeFullName == typeof(bool).FullName,
+
                 IsDateTime = CecilHelper.FullNameOfNullableDateTime == typeFullName ||
                              typeFullName == typeof(DateTime).FullName,
+
+                IsNullableDateTime = CecilHelper.FullNameOfNullableDateTime == typeFullName,
 
                 IsValueType = propertyDefinition.PropertyType.IsValueType
             };

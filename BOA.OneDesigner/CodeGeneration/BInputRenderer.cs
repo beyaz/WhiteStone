@@ -32,6 +32,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var isNullableNumber  = false;
             var isBoolean         = false;
             var isDateTime        = false;
+            var isNullableDateTime = false;
 
             var jsBindingPath = new JsBindingPathInfo(data.ValueBindingPath)
             {
@@ -56,6 +57,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 isBoolean = bindingPathPropertyInfo.IsBoolean;
 
                 isDateTime = bindingPathPropertyInfo.IsDateTime;
+
+                isNullableDateTime = bindingPathPropertyInfo.IsNullableDateTime;
             }
 
             if (isString)
@@ -145,7 +148,15 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 writerContext.Imports.Add("import { BDateTimePicker } from \"b-datetime-picker\"");
 
-                sb.AppendLine($"<BDateTimePicker value = {{{jsBindingPath.FullBindingPathInJs}}}");
+                if (isNullableDateTime)
+                {
+                    sb.AppendLine($"<BDateTimePicker value = {{{jsBindingPath.FullBindingPathInJs} || null}}");
+                }
+                else
+                {
+                    sb.AppendLine($"<BDateTimePicker value = {{{jsBindingPath.FullBindingPathInJs}}}");
+                }
+                
                 sb.PaddingCount++;
 
                 // sb.AppendLine($"dateOnChange = {{(e: any, value: Date) => {jsBindingPath.BindingPathInJs} = value}}");
