@@ -5,6 +5,8 @@
     /// </summary>
     public abstract class ComponentGetValueInfo
     {
+        public const string VariableNameOfComponent = "c";
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets the js binding path.
