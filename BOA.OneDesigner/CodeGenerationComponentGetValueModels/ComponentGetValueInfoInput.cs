@@ -7,7 +7,7 @@ namespace BOA.OneDesigner.CodeGenerationComponentGetValueModels
         #region Public Methods
         public override string GetCode()
         {
-            return $"snaps.{SnapName}.getInstance().getValue()";
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue()";
         }
         #endregion
     }
@@ -17,7 +17,7 @@ namespace BOA.OneDesigner.CodeGenerationComponentGetValueModels
         #region Public Methods
         public override string GetCode()
         {
-            return $"snaps.{SnapName}.getInstance().getValue().saltValue";
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().saltValue";
         }
         #endregion
     }

@@ -5,7 +5,7 @@
     /// </summary>
     public abstract class ComponentGetValueInfo
     {
-        public const string VariableNameOfComponent = "c";
+        public const string VariableNameOfComponent = "cmp";
 
         #region Public Properties
         /// <summary>
@@ -28,7 +28,7 @@
 
         public virtual string GetAssignmentValueCode()
         {
-            return $"snaps.{SnapName} && {GetCode()}";
+            return $"{GetCode()}";
         }
         #endregion
     }

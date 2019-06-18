@@ -11,9 +11,9 @@
         {
             if (IsCollection)
             {
-                return $"snaps.{SnapName}.getInstance().getSelectedItems()";    
+                return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getSelectedItems()";    
             }
-            return $"snaps.{SnapName}.getInstance().getSelectedItems()[0]";
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getSelectedItems()[0]";
         }
         #endregion
     }

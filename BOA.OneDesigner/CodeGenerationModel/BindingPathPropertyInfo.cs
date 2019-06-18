@@ -1,6 +1,6 @@
 ﻿namespace BOA.OneDesigner.CodeGenerationModel
 {
-    class BindingPathPropertyInfo
+    public class BindingPathPropertyInfo
     {
         public bool IsString          { get; set; }
         public bool IsDecimal         { get; set; }

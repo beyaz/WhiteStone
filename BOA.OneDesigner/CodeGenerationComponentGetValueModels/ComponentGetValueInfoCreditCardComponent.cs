@@ -9,7 +9,7 @@
         #region Public Methods
         public override string GetCode()
         {
-            return $"snaps.{SnapName}.getInstance().getValue().{JsPropertyName}";
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().{JsPropertyName}";
         }
         #endregion
     }

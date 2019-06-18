@@ -31,6 +31,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount++;
 
             sb.AppendLine("const snaps = this.snaps;");
+            sb.AppendLine($"let {ComponentGetValueInfo.VariableNameOfComponent}: any = null;");
 
             var map = new Dictionary<string, bool>();
 
@@ -64,7 +65,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
                     foreach (var item in sameTarget)
                     {
-                        sb.AppendLine($"if (snaps.{item.SnapName})");
+                        
+                        sb.AppendLine($"{ComponentGetValueInfo.VariableNameOfComponent} = snaps.{item.SnapName};");
+                        sb.AppendLine($"if ({ComponentGetValueInfo.VariableNameOfComponent})");
                         sb.AppendLine("{");
                         sb.PaddingCount++;
 
@@ -103,8 +106,45 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("}");
                     continue;
                 }
+
+                if (data is ComponentGetValueInfoDataGridSelectedValueChangedBindingValueInBrowseForm)
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"{data.JsBindingPath} = {data.GetAssignmentValueCode()};");
+                    continue;
+                }
+
+                if (data is ComponentGetValueInfoComboBox comboBox &&  comboBox.BindingPathPropertyInfo.IsNonNullableNumber)
+                {
+                    sb.AppendLine();
+
+                    sb.AppendLine($"{ComponentGetValueInfo.VariableNameOfComponent} = snaps.{data.SnapName};");
+                    sb.AppendLine($"if ({ComponentGetValueInfo.VariableNameOfComponent})");
+                    sb.AppendLine("{");
+                    sb.AppendLine($"    const cmpValue = {data.GetAssignmentValueCode()};"); 
+                    sb.AppendLine("    if (cmpValue != null && cmpValue !== \"\")");
+                    sb.AppendLine("    {");
+                    sb.AppendLine($"        {data.JsBindingPath} = cmpValue;");
+                    sb.AppendLine("    }");
+                    
+                    sb.AppendLine("}");
+
+                    continue;
+                }
+                
+                
+
+
                 sb.AppendLine();
-                sb.AppendLine($"{data.JsBindingPath} = {data.GetAssignmentValueCode()};");
+
+                sb.AppendLine($"{ComponentGetValueInfo.VariableNameOfComponent} = snaps.{data.SnapName};");
+                sb.AppendLine($"if ({ComponentGetValueInfo.VariableNameOfComponent})");
+                sb.AppendLine("{");
+                sb.AppendLine($"    {data.JsBindingPath} = {data.GetAssignmentValueCode()};");
+                sb.AppendLine("}");
+
+                
+
                 if (data is ComponentGetValueInfoAccountComponent accountComponent)
                 {
                     if (accountComponent.BindPropertyTypeIsNonNullableNumber == true)

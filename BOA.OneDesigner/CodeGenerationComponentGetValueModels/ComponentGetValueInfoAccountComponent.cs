@@ -4,7 +4,7 @@
     {
         public override string GetCode()
         {
-            return $"snaps.{SnapName}.getInstance().getValue().accountNumber";    
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().accountNumber";    
         }
 
         public bool? BindPropertyTypeIsNonNullableNumber { get; set; }

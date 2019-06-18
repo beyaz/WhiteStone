@@ -37,9 +37,12 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
             }
 
+            var bindingPathPropertyInfo = writerContext.ScreenInfo.GetBindingPathPropertyInfo(data.SelectedValueBindingPath);
+
             var jsBindingPath = new JsBindingPathInfo(data.SelectedValueBindingPath)
             {
-                EvaluateInsStateVersion = true
+                EvaluateInsStateVersion = true,
+                
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
             writerContext.PushVariablesToRenderScope(jsBindingPath);
@@ -71,6 +74,8 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 JsBindingPath = jsBindingPath.FullBindingPathInJs,
                 SnapName      = data.SnapName,
+                BindingPathPropertyInfo = bindingPathPropertyInfo
+                
             });
 
             if (data.IsMultiSelect)

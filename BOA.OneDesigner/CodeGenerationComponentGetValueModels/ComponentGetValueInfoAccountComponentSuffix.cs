@@ -4,7 +4,7 @@
     {
         public override string GetCode()
         {
-            return $"snaps.{SnapName}.getInstance().getValue().accountSuffix";    
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().accountSuffix";    
         }
     }
 }
