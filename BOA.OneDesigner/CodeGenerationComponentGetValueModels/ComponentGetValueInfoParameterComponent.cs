@@ -4,7 +4,7 @@
     {
         public override string GetCode()
         {
-            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().value";    
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().paramCode";    
         }
     }
 }
