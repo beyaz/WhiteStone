@@ -28,7 +28,9 @@
 
     <!-- YOUR CUSTOM CSS -->
     <link href="css/custom.css" rel="stylesheet">
-    <link href="css/tagify.css" rel="stylesheet">
+    <link href="lib/typeahead/jquery.typeahead.css" rel="stylesheet">
+    
+    
 
 
 
@@ -154,11 +156,25 @@
                         İnsanların işinde nasıl olduklarını artık <strong>SİZ</strong> değerlendirin!
                     </p>
                     <form method="post" action="list.html">
-                        <div id="custom-search-input">
-                            <div class="input-group">
-                                <input type="text" name='tags' class=" search-query" placeholder="Örnek: Ahmet Ayaz , Mehmet Yılmaz finansbank " autocomplete="off">
-                                
-                                <input type="submit" class="btn_search" value="Ara">
+                        <div class="typeahead__container">
+                            <div class="typeahead__field" >
+                                <div  class="typeahead__query">
+                                    
+                                       <input class="js-typeahead searchSize"
+                                           name="q"
+                                        placeholder="Örnek: Ahmet Ayaz , Mehmet Yılmaz finansbank "
+                                           type="search"
+                                              
+                                           autofocus
+                                           autocomplete="off">
+                                    
+                                    
+                                </div>
+                                <div  class="typeahead__button">
+                                    <button  class="btn btn-default searchSize" type="submit">
+                                        <span class="typeahead__search-icon"></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -281,13 +297,14 @@
     <!-- page -->
     <div id="toTop"></div>
     <!-- Back to top button -->
+    
     <!-- COMMON SCRIPTS -->
     <script src="js/jquery-2.2.4.min.js"></script>
     <script src="js/common_scripts.min.js"></script>
     <script src="js/functions.js"></script>
 
 <!-- MY SCRIPTS -->
-    <script src="js/jQuery.tagify.min.js"></script>
+    <script src="lib/typeahead/jquery.typeahead.js"></script>
 <script src="js/vue.js"></script>
 
 
