@@ -66,43 +66,12 @@ var Search = function(query)
     $.getJSON(Config.searchUrl,OnSearchSuccess);    
 }
 
-var InitializeSearchInput = function()
-{
-    $.typeahead(
-    {
-        input:'.js-typeahead',
-        minLength: 1,
-        order: "asc",        
-        dynamic:true,
-        minLength : 1,
-        
-        source: 
-        {
-            url:Config.suggestionUrl,
-            url:Config.suggestionUrl,
-            data:{q:'{{query}}'}
-          
-        },
-        
-        callback: 
-        {
-            onClickAfter: function (node, a, item, event) 
-            {
-                var selectedText = item.display;
-                
-				Search(selectedText);
-			}
-        }
-    });
-}
-
 var LoadInitialData = function(query)
 {
     $.getJSON(Config.initialResultsUrl,OnSearchSuccess);    
 }
 
 $(window.document).ready(function ()
-{
-    InitializeSearchInput();
-    LoadInitialData();
+{ 
+    // LoadInitialData();
 });
