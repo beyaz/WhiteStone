@@ -58,7 +58,7 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             var excepts = new List<string>
             {
-                "BOA.Types.Card.Parameter.TrnCodeMatrixTransactionRequest" // sanırım ahmet sevgili sonra yapacakmış ,
+                
             };
 
             

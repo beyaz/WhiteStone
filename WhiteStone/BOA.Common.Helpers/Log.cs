@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace BOA.Common.Helpers
 {
@@ -61,15 +62,27 @@ namespace BOA.Common.Helpers
         /// </summary>
         static void PushInternal(string message, string callerMemberName)
         {
+            const string fileName = "Log.txt";
+
             try
             {
-                var filePath = Directory + "Log.txt";
+                var filePath = Directory + fileName;
 
-                var value = Environment.NewLine + Environment.NewLine + string.Empty.PadLeft(Indent, ' ') + $"{callerMemberName} -> {message}";
+                var indent = string.Empty.PadLeft(Indent, ' ');
+
+                var sb = new StringBuilder();
+
+                sb.AppendLine();
+                sb.AppendLine("-------------------------------------------------------------------------");
+                sb.AppendLine(indent + $"Time    : {DateTime.Now:yyyy.MM.dd hh:mm:ss}");
+                sb.AppendLine(indent + $"Caller  : {callerMemberName}");
+                sb.AppendLine(indent + $"Message : {message}");
+                sb.AppendLine("-------------------------------------------------------------------------");
+                sb.AppendLine();
 
                 FileHelper.RemoveReadOnlyFlag(filePath);
 
-                FileHelper.AppendToEndOfFile(filePath, value);
+                FileHelper.AppendToEndOfFile(filePath, sb.ToString());
             }
             catch (Exception)
             {

@@ -38,6 +38,10 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
             var bindingPathPropertyInfo = writerContext.ScreenInfo.GetBindingPathPropertyInfo(data.SelectedValueBindingPath);
+            if (bindingPathPropertyInfo == null)
+            {
+                throw Error.BindingPathShouldHaveValue(data.LabelInfo.GetDesignerText(), data.SelectedValueBindingPath);
+            }
 
             var jsBindingPath = new JsBindingPathInfo(data.SelectedValueBindingPath)
             {
