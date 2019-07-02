@@ -14,15 +14,13 @@ var Model =
     paginationIndex:1,
     paginationCount:3,
     searchResults:[],
-    visibleRecords:[]
+    visibleRecords:[],
+    name:"ttt"
 };
 
 var Config = 
 {
-    suggestionUrl:'../testData/suggestions.json?{{query}}',
-    searchInputId: '#tags',
-    searchUrl:'../testData/search.json',
-    initialResultsUrl:'../testData/initialResults.json'
+    initialDataUrl:'../testData/detail.json'
 };
 
 var app = new Vue(
@@ -44,34 +42,25 @@ var app = new Vue(
 
 var EvaluatePage = function()
 {
-    Model.paginationCount = Math.ceil(Model.records.length / Model.paginationRecordCountPerPage);
-    
-    var from = (Model.paginationIndex - 1) * Model.paginationRecordCountPerPage;
-    
-    var end = from + Model.paginationRecordCountPerPage;
-    
-    Model.visibleRecords = Model.records.slice(from,end);
+   
 }
 
 
 var OnSearchSuccess = function(data)
 {
-    Model.records = data;
+    Object.assign(Model,data);
     
     EvaluatePage();
 }
 
-var Search = function(query)
-{
-    $.getJSON(Config.searchUrl,OnSearchSuccess);    
-}
+
 
 var LoadInitialData = function(query)
 {
-    $.getJSON(Config.initialResultsUrl,OnSearchSuccess);    
+    $.getJSON(Config.initialDataUrl,OnSearchSuccess);    
 }
 
 $(window.document).ready(function ()
 { 
-    // LoadInitialData();
+    LoadInitialData();
 });
