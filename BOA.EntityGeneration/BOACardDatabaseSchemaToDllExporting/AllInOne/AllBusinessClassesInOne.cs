@@ -3,7 +3,6 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
@@ -445,6 +444,52 @@ static class Util
 
                 return;
             }
+            
+            case ConditionType.IN:
+            {
+                var inParameters = whereCondition.Value as System.Collections.IList;
+                if (inParameters == null)
+                {
+                    const string message = ""IN condition parameters should be enumerable."";
+                    throw new InvalidOperationException(message);
+                }
+
+                const string operandPrefix = "" IN ("";
+
+                var sb = new StringBuilder();
+
+                sb.Append(dbColumn.Name + operandPrefix);
+
+                for (var i = 0; i < inParameters.Count; i++)
+                {
+                    var parameterName = dbColumn.Name + i;
+
+                    sb.Append(prefix+parameterName);
+
+                    var isLast = i == inParameters.Count - 1;
+                    if (!isLast)
+                    {
+                        const string seperator = "","";
+                        sb.Append(seperator);
+                    }
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = parameterName,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = inParameters[i]
+                    });
+                }
+
+                const string operandSuffix = "")"";
+
+                sb.Append(operandSuffix);
+
+                whereLines.Add(sb.ToString());
+
+                return;
+            }
+
 
             default:
             {
