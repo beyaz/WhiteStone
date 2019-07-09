@@ -6,5 +6,16 @@
     "startCountRemain":4,
     "commentCount":140,
     "monitoringCount":436,
-    "propertyList":[]
+    "propertyList":[],
+    "imageUrl":"http://via.placeholder.com/565x565.jpg",
+    "startCount":3,
+    "startCountRemain":2,
+    "commentCount":56,
+    "monitoringCount":67,
+    "score":3.6,
+    "infoAttributes":[
+      {"name":"Meslek","value":"Kılıç Ustası"},
+      {"name":"telefon","value":"0545 566 76 87"},
+      {"name":"Lokasyon","value":"İstanbul / Ümraniye"}
+    ]
 }

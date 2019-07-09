@@ -12,7 +12,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
 
             return new DeleteInfo
             {
-                Sql           = $"DELETE FROM [{tableInfo.SchemaName}].[{tableInfo.TableName}] WHERE {string.Join(" , ", parameters.Select(c => $"[{c.ColumnName}] = @{c.ColumnName}"))}",
+                Sql           = $"DELETE FROM [{tableInfo.SchemaName}].[{tableInfo.TableName}] WHERE {string.Join(" AND ", parameters.Select(c => $"[{c.ColumnName}] = @{c.ColumnName}"))}",
                 SqlParameters = parameters
             };
         }
