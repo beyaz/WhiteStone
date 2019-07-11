@@ -13,6 +13,9 @@ using WhiteStone.UI.Container.Mvc;
 
 namespace BOA.OneDesigner.MainForm
 {
+    /// <summary>
+    /// The controller
+    /// </summary>
     public class Controller : ControllerBase<Model>
     {
         #region Public Properties
