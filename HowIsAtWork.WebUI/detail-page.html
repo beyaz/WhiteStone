@@ -34,14 +34,6 @@
 
 <body>
   
-  <div  class="well" style="padding: 300px">
-                               <input id="ex8" type="text" />
-    
-    
- 
-    
-                            </div>
-
 	<div id="preloader" class="Fixed">
 		<div data-loader="circle-side"></div>
 	</div>
@@ -216,7 +208,7 @@
 								<h3>Değerlendirmeler</h3>
 							</div>
                           <div class="wrapper_indent">
-                          <h5>yyy</h5>
+                          
                          
                           </div>
 							<div class="wrapper_indent">								
@@ -229,33 +221,13 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>
-                                              
-                                              
-                                              </td>
-											<td>$34</td>
-										</tr>
-										<tr>
-											<td>General consultation</td>
-											<td>$60</td>
-										</tr>
-										<tr>
-											<td>Back Pain</td>
-											<td>$40</td>
-										</tr>
-										<tr>
-											<td>Diabetes Consultation</td>
-											<td>$55</td>
-										</tr>
-										<tr>
-											<td>Eating disorder</td>
-											<td>$60</td>
-										</tr>
-										<tr>
-											<td>Foot Pain</td>
-											<td>$35</td>
-										</tr>
+                                      
+                                      <tr v-for="item in competentList">  
+                                          <td>{{item.name}}</td>
+                                          <td>{{item.value}}</td>
+                                      </tr>                                     
+                                      
+                                     
 									</tbody>
 								</table>
 								</div>
@@ -331,62 +303,41 @@
 
 								<hr>
 
-								<div class="review-box clearfix">
-									<figure class="rev-thumb"><img src="http://via.placeholder.com/150x150.jpg" alt="">
-									</figure>
+                              
+                              <div>                              
+                                <textarea class="form-control" placeholder="Benim Yorumum " rows="3"/>
+                                <br>
+                                <button type="button" class="btn btn-info pull-right">Post</button>
+                                <br>
+                                <br>  
+                              </div>
+                              
+								<div class="review-box clearfix" v-for="item in commentList">
+									
 									<div class="rev-content">
 										<div class="rating">
-											<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+										  Puanım: {{item.rate}}
+                                          <i class="icon_star voted"></i>
+                                          <i class="icon_star voted"></i>
+                                          <i class="icon_star voted"></i>
+                                          <i class="icon_star voted"></i>
+                                          <i class="icon_star"></i>
 										</div>
+                                      
 										<div class="rev-info">
-											Admin – April 03, 2016:
+											{{item.info}}
 										</div>
 										<div class="rev-text">
 											<p>
-												Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar hendrerit. Cum sociis natoque penatibus et magnis dis
+												{{item.message}}
 											</p>
 										</div>
 									</div>
-								</div>
-								<!-- End review-box -->
-
-								<div class="review-box clearfix">
-									<figure class="rev-thumb"><img src="http://via.placeholder.com/150x150.jpg" alt="">
-									</figure>
-									<div class="rev-content">
-										<div class="rating">
-											<i class="icon-star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-										</div>
-										<div class="rev-info">
-											Ahsan – April 01, 2016
-										</div>
-										<div class="rev-text">
-											<p>
-												Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar hendrerit. Cum sociis natoque penatibus et magnis dis
-											</p>
-										</div>
-									</div>
-								</div>
-								<!-- End review-box -->
-
-								<div class="review-box clearfix">
-									<figure class="rev-thumb"><img src="http://via.placeholder.com/150x150.jpg" alt="">
-									</figure>
-									<div class="rev-content">
-										<div class="rating">
-											<i class="icon-star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-										</div>
-										<div class="rev-info">
-											Sara – March 31, 2016
-										</div>
-										<div class="rev-text">
-											<p>
-												Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar hendrerit. Cum sociis natoque penatibus et magnis dis
-											</p>
-										</div>
-									</div>
-								</div>
-								<!-- End review-box -->
+								</div>                             
+                           
+                              
+                              
+								
 							</div>
 							<!-- End review-container -->
 							<hr>

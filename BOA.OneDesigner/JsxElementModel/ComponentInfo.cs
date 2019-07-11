@@ -167,6 +167,14 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets the value changed orchestration method.
         /// </summary>
         public string ValueChangedOrchestrationMethod { get; set; }
+
+
+
+        #region ParamValue2Filter
+        public string ParamValue2Filter => ParamValue2FilterInto.GetDesignerText();
+        public LabelInfo ParamValue2FilterInto { get; set; }
+        #endregion
+
         #endregion
     }
 }

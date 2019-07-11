@@ -31,8 +31,9 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("paramType = \"" + data.ParamType + "\"");
             sb.AppendLine("displayMemberPath={'paramDescription'}");
 
-            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, " hintText");
-            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, " labelText");
+            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, "hintText");
+            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, "labelText");
+            RenderHelper.WriteLabelInfo(writerContext, data.ParamValue2FilterInto, sb.AppendLine, "paramValue2Filter");
 
 
             if (data.IsAllOptionIncluded)

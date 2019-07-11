@@ -14,7 +14,7 @@ var Model =
     paginationIndex:1,
     paginationCount:3,
     searchResults:[],
-    visibleRecords:[],
+    visibleRecords: [],
     name:"ttt",
     imageUrl:"http://via.placeholder.com/565x565.jpg",
     occupation:"Kılıç Ustası_0",
@@ -27,6 +27,25 @@ var Model =
       {name:"Meslek",value:"Kılıç Ustası"},
       {name:"telefon",value:"0545 566 76 87"},
       {name:"Lokasyon",value:"İstanbul / Ümraniye"}
+    ],
+    competentList:
+    [
+      { name:'Müşteriye Saygı', value:3.7 },
+      { name:'Kalite Odaklılık', value:3.8 },
+      { name:'İş Sonrası Destek', value:3.9 }
+    ],
+  "commentList":[
+      
+      {
+        "rate":4.7,
+        "info":'Aloha - 4 Nisan 2019',
+        "message":'Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar hendrerit. Cum sociis natoque penatibus et magnis dis'
+      },
+      {
+        "rate":4.6,
+        "info":'Aristo - 5 Nisan 2000 M.Ö',
+        "message":'Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar hendrerit. Cum sociis natoque penatibus et magnis dis'
+      }
     ]
 };
 

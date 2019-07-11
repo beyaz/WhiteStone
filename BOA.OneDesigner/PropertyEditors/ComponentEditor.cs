@@ -63,6 +63,12 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Public Methods
         public static ComponentEditor Create(Host host, ComponentInfo info)
         {
+
+            if (info.Type.IsParameterComponent && info.ParamValue2FilterInto == null)
+            {
+                info.ParamValue2FilterInto = new LabelInfo();
+            }
+
             var dataContext = new ComponentEditorModel
             {
                 Info                                                      = info,
@@ -254,6 +260,13 @@ namespace BOA.OneDesigner.PropertyEditors
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsParamTypeVisible) + @"}',
             Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ParamType) + @"}', 
             Label       : 'Param Type'
+        }
+        ,
+        {
+            ui          : 'LabelEditor',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.IsParamTypeVisible) + @"}',
+            DataContext : '{Binding " + Model.AccessPathOf(m => m.Info.ParamValue2FilterInto) + @"}',
+            Header      : 'ParamValue2Filter'
         }
         ,
         {
