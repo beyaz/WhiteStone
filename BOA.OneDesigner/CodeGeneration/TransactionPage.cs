@@ -491,7 +491,7 @@ namespace BOA.OneDesigner.CodeGeneration
             if (writerContext.HasTabControl)
             {
                 sb.AppendLine();
-                sb.AppendLine("this.onProxyDidRespond.forEach(tabPage => tabPage.proxyDidRespond());");
+                sb.AppendLine($"this.onProxyDidRespond.forEach(tabPage => tabPage.proxyDidRespond({windowRequest}));");
             }
 
             if (writerContext.HandleProxyDidRespondCallback)

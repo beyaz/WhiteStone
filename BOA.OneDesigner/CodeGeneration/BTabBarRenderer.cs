@@ -30,7 +30,7 @@ namespace BOA.OneDesigner.CodeGeneration
             var functionRender = new RenderFunctionDefinition {
                 WriterContext = writerContext,
                 Data = tabPage.DivAsCardContainer,
-                WindowRequestAccessPath = "this.state.pageInstance.state.windowRequest"
+                WindowRequestAccessPath = "this.state.windowRequest"
 
             };
             var renderMethod   = functionRender.GetCode();
@@ -55,11 +55,11 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("}");
 
             sb.AppendLine();
-            sb.AppendLine("proxyDidRespond()");
+            sb.AppendLine($"proxyDidRespond({Config.IncomingRequestVariableName}: any)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine("this.setState({ windowRequest: this.state.pageInstance.state.windowRequest });");
+            sb.AppendLine("this.setState({ windowRequest: "+Config.IncomingRequestVariableName+" });");
 
             sb.PaddingCount--;
             sb.AppendLine("}");
