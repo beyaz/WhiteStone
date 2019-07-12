@@ -543,10 +543,7 @@ addToProcessQueue(fn: Function)
 
 
 
-            if (writerContext.ScreenInfo.ExtensionAfterProxyDidRespond)
-            {
-                ExtensionCode.afterProxyDidRespond(sb);
-            }
+            
 
 
             sb.PaddingCount--;
@@ -639,7 +636,10 @@ addToProcessQueue(fn: Function)
             
 
 
-          
+            if (writerContext.ScreenInfo.ExtensionAfterProxyDidRespond)
+            {
+                ExtensionCode.afterProxyDidRespond(sb);
+            }
 
             
 
