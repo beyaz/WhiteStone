@@ -389,11 +389,164 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("  */");
             }
 
-            sb.AppendLine("restoreWindowRequest(windowRequest: any)");
+            const string windowRequest = Config.IncomingRequestVariableName;
+
+            var methodParameters = $"{windowRequest}: any";
+            if (writerContext.HasWorkflow)
+            {
+                methodParameters = $"{windowRequest}: any, orchestrationMethodName: string";
+            }
+
+            sb.AppendLine($"restoreWindowRequest({methodParameters})");
+
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+            var propertyNames = CecilHelper.GetAttributeAttachedPropertyNames_DoNotSendToServerFromClientAttribute(writerContext.SolutionInfo.TypeAssemblyPathInServerBin,writerContext.ScreenInfo.RequestName);
 
+            if (propertyNames.Any())
+            {
+                sb.AppendLine("if(this.state.windowRequest)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                foreach (var propertyName in propertyNames)
+                {
+                    var propertyNameInJs = TypescriptNaming.NormalizeBindingPath(propertyName);
+
+                    sb.AppendLine($"{windowRequest}.{propertyNameInJs} = {windowRequest}.{propertyNameInJs} || this.state.windowRequest.{propertyNameInJs};");
+                }
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+                
+            }
+
+
+            
+            if (writerContext.HasWorkflow)
+            {
+                sb.AppendLine();
+                sb.AppendLine($"const hasWorkflow = {windowRequest}.workFlowInternalData && {windowRequest}.workFlowInternalData.instanceId > 0;");
+                sb.AppendLine("if (hasWorkflow)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine("const windowRequestInForm = this.state.windowRequest || {};");
+                sb.AppendLine();
+                sb.AppendLine($"{windowRequest}.hasWorkflow = windowRequestInForm.hasWorkflow;");
+                sb.AppendLine();
+                sb.AppendLine($"if ({windowRequest}.methodName === orchestrationMethodName)");
+                sb.AppendLine("{");
+                sb.AppendLine($"    {windowRequest}.methodName = windowRequestInForm.methodName;");
+                sb.AppendLine("}");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
+
+
+
+            sb.AppendLine();
+            sb.AppendLine($"if ({windowRequest}.statusMessage)");
+            sb.AppendLine("{");
+            sb.AppendLine($"    BFormManager.showStatusMessage({windowRequest}.statusMessage);");
+            sb.AppendLine($"    {windowRequest}.statusMessage = null;");
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("this.setWindowRequest(");
+            sb.AppendLine("{");
+            sb.AppendLine($"    body: {windowRequest},");
+            sb.AppendLine( "    type: WindowRequestFullName");
+            sb.AppendLine("});");
+
+
+            if (writerContext.BeforeSetStateOnProxyDidResponse?.Count > 0)
+            {
+                sb.AppendLine();
+                foreach (var line in writerContext.BeforeSetStateOnProxyDidResponse)
+                {
+                    sb.AppendAll(line);
+                    sb.AppendLine();
+                }
+            }
+
+
+
+            sb.AppendLine();
+            sb.AppendWithPadding("this.setState(");
+
+            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest", windowRequest);
+
+            JsObjectInfoMultiLineWriter.Write(sb, writerContext.StateObjectWhenIncomingRequestIsSuccess);
+            sb.Append(");");
+            sb.Append(Environment.NewLine);
+
+
+            
+
+
+
+            
+
+            if (writerContext.HasTabControl)
+            {
+                sb.AppendLine();
+                sb.AppendLine("this.onProxyDidRespond.forEach(tabPage => tabPage.proxyDidRespond());");
+            }
+
+            if (writerContext.HandleProxyDidRespondCallback)
+            {
+                writerContext.AddClassBody(new TypeScriptMemberInfo
+                {
+                    Code = @"// #region Process Queue
+processQueue: Function[] = [];
+
+runProcessQueue()
+{
+	const fn = this.processQueue.shift();
+	if (!fn)
+	{
+		return;
+	}
+
+	fn.apply(this);
+}
+
+addToProcessQueue(fn: Function)
+{
+	this.processQueue.push(fn);
+}
+// #endregion",
+                    IsField = true
+                });
+
+                sb.AppendLine();
+                sb.AppendLine("this.runProcessQueue();");
+            }
+
+            if (writerContext.RequestIntellisenseData.HasPropertyLikeDialogResponse)
+            {
+                writerContext.Imports.Add(Imports.DialogHelper);
+
+                sb.AppendLine($"if ({windowRequest}.dialogResponse > 0)");
+                sb.AppendLine("{");
+                
+                sb.AppendLine($"    BDialogHelper.close(this, {windowRequest}.dialogResponse, {windowRequest}.{writerContext.DataContractAccessPathInWindowRequest});");
+                sb.AppendLine("}");
+            }
+
+            if (writerContext.CanWriteEvaluateActions)
+            {
+                sb.AppendLine();
+                sb.AppendLine("this.evaluateActions();");
+            }
+
+
+
+            if (writerContext.ScreenInfo.ExtensionAfterProxyDidRespond)
+            {
+                ExtensionCode.afterProxyDidRespond(sb);
+            }
 
 
             sb.PaddingCount--;
@@ -474,131 +627,23 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
+            sb.AppendLine();
 
-            var propertyNames = CecilHelper.GetAttributeAttachedPropertyNames_DoNotSendToServerFromClientAttribute(writerContext.SolutionInfo.TypeAssemblyPathInServerBin,writerContext.ScreenInfo.RequestName);
-
-            if (propertyNames.Any())
-            {
-                sb.AppendLine("if(this.state.windowRequest)");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                foreach (var propertyName in propertyNames)
-                {
-                    var propertyNameInJs = TypescriptNaming.NormalizeBindingPath(propertyName);
-
-                    sb.AppendLine($"value.{propertyNameInJs} = value.{propertyNameInJs} || this.state.windowRequest.{propertyNameInJs};");
-                }
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
-                
-            }
-
+            var methodParameters = "value";
             if (writerContext.HasWorkflow)
             {
-                sb.AppendLine();
-                sb.AppendLine("const hasWorkflow = value.workFlowInternalData && value.workFlowInternalData.instanceId > 0;");
-                sb.AppendLine("if (hasWorkflow)");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-                sb.AppendLine("const windowRequestInForm = this.state.windowRequest || {};");
-                sb.AppendLine();
-                sb.AppendLine("value.hasWorkflow = windowRequestInForm.hasWorkflow;");
-                sb.AppendLine();
-                sb.AppendLine("if (value.methodName === proxyResponse.key)");
-                sb.AppendLine("{");
-                sb.AppendLine("    value.methodName = windowRequestInForm.methodName;");
-                sb.AppendLine("}");
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
+                methodParameters = "value, proxyResponse.key";
             }
 
-            sb.AppendLine();
-            sb.AppendLine("if (value.statusMessage)");
-            sb.AppendLine("{");
-            sb.AppendLine("    BFormManager.showStatusMessage(value.statusMessage);");
-            sb.AppendLine("    value.statusMessage = null;");
-            sb.AppendLine("}");
+            sb.AppendLine($"this.restoreWindowRequest({methodParameters});");
+            
 
-            sb.AppendLine();
-            sb.AppendLine("this.setWindowRequest(");
-            sb.AppendLine("{");
-            sb.AppendLine("    body: value,");
-            sb.AppendLine("    type: WindowRequestFullName");
-            sb.AppendLine("});");
 
-            if (writerContext.BeforeSetStateOnProxyDidResponse?.Count > 0)
-            {
-                sb.AppendLine();
-                foreach (var line in writerContext.BeforeSetStateOnProxyDidResponse)
-                {
-                    sb.AppendAll(line);
-                    sb.AppendLine();
-                }
-            }
+          
 
-            sb.AppendLine();
-            sb.AppendWithPadding("this.setState(");
+            
 
-            writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("windowRequest", "value");
-
-            JsObjectInfoMultiLineWriter.Write(sb, writerContext.StateObjectWhenIncomingRequestIsSuccess);
-            sb.Append(");");
-            sb.Append(Environment.NewLine);
-
-            if (writerContext.HasTabControl)
-            {
-                sb.AppendLine();
-                sb.AppendLine("this.onProxyDidRespond.forEach(tabPage => tabPage.proxyDidRespond());");
-            }
-
-            if (writerContext.HandleProxyDidRespondCallback)
-            {
-                writerContext.AddClassBody(new TypeScriptMemberInfo
-                {
-                    Code = @"// #region Process Queue
-processQueue: Function[] = [];
-
-runProcessQueue()
-{
-	const fn = this.processQueue.shift();
-	if (!fn)
-	{
-		return;
-	}
-
-	fn.apply(this);
-}
-
-addToProcessQueue(fn: Function)
-{
-	this.processQueue.push(fn);
-}
-// #endregion",
-                    IsField = true
-                });
-
-                sb.AppendLine();
-                sb.AppendLine("this.runProcessQueue();");
-            }
-
-            if (writerContext.RequestIntellisenseData.HasPropertyLikeDialogResponse)
-            {
-                writerContext.Imports.Add(Imports.DialogHelper);
-
-                sb.AppendLine("if(value.dialogResponse > 0)");
-                sb.AppendLine("{");
-                
-                sb.AppendLine($"    BDialogHelper.close(this, value.dialogResponse, value.{writerContext.DataContractAccessPathInWindowRequest});");
-                sb.AppendLine("}");
-            }
-
-            if (writerContext.CanWriteEvaluateActions)
-            {
-                sb.AppendLine();
-                sb.AppendLine("this.evaluateActions();");
-            }
+           
 
             if (writerContext.HasWorkflow)
             {
@@ -609,10 +654,6 @@ addToProcessQueue(fn: Function)
                 sb.AppendLine("}");
             }
 
-            if (writerContext.ScreenInfo.ExtensionAfterProxyDidRespond)
-            {
-                ExtensionCode.afterProxyDidRespond(sb);
-            }
 
             sb.AppendLine();
             sb.AppendLine("return success;");
@@ -732,6 +773,7 @@ addToProcessQueue(fn: Function)
             ExecuteWindowRequest(writerContext);
             Render(writerContext, jsxModel);
             ProxyDidRespond(writerContext);
+            RestoreWindowRequest(writerContext);
             FillWindowRequest(writerContext);
 
             WriteConstructor(writerContext);
