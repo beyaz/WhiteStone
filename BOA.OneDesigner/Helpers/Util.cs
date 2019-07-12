@@ -21,6 +21,22 @@ namespace BOA.OneDesigner.Helpers
                 }
             });
 
+            // is in any button clicked event
+            VisitHelper.VisitComponents(screenInfo, (component) =>
+            {
+                if (component is ComponentInfo  componentInfo)
+                {
+                    if (componentInfo.Type.IsButton)
+                    {
+                        if (componentInfo.ButtonClickedActionInfo?.ExtensionMethodName?.HasValue() == true)
+                        {
+                            hasExtensionMethod = true;
+                        }
+                        
+                    }
+                }
+            });
+
             if (hasExtensionMethod)
             {
                 return true;
