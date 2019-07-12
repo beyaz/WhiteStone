@@ -266,6 +266,7 @@ static class Util
     public static void ProcessCondition(WhereCondition whereCondition, List<string> whereLines, DbColumnInfo dbColumn, List<DbParameterInfo> parameters)
     {
         const string prefix = ""@"";
+        const string combiner = ""_"";
 
         switch (whereCondition.ConditionType)
         {
@@ -273,11 +274,13 @@ static class Util
             {
                 const string operand = "" = "";
 
-                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+                var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
 
                 parameters.Add(new DbParameterInfo
                 {
-                    Name      = dbColumn.Name,
+                    Name      = parameterName,
                     SqlDbType = dbColumn.SqlDbType,
                     Value     = whereCondition.Value
                 });
@@ -289,11 +292,13 @@ static class Util
             {
                 const string operand = "" != "";
 
-                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+                var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
 
                 parameters.Add(new DbParameterInfo
                 {
-                    Name      = dbColumn.Name,
+                    Name      = parameterName,
                     SqlDbType = dbColumn.SqlDbType,
                     Value     = whereCondition.Value
                 });
@@ -305,11 +310,13 @@ static class Util
             {
                 const string operand = "" > "";
 
-                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+                var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
 
                 parameters.Add(new DbParameterInfo
                 {
-                    Name      = dbColumn.Name,
+                    Name      = parameterName,
                     SqlDbType = dbColumn.SqlDbType,
                     Value     = whereCondition.Value
                 });
@@ -321,11 +328,13 @@ static class Util
             {
                 const string operand = "" >= "";
 
-                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+                var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
 
                 parameters.Add(new DbParameterInfo
                 {
-                    Name      = dbColumn.Name,
+                    Name      = parameterName,
                     SqlDbType = dbColumn.SqlDbType,
                     Value     = whereCondition.Value
                 });
@@ -337,11 +346,13 @@ static class Util
             {
                 const string operand = "" < "";
 
-                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+                var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
 
                 parameters.Add(new DbParameterInfo
                 {
-                    Name      = dbColumn.Name,
+                    Name      = parameterName,
                     SqlDbType = dbColumn.SqlDbType,
                     Value     = whereCondition.Value
                 });
@@ -353,11 +364,13 @@ static class Util
             {
                 const string operand = "" <= "";
 
-                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+                var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
 
                 parameters.Add(new DbParameterInfo
                 {
-                    Name      = dbColumn.Name,
+                    Name      = parameterName,
                     SqlDbType = dbColumn.SqlDbType,
                     Value     = whereCondition.Value
                 });
@@ -401,11 +414,13 @@ static class Util
             {
                 const string operand = "" LIKE "";
 
-                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name + "" + '%'"");
+                var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                whereLines.Add(dbColumn.Name + operand + prefix + parameterName + "" + '%'"");
 
                 parameters.Add(new DbParameterInfo
                 {
-                    Name      = dbColumn.Name,
+                    Name      = parameterName,
                     SqlDbType = dbColumn.SqlDbType,
                     Value     = whereCondition.Value
                 });
@@ -417,11 +432,13 @@ static class Util
             {
                 const string operand = "" LIKE '%' + "";
 
-                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name);
+                var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
 
                 parameters.Add(new DbParameterInfo
                 {
-                    Name      = dbColumn.Name,
+                    Name      = parameterName,
                     SqlDbType = dbColumn.SqlDbType,
                     Value     = whereCondition.Value
                 });
@@ -433,11 +450,13 @@ static class Util
             {
                 const string operand = "" LIKE '%' + "";
 
-                whereLines.Add(dbColumn.Name + operand + prefix + dbColumn.Name + "" + '%'"");
+                var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                whereLines.Add(dbColumn.Name + operand + prefix + parameterName + "" + '%'"");
 
                 parameters.Add(new DbParameterInfo
                 {
-                    Name      = dbColumn.Name,
+                    Name      = parameterName,
                     SqlDbType = dbColumn.SqlDbType,
                     Value     = whereCondition.Value
                 });
@@ -489,7 +508,6 @@ static class Util
 
                 return;
             }
-
 
             default:
             {
