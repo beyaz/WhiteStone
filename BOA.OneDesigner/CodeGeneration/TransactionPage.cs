@@ -379,7 +379,28 @@ namespace BOA.OneDesigner.CodeGeneration
         }
 
 
+        static void RestoreWindowRequest(WriterContext writerContext)
+        {
+            var sb = new PaddedStringBuilder();
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Restores the 'incoming windowRequest' from server.");
+                sb.AppendLine("  */");
+            }
 
+            sb.AppendLine("restoreWindowRequest(windowRequest: any)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+
+
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
+        }
         static void ProxyDidRespond(WriterContext writerContext)
         {
             var sb = new PaddedStringBuilder();
