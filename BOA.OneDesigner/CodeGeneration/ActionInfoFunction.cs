@@ -107,7 +107,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                sb.AppendLine("if (dialogResponse === 1)");
+                sb.AppendLine("if (dialogResponse === DialogResponse.YES)");
                 sb.AppendLine("{");
                 sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
                 sb.AppendLine("}");
@@ -171,12 +171,13 @@ namespace BOA.OneDesigner.CodeGeneration
                 {
                     if (Data.OrchestrationMethodOnDialogResponseIsOK.HasValue())
                     {
+                        WriterContext.Imports.Add(Imports.DialogResponse);
                         if (dataParameter.HasValue())
                         {
                             sb.AppendLine();
                             sb.AppendLine("const onClose: any = (dialogResponse:number, returnValue: any) =>");
                             sb.AppendLine("{");
-                            sb.AppendLine("    if(dialogResponse === 1)");
+                            sb.AppendLine("    if(dialogResponse === DialogResponse.OK)");
                             sb.AppendLine("    {");
                             sb.AppendLine($"        {dataParameter} = returnValue;");
                             sb.AppendLine($"        {executeWindowRequest}(\"{Data.OrchestrationMethodOnDialogResponseIsOK}\");");
@@ -188,7 +189,7 @@ namespace BOA.OneDesigner.CodeGeneration
                             sb.AppendLine();
                             sb.AppendLine("const onClose: any = (dialogResponse:number) =>");
                             sb.AppendLine("{");
-                            sb.AppendLine("    if(dialogResponse === 1)");
+                            sb.AppendLine("    if(dialogResponse === DialogResponse.OK)");
                             sb.AppendLine("    {");
                             sb.AppendLine($"        {executeWindowRequest}(\"{Data.OrchestrationMethodOnDialogResponseIsOK}\");");
                             sb.AppendLine("    }");
