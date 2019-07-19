@@ -8,6 +8,8 @@ namespace BOA.CodeGeneration.Generators
 {
     public class ContractBodyGenerator : WriterBaseBase
     {
+        public bool MarkAsNonSerializableSecurePropertiesForBOAOne { get; set; }
+
         #region Fields
         readonly bool simplePropertyDeclaration;
         #endregion
@@ -67,7 +69,7 @@ namespace BOA.CodeGeneration.Generators
 
         public void WriteProperty(string typeName, string propertyName, string comment)
         {
-            WriteProperty(GetPropertyFieldName(propertyName), "\"" + propertyName + "\"", typeName, propertyName, comment, simplePropertyDeclaration);
+            WriteProperty(GetPropertyFieldName(propertyName), "\"" + propertyName + "\"", typeName, propertyName, comment, simplePropertyDeclaration,MarkAsNonSerializableSecurePropertiesForBOAOne);
         }
         #endregion
 
@@ -122,7 +124,8 @@ namespace BOA.CodeGeneration.Generators
             {
                 Columns                         = Context.Table.Columns,
                 Padding                         = Padding,
-                PrefixOfFieldOfContractProperty = Context.Config.PrefixOfFieldOfContractProperty
+                PrefixOfFieldOfContractProperty = Context.Config.PrefixOfFieldOfContractProperty,
+                MarkAsNonSerializableSecurePropertiesForBOAOne = Context.Config.MarkAsNonSerializableSecurePropertiesForBOAOne
             };
             bodyGenerator.GenerateDatabaseColumns();
             Write(bodyGenerator.GeneratedString);

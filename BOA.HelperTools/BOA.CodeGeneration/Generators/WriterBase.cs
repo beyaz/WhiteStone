@@ -65,7 +65,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Public Methods
-        public void WriteProperty(string propName, string propertyChangedString, string dotNetType, string propertyName, string comment,bool simplePropertyDeclaration)
+        public void WriteProperty(string propName, string propertyChangedString, string dotNetType, string propertyName, string comment,bool simplePropertyDeclaration,bool MarkAsNonSerializableSecurePropertiesForBOAOne)
         {
             propName = CheckName(propName);
 
@@ -102,13 +102,29 @@ namespace BOA.CodeGeneration.Generators
                 WriteLine(@"/// </summary>");
             }
 
+
+            if (MarkAsNonSerializableSecurePropertiesForBOAOne)
+            {
+                var isOneSecureProperty = propertyName.Equals(Names2.UpdateHostName, StringComparison.OrdinalIgnoreCase)||
+                                          propertyName.Equals(Names2.UpdateHostIP, StringComparison.OrdinalIgnoreCase)||
+                                          propertyName.Equals(Names2.UpdateUserName, StringComparison.OrdinalIgnoreCase)||
+                                          propertyName.Equals(Names2.HostName, StringComparison.OrdinalIgnoreCase)||
+                                          propertyName.Equals(Names2.HostIP, StringComparison.OrdinalIgnoreCase)||
+                                          propertyName.Equals(Names2.UserName, StringComparison.OrdinalIgnoreCase);
+                if (isOneSecureProperty)
+                {
+                    WriteLine("[Newtonsoft.Json.JsonIgnore]");    
+                }
+                
+            }
+
             if (simplePropertyDeclaration)
             {
                 WriteLine("public " + dotNetType + " " + propertyName+ " { get; set; }");
                 return;
             }
 
-                WriteLine("public " + dotNetType + " " + propertyName);
+            WriteLine("public " + dotNetType + " " + propertyName);
             WriteLine("{");
             Padding++;
             WriteLine("get{ return " + propName + ";}");

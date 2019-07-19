@@ -13,6 +13,8 @@ namespace BOA.CodeGeneration.Model
     {
         public bool PropertyDeclarationIsSimple { get; set; }
 
+        public bool MarkAsNonSerializableSecurePropertiesForBOAOne { get; set; }
+
         #region Static Fields
         static Confiuration _confiuration;
         #endregion
