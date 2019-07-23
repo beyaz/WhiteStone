@@ -219,6 +219,44 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
+        
+        static void ComponentDidMount(WriterContext writerContext)
+        {
+
+            if (!writerContext.HasTabControl)
+            {
+                return;
+            }
+
+            var sb = new PaddedStringBuilder();
+
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  After form first rendered.");
+                sb.AppendLine("  */");
+            }
+
+            sb.AppendLine("componentDidMount()");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("super.componentDidMount();");
+
+            sb.AppendLine();
+            sb.AppendLine("// on tab changed no need to go to orchestration and refresh tab pages.");
+            sb.AppendLine("if (this.state.windowRequest)");
+            sb.AppendLine("{");
+            sb.AppendLine("    this.restoreWindowRequest(this.state.windowRequest);");
+            sb.AppendLine("}");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(sb.ToString());
+        }
+
+
         static void EvaluateActions(WriterContext writerContext)
         {
             if (!writerContext.CanWriteEvaluateActions)
@@ -767,6 +805,7 @@ addToProcessQueue(fn: Function)
             OnWindowRequestFilled(writerContext);
             OnActionClickAfter(writerContext);
             ComponentWillMount(writerContext);
+           
 
             EvaluateActions(writerContext);
             SendWindowRequestToServer(writerContext);
@@ -775,6 +814,8 @@ addToProcessQueue(fn: Function)
             ProxyDidRespond(writerContext);
             RestoreWindowRequest(writerContext);
             FillWindowRequest(writerContext);
+
+            ComponentDidMount(writerContext);
 
             WriteConstructor(writerContext);
 
