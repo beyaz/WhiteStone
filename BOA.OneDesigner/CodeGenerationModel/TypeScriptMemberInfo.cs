@@ -8,6 +8,8 @@
         public bool   IsField       { get; set; }
         public bool   IsMethod      { get; set; }
         public bool   IsRender      { get; set; }
+        
+        public bool IsComponentMountMethod { get; set; }
         #endregion
 
         #region Public Methods
@@ -33,6 +35,12 @@
                 return 0;
             }
 
+            if (left.IsComponentMountMethod && right.IsComponentMountMethod)
+            {
+                return 0;
+            }
+            
+
             if (left.IsField)
             {
                 return -1;
@@ -49,6 +57,16 @@
             }
 
             if (right.IsConstructor)
+            {
+                return 1;
+            }
+
+            if (left.IsComponentMountMethod )
+            {
+                return -1;
+            }
+
+            if (right.IsComponentMountMethod )
             {
                 return 1;
             }

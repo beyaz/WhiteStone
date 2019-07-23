@@ -216,7 +216,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            writerContext.AddClassBody(sb.ToString());
+            writerContext.AddClassBody(new TypeScriptMemberInfo{ IsComponentMountMethod = true, Code = sb.ToString()});
         }
 
         
@@ -253,7 +253,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
-            writerContext.AddClassBody(sb.ToString());
+            writerContext.AddClassBody(new TypeScriptMemberInfo{ IsComponentMountMethod =true, Code = sb.ToString()});
         }
 
 
