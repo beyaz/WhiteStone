@@ -61,6 +61,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 isNullableDateTime = bindingPathPropertyInfo.IsNullableDateTime;
             }
 
+            var fullBindingPathInJs = jsBindingPath.FullBindingPathInJs;
+
             if (isString)
             {
                 var tag = "BInput";
@@ -69,16 +71,16 @@ namespace BOA.OneDesigner.CodeGeneration
                     writerContext.Imports.Add("import { BInputMask } from \"b-input-mask\"");
                     tag = "BInputMask";
 
-                    writerContext.GrabValuesToRequest(new ComponentGetValueInfoInputMask { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
+                    writerContext.GrabValuesToRequest(new ComponentGetValueInfoInputMask { JsBindingPath = fullBindingPathInJs,SnapName = data.SnapName});
                     
                 }
                 else
                 {
                     writerContext.Imports.Add("import { BInput } from \"b-input\"");
-                    writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
+                    writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = fullBindingPathInJs,SnapName = data.SnapName});
                 }
 
-                sb.AppendLine($"<{tag} value = {{{jsBindingPath.FullBindingPathInJs} === undefined ? null : {jsBindingPath.FullBindingPathInJs}}}");
+                sb.AppendLine($"<{tag} value = {{{fullBindingPathInJs} === undefined ? null : {fullBindingPathInJs}}}");
                 sb.PaddingCount++;
 
                 // sb.AppendLine($"onChange = {{(e: any, value: string) => {jsBindingPath.BindingPathInJs} = value}}");
@@ -102,16 +104,16 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else if (isDecimal || isDecimalNullable)
             {
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = fullBindingPathInJs,SnapName = data.SnapName});
                 writerContext.Imports.Add("import { BInputNumeric } from \"b-input-numeric\";");
 
                 if (isDecimal)
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs}}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{fullBindingPathInJs}}}");
                 }
                 else
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs} === undefined ? null : {jsBindingPath.FullBindingPathInJs}}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{fullBindingPathInJs} === undefined ? null : {fullBindingPathInJs}}}");
                 }
 
                 sb.PaddingCount++;
@@ -123,11 +125,11 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else if (isBoolean)
             {
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = fullBindingPathInJs,SnapName = data.SnapName});
 
                 writerContext.Imports.Add("import { BCheckBox } from \"b-check-box\"");
 
-                sb.AppendLine($"<BCheckBox checked = {{{jsBindingPath.FullBindingPathInJs}}}");
+                sb.AppendLine($"<BCheckBox checked = {{{fullBindingPathInJs}}}");
                 sb.PaddingCount++;
                 sb.AppendLine("verticalAlign={\"middle\"}");
                 if (data.ValueChangedOrchestrationMethod.HasValue())
@@ -144,17 +146,17 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else if (isDateTime)
             {
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = fullBindingPathInJs,SnapName = data.SnapName});
 
                 writerContext.Imports.Add("import { BDateTimePicker } from \"b-datetime-picker\"");
 
                 if (isNullableDateTime)
                 {
-                    sb.AppendLine($"<BDateTimePicker value = {{{jsBindingPath.FullBindingPathInJs} || null}}");
+                    sb.AppendLine($"<BDateTimePicker value = {{{fullBindingPathInJs} || null}}");
                 }
                 else
                 {
-                    sb.AppendLine($"<BDateTimePicker value = {{{jsBindingPath.FullBindingPathInJs}}}");
+                    sb.AppendLine($"<BDateTimePicker value = {{{fullBindingPathInJs}}}");
                 }
                 
                 sb.PaddingCount++;
@@ -164,16 +166,16 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = jsBindingPath.FullBindingPathInJs,SnapName = data.SnapName});
+                writerContext.GrabValuesToRequest(new ComponentGetValueInfoInput { JsBindingPath = fullBindingPathInJs,SnapName = data.SnapName});
                 writerContext.Imports.Add("import { BInputNumeric } from \"b-input-numeric\";");
 
                 if (isNullableNumber)
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs} === undefined ? null : {jsBindingPath.FullBindingPathInJs}}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{fullBindingPathInJs} === undefined ? null : {fullBindingPathInJs}}}");
                 }
                 else
                 {
-                    sb.AppendLine($"<BInputNumeric value = {{{jsBindingPath.FullBindingPathInJs} === undefined ? null : {jsBindingPath.FullBindingPathInJs}}}");
+                    sb.AppendLine($"<BInputNumeric value = {{{fullBindingPathInJs} === undefined ? null : {fullBindingPathInJs}}}");
                 }
 
                 sb.PaddingCount++;
@@ -207,11 +209,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (writerContext.HasSupportErrorText)
             {
-                RenderHelper.WriteErrorTextProperty(sb,jsBindingPath.FullBindingPathInJs);
+                RenderHelper.WriteErrorTextProperty(sb,fullBindingPathInJs);
 
                 sb.AppendLine("onChange={() =>");
                 sb.AppendLine("{");
-                sb.AppendLine($"    {Config.ClearErrorTextMethodPathInJs}(\"{jsBindingPath.FullBindingPathInJs}\");");
+                sb.AppendLine($"    {Config.ClearErrorTextMethodPathInJs}(\"{fullBindingPathInJs}\");");
                 sb.AppendLine("}}");
             }
 
