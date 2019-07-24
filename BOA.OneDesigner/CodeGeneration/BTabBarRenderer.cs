@@ -64,6 +64,21 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
             sb.AppendLine("}");
 
+            if (writerContext.HasSupportErrorText)
+            {
+                sb.AppendLine();
+                sb.AppendLine("clearErrorText(bindingPath: string)");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                sb.AppendLine("this.state.pageInstance.clearErrorText(bindingPath);");
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
+
+
+
             foreach (var member in writerContext.ClassBody)
             {
                 sb.AppendLine();

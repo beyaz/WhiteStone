@@ -265,5 +265,10 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             }
         }
         #endregion
+
+        public static void WriteErrorTextProperty(PaddedStringBuilder sb, string fullBindingPathInJs)
+        {
+            sb.AppendLine($"errorText = {{ {Config.ErrorTextPathInJs} && {Config.ErrorTextPathInJs}[\"{fullBindingPathInJs}\"] }}");
+        }
     }
 }

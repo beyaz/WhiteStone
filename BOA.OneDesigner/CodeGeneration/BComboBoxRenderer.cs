@@ -74,25 +74,39 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine($"<BComboBox  dataSource = {{{dataSourceBindingPath.FullBindingPathInJs}}}");
             sb.PaddingCount++;
 
+            var fullBindingPathInJs = jsBindingPath.FullBindingPathInJs;
+
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoComboBox
             {
-                JsBindingPath = jsBindingPath.FullBindingPathInJs,
+                JsBindingPath = fullBindingPathInJs,
                 SnapName      = data.SnapName,
                 BindingPathPropertyInfo = bindingPathPropertyInfo
                 
             });
 
+            var hasSupportErrorText = writerContext.HasSupportErrorText;
+
             if (data.IsMultiSelect)
             {
-                sb.AppendLine($"value={{{jsBindingPath.FullBindingPathInJs}}}");
+                sb.AppendLine($"value={{{fullBindingPathInJs}}}");
 
-                if (data.ValueChangedOrchestrationMethod.HasValue())
+                var shouldWriteOnSelectEvent = data.ValueChangedOrchestrationMethod.HasValue() || hasSupportErrorText;
+                if (shouldWriteOnSelectEvent)
                 {
                     sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
+
+                    if (hasSupportErrorText)
+                    {
+                        sb.AppendLine($"{Config.ClearErrorTextMethodPathInJs}(\"{fullBindingPathInJs}\");");
+                    }
+
+                    if (data.ValueChangedOrchestrationMethod.HasValue())
+                    {
+                        sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
+                    }
 
                     sb.PaddingCount--;
                     sb.AppendLine("}}");
@@ -100,18 +114,34 @@ namespace BOA.OneDesigner.CodeGeneration
             }
             else
             {
-                sb.AppendLine($"value={{[({jsBindingPath.FullBindingPathInJs} || \"\") + \"\"]}}");
-                if (data.ValueChangedOrchestrationMethod.HasValue())
+                sb.AppendLine($"value={{[({fullBindingPathInJs} || \"\") + \"\"]}}");
+
+                var shouldWriteOnSelectEvent = data.ValueChangedOrchestrationMethod.HasValue() || hasSupportErrorText;
+
+                if (shouldWriteOnSelectEvent)
                 {
                     sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[]) =>");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
+                    if (hasSupportErrorText)
+                    {
+                        sb.AppendLine($"{Config.ClearErrorTextMethodPathInJs}(\"{fullBindingPathInJs}\");");
+                    }
+
+                    if (data.ValueChangedOrchestrationMethod.HasValue())
+                    {
+                        sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
+                    }
 
                     sb.PaddingCount--;
                     sb.AppendLine("}}");
                 }
+            }
+
+            if (hasSupportErrorText)
+            {
+                RenderHelper.WriteErrorTextProperty(sb,fullBindingPathInJs);
             }
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");

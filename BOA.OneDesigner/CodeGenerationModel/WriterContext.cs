@@ -10,6 +10,8 @@ namespace BOA.OneDesigner.CodeGenerationModel
 {
     public class WriterContext
     {
+        public bool HasSupportErrorText => RequestIntellisenseData.HasPropertyLikeErrorTexts;
+
         public WriterContext()
         {
             

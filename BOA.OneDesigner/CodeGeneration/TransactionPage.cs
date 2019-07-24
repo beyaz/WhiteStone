@@ -256,6 +256,46 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(new TypeScriptMemberInfo{ IsComponentMountMethod =true, Code = sb.ToString()});
         }
 
+        static void clearErrorText(WriterContext writerContext)
+        {
+            if (!writerContext.HasSupportErrorText)
+            {
+                return;
+            }
+
+            var sb = new PaddedStringBuilder();
+
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Clear error text by given key.");
+                sb.AppendLine("  */");
+            }
+
+            sb.AppendLine("clearErrorText(bindingPath: string)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("if (!this.state.windowRequest.errorTexts)");
+            sb.AppendLine("{");
+            sb.AppendLine("    return;");
+            sb.AppendLine("}");
+
+            sb.AppendLine();
+            sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, this.state.windowRequest);");
+
+            sb.AppendLine();
+            sb.AppendLine("this.fillRequestFromUI(clonedWindowRequest);");
+            sb.AppendLine();
+            sb.AppendLine("clonedWindowRequest.errorTexts[bindingPath] = null;");
+            sb.AppendLine();
+            sb.AppendLine("this.restoreWindowRequest(clonedWindowRequest);");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(new TypeScriptMemberInfo{ IsMethod = true, Code = sb.ToString()});
+        }
 
         static void EvaluateActions(WriterContext writerContext)
         {
@@ -816,6 +856,7 @@ addToProcessQueue(fn: Function)
             FillWindowRequest(writerContext);
 
             ComponentDidMount(writerContext);
+            clearErrorText(writerContext);
 
             WriteConstructor(writerContext);
 

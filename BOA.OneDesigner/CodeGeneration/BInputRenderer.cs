@@ -205,6 +205,17 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
+            if (writerContext.HasSupportErrorText)
+            {
+                RenderHelper.WriteErrorTextProperty(sb,jsBindingPath.FullBindingPathInJs);
+
+                sb.AppendLine("onChange={() =>");
+                sb.AppendLine("{");
+                sb.AppendLine($"    {Config.ClearErrorTextMethodPathInJs}(\"{jsBindingPath.FullBindingPathInJs}\");");
+                sb.AppendLine("}}");
+            }
+
+
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;
