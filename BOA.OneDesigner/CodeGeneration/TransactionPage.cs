@@ -767,11 +767,13 @@ addToProcessQueue(fn: Function)
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+            var isFirstLineWritten = false;
 
             var propertyNames = CecilHelper.GetAttributeAttachedPropertyNames_DoNotSendToServerFromClientAttribute(writerContext.SolutionInfo.TypeAssemblyPathInServerBin,writerContext.ScreenInfo.RequestName);
 
             if (propertyNames.Any())
             {
+                isFirstLineWritten = true;
                 sb.AppendLine("request = Object.assign({}, request);");
                 foreach (var propertyName in propertyNames)
                 {
@@ -779,10 +781,24 @@ addToProcessQueue(fn: Function)
 
                     sb.AppendLine($"request.{propertyNameInJs} = null;");
                 }
-                sb.AppendLine();
             }
 
+            if (writerContext.HasSupportErrorText)
+            {
+                if (isFirstLineWritten)
+                {
+                    sb.AppendLine();
+                }
+                
+                sb.AppendLine(Config.ErrorTextPathInJs + " = null;");
 
+                isFirstLineWritten = true;
+            }
+
+            if (isFirstLineWritten)
+            {
+                sb.AppendLine();
+            }
 
             sb.AppendLine("request.methodName = orchestrationMethodName;");
 

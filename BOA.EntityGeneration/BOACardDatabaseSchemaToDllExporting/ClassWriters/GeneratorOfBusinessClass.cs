@@ -36,9 +36,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             var typeContractName = $"{tableInfo.TableName.ToContractName()}Contract";
             var className        = tableInfo.TableName.ToContractName();
 
-            if (typeContractName == "TransactionLogContract") // resolve conflig
+            if (typeContractName == "TransactionLogContract"||
+                typeContractName == "BoaUserContract") // resolve conflig
             {
-                typeContractName = $"{NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName)}.TransactionLogContract";
+                typeContractName = $"{NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName)}.{typeContractName}";
             }
 
             var businessClassNamespace = NamingHelper.GetBusinessClassNamespace(tableInfo.SchemaName);
