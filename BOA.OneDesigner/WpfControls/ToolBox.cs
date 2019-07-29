@@ -272,7 +272,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     IsPosTerminalComponent = true
                 },
-                LabelTextInfo    = LabelInfoHelper.CreateNewLabelInfo("Pos Terminal Component"),
+                LabelTextInfo    = LabelInfoHelper.CreateNewLabelInfo("Terminal No"),
                 ValueBindingPath = "$"
             }, isInToolbox: true);
 
@@ -288,7 +288,7 @@ namespace BOA.OneDesigner.WpfControls
                 {
                     IsPosMerchantComponent = true
                 },
-                LabelTextInfo    = LabelInfoHelper.CreateNewLabelInfo("Pos Merchant Component"),
+                LabelTextInfo    = LabelInfoHelper.CreateNewLabelInfo("Üye İşyeri"),
                 ValueBindingPath = "$"
             }, isInToolbox: true);
 
