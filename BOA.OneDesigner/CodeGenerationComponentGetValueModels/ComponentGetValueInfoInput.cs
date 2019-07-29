@@ -28,7 +28,7 @@ namespace BOA.OneDesigner.CodeGenerationComponentGetValueModels
         #region Public Methods
         public override string GetCode()
         {
-            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().terminalNumber";
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue() && {ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().terminalNumber";
         }
         #endregion
     }
@@ -38,7 +38,7 @@ namespace BOA.OneDesigner.CodeGenerationComponentGetValueModels
         #region Public Methods
         public override string GetCode()
         {
-            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().merchantNumber";
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue() && {ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().merchantNumber";
         }
         #endregion
     }
