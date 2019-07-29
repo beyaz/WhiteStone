@@ -258,42 +258,42 @@ namespace BOA.OneDesigner.PropertyEditors
         }
         ,
         {
-	        ui          : 'RequestIntellisenseTextBox',
+	        ui          : 'RequestIntellisenseTextBox', ShowOnlyBooleanProperties   : true,
 	        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsPosMerchantComponent) + @"}',
 	        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.IsChainMerchantVisible) + @"}', 
 	        Label       : 'Is ChainMerchant Visible'
         }
         ,
         {
-	        ui          : 'RequestIntellisenseTextBox',
+	        ui          : 'RequestIntellisenseTextBox', ShowOnlyBooleanProperties   : true,
 	        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsPosMerchantComponent) + @"}',
 	        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.IsParentMerchantVisible) + @"}', 
 	        Label       : 'Is ParentMerchant Visible'
         }
         ,
         {
-	        ui          : 'RequestIntellisenseTextBox',
+	        ui          : 'RequestIntellisenseTextBox', ShowOnlyBooleanProperties   : true,
 	        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsPosMerchantComponent) + @"}',
 	        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.IsChainMerchantDisabled) + @"}', 
 	        Label       : 'Is ChainMerchant Disabled'
         }
         ,
         {
-	        ui          : 'RequestIntellisenseTextBox',
+	        ui          : 'RequestIntellisenseTextBox', ShowOnlyBooleanProperties   : true,
 	        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsPosMerchantComponent) + @"}',
 	        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.IsParentMerchantDisabled) + @"}', 
 	        Label       : 'Is ParentMerchant Disabled'
         }
         ,
         {
-	        ui          : 'RequestIntellisenseTextBox',
+	        ui          : 'RequestIntellisenseTextBox', ShowOnlyBooleanProperties   : true,
 	        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsPosMerchantComponent) + @"}',
 	        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CheckChainMerchant) + @"}', 
 	        Label       : 'Is ChainMerchant Visible'
         }
         ,
         {
-	        ui          : 'RequestIntellisenseTextBox',
+	        ui          : 'RequestIntellisenseTextBox', ShowOnlyBooleanProperties   : true,
 	        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsPosMerchantComponent) + @"}',
 	        Text        : '{Binding " + Model.AccessPathOf(m => m.Info.CheckParentMerchant) + @"}', 
 	        Label       : 'Check ParentMerchant'
