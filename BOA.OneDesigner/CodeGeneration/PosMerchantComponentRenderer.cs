@@ -33,6 +33,7 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.Imports.Add("import { BPosMerchantComponent } from \"b-pos-merchant-component\"");
 
             sb.AppendLine("<BPosMerchantComponent");
+            sb.PaddingCount++;
 
             if (data.SizeInfo.HasValue())
             {

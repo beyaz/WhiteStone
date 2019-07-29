@@ -150,7 +150,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
         public void OnValueBindingPathChanged()
         {
-            if (Model.Info.Type.IsCreditCardComponent == false)
+            if (Model.Info.Type.IsInput)
             {
                 var isStringProperty = Host.RequestIntellisenseData.RequestStringPropertyIntellisense.Contains(Model.Info.ValueBindingPath);
                 if (isStringProperty)

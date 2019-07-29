@@ -29,7 +29,7 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.Imports.Add("import { BPosTerminalComponent } from \"b-pos-terminal-component\"");
 
             sb.AppendLine("<BPosTerminalComponent");
-
+            sb.PaddingCount++;
             if (data.SizeInfo.HasValue())
             {
                 sb.AppendLine("size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
