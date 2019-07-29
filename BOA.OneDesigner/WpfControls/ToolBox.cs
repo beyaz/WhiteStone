@@ -264,6 +264,39 @@ namespace BOA.OneDesigner.WpfControls
             stackPanel.Children.Add(bExcelBrowser);
             #endregion
 
+
+            #region bPosTerminalComponent
+            var bPosTerminalComponent = ComponentWpf.Create(Host, new ComponentInfo
+            {
+                Type = new ComponentType
+                {
+                    IsPosTerminalComponent = true
+                },
+                LabelTextInfo    = LabelInfoHelper.CreateNewLabelInfo("Pos Terminal Component"),
+                ValueBindingPath = "$"
+            }, isInToolbox: true);
+
+            Host.DragHelper.MakeDraggable(bPosTerminalComponent);
+
+            stackPanel.Children.Add(bPosTerminalComponent);
+            #endregion
+
+            #region bPosMerchantComponent
+            var bPosMerchantComponent = ComponentWpf.Create(Host, new ComponentInfo
+            {
+                Type = new ComponentType
+                {
+                    IsPosMerchantComponent = true
+                },
+                LabelTextInfo    = LabelInfoHelper.CreateNewLabelInfo("Pos Merchant Component"),
+                ValueBindingPath = "$"
+            }, isInToolbox: true);
+
+            Host.DragHelper.MakeDraggable(bPosMerchantComponent);
+
+            stackPanel.Children.Add(bPosMerchantComponent);
+            #endregion
+
             foreach (var uiElement in stackPanel.Children.ToArray())
             {
                 var frameworkElement = uiElement as FrameworkElement;

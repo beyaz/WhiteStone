@@ -269,6 +269,46 @@ namespace BOA.OneDesigner.WpfControls
         ,
         {
             ui          : 'StackPanel',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsPosTerminalComponent) + @"}',
+            Childs      :
+            [   
+                {
+                    view        : 'TextBlock',
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @", Mode = OneWay}', 
+                    IsBold      : true
+                }
+                ,
+                {
+                    view        : 'TextBox',
+                    MarginTop   : 5,
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @", Mode = OneWay}', 
+                    IsReadOnly  : true
+                }
+            ]
+        }
+        ,
+        {
+            ui          : 'StackPanel',
+            IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsPosMerchantComponent) + @"}',
+            Childs      :
+            [   
+                {
+                    view        : 'TextBlock',
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.LabelText) + @", Mode = OneWay}', 
+                    IsBold      : true
+                }
+                ,
+                {
+                    view        : 'TextBox',
+                    MarginTop   : 5,
+                    Text        : '{Binding " + Model.AccessPathOf(m => m.Info.ValueBindingPath) + @", Mode = OneWay}', 
+                    IsReadOnly  : true
+                }
+            ]
+        }
+        ,
+        {
+            ui          : 'StackPanel',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}',
             Childs      :
             [

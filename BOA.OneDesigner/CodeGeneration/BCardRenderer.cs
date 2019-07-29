@@ -255,6 +255,33 @@ namespace BOA.OneDesigner.CodeGeneration
 
                         continue;
                     }
+
+
+                    if (componentInfo.Type.IsPosTerminalComponent)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                        PosTerminalComponentRenderer.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
+
+                    if (componentInfo.Type.IsPosMerchantComponent)
+                    {
+                        writerContext.Output = new PaddedStringBuilder();
+
+                        PosMerchantComponentRenderer.Write(writerContext, componentInfo);
+
+                        subComponents.Add(writerContext.Output.ToString());
+
+                        writerContext.Output = sb;
+
+                        continue;
+                    }
                 }
 
                 throw Error.InvalidOperation();

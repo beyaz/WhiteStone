@@ -83,6 +83,14 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             {
                 data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "ExcelBrowser";
             }
+            else  if (data.Type.IsPosTerminalComponent)
+            {
+                data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "PosTerminalComponent";
+            }
+            else  if (data.Type.IsPosMerchantComponent)
+            {
+                data.SnapName = lastPropertyName.MakeLowerCaseFirstCharacter() + "PosMerchantComponent";
+            }
             else
             {
                 throw Error.InvalidOperation();

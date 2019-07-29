@@ -59,9 +59,22 @@ namespace BOA.OneDesigner.JsxElementModel
         ///     Gets or sets a value indicating whether this instance is parameter component.
         /// </summary>
         public bool IsParameterComponent { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is position terminal component.
+        /// </summary>
+        public bool IsPosTerminalComponent { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is position merchant component.
+        /// </summary>
+        public bool IsPosMerchantComponent { get; set; }
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Gets the name.
+        /// </summary>
         public string GetName()
         {
             foreach (var propertyInfo in GetType().GetProperties())
