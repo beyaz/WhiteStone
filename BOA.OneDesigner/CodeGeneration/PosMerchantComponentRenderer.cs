@@ -41,7 +41,7 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
             RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, "floatingLabelText");
-            RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, "hintText");
+            // RenderHelper.WriteLabelInfo(writerContext, data.LabelTextInfo, sb.AppendLine, "hintText");
             
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
@@ -80,12 +80,14 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
 
-            sb.AppendLine("isVisibleChainMerchantFlag = {false}");
-            sb.AppendLine("isVisibleParentMerchantFlag = {false}");
-            sb.AppendLine("disabledChainMerchantFlag = {true}");
-            sb.AppendLine("disabledParentMerchantFlag = {true}");
-            sb.AppendLine("checkedChainMerchantFlag = {false}");
-            sb.AppendLine("checkedParentMerchantFlag = {false}");
+            RenderHelper.WriteBoolean(writerContext, "isVisibleChainMerchantFlag", data.IsChainMerchantVisible, sb);
+            RenderHelper.WriteBoolean(writerContext, "isVisibleParentMerchantFlag", data.IsParentMerchantVisible, sb);
+            RenderHelper.WriteBoolean(writerContext, "disabledChainMerchantFlag", data.IsChainMerchantDisabled, sb);
+            RenderHelper.WriteBoolean(writerContext, "disabledParentMerchantFlag", data.IsParentMerchantDisabled, sb);
+            RenderHelper.WriteBoolean(writerContext, "checkedChainMerchantFlag", data.CheckChainMerchant, sb);
+            RenderHelper.WriteBoolean(writerContext, "checkedParentMerchantFlag", data.CheckParentMerchant, sb);
+
+           
             
 
 
@@ -97,5 +99,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.PaddingCount--;
 
         }
+
+        
     }
 }

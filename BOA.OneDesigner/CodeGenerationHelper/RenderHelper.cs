@@ -200,26 +200,31 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
         public static void WriteIsDisabled(WriterContext writerContext, string isDisabledBindingPath, PaddedStringBuilder sb)
         {
-            if (string.IsNullOrWhiteSpace(isDisabledBindingPath))
+            WriteBoolean(writerContext,"disabled",isDisabledBindingPath,sb);
+        }
+
+        public static void WriteBoolean(WriterContext writerContext, string attributeName, string valueBindingPath, PaddedStringBuilder sb)
+        {
+            if (string.IsNullOrWhiteSpace(valueBindingPath))
             {
                 return;
             }
 
-            var isAlwaysDisabled = string.Equals("TRUE", isDisabledBindingPath.Trim(), StringComparison.OrdinalIgnoreCase);
+            var isAlwaysDisabled = string.Equals("TRUE", valueBindingPath.Trim(), StringComparison.OrdinalIgnoreCase);
             if (isAlwaysDisabled)
             {
-                sb.AppendLine("disabled = {true}");
+                sb.AppendLine(attributeName+" = {true}");
                 return;
             }
 
-            var jsBindingPath = new JsBindingPathInfo(isDisabledBindingPath)
+            var jsBindingPath = new JsBindingPathInfo(valueBindingPath)
             {
                 EvaluateInsStateVersion = false
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
             writerContext.PushVariablesToRenderScope(jsBindingPath);
 
-            sb.AppendLine($"disabled = {{{jsBindingPath.FullBindingPathInJs}}}");
+            sb.AppendLine($"{attributeName} = {{{jsBindingPath.FullBindingPathInJs}}}");
         }
 
         public static void WriteIsVisible(WriterContext writerContext, string IsVisibleBindingPath, PaddedStringBuilder sb)

@@ -177,5 +177,15 @@ namespace BOA.OneDesigner.JsxElementModel
         #endregion
 
         #endregion
+
+
+
+
+        public string IsChainMerchantVisible   { get; set; }
+        public string IsParentMerchantVisible  { get; set; }
+        public string IsChainMerchantDisabled  { get; set; }
+        public string IsParentMerchantDisabled { get; set; }
+        public string CheckChainMerchant       { get; set; }
+        public string CheckParentMerchant      { get; set; }
     }
 }
