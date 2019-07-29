@@ -91,6 +91,7 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public LabelInfo LabelTextInfo { get; set; }
 
+       
         /// <summary>
         ///     Gets or sets the mask.
         /// </summary>

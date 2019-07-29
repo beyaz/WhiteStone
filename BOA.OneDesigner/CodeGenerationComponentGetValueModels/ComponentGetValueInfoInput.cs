@@ -22,6 +22,26 @@ namespace BOA.OneDesigner.CodeGenerationComponentGetValueModels
         #endregion
     }
 
+
+    public class ComponentGetValueInfoPosTerminalComponent: ComponentGetValueInfo
+    {
+        #region Public Methods
+        public override string GetCode()
+        {
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().terminalNumber";
+        }
+        #endregion
+    }
+
+    public class ComponentGetValueInfoPosMerchantComponent: ComponentGetValueInfo
+    {
+        #region Public Methods
+        public override string GetCode()
+        {
+            return $"{ComponentGetValueInfo.VariableNameOfComponent}.getInstance().getValue().merchantNumber";
+        }
+        #endregion
+    }
     public class ComponentGetValueInfoExcelBrowser : ComponentGetValueInfo
     {
         #region Public Properties

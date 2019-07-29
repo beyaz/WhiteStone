@@ -98,6 +98,7 @@
     <Compile Include="CodeGenerationComponentGetValueModels\ComponentGetValueInfoParameterComponent.cs" />
     <Compile Include="CodeGenerationHelper\BindingPathHelper.cs" />
     <Compile Include="CodeGenerationModel\JsBindingPathInfo.cs" />
+    <Compile Include="CodeGeneration\PosMerchantComponentRenderer.cs" />
     <Compile Include="CodeGeneration\PosTerminalComponentRenderer.cs" />
     <Compile Include="Helpers\Util.cs" />
     <Compile Include="JsxElementModel\ActionInfo.cs" />

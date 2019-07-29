@@ -100,6 +100,27 @@ namespace BOA.OneDesigner.PropertyEditors
                 dataContext.ValueBindingPathToolTip = "public IReadOnlyCollection<string[]> ExcelData {get; set;} şeklinde bir alana bind edilmelidir.";
             }
 
+            if (info.Type.IsPosTerminalComponent)
+            {
+                dataContext.ValueBindingPathToolTip = "Pos terminal number binding path";
+                dataContext.IsSizeEditorVisible = true;
+                dataContext.IsValueBindingPathEditorVisible = true;
+                dataContext.IsVisibleEditorVisible = true;
+                dataContext.IsDisabledEditorVisible = true;
+                dataContext.IsLLabelEditorVisible = true;
+            }
+
+            if (info.Type.IsPosMerchantComponent)
+            {
+                dataContext.ValueBindingPathToolTip         = "Pos merchant number binding path";
+                dataContext.IsSizeEditorVisible             = true;
+                dataContext.IsValueBindingPathEditorVisible = true;
+                dataContext.IsVisibleEditorVisible          = true;
+                dataContext.IsDisabledEditorVisible         = true;
+                dataContext.IsLLabelEditorVisible           = true;
+            }
+
+
             var componentEditor = new ComponentEditor
             {
                 Host        = host,

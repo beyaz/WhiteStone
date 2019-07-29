@@ -20,16 +20,15 @@ namespace BOA.OneDesigner.CodeGeneration
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
             writerContext.PushVariablesToRenderScope(jsBindingPath);
 
-            writerContext.GrabValuesToRequest(new ComponentGetValueInfoExcelBrowser
+            writerContext.GrabValuesToRequest(new ComponentGetValueInfoPosTerminalComponent
             {
-                ValueBindingPathInDotNet = data.ValueBindingPath,
                 JsBindingPath            = jsBindingPath.FullBindingPathInJs,
                 SnapName                 = data.SnapName
             });
 
-            writerContext.Imports.Add("import { BExcelBrowser } from \"b-excel-browser\"");
+            writerContext.Imports.Add("import { BPosTerminalComponent } from \"b-pos-terminal-component\"");
 
-            sb.AppendLine("<BExcelBrowser");
+            sb.AppendLine("<BPosTerminalComponent");
 
             if (data.SizeInfo.HasValue())
             {
@@ -41,7 +40,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
-            sb.AppendLine("valueType={\"99\"} // ALL_TYPE");
+            sb.AppendLine($"terminalNumber = {{{jsBindingPath.FullBindingPathInJs}+\"\"}}");
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;
