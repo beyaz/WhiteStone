@@ -46,7 +46,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
-            sb.AppendLine($"merchantNumber = {{{fullBindingPathInJs}+\"\"}}");
+            sb.AppendLine($"merchantNumber = {{{fullBindingPathInJs}}}");
 
             sb.AppendLine("dialogTitle = {\"Üye İşyeri Arama\"}");
             

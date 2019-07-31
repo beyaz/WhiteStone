@@ -34,7 +34,12 @@ namespace BOAPlugins.HideSuccessCheck
 
                 return true;
             }
-            
+
+            var multipleAssignments = responseValueAssignmentToAnotherVariable.AssignedValue.Split(' ', '=', ' ').Where(x => string.IsNullOrWhiteSpace(x) == false).ToList();
+            if (multipleAssignments.Count>0)
+            {
+                
+            }
 
             return false;
         }

@@ -40,7 +40,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
-            sb.AppendLine($"terminalNumber = {{{jsBindingPath.FullBindingPathInJs}+\"\"}}");
+            sb.AppendLine($"terminalNumber = {{{jsBindingPath.FullBindingPathInJs}}}");
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;

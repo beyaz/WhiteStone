@@ -11,6 +11,30 @@ namespace UnitTestProject1
     {
 
         [TestMethod]
+        public void MultipleAssignmentInOneLine()
+        {
+            const string sourceText = @"
+            
+            var checkResponse =   boCardStatusChecker.CheckCardStatus(data);
+            if (!checkResponse.Success)
+            {
+                returnObject.Results.AddRange(checkResponse.Results);
+                return returnObject;
+            }
+            var x = returnObject.Value = abc= abt.yr = checkResponse.Value?.FirstOrDefault();
+
+";
+            var data = new RegionParserTestData
+            {
+                SourceText = sourceText
+            };
+
+            RegionParser.Parse(data);
+
+            Assert.AreEqual("var x = returnObject.Value = abc = abt.yr = boCardStatusChecker.CheckCardStatus(data)?.FirstOrDefault();", data.Regions?[0]?.Text);
+        }
+
+        [TestMethod]
         public void SimpleCallWithKnownMethodWithNullConditionalOperator()
         {
             const string sourceText = @"
