@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.OLE.Interop;
 
 namespace BOAPlugins.HideSuccessCheck
 {
@@ -15,17 +14,17 @@ namespace BOAPlugins.HideSuccessCheck
         #region Public Methods
         public static bool IsResponseValueMatch(VariableAssignmentLine currentLineAsAssignmentLine, VariableAssignmentLine responseValueAssignmentToAnotherVariable)
         {
-            var variableName = currentLineAsAssignmentLine.VariableName + ".Value";
-            if (variableName == responseValueAssignmentToAnotherVariable.AssignedValue)
+            var variableName  = currentLineAsAssignmentLine.VariableName + ".Value";
+            var assignedValue = responseValueAssignmentToAnotherVariable.AssignedValue;
+
+            if (variableName == assignedValue)
             {
                 return true;
             }
 
-            if (responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName + ".") ||
-                responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName + "?.") ||
-                responseValueAssignmentToAnotherVariable.AssignedValue.StartsWith(variableName + " "))
+            if (HasExtra(assignedValue, variableName))
             {
-                var extraExtension = responseValueAssignmentToAnotherVariable.AssignedValue.RemoveFromStart(variableName);
+                var extraExtension = assignedValue.RemoveFromStart(variableName);
 
                 if (!currentLineAsAssignmentLine.AssignedValue.EndsWith(extraExtension))
                 {
@@ -35,10 +34,26 @@ namespace BOAPlugins.HideSuccessCheck
                 return true;
             }
 
-            var multipleAssignments = responseValueAssignmentToAnotherVariable.AssignedValue.Split(' ', '=', ' ').Where(x => string.IsNullOrWhiteSpace(x) == false).ToList();
-            if (multipleAssignments.Count>0)
+            var multipleAssignments = assignedValue.Split(' ', '=', ' ').Where(x => string.IsNullOrWhiteSpace(x) == false).ToList();
+            if (multipleAssignments.Count > 0)
             {
-                
+                assignedValue = multipleAssignments.Last();
+
+                if (HasExtra(assignedValue, variableName))
+                {
+                    var extraExtension = assignedValue.RemoveFromStart(variableName);
+
+                    if (!currentLineAsAssignmentLine.AssignedValue.EndsWith(extraExtension))
+                    {
+                        currentLineAsAssignmentLine.AssignedValue += extraExtension;
+                    }
+
+                    multipleAssignments.RemoveAt(multipleAssignments.Count - 1);
+
+                    responseValueAssignmentToAnotherVariable.VariableName += " = " + string.Join(" = ", multipleAssignments);
+
+                    return true;
+                }
             }
 
             return false;
@@ -58,14 +73,13 @@ namespace BOAPlugins.HideSuccessCheck
                 return null;
             }
 
-            if (arr.Length>2)
+            if (arr.Length > 2)
             {
-                arr = new string[2]
+                arr = new[]
                 {
                     arr[0],
                     string.Join("=", arr.Skip(1).Take(arr.Length - 1))
                 };
-
             }
 
             var namePart = arr[0]?.Trim().Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
@@ -112,6 +126,15 @@ namespace BOAPlugins.HideSuccessCheck
             variableAssignmentLine.AssignedValue = valuePart.Substring(0, valuePart.Length - 1);
 
             return variableAssignmentLine;
+        }
+        #endregion
+
+        #region Methods
+        static bool HasExtra(string assignedValue, string variableName)
+        {
+            return assignedValue.StartsWith(variableName + ".") ||
+                   assignedValue.StartsWith(variableName + "?.") ||
+                   assignedValue.StartsWith(variableName + " ");
         }
         #endregion
     }
