@@ -13,7 +13,7 @@ namespace BOA.Common.Helpers
         [TestMethod]
         public void CompressFolder()
         {
-
+            ZipHelper.CompressFiles(@"d:\temp\Aloha.zip",null,@"d:\temp\0.txt");
         }
     }
 }

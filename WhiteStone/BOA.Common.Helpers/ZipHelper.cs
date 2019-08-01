@@ -1,11 +1,12 @@
-﻿
-
-using System.IO;
+﻿using System.IO;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace BOA.Common.Helpers
 {
+
+   
+
     /// <summary>
     ///     The zip helper
     /// </summary>
@@ -13,9 +14,9 @@ namespace BOA.Common.Helpers
     {
         #region Public Methods
         /// <summary>
-        ///     Compresses the file.
+        ///     Compresses the files.
         /// </summary>
-        public static void CompressFile(string inputFilePath, string outputFilePath, string password)
+        public static void CompressFiles(string outputFilePath, string password, params string[] inputFilePaths)
         {
             var fsOut     = File.Create(outputFilePath);
             var zipStream = new ZipOutputStream(fsOut);
@@ -24,6 +25,24 @@ namespace BOA.Common.Helpers
 
             zipStream.Password = password; // optional. Null is the same as not setting. Required if using AES.
 
+            foreach (var inputFilePath in inputFilePaths)
+            {
+                AddFile(zipStream, inputFilePath);
+            }
+
+            zipStream.CloseEntry();
+
+            zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
+            zipStream.Close();
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        ///     Adds the file.
+        /// </summary>
+        static void AddFile(ZipOutputStream zipStream, string inputFilePath)
+        {
             var fi = new FileInfo(inputFilePath);
 
             var entryName = ZipEntry.CleanName(Path.GetFileName(inputFilePath)); // Removes drive from name and fixes slash direction
@@ -32,6 +51,7 @@ namespace BOA.Common.Helpers
                 DateTime = fi.LastWriteTime,
                 Size     = fi.Length
             };
+
             // Note the zip format stores 2 second granularity
 
             // Specifying the AESKeySize triggers AES encryption. Allowable values are 0 (off), 128 or 256.
@@ -53,11 +73,6 @@ namespace BOA.Common.Helpers
             {
                 StreamUtils.Copy(streamReader, zipStream, buffer);
             }
-
-            zipStream.CloseEntry();
-
-            zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
-            zipStream.Close();
         }
         #endregion
     }

@@ -14,8 +14,6 @@ namespace WhiteStone.Tasks
 
     public class CopyDirectory 
     {
-      
-
         #region Public Methods
         public static void Run(CopyDirectoryData data)
         {
@@ -23,4 +21,7 @@ namespace WhiteStone.Tasks
         }
         #endregion
     }
+
+
+   
 }
