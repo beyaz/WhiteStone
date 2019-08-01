@@ -39,7 +39,7 @@ namespace BOAPlugins.HideSuccessCheck
             {
                 assignedValue = multipleAssignments.Last();
 
-                if (HasExtra(assignedValue, variableName))
+                if (variableName == assignedValue || HasExtra(assignedValue, variableName))
                 {
                     var extraExtension = assignedValue.RemoveFromStart(variableName);
 

@@ -11,6 +11,31 @@ namespace UnitTestProject1
     {
 
         [TestMethod]
+        public void MultipleAssignmentInOneLine_with_no_var_declaration()
+        {
+            const string sourceText = @"
+            
+            var requestResponse = SelectedCardNumberChanged(request, objectHelper);
+            if (!requestResponse.Success)
+            {
+                returnObject.Results.AddRange(requestResponse.Results);
+                return returnObject;
+            }
+
+            request = returnObject.Value = requestResponse.Value;
+
+";
+            var data = new RegionParserTestData
+            {
+                SourceText = sourceText
+            };
+
+            RegionParser.Parse(data);
+
+            Assert.AreEqual("request = returnObject.Value = SelectedCardNumberChanged(request, objectHelper);", data.Regions?[0]?.Text);
+        }
+
+        [TestMethod]
         public void MultipleAssignmentInOneLine()
         {
             const string sourceText = @"
