@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.fxcop" />
+    <None Include="DeployTask.json" />
     <None Include="package.nuspec" />
     <None Include="packages.config" />
     <None Include="WhiteStoneKey.pfx" />
@@ -187,7 +188,7 @@ copy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)\bin"
 copy /y "$(TargetDir)Newtonsoft.Json.dll" "$(SolutionDir)\bin"
 
 
-</PostBuildEvent>
+$(SolutionDir)\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

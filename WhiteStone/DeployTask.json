@@ -1,0 +1,17 @@
+{
+  "$type": "System.Object[], mscorlib",
+  "$values":
+  [
+    {
+      "$type": "WhiteStone.Tasks.ZipExistingFilesData, WhiteStone.Tasks",
+      "OutputFilePath": "D:\\github\\WhiteStone\\bin\\WhiteStone.zip",
+      "InputFilePaths": [
+        "D:\\github\\WhiteStone\\bin\\WhiteStone.dll",
+        "D:\\github\\WhiteStone\\bin\\Newtonsoft.Json.dll",
+        "D:\\github\\WhiteStone\\WhiteStone\\bin\\Debug\\HtmlAgilityPack.dll",
+        "D:\\github\\WhiteStone\\WhiteStone\\bin\\Debug\\MySql.Data.dll",
+        "D:\\github\\WhiteStone\\WhiteStone\\bin\\Debug\\ICSharpCode.SharpZipLib.dll"
+      ] 
+    }
+  ]
+}
