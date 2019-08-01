@@ -259,6 +259,19 @@ static class Util
 
         return objectHelper.InitializeGenericResponse<T>(key);
     }
+    
+    static WhereCondition NormalizeForCharBoolColumns(DbColumnInfo dbColumn, WhereCondition whereCondition)
+    {
+        if (dbColumn.SqlDbType == SqlDbType.Char || dbColumn.SqlDbType == SqlDbType.VarChar)
+        {
+            if (whereCondition.Value is bool)
+            {
+                return new WhereCondition(whereCondition.ColumnName, whereCondition.ConditionType, ((bool)whereCondition.Value) ? '1' : '0');
+            }
+        }
+
+        return whereCondition;
+    }
 
     /// <summary>
     ///     Processes the condition.
@@ -278,6 +291,8 @@ static class Util
 
                 whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
 
+                whereCondition = NormalizeForCharBoolColumns(dbColumn, whereCondition);
+
                 parameters.Add(new DbParameterInfo
                 {
                     Name      = parameterName,
@@ -295,6 +310,8 @@ static class Util
                 var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
 
                 whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
+
+                whereCondition = NormalizeForCharBoolColumns(dbColumn, whereCondition);
 
                 parameters.Add(new DbParameterInfo
                 {
