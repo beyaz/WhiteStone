@@ -20,9 +20,7 @@ namespace WpfApp2
                 return;
             }
 
-
-
-            new Thread(() =>
+            var thread = new Thread(() =>
             {
                 try
                 {
@@ -32,7 +30,9 @@ namespace WpfApp2
                 {
                     MessageBox.Show(e.ToString());
                 }
-            }).Start();
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
 
         public static IDictionary<string, string> TryGetForWord(string word)
@@ -78,7 +78,7 @@ namespace WpfApp2
                             {
                                 if (dictionary.Count <= 3)
                                 {
-                                    dictionary.SetValue(example.Text, example.TextTR);
+                                    dictionary.SetValue(example.Text.Trim(), example.TextTR.Trim());
                                 }
                             }
                         }

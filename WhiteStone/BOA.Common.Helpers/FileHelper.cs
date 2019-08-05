@@ -157,6 +157,8 @@ namespace BOA.Common.Helpers
             }
         }
 
+
+
         /// <summary>
         ///     Determines whether [is file locked] [the specified path].
         /// </summary>

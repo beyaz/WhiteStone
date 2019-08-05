@@ -100,7 +100,7 @@ namespace BOA.LanguageTranslations.Longman
         {
             return new Example
             {
-                Text          = example.InnerText.Trim(),
+                Text          = example.InnerText.Trim().RemoveFromStart("&nbsp;"),
                 MediaFilePath = example.SelectNodes("span")?.FirstOrDefault()?.GetAttributeValue("data-src-mp3", "")?.Trim()
             };
         }
@@ -120,6 +120,11 @@ namespace BOA.LanguageTranslations.Longman
 
         static string TranslateEnglishToTurkish(string sourceTextInEnglish)
         {
+            if (ConfigHelper.GetBooleanFromAppSetting("UseGoogleTranslate"))
+            {
+                return Google.Translator.TranslateEnglishToTurkish(sourceTextInEnglish);
+            }
+
             return Yandex.Translator.TranslateEnglishToTurkish(sourceTextInEnglish);
         }
         #endregion
