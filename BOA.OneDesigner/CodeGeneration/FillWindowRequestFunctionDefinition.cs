@@ -154,6 +154,13 @@ namespace BOA.OneDesigner.CodeGeneration
                         sb.AppendLine($"    {data.JsBindingPath} = undefined;");
                         sb.AppendLine("}");
                     }
+                    if (accountComponent.BindPropertyTypeIsNullableNumber == true)
+                    {
+                        sb.AppendLine($"if({data.JsBindingPath} === \"\")");
+                        sb.AppendLine("{");
+                        sb.AppendLine($"    {data.JsBindingPath} = null;");
+                        sb.AppendLine("}");
+                    }
                 }
                 
 

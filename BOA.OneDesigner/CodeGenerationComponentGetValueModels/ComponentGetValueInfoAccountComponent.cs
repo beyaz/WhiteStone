@@ -8,5 +8,6 @@
         }
 
         public bool? BindPropertyTypeIsNonNullableNumber { get; set; }
+        public bool? BindPropertyTypeIsNullableNumber { get; set; }
     }
 }

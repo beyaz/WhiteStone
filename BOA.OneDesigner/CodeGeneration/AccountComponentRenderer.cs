@@ -31,7 +31,8 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 JsBindingPath = jsBindingPathAccountNumber.FullBindingPathInJs,
                 SnapName = data.SnapName,
-                BindPropertyTypeIsNonNullableNumber = bindingPathPropertyInfo?.IsNonNullableNumber
+                BindPropertyTypeIsNonNullableNumber = bindingPathPropertyInfo?.IsNonNullableNumber,
+                BindPropertyTypeIsNullableNumber = bindingPathPropertyInfo?.IsNullableNumber
             });
 
             JsBindingPathInfo jsBindingPathAccountSuffix = null;
