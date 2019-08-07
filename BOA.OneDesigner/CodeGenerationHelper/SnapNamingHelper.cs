@@ -117,7 +117,15 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
         public static void InitSnapName(BDataGrid data)
         {
-            data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;
+            if (data.SelectedRowDataBindingPath.HasValue())
+            {
+                data.SnapName = GetComponentTypeName(data) + data.SelectedRowDataBindingPath.Replace(".","_");    
+            }
+            else
+            {
+                data.SnapName = GetComponentTypeName(data) + data.ValueBindingPathInTypeScript;    
+            }
+            
         }
 
         
