@@ -8,7 +8,7 @@ namespace WpfApp2
 {
     static class LongManScriptHelper
     {
-        static string GetMapAsJsObject(IDictionary<string,string > EnToTrMap)
+        static string GetMapAsJsObject(IDictionary<string, string> EnToTrMap)
         {
             var sb = new StringBuilder();
             if (EnToTrMap == null)
@@ -24,25 +24,21 @@ namespace WpfApp2
                 {
                     MessageBox.Show("Problem into embedd js " + key);
                 }
+
                 var value = pair.Value.Replace("'", "''").Replace("\"", "''");
 
                 sb.AppendLine("EnToTrMap['" + key + "'] = '" + value + "';");
-
             }
 
             return sb.ToString();
-
         }
 
         public static string GetScript(string word)
         {
             var enToTrMap = GetMapAsJsObject(EnToTrCache.TryGetForWord(word));
 
-
-            var PlaybackRate = ConfigurationManager.AppSettings.Get("PlaybackRate").ToDecimal();
+            var PlaybackRate                  = ConfigurationManager.AppSettings.Get("PlaybackRate").ToDecimal();
             var WaitMillisecondBetweenSamples = ConfigurationManager.AppSettings.Get("WaitMillisecondBetweenSamples").ToDecimal();
-
-
 
             string script = @"document.addEventListener('DOMContentLoaded', function()
 {
@@ -163,17 +159,29 @@ var tryPlay = function(index)
 }
 
 // play american pronunciation
-
-var americanPronunciation = $('.amefile');
-var americanPronunciationAudio   = new Audio(americanPronunciation.attr('data-src-mp3'));
-
-americanPronunciationAudio.playbackRate = 0.9;
-americanPronunciationAudio.play();
-americanPronunciationAudio.addEventListener('ended', function()
+var PlayAmericanPronuncition = function(playCount, callback)
 {
-    //
-	setTimeout( StartToPlaySamples,1000);
-});	
+    var americanPronunciation = $('.amefile');
+    var americanPronunciationAudio   = new Audio(americanPronunciation.attr('data-src-mp3'));
+
+    americanPronunciationAudio.playbackRate = 0.9;
+    americanPronunciationAudio.play();
+    americanPronunciationAudio.addEventListener('ended', function()
+    {
+        if(playCount === 0)
+        {
+            setTimeout(StartToPlaySamples, 1000);
+        }
+        else
+        {
+            setTimeout(function(){  PlayAmericanPronuncition(playCount - 1, callback);   }, 700);            
+        }
+	   
+    });	
+}
+
+PlayAmericanPronuncition(3, function(){  setTimeout( StartToPlaySamples,1000);   });
+
 function StartToPlaySamples()
 {
     tryPlay(0);
@@ -190,9 +198,7 @@ function StartToPlaySamples()
 
 });";
 
-
             return script;
-
         }
     }
 }
