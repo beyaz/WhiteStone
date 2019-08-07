@@ -140,7 +140,20 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine($"{ComponentGetValueInfo.VariableNameOfComponent} = snaps.{data.SnapName};");
                 sb.AppendLine($"if ({ComponentGetValueInfo.VariableNameOfComponent})");
                 sb.AppendLine("{");
-                sb.AppendLine($"    {data.JsBindingPath} = {data.GetAssignmentValueCode()};");
+                sb.PaddingCount++;
+                sb.AppendLine($"{data.JsBindingPath} = {data.GetAssignmentValueCode()};");
+
+                if (data is ComponentGetValueInfoAccountComponent accountComponent1)
+                {
+                    if (accountComponent1.BindPropertyTypeIsNullableNumber == true)
+                    {
+                        sb.AppendLine($"if({data.JsBindingPath} === \"\")");
+                        sb.AppendLine("{");
+                        sb.AppendLine($"    {data.JsBindingPath} = null;");
+                        sb.AppendLine("}");
+                    }
+                }
+                sb.PaddingCount--;
                 sb.AppendLine("}");
 
                 
@@ -152,13 +165,6 @@ namespace BOA.OneDesigner.CodeGeneration
                         sb.AppendLine($"if({data.JsBindingPath} === \"\")");
                         sb.AppendLine("{");
                         sb.AppendLine($"    {data.JsBindingPath} = undefined;");
-                        sb.AppendLine("}");
-                    }
-                    if (accountComponent.BindPropertyTypeIsNullableNumber == true)
-                    {
-                        sb.AppendLine($"if({data.JsBindingPath} === \"\")");
-                        sb.AppendLine("{");
-                        sb.AppendLine($"    {data.JsBindingPath} = null;");
                         sb.AppendLine("}");
                     }
                 }
