@@ -127,7 +127,10 @@ namespace BOA.OneDesigner.PropertyEditors
         {
             Host.EventBus.Publish(EventBus.LabelChanged);
         }
-
+        public void OnIsButtonTypeRaisedChanged()
+        {
+            Host.EventBus.Publish(EventBus.ButtonTypeChanged);
+        }
         public void OnRowCountChanged()
         {
             Host.EventBus.Publish(EventBus.RowCountChanged);
@@ -321,6 +324,7 @@ namespace BOA.OneDesigner.PropertyEditors
             Content :
             {
                 ui      : 'StackPanel',
+Spacing:10,
                 Childs  : 
                 [
                     {
@@ -368,7 +372,17 @@ namespace BOA.OneDesigner.PropertyEditors
                         IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.IsBold) + @"}', 
                         Checked     : '" + nameof(OnIsBoldChanged) + @"',
                         Unchecked   : '" + nameof(OnIsBoldChanged) + @"'
-                    } 
+                    }
+                    ,
+                    {   
+                        ui          : 'CheckBox',
+                        IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}',
+                        Content     : 'Button Type Is Raised',
+                        IsChecked   : '{Binding " + Model.AccessPathOf(m => m.Info.ButtonTypeIsRaised) + @"}', 
+                        Checked     : '" + nameof(OnIsButtonTypeRaisedChanged) + @"',
+                        Unchecked   : '" + nameof(OnIsButtonTypeRaisedChanged) + @"'
+                    }
+
                 ]
             }
         }

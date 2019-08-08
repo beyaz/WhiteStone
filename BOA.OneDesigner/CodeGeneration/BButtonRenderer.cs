@@ -14,7 +14,17 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var sb = writerContext.Output;
 
-            sb.Append("<BButton type=\"flat\" colorType=\"primary\"");
+            sb.Append("<BButton");
+            if (data.ButtonTypeIsRaised)
+            {
+                sb.Append(" type=\"raised\"");    
+            }
+            else
+            {
+                sb.Append(" type=\"flat\"");
+            }
+            
+            sb.Append(" colorType=\"primary\"");
             sb.PaddingCount++;
 
             sb.AppendLine("style = {{ float:\"right\" }}");

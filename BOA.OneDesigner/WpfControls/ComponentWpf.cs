@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -348,6 +349,21 @@ namespace BOA.OneDesigner.WpfControls
                 textBox.GetBindingExpression(MinHeightProperty)?.UpdateTarget();
             }
         }
+        
+        void OnButtonTypeChanged()
+        {
+            if (SelectedElementIsNotThisElement)
+            {
+                return;
+            }
+
+            foreach (var button in this.FindChildren<Button>())
+            {
+                button.GetBindingExpression(Control.ForegroundProperty)?.UpdateTarget();
+                button.GetBindingExpression(Control.BackgroundProperty)?.UpdateTarget();
+            }
+        }
+        
 
         void UpdateLabel()
         {
@@ -380,6 +396,8 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.EventBus.Subscribe(EventBus.LabelChanged, UpdateLabel);
             Host.EventBus.Subscribe(EventBus.RowCountChanged, OnRowCountChanged);
+            Host.EventBus.Subscribe(EventBus.ButtonTypeChanged, OnButtonTypeChanged);
+            
         }
 
         public void DeAttachToEventBus()
@@ -388,6 +406,7 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.EventBus.UnSubscribe(EventBus.LabelChanged, UpdateLabel);
             Host.EventBus.UnSubscribe(EventBus.RowCountChanged, OnRowCountChanged);
+            Host.EventBus.UnSubscribe(EventBus.ButtonTypeChanged, OnButtonTypeChanged);
         }
         #endregion
     }
