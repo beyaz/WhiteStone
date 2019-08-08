@@ -313,8 +313,15 @@ namespace BOA.OneDesigner.WpfControls
             Childs      :
             [
                 {
-                    view        : 'Button',
-                    Content     : '{Binding " + Model.AccessPathOf(m => m.Info.Text) + @", Mode = OneWay}'
+                    view            : 'Button',
+                    Content         : '{Binding " + Model.AccessPathOf(m => m.Info.Text) + @", Mode = OneWay}',
+                    
+                    FontWeight      : 'Medium',
+                    BorderThickness : '0',
+                    Foreground      : 'Blue', 
+                    Background      : 'Transparent'
+
+                    
                 }
             ]
         }
