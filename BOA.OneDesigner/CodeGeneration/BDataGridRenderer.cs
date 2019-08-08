@@ -173,6 +173,11 @@ namespace BOA.OneDesigner.CodeGeneration
                     }
                 }
 
+                if (bDataGridColumnInfo.Width>0)
+                {
+                    jsObject.Add("width", bDataGridColumnInfo.Width.Value.ToString());
+                }
+
                 sb.AppendLine($"columns.push({JsObjectInfoSingleLineWriter.ToString(jsObject)});");
 
                 if (writeVisibleCondition)

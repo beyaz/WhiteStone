@@ -25,6 +25,8 @@ namespace BOA.OneDesigner.AppModel
         public const string LabelChanged = nameof(LabelChanged);
         public const string ButtonTypeChanged = nameof(ButtonTypeChanged);
         public const string RowCountChanged = nameof(RowCountChanged);
+        
+        
         #endregion
 
         #region Fields
