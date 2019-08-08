@@ -210,10 +210,17 @@ namespace BOA.OneDesigner.CodeGenerationHelper
                 return;
             }
 
-            var isAlwaysDisabled = string.Equals("TRUE", valueBindingPath.Trim(), StringComparison.OrdinalIgnoreCase);
-            if (isAlwaysDisabled)
+            var isAlwaysTrue = string.Equals("TRUE", valueBindingPath.Trim(), StringComparison.OrdinalIgnoreCase);
+            if (isAlwaysTrue)
             {
                 sb.AppendLine(attributeName+" = {true}");
+                return;
+            }
+
+            var isAlwaysFalse = string.Equals("FALSE", valueBindingPath.Trim(), StringComparison.OrdinalIgnoreCase);
+            if (isAlwaysFalse)
+            {
+                sb.AppendLine(attributeName+" = {false}");
                 return;
             }
 

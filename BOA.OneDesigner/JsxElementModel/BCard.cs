@@ -37,6 +37,9 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public string IsDisabledBindingPath { get; set; }
 
+        public string IsExpandableBindingPath { get; set; }
+        public string IsExpandedBindingPath { get; set; }
+
 
         /// <summary>
         ///     Gets or sets the items.
