@@ -318,9 +318,7 @@ namespace BOA.OneDesigner.WpfControls
                     FontWeight      : 'Medium',
                     BorderThickness : '0',
                     Foreground      : 'Blue', 
-                    Background      : 'Transparent'
-
-                    
+                    Background      : 'Transparent'                    
                 }
             ]
         }
