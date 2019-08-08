@@ -110,6 +110,10 @@ namespace WpfApp2
 
 var exampleElements = $('.EXAMPLE');
 var currentExampleElement = null;
+
+var SamplePlayCountMap = {};
+var SampleMaxPlayCount = 2;
+
 var tryPlay = function(index)
 {	
 	var exampleElement = exampleElements.get(index);
@@ -149,12 +153,31 @@ var tryPlay = function(index)
 
     var src_mp3 = element.attr('data-src-mp3');
     var audio   = new Audio(src_mp3);
-    
+
+    if ( SamplePlayCountMap[index] === undefined )
+    {
+        SamplePlayCountMap[index] = 1;
+    }
+    else
+    {
+        SamplePlayCountMap[index] = SamplePlayCountMap[index] + 1;
+    }
+
+    var playCount = SamplePlayCountMap[index];
+
     audio.playbackRate = " + PlaybackRate + @";
     audio.play();
     audio.addEventListener('ended', function()
 	{
-        setTimeout( function(){ tryPlay(++index); }, " + WaitMillisecondBetweenSamples + @" );
+        setTimeout( function()
+                    {
+                        if(playCount >= SampleMaxPlayCount)
+                        {
+                            index++;
+                        }
+                        tryPlay(index);
+
+                    }, " + WaitMillisecondBetweenSamples + @" );
     });	
 }
 
