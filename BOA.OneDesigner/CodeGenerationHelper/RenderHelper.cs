@@ -205,6 +205,11 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
         public static void WriteBoolean(WriterContext writerContext, string attributeName, string valueBindingPath, PaddedStringBuilder sb)
         {
+            WriteBoolean(writerContext,attributeName,valueBindingPath,sb.AppendLine);
+        }
+
+        public static void WriteBoolean(WriterContext writerContext, string attributeName, string valueBindingPath, Action<string> write)
+        {
             if (string.IsNullOrWhiteSpace(valueBindingPath))
             {
                 return;
@@ -213,14 +218,14 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             var isAlwaysTrue = string.Equals("TRUE", valueBindingPath.Trim(), StringComparison.OrdinalIgnoreCase);
             if (isAlwaysTrue)
             {
-                sb.AppendLine(attributeName+" = {true}");
+                write(attributeName+" = {true}");
                 return;
             }
 
             var isAlwaysFalse = string.Equals("FALSE", valueBindingPath.Trim(), StringComparison.OrdinalIgnoreCase);
             if (isAlwaysFalse)
             {
-                sb.AppendLine(attributeName+" = {false}");
+                write(attributeName+" = {false}");
                 return;
             }
 
@@ -231,7 +236,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
             writerContext.PushVariablesToRenderScope(jsBindingPath);
 
-            sb.AppendLine($"{attributeName} = {{{jsBindingPath.FullBindingPathInJs}}}");
+            write($"{attributeName} = {{{jsBindingPath.FullBindingPathInJs}}}");
         }
 
         public static void WriteIsVisible(WriterContext writerContext, string IsVisibleBindingPath, PaddedStringBuilder sb)

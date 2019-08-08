@@ -25,9 +25,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 sb.AppendWithPadding("<BCard context={context}");
 
-                RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
-                RenderHelper.WriteBoolean(writerContext,"expandable",data.IsExpandableBindingPath,sb);
-                RenderHelper.WriteBoolean(writerContext,"expanded",data.IsExpandedBindingPath,sb);
+                RenderHelper.WriteBoolean(writerContext," disabled",data.IsDisabledBindingPath,sb.Append);
+                RenderHelper.WriteBoolean(writerContext," expandable",data.IsExpandableBindingPath,sb.Append);
+                RenderHelper.WriteBoolean(writerContext," expanded",data.IsExpandedBindingPath,sb.Append);
 
                 if (isInTabPage)
                 {
