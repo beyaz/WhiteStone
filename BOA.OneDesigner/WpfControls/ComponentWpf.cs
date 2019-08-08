@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
@@ -17,6 +18,10 @@ namespace BOA.OneDesigner.WpfControls
         public bool IsInToolbox { get; set; }
 
         public double ValueBindingPathTextBoxMinHeight { get; set; }
+
+        public Brush ButtonForeGround => Info.ButtonTypeIsRaised == true ? Brushes.White : Brushes.Blue;
+        public Brush ButtonBackground => Info.ButtonTypeIsRaised == true ? Brushes.Blue : Brushes.Transparent;
+
         #endregion
     }
 
@@ -314,11 +319,11 @@ namespace BOA.OneDesigner.WpfControls
             [
                 {
                     view            : 'Button',
-                    Content         : '{Binding " + Model.AccessPathOf(m => m.Info.Text) + @", Mode = OneWay}',                   
+                    Content         : '{Binding " + Model.AccessPathOf(m => m.Info.Text) + @", Mode = OneWay}',
                     FontWeight      : 'Medium',
                     BorderThickness : '0',
-                    Foreground      : 'Blue', 
-                    Background      : 'Transparent'                    
+                    Foreground      : '{Binding " + Model.AccessPathOf(m => m.ButtonForeGround) + @", Mode = OneWay}',
+                    Background      : '{Binding " + Model.AccessPathOf(m => m.ButtonBackground) + @", Mode = OneWay}'
                 }
             ]
         }

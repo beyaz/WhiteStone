@@ -187,5 +187,8 @@ namespace BOA.OneDesigner.JsxElementModel
         public string IsParentMerchantDisabled { get; set; }
         public string CheckChainMerchant       { get; set; }
         public string CheckParentMerchant      { get; set; }
+
+
+        public bool? ButtonTypeIsRaised { get; set; }
     }
 }

@@ -11,35 +11,28 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class ComponentEditorModel
     {
-        
-
         #region Public Properties
-        
+        public ComponentInfo Info          { get; set; }
+        public bool          IsBoldVisible { get; set; }
 
-        public ComponentInfo Info                                      { get; set; }
-        public bool          IsBoldVisible                             { get; set; }
-        
-        public bool          IsDisabledEditorVisible                   { get; set; }
-        public bool          IsInDialogBoxIsVisible                    { get; set; }
-        public bool          IsInfoTextVisible                         { get; set; }
-        public bool          IsLLabelEditorVisible                     { get; set; }
-        public bool          IsMaskVisible                             { get; set; }
-        public bool          IsMaxLengthVisible                        { get; set; }
-        public bool          IsParamTypeVisible                        { get; set; }
-        public bool          IsRowCountVisible                         { get; set; }
+        public bool IsDisabledEditorVisible { get; set; }
+        public bool IsInDialogBoxIsVisible  { get; set; }
+        public bool IsInfoTextVisible       { get; set; }
+        public bool IsLLabelEditorVisible   { get; set; }
+        public bool IsMaskVisible           { get; set; }
+        public bool IsMaxLengthVisible      { get; set; }
+        public bool IsParamTypeVisible      { get; set; }
+        public bool IsRowCountVisible       { get; set; }
 
-        public bool   IsSizeEditorVisible                                       { get; set; }
-        public bool   IsTextIntoVisible                                         { get; set; }
-        
-        
+        public bool IsSizeEditorVisible { get; set; }
+        public bool IsTextIntoVisible   { get; set; }
 
-        public bool   IsValueBindingPathEditorVisible                           { get; set; }
-        public bool   IsValueChangedOrchestrationMethodVisible                  { get; set; }
-        public bool   IsVisibleEditorVisible                                    { get; set; }
-        
-        
-        public string ValueBindingPathLabel                                     { get; set; }
-        public string ValueBindingPathToolTip                                   { get; set; }
+        public bool IsValueBindingPathEditorVisible          { get; set; }
+        public bool IsValueChangedOrchestrationMethodVisible { get; set; }
+        public bool IsVisibleEditorVisible                   { get; set; }
+
+        public string ValueBindingPathLabel   { get; set; }
+        public string ValueBindingPathToolTip { get; set; }
         #endregion
     }
 
@@ -63,7 +56,6 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Public Methods
         public static ComponentEditor Create(Host host, ComponentInfo info)
         {
-
             if (info.Type.IsParameterComponent && info.ParamValue2FilterInto == null)
             {
                 info.ParamValue2FilterInto = new LabelInfo();
@@ -71,27 +63,23 @@ namespace BOA.OneDesigner.PropertyEditors
 
             var dataContext = new ComponentEditorModel
             {
-                Info                                                      = info,
-                IsSizeEditorVisible                                       = info.Type.IsExcelBrowser || info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel || info.Type.IsInformationText,
-                IsValueBindingPathEditorVisible                           = info.Type.IsExcelBrowser || info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsCreditCardComponent,
-                IsLLabelEditorVisible                                     = info.Type.IsExcelBrowser || info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
-                IsParamTypeVisible                                        = info.Type.IsParameterComponent,
-                IsInfoTextVisible                                         = info.Type.IsInformationText,
-                IsVisibleEditorVisible                                    = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
-                IsDisabledEditorVisible                                   = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
-                IsBoldVisible                                             = info.Type.IsLabel,
-                IsTextIntoVisible                                         = info.Type.IsLabel || info.Type.IsButton,
-                
-                
-                ValueBindingPathLabel                                     = "Value Binding Path",
-                
+                Info                            = info,
+                IsSizeEditorVisible             = info.Type.IsExcelBrowser || info.Type.IsInput || info.Type.IsDivider || info.Type.IsBranchComponent || info.Type.IsParameterComponent || info.Type.IsAccountComponent || info.Type.IsLabel || info.Type.IsInformationText,
+                IsValueBindingPathEditorVisible = info.Type.IsExcelBrowser || info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsCreditCardComponent,
+                IsLLabelEditorVisible           = info.Type.IsExcelBrowser || info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsInformationText || info.Type.IsAccountComponent,
+                IsParamTypeVisible              = info.Type.IsParameterComponent,
+                IsInfoTextVisible               = info.Type.IsInformationText,
+                IsVisibleEditorVisible          = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
+                IsDisabledEditorVisible         = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
+                IsBoldVisible                   = info.Type.IsLabel,
+                IsTextIntoVisible               = info.Type.IsLabel || info.Type.IsButton,
 
-              
+                ValueBindingPathLabel = "Value Binding Path"
             };
 
             if (info.Type.IsCreditCardComponent)
             {
-                dataContext.ValueBindingPathLabel = "Açık Kart No";
+                dataContext.ValueBindingPathLabel   = "Açık Kart No";
                 dataContext.ValueBindingPathToolTip = "Ekranın default olarak bir kart no ile açılması istenir ise bu alan bind edilebilir.";
             }
 
@@ -102,12 +90,12 @@ namespace BOA.OneDesigner.PropertyEditors
 
             if (info.Type.IsPosTerminalComponent)
             {
-                dataContext.ValueBindingPathToolTip = "Pos terminal number binding path";
-                dataContext.IsSizeEditorVisible = true;
+                dataContext.ValueBindingPathToolTip         = "Pos terminal number binding path";
+                dataContext.IsSizeEditorVisible             = true;
                 dataContext.IsValueBindingPathEditorVisible = true;
-                dataContext.IsVisibleEditorVisible = true;
-                dataContext.IsDisabledEditorVisible = true;
-                dataContext.IsLLabelEditorVisible = true;
+                dataContext.IsVisibleEditorVisible          = true;
+                dataContext.IsDisabledEditorVisible         = true;
+                dataContext.IsLLabelEditorVisible           = true;
             }
 
             if (info.Type.IsPosMerchantComponent)
@@ -119,7 +107,6 @@ namespace BOA.OneDesigner.PropertyEditors
                 dataContext.IsDisabledEditorVisible         = true;
                 dataContext.IsLLabelEditorVisible           = true;
             }
-
 
             var componentEditor = new ComponentEditor
             {
@@ -140,8 +127,6 @@ namespace BOA.OneDesigner.PropertyEditors
         {
             Host.EventBus.Publish(EventBus.LabelChanged);
         }
-
-       
 
         public void OnRowCountChanged()
         {
@@ -177,12 +162,8 @@ namespace BOA.OneDesigner.PropertyEditors
             {
                 element.GetBindingExpression(VisibilityProperty)?.UpdateTarget();
             }
-            
-
         }
         #endregion
-
-        
 
         #region Methods
         bool CanShowValueChangedEventInput()
@@ -208,11 +189,6 @@ namespace BOA.OneDesigner.PropertyEditors
 
         void LoadUI()
         {
-
-            
-
-
-
             var template = @"
 {
     Childs:
@@ -424,8 +400,6 @@ namespace BOA.OneDesigner.PropertyEditors
 ";
             this.LoadJson(template);
 
-            
-
             foreach (var child in Children)
             {
                 var frameworkElement = child as FrameworkElement;
@@ -443,10 +417,8 @@ namespace BOA.OneDesigner.PropertyEditors
             OnValueBindingPathChanged();
 
             VisitHelper.EnsureButtonClickedActionInfo(Model.Info);
-            _onClickActionInfoEditor.Load(Host,Model.Info.ButtonClickedActionInfo);
+            _onClickActionInfoEditor.Load(Host, Model.Info.ButtonClickedActionInfo);
         }
         #endregion
-
-        
     }
 }
