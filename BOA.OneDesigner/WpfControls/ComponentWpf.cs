@@ -314,8 +314,7 @@ namespace BOA.OneDesigner.WpfControls
             [
                 {
                     view            : 'Button',
-                    Content         : '{Binding " + Model.AccessPathOf(m => m.Info.Text) + @", Mode = OneWay}',
-                    
+                    Content         : '{Binding " + Model.AccessPathOf(m => m.Info.Text) + @", Mode = OneWay}',                   
                     FontWeight      : 'Medium',
                     BorderThickness : '0',
                     Foreground      : 'Blue', 
