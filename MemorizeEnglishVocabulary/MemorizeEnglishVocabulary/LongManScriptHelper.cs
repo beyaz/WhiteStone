@@ -40,47 +40,39 @@ namespace WpfApp2
             var PlaybackRate                  = ConfigurationManager.AppSettings.Get("PlaybackRate").ToDecimal();
             var WaitMillisecondBetweenSamples = ConfigurationManager.AppSettings.Get("WaitMillisecondBetweenSamples").ToDecimal();
 
-            string script = @"document.addEventListener('DOMContentLoaded', function()
+            string script = @"
+
+
+
+
+var CheckTimeout = 100;
+var StartProcess = function(fn)
 {
-    var word = $('.pagetitle').html(),
-        i,
-        item;
+	var isSuccess = fn();
+	if(isSuccess)
+	{
+		return;
+	}
+	
+	setTimeout(fn, 100);
+}
 
-    $('.header').remove();
-    $('.footer').remove();
-    $('.responsive_cell2').remove(); 
-
-    $('body > div.content > div.responsive_cell6 > div.entry_content > div > span > span.dictionary_intro.span').remove();
-
-    $('.Tail').remove();
-    $('.assetlink').remove();
-
-    $( function()
-    { 
-        var dictentryArr = $('.dictentry');
-        if( dictentryArr.length > 1 )
-        {
-            dictentryArr.last().remove(); 
-        }
-        
-    });
-
-
-    $('.etym').remove();
-    $('#ad_btmslot').remove();
-    
-
-    
-
-   
-    for(i=1;i < 150;i++)
+var TryToRemoveExtraSamples = function()
+{
+	var word = $('.pagetitle').html();
+	if(word == null )
+	{
+		return false;
+	}
+	
+	for(var i = 1; i < 150; i++)
     {
-        if(i<2)
+        if( i < 2 )
         {
             continue;
         }
 
-        item = $('#'+word.replace(' ','-')+'__'+i);
+        var item = $('#'+word.replace(' ','-')+'__'+i);
         if(item.length === 0)
         {
             break;
@@ -88,19 +80,85 @@ namespace WpfApp2
 
         item.remove();
     }
+	
+	return true;
+}
+
+var TryToRemoveExtra_dictentry = function()
+{
+	var dictentryArr = $('.dictentry');
+	if(dictentryArr.length === 0)
+	{
+		return false;
+	}
+	if( dictentryArr.length > 1 )
+	{
+		dictentryArr.last().remove(); 
+	} 
+	
+	return true;
+}
+
+var RemoveQueue = [
+'.header',
+'.footer',
+'.responsive_cell2',
+'body > div.content > div.responsive_cell6 > div.entry_content > div > span > span.dictionary_intro.span',
+'.Tail',
+'.assetlink',
+'.etym',
+'#ad_btmslot',
+'.asset > div',
+'.HYPHENATION',
+'.HOMNUM',
+'.PronCodes',
+'body > div.content > div.responsive_cell6 > div.entry_content > div > span > span.dictlink > span > span.frequent.Head > span.tooltip.LEVEL',
+'body > div.content > div.responsive_cell6 > div.entry_content > div > span > span.dictlink > span > span.frequent.Head > span.FREQ'
+
+];
+var RunRemoveQueue = function()
+{
+	if(RemoveQueue.length === 0)
+	{
+		return true;
+	}
+	
+	for(var i=0; i < RemoveQueue.length; i++)
+	{
+		var selector = RemoveQueue[i];
+		
+		var q = $(selector);
+		
+		console.log($(selector));
+		
+		if(q.length > 0)
+		{
+			$(selector).remove();
+			RemoveQueue.splice(i,1);
+            
+		}
+	}
+}
+var onDomReady = function()
+{
+	
+	StartProcess(TryToRemoveExtraSamples);
+	StartProcess(TryToRemoveExtra_dictentry);
+	StartProcess(RunRemoveQueue);
+
+    
 
 
-    $( function(){ $('.asset > div').remove(); } );
-
-    $( function(){ 
-        $('.HYPHENATION').remove();
-        $('.HOMNUM').remove();
-        $('.PronCodes').remove();
-        $('body > div.content > div.responsive_cell6 > div.entry_content > div > span > span.dictlink > span > span.frequent.Head > span.tooltip.LEVEL').remove();
-        $('body > div.content > div.responsive_cell6 > div.entry_content > div > span > span.dictlink > span > span.frequent.Head > span.FREQ').remove();
-    });
 
 
+    
+
+   
+
+
+
+
+   
 
 
 " + enToTrMap + @"
@@ -108,7 +166,7 @@ namespace WpfApp2
 
 
 
-var exampleElements = $('.EXAMPLE');
+
 var currentExampleElement = null;
 
 var SamplePlayCountMap = {};
@@ -116,6 +174,8 @@ var SampleMaxPlayCount = 2;
 
 var tryPlay = function(index)
 {	
+	var exampleElements = $('.EXAMPLE');
+	
 	var exampleElement = exampleElements.get(index);
 	if(exampleElement == null || index > 2)
 	{
@@ -181,10 +241,16 @@ var tryPlay = function(index)
     });	
 }
 
-// play american pronunciation
+
 var PlayAmericanPronuncition = function(playCount, callback)
 {
     var americanPronunciation = $('.amefile');
+	if( americanPronunciation.length === 0)
+	{
+		setTimeout(function(){ PlayAmericanPronuncition(playCount,callback);  },100);
+		return;
+	}
+	
     var americanPronunciationAudio   = new Audio(americanPronunciation.attr('data-src-mp3'));
 
     americanPronunciationAudio.playbackRate = 0.9;
@@ -211,15 +277,13 @@ function StartToPlaySamples()
 }
 
 
+};
+
+document.addEventListener('DOMContentLoaded', onDomReady);
+// $(onDomReady);
 
 
-        
-
-
-
-
-
-});";
+";
 
             return script;
         }
