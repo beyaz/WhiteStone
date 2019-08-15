@@ -239,6 +239,39 @@ namespace BOA.OneDesigner.CodeGenerationHelper
             write($"{attributeName} = {{{jsBindingPath.FullBindingPathInJs}}}");
         }
 
+        
+        public static void WriteBooleanReverse(WriterContext writerContext, string attributeName, string valueBindingPath, Action<string> write)
+        {
+            if (string.IsNullOrWhiteSpace(valueBindingPath))
+            {
+                return;
+            }
+
+            var isAlwaysTrue = string.Equals("TRUE", valueBindingPath.Trim(), StringComparison.OrdinalIgnoreCase);
+            if (isAlwaysTrue)
+            {
+                write(attributeName+" = {false}");
+                return;
+            }
+
+            var isAlwaysFalse = string.Equals("FALSE", valueBindingPath.Trim(), StringComparison.OrdinalIgnoreCase);
+            if (isAlwaysFalse)
+            {
+                write(attributeName+" = {true}");
+                return;
+            }
+
+            var jsBindingPath = new JsBindingPathInfo(valueBindingPath)
+            {
+                EvaluateInsStateVersion = false
+            };
+            JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+            writerContext.PushVariablesToRenderScope(jsBindingPath);
+
+            write($"{attributeName} = {{!{jsBindingPath.FullBindingPathInJs}}}");
+        }
+
+
         public static void WriteIsVisible(WriterContext writerContext, string IsVisibleBindingPath, PaddedStringBuilder sb)
         {
             if (string.IsNullOrWhiteSpace(IsVisibleBindingPath))

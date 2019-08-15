@@ -1,4 +1,5 @@
-﻿using BOA.OneDesigner.CodeGenerationHelper;
+﻿using BOA.Common.Helpers;
+using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -14,24 +15,36 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var sb = writerContext.Output;
 
-            sb.Append("<BButton");
+            sb.AppendLine("<BButton");
+            sb.PaddingCount++;
             if (data.ButtonTypeIsRaised)
             {
-                sb.Append(" type=\"raised\"");    
+                sb.AppendLine(" type=\"raised\"");    
             }
             else
             {
-                sb.Append(" type=\"flat\"");
+                sb.AppendLine(" type=\"flat\"");
             }
             
-            sb.Append(" colorType=\"primary\"");
-            sb.PaddingCount++;
+            sb.AppendLine(" colorType=\"primary\"");
+            
 
             sb.AppendLine("style = {{ float:\"right\" }}");
 
-            RenderHelper.WriteLabelInfo(writerContext, data.TextInto, sb.Append, " text");
+            if (data.IsEnabledBindingPath.HasValue() && data.IsDisabledBindingPath.HasValue())
+            {
+                throw Error.InvalidOperation("Aynı anda hem enable hem disable propertsini veremezsiniz. LocationInfo-> @ButtonLabel: " + data.TextInto.GetDesignerText());
+            }
+
+            RenderHelper.WriteLabelInfo(writerContext, data.TextInto, sb.AppendLine, " text");
             RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
+
+            if (data.IsEnabledBindingPath.HasValue())
+            {
+                RenderHelper.WriteBooleanReverse(writerContext,"disabled",data.IsEnabledBindingPath,sb.AppendLine);    
+            }
+            
 
             sb.AppendLine("onClick={()=>");
             sb.AppendLine("{");
@@ -46,14 +59,15 @@ namespace BOA.OneDesigner.CodeGeneration
             };
 
             sb.AppendAll(function.GetCode());
+            sb.AppendLine();
 
             sb.PaddingCount--;
             sb.AppendLine("}}");
 
-            sb.Append("context={context}");
+            sb.AppendLine("context={context} />");
 
             sb.PaddingCount--;
-            sb.AppendLine(" />");
+            
         }
         #endregion
     }

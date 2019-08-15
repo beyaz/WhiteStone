@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
 using BOA.Common.Helpers;
-using CustomUIMarkupLanguage.Markup;
 using CustomUIMarkupLanguage.UIBuilding;
 using DotNetKit.Windows.Controls;
 using MahApps.Metro.Controls;
 using Notifications.Wpf;
-using WhiteStone.Services.FileLogging;
 
 namespace WhiteStone.UI.Container
 {
@@ -135,12 +133,20 @@ namespace WhiteStone.UI.Container
         /// </summary>
         static void ShowNotification(string title, string message, NotificationType notificationType)
         {
-            notificationManager.Show(new NotificationContent
+            try
             {
-                Title   = title,
-                Message = message,
-                Type    = notificationType
-            });
+                notificationManager.Show(new NotificationContent
+                {
+                    Title   = title,
+                    Message = message,
+                    Type    = notificationType
+                });
+            }
+            catch (Exception e)
+            {
+               Log.Push(e);
+            }
+            
         }
 
         /// <summary>

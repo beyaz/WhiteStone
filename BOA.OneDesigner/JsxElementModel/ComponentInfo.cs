@@ -77,6 +77,11 @@ namespace BOA.OneDesigner.JsxElementModel
         public string IsDisabledBindingPath { get; set; }
 
         /// <summary>
+        /// Gets or sets the is enabled binding path.
+        /// </summary>
+        public string IsEnabledBindingPath { get; set; }
+
+        /// <summary>
         ///     Gets or sets the is visible binding path.
         /// </summary>
         public string IsVisibleBindingPath { get; set; }

@@ -343,6 +343,14 @@ Spacing:10,
                         IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsDisabledEditorVisible) + @"}'
                     }
                     ,
+                    {
+                        ui                          : 'RequestIntellisenseTextBox', 
+                        ShowOnlyBooleanProperties   : true, 
+                        Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.IsEnabledBindingPath) + @"}', 
+                        Label                       : 'Is Enabled',
+                        IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}'
+                    }
+                    ,
                     {   
                         ui          : 'LabeledTextBox', 
                         Label       : 'Max Length', 
