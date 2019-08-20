@@ -1,12 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace BOA.Common.Helpers
 {
-
-   
-
     /// <summary>
     ///     The zip helper
     /// </summary>
@@ -34,6 +33,39 @@ namespace BOA.Common.Helpers
 
             zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
             zipStream.Close();
+        }
+
+        /// <summary>
+        ///     Extracts the content from a .zip file inside an specific folder.
+        /// </summary>
+        public static void ExtractFromZipFile(string zipFilePath, string password, IReadOnlyDictionary<string, string> fileMap)
+        {
+            ZipFile zipFile = null;
+            try
+            {
+                var fs = File.OpenRead(zipFilePath);
+
+                zipFile = new ZipFile(fs);
+
+                if (!string.IsNullOrEmpty(password))
+                {
+                    // AES encrypted entries are handled automatically
+                    zipFile.Password = password;
+                }
+
+                foreach (var pair in fileMap)
+                {
+                    ExtractFromZipFile(zipFile, pair.Key, pair.Value);
+                }
+            }
+            finally
+            {
+                if (zipFile != null)
+                {
+                    zipFile.IsStreamOwner = true; // Makes close also shut the underlying stream
+                    zipFile.Close();              // Ensure we release resources
+                }
+            }
         }
         #endregion
 
@@ -72,6 +104,34 @@ namespace BOA.Common.Helpers
             using (var streamReader = File.OpenRead(inputFilePath))
             {
                 StreamUtils.Copy(streamReader, zipStream, buffer);
+            }
+        }
+
+        static void ExtractFromZipFile(ZipFile zipFile, string entryName, string outputFilePath)
+        {
+            var zipEntry = zipFile.GetEntry(entryName);
+            if (zipEntry == null)
+            {
+                throw new ArgumentNullException(nameof(zipEntry));
+            }
+
+            var zipStream = zipFile.GetInputStream(zipEntry);
+
+            var directoryName = Path.GetDirectoryName(outputFilePath);
+
+            if (directoryName?.Length > 0)
+            {
+                Directory.CreateDirectory(directoryName);
+            }
+
+            // 4K is optimum
+            var buffer = new byte[4096];
+            // Unzip file in buffered chunks. This is just as fast as unpacking to a buffer the full size
+            // of the file, but does not waste memory.
+            // The "using" will close the stream even if an exception occurs.
+            using (var streamWriter = File.Create(outputFilePath))
+            {
+                StreamUtils.Copy(zipStream, streamWriter, buffer);
             }
         }
         #endregion

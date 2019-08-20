@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 
-namespace BOA.BOA.Common.Helpers
+namespace BOA.Common.Helpers
 {
     /// <summary>
     ///     A class for loading Embedded Assembly
