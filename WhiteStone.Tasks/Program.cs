@@ -64,7 +64,7 @@ namespace WhiteStone.Tasks
 
                 Console.WriteLine(e.ToString());
 
-                Console.Read();
+                throw e;
             }
         }
         #endregion

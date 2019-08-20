@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -55,9 +55,6 @@
     <Reference Include="MySql.Data, Version=6.9.10.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)packages\MySql.Data.6.9.10\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(SolutionDir)packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -70,6 +67,15 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(SolutionDir)packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <EmbeddedResource Include="$(SolutionDir)packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll">
+      <Link>ReferencedAssemblies\Newtonsoft.Json.dll</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOA.Common.Helpers\BinarySerialization.cs" />
@@ -89,6 +95,7 @@
     <Compile Include="BOA.Common.Helpers\SqlCommandDumper.cs" />
     <Compile Include="BOA.Common.Helpers\TraceFileHelper.cs" />
     <Compile Include="BOA.Common.Helpers\XmlHelper.cs" />
+    <Compile Include="BOA.Common.Helpers\ZipAssemblyResolver.cs" />
     <Compile Include="BOA.Common.Helpers\ZipHelper.cs" />
     <Compile Include="BOA.Common\Bag.cs" />
     <Compile Include="BOA.Common\CacheManager.cs" />
@@ -176,6 +183,7 @@
   <ItemGroup>
     <Content Include="LanguageTranslations\EnglishBank\DataSource.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>:: Create bin directory

@@ -67,6 +67,36 @@ namespace BOA.Common.Helpers
                 }
             }
         }
+
+        /// <summary>
+        ///     Determines whether the specified zip file path has file.
+        /// </summary>
+        public static bool HasEntry(string zipFilePath, string entryName, string password = null)
+        {
+            ZipFile zipFile = null;
+            try
+            {
+                var fs = File.OpenRead(zipFilePath);
+
+                zipFile = new ZipFile(fs);
+
+                if (!string.IsNullOrEmpty(password))
+                {
+                    // AES encrypted entries are handled automatically
+                    zipFile.Password = password;
+                }
+
+                return zipFile.GetEntry(entryName) != null;
+            }
+            finally
+            {
+                if (zipFile != null)
+                {
+                    zipFile.IsStreamOwner = true; // Makes close also shut the underlying stream
+                    zipFile.Close();              // Ensure we release resources
+                }
+            }
+        }
         #endregion
 
         #region Methods
