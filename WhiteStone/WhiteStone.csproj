@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -44,7 +44,6 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>$(SolutionDir)packages\HtmlAgilityPack.1.8.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-   
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>$(SolutionDir)packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
@@ -75,20 +74,15 @@
       <Link>ReferencedAssemblies\Newtonsoft.Json.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>$(SolutionDir)\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <EmbeddedResource Include="$(SolutionDir)\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll">
+    <EmbeddedResource Include="$(SolutionDir)packages\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll">
       <Link>ReferencedAssemblies\ICSharpCode.SharpZipLib.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
-
-
-
-
   <ItemGroup>
     <Compile Include="BOA.Common.Helpers\BinarySerialization.cs" />
     <Compile Include="BOA.Common.Helpers\BindingPathExpressionHelper.cs" />
@@ -198,17 +192,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>:: Create bin directory
-if not exist $(SolutionDir)\bin     mkdir $(SolutionDir)\bin
-
-:: copy to target directory
-copy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)\bin"
-
-:: copy libraries
-copy /y "$(TargetDir)Newtonsoft.Json.dll" "$(SolutionDir)\bin"
-
-
-$(SolutionDir)\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

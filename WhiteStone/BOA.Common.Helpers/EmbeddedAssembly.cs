@@ -15,7 +15,8 @@ namespace BOA.Common.Helpers
         /// </summary>
         static readonly Dictionary<string, string> LocationMap = new Dictionary<string, string>
         {
-            {"Newtonsoft.Json.dll", "WhiteStone.dll,BOA.ReferencedAssemblies.Newtonsoft.Json.dll"}
+            {"Newtonsoft.Json.dll", "WhiteStone.dll,BOA.ReferencedAssemblies.Newtonsoft.Json.dll"},
+            {"ICSharpCode.SharpZipLib.dll" ,"WhiteStone.dll,BOA.ReferencedAssemblies.ICSharpCode.SharpZipLib.dll" }
         };
         #endregion
 
