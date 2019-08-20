@@ -247,11 +247,14 @@
     <Compile Include="FileAccess.cs" />
     <Compile Include="FileAccessWithAutoCheckIn.cs" />
     <Compile Include="FileAccessWriteResult.cs" />
+    <Compile Include="Tasks\CheckinFile.cs" />
+    <Compile Include="Tasks\CheckoutFile.cs" />
     <Compile Include="TFSAccessForBOA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

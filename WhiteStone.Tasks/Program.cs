@@ -60,6 +60,8 @@ namespace WhiteStone.Tasks
             }
             catch (Exception e)
             {
+                Log.Push(e);
+
                 Console.WriteLine(e.ToString());
 
                 Console.Read();
