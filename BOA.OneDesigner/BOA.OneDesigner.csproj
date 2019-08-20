@@ -67,7 +67,7 @@
       <HintPath>..\WhiteStone.UI.Container\bin\Release\Notifications.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="WhiteStone">
-      <HintPath>D:\github\WhiteStone\bin\WhiteStone.dll</HintPath>
+      <HintPath>D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="PresentationCore" />
@@ -79,6 +79,10 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WhiteStone.Tasks, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks.exe</HintPath>
+    </Reference>
     <Reference Include="WhiteStone.UI.Container">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\WhiteStone.UI.Container.exe</HintPath>
     </Reference>
@@ -150,6 +154,7 @@
     <Compile Include="JsxElementModel\LayoutProps.cs" />
     <Compile Include="JsxElementModel\VisitHelper.cs" />
     <Compile Include="PropertyEditors\ActionInfoEditor.cs" />
+    <Compile Include="Publishing\Publisher.cs" />
     <Compile Include="WpfControls\ActionButton.cs" />
     <Compile Include="PropertyEditors\BComboBoxEditor.cs" />
     <Compile Include="PropertyEditors\ComponentEditor.cs" />
@@ -215,11 +220,9 @@
     <Compile Include="WpfControls\WpfHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="DeployTask.json" />
-    <None Include="MainForm\View.json">
+    <EmbeddedResource Include="MainForm\View.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
     <None Include="WhiteStone.UI.Container.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -254,6 +257,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>D:\github\WhiteStone\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

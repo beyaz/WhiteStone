@@ -15,11 +15,9 @@ namespace BOA.OneDesigner.AppModel
     {
 
         [TestMethod]
-        public void AAA()
+        public void Publish()
         {
-            var info = SolutionInfo.CreateFrom(@"d:\work\BOA\Dev\BOA.SelfService\BOA.SelfService.sln");
-
-            info.ToString();
+            BOA.OneDesigner.Publishing.Publisher.Publish();
         }
 
         #region Public Methods

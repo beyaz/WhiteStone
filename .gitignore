@@ -94,3 +94,5 @@ WhiteStone.Test/obj
 /BOA.EntityGeneration.UI/obj/
 /BOA.EntityGeneration.UI/bin/
 *.suo
+/BOA.OneDesigner.Starter/bin/
+/BOA.OneDesigner.Starter/obj/

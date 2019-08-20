@@ -27,7 +27,9 @@ namespace BOA.OneDesigner.MainForm
 
             UIBuilderHelper.RegisterElements();
 
-            this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
+            
+
+            this.LoadJson(EmbeddedResourceHelper.ReadFile("BOA.OneDesigner",nameof(MainForm),nameof(View) + ".json"));
 
             DesignSurface.VerticalAlignment = VerticalAlignment.Stretch;
 

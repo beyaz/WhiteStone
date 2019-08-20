@@ -1,4 +1,5 @@
 ﻿using System;
+using BOA.Common.Helpers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -23,6 +24,8 @@ namespace BOA.Services
         [TestMethod]
         public void Should_save_to_file_if_file_not_exists()
         {
+            EmbeddedAssembly.AttachToCurrentDomain();
+
             var jsonFile = new JsonFile<JsonFileTest>("A\\t.txt");
 
             jsonFile.Delete();

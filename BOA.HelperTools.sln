@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28917.182
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.779
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.OneDesigner", "BOA.OneDesigner\BOA.OneDesigner.csproj", "{8A56C904-32B1-41A8-A690-D39A7604BEB3}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.Test", "BOA.HelperTools\Tests\BOAPlugins.Test\BOAPlugins.Test.csproj", "{3BA245FB-B218-441D-BEFB-17CC7BD71454}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOAPlugins.VSIntegration", "BOA.HelperTools\BOAPlugins.VSIntegration\BOAPlugins.VSIntegration.csproj", "{63A30D6E-5BF3-4320-B1F7-22E87BD5EF52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.OneDesigner.Starter", "BOA.OneDesigner.Starter\BOA.OneDesigner.Starter.csproj", "{A867FBC2-8483-4D4F-9A86-10687284CE27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{63A30D6E-5BF3-4320-B1F7-22E87BD5EF52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63A30D6E-5BF3-4320-B1F7-22E87BD5EF52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63A30D6E-5BF3-4320-B1F7-22E87BD5EF52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A867FBC2-8483-4D4F-9A86-10687284CE27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A867FBC2-8483-4D4F-9A86-10687284CE27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A867FBC2-8483-4D4F-9A86-10687284CE27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A867FBC2-8483-4D4F-9A86-10687284CE27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

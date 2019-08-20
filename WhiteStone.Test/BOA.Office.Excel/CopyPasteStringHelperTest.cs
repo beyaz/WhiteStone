@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
+﻿using BOA.Common.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.Office.Excel
 {
@@ -34,7 +34,7 @@ namespace BOA.Office.Excel
 
             var deserializedItems = CopyPasteStringHelper.ParseFromString<TestClass>(expected, propertyNames);
 
-            Assert.AreEqual(JsonConvert.SerializeObject(items), JsonConvert.SerializeObject(deserializedItems));
+            Assert.AreEqual(JsonHelper.Serialize(items), JsonHelper.Serialize(deserializedItems));
         }
         #endregion
 

@@ -33,7 +33,7 @@ namespace WhiteStone.Tasks
         /// </summary>
         public static void Run(ZipExistingFilesData data)
         {
-            ZipHelper.CompressFiles(data.OutputFilePath, null, data.InputFilePaths);
+            ZipHelper.CompressFiles(data.OutputFilePath,  data.InputFilePaths);
         }
         #endregion
     }

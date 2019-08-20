@@ -88,11 +88,13 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static void CreateDirectoryIfNotExists(string path)
         {
-            var directoryInfo = new FileInfo(path).Directory;
-            if (directoryInfo != null)
+            if (Directory.Exists(path))
             {
-                directoryInfo.Create();
+                return;
             }
+
+            Directory.CreateDirectory(path);
+            
         }
 
         /// <summary>

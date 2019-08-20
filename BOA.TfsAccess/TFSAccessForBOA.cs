@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
+using WhiteStone.Helpers;
 
 namespace BOA.CodeGeneration.Util
 {
@@ -127,6 +129,32 @@ namespace BOA.CodeGeneration.Util
                 }
 
                 return new StreamReader(stream).ReadToEnd();
+            }
+        }
+
+        public static void DownloadFile(string path,string destinationPath)
+        {
+            var ConstTfsServerUri = GetTfsServerPath(path);
+
+            using (var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(ConstTfsServerUri)))
+            {
+                if (pc == null)
+                {
+                    throw new Exception(nameof(pc));
+                }
+
+                var version = pc.GetService(typeof(VersionControlServer)) as VersionControlServer;
+                var item    = version?.GetItem(path);
+                var stream  = item?.DownloadFile();
+                if (stream == null)
+                {
+                    throw new InvalidOperationException(path);
+                }
+                
+                using (var fs = new FileStream(destinationPath, FileMode.OpenOrCreate))
+                {
+                    stream.ReadAllWriteToOutput(fs);
+                }
             }
         }
 

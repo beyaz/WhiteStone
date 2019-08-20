@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace BOA.Common.Helpers
@@ -16,7 +18,7 @@ namespace BOA.Common.Helpers
         static readonly Dictionary<string, string> LocationMap = new Dictionary<string, string>
         {
             {"Newtonsoft.Json.dll", "WhiteStone.dll,BOA.ReferencedAssemblies.Newtonsoft.Json.dll"},
-            {"ICSharpCode.SharpZipLib.dll" ,"WhiteStone.dll,BOA.ReferencedAssemblies.ICSharpCode.SharpZipLib.dll" }
+            {"ICSharpCode.SharpZipLib.dll", "WhiteStone.dll,BOA.ReferencedAssemblies.ICSharpCode.SharpZipLib.dll"}
         };
         #endregion
 
@@ -34,6 +36,7 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static void AttachToCurrentDomain()
         {
+            AppDomain.CurrentDomain.AssemblyResolve -= DomainAssemblyResolve;
             AppDomain.CurrentDomain.AssemblyResolve += DomainAssemblyResolve;
         }
         #endregion
@@ -62,7 +65,12 @@ namespace BOA.Common.Helpers
             var locatedAssemblyName = location.Split(',')[0];
             var resourceName        = location.Split(',')[1];
 
-            var assembly = Assembly.Load(locatedAssemblyName);
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.ManifestModule.Name == locatedAssemblyName);
+
+            if (assembly == null)
+            {
+                assembly = Assembly.Load(locatedAssemblyName);
+            }
 
             using (var resourceStream = assembly.GetManifestResourceStream(resourceName))
             {

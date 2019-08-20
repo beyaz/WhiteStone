@@ -15,7 +15,16 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     Compresses the files.
         /// </summary>
-        public static void CompressFiles(string outputFilePath, string password, params string[] inputFilePaths)
+        public static void CompressFiles(string outputFilePath, string[] inputFilePaths)
+        {
+            CompressFiles(outputFilePath,inputFilePaths,null);
+        }
+
+
+        /// <summary>
+        ///     Compresses the files.
+        /// </summary>
+        public static void CompressFiles(string outputFilePath,  string[] inputFilePaths, string password)
         {
             var fsOut     = File.Create(outputFilePath);
             var zipStream = new ZipOutputStream(fsOut);
@@ -56,6 +65,35 @@ namespace BOA.Common.Helpers
                 foreach (var pair in fileMap)
                 {
                     ExtractFromZipFile(zipFile, pair.Key, pair.Value);
+                }
+            }
+            finally
+            {
+                if (zipFile != null)
+                {
+                    zipFile.IsStreamOwner = true; // Makes close also shut the underlying stream
+                    zipFile.Close();              // Ensure we release resources
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Extracts the content from a .zip file inside an specific folder.
+        /// </summary>
+        public static void UnZip(string zipFilePath, string outputDirectory)
+        {
+            ZipFile zipFile = null;
+            try
+            {
+                var fs = File.OpenRead(zipFilePath);
+
+                zipFile = new ZipFile(fs);
+
+               
+
+                foreach (ZipEntry entry in zipFile)
+                {
+                    ExtractFromZipFile(zipFile, entry.Name, outputDirectory);
                 }
             }
             finally
@@ -154,12 +192,13 @@ namespace BOA.Common.Helpers
                 Directory.CreateDirectory(directoryName);
             }
 
+
             // 4K is optimum
             var buffer = new byte[4096];
             // Unzip file in buffered chunks. This is just as fast as unpacking to a buffer the full size
             // of the file, but does not waste memory.
             // The "using" will close the stream even if an exception occurs.
-            using (var streamWriter = File.Create(outputFilePath))
+            using (var streamWriter = File.Create(outputFilePath+entryName))
             {
                 StreamUtils.Copy(zipStream, streamWriter, buffer);
             }

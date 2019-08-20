@@ -41,6 +41,12 @@
     <AssemblyOriginatorKeyFile>WhiteStoneKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(SolutionDir)packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>$(SolutionDir)packages\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>$(SolutionDir)packages\HtmlAgilityPack.1.8.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -66,30 +72,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(SolutionDir)packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <EmbeddedResource Include="$(SolutionDir)packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll">
-      <Link>ReferencedAssemblies\Newtonsoft.Json.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>$(SolutionDir)packages\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <EmbeddedResource Include="$(SolutionDir)packages\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll">
-      <Link>ReferencedAssemblies\ICSharpCode.SharpZipLib.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="BOA.Common.Helpers\BinarySerialization.cs" />
     <Compile Include="BOA.Common.Helpers\BindingPathExpressionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\CompressionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\ConfigHelper.cs" />
     <Compile Include="BOA.Common.Helpers\DateTimeExtensions.cs" />
     <Compile Include="BOA.Common.Helpers\EmbeddedAssembly.cs" />
+    <Compile Include="BOA.Common.Helpers\EmbeddedResourceHelper.cs" />
     <Compile Include="BOA.Common.Helpers\ExceptionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\FileHelper.cs" />
     <Compile Include="BOA.Common.Helpers\JsonHelper.cs" />
