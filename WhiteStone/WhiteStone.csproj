@@ -44,9 +44,7 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>$(SolutionDir)packages\HtmlAgilityPack.1.8.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
+   
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>$(SolutionDir)packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
@@ -77,6 +75,20 @@
       <Link>ReferencedAssemblies\Newtonsoft.Json.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>$(SolutionDir)\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <EmbeddedResource Include="$(SolutionDir)\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll">
+      <Link>ReferencedAssemblies\ICSharpCode.SharpZipLib.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
+
+
+
   <ItemGroup>
     <Compile Include="BOA.Common.Helpers\BinarySerialization.cs" />
     <Compile Include="BOA.Common.Helpers\BindingPathExpressionHelper.cs" />
