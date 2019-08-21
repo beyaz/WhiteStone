@@ -15,7 +15,12 @@ namespace BOA.OneDesigner.Starter
 
             if (File.Exists(ZipFilePath))
             {
-                Directory.Delete(ExportDir,true);
+                if (Directory.Exists(ExportDir))
+                {
+                    Directory.Delete(ExportDir,true);    
+                }
+                
+
                 ZipFile.ExtractToDirectory(ZipFilePath, ExportDir);
                 // File.Delete(ZipFilePath);
             }
