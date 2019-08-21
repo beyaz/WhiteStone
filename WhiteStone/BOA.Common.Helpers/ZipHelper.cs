@@ -17,14 +17,13 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static void CompressFiles(string outputFilePath, string[] inputFilePaths)
         {
-            CompressFiles(outputFilePath,inputFilePaths,null);
+            CompressFiles(outputFilePath, inputFilePaths, null);
         }
-
 
         /// <summary>
         ///     Compresses the files.
         /// </summary>
-        public static void CompressFiles(string outputFilePath,  string[] inputFilePaths, string password)
+        public static void CompressFiles(string outputFilePath, string[] inputFilePaths, string password)
         {
             var fsOut     = File.Create(outputFilePath);
             var zipStream = new ZipOutputStream(fsOut);
@@ -78,6 +77,50 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Determines whether the specified zip file path has file.
+        /// </summary>
+        public static bool HasEntry(string zipFilePath, string entryName)
+        {
+            return HasEntry(zipFilePath, entryName, null);
+        }
+
+        /// <summary>
+        ///     Determines whether the specified zip file path has file.
+        /// </summary>
+        public static bool HasEntry(string zipFilePath, string entryName, string password)
+        {
+            ZipFile zipFile = null;
+            try
+            {
+                var fs = File.OpenRead(zipFilePath);
+
+                zipFile = new ZipFile(fs);
+
+                if (!string.IsNullOrEmpty(password))
+                {
+                    // AES encrypted entries are handled automatically
+                    zipFile.Password = password;
+                }
+
+                return zipFile.GetEntry(entryName) != null;
+            }
+            catch (Exception e)
+            {
+                Log.Push(e);
+
+                throw;
+            }
+            finally
+            {
+                if (zipFile != null)
+                {
+                    zipFile.IsStreamOwner = true; // Makes close also shut the underlying stream
+                    zipFile.Close();              // Ensure we release resources
+                }
+            }
+        }
+
+        /// <summary>
         ///     Extracts the content from a .zip file inside an specific folder.
         /// </summary>
         public static void UnZip(string zipFilePath, string outputDirectory)
@@ -88,8 +131,6 @@ namespace BOA.Common.Helpers
                 var fs = File.OpenRead(zipFilePath);
 
                 zipFile = new ZipFile(fs);
-
-               
 
                 foreach (ZipEntry entry in zipFile)
                 {
@@ -107,33 +148,17 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
-        ///     Determines whether the specified zip file path has file.
+        ///     Extracts the content from a .zip file inside an specific folder.
         /// </summary>
-        public static bool HasEntry(string zipFilePath, string entryName, string password = null)
+        public static string UnZip(string zipFilePath)
         {
-            ZipFile zipFile = null;
-            try
-            {
-                var fs = File.OpenRead(zipFilePath);
+            var directoryName = Path.GetDirectoryName(zipFilePath);
 
-                zipFile = new ZipFile(fs);
+            var targetExportDirectory = directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(zipFilePath) + Path.DirectorySeparatorChar;
 
-                if (!string.IsNullOrEmpty(password))
-                {
-                    // AES encrypted entries are handled automatically
-                    zipFile.Password = password;
-                }
+            UnZip(zipFilePath, targetExportDirectory);
 
-                return zipFile.GetEntry(entryName) != null;
-            }
-            finally
-            {
-                if (zipFile != null)
-                {
-                    zipFile.IsStreamOwner = true; // Makes close also shut the underlying stream
-                    zipFile.Close();              // Ensure we release resources
-                }
-            }
+            return targetExportDirectory;
         }
         #endregion
 
@@ -192,13 +217,12 @@ namespace BOA.Common.Helpers
                 Directory.CreateDirectory(directoryName);
             }
 
-
             // 4K is optimum
             var buffer = new byte[4096];
             // Unzip file in buffered chunks. This is just as fast as unpacking to a buffer the full size
             // of the file, but does not waste memory.
             // The "using" will close the stream even if an exception occurs.
-            using (var streamWriter = File.Create(outputFilePath+entryName))
+            using (var streamWriter = File.Create(outputFilePath + entryName))
             {
                 StreamUtils.Copy(zipStream, streamWriter, buffer);
             }

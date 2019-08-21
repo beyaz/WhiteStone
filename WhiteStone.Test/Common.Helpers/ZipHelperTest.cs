@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.Common.Helpers
@@ -10,16 +12,27 @@ namespace BOA.Common.Helpers
         [TestMethod]
         public void CompressFolder()
         {
-            var paths = new string[]
-            {
-                @"d:\temp\0.txt"
-            };
-            ZipHelper.CompressFiles(@"d:\temp\Aloha.zip", paths);
+            const string simpleFilePath = @"d:\temp\0.txt";
 
-            ZipHelper.ExtractFromZipFile(@"d:\temp\Aloha.zip", null, new Dictionary<string, string> {{@"0.txt", @"d:\\temp\\01.txt"}});
+            File.Delete(simpleFilePath);
+            File.WriteAllText(simpleFilePath,"Test");
+
+            var paths = new[]
+            {
+                simpleFilePath
+            };
+            const string zipFilePath = @"d:\temp\Aloha.zip";
+
+            ZipHelper.CompressFiles(zipFilePath, paths);
+
+            ZipHelper.HasEntry(zipFilePath, "0.txt").Should().BeTrue();
+            ZipHelper.HasEntry(zipFilePath, "0.txt").Should().BeTrue();
+            ZipHelper.HasEntry(zipFilePath, "0.txt").Should().BeTrue();
+
+            ZipHelper.HasEntry(zipFilePath, "1.txt").Should().BeFalse();
+
+            ZipHelper.ExtractFromZipFile(zipFilePath, null, new Dictionary<string, string> {{@"0.txt", @"d:\\temp\\01.txt"}});
         }
         #endregion
     }
-
-    
 }

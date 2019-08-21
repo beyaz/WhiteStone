@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -15,11 +14,7 @@ namespace BOA.Common.Helpers
         /// <summary>
         ///     The location map
         /// </summary>
-        static readonly Dictionary<string, string> LocationMap = new Dictionary<string, string>
-        {
-            {"Newtonsoft.Json.dll", "WhiteStone.dll,BOA.ReferencedAssemblies.Newtonsoft.Json.dll"},
-            {"ICSharpCode.SharpZipLib.dll", "WhiteStone.dll,BOA.ReferencedAssemblies.ICSharpCode.SharpZipLib.dll"}
-        };
+        static readonly Dictionary<string, string> LocationMap = new Dictionary<string, string>();
         #endregion
 
         #region Public Methods
@@ -58,7 +53,11 @@ namespace BOA.Common.Helpers
 
             if (!LocationMap.ContainsKey(assemblyName))
             {
-                return null;
+                assemblyName = string.Format(@"{0}.exe", name);
+                if (!LocationMap.ContainsKey(assemblyName))
+                {
+                    return null;
+                }
             }
 
             var location            = LocationMap[assemblyName];

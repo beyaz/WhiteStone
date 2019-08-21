@@ -33,8 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="WhiteStone">
-      <HintPath>D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>D:\github\WhiteStone\WhiteStone\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,12 +47,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmbeddedAssembly.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Zips\BOA.TfsAccess.zip" />
-    <EmbeddedResource Include="Zips\WhiteStone.zip" />
+    <Reference Include="WhiteStone">
+      <HintPath>D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="D:\github\WhiteStone\bin\BOA.TfsAccess.zip">
+      <Link>Zips\BOA.TfsAccess.zip</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BOA.TfsAccess\BOA.TfsAccess.csproj">
@@ -59,5 +68,15 @@
       <Name>BOA.TfsAccess</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="D:\github\WhiteStone\WhiteStone\bin\Debug\ICSharpCode.SharpZipLib.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="D:\github\WhiteStone\WhiteStone\bin\Debug\Newtonsoft.Json.dll" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
