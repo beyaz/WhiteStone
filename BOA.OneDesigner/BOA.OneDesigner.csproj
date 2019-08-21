@@ -104,6 +104,7 @@
     <Compile Include="CodeGenerationModel\JsBindingPathInfo.cs" />
     <Compile Include="CodeGeneration\PosMerchantComponentRenderer.cs" />
     <Compile Include="CodeGeneration\PosTerminalComponentRenderer.cs" />
+    <Compile Include="Deployment\Updater.cs" />
     <Compile Include="Helpers\Util.cs" />
     <Compile Include="JsxElementModel\ActionInfo.cs" />
     <Compile Include="CodeGeneration\ActionInfoFunction.cs" />
@@ -224,6 +225,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="DeployTask.json" />
+    <None Include="dist\BOA.OneDesigner.zip" />
     <None Include="WhiteStone.UI.Container.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -255,7 +257,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="dist\BOA.OneDesigner.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>D:\github\WhiteStone\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>

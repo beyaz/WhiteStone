@@ -4,6 +4,7 @@ using BOA.Common.Helpers;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.CodeGeneration;
 using BOA.OneDesigner.CodeGenerationHelper;
+using BOA.OneDesigner.Deployment;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
 using BOA.TfsAccess;
@@ -207,6 +208,8 @@ namespace BOA.OneDesigner.MainForm
                 Model.MessagingGroupNames = database.GetMessagingGroupNames();
                 Model.RequestNames        = database.GetDefaultRequestNames();
             }
+
+            Updater.StartUpdate();
         }
 
         public void RequestNameChanged()

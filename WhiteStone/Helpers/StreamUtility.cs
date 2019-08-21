@@ -17,14 +17,13 @@ namespace WhiteStone.Helpers
         {
             if (stream == null)
             {
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             }
-            string result;
+
             using (var streamReader = new StreamReader(stream))
             {
-                result = streamReader.ReadToEnd();
+                return streamReader.ReadToEnd();
             }
-            return result;
         }
 
         /// <summary>

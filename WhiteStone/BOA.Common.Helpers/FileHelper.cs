@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Web.Configuration;
 using System.Windows.Threading;
-using WhiteStone.Helpers;
+
+// using WhiteStone.Helpers;
 
 namespace BOA.Common.Helpers
 {
@@ -12,19 +12,6 @@ namespace BOA.Common.Helpers
     /// </summary>
     public static class FileHelper
     {
-        /// <summary>
-        /// Removes the read only flag.
-        /// </summary>
-        public static bool RemoveReadOnlyFlag(string path)
-        {
-            if (new FileInfo(path).Exists && new FileInfo(path).IsReadOnly)
-            {
-                File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
-                return true;
-            }
-
-            return false;
-        }
         #region Public Methods
         /// <summary>
         ///     Appends to end of file.
@@ -94,7 +81,6 @@ namespace BOA.Common.Helpers
             }
 
             Directory.CreateDirectory(path);
-            
         }
 
         /// <summary>
@@ -107,7 +93,7 @@ namespace BOA.Common.Helpers
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             }
 
-            CreateDirectoryIfNotExists(saveFilePath);
+            CreateDirectoryIfNotExists(Path.GetDirectoryName(saveFilePath));
 
             try
             {
@@ -158,8 +144,6 @@ namespace BOA.Common.Helpers
                 throw;
             }
         }
-
-
 
         /// <summary>
         ///     Determines whether [is file locked] [the specified path].
@@ -226,11 +210,25 @@ namespace BOA.Common.Helpers
         }
 
         /// <summary>
+        ///     Removes the read only flag.
+        /// </summary>
+        public static bool RemoveReadOnlyFlag(string path)
+        {
+            if (new FileInfo(path).Exists && new FileInfo(path).IsReadOnly)
+            {
+                File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         ///     Writes all text.
         /// </summary>
         public static void WriteAllText(string path, string data)
         {
-            CreateDirectoryIfNotExists(path);
+            CreateDirectoryIfNotExists(Path.GetDirectoryName(path));
 
             File.Delete(path);
 
@@ -239,6 +237,21 @@ namespace BOA.Common.Helpers
             sw.Write(data);
             sw.Close();
             fs.Close();
+        }
+        #endregion
+
+        #region Methods
+        static string ReadToEndAsString(this Stream stream)
+        {
+            if (stream == null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            using (var streamReader = new StreamReader(stream))
+            {
+                return streamReader.ReadToEnd();
+            }
         }
         #endregion
     }
