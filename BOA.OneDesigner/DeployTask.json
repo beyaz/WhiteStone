@@ -1,0 +1,53 @@
+{
+  "$type": "System.Object[], mscorlib",
+  "$values":
+  [
+    {
+      "$type": "WhiteStone.Tasks.ZipExistingFilesData, WhiteStone.Tasks",
+      "OutputFilePath": "D:\\github\\WhiteStone\\BOA.OneDesigner\\dist\\BOA.OneDesigner.zip",
+      "InputFilePaths": [
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\WhiteStone.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\BOA.OneDesigner.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\BOAPlugins.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\BOA.CodeGeneration.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\BOA.EntityGeneration.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\BOA.TfsAccess.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\WhiteStone.UI.Container.exe",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\WhiteStone.UI.Container.exe.config",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\CustomUIMarkupLanguage.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Intellibox.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\MahApps.Metro.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\ControlzEx.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.Xaml.Behaviors.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Newtonsoft.Json.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Ninject.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Notifications.Wpf.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.Mdb.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.Pdb.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.Rocks.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.Core.WebApi.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.Work.WebApi.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.WebApi.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.Diff.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.VersionControl.Client.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.VersionControl.Common.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.VersionControl.Common.Integration.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStoreLoader.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.Client.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.Common.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.Client.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.Common.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.VisualStudio.Services.WebApi.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.VisualStudio.Services.Common.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.VisualStudio.Services.Client.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.ServiceBus.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\System.Net.Http.Formatting.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\Microsoft.SqlServer.TransactSql.ScriptDom.dll",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\System.IdentityModel.Tokens.Jwt.dll"
+      ]
+    }
+  ]
+}
