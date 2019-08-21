@@ -210,6 +210,7 @@ namespace BOA.OneDesigner.MainForm
             }
 
             Updater.StartUpdate();
+            
         }
 
         public void RequestNameChanged()
