@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Timers;
+using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container.Mvc;
 
@@ -14,7 +15,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         #region Constructors
         public View()
         {
-            this.LoadJsonFile(nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
+            this.LoadJson(EmbeddedResourceHelper.ReadFile("BOA.EntityGeneration.UI",nameof(MainForm),nameof(View) + ".json"));
         }
         #endregion
 
