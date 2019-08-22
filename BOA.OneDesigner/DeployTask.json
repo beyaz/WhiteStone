@@ -6,6 +6,8 @@
       "$type": "WhiteStone.Tasks.ZipExistingFilesData, WhiteStone.Tasks",
       "OutputFilePath": "D:\\github\\WhiteStone\\BOA.OneDesigner\\dist\\BOA.OneDesigner.zip",
       "InputFilePaths": [
+        "D:\\github\\WhiteStone\\WhiteStone.Updater\\bin\\Debug\\WhiteStone.Updater.exe",
+        "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\WhiteStone.Updater.exe.config",
         "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\WhiteStone.dll",
         "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\BOA.OneDesigner.dll",
         "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\BOAPlugins.dll",

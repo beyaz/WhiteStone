@@ -6,6 +6,9 @@
       "$type": "WhiteStone.Tasks.ZipExistingFilesData, WhiteStone.Tasks",
       "OutputFilePath": "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\dist\\CustomSqlInjectionToProject.zip",
       "InputFilePaths": [
+        "D:\\github\\WhiteStone\\WhiteStone.Updater\\bin\\Debug\\WhiteStone.Updater.exe",
+        "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\WhiteStone.Updater.exe.config",
+
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\CustomSqlInjectionToProject.exe",
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\BOA.EntityGeneration.dll",
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\BOA.TfsAccess.dll",

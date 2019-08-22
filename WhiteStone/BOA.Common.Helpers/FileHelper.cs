@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Windows.Threading;
 
-// using WhiteStone.Helpers;
 
 namespace BOA.Common.Helpers
 {

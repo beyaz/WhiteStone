@@ -14,11 +14,7 @@ namespace BOA.OneDesigner.AppModel
     public class DevelopmentDatabaseTest
     {
 
-        [TestMethod]
-        public void Publish()
-        {
-            BOA.OneDesigner.Publishing.Publisher.Publish();
-        }
+       
 
         #region Public Methods
         [TestMethod]

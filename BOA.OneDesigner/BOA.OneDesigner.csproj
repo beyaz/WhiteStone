@@ -86,6 +86,9 @@
     <Reference Include="WhiteStone.UI.Container">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\WhiteStone.UI.Container.exe</HintPath>
     </Reference>
+    <Reference Include="WhiteStone.Updater">
+      <HintPath>..\WhiteStone.Updater\bin\Debug\WhiteStone.Updater.exe</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +228,9 @@
     </EmbeddedResource>
     <None Include="DeployTask.json" />
     <None Include="dist\BOA.OneDesigner.zip" />
+    <None Include="WhiteStone.Updater.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="WhiteStone.UI.Container.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
