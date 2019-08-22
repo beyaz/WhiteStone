@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Timers;
+using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.UIBuilding;
 using WhiteStone.UI.Container.Mvc;
 
@@ -14,8 +15,7 @@ namespace CustomSqlInjectionToProject.MainForm
         #region Constructors
         public View()
         {
-            var dir = Path.GetDirectoryName(GetType().Assembly.Location) + Path.DirectorySeparatorChar;
-            this.LoadJsonFile(dir + nameof(MainForm) + Path.DirectorySeparatorChar + nameof(View) + ".json");
+            this.LoadJson(EmbeddedResourceHelper.ReadFile("CustomSqlInjectionToProject",nameof(MainForm),nameof(View) + ".json"));
         }
         #endregion
 

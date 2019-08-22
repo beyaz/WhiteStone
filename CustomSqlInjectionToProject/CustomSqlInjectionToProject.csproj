@@ -102,9 +102,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.config" />
-    <None Include="MainForm\View.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="MainForm\View.json" />
+    <None Include="dist\CustomSqlInjectionToProject.zip" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -128,8 +127,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="dist\CustomSqlInjectionToProject.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(TargetDir)\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
+    <PostBuildEvent>D:\github\WhiteStone\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
   </PropertyGroup>
 </Project>
