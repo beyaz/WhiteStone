@@ -1,26 +1,24 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 
-namespace BOA.OneDesigner.Starter
+namespace BOA.EntityGeneration.UI.Starter
 {
     class Program
     {
         #region Public Methods
         public static void Main()
         {
-            const string ZipFilePath = @"D:\BOA\BOA.OneDesigner.zip";
-            const string ExportDir   = @"D:\BOA\BOA.OneDesigner\";
-            const string ProcessPath = @"D:\BOA\BOA.OneDesigner\WhiteStone.UI.Container.exe";
+            const string ZipFilePath = @"D:\BOA\EntityGenerator.zip";
+            const string ExportDir   = @"D:\BOA\EntityGenerator\";
+            const string ProcessPath = @"D:\BOA\EntityGenerator\WhiteStone.UI.Container.exe";
 
             if (File.Exists(ZipFilePath))
             {
                 if (Directory.Exists(ExportDir))
                 {
-                    Directory.Delete(ExportDir,true);    
+                    Directory.Delete(ExportDir, true);
                 }
-                
 
                 ZipFile.ExtractToDirectory(ZipFilePath, ExportDir);
                 File.Delete(ZipFilePath);
@@ -28,7 +26,7 @@ namespace BOA.OneDesigner.Starter
 
             if (!File.Exists(ProcessPath))
             {
-                throw  new FileNotFoundException(ProcessPath);
+                throw new FileNotFoundException(ProcessPath);
             }
 
             Process.Start(ProcessPath);

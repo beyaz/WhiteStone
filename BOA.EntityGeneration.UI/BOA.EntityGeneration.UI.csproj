@@ -70,6 +70,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deployment\Updater.cs" />
     <Compile Include="MainForm\CheckInCommentAccess.cs" />
     <Compile Include="MainForm\Controller.cs" />
     <Compile Include="MainForm\Model.cs" />
