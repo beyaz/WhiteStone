@@ -8,7 +8,7 @@ namespace BOA.EntityGeneration.UI.Deployment
     static class Config
     {
         #region Constants
-        public const int    CurrentVersionNumber = 1;
+        public const int    CurrentVersionNumber = 0;
         public const string VersionInfoFileUrl   = @"https://github.com/beyaz/WhiteStone/blob/master/BOA.EntityGeneration.UI/dist/BOA.EntityGeneration.UI.txt?raw=true";
         public const string ZipFilePath          = @"d:\BOA\EntityGenerator.zip";
         public const string ZipFileTempPath      = @"d:\BOA\EntityGenerator.zip.tmp";

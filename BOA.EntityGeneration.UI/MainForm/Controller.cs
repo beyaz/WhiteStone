@@ -4,6 +4,7 @@ using System.Threading;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.UI.Deployment;
 using BOA.TfsAccess;
 using Ninject;
 using WhiteStone.UI.Container.Mvc;
@@ -90,6 +91,8 @@ namespace BOA.EntityGeneration.UI.MainForm
                     }
                 }
             };
+
+            Updater.StartUpdate();
         }
         #endregion
 
