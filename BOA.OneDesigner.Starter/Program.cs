@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 
@@ -23,6 +24,11 @@ namespace BOA.OneDesigner.Starter
 
                 ZipFile.ExtractToDirectory(ZipFilePath, ExportDir);
                 // File.Delete(ZipFilePath);
+            }
+
+            if (!File.Exists(ProcessPath))
+            {
+                throw  new FileNotFoundException(ProcessPath);
             }
 
             Process.Start(ProcessPath);

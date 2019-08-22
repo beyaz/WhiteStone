@@ -155,7 +155,6 @@
     <Compile Include="JsxElementModel\LayoutProps.cs" />
     <Compile Include="JsxElementModel\VisitHelper.cs" />
     <Compile Include="PropertyEditors\ActionInfoEditor.cs" />
-    <Compile Include="Publishing\Publisher.cs" />
     <Compile Include="WpfControls\ActionButton.cs" />
     <Compile Include="PropertyEditors\BComboBoxEditor.cs" />
     <Compile Include="PropertyEditors\ComponentEditor.cs" />

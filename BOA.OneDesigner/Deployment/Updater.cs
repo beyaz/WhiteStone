@@ -9,10 +9,15 @@ namespace BOA.OneDesigner.Deployment
     {
         #region Constants
         const string versionInfoFileUrl = @"https://github.com/beyaz/WhiteStone/blob/master/BOA.OneDesigner/dist/BOA.OneDesigner.txt?raw=true";
-        const string zipFileUrl         = @"https://github.com/beyaz/WhiteStone/blob/master/BOA.OneDesigner/dist/BOA.OneDesigner.zip?raw=true";
+        const string ZipFilePath        = @"d:\BOA\BOA.OneDesigner.zip";
+
+        const string ZipFileTempPath = @"d:\BOA\BOA.OneDesigner.zip.tmp";
+        const string zipFileUrl      = @"https://github.com/beyaz/WhiteStone/blob/master/BOA.OneDesigner/dist/BOA.OneDesigner.zip?raw=true";
         #endregion
 
-        static int CurrentVersionNumber = 0;
+        #region Static Fields
+        const int CurrentVersionNumber = 1;
+        #endregion
 
         #region Public Methods
         public static void StartUpdate()
@@ -34,9 +39,12 @@ namespace BOA.OneDesigner.Deployment
                     return;
                 }
 
-                Log.Push("Started to download version:"+latestVersionNumber);
-                FileHelper.DownloadFile(zipFileUrl, @"d:\BOA\BOA.OneDesigner.zip", true);
-                Log.Push("Finished to download version:"+latestVersionNumber);
+                Log.Push("Started to download version:" + latestVersionNumber);
+                FileHelper.DownloadFile(zipFileUrl, ZipFileTempPath, true);
+
+                File.Move(ZipFileTempPath, ZipFilePath);
+                Log.Push("Finished to download version:" + latestVersionNumber);
+                File.Delete(ZipFileTempPath);
             }
             catch (Exception e)
             {
