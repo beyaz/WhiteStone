@@ -96,6 +96,7 @@
     <None Include="DeployTask.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="dist\BOA.EntityGeneration.UI.zip" />
     <None Include="MainForm\View.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -117,8 +118,12 @@
       <Name>BOA.TfsAccess</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="dist\BOA.EntityGeneration.UI.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(TargetDir)\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
+    <PostBuildEvent>D:\github\WhiteStone\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
   </PropertyGroup>
 </Project>
