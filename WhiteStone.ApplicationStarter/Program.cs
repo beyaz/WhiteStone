@@ -20,7 +20,7 @@ namespace WhiteStone.ApplicationStarter
     class Program
     {
         #region Public Methods
-        public static void Main()
+        public static void Main(string[] args)
         {
             TryToExtractZipFile();
 
@@ -29,12 +29,18 @@ namespace WhiteStone.ApplicationStarter
                 FileHelper.DownloadFile(Config.ZipFileUrl, Config.ZipFileTempPath, true);
 
                 File.Move(Config.ZipFileTempPath, Config.ZipFilePath);
-                
 
                 TryToExtractZipFile();
             }
 
-            Process.Start(Config.ProcessPath);
+            if (args?.Length > 0)
+            {
+                Process.Start(Config.ProcessPath, string.Join("|", args));
+            }
+            else
+            {
+                Process.Start(Config.ProcessPath);
+            }
         }
         #endregion
 
