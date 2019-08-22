@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace WhiteStone.Tasks
+namespace BOA.Tasks
 {
     [TestClass]
     public class MsBuildTest
