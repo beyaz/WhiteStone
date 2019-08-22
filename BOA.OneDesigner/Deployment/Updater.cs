@@ -5,20 +5,19 @@ using BOA.Common.Helpers;
 
 namespace BOA.OneDesigner.Deployment
 {
-    public static class Updater
+    static class Config
     {
         #region Constants
-        const string versionInfoFileUrl = @"https://github.com/beyaz/WhiteStone/blob/master/BOA.OneDesigner/dist/BOA.OneDesigner.txt?raw=true";
-        const string ZipFilePath        = @"d:\BOA\BOA.OneDesigner.zip";
-
-        const string ZipFileTempPath = @"d:\BOA\BOA.OneDesigner.zip.tmp";
-        const string zipFileUrl      = @"https://github.com/beyaz/WhiteStone/blob/master/BOA.OneDesigner/dist/BOA.OneDesigner.zip?raw=true";
+        public const int    CurrentVersionNumber = 1;
+        public const string VersionInfoFileUrl   = @"https://github.com/beyaz/WhiteStone/blob/master/BOA.OneDesigner/dist/BOA.OneDesigner.txt?raw=true";
+        public const string ZipFilePath          = @"d:\BOA\BOA.OneDesigner.zip";
+        public const string ZipFileTempPath      = @"d:\BOA\BOA.OneDesigner.zip.tmp";
+        public const string zipFileUrl           = @"https://github.com/beyaz/WhiteStone/blob/master/BOA.OneDesigner/dist/BOA.OneDesigner.zip?raw=true";
         #endregion
+    }
 
-        #region Static Fields
-        const int CurrentVersionNumber = 1;
-        #endregion
-
+    public static class Updater
+    {
         #region Public Methods
         public static void StartUpdate()
         {
@@ -34,17 +33,17 @@ namespace BOA.OneDesigner.Deployment
             try
             {
                 var latestVersionNumber = GetLatestVersionNumber();
-                if (latestVersionNumber <= CurrentVersionNumber)
+                if (latestVersionNumber <= Config.CurrentVersionNumber)
                 {
                     return;
                 }
 
                 Log.Push("Started to download version:" + latestVersionNumber);
-                FileHelper.DownloadFile(zipFileUrl, ZipFileTempPath, true);
+                FileHelper.DownloadFile(Config.zipFileUrl, Config.ZipFileTempPath, true);
 
-                File.Move(ZipFileTempPath, ZipFilePath);
+                File.Move(Config.ZipFileTempPath, Config.ZipFilePath);
                 Log.Push("Finished to download version:" + latestVersionNumber);
-                File.Delete(ZipFileTempPath);
+                File.Delete(Config.ZipFileTempPath);
             }
             catch (Exception e)
             {
@@ -54,9 +53,9 @@ namespace BOA.OneDesigner.Deployment
 
         static int GetLatestVersionNumber()
         {
-            var targetPath = Path.GetTempPath() + "BOA.OneDesigner.LatestVersion.txt";
+            var targetPath = Path.GetTempPath() + typeof(Updater).Namespace +".txt";
 
-            FileHelper.DownloadFile(versionInfoFileUrl, targetPath, true);
+            FileHelper.DownloadFile(Config.VersionInfoFileUrl, targetPath, true);
 
             return Convert.ToInt32(FileHelper.ReadFile(targetPath));
         }
