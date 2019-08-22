@@ -52,7 +52,6 @@
     <Compile Include="CopyDirectory.cs" />
     <Compile Include="CopyFile.cs" />
     <Compile Include="CopyFiles.cs" />
-    <Compile Include="MSBuild.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnZip.cs" />

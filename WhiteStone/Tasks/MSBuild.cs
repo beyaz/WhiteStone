@@ -4,21 +4,39 @@ using System.IO;
 using System.Text;
 using BOA.Common.Helpers;
 
-namespace WhiteStone.Tasks
+namespace BOA.Tasks
 {
+    /// <summary>
+    ///     The ms build data
+    /// </summary>
     [Serializable]
     public class MSBuildData
     {
         #region Public Properties
+        /// <summary>
+        ///     Gets the build output.
+        /// </summary>
         public string BuildOutput     { get; internal set; }
+        /// <summary>
+        ///     Gets or sets the project file path.
+        /// </summary>
         public string ProjectFilePath { get; set; }
+        /// <summary>
+        ///     Gets the standard error.
+        /// </summary>
         public string StandardError   { get; internal set; }
         #endregion
     }
 
+    /// <summary>
+    ///     The ms build
+    /// </summary>
     public class MSBuild
     {
         #region Public Methods
+        /// <summary>
+        ///     Builds the specified data.
+        /// </summary>
         public static void Build(MSBuildData data)
         {
             var msbuildPath = GetMsBuildExePath();
@@ -60,6 +78,9 @@ namespace WhiteStone.Tasks
             }
         }
 
+        /// <summary>
+        ///     Gets the content of the bat file.
+        /// </summary>
         public static string GetBatFileContent(MSBuildData data)
         {
             var sb = new StringBuilder();
@@ -82,6 +103,9 @@ namespace WhiteStone.Tasks
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Gets the ms build executable path.
+        /// </summary>
         static string GetMsBuildExePath()
         {
             var msbuildPath = $@"{ProgramFilesX86()}\MSBuild\14.0\Bin\MSBuild.exe";
@@ -99,6 +123,9 @@ namespace WhiteStone.Tasks
             throw new InvalidOperationException($"{msbuildPath} is not found.");
         }
 
+        /// <summary>
+        ///     Programs the files X86.
+        /// </summary>
         static string ProgramFilesX86()
         {
             if (8 == IntPtr.Size

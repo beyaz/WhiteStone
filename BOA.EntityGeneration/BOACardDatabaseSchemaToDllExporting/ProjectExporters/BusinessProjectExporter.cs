@@ -1,7 +1,7 @@
 ﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.TfsAccess;
 using Ninject;
-using WhiteStone.Tasks;
+using BOA.Tasks;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {

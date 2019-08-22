@@ -48,9 +48,6 @@
     <Reference Include="CustomUIMarkupLanguage">
       <HintPath>D:\github\WhiteStone\CustomUIMarkupLanguage\bin\Debug\CustomUIMarkupLanguage.dll</HintPath>
     </Reference>
-    <Reference Include="WhiteStone.Tasks">
-      <HintPath>..\bin\WhiteStone.Tasks.exe</HintPath>
-    </Reference>
     <Reference Include="WhiteStone.UI.Container">
       <HintPath>D:\github\WhiteStone\WhiteStone.UI.Container\bin\Debug\WhiteStone.UI.Container.exe</HintPath>
     </Reference>
