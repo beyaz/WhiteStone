@@ -1,7 +1,9 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
 
 namespace WhiteStone.ApplicationStarter
@@ -26,7 +28,9 @@ namespace WhiteStone.ApplicationStarter
 
             if (!File.Exists(Config.ProcessPath))
             {
+                Console.WriteLine("Yükleniyor...");
                 FileHelper.DownloadFile(Config.ZipFileUrl, Config.ZipFileTempPath, true);
+                Console.WriteLine("Yüklendi.");
 
                 File.Move(Config.ZipFileTempPath, Config.ZipFilePath);
 
@@ -35,12 +39,19 @@ namespace WhiteStone.ApplicationStarter
 
             if (args?.Length > 0)
             {
-                Process.Start(Config.ProcessPath, string.Join("|", args));
+                var arguments = string.Join("|", args);
+
+                Console.WriteLine("Starting process with argument:"+arguments);
+                
+                Process.Start(Config.ProcessPath, arguments);
             }
             else
             {
+                Console.WriteLine("Starting process...");
                 Process.Start(Config.ProcessPath);
             }
+
+            Console.WriteLine("Process is started.");
         }
         #endregion
 
@@ -51,12 +62,17 @@ namespace WhiteStone.ApplicationStarter
             {
                 if (Directory.Exists(Config.ExportDir))
                 {
+                    Console.WriteLine("Deleting folder: "+Config.ExportDir);
                     Directory.Delete(Config.ExportDir, true);
+                    Console.WriteLine("Deleted folder: "+Config.ExportDir);
                 }
 
+                Console.WriteLine("Exporting zip file: "+Config.ZipFilePath);
                 ZipFile.ExtractToDirectory(Config.ZipFilePath, Config.ExportDir);
 
+                Console.WriteLine("Deleting zip file: "+Config.ZipFilePath);
                 File.Delete(Config.ZipFilePath);
+                Console.WriteLine("Deleted zip file: "+Config.ZipFilePath);
             }
         }
         #endregion

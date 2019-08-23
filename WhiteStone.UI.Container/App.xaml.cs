@@ -125,7 +125,7 @@ namespace WhiteStone.UI.Container
         #region Methods
         static void MyHandler(object sender, UnhandledExceptionEventArgs args)
         {
-            Log.Push((Exception) args.ExceptionObject);
+            Log.Push((Exception) args?.ExceptionObject);
         }
 
         /// <summary>
