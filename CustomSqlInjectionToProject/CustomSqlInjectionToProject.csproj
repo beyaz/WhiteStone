@@ -109,9 +109,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="WhiteStone.UI.Container.exe.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="WhiteStone.Updater.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
