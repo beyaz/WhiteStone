@@ -23,7 +23,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
             var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).ToList();
 
-            var isSupportGetAll = tableInfo.SchemaName == "PRM";
 
             var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
@@ -33,7 +32,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
             data.UniqueIndexInfoList          = uniqueIndexIdentifiers;
             data.NonUniqueIndexInfoList       = nonUniqueIndexIdentifiers;
-            data.IsSupportGetAll              = isSupportGetAll;
             data.IsSupportSelectByKey         = isSupportSelectByKey;
             data.IsSupportSelectByIndex       = isSupportSelectByIndex;
             data.IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex;

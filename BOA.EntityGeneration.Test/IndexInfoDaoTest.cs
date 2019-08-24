@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         [TestMethod]
         public void Should_evaluates_IndexInformation_by_table_name()
         {
-            var dao = new IndexInfoAccess {Database = new BOACardDatabase()};
+            var dao = new IndexInfoAccess {Database = Kernel.CreateConnection()};
 
             var information = dao.GetIndexInformation("CRD", "CARD_MASTER");
 

@@ -1,5 +1,4 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
@@ -21,9 +20,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         {
             var Tracer = kernel.Get<Tracer>();
 
-            var schemaNames = kernel.Get<BOACardDatabaseSchemaNames>().SchemaNames;
+            var schemaNames = kernel.Get<Config>().SchemaNamesToBeExport;
 
-            Tracer.AllSchemaGenerationProcess.Total   = schemaNames.Length;
+            Tracer.AllSchemaGenerationProcess.Total   = schemaNames.Count;
             Tracer.AllSchemaGenerationProcess.Current = 0;
 
             foreach (var schemaName in schemaNames)

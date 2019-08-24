@@ -1,0 +1,35 @@
+{
+  "ConnectionString": "Server=srvxdev\\zumrut;Database=BOACard;Trusted_Connection=True;",
+
+  "NotExportableTables": [ "MRC.SENDING_REPORT_PARAMS_", "POS.POS_INVENTORY_", "STM.BUCKET_CLOSE_DETAIL" ],
+  "SchemaNamesToBeExport": [
+    "BKM",
+    "BNS",
+    "CCA",
+    "CFG",
+    "CIS",
+    "CLR",
+    "COR",
+    "CRD",
+    "DBT",
+    "DLV",
+    "EMC",
+    "EMV",
+    "ESW",
+    "FRD",
+    "KMT",
+    "LOG",
+    "MRC",
+    "POS",
+    "PPD",
+    "PRM",
+    "RKL",
+    "STM",
+    "SWC",
+    "TMS",
+    "TRN",
+    "VIS",
+    "EMB",
+    "SYSOP"
+  ]
+}

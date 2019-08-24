@@ -17,12 +17,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
         ///     Gets or sets the name of the database enum.
         /// </summary>
         public string DatabaseEnumName { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether this instance is support get all.
-        /// </summary>
-        public bool IsSupportGetAll { get; set; }
-
+        
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is support select by index.
         /// </summary>

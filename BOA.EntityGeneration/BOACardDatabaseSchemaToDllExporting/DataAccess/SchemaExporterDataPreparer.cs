@@ -26,6 +26,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
         [Inject]
         public Tracer Tracer { get; set; }
+
+        
+        [Inject]
+        public Config Config { get; set; }
+        
         #endregion
 
 
@@ -74,25 +79,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         #endregion
 
         #region Methods
-        static bool IsReadyToExport(string schemaName, string tableName)
-        {
-            if ($"{schemaName}.{tableName}" == "MRC.SENDING_REPORT_PARAMS_")
-            {
-                return false;
-            }
+         bool IsReadyToExport(string schemaName, string tableName)
+         {
+             var fullTableName = $"{schemaName}.{tableName}";
 
-            if ($"{schemaName}.{tableName}" == "POS.POS_INVENTORY_")
-            {
-                return false;
-            }
-
-            if ($"{schemaName}.{tableName}" == "STM.BUCKET_CLOSE_DETAIL") // todo aynı indexden iki tane var ?  sormak lazım
-            {
-                return false;
-            }
-
-            return true;
-        }
+             return !Config.NotExportableTables.Contains(fullTableName);
+         }
         #endregion
     }
 }
