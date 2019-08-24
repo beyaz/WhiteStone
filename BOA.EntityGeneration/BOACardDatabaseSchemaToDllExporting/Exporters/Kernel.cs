@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
@@ -10,20 +9,18 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
     public class Kernel : StandardKernel
     {
-        static Config GetConfig()
+        #region Constructors
+        public Kernel()
         {
-            return JsonHelper.Deserialize<Config>(File.ReadAllText("BOA.EntityGeneration.json"));
+            Bind<Config>().ToConstant(GetConfig()).InSingletonScope();
+            Bind<IDatabase>().ToConstant(CreateConnection()).InSingletonScope();
+            Bind<MsBuildQueue>().To<MsBuildQueue>().InSingletonScope();
+            Bind<ScriptModel.Creators.InsertInfoCreator>().To<InsertInfoCreator>();
         }
+        #endregion
 
-         static IDatabase CreateConnection(Config config)
-        {
-            return new SqlDatabase(config.ConnectionString)
-            {
-                CommandTimeout = 1000 * 60 * 60
-            };
-        }
-
-        public static IDatabase CreateConnection()
+        #region Public Methods
+        public IDatabase CreateConnection()
         {
             return new SqlDatabase(GetConfig().ConnectionString)
             {
@@ -31,14 +28,24 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             };
         }
 
-        #region Constructors
-        public Kernel()
+        public virtual string GetConfigFilePath()
         {
+            return "BOA.EntityGeneration.json";
+        }
+        #endregion
 
-            Bind<Config>().ToConstant(GetConfig()).InSingletonScope();
-            Bind<IDatabase>().ToConstant(CreateConnection()).InSingletonScope();
-            Bind<MsBuildQueue>().To<MsBuildQueue>().InSingletonScope();
-            Bind<ScriptModel.Creators.InsertInfoCreator>().To<InsertInfoCreator>();
+        #region Methods
+        static IDatabase CreateConnection(Config config)
+        {
+            return new SqlDatabase(config.ConnectionString)
+            {
+                CommandTimeout = 1000 * 60 * 60
+            };
+        }
+
+        Config GetConfig()
+        {
+            return JsonHelper.Deserialize<Config>(File.ReadAllText(GetConfigFilePath()));
         }
         #endregion
     }

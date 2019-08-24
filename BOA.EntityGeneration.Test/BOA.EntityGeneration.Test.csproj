@@ -72,8 +72,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\BOA.EntityGeneration\BOA.EntityGeneration.json">
-      <Link>BOA.EntityGeneration.json</Link>
+    <None Include="BOA.EntityGeneration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         [TestMethod]
         public void Should_evaluates_IndexInformation_by_table_name()
         {
-            var dao = new IndexInfoAccess {Database = Kernel.CreateConnection()};
+            var dao = new IndexInfoAccess {Database = new TestKernel().CreateConnection()};
 
             var information = dao.GetIndexInformation("CRD", "CARD_MASTER");
 

@@ -2,7 +2,6 @@
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 
@@ -39,14 +38,12 @@ CREATE TABLE DLV.SAMPLE_TABLE
 
 ";
 
-
                 database.ExecuteNonQuery();
-
 
                 var sb = new PaddedStringBuilder();
 
                 var generatorOfBusinessClass = kernel.Get<GeneratorOfBusinessClass>();
-                var tableInfo = kernel.Get<SchemaExporterDataPreparer>().GetTableInfo("DLV","SAMPLE_TABLE");
+                var tableInfo                = kernel.Get<SchemaExporterDataPreparer>().GetTableInfo("DLV", "SAMPLE_TABLE");
 
                 generatorOfBusinessClass.WriteClass(sb, tableInfo);
 
@@ -55,7 +52,6 @@ CREATE TABLE DLV.SAMPLE_TABLE
 //".Trim());
 
                 database.Rollback();
-
             }
         }
 
@@ -68,8 +64,6 @@ CREATE TABLE DLV.SAMPLE_TABLE
             }
         }
 
-       
-
         [TestMethod]
         public void ExportPRM()
         {
@@ -80,8 +74,16 @@ CREATE TABLE DLV.SAMPLE_TABLE
         }
         #endregion
 
-        class TestKernel : Kernel
+        
+    }
+
+    class TestKernel : Kernel
+    {
+        #region Public Methods
+        public override string GetConfigFilePath()
         {
+            return @"D:\github\WhiteStone\BOA.EntityGeneration\BOA.EntityGeneration.json";
         }
+        #endregion
     }
 }

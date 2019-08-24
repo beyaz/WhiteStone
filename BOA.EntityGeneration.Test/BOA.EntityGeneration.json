@@ -1,0 +1,8 @@
+{
+  "ConnectionString": "Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename = D:\\github\\WhiteStone\\BOA.EntityGeneration.Test\\SampleDatabase.mdf; Integrated Security = True",
+
+  "NotExportableTables": [  ],
+  "SchemaNamesToBeExport": [
+    "HAW"
+  ]
+}
