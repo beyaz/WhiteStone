@@ -91,6 +91,31 @@ namespace WhiteStone.Helpers
         /// <summary>
         ///     Transfers the stream.
         /// </summary>
+        public static void TransferStream(this Stream inputStream, Stream outputStream)
+        {
+            if (inputStream == null)
+            {
+                throw new ArgumentNullException(nameof(inputStream));
+            }
+
+            if (outputStream == null)
+            {
+                throw new ArgumentNullException(nameof(outputStream));
+            }
+
+            var array = new byte[2048];
+            int count;
+            do
+            {
+                count = inputStream.Read(array, 0, array.Length);
+
+                outputStream.Write(array, 0, count);
+            } while (count > 0);
+        }
+
+        /// <summary>
+        ///     Transfers the stream.
+        /// </summary>
         public static void TransferStream(this Stream inputStream, Stream outputStream, Action<StreamReadTrace> onRead)
         {
             if (inputStream == null)

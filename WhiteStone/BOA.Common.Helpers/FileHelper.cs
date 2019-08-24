@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading;
 using System.Windows.Threading;
-
+using WhiteStone.Helpers;
 
 namespace BOA.Common.Helpers
 {
@@ -94,15 +95,22 @@ namespace BOA.Common.Helpers
 
             CreateDirectoryIfNotExists(Path.GetDirectoryName(saveFilePath));
 
-            try
+            using (var webClient = new WebClient())
             {
-                new WebClient().DownloadFile(address, saveFilePath);
-            }
-            catch (WebException e)
-            {
-                e.Data.Add(nameof(address), address);
-                e.Data.Add(nameof(saveFilePath), saveFilePath);
-                throw;
+                using (var stream = webClient.OpenRead(address))
+                {
+                    if (stream == null)
+                    {
+                        throw new ArgumentException(nameof(stream));
+                    }
+
+                    stream.ReadTimeout = Timeout.Infinite;
+
+                    using (var fileStream = new FileStream(saveFilePath, FileMode.OpenOrCreate))
+                    {
+                        stream.TransferStream(fileStream);
+                    }
+                }
             }
         }
 
