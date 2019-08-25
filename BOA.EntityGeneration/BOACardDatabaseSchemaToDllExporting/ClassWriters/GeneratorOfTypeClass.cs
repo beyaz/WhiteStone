@@ -10,6 +10,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
     {
         #region Public Properties
         [Inject]
+        public Config Config { get; set; }
+
+        [Inject]
         public ContractBodyDbMembersCreator ContractBodyDbMembersCreator { get; set; }
 
         [Inject]
@@ -17,19 +20,30 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         #endregion
 
         #region Public Methods
-        public static void WriteUsingList(PaddedStringBuilder sb, TableInfo tableInfo)
+        public static void WriteUsingList(PaddedStringBuilder sb, TableInfo tableInfo, Config config)
         {
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
-            sb.AppendLine("using BOA.Common.Types;");
+
+            foreach (var line in config.TypeUsingLines)
+            {
+                sb.AppendLine(line);
+            }
         }
 
         public void WriteClass(PaddedStringBuilder sb, TableInfo tableInfo)
         {
             ContractCommentInfoCreator.Write(sb, tableInfo);
 
+            var inheritancePart = string.Empty;
+
+            if (Config.TypeContractBase != null)
+            {
+                inheritancePart = ": " + Config.TypeContractBase;
+            }
+
             sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public sealed class {tableInfo.TableName.ToContractName()}Contract : CardContractBase");
+            sb.AppendLine($"public sealed class {tableInfo.TableName.ToContractName()}Contract {inheritancePart}");
             sb.AppendLine("{");
             sb.PaddingCount++;
 

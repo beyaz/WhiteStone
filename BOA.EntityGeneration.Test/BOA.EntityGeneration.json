@@ -11,6 +11,10 @@
   "DaoAssemblyNamespaceFormat": "BOA.Business.Kernel.Card.{SchemaName}",
   "SlnDirectoryPath": "D:\\Temp\\",
   "IntegrateWithBOATfs": false,
-  "BuildAfterCodeGenerationIsCompleted": false
+  "BuildAfterCodeGenerationIsCompleted": false,
+  "TypeUsingLines": [
+    "using BOA.Common.Types;"
+  ],
+  "TypeContractBase": "CardContractBase"
 
 }
