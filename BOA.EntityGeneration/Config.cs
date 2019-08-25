@@ -10,6 +10,7 @@ namespace BOA.EntityGeneration
         public IReadOnlyCollection<string> NotExportableTables   { get; set; }
         public IReadOnlyCollection<string> SchemaNamesToBeExport { get; set; }
         public string ConnectionString { get; set; }
+        public string TableCatalog { get; set; }
         #endregion
     }
 }

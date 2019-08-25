@@ -1,6 +1,6 @@
 {
   "ConnectionString": "Server=srvxdev\\zumrut;Database=BOACard;Trusted_Connection=True;",
-
+  "TableCatalog": "BOACard",
   "NotExportableTables": [ "MRC.SENDING_REPORT_PARAMS_", "POS.POS_INVENTORY_", "STM.BUCKET_CLOSE_DETAIL" ],
   "SchemaNamesToBeExport": [
     "BKM",

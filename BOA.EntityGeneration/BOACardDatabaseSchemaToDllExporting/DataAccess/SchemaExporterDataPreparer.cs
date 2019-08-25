@@ -71,7 +71,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
         public TableInfo GetTableInfo(string schemaName, string tableName)
         {
-            var tableInfo = TableInfoDao.GetInfo(TableCatalogName.BOACard, schemaName, tableName);
+            var tableInfo = TableInfoDao.GetInfo(Config.TableCatalog, schemaName, tableName);
 
             var generatorData = GeneratorDataCreator.Create(tableInfo);
             return generatorData;
