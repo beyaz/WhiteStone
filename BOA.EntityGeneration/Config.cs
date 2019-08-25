@@ -11,6 +11,7 @@ namespace BOA.EntityGeneration
         public IReadOnlyCollection<string> SchemaNamesToBeExport { get; set; }
         public string ConnectionString { get; set; }
         public string TableCatalog { get; set; }
+        public string SqlSequenceInformationOfTable { get; set; }
         #endregion
     }
 }

@@ -35,6 +35,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
         [Inject]
         public TypesProjectExporter TypesProjectExporter { get; set; }
+
+        
         #endregion
 
         #region Public Methods
