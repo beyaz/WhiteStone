@@ -15,6 +15,13 @@
   "TypeUsingLines": [
     "using BOA.Common.Types;"
   ],
+  "DaoUsingLines": [
+    "using BOA.Base;",
+    "using BOA.Base.Data;",
+    "using BOA.Common.Types;",
+    "using BOA.Types.Kernel.Card.{SchemaName};",
+    "using BOA.Types.Kernel.Card.EntityConditions;"
+  ],
   "TypeContractBase": "CardContractBase",
 
 

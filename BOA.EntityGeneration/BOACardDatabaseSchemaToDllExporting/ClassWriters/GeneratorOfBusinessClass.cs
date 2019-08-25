@@ -28,6 +28,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         [Inject]
         public NamingHelper NamingHelper { get; set; }
+
+        [Inject]
+        public Config Config { get; set; }
+
         #endregion
 
         #region Public Methods
@@ -308,11 +312,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         public void WriteUsingList(PaddedStringBuilder sb, TableInfo tableInfo)
         {
-            sb.AppendLine("using BOA.Base;");
-            sb.AppendLine("using BOA.Base.Data;");
-            sb.AppendLine("using BOA.Common.Types;");
-            sb.AppendLine($"using {NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName)};");
-            sb.AppendLine("using BOA.Types.Kernel.Card.EntityConditions;");
+            foreach (var line in Config.DaoUsingLines)
+            {
+                sb.AppendLine(line.Replace("{SchemaName}",tableInfo.SchemaName));    
+            }
+
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using System.Data;");
