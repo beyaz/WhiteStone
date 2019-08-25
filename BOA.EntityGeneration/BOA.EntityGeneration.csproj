@@ -123,5 +123,10 @@
       <Name>BOA.TfsAccess</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="EmbeddedUtilizationClassForDao.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -299,12 +299,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine();
             GetDbColumnInfo(sb, tableInfo, typeContractName);
             sb.AppendLine();
-            SelectByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectAllInfo.Sql);
+            SelectByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectAllInfo.Sql,tableInfo.DatabaseEnumName);
 
             sb.AppendLine();
             var selectTopNRecordsSql = new PaddedStringBuilder();
             SelectAllInfoCreator.WriteSql(tableInfo, selectTopNRecordsSql, ParameterIdentifier + TopCountParameterName);
-            SelectTopNByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectTopNRecordsSql.ToString());
+            SelectTopNByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectTopNRecordsSql.ToString(),tableInfo.DatabaseEnumName);
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -426,7 +426,7 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
             sb.AppendLine("}");
         }
 
-        static void SelectByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql)
+        static void SelectByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql,string databaseEnumName)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Selects records by given  <paramref name=\"whereConditions\"/>.");
@@ -470,7 +470,7 @@ for (var i = 1; i < whereLines.Count; i++)
     sql.AppendLine(Util.AndSymbol + whereLines[i]);
 }
 
-var command = DBLayer.GetDBCommand(Databases.BOACard, sql.ToString(), null, CommandType.Text);
+var command = DBLayer.GetDBCommand(Databases." + databaseEnumName + @", sql.ToString(), null, CommandType.Text);
 
 foreach (var parameter in parameters)
 {
@@ -486,7 +486,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
-        static void SelectTopNByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql)
+        static void SelectTopNByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql,string databaseEnumName)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Selects top resultCount records by given  <paramref name=\"whereConditions\"/>.");
@@ -538,7 +538,7 @@ for (var i = 1; i < whereLines.Count; i++)
     sql.AppendLine(Util.AndSymbol + whereLines[i]);
 }
 
-var command = DBLayer.GetDBCommand(Databases.BOACard, sql.ToString(), null, CommandType.Text);
+var command = DBLayer.GetDBCommand(Databases." + databaseEnumName + @", sql.ToString(), null, CommandType.Text);
 
 foreach (var parameter in parameters)
 {
