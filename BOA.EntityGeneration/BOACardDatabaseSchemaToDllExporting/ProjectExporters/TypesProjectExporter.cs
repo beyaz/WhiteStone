@@ -21,11 +21,23 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         public NamingHelper NamingHelper { get; set; }
 
         [Inject]
+        public Config Config { get; set; }
+
+
+        [Inject]
         public ProjectExportLocation ProjectExportLocation { get; set; }
 
         [Inject]
         public Tracer Tracer { get; set; }
         #endregion
+
+
+        public void ExportAllInOneFile(string schemaName, string allInOneSourceCode)
+        {
+            var allInOneFilePath =Config.FilePathForAllEntitiesInOneFile.Replace("{SchemaName}", schemaName);
+
+            FileSystem.WriteAllText(allInOneFilePath, allInOneSourceCode);
+        }
 
         #region Public Methods
         public void Export(string schemaName, string allInOneSourceCode)
@@ -38,8 +50,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
             var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
 
             const string allInOneFileName = "All";
-
-            FileSystem.WriteAllText($"{projectDirectory}{allInOneFileName}.cs", allInOneSourceCode);
 
             var content = $@"
 

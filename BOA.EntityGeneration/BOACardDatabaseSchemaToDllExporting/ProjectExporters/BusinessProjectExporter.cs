@@ -1,12 +1,15 @@
 ﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using Ninject;
 using BOA.Tasks;
+using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
     public class BusinessProjectExporter
     {
         #region Public Properties
+        [Inject]
+        public Config Config { get; set; }
+
         [Inject]
         public FileSystem FileSystem { get; set; }
 
@@ -34,8 +37,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
             var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
 
             const string allInOneFileName = "All";
-
-            FileSystem.WriteAllText($"{projectDirectory}{allInOneFileName}.cs", allInOneSourceCode);
 
             var content = $@"
 
@@ -132,6 +133,13 @@ using System.Runtime.InteropServices;
                 ProjectFilePath = csprojFilePath
             });
             Tracer.SchemaGenerationProcess.Text = "Compile finished.";
+        }
+
+        public void ExportAllInOneFile(string schemaName, string allInOneSourceCode)
+        {
+            var allInOneFilePath = Config.FilePathForAllDaoInOneFile.Replace("{SchemaName}", schemaName);
+
+            FileSystem.WriteAllText(allInOneFilePath, allInOneSourceCode);
         }
         #endregion
     }

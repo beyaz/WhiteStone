@@ -16,10 +16,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         [Inject]
         public AllTypeClassesInOne AllTypeClassesInOne { get; set; }
 
-      
-
         [Inject]
         public BusinessProjectExporter BusinessProjectExporter { get; set; }
+
+        [Inject]
+        public Config Config { get; set; }
 
         [Inject]
         public SchemaExporterDataPreparer DataPreparer { get; set; }
@@ -35,8 +36,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
         [Inject]
         public TypesProjectExporter TypesProjectExporter { get; set; }
-
-        
         #endregion
 
         #region Public Methods
@@ -48,7 +47,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
             Tracer.Trace($"*** Started to export business classes {schemaName} ***");
             ExportBusinessDll(schemaName);
-
         }
         #endregion
 
@@ -57,16 +55,24 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         {
             var code = AllBusinessClassesInOne.GetCode(schemaName);
 
-            BusinessProjectExporter.Export(schemaName, code);
-        }
+            BusinessProjectExporter.ExportAllInOneFile(schemaName, code);
 
-        
+            if (Config.EnableFullProjectExport)
+            {
+                BusinessProjectExporter.Export(schemaName, code);
+            }
+        }
 
         void ExportTypeDll(string schemaName)
         {
             var code = AllTypeClassesInOne.GetCode(schemaName);
 
-            TypesProjectExporter.Export(schemaName, code);
+            TypesProjectExporter.ExportAllInOneFile(schemaName, code);
+
+            if (Config.EnableFullProjectExport)
+            {
+                TypesProjectExporter.Export(schemaName, code);
+            }
         }
         #endregion
     }

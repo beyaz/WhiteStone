@@ -21,6 +21,10 @@ namespace BOA.EntityGeneration
 
         public string                      TypeContractBase { get; set; }
         public IReadOnlyCollection<string> TypeUsingLines   { get; set; }
+        public string FilePathForAllEntitiesInOneFile { get; set; }
+        public bool EnableFullProjectExport { get; set; }
+        public string FilePathForAllDaoInOneFile { get; set; }
+        
         #endregion
     }
 }

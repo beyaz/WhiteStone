@@ -15,6 +15,11 @@
   "TypeUsingLines": [
     "using BOA.Common.Types;"
   ],
-  "TypeContractBase": "CardContractBase"
+  "TypeContractBase": "CardContractBase",
+
+
+  "FilePathForAllEntitiesInOneFile": "D:\\temp\\{SchemaName}\\BOA.Types.Kernel.Card.{SchemaName}\\All.cs",
+  "FilePathForAllDaoInOneFile": "D:\\temp\\{SchemaName}\\BOA.Business.Kernel.Card.{SchemaName}\\All.cs",
+  "EnableFullProjectExport": false
 
 }
