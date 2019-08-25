@@ -61,7 +61,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
     {
         public static IReadOnlyList<SequenceInfo> GetSequenceListOfTable(this IDatabase Database, string schema, string tableName)
         {
-            Database.CommandText = $"select  DISTINCT(columnname) AS TargetColumnName , (schemaname +'.' + sequencename) AS Name from BOACard.dbo.tablesequences WHERE schemaname = '{schema}' AND tablename = '{tableName}'";
+            Database.CommandText = "select  DISTINCT(columnname) AS TargetColumnName , (schemaname +'.' + sequencename) AS Name from BOACard.dbo.tablesequences WHERE schemaname = @schema AND tablename = @tableName";
+            Database[nameof(schema)] = schema;
+            Database[nameof(tableName)] = tableName;
 
             return Database.ExecuteReader().ToList<SequenceInfo>();
         }
