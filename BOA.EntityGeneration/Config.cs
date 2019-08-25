@@ -12,6 +12,10 @@ namespace BOA.EntityGeneration
         public string ConnectionString { get; set; }
         public string TableCatalog { get; set; }
         public string SqlSequenceInformationOfTable { get; set; }
+        public string EntityAssemblyNamespaceFormat { get; set; }
+        public string DaoAssemblyNamespaceFormat { get; set; }
+        public string SlnDirectoryPath { get; set; }
+        public bool IntegrateWithBOATfs { get; set; }
         #endregion
     }
 }

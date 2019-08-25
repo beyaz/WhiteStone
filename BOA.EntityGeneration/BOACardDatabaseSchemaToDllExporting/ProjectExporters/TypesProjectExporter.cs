@@ -1,7 +1,7 @@
 ﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.Tasks;
 using BOA.TfsAccess;
 using Ninject;
-using BOA.Tasks;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
@@ -10,6 +10,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #region Public Properties
         [Inject]
         public FileAccess FileAccess { get; set; }
+
+        [Inject]
+        public FileSystem FileSystem { get; set; }
 
         [Inject]
         public MsBuildQueue MsBuildQueue { get; set; }
@@ -36,7 +39,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
             const string allInOneFileName = "All";
 
-            FileAccess.WriteAllText($"{projectDirectory}{allInOneFileName}.cs", allInOneSourceCode);
+            FileSystem.WriteAllText($"{projectDirectory}{allInOneFileName}.cs", allInOneSourceCode);
 
             var content = $@"
 
@@ -99,7 +102,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
 ";
 
-            FileAccess.WriteAllText(csprojFilePath, content.Trim());
+            FileSystem.WriteAllText(csprojFilePath, content.Trim());
 
             var assemblyInfoContent = $@"
 using System.Reflection;
@@ -118,7 +121,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion(""1.0.0.0"")]
 ";
 
-            FileAccess.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
+            FileSystem.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
 
             MsBuildQueue.Push(new MSBuildData {ProjectFilePath = csprojFilePath});
         }

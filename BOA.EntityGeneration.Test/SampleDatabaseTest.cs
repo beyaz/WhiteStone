@@ -43,7 +43,7 @@ IF EXISTS (SELECT TOP 1 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[ERP].[
 
 CREATE TABLE ERP.Person 
 (
-    PersonId INT identity not null,
+    PersonId INT not null  identity(1,1)  primary key,
     Name varchar(64)
 )
 ";

@@ -5,6 +5,10 @@
   "SchemaNamesToBeExport": [
     "ERP"
   ],
-  "SqlSequenceInformationOfTable": null
+  "SqlSequenceInformationOfTable": null,
+  "EntityAssemblyNamespaceFormat": "BOA.Types.Kernel.Card.{SchemaName}",
+  "DaoAssemblyNamespaceFormat": "BOA.Business.Kernel.Card.{SchemaName}",
+  "SlnDirectoryPath": "D:\\Temp\\",
+  "IntegrateWithBOATfs": false
 
 }

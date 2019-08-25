@@ -49,7 +49,7 @@ namespace BOA.TfsAccess
             return result;
         }
 
-        static void WriteToFileSystem(string path, string content, FileAccessWriteResult result)
+        public static void WriteToFileSystem(string path, string content, FileAccessWriteResult result)
         {
             try
             {
