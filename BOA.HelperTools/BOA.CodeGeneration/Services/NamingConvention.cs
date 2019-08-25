@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
-using TableInfo = BOA.EntityGeneration.DbModel.TableInfo;
 
 namespace BOA.CodeGeneration.Services
 {
@@ -94,8 +94,7 @@ namespace BOA.CodeGeneration.Services
                     Database = database,
                     IndexInfoAccess = new IndexInfoAccess
                     {
-                        Database = database,
-                        
+                        Database = database
                     }
                 };
 
@@ -106,9 +105,7 @@ namespace BOA.CodeGeneration.Services
                     var columnNames = tableConfig.ExcludeColumns.Split(',');
 
                     tableInfo.Columns = tableInfo.Columns.Where(x => !columnNames.Contains(x.ColumnName)).ToList();
-
                 }
-                
 
                 return tableInfo;
             }

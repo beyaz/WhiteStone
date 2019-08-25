@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using Ninject;
 using BOA.Tasks;
+using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
@@ -13,12 +13,20 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
         #region Public Properties
         [Inject]
+        public Config Config { get; set; }
+
+        [Inject]
         public Tracer Tracer { get; set; }
         #endregion
 
         #region Public Methods
         public void Build()
         {
+            if (!Config.BuildAfterCodeGenerationIsCompleted)
+            {
+                return;
+            }
+
             foreach (var data in Queue)
             {
                 Tracer.SchemaGenerationProcess.Text = "Compile started." + data.ProjectFilePath;

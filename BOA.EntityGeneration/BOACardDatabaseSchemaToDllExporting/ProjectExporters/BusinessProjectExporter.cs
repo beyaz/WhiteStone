@@ -1,5 +1,4 @@
 ﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.TfsAccess;
 using Ninject;
 using BOA.Tasks;
 

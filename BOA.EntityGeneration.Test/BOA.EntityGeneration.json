@@ -1,6 +1,7 @@
 {
   "ConnectionString": "Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename = D:\\github\\WhiteStone\\BOA.EntityGeneration.Test\\SampleDatabase.mdf; Integrated Security = True",
   "TableCatalog": "D:\\GITHUB\\WHITESTONE\\BOA.ENTITYGENERATION.TEST\\SAMPLEDATABASE.MDF",
+  "DatabaseEnumName": "SampleDatabase",
   "NotExportableTables": [],
   "SchemaNamesToBeExport": [
     "ERP"
@@ -9,6 +10,7 @@
   "EntityAssemblyNamespaceFormat": "BOA.Types.Kernel.Card.{SchemaName}",
   "DaoAssemblyNamespaceFormat": "BOA.Business.Kernel.Card.{SchemaName}",
   "SlnDirectoryPath": "D:\\Temp\\",
-  "IntegrateWithBOATfs": false
+  "IntegrateWithBOATfs": false,
+  "BuildAfterCodeGenerationIsCompleted": false
 
 }

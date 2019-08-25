@@ -16,6 +16,8 @@ namespace BOA.EntityGeneration
         public string DaoAssemblyNamespaceFormat { get; set; }
         public string SlnDirectoryPath { get; set; }
         public bool IntegrateWithBOATfs { get; set; }
+        public string DatabaseEnumName { get; set; }
+        public bool BuildAfterCodeGenerationIsCompleted { get; set; }
         #endregion
     }
 }

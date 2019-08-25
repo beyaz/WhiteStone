@@ -12,13 +12,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
     {
         #region Public Properties
         [Inject]
+        public Config Config { get; set; }
+
+        [Inject]
         public IDatabase Database { get; set; }
 
         [Inject]
         public TableOverride TableOverride { get; set; }
-
-        [Inject]
-        public Config Config { get; set; }
         #endregion
 
         #region Public Methods
@@ -27,7 +27,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 
             var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).ToList();
-
 
             var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
@@ -40,7 +39,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             data.IsSupportSelectByKey         = isSupportSelectByKey;
             data.IsSupportSelectByIndex       = isSupportSelectByIndex;
             data.IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex;
-            data.DatabaseEnumName             = tableInfo.CatalogName;
+            data.DatabaseEnumName             = Config.DatabaseEnumName;
 
             if (Config.SqlSequenceInformationOfTable == null)
             {
@@ -48,15 +47,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             }
             else
             {
-                Database.CommandText = Config.SqlSequenceInformationOfTable;
+                Database.CommandText  = Config.SqlSequenceInformationOfTable;
                 Database["schema"]    = tableInfo.SchemaName;
                 Database["tableName"] = tableInfo.TableName;
 
-                data.SequenceList = Database.ExecuteReader().ToList<SequenceInfo>().Where(x => tableInfo.Columns.Any(c => c.ColumnName == x.TargetColumnName)).ToList();    
- 
+                data.SequenceList = Database.ExecuteReader().ToList<SequenceInfo>().Where(x => tableInfo.Columns.Any(c => c.ColumnName == x.TargetColumnName)).ToList();
             }
-
-            
 
             TableOverride.Override(data);
 
