@@ -1,7 +1,6 @@
 {
   "$type": "System.Object[], mscorlib",
-  "$values":
-  [
+  "$values": [
     {
       "$type": "WhiteStone.Tasks.ZipExistingFilesData, WhiteStone.Tasks",
       "OutputFilePath": "D:\\github\\WhiteStone\\BOA.OneDesigner\\dist\\BOA.OneDesigner.zip",
@@ -51,5 +50,6 @@
         "D:\\github\\WhiteStone\\BOA.OneDesigner\\bin\\Debug\\System.IdentityModel.Tokens.Jwt.dll"
       ]
     }
+    
   ]
 }

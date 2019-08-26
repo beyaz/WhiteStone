@@ -32,8 +32,6 @@ namespace WhiteStone.Tasks
 
                 foreach (var data in taskParameters)
                 {
-                    
-
                     var parameterClass = data.GetType();
 
                     Console.WriteLine($"Searching task for :{parameterClass}");
