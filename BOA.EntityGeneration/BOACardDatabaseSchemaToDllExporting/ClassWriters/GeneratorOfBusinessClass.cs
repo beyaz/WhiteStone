@@ -443,7 +443,7 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.Select\");");
+            sb.AppendLine($"InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.Select\");");
 
             sb.AppendAll(@"
 
@@ -503,7 +503,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"var returnObject = InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.SelectTop\");");
+            sb.AppendLine($"InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.SelectTop\");");
 
             sb.AppendAll(@"
 

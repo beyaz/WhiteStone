@@ -421,8 +421,8 @@ static class Util
                     var isLast = i == inParameters.Count - 1;
                     if (!isLast)
                     {
-                        const string seperator = ",";
-                        sb.Append(seperator);
+                        const string separator = ",";
+                        sb.Append(separator);
                     }
 
                     parameters.Add(new DbParameterInfo
