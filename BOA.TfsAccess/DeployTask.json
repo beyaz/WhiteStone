@@ -5,13 +5,8 @@
       "$type": "WhiteStone.Tasks.ZipExistingFilesData, WhiteStone.Tasks",
       "OutputFilePath": "D:\\github\\WhiteStone\\bin\\BOA.TfsAccess.zip",
       "InputFilePaths": [
-        "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\WhiteStone.dll",
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\BOA.TfsAccess.dll",
-        "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Newtonsoft.Json.dll",
-        "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Mono.Cecil.dll",
-        "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Mono.Cecil.Mdb.dll",
-        "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Mono.Cecil.Pdb.dll",
-        "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Mono.Cecil.Rocks.dll",
+
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Microsoft.TeamFoundation.Core.WebApi.dll",
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Microsoft.TeamFoundation.Work.WebApi.dll",
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.WebApi.dll",
@@ -31,7 +26,6 @@
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Microsoft.VisualStudio.Services.Client.dll",
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Microsoft.ServiceBus.dll",
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\System.Net.Http.Formatting.dll",
-        "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Microsoft.SqlServer.TransactSql.ScriptDom.dll",
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\System.IdentityModel.Tokens.Jwt.dll"
       ]
     }

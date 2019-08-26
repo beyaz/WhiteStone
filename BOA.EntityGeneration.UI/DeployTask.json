@@ -9,6 +9,9 @@
         "D:\\github\\WhiteStone\\WhiteStone.Updater\\bin\\Debug\\WhiteStone.Updater.exe",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\WhiteStone.Updater.exe.config",
 
+        "D:\\github\\WhiteStone\\BOA.EntityGeneration\\BOA.EntityGeneration.json",
+        "D:\\github\\WhiteStone\\BOA.EntityGeneration\\EmbeddedUtilizationClassForDao.txt",
+
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\BOA.EntityGeneration.UI.dll",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\BOA.EntityGeneration.dll",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\BOA.TfsAccess.dll",
@@ -23,6 +26,7 @@
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\Newtonsoft.Json.dll",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\Ninject.dll",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\Notifications.Wpf.dll",
+
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\Microsoft.TeamFoundation.Core.WebApi.dll",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\Microsoft.TeamFoundation.Work.WebApi.dll",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.WebApi.dll",
