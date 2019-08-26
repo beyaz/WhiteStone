@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
         public virtual string GetConfigFilePath()
         {
-            return "BOA.EntityGeneration.json";
+            return Path.GetDirectoryName(typeof(Kernel).Assembly.Location) + Path.DirectorySeparatorChar+"BOA.EntityGeneration.json";
         }
         #endregion
 

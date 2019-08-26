@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
@@ -40,7 +42,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         #region Methods
         static void UtilClass(PaddedStringBuilder sb, Config config)
         {
-            var code = FileHelper.ReadFile("EmbeddedUtilizationClassForDao.txt");
+
+            var path = Path.GetDirectoryName(typeof(AllBusinessClassesInOne).Assembly.Location) + Path.DirectorySeparatorChar + "EmbeddedUtilizationClassForDao.txt";
+
+            var code = FileHelper.ReadFile(path);
 
             code = code.Replace("{DatabaseEnumName}", config.DatabaseEnumName);
             sb.AppendAll(code.Trim());
