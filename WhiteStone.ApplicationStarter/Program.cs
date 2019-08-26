@@ -15,7 +15,7 @@ namespace WhiteStone.ApplicationStarter
         public static string ProcessPath     => ConfigurationManager.AppSettings[nameof(ProcessPath)];
         public static string ZipFilePath     => ConfigurationManager.AppSettings[nameof(ZipFilePath)];
         public static string ZipFileTempPath => ZipFilePath + ".tmp";
-        public static string ZipFileTfsUrl   => ConfigurationManager.AppSettings[nameof(ZipFileTfsUrl)];
+        public static string ZipFileUrl   => ConfigurationManager.AppSettings[nameof(ZipFileUrl)];
         #endregion
     }
 
@@ -68,7 +68,7 @@ namespace WhiteStone.ApplicationStarter
         #region Methods
         static void DownloadFile()
         {
-            TFSAccessForBOA.DownloadFile(Config.ZipFileTfsUrl, Config.ZipFileTempPath);
+            TFSAccessForBOA.DownloadFile(Config.ZipFileUrl, Config.ZipFileTempPath);
         }
 
         static void TryToExtractZipFile()

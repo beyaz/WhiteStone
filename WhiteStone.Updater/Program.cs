@@ -53,7 +53,7 @@ namespace WhiteStone.Updater
     {
         #region Public Properties
         public static int    CurrentVersionNumber => Convert.ToInt32(ConfigurationManager.AppSettings[nameof(CurrentVersionNumber)]);
-        public static string VersionInfoFileUrl   => ConfigurationManager.AppSettings[nameof(VersionInfoFileUrl)];
+        public static string VersionInfoFileUrl => ZipFilePath.RemoveFromEnd(".zip") + ".txt";
         public static string ZipFilePath          => ConfigurationManager.AppSettings[nameof(ZipFilePath)];
         public static string ZipFileTempPath      => ZipFilePath + ".tmp";
         public static string ZipFileUrl           => ConfigurationManager.AppSettings[nameof(ZipFileUrl)];
