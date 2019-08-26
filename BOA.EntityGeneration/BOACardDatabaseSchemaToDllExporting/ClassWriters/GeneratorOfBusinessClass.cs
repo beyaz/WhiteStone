@@ -79,7 +79,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine();
                 sb.AppendLine("\";");
                 sb.AppendLine();
-                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+                sb.AppendLine("var command = this.CreateCommand(sql);");
 
                 if (deleteInfo.SqlParameters.Any())
                 {
@@ -147,7 +147,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine();
                 sb.AppendLine("\";");
                 sb.AppendLine();
-                sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+                sb.AppendLine("var command = this.CreateCommand(sql);");
 
                 if (selectByPrimaryKeyInfo.SqlParameters.Any())
                 {
@@ -190,7 +190,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                     sb.AppendLine();
                     sb.AppendLine("\";");
                     sb.AppendLine();
-                    sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+                    sb.AppendLine("var command = this.CreateCommand(sql);");
 
                     if (indexInfo.SqlParameters.Any())
                     {
@@ -234,7 +234,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                     sb.AppendLine();
                     sb.AppendLine("\";");
                     sb.AppendLine();
-                    sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+                    sb.AppendLine("var command = this.CreateCommand(sql);");
 
                     if (indexInfo.SqlParameters.Any())
                     {
@@ -307,12 +307,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine();
             GetDbColumnInfo(sb, tableInfo, typeContractName);
             sb.AppendLine();
-            SelectByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectAllInfo.Sql,tableInfo.DatabaseEnumName);
+            SelectByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectAllInfo.Sql);
 
             sb.AppendLine();
             var selectTopNRecordsSql = new PaddedStringBuilder();
             SelectAllInfoCreator.WriteSql(tableInfo, selectTopNRecordsSql, ParameterIdentifier + TopCountParameterName);
-            SelectTopNByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectTopNRecordsSql.ToString(),tableInfo.DatabaseEnumName);
+            SelectTopNByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectTopNRecordsSql.ToString());
 
             sb.PaddingCount--;
             sb.AppendLine("}");
@@ -384,7 +384,7 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
             sb.AppendLine();
             sb.AppendLine("\";");
             sb.AppendLine();
-            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+            sb.AppendLine("var command = this.CreateCommand(sql);");
 
             if (selectAllInfo.SqlParameters.Any())
             {
@@ -416,7 +416,7 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
             sb.AppendLine();
             sb.AppendLine("\";");
             sb.AppendLine();
-            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+            sb.AppendLine("var command = this.CreateCommand(sql);");
 
             if (selectAllInfo.SqlParameters.Any())
             {
@@ -434,7 +434,7 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
             sb.AppendLine("}");
         }
 
-        static void SelectByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql,string databaseEnumName)
+        static void SelectByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Selects records by given  <paramref name=\"whereConditions\"/>.");
@@ -478,7 +478,7 @@ for (var i = 1; i < whereLines.Count; i++)
     sql.AppendLine(Util.AndSymbol + whereLines[i]);
 }
 
-var command = DBLayer.GetDBCommand(Databases." + databaseEnumName + @", sql.ToString(), null, CommandType.Text);
+var command = this.CreateCommand(sql.ToString());
 
 foreach (var parameter in parameters)
 {
@@ -494,7 +494,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
-        static void SelectTopNByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql,string databaseEnumName)
+        static void SelectTopNByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Selects top resultCount records by given  <paramref name=\"whereConditions\"/>.");
@@ -546,7 +546,7 @@ for (var i = 1; i < whereLines.Count; i++)
     sql.AppendLine(Util.AndSymbol + whereLines[i]);
 }
 
-var command = DBLayer.GetDBCommand(Databases." + databaseEnumName + @", sql.ToString(), null, CommandType.Text);
+var command = this.CreateCommand(sql.ToString());
 
 foreach (var parameter in parameters)
 {
@@ -584,7 +584,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine();
             sb.AppendLine("\";");
             sb.AppendLine();
-            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+            sb.AppendLine("var command = this.CreateCommand(sql);");
 
             if (updateInfo.SqlParameters.Any())
             {
@@ -695,7 +695,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("sql.Remove(sql.Length - 4, 4);");
 
             sb.AppendLine();
-            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql.ToString(), null, CommandType.Text);");
+            sb.AppendLine("var command = this.CreateCommand(sql.ToString());");
 
             if (updateInfo.SqlParameters.Any())
             {
@@ -804,7 +804,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
                 sb.AppendLine();
                 sb.AppendLine($"const string sqlNextSequence = @\"SELECT NEXT VALUE FOR {sequenceInfo.Name}\";");
                 sb.AppendLine();
-                sb.AppendLine($"var commandNextSequence = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sqlNextSequence, null, CommandType.Text);");
+                sb.AppendLine("var commandNextSequence = this.CreateCommand(sqlNextSequence);");
                 sb.AppendLine();
                 sb.AppendLine("var responseSequence = DBLayer.ExecuteScalar<object>(commandNextSequence);");
                 sb.AppendLine("if (!responseSequence.Success)");
@@ -842,7 +842,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
 
             sb.AppendLine("\";");
             sb.AppendLine();
-            sb.AppendLine($"var command = DBLayer.GetDBCommand(Databases.{tableInfo.DatabaseEnumName}, sql, null, CommandType.Text);");
+            sb.AppendLine("var command = this.CreateCommand(sql);");
 
             if (insertInfo.SqlParameters.Any())
             {

@@ -23,6 +23,15 @@ static class Util
     #endregion
 
     #region Public Methods
+	
+	///<summary>
+    ///     Creates the command.
+    /// </summary>
+    public static SqlCommand CreateCommand(this ObjectHelper objectHelper, string sql)
+    {
+        return objectHelper.DBLayer.GetDBCommand(Databases.{DatabaseEnumName}, sql, null, CommandType.Text);
+    }
+
     /// <summary>
     ///     Contract parameter cannot be null.
     /// </summary>
