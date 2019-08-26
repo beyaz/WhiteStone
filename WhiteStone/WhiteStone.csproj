@@ -61,6 +61,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -79,6 +80,7 @@
     <Compile Include="BOA.Common.Helpers\DateTimeExtensions.cs" />
     <Compile Include="BOA.Common.Helpers\EmbeddedAssembly.cs" />
     <Compile Include="BOA.Common.Helpers\EmbeddedResourceHelper.cs" />
+    <Compile Include="BOA.Common.Helpers\EmbeddedZippedAssemblyResolver.cs" />
     <Compile Include="BOA.Common.Helpers\ExceptionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\FileHelper.cs" />
     <Compile Include="BOA.Common.Helpers\JsonHelper.cs" />

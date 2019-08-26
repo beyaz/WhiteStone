@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 
 namespace WhiteStone.Updater
@@ -12,7 +13,7 @@ namespace WhiteStone.Updater
         {
             var targetPath = Path.GetTempPath() + Path.GetFileNameWithoutExtension(Config.ZipFilePath) + ".txt";
 
-            FileHelper.DownloadFile(Config.VersionInfoFileUrl, targetPath, true);
+            TFSAccessForBOA.DownloadFile(Config.VersionInfoFileUrl, targetPath);
 
             return Convert.ToInt32(FileHelper.ReadFile(targetPath));
         }
@@ -27,13 +28,14 @@ namespace WhiteStone.Updater
             try
             {
                 var latestVersionNumber = GetLatestVersionNumber();
+
                 if (latestVersionNumber <= Config.CurrentVersionNumber)
                 {
                     return;
                 }
 
                 Log.Push("Started to download version:" + latestVersionNumber);
-                FileHelper.DownloadFile(Config.ZipFileUrl, Config.ZipFileTempPath, true);
+                TFSAccessForBOA.DownloadFile(Config.ZipFileUrl, Config.ZipFileTempPath);
 
                 File.Move(Config.ZipFileTempPath, Config.ZipFilePath);
                 Log.Push("Finished to download version:" + latestVersionNumber);

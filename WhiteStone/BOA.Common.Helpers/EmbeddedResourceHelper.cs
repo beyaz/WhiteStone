@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Resources;
 using WhiteStone.Helpers;
@@ -29,7 +30,26 @@ namespace BOA.Common.Helpers
 
                 var targetFilePath = $"{outDirectory}{Path.DirectorySeparatorChar}{resourceName}";
 
-                File.Delete(targetFilePath);
+                if (File.Exists(targetFilePath))
+                {
+                    File.Delete(targetFilePath);    
+                }
+
+                var targetDirectory = Path.GetDirectoryName(targetFilePath);
+                if (targetDirectory == null)
+                {
+                    throw new ArgumentNullException(nameof(targetDirectory));
+                }
+
+                if (File.Exists(targetDirectory))
+                {
+                    File.Delete(targetDirectory);
+                }
+
+                if (!Directory.Exists(targetDirectory))
+                {
+                    Directory.CreateDirectory(targetDirectory);
+                }
 
                 using (var fs = new FileStream(targetFilePath, FileMode.OpenOrCreate))
                 {

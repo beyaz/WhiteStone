@@ -150,6 +150,22 @@ namespace BOA.CodeGeneration.Util
                 {
                     throw new InvalidOperationException(path);
                 }
+
+                if (File.Exists(destinationPath))
+                {
+                    File.Delete(destinationPath);
+                }
+
+                var directoryName = Path.GetDirectoryName(destinationPath);
+                if (directoryName == null)
+                {
+                    throw new ArgumentNullException(nameof(directoryName));
+                }
+
+                if (!Directory.Exists(directoryName))
+                {
+                    Directory.CreateDirectory(directoryName);
+                }
                 
                 using (var fs = new FileStream(destinationPath, FileMode.OpenOrCreate))
                 {

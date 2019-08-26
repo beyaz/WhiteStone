@@ -235,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DeployTask.json" />
+    <None Include="dist\BOA.TfsAccess.zip" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

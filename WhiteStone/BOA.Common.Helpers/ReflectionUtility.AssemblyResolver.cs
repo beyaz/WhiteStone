@@ -28,17 +28,17 @@ namespace BOA.Common.Helpers
 
         class AssemblyResolver
         {
-            readonly string _binDirectory;
+            public string BinDirectory { get; }
 
             internal AssemblyResolver(string binDirectory)
             {
-                _binDirectory = binDirectory;
+                BinDirectory = binDirectory;
             }
 
 
-            internal Assembly Resolve(object sender, ResolveEventArgs args)
+            public Assembly Resolve(object sender, ResolveEventArgs args)
             {
-                var assemblyPath = Path.Combine(_binDirectory, new AssemblyName(args.Name).Name + ".dll");
+                var assemblyPath = Path.Combine(BinDirectory, new AssemblyName(args.Name).Name + ".dll");
                 if (!File.Exists(assemblyPath))
                 {
                     return null;

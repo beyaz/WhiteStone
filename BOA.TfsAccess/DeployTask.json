@@ -3,9 +3,10 @@
   "$values": [
     {
       "$type": "WhiteStone.Tasks.ZipExistingFilesData, WhiteStone.Tasks",
-      "OutputFilePath": "D:\\github\\WhiteStone\\bin\\BOA.TfsAccess.zip",
+      "OutputFilePath": "D:\\github\\WhiteStone\\BOA.TfsAccess\\dist\\BOA.TfsAccess.zip",
       "InputFilePaths": [
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\BOA.TfsAccess.dll",
+        "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\WhiteStone.dll",
 
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Microsoft.TeamFoundation.Core.WebApi.dll",
         "D:\\github\\WhiteStone\\BOA.TfsAccess\\bin\\Debug\\Microsoft.TeamFoundation.Work.WebApi.dll",
