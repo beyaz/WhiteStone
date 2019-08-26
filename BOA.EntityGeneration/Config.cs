@@ -27,6 +27,15 @@ namespace BOA.EntityGeneration
         public string FilePathForAllEntitiesInOneFile { get; set; }
         public bool EnableFullProjectExport { get; set; }
         public string FilePathForAllDaoInOneFile { get; set; }
+
+
+        public string ReadLineCharToBool { get; set; }
+        public string ReadLineCharToBoolNullable { get; set; }
+        public string ReadLineDefault { get; set; }
+        
+
+        
+            
         
         #endregion
     }

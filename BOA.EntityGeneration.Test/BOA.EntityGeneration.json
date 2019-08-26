@@ -27,6 +27,10 @@
 
   "FilePathForAllEntitiesInOneFile": "D:\\temp\\{SchemaName}\\BOA.Types.Kernel.Card.{SchemaName}\\All.cs",
   "FilePathForAllDaoInOneFile": "D:\\temp\\{SchemaName}\\BOA.Business.Kernel.Card.{SchemaName}\\All.cs",
-  "EnableFullProjectExport": false
+  "EnableFullProjectExport": false,
+
+  "ReadLineCharToBool": "{Contract}.{PropertyName} = SQLDBHelper.GetStringValue(reader[\"{ColumnName}\"]) == \"1\";",
+  "ReadLineCharToBoolNullable": "{Contract}.{PropertyName} = Util.ReadNullableFlag(reader[\"{ColumnName}\"]);",
+  "ReadLineDefault": "{Contract}.{PropertyName} = SQLDBHelper.{SqlReaderMethod}(reader[\"{ColumnName}\"]);"
 
 }

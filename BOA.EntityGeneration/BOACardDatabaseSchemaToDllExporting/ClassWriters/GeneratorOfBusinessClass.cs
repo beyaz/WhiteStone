@@ -265,20 +265,28 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             foreach (var columnInfo in tableInfo.Columns)
             {
+                var readerLine = Config.ReadLineDefault;
+
                 if (columnInfo.SqlDbType == SqlDbType.Char &&
                     columnInfo.DotNetType == DotNetTypeName.DotNetBool)
                 {
-                    sb.AppendLine($"{contractParameterName}.{columnInfo.ColumnName.ToContractName()} = SQLDBHelper.GetStringValue(reader[\"{columnInfo.ColumnName}\"]) == \"1\";");
+                    readerLine = Config.ReadLineCharToBool;
+                   
                 }
                 else if (columnInfo.SqlDbType == SqlDbType.Char &&
                          columnInfo.DotNetType == DotNetTypeName.DotNetBoolNullable)
                 {
-                    sb.AppendLine($"{contractParameterName}.{columnInfo.ColumnName.ToContractName()} = Util.ReadNullableFlag(SQLDBHelper.GetStringValue(reader[\"{columnInfo.ColumnName}\"]));");
+                    readerLine = Config.ReadLineCharToBoolNullable;
                 }
-                else
-                {
-                    sb.AppendLine($"{contractParameterName}.{columnInfo.ColumnName.ToContractName()} = SQLDBHelper.{columnInfo.SqlReaderMethod}(reader[\"{columnInfo.ColumnName}\"]);");
-                }
+
+
+                readerLine = readerLine
+                             .Replace("{Contract}", contractParameterName)
+                             .Replace("{PropertyName}", columnInfo.ColumnName.ToContractName())
+                             .Replace("{ColumnName}", columnInfo.ColumnName)
+                             .Replace("{SqlReaderMethod}", columnInfo.SqlReaderMethod.ToString());
+
+                sb.AppendLine(readerLine);
             }
 
             sb.PaddingCount--;
