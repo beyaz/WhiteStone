@@ -26,6 +26,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
             SnapNamingHelper.InitSnapName(writerContext, data);
 
+
+            var hasSupportErrorText = writerContext.HasSupportErrorText;
+
+            
+
             var isString          = true;
             var isDecimal         = false;
             var isDecimalNullable = false;
@@ -130,14 +135,18 @@ namespace BOA.OneDesigner.CodeGeneration
                 writerContext.Imports.Add("import { BCheckBox } from \"b-check-box\"");
 
                 sb.AppendLine($"<BCheckBox checked = {{{fullBindingPathInJs}}}");
+
+                hasSupportErrorText = false;
+
                 sb.PaddingCount++;
                 sb.AppendLine("verticalAlign={\"middle\"}");
-                if (data.ValueChangedOrchestrationMethod.HasValue())
+                var shouldWriteOnSelectEvent = data.ValueChangedOrchestrationMethod.HasValue();
+                if (shouldWriteOnSelectEvent)
                 {
                     sb.AppendLine("onCheck = {(e: any, value: boolean) =>");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
-
+                    
                     sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
 
                     sb.PaddingCount--;
@@ -207,7 +216,8 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
-            if (writerContext.HasSupportErrorText)
+
+            if (hasSupportErrorText)
             {
                 RenderHelper.WriteErrorTextProperty(sb,fullBindingPathInJs);
 
