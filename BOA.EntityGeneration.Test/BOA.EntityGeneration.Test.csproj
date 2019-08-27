@@ -60,7 +60,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WhiteStone">
-      <HintPath>D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll</HintPath>
+      <HintPath>$(SolutionDir)WhiteStone\bin\debug\WhiteStone.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
