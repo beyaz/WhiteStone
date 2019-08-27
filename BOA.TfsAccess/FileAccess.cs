@@ -5,6 +5,9 @@ using BOA.Common.Helpers;
 
 namespace BOA.TfsAccess
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class FileAccess
     {
         #region Public Methods
