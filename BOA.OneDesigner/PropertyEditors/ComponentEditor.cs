@@ -33,6 +33,7 @@ namespace BOA.OneDesigner.PropertyEditors
 
         public string ValueBindingPathLabel   { get; set; }
         public string ValueBindingPathToolTip { get; set; }
+        public bool IsEnabledBindingPathIsVisible { get; set; }
         #endregion
     }
 
@@ -73,6 +74,8 @@ namespace BOA.OneDesigner.PropertyEditors
                 IsDisabledEditorVisible         = info.Type.IsInput || info.Type.IsParameterComponent || info.Type.IsBranchComponent || info.Type.IsAccountComponent || info.Type.IsButton,
                 IsBoldVisible                   = info.Type.IsLabel,
                 IsTextIntoVisible               = info.Type.IsLabel || info.Type.IsButton,
+
+                IsEnabledBindingPathIsVisible = info.Type.IsInput || info.Type.IsButton,
 
                 ValueBindingPathLabel = "Value Binding Path"
             };
@@ -348,7 +351,7 @@ Spacing:10,
                         ShowOnlyBooleanProperties   : true, 
                         Text                        : '{Binding " + Model.AccessPathOf(m => m.Info.IsEnabledBindingPath) + @"}', 
                         Label                       : 'Is Enabled',
-                        IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsButton) + @"}'
+                        IsVisible                   : '{Binding " + Model.AccessPathOf(m => m.IsEnabledBindingPathIsVisible) + @"}'
                     }
                     ,
                     {   

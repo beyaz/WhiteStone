@@ -19,6 +19,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 throw Error.InvalidBindingPath((data.Container as BCard)?.Title, data.LabelText);
             }
 
+            if (data.IsEnabledBindingPath.HasValue() && data.IsDisabledBindingPath.HasValue())
+            {
+                throw Error.InvalidOperation("Aynı anda hem enable hem disable propertsini veremezsiniz. LocationInfo-> @Input: " + data.LabelTextInfo.GetDesignerText());
+            }
+
             if (data.ValueBindingPath == "?")
             {
                 data.ValueBindingPath = "$";
@@ -208,6 +213,11 @@ namespace BOA.OneDesigner.CodeGeneration
 
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
             RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
+
+            if (data.IsEnabledBindingPath.HasValue())
+            {
+                RenderHelper.WriteBooleanReverse(writerContext,"disabled",data.IsEnabledBindingPath,sb.AppendLine);    
+            }
 
             if (data.SizeInfo.HasValue())
             {
