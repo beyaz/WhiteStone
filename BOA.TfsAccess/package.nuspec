@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>BOA.BOA.TfsAccess</id>
+    <id>BOA.TfsAccess</id>
     <version>1.0.0.0</version>
     <title>WhiteStone</title>
     <authors>Abdullah Beyaztaş</authors>
