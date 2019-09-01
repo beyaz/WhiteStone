@@ -219,8 +219,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WhiteStone">
-      <HintPath>$(SolutionDir)WhiteStone\bin\debug\WhiteStone.dll</HintPath>
+   <Reference Include="WhiteStone">
+      <HintPath>$(SolutionDir)packages\WhiteStone.1.0.0.12\lib\net452\WhiteStone.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
