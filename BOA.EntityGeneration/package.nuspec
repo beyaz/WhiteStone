@@ -1,26 +1,25 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>WhiteStone</id>
-    <version>1.0.0.12</version>
+    <id>BOA.EntityGeneration</id>
+    <version>1.0.0</version>
     <title>WhiteStone</title>
     <authors>Abdullah Beyaztaş</authors>
     <owners>Abdullah Beyaztaş</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Abdullah Beyaztaş</description>
+    <apikey>oy2dbdphk5ct3tcfkxxaiwv6xmhd2g3ufk3pubvfbcguem</apikey>
     <releaseNotes>WhiteStone</releaseNotes>
     <copyright>Abdullah Beyaztaş</copyright>
     <tags>
     </tags>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="MySql.Data" version="6.9.10" />
-        <dependency id="Newtonsoft.Json" version="10.0.3" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Debug\WhiteStone.dll" target="lib/net452" />
-    <file src="bin\Debug\WhiteStone.XML" target="lib/net452" />
+    <file src="bin\Debug\BOA.EntityGeneration.dll" target="lib/net452" />
+    <file src="bin\Debug\BOA.EntityGeneration.XML" target="lib/net452" />
   </files>
 </package>
