@@ -6,8 +6,8 @@
       "OutputFilePath": "$(SolutionDir)BOA.OneDesigner\\dist\\BOA.OneDesigner.zip",
       "InputFilePaths": [
         "$(SolutionDir)WhiteStone.Updater\\bin\\Debug\\WhiteStone.Updater.exe",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\WhiteStone.Updater.exe.config",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\WhiteStone.dll",
+        "$(SolutionDir)BOA.OneDesigner\\WhiteStone.Updater.exe.config",
+        "$(SolutionDir)WhiteStone\\bin\\Debug\\WhiteStone.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\BOA.OneDesigner.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\BOAPlugins.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\BOA.CodeGeneration.dll",

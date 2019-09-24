@@ -7,7 +7,7 @@
       "OutputFilePath": "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\dist\\CustomSqlInjectionToProject.zip",
       "InputFilePaths": [
         "D:\\github\\WhiteStone\\WhiteStone.Updater\\bin\\Debug\\WhiteStone.Updater.exe",
-        "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\WhiteStone.Updater.exe.config",
+        "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\WhiteStone.Updater.exe.config",
 
         "D:\\github\\WhiteStone\\BOA.EntityGeneration\\BOA.EntityGeneration.json",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration\\EmbeddedUtilizationClassForDao.txt",
@@ -15,7 +15,7 @@
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\CustomSqlInjectionToProject.exe",
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\BOA.EntityGeneration.dll",
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\BOA.TfsAccess.dll",
-        "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\WhiteStone.dll",
+        "$(SolutionDir)WhiteStone\\bin\\Debug\\WhiteStone.dll",
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\WhiteStone.UI.Container.exe",
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\CustomSqlInjectionToProject.exe.config",
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\CustomUIMarkupLanguage.dll",

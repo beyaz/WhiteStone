@@ -4,12 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using BOA.Common.Helpers;
-using WhiteStone.Services;
 
 namespace WhiteStone.Tasks
 {
     class Program
     {
+
         #region Methods
         static void Main(string[] args)
         {
@@ -23,7 +23,7 @@ namespace WhiteStone.Tasks
 
             try
             {
-                Console.WriteLine($"Reading file:{tasksFilePath}");
+                Trace($"Reading file:{tasksFilePath}");
 
                 var jsonContent = File.ReadAllText(tasksFilePath);
 
@@ -34,7 +34,7 @@ namespace WhiteStone.Tasks
                 {
                     var parameterClass = data.GetType();
 
-                    Console.WriteLine($"Searching task for :{parameterClass}");
+                    Trace($"Searching task for :{parameterClass}");
 
                     var targetClass = parameterClass.FullName.RemoveFromEnd("Data");
 
@@ -48,10 +48,11 @@ namespace WhiteStone.Tasks
                         throw new MissingMemberException();
                     }
 
-                    Console.WriteLine($"Executing task:{targetClass}::{methodInfo.Name}");
+                    Trace($"Executing task:{targetClass}::{methodInfo.Name}");
+
                     methodInfo.Invoke(null, new[] {data});
 
-                    Console.WriteLine($"Executing task finished successfully:{targetClass}::{methodInfo.Name}");
+                    Trace($"Executing task finished successfully:{targetClass}::{methodInfo.Name}");
 
                     Thread.Sleep(2000);
                 }
@@ -62,8 +63,15 @@ namespace WhiteStone.Tasks
 
                 Console.WriteLine(e.ToString());
 
-                throw e;
+                throw;
             }
+        }
+
+        static void Trace(string message)
+        {
+            Console.WriteLine(message);
+
+            Log.Push(message);
         }
         #endregion
     }

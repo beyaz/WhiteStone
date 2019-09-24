@@ -4,7 +4,6 @@ using BOA.Common.Helpers;
 
 namespace WhiteStone.Tasks
 {
-
     /// <summary>
     ///     The zip existing files data
     /// </summary>
@@ -24,17 +23,33 @@ namespace WhiteStone.Tasks
         #endregion
     }
 
+    static class FilePathHelper
+    {
+        #region Static Fields
+        static readonly Dictionary<string, string> ReplaceMap = new Dictionary<string, string>
+        {
+            {"$(SolutionDir)", "D:\\github\\WhiteStone\\"}
+        };
+        #endregion
+
+        #region Public Methods
+        public static string Normalize(string path)
+        {
+            foreach (var pair in ReplaceMap)
+            {
+                path = path.Replace(pair.Key, pair.Value);
+            }
+
+            return path;
+        }
+        #endregion
+    }
+
     /// <summary>
     ///     The zip existing files
     /// </summary>
     public class ZipWhiteStoneProject
     {
-
-        static readonly Dictionary<string, string> ReplaceMap = new Dictionary<string, string>
-        {
-            {"$(SolutionDir)", "D:\\github\\WhiteStone\\"}
-        };
-
         #region Public Methods
         /// <summary>
         ///     Runs the specified data.
@@ -43,25 +58,15 @@ namespace WhiteStone.Tasks
         {
             for (var i = 0; i < data.InputFilePaths.Length; i++)
             {
-                foreach (var pair in ReplaceMap)
-                {
-                    data.InputFilePaths[i] =  data.InputFilePaths[i].Replace(pair.Key,pair.Value);    
-                }
+                data.InputFilePaths[i] = FilePathHelper.Normalize(data.InputFilePaths[i]);
             }
 
-            foreach (var pair in ReplaceMap)
-            {
-               data.OutputFilePath = data.OutputFilePath.Replace(pair.Key,pair.Value);    
-            }
+            data.OutputFilePath = FilePathHelper.Normalize(data.OutputFilePath);
 
-            ZipHelper.CompressFiles(data.OutputFilePath,  data.InputFilePaths);
+            ZipHelper.CompressFiles(data.OutputFilePath, data.InputFilePaths);
         }
         #endregion
     }
-
-
-
-
 
     /// <summary>
     ///     The zip existing files data
@@ -93,7 +98,15 @@ namespace WhiteStone.Tasks
         /// </summary>
         public static void Run(ZipExistingFilesData data)
         {
-            ZipHelper.CompressFiles(data.OutputFilePath,  data.InputFilePaths);
+
+            for (var i = 0; i < data.InputFilePaths.Length; i++)
+            {
+                data.InputFilePaths[i] = FilePathHelper.Normalize(data.InputFilePaths[i]);
+            }
+
+            data.OutputFilePath = FilePathHelper.Normalize(data.OutputFilePath);
+
+            ZipHelper.CompressFiles(data.OutputFilePath, data.InputFilePaths);
         }
         #endregion
     }

@@ -7,7 +7,7 @@
       "OutputFilePath": "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\dist\\BOA.EntityGeneration.UI.zip",
       "InputFilePaths": [
         "D:\\github\\WhiteStone\\WhiteStone.Updater\\bin\\Debug\\WhiteStone.Updater.exe",
-        "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\WhiteStone.Updater.exe.config",
+        "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\WhiteStone.Updater.exe.config",
 
         "D:\\github\\WhiteStone\\BOA.EntityGeneration\\BOA.EntityGeneration.json",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration\\EmbeddedUtilizationClassForDao.txt",
@@ -15,7 +15,7 @@
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\BOA.EntityGeneration.UI.dll",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\BOA.EntityGeneration.dll",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\BOA.TfsAccess.dll",
-        "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\WhiteStone.dll",
+        "$(SolutionDir)WhiteStone\\bin\\Debug\\WhiteStone.dll",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\WhiteStone.UI.Container.exe",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\WhiteStone.UI.Container.exe.config",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration.UI\\bin\\Debug\\CustomUIMarkupLanguage.dll",
