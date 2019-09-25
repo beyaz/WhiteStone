@@ -157,6 +157,18 @@ namespace BOA.OneDesigner.MainForm
                         }
                     };
                 }
+                else
+                {
+                    if (Model.ScreenInfo.JsxModel is DivAsCardContainer divAsCardContainer)
+                    {
+                        divAsCardContainer.Items[0].IsBrowsePageCriteria = true;
+                        divAsCardContainer.Items[1].IsBrowsePageDataGridContainer = true;
+                    }
+                    else
+                    {
+                        throw Error.InvalidOperation("BrowseForm ların jsx modeli div olmalıdır.");
+                    }
+                }
             }
             else
             {
