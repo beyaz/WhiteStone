@@ -229,7 +229,14 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (hasSupportErrorText)
             {
-                RenderHelper.WriteErrorTextProperty(sb,fullBindingPathInJs);
+                if (isDateTime || isNullableDateTime)
+                {
+                    RenderHelper.WriteErrorTextProperty(sb,fullBindingPathInJs,"errorTextDate");
+                }
+                else
+                {
+                    RenderHelper.WriteErrorTextProperty(sb,fullBindingPathInJs);
+                }
 
                 sb.AppendLine("onChange={() =>");
                 sb.AppendLine("{");
