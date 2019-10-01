@@ -12,10 +12,13 @@ namespace BOA.OneDesigner.Helpers
         {
             var businessModules = TFSAccessForBOA.GetSubFolderNames(@"$/BOA.BusinessModules/Dev/*");
             var cardModules     = TFSAccessForBOA.GetSubFolderNames(@"$/BOA.CardModules/Dev/*");
+            var loans = TFSAccessForBOA.GetSubFolderNames(@"$/BOA.Loans/Dev/*");
 
             var items = new List<string>();
+
             items.AddRange(businessModules);
             items.AddRange(cardModules);
+            items.AddRange(loans);
             items.Add(SelfService);
 
             return items;
