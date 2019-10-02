@@ -1,4 +1,5 @@
-﻿using BOA.OneDesigner.CodeGenerationComponentGetValueModels;
+﻿using BOA.Common.Helpers;
+using BOA.OneDesigner.CodeGenerationComponentGetValueModels;
 using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.JsxElementModel;
@@ -41,6 +42,18 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
 
             sb.AppendLine($"terminalNumber = {{{jsBindingPath.FullBindingPathInJs}}}");
+
+
+            if (data.ValueChangedOrchestrationMethod.HasValue())
+            {
+                sb.AppendLine("onTerminalSelect = {() =>");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+                sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
+                sb.PaddingCount--;
+                sb.AppendLine("}}");
+            }
+
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;

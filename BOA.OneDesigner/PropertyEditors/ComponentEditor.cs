@@ -75,7 +75,7 @@ namespace BOA.OneDesigner.PropertyEditors
                 IsBoldVisible                   = info.Type.IsLabel,
                 IsTextIntoVisible               = info.Type.IsLabel || info.Type.IsButton,
 
-                IsEnabledBindingPathIsVisible = info.Type.IsInput || info.Type.IsButton,
+                IsEnabledBindingPathIsVisible = info.Type.IsInput || info.Type.IsButton|| info.Type.IsExcelBrowser,
 
                 ValueBindingPathLabel = "Value Binding Path"
             };
@@ -180,6 +180,16 @@ namespace BOA.OneDesigner.PropertyEditors
             }
 
             if (Model.Info.Type.IsCreditCardComponent)
+            {
+                return true;
+            }
+
+            if (Model.Info.Type.IsExcelBrowser)
+            {
+                return true;
+            }
+
+            if (Model.Info.Type.IsPosTerminalComponent)
             {
                 return true;
             }
