@@ -1,4 +1,5 @@
 ﻿using BOA.Common.Helpers;
+using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
@@ -89,7 +90,15 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (Data.YesNoQuestionCondition.HasValue())
                 {
-                    sb.AppendLine($"if(!{Data.YesNoQuestionCondition})");
+                    var jsBindingPath = new JsBindingPathInfo(Data.YesNoQuestionCondition)
+                    {
+                        EvaluateInsStateVersion = true
+                    };
+                    JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
+                    WriterContext.PushVariablesToRenderScope(jsBindingPath);
+
+
+                    sb.AppendLine($"if(!{jsBindingPath.FullBindingPathInJs})");
                     sb.AppendLine("{");
                     sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
                     sb.AppendLine("    return;");

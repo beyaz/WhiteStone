@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Windows;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.UIBuilding;
@@ -95,6 +96,8 @@ namespace WhiteStone.UI.Container
         public static void ShowErrorNotification(string message)
         {
             ShowNotification(null, message, NotificationType.Error);
+            Log.Push(message);
+            
         }
 
         /// <summary>
@@ -103,6 +106,13 @@ namespace WhiteStone.UI.Container
         public static void ShowErrorNotification(string title, string message)
         {
             ShowNotification(title, message, NotificationType.Error);
+
+            
+            
+            Log.Push( string.Join(Environment.NewLine,
+                                  string.Join(Path.VolumeSeparatorChar.ToString(), nameof(title), title),
+                                  string.Join(Path.VolumeSeparatorChar.ToString(), nameof(message), message)
+                                 ) );
         }
 
         /// <summary>

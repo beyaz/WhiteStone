@@ -44,7 +44,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("valueType={\"99\"} // ALL_TYPE");
 
-            sb.AppendLine("isVisibleTable={true}");
+            sb.AppendLine("isVisibleTable={false}");
 
             if (data.IsEnabledBindingPath.HasValue())
             {

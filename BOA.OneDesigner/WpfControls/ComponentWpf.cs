@@ -93,6 +93,7 @@ namespace BOA.OneDesigner.WpfControls
             ui          : 'StackPanel',
             IsVisible   : '{Binding " + Model.AccessPathOf(m => m.Info.Type.IsDivider) + @"}',
             Background  : 'LightGray',
+            Background  : 'LightGray',
             MinHeight   : 10,
             Childs      :
             [

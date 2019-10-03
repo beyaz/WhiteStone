@@ -23,7 +23,7 @@ namespace BOA.OneDesigner.CodeGenerationHelper
 
             if (list.Count < 2)
             {
-                throw Error.InvalidOperation();
+                throw Error.InvalidBindingPath(bindingPathInJs);
             }
 
             if (list.Count == 2)
