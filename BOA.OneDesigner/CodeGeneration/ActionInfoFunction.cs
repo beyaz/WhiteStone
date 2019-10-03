@@ -1,5 +1,4 @@
 ﻿using BOA.Common.Helpers;
-using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.CodeGenerationModel;
 using BOA.OneDesigner.JsxElementModel;
 using BOAPlugins.Utility;
@@ -12,6 +11,11 @@ namespace BOA.OneDesigner.CodeGeneration
         public ActionInfo    Data          { get; set; }
         public WriterContext WriterContext { get; set; }
         #endregion
+
+        static string EvaluateBindingPath(string bindingPathInDesigner)
+        {
+            return  "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(bindingPathInDesigner);
+        }
 
         #region Public Methods
         public string GetCode()
@@ -40,10 +44,11 @@ namespace BOA.OneDesigner.CodeGeneration
                 return sb.ToString();
             }
 
+            
             string dataParameter = null;
             if (Data.OpenFormWithResourceCodeDataParameterBindingPath.HasValue())
             {
-                dataParameter = "this.state.windowRequest." + TypescriptNaming.NormalizeBindingPath(Data.OpenFormWithResourceCodeDataParameterBindingPath);
+                dataParameter =  EvaluateBindingPath(Data.OpenFormWithResourceCodeDataParameterBindingPath);
             }
 
             if (Data.OrchestrationMethodName.IsNullOrEmpty() &&
@@ -90,15 +95,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (Data.YesNoQuestionCondition.HasValue())
                 {
-                    var jsBindingPath = new JsBindingPathInfo(Data.YesNoQuestionCondition)
-                    {
-                        EvaluateInsStateVersion = true
-                    };
-                    JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
-                    WriterContext.PushVariablesToRenderScope(jsBindingPath);
-
-
-                    sb.AppendLine($"if(!{jsBindingPath.FullBindingPathInJs})");
+                    sb.AppendLine($"if(!{EvaluateBindingPath(Data.YesNoQuestionCondition)})");
                     sb.AppendLine("{");
                     sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
                     sb.AppendLine("    return;");
