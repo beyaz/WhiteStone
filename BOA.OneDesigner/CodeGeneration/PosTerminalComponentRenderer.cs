@@ -43,7 +43,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine($"terminalNumber = {{{jsBindingPath.FullBindingPathInJs}}}");
 
-            // todo is disable eklencek  enabled
+            RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
 
             if (data.ValueChangedOrchestrationMethod.HasValue())
             {
