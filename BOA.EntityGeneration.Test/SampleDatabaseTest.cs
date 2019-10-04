@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using FluentAssertions;
@@ -18,7 +17,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             {
                 using (var database = kernel.CreateConnection())
                 {
-
                     database.CommandText = @"
 IF NOT EXISTS 
 (
@@ -33,15 +31,12 @@ END
 
                     database.ExecuteNonQuery();
 
-
-
                     database.CommandText = @"
 
 IF EXISTS (SELECT TOP 1 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[ERP].[Person]') AND type = 'U')
     DROP TABLE ERP.Person
 ";
                     database.ExecuteNonQuery();
-
 
                     database.CommandText = @"
 
@@ -56,12 +51,18 @@ CREATE TABLE ERP.Person
 
                 BOACardDatabaseExporter.Export(kernel);
 
-                var current = File.ReadAllText(@"D:\temp\ERP\BOA.Types.Kernel.Card.ERP\All.cs");
-                var expected = File.ReadAllText(@"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
-
-                StringHelper.IsEqualAsData(current, expected).Should().BeTrue();
-
+                ShouldBeSame(@"D:\temp\ERP\BOA.Types.Kernel.Card.ERP\All.cs", @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
             }
+        }
+        #endregion
+
+        #region Methods
+        static void ShouldBeSame(string currentFilePath, string expectedFilePath)
+        {
+            var current  = File.ReadAllText(currentFilePath);
+            var expected = File.ReadAllText(expectedFilePath);
+
+            StringHelper.IsEqualAsData(current, expected).Should().BeTrue();
         }
         #endregion
     }
