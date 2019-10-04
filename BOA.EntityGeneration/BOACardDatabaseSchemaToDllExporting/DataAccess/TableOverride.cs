@@ -6,9 +6,15 @@ using TableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Model
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
+    /// <summary>
+    ///     The table override
+    /// </summary>
     public class TableOverride
     {
         #region Public Methods
+        /// <summary>
+        ///     Gets the type of the column dotnet.
+        /// </summary>
         public string GetColumnDotnetType(string dbColumnName, string dotnetType, bool isNullable)
         {
             if (dbColumnName.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
@@ -24,6 +30,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             return dotnetType;
         }
 
+        /// <summary>
+        ///     Overrides the specified table information.
+        /// </summary>
         public void Override(TableInfo tableInfo)
         {
             foreach (var item in tableInfo.Columns)
@@ -37,6 +46,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             }
         }
 
+        /// <summary>
+        ///     Reprocesses the specified item.
+        /// </summary>
         public void Reprocess(ColumnInfo item)
         {
             item.DotNetType = GetColumnDotnetType(item.ColumnName, item.DotNetType, item.IsNullable);
