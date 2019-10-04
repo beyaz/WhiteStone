@@ -1,0 +1,835 @@
+using BOA.Base;
+using BOA.Base.Data;
+using BOA.Common.Types;
+using BOA.Types.Kernel.Card.ERP;
+using BOA.Types.Kernel.Card.EntityConditions;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Runtime.CompilerServices;
+using System.Text;
+
+namespace BOA.Business.Kernel.Card.ERP
+{
+    /// <summary>
+    ///     Utility methods
+    /// </summary>
+    static class Util
+    {
+        #region Constants
+        /// <summary>
+        ///     AND
+        /// </summary>
+        public const string AndSymbol = "            AND ";
+
+        /// <summary>
+        ///     WHERE
+        /// </summary>
+        public const string WhereSymbol = "            WHERE ";
+
+        /// <summary>
+        ///     The comma
+        /// </summary>
+        const string Comma = ".";
+        #endregion
+
+        #region Public Methods
+    	
+    	///<summary>
+        ///     Creates the command.
+        /// </summary>
+        public static SqlCommand CreateCommand(this ObjectHelper objectHelper, string sql)
+        {
+            return objectHelper.DBLayer.GetDBCommand(Databases.SampleDatabase, sql, null, CommandType.Text);
+        }
+
+        /// <summary>
+        ///     Contract parameter cannot be null.
+        /// </summary>
+        public static GenericResponse<int> ContractCannotBeNull(this ObjectHelper objectHelper, [CallerMemberName] string memberName = null)
+        {
+            var returnObject = InitializeResponse<int>(objectHelper, memberName);
+
+            const string errorMessage = "'contract' parameter cannot be null.";
+
+            returnObject.Results.Add(new Result {ErrorMessage = errorMessage});
+
+            return returnObject;
+        }
+
+        /// <summary>
+        ///     'columnNames' parameter cannot be null.
+        /// </summary>
+        public static GenericResponse<int> ColumnNamesCannotBeNullOrEmpty(this ObjectHelper objectHelper, [CallerMemberName] string memberName = null)
+        {
+            var returnObject = InitializeResponse<int>(objectHelper, memberName);
+
+            const string errorMessage = "'columnNames' parameter cannot be null or empty.";
+
+            returnObject.Results.Add(new Result {ErrorMessage = errorMessage});
+
+            return returnObject;
+        }
+
+
+        /// <summary>
+        ///     Executes the command and returns effected row count.
+        /// </summary>
+        public static GenericResponse<int> ExecuteNonQuery(this ObjectHelper objectHelper, SqlCommand command, [CallerMemberName] string memberName = null)
+        {
+            var returnObject = InitializeResponse<int>(objectHelper, memberName);
+
+            var response = objectHelper.DBLayer.ExecuteNonQuery(command);
+            if (!response.Success)
+            {
+                returnObject.Results.AddRange(response.Results);
+                return returnObject;
+            }
+
+            returnObject.Value = response.Value;
+
+            return returnObject;
+        }
+
+        /// <summary>
+        ///     Executes the reader.
+        /// </summary>
+        public static GenericResponse<List<TContract>> ExecuteReader<TContract>(this ObjectHelper objectHelper, SqlCommand command, Action<IDataReader, TContract> ReadContract, [CallerMemberName] string memberName = null) where TContract : new()
+        {
+            var returnObject = InitializeResponse<List<TContract>>(objectHelper, memberName);
+
+            var response = objectHelper.DBLayer.ExecuteReader(command);
+            if (!response.Success)
+            {
+                returnObject.Results.AddRange(response.Results);
+                return returnObject;
+            }
+
+            var reader = response.Value;
+
+            var listOfDataContract = new List<TContract>();
+
+            while (reader.Read())
+            {
+                var dataContract = new TContract();
+
+                ReadContract(reader, dataContract);
+
+                listOfDataContract.Add(dataContract);
+            }
+
+            reader.Close();
+
+            returnObject.Value = listOfDataContract;
+
+            return returnObject;
+        }
+
+        /// <summary>
+        ///     Executes the reader for only one record.
+        /// </summary>
+        public static GenericResponse<TContract> ExecuteReaderForOnlyOneRecord<TContract>(this ObjectHelper objectHelper, SqlCommand command, Action<IDataReader, TContract> ReadContract, [CallerMemberName] string memberName = null) where TContract : new()
+        {
+            var returnObject = InitializeResponse<TContract>(objectHelper, memberName);
+
+            var response = objectHelper.DBLayer.ExecuteReader(command);
+            if (!response.Success)
+            {
+                returnObject.Results.AddRange(response.Results);
+                return returnObject;
+            }
+
+            var reader = response.Value;
+
+            while (reader.Read())
+            {
+                var dataContract = new TContract();
+
+                ReadContract(reader, dataContract);
+
+                returnObject.Value = dataContract;
+
+                break;
+            }
+
+            reader.Close();
+
+            return returnObject;
+        }
+
+        /// <summary>
+        ///     Executes the command and returns the scalar value.
+        /// </summary>
+        public static GenericResponse<int> ExecuteScalar(this ObjectHelper objectHelper, SqlCommand command, [CallerMemberName] string memberName = null)
+        {
+            var returnObject = InitializeResponse<int>(objectHelper, memberName);
+
+            var response = objectHelper.DBLayer.ExecuteScalar<int>(command);
+            if (!response.Success)
+            {
+                returnObject.Results.AddRange(response.Results);
+                return returnObject;
+            }
+
+            returnObject.Value = response.Value;
+
+            return returnObject;
+        }
+
+        /// <summary>
+        ///     Initializes the response.
+        /// </summary>
+        public static ResponseBase InitializeResponse(this ObjectHelper objectHelper, [CallerMemberName] string memberName = null)
+        {
+            var key = objectHelper.GetType().FullName + Comma + memberName;
+
+            return objectHelper.InitializeResponseBase(key);
+        }
+
+        /// <summary>
+        ///     Initializes the response.
+        /// </summary>
+        public static GenericResponse<T> InitializeResponse<T>(this ObjectHelper objectHelper, [CallerMemberName] string memberName = null)
+        {
+            var key = objectHelper.GetType().FullName + Comma + memberName;
+
+            return objectHelper.InitializeGenericResponse<T>(key);
+        }
+        
+        static WhereCondition NormalizeForCharBoolColumns(DbColumnInfo dbColumn, WhereCondition whereCondition)
+        {
+            if (dbColumn.SqlDbType == SqlDbType.Char || dbColumn.SqlDbType == SqlDbType.VarChar)
+            {
+                if (whereCondition.Value is bool)
+                {
+                    return new WhereCondition(whereCondition.ColumnName, whereCondition.ConditionType, ((bool)whereCondition.Value) ? '1' : '0');
+                }
+            }
+
+            return whereCondition;
+        }
+
+        /// <summary>
+        ///     Processes the condition.
+        /// </summary>
+        public static void ProcessCondition(WhereCondition whereCondition, List<string> whereLines, DbColumnInfo dbColumn, List<DbParameterInfo> parameters)
+        {
+            const string prefix = "@";
+            const string combiner = "_";
+
+            switch (whereCondition.ConditionType)
+            {
+                case ConditionType.Equal:
+                {
+                    const string operand = " = ";
+
+                    var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                    whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
+
+                    whereCondition = NormalizeForCharBoolColumns(dbColumn, whereCondition);
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = parameterName,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+
+                case ConditionType.NotEqual:
+                {
+                    const string operand = " != ";
+
+                    var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                    whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
+
+                    whereCondition = NormalizeForCharBoolColumns(dbColumn, whereCondition);
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = parameterName,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+
+                case ConditionType.GreaterThan:
+                {
+                    const string operand = " > ";
+
+                    var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                    whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = parameterName,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+
+                case ConditionType.GreaterOrEqual:
+                {
+                    const string operand = " >= ";
+
+                    var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                    whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = parameterName,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+
+                case ConditionType.LessThan:
+                {
+                    const string operand = " < ";
+
+                    var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                    whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = parameterName,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+
+                case ConditionType.LessOrEqual:
+                {
+                    const string operand = " <= ";
+
+                    var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                    whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = parameterName,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+
+                case ConditionType.IsNull:
+                {
+                    const string operand = " IS NULL ";
+
+                    whereLines.Add(dbColumn.Name + operand);
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = dbColumn.Name,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+
+                case ConditionType.IsNotNull:
+                {
+                    const string operand = " IS NOT NULL ";
+
+                    whereLines.Add(dbColumn.Name + operand);
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = dbColumn.Name,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+
+                case ConditionType.StartsWith:
+                {
+                    const string operand = " LIKE ";
+
+                    var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                    whereLines.Add(dbColumn.Name + operand + prefix + parameterName + " + '%'");
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = parameterName,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+
+                case ConditionType.EndsWith:
+                {
+                    const string operand = " LIKE '%' + ";
+
+                    var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                    whereLines.Add(dbColumn.Name + operand + prefix + parameterName);
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = parameterName,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+
+                case ConditionType.Contains:
+                {
+                    const string operand = " LIKE '%' + ";
+
+                    var parameterName = dbColumn.Name + combiner + whereCondition.ConditionType;
+
+                    whereLines.Add(dbColumn.Name + operand + prefix + parameterName + " + '%'");
+
+                    parameters.Add(new DbParameterInfo
+                    {
+                        Name      = parameterName,
+                        SqlDbType = dbColumn.SqlDbType,
+                        Value     = whereCondition.Value
+                    });
+
+                    return;
+                }
+                
+                case ConditionType.IN:
+                {
+                    var inParameters = whereCondition.Value as System.Collections.IList;
+                    if (inParameters == null)
+                    {
+                        const string message = "IN condition parameters should be enumerable.";
+                        throw new InvalidOperationException(message);
+                    }
+
+                    const string operandPrefix = " IN (";
+
+                    var sb = new StringBuilder();
+
+                    sb.Append(dbColumn.Name + operandPrefix);
+
+                    for (var i = 0; i < inParameters.Count; i++)
+                    {
+                        var parameterName = dbColumn.Name + i;
+
+                        sb.Append(prefix+parameterName);
+
+                        var isLast = i == inParameters.Count - 1;
+                        if (!isLast)
+                        {
+                            const string separator = ",";
+                            sb.Append(separator);
+                        }
+
+                        parameters.Add(new DbParameterInfo
+                        {
+                            Name      = parameterName,
+                            SqlDbType = dbColumn.SqlDbType,
+                            Value     = inParameters[i]
+                        });
+                    }
+
+                    const string operandSuffix = ")";
+
+                    sb.Append(operandSuffix);
+
+                    whereLines.Add(sb.ToString());
+
+                    return;
+                }
+
+                default:
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Read nullable flag
+        /// </summary>
+        public static bool? ReadNullableFlag(string flag)
+        {
+            if (flag == null)
+            {
+                return null;
+            }
+
+            return flag == "1";
+        }
+
+        /// <summary>
+        ///     Indicates sequence fetch error occured.
+        /// </summary>
+        public static GenericResponse<int> SequenceFetchError(this ObjectHelper objectHelper, ResponseBase response, [CallerMemberName] string memberName = null)
+        {
+            var returnObject = InitializeResponse<int>(objectHelper, memberName);
+
+            returnObject.Results.AddRange(response.Results);
+
+            return returnObject;
+        }
+
+        /// <summary>
+        ///     Wheres the conditions cannot be null or empty.
+        /// </summary>
+        public static GenericResponse<List<TContract>> WhereConditionsCannotBeNullOrEmpty<TContract>(this ObjectHelper objectHelper)
+        {
+            var returnObject = objectHelper.InitializeResponse<List<TContract>>();
+
+            const string errorMessage = "'where conditions' parameter cannot be null or empty.";
+
+            returnObject.Results.Add(new Result {ErrorMessage = errorMessage});
+
+            return returnObject;
+        }
+        #endregion
+    }
+
+    /// <summary>
+    ///     Entity contract for table ERP.Person
+    ///     <para>[ PrimaryKey + Unique + Clustered ] index on "PersonId"</para>
+    /// </summary>
+    public sealed class Person : ObjectHelper
+    {
+        /// <summary>
+        ///     Entity contract for table ERP.Person
+        ///     <para>[ PrimaryKey + Unique + Clustered ] index on "PersonId"</para>
+        /// </summary>
+        public Person(ExecutionDataContext context) : base(context) { }
+
+        /// <summary>
+        ///     Deletes only one record from 'ERP.Person' by using 'personid'
+        /// </summary>
+        public GenericResponse<int> Delete(int personid)
+        {
+            var returnObject = InitializeGenericResponse<int>("BOA.Business.Kernel.Card.ERP.Person.Delete");
+
+            const string sql = @"
+            DELETE FROM [ERP].[Person] WHERE [PersonId] = @PersonId
+            ";
+
+            var command = this.CreateCommand(sql);
+
+            DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, personid);
+
+            var response = DBLayer.ExecuteNonQuery(command);
+            if (!response.Success)
+            {
+                returnObject.Results.AddRange(response.Results);
+                return returnObject;
+            }
+
+            returnObject.Value = response.Value;
+
+            return returnObject;
+        }
+
+        /// <summary>
+        ///      Inserts new record into table.
+        /// </summary>
+        public GenericResponse<int> Insert(PersonContract contract)
+        {
+            if (contract == null)
+            {
+                return this.ContractCannotBeNull();
+            }
+
+            const string sql = @"
+            INSERT INTO [ERP].[Person]
+            (
+                [Name]
+            )
+            VALUES
+            (
+                @Name
+            )
+            SELECT CAST(SCOPE_IDENTITY() AS INT)
+            ";
+
+            var command = this.CreateCommand(sql);
+
+            DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
+
+            var response = this.ExecuteScalar(command);
+
+            contract.Personid = response.Value;
+
+            return response;
+        }
+
+        /// <summary>
+        ///      Updates only one record by primary keys.
+        /// </summary>
+        public GenericResponse<int> Update(PersonContract contract)
+        {
+            if (contract == null)
+            {
+                return this.ContractCannotBeNull();
+            }
+
+            const string sql = @"
+            UPDATE [ERP].[Person] SET
+                [Name] = @Name
+            WHERE
+                [PersonId] = @PersonId
+            ";
+
+            var command = this.CreateCommand(sql);
+
+            DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
+            DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, contract.Personid);
+
+            return this.ExecuteNonQuery(command);
+        }
+
+        /// <summary>
+        ///      Updates only one record's specific columns by primary keys.
+        /// </summary>
+        public GenericResponse<int> UpdateSpecificColumns(PersonContract contract, params string[] columnNames)
+        {
+            if (contract == null)
+            {
+                return this.ContractCannotBeNull();
+            }
+            if (columnNames == null || columnNames.Length == 0)
+            {
+                return this.ColumnNamesCannotBeNullOrEmpty();
+            }
+
+            var sql = new StringBuilder();
+            sql.Append("UPDATE [ERP].[Person] SET ");
+
+            if(Array.IndexOf(columnNames, nameof(PersonContract.Name)) >= 0)
+            {
+                sql.Append("[Name] = @Name,");
+            }
+            sql.Remove(sql.Length - 1, 1);
+            sql.Append(" WHERE ");
+            sql.Append("[PersonId] = @PersonId AND");
+            sql.Remove(sql.Length - 4, 4);
+
+            var command = this.CreateCommand(sql.ToString());
+
+
+            if(Array.IndexOf(columnNames, nameof(PersonContract.Name)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
+            }
+            DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, contract.Personid);
+
+            return this.ExecuteNonQuery(command);
+        }
+
+        /// <summary>
+        ///      Selects record by primary keys.
+        /// </summary>
+        public GenericResponse<PersonContract> SelectByKey(int personid)
+        {
+            const string sql = @"
+            SELECT
+                [PersonId],
+                [Name]
+                FROM [ERP].[Person] WITH (NOLOCK)
+            WHERE
+                [PersonId] = @PersonId
+            ";
+
+            var command = this.CreateCommand(sql);
+
+            DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, personid);
+
+            return this.ExecuteReaderForOnlyOneRecord<PersonContract>(command, ReadContract);
+        }
+
+        /// <summary>
+        ///      Reads one record from reader
+        /// </summary>
+        static void ReadContract(IDataReader reader, PersonContract contract)
+        {
+            contract.Personid = SQLDBHelper.GetInt32Value(reader["PersonId"]);
+            contract.Name = SQLDBHelper.GetStringValue(reader["Name"]);
+        }
+
+        /// <summary>
+        ///      Selects all records in table ERPPerson
+        /// </summary>
+        public GenericResponse<List<PersonContract>> Select()
+        {
+            const string sql = @"
+            SELECT 
+                [PersonId],
+                [Name]
+            FROM [ERP].[Person] WITH(NOLOCK)
+            ";
+
+            var command = this.CreateCommand(sql);
+
+            return this.ExecuteReader<PersonContract>(command, ReadContract);
+        }
+
+        /// <summary>
+        ///     Gets the database column information.
+        /// </summary>
+        static DbColumnInfo GetDbColumnInfo(string propertyNameInContract)
+        {
+            if (propertyNameInContract == nameof(PersonContract.Personid))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "PersonId",
+                    SqlDbType = SqlDbType.Int
+                };
+            }
+            if (propertyNameInContract == nameof(PersonContract.Name))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "Name",
+                    SqlDbType = SqlDbType.VarChar
+                };
+            }
+
+            throw new ArgumentException(propertyNameInContract);
+        }
+
+        /// <summary>
+        ///     Selects records by given  <paramref name="whereConditions"/>.
+        /// </summary>
+        public GenericResponse<List<PersonContract>> Select(params WhereCondition[] whereConditions)
+        {
+            InitializeGenericResponse<List<PersonContract>>("BOA.Business.Kernel.Card.ERP.Person.Select");
+
+
+            if (whereConditions == null || whereConditions.Length == 0)
+            {
+                return this.WhereConditionsCannotBeNullOrEmpty<PersonContract>();
+            }
+
+            const string sqlSelectPart = @"
+            SELECT 
+                [PersonId],
+                [Name]
+            FROM [ERP].[Person] WITH(NOLOCK)
+
+            ";
+
+            var sql = new StringBuilder(sqlSelectPart);
+
+            var parameters = new List<DbParameterInfo>();
+
+            var whereLines = new List<string>();
+
+            foreach (var whereCondition in whereConditions)
+            {
+                var dbColumn = GetDbColumnInfo(whereCondition.ColumnName);
+
+                Util.ProcessCondition(whereCondition, whereLines, dbColumn, parameters);
+            }
+
+            sql.AppendLine(Util.WhereSymbol);
+
+            sql.AppendLine(whereLines[0]);
+
+            for (var i = 1; i < whereLines.Count; i++)
+            {
+                sql.AppendLine(Util.AndSymbol + whereLines[i]);
+            }
+
+            var command = this.CreateCommand(sql.ToString());
+
+            foreach (var parameter in parameters)
+            {
+                DBLayer.AddInParameter(command, "@"+parameter.Name, parameter.SqlDbType, parameter.Value );    
+            }
+
+            return this.ExecuteReader<PersonContract>(command, ReadContract);
+        }
+
+        /// <summary>
+        ///     Selects top resultCount records by given  <paramref name="whereConditions"/>.
+        /// </summary>
+        public GenericResponse<List<PersonContract>> SelectTop(int resultCount, params WhereCondition[] whereConditions)
+        {
+            InitializeGenericResponse<List<PersonContract>>("BOA.Business.Kernel.Card.ERP.Person.SelectTop");
+
+
+            if (whereConditions == null || whereConditions.Length == 0)
+            {
+                return this.WhereConditionsCannotBeNullOrEmpty<PersonContract>();
+            }
+
+            const string sqlSelectPart = @"
+            SELECT TOP(@$resultCount) 
+                [PersonId],
+                [Name]
+            FROM [ERP].[Person] WITH(NOLOCK)
+
+            ";
+
+            var sql = new StringBuilder(sqlSelectPart);
+
+            var parameters = new List<DbParameterInfo>
+            {
+                new DbParameterInfo
+            	{
+            		Name      = "$resultCount",
+            		SqlDbType = SqlDbType.Int,
+            		Value     = resultCount
+            	}
+            };
+
+            var whereLines = new List<string>();
+
+            foreach (var whereCondition in whereConditions)
+            {
+                var dbColumn = GetDbColumnInfo(whereCondition.ColumnName);
+
+                Util.ProcessCondition(whereCondition, whereLines, dbColumn, parameters);
+            }
+
+            sql.AppendLine(Util.WhereSymbol);
+
+            sql.AppendLine(whereLines[0]);
+
+            for (var i = 1; i < whereLines.Count; i++)
+            {
+                sql.AppendLine(Util.AndSymbol + whereLines[i]);
+            }
+
+            var command = this.CreateCommand(sql.ToString());
+
+            foreach (var parameter in parameters)
+            {
+                DBLayer.AddInParameter(command, "@"+parameter.Name, parameter.SqlDbType, parameter.Value );    
+            }
+
+            return this.ExecuteReader<PersonContract>(command, ReadContract);
+        }
+    }
+}

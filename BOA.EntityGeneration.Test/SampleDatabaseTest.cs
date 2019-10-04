@@ -1,4 +1,8 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+﻿using System;
+using System.IO;
+using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
@@ -51,6 +55,12 @@ CREATE TABLE ERP.Person
                 }
 
                 BOACardDatabaseExporter.Export(kernel);
+
+                var current = File.ReadAllText(@"D:\temp\ERP\BOA.Types.Kernel.Card.ERP\All.cs");
+                var expected = File.ReadAllText(@"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
+
+                StringHelper.IsEqualAsData(current, expected).Should().BeTrue();
+
             }
         }
         #endregion

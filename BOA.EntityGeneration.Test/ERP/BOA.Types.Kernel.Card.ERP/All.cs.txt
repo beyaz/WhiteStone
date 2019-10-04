@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using BOA.Common.Types;
+
+namespace BOA.Types.Kernel.Card.ERP
+{
+
+    /// <summary>
+    ///     Entity contract for table ERP.Person
+    ///     <para>[ PrimaryKey + Unique + Clustered ] index on "PersonId"</para>
+    /// </summary>
+    [Serializable]
+    public sealed class PersonContract : CardContractBase
+    {
+        /// <summary>
+        ///     Entity contract for table ERP.Person
+        ///     <para>[ PrimaryKey + Unique + Clustered ] index on "PersonId"</para>
+        /// </summary>
+        // ReSharper disable once EmptyConstructor
+        public PersonContract()
+        {
+        }
+
+        #region Database Columns
+
+        /// <summary>
+        ///     [ PrimaryKey + Unique + Clustered ] index on "PersonId"
+        /// </summary>
+        public int Personid { get; set; }
+
+        public string Name { get; set; }
+
+        #endregion
+    }
+}
