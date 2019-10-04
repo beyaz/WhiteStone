@@ -51,7 +51,11 @@ CREATE TABLE ERP.Person
 
                 BOACardDatabaseExporter.Export(kernel);
 
-                ShouldBeSame(@"D:\temp\ERP\BOA.Types.Kernel.Card.ERP\All.cs", @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
+                ShouldBeSame(@"D:\temp\ERP\BOA.Types.Kernel.Card.ERP\All.cs", 
+                             @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
+
+                ShouldBeSame(@"D:\temp\ERP\BOA.Business.Kernel.Card.ERP\All.cs", 
+                             @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt");
             }
         }
         #endregion
