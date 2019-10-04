@@ -44,7 +44,7 @@ CREATE TABLE ERP.Person
 (
     PersonId INT not null  identity(1,1)  primary key,
     Name varchar(64),
-    VALID_FLAG varchar(1) NOT NULL
+    VALID_FLAG char(1) NOT NULL
 )
 ";
                     database.ExecuteNonQuery();

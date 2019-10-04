@@ -577,7 +577,7 @@ namespace BOA.Business.Kernel.Card.ERP
             var command = this.CreateCommand(sql);
 
             DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
-            DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.VarChar, contract.ValidFlag);
+            DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.Char, contract.ValidFlag ? "1" : "0");
 
             var response = this.ExecuteScalar(command);
 
@@ -607,7 +607,7 @@ namespace BOA.Business.Kernel.Card.ERP
             var command = this.CreateCommand(sql);
 
             DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
-            DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.VarChar, contract.ValidFlag);
+            DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.Char, contract.ValidFlag ? "1" : "0");
             DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, contract.Personid);
 
             return this.ExecuteNonQuery(command);
@@ -654,7 +654,7 @@ namespace BOA.Business.Kernel.Card.ERP
 
             if(Array.IndexOf(columnNames, nameof(PersonContract.ValidFlag)) >= 0)
             {
-                DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.VarChar, contract.ValidFlag);
+                DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.Char, contract.ValidFlag ? "1" : "0");
             }
             DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, contract.Personid);
 
@@ -690,7 +690,7 @@ namespace BOA.Business.Kernel.Card.ERP
         {
             contract.Personid = SQLDBHelper.GetInt32Value(reader["PersonId"]);
             contract.Name = SQLDBHelper.GetStringValue(reader["Name"]);
-            contract.ValidFlag = SQLDBHelper.GetBooleanValue(reader["VALID_FLAG"]);
+            contract.ValidFlag = SQLDBHelper.GetStringValue(reader["VALID_FLAG"]) == "1";
         }
 
         /// <summary>
@@ -704,6 +704,25 @@ namespace BOA.Business.Kernel.Card.ERP
                 [Name],
                 [VALID_FLAG]
             FROM [ERP].[Person] WITH(NOLOCK)
+            ";
+
+            var command = this.CreateCommand(sql);
+
+            return this.ExecuteReader<PersonContract>(command, ReadContract);
+        }
+
+        /// <summary>
+        ///      Selects all records in table ERPPerson where ValidFlag is true.
+        /// </summary>
+        public GenericResponse<List<PersonContract>> SelectByValidFlag()
+        {
+            const string sql = @"
+            SELECT 
+                [PersonId],
+                [Name],
+                [VALID_FLAG]
+            FROM [ERP].[Person] WITH(NOLOCK)
+             WHERE [VALID_FLAG] = '1'
             ";
 
             var command = this.CreateCommand(sql);
@@ -737,7 +756,7 @@ namespace BOA.Business.Kernel.Card.ERP
                 return new DbColumnInfo
                 {
                     Name      = "VALID_FLAG",
-                    SqlDbType = SqlDbType.VarChar
+                    SqlDbType = SqlDbType.Char
                 };
             }
 
