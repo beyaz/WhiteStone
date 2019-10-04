@@ -563,11 +563,13 @@ namespace BOA.Business.Kernel.Card.ERP
             const string sql = @"
             INSERT INTO [ERP].[Person]
             (
-                [Name]
+                [Name],
+                [VALID_FLAG]
             )
             VALUES
             (
-                @Name
+                @Name,
+                @VALID_FLAG
             )
             SELECT CAST(SCOPE_IDENTITY() AS INT)
             ";
@@ -575,6 +577,7 @@ namespace BOA.Business.Kernel.Card.ERP
             var command = this.CreateCommand(sql);
 
             DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
+            DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.VarChar, contract.ValidFlag);
 
             var response = this.ExecuteScalar(command);
 
@@ -595,7 +598,8 @@ namespace BOA.Business.Kernel.Card.ERP
 
             const string sql = @"
             UPDATE [ERP].[Person] SET
-                [Name] = @Name
+                [Name] = @Name,
+                [VALID_FLAG] = @VALID_FLAG
             WHERE
                 [PersonId] = @PersonId
             ";
@@ -603,6 +607,7 @@ namespace BOA.Business.Kernel.Card.ERP
             var command = this.CreateCommand(sql);
 
             DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
+            DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.VarChar, contract.ValidFlag);
             DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, contract.Personid);
 
             return this.ExecuteNonQuery(command);
@@ -629,6 +634,11 @@ namespace BOA.Business.Kernel.Card.ERP
             {
                 sql.Append("[Name] = @Name,");
             }
+
+            if(Array.IndexOf(columnNames, nameof(PersonContract.ValidFlag)) >= 0)
+            {
+                sql.Append("[VALID_FLAG] = @VALID_FLAG,");
+            }
             sql.Remove(sql.Length - 1, 1);
             sql.Append(" WHERE ");
             sql.Append("[PersonId] = @PersonId AND");
@@ -640,6 +650,11 @@ namespace BOA.Business.Kernel.Card.ERP
             if(Array.IndexOf(columnNames, nameof(PersonContract.Name)) >= 0)
             {
                 DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(PersonContract.ValidFlag)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.VarChar, contract.ValidFlag);
             }
             DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, contract.Personid);
 
@@ -654,7 +669,8 @@ namespace BOA.Business.Kernel.Card.ERP
             const string sql = @"
             SELECT
                 [PersonId],
-                [Name]
+                [Name],
+                [VALID_FLAG]
                 FROM [ERP].[Person] WITH (NOLOCK)
             WHERE
                 [PersonId] = @PersonId
@@ -674,6 +690,7 @@ namespace BOA.Business.Kernel.Card.ERP
         {
             contract.Personid = SQLDBHelper.GetInt32Value(reader["PersonId"]);
             contract.Name = SQLDBHelper.GetStringValue(reader["Name"]);
+            contract.ValidFlag = SQLDBHelper.GetBooleanValue(reader["VALID_FLAG"]);
         }
 
         /// <summary>
@@ -684,7 +701,8 @@ namespace BOA.Business.Kernel.Card.ERP
             const string sql = @"
             SELECT 
                 [PersonId],
-                [Name]
+                [Name],
+                [VALID_FLAG]
             FROM [ERP].[Person] WITH(NOLOCK)
             ";
 
@@ -714,6 +732,14 @@ namespace BOA.Business.Kernel.Card.ERP
                     SqlDbType = SqlDbType.VarChar
                 };
             }
+            if (propertyNameInContract == nameof(PersonContract.ValidFlag))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "VALID_FLAG",
+                    SqlDbType = SqlDbType.VarChar
+                };
+            }
 
             throw new ArgumentException(propertyNameInContract);
         }
@@ -734,7 +760,8 @@ namespace BOA.Business.Kernel.Card.ERP
             const string sqlSelectPart = @"
             SELECT 
                 [PersonId],
-                [Name]
+                [Name],
+                [VALID_FLAG]
             FROM [ERP].[Person] WITH(NOLOCK)
 
             ";
@@ -787,7 +814,8 @@ namespace BOA.Business.Kernel.Card.ERP
             const string sqlSelectPart = @"
             SELECT TOP(@$resultCount) 
                 [PersonId],
-                [Name]
+                [Name],
+                [VALID_FLAG]
             FROM [ERP].[Person] WITH(NOLOCK)
 
             ";

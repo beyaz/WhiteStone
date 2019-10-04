@@ -30,6 +30,8 @@ namespace BOA.Types.Kernel.Card.ERP
 
         public string Name { get; set; }
 
+        public bool ValidFlag { get; set; }
+
         #endregion
     }
 }
