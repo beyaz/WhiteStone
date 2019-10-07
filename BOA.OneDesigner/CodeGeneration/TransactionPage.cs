@@ -508,7 +508,7 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.AppendLine("if (hasWorkflow)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
-                sb.AppendLine("const windowRequestInForm = this.state.windowRequest || {};");
+                sb.AppendLine("const windowRequestInForm = this.state.windowRequest || this.windowRequest.body;");
                 sb.AppendLine();
                 sb.AppendLine($"{windowRequest}.hasWorkflow = windowRequestInForm.hasWorkflow;");
                 sb.AppendLine();
