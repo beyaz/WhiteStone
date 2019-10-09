@@ -502,7 +502,7 @@ namespace BOA.OneDesigner.Helpers
                 }
             }
 
-            CollectProperties(data,pathPrefix, typeDefinition.BaseType.Resolve());
+            CollectProperties(data,pathPrefix, typeDefinition.BaseType?.Resolve());
         }
 
         static TypeDefinition FindType(string assemblyPath, string typeFullName)
