@@ -22,7 +22,12 @@ namespace BOA.OneDesigner.CodeGeneration
                 sb.Append(" style = {{ fontWeight:\"bold\" }}");
             }
 
-            sb.Append("context={context}");
+            if (data.SizeInfo.HasValue())
+            {
+                sb.Append(" size = {" + RenderHelper.GetJsValue(data.SizeInfo) + "}");
+            }
+
+            sb.Append(" context={context}");
 
             sb.AppendLine(" />");
         }
