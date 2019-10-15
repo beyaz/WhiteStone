@@ -70,7 +70,23 @@ namespace BOAMessagingTooltip
             {
                 var startIndex = line.IndexOf(methodPattern, StringComparison.OrdinalIgnoreCase) + methodPattern.Length;
                 var part       = line.Substring(startIndex);
-                part = part.Replace("(", " ").Replace(")", " ").Replace("\"", " ").Replace(";", " ").Replace(":", " ").Trim();
+
+                var excludeList = new[]
+                {
+                    "{",
+                    "}",
+                    "(",
+                    ")",
+                    "\"",
+                    "/",
+                    ";",
+                    ":"
+                };
+
+                foreach (var removeValue in excludeList)
+                {
+                    part = part.Replace(removeValue, " ");
+                }
 
                 var arr = part.SplitAndClear(",");
                 if (arr.Count == 2)
