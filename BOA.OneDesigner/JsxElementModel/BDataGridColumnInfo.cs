@@ -20,6 +20,8 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public int? Width { get; set; }
 
+        public string DateFormat { get; set; }
+
         /// <summary>
         ///     Gets or sets the label.
         /// </summary>

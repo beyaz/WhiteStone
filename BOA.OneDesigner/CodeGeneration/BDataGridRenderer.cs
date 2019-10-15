@@ -165,7 +165,14 @@ namespace BOA.OneDesigner.CodeGeneration
                     else if (propertyInfo.IsDate || propertyInfo.IsDateNullable)
                     {
                         jsObject.Add("type", "\"date\"");
-                        jsObject.Add("dateFormat", "\"L\"");
+
+                        var dateFormat = bDataGridColumnInfo.DateFormat;
+                        if (string.IsNullOrWhiteSpace(dateFormat))
+                        {
+                            dateFormat = "L";
+                        }
+
+                        jsObject.Add("dateFormat",  '"' + dateFormat +'"'  );
                     }
                     else if (propertyInfo.IsBoolean || propertyInfo.IsBooleanNullable)
                     {

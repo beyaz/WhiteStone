@@ -28,6 +28,11 @@ namespace BOA.OneDesigner.PropertyEditors
             ui          : 'LabeledTextBox', 
             Label       : 'Width',
             Text        : '{Binding " + Model.AccessPathOf(m => m.Width) + @", Converter = WhiteStone.UI.Container.StringToNullableInt32Converter}'
+        },
+        {   
+            ui          : 'LabeledTextBox', 
+            Label       : 'Date Format (Default: L)',
+            Text        : '{Binding " + Model.AccessPathOf(m => m.DateFormat) + @"}'
         }
 
 	]
