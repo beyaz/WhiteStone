@@ -130,30 +130,33 @@ namespace BOA.OneDesigner.MainForm
 
             if (Model.ScreenInfo.FormType == FormType.BrowsePage)
             {
+                var defaultCriteriaPanel = new BCard
+                {
+                    IsBrowsePageCriteria = true,
+                    TitleInfo            = new LabelInfo {IsFreeText = true, FreeTextValue = "Kriterler"}
+                };
+                var defaultSearchResultPart = new BCard
+                {
+                    IsBrowsePageDataGridContainer = true,
+                    LayoutProps                   = new LayoutProps {Wide     = 12},
+                    TitleInfo                     = new LabelInfo {IsFreeText = true, FreeTextValue = "Sonuç Listesi"},
+                    Items = new List<BField>
+                    {
+                        new BDataGrid
+                        {
+                            SizeInfo = new SizeInfo {IsLarge = true}
+                        }
+                    }
+                };
+
                 if (Model.ScreenInfo.JsxModel == null)
                 {
                     Model.ScreenInfo.JsxModel = new DivAsCardContainer
                     {
                         Items = new List<BCard>
                         {
-                            new BCard
-                            {
-                                IsBrowsePageCriteria = true,
-                                TitleInfo            = new LabelInfo {IsFreeText = true, FreeTextValue = "Kriterler"}
-                            },
-                            new BCard
-                            {
-                                IsBrowsePageDataGridContainer = true,
-                                LayoutProps                   = new LayoutProps {Wide     = 12},
-                                TitleInfo                     = new LabelInfo {IsFreeText = true, FreeTextValue = "Sonuç Listesi"},
-                                Items = new List<BField>
-                                {
-                                    new BDataGrid
-                                    {
-                                        SizeInfo = new SizeInfo {IsLarge = true}
-                                    }
-                                }
-                            }
+                            defaultCriteriaPanel,
+                            defaultSearchResultPart
                         }
                     };
                 }
@@ -161,6 +164,15 @@ namespace BOA.OneDesigner.MainForm
                 {
                     if (Model.ScreenInfo.JsxModel is DivAsCardContainer divAsCardContainer)
                     {
+                        if (divAsCardContainer.Items.Count ==0)
+                        {
+                            divAsCardContainer.Items.Add(defaultCriteriaPanel);
+                        }
+                        if (divAsCardContainer.Items.Count ==1)
+                        {
+                            divAsCardContainer.Items.Add(defaultSearchResultPart);
+                        }
+
                         divAsCardContainer.Items[0].IsBrowsePageCriteria = true;
                         divAsCardContainer.Items[1].IsBrowsePageDataGridContainer = true;
                     }
