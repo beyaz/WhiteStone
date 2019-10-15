@@ -56,10 +56,7 @@ namespace AsyncQuickInfo
                 return Task.FromResult<QuickInfoItem>(null);
             }
 
-            foreach (var trace in data.Trace)
-            {
-                Log(trace);
-            }
+            Log(data);
 
             var lineSpan = _textBuffer.CurrentSnapshot.CreateTrackingSpan(line.Extent, SpanTrackingMode.EdgeInclusive);
 
@@ -76,9 +73,12 @@ namespace AsyncQuickInfo
         #endregion
 
         #region Methods
-        static void Log(string message)
+        static void Log(ExecutionData data)
         {
-            BOA.Common.Helpers.Log.Push(message);
+            //foreach (var trace in data.Trace)
+            //{
+            //    BOA.Common.Helpers.Log.Push(trace);
+            //}
         }
         #endregion
     }
