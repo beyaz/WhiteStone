@@ -3,7 +3,7 @@
     <Metadata>
         <Identity Id="BOA Messaging Tooltip .07dd4989-0842-476c-8f6f-c00bf6435dca" Version="1.0" Language="en-US" Publisher="Abdullah Beyaztaş" />
         <DisplayName>BOA Messaging Tooltip</DisplayName>
-        <Description xml:space="preserve">BOA Messaging Tooltip indicator</Description>
+        <Description xml:space="preserve">BOA Messaging Tooltip Indicator</Description>
         <License>Resources\LICENSE</License>
         <Icon>Resources\AbstractCube.png</Icon>
         <PreviewImage>Resources\AbstractCube.png</PreviewImage>

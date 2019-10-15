@@ -120,7 +120,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LanguageTranslations\EnglishBank\DataSource.txt" />
     <Content Include="Resources\AbstractCube.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
