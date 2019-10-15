@@ -289,7 +289,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine();
             sb.AppendLine("clonedWindowRequest.errorTexts[bindingPath] = null;");
             sb.AppendLine();
-            sb.AppendLine("this.restoreWindowRequest(clonedWindowRequest);");
+            sb.AppendLine("this.restoreWindowRequest(clonedWindowRequest, null);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");
