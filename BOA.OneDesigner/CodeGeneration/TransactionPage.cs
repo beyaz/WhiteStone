@@ -730,6 +730,10 @@ addToProcessQueue(fn: Function)
                 sb.AppendLine("{");
                 sb.AppendLine("    this.executeWorkFlow();");
                 sb.AppendLine("}");
+                sb.AppendLine("else");
+                sb.AppendLine("{");
+                sb.AppendLine("    this.executeWorkFlow = null;");
+                sb.AppendLine("}");
             }
 
 
