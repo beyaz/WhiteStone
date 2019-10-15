@@ -106,3 +106,10 @@ WhiteStone.Test/obj
 /BOA.OneDesigner/obj/
 /BOA.TfsAccess/bin/
 /BOA.TfsAccess/.vs/
+/BOAMessagingTooltip/.vs
+/BOAMessagingTooltip/BOAMessagingTooltip.Test/bin/
+/BOAMessagingTooltip/BOAMessagingTooltip.Test/obj/
+/BOAMessagingTooltip/packages
+/BOAMessagingTooltip/src/bin/
+/BOAMessagingTooltip/src/obj/
+/BOAMessagingTooltip/_ReSharper.Caches/

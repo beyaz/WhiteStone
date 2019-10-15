@@ -14,6 +14,9 @@ using ReflectionHelper = CustomUIMarkupLanguage.ReflectionHelper;
 
 namespace WhiteStone.UI.Container
 {
+    /// <summary>
+    /// The intellisense text box
+    /// </summary>
     public class IntellisenseTextBox : Grid
     {
         public AutoCompleteComboBox AutoCompleteComboBox;
