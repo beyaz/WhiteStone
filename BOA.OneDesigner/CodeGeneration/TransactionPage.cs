@@ -297,6 +297,59 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(new TypeScriptMemberInfo{ IsMethod = true, Code = sb.ToString()});
         }
 
+        static void hasAnyErrorText(WriterContext writerContext)
+        {
+            if (!writerContext.HasSupportErrorText)
+            {
+                return;
+            }
+
+            if (!writerContext.HasWorkflow)
+            {
+                return;
+            }
+
+
+
+            var sb = new PaddedStringBuilder();
+
+            if (RenderHelper.IsCommentEnabled)
+            {
+                sb.AppendLine("/**");
+                sb.AppendLine("  *  Returns true if has any error text.");
+                sb.AppendLine("  */");
+            }
+
+            sb.AppendLine("hasAnyErrorText(windowRequest: any): boolean");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("const errorTexts = windowRequest.errorTexts;");
+            sb.AppendLine("if (!errorTexts)");
+            sb.AppendLine("{");
+            sb.AppendLine("    return false;");
+            sb.AppendLine("}");
+            sb.AppendLine();
+            sb.AppendLine("const keys = Object.keys(errorTexts);");
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.AppendLine("for (let i = 0; i < keys.length; i++)");
+            sb.AppendLine("{");
+            sb.AppendLine("    if (errorTexts[keys[i]] != null)");
+            sb.AppendLine("    {");
+            sb.AppendLine("        return true;");
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
+            sb.AppendLine();
+            sb.AppendLine("return false;");
+            sb.AppendLine();
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            writerContext.AddClassBody(new TypeScriptMemberInfo{ IsMethod = true, Code = sb.ToString()});
+        }
+
         static void EvaluateActions(WriterContext writerContext)
         {
             if (!writerContext.CanWriteEvaluateActions)
@@ -725,8 +778,14 @@ addToProcessQueue(fn: Function)
 
             if (writerContext.HasWorkflow)
             {
+                var condition = "success && this.executeWorkFlow";
+
+                if (writerContext.HasSupportErrorText)
+                {
+                    condition += " && !this.hasAnyErrorText(value)";
+                }
                 sb.AppendLine();
-                sb.AppendLine("if (success && this.executeWorkFlow)");
+                sb.AppendLine($"if ({condition})");
                 sb.AppendLine("{");
                 sb.AppendLine("    this.executeWorkFlow();");
                 sb.AppendLine("}");
@@ -877,6 +936,7 @@ addToProcessQueue(fn: Function)
 
             ComponentDidMount(writerContext);
             clearErrorText(writerContext);
+            hasAnyErrorText(writerContext);
 
             WriteConstructor(writerContext);
 
