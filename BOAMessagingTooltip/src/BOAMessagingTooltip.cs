@@ -65,11 +65,18 @@ namespace BOAMessagingTooltip
                 return null;
             }
 
-            const string methodPattern = "MessagingHelper.GetMessage";
+            const string methodPattern = "MessagingHelper.GetMessage(";
             if (line.Contains(methodPattern))
             {
                 var startIndex = line.IndexOf(methodPattern, StringComparison.OrdinalIgnoreCase) + methodPattern.Length;
                 var part       = line.Substring(startIndex);
+                var indexOfMethodParameterClose = part.IndexOf(")",StringComparison.OrdinalIgnoreCase);
+                if (indexOfMethodParameterClose<=0)
+                {
+                    return null;
+                }
+
+                part = part.Substring(0, indexOfMethodParameterClose);
 
                 var excludeList = new[]
                 {

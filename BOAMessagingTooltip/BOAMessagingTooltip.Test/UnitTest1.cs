@@ -10,10 +10,9 @@ namespace BOAMessagingTooltip.Test
         [TestMethod]
         public void ShouldExtractMessagingCodeAndPropertyIfLineContainsMessagingAccessLine()
         {
-            
-            const string line = @"ErrorCode = BOA.Messaging.MessagingHelper.GetMessage(""CallCenter"", ""SendMailFailure""),";
+            const string line = @"ErrorCode = BOA.Messaging.MessagingHelper.GetMessage(""CallCenter"", ""SendMailFailure""),Severity = Severity.Error });";
 
-            var          info = Parser.Parse(line);
+            var info = Parser.Parse(line);
 
             info.GroupCode.Should().Be("CallCenter");
             info.PropertyName.Should().Be("SendMailFailure");
@@ -22,6 +21,8 @@ namespace BOAMessagingTooltip.Test
 
             info.TurkishText.Should().Be("E-posta gönderilemedi.");
         }
+
+        
         #endregion
     }
 }
