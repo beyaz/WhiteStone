@@ -61,6 +61,7 @@ namespace BOA.OneDesigner.Helpers
         public List<string> ProcessedClassNames { get; set; }
         public bool HasPropertyLikeDialogResponse { get; set; }
         public bool HasPropertyLikeErrorTexts { get; set; }
+        public bool HasPropertyLikePageRefresherInfo { get; set; }
         #endregion
 
 
@@ -444,6 +445,11 @@ namespace BOA.OneDesigner.Helpers
                 if (propertyDefinition.Name == "ErrorTexts")
                 {
                     data.HasPropertyLikeErrorTexts = true;
+                }
+
+                if (propertyDefinition.Name == "PageRefreshInfo")
+                {
+                    data.HasPropertyLikePageRefresherInfo = true;
                 }
 
 

@@ -517,6 +517,52 @@ namespace BOA.OneDesigner.CodeGeneration
             writerContext.AddClassBody(sb.ToString());
         }
 
+        static void ProcessPageRefreshInfo(WriterContext writerContext)
+        {
+            if (!writerContext.RequestIntellisenseData.HasPropertyLikePageRefresherInfo)
+            {
+                return;
+            }
+
+            var sb = new PaddedStringBuilder();
+
+            const string lines = @"
+processPageRefreshInfo(pageRefreshInfo: any)
+{
+    if (!pageRefreshInfo)
+    {
+        return;
+    }
+
+    const me = this;
+
+    if (pageRefreshInfo.isActive)
+    {
+        if (pageRefreshInfo.intervalId == null)
+        {
+            const handler = () =>
+            {
+                me.executeWindowRequest(pageRefreshInfo.targetOrchestrationMethodName);
+            };
+            pageRefreshInfo.intervalId = setInterval(handler, pageRefreshInfo.delay);
+        }
+
+        return;
+    }
+
+    if (pageRefreshInfo.intervalId != null)
+    {
+        clearInterval(pageRefreshInfo.intervalId);
+        pageRefreshInfo.intervalId = null;
+    }
+}
+
+";
+            sb.AppendAll(lines);
+            sb.AppendLine("");
+            
+            writerContext.AddClassBody(sb.ToString());
+        }
 
         static void RestoreWindowRequest(WriterContext writerContext)
         {
@@ -590,6 +636,13 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine($"    BFormManager.showStatusMessage({windowRequest}.statusMessage);");
             sb.AppendLine($"    {windowRequest}.statusMessage = null;");
             sb.AppendLine("}");
+
+            if (writerContext.RequestIntellisenseData.HasPropertyLikePageRefresherInfo)
+            {
+                sb.AppendLine();
+                sb.AppendLine($"this.processPageRefreshInfo({windowRequest}.pageRefreshInfo);");
+            }
+
 
             sb.AppendLine();
             sb.AppendLine("this.setWindowRequest(");
@@ -940,6 +993,7 @@ addToProcessQueue(fn: Function)
             Render(writerContext, jsxModel);
             ProxyDidRespond(writerContext);
             RestoreWindowRequest(writerContext);
+            ProcessPageRefreshInfo(writerContext);
             FillWindowRequest(writerContext);
 
             ComponentDidMount(writerContext);
