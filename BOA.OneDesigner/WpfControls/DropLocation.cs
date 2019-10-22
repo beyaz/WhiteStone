@@ -90,11 +90,18 @@ namespace BOA.OneDesigner.WpfControls
 
          void OnDrop(object sender, DragEventArgs e)
         {
+            if (Host.SelectedElement == null)
+            {
+                return;
+            }
+
             var dropLocation = sender as DropLocation;
 
             dropLocation?.OnDropAction(dropLocation);
 
             Host.EventBus.Publish(EventBus.OnAfterDropOperation);
+
+            Host.SelectedElement = null;
         }
         #endregion
     }

@@ -96,6 +96,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             UpdateModel(dropLocation.TargetLocationIndex);
             Refresh();
+            Host.SelectedElement?.FindParent<BCardWpf>()?.Refresh();
         }
 
         /// <summary>
@@ -385,6 +386,8 @@ namespace BOA.OneDesigner.WpfControls
                 }
 
                 component.Model.Info.RemoveFromParent();
+
+                
 
                 Model.InsertItem(insertIndex, component.Model.Info);
 
