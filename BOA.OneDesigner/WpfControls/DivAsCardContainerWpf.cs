@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;

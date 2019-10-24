@@ -142,6 +142,7 @@
                         {
                           "ui": "ScrollViewer",
                           "VerticalScrollBarVisibility": "Auto",
+                          "HorizontalScrollBarVisibility": "Auto",
 
                           "Content": {
                             "ui": "Surface",
