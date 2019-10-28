@@ -60,6 +60,11 @@ namespace BOA.EntityGeneration
 
             var names = dbObjectName.SplitAndClear("_");
 
+            if (names.Count == 1)
+            {
+                return names[0];
+            }
+
             return string.Join(string.Empty, names.Select(name => name.Substring(0, 1).ToUpper(new CultureInfo("EN-US")) + name.Substring(1).ToLowerInvariant()));
         }
         #endregion
