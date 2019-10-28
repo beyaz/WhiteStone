@@ -10,9 +10,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         [TestMethod]
         public void CustomSqlInjection()
         {
-            using (var kernel = new Kernel())
+            using (var kernel = new TestKernel())
             {
-                 
+                kernel.Get<ProjectInjector>().Inject("CC_OPERATIONS");
+
                  // bize ait değil kernel.Get<ProjectInjector>().Inject("CRD_MANAGEMENT");
                  // kernel.Get<ProjectInjector>().Inject("TMS");
 
@@ -20,7 +21,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
                 // // kernel.Get<ProjectInjector>().Inject("ACQUIRING_APPLICATION");
                 // // kernel.Get<ProjectInjector>().Inject("BKM_MANAGEMENT");
                 // // kernel.Get<ProjectInjector>().Inject("CARD_APPLICATION");
-                 kernel.Get<ProjectInjector>().Inject("CC_OPERATIONS");
+                
                 // // kernel.Get<ProjectInjector>().Inject("CLEARING_COMMON");
                 // // kernel.Get<ProjectInjector>().Inject("CRD_INSTANT");
                 // // kernel.Get<ProjectInjector>().Inject("CRD_ISSUING");
