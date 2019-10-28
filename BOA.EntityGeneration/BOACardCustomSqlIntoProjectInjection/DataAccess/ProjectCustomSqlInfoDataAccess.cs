@@ -99,6 +99,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             {
                 returnValue = new ProjectCustomSqlInfo
                 {
+                    ProfileId = profileId,
                     CustomSqlInfoList       = list,
                     TypesProjectPath        = reader["typesprojectpath"].ToString(),
                     BusinessProjectPath     = reader["businessprojectpath"].ToString(),

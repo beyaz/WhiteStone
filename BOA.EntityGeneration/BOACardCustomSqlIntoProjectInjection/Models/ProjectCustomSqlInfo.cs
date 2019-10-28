@@ -11,5 +11,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
         public string                       NamespaceNameOfBusiness { get; set; }
         public string                       TypesProjectPath        { get; set; }
         public string                       BusinessProjectPath     { get; set; }
+        public string ProfileId { get; set; }
     }
 }

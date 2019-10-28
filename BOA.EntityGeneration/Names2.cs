@@ -60,9 +60,29 @@ namespace BOA.EntityGeneration
 
             var names = dbObjectName.SplitAndClear("_");
 
+            
             if (names.Count == 1)
             {
-                return names[0];
+                var isCamelCase = true;
+                for (var i = 0; i < names[0].Length; i++)
+                {
+                    if (i==0 && char.IsLower(names[0][i]))
+                    {
+                        isCamelCase = false;
+                        break;
+                    }
+                    if (!char.IsLower(names[0][i]))
+                    {
+                        isCamelCase = false;
+                        break;
+                    }
+                }
+
+                if (isCamelCase)
+                {
+                    return names[0];    
+                }
+                
             }
 
             return string.Join(string.Empty, names.Select(name => name.Substring(0, 1).ToUpper(new CultureInfo("EN-US")) + name.Substring(1).ToLowerInvariant()));
