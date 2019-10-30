@@ -1130,16 +1130,19 @@ addToProcessQueue(fn: Function)
                     sb.AppendLine("{");
                     sb.PaddingCount++;
 
-                    RenderHelper.InitLabelValues(writerContext, resourceAction.OnClickAction);
-                    var function = new ActionInfoFunction
+                    if (resourceAction.OnClickAction != null)
                     {
-                        WriterContext = writerContext,
-                        Data = resourceAction.OnClickAction
-                    };
+                        RenderHelper.InitLabelValues(writerContext, resourceAction.OnClickAction);
+                        var function = new ActionInfoFunction
+                        {
+                            WriterContext = writerContext,
+                            Data          = resourceAction.OnClickAction
+                        };
 
-                    sb.AppendAll(function.GetCode());
+                        sb.AppendAll(function.GetCode());
 
-                    sb.AppendLine();
+                        sb.AppendLine();
+                    }
 
                     sb.AppendLine("return true;");
                     sb.PaddingCount--;
