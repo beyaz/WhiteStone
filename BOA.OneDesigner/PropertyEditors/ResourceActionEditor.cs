@@ -26,7 +26,11 @@ namespace BOA.OneDesigner.PropertyEditors
         {
             if (Model.OnClickAction == null)
             {
-                Model.OnClickAction = new ActionInfo();
+                Model.OnClickAction = new ActionInfo
+                {
+                    DialogTitleInfo   = new LabelInfo(),
+                    YesNoQuestionInfo = new LabelInfo()
+                };
             }
 
             this.LoadJson(@"
