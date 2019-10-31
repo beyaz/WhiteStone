@@ -34,7 +34,12 @@ namespace BOA.OneDesigner.PropertyEditors
             Label       : 'Date Format (Default: L)',
             Text        : '{Binding " + Model.AccessPathOf(m => m.DateFormat) + @"}'
         }
-
+        ,
+        {   
+            ui          : 'LabeledTextBox', 
+            Label       : 'Total Summary (Örnek: sum, count, avg)',
+            Text        : '{Binding " + Model.AccessPathOf(m => m.TotalSummary) + @"}'
+        }
 	]
 }
 

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.OneDesigner.CodeGenerationComponentGetValueModels;
 using BOA.OneDesigner.CodeGenerationHelper;
@@ -9,6 +11,28 @@ using BOAPlugins.Utility;
 
 namespace BOA.OneDesigner.CodeGeneration
 {
+    static class TotalSummary
+    {
+        static JsObject GetTotalSummaryInfo(BDataGridColumnInfo item)
+        {
+            return new JsObject
+            {
+                ["columnName"] = TypescriptNaming.NormalizeBindingPath(item.BindingPath),
+                ["type"]       = item.TotalSummary
+            };
+        }
+
+        public static IList<JsObject> GetTotalSummaryList(IReadOnlyList<BDataGridColumnInfo> columns)
+        {
+            return columns.Where(c => c.TotalSummary.HasValue()).ToList().ConvertAll(GetTotalSummaryInfo);
+        }
+
+        public static string AsJsonArrayBody(IList<JsObject> totalSummaryList)
+        {
+            return string.Join("," + Environment.NewLine, totalSummaryList.Select(JsObjectInfoSingleLineWriter.ToString));
+        }
+    }
+
     static class BDataGridRenderer
     {
         #region Public Methods
@@ -118,6 +142,20 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("}}");
 
             RenderHelper.WriteSize(data.SizeInfo, sb.AppendLine);
+
+            var totalSummaryList = TotalSummary.GetTotalSummaryList(data.Columns);
+            if (totalSummaryList.Any())
+            {
+                sb.AppendLine("totalSummaryItems={[");
+
+                sb.PaddingCount++;
+
+                sb.AppendAll(TotalSummary.AsJsonArrayBody(totalSummaryList));
+                sb.AppendLine();
+
+                sb.PaddingCount--;
+                sb.AppendLine("]}");
+            }
 
             sb.AppendLine("context = {context}/>");
         }

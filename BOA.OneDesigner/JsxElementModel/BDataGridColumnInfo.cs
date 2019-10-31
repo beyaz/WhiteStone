@@ -36,6 +36,11 @@ namespace BOA.OneDesigner.JsxElementModel
         public string LabelText => Label.GetDesignerText();
 
         /// <summary>
+        ///     Gets or sets the total summary.
+        /// </summary>
+        public string TotalSummary { get; set; }
+
+        /// <summary>
         ///     Gets or sets the width.
         /// </summary>
         public int? Width { get; set; }
