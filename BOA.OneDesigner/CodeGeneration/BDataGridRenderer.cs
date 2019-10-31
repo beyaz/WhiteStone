@@ -17,8 +17,8 @@ namespace BOA.OneDesigner.CodeGeneration
         {
             return new JsObject
             {
-                ["columnName"] = TypescriptNaming.NormalizeBindingPath(item.BindingPath),
-                ["type"]       = item.TotalSummary
+                ["columnName"] = '"'+TypescriptNaming.NormalizeBindingPath(item.BindingPath) +'"',
+                ["type"]       = '"'+item.TotalSummary+'"'
             };
         }
 
@@ -70,6 +70,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 }
             }
 
+            var totalSummaryList = TotalSummary.GetTotalSummaryList(data.Columns);
+
             if (isBrowsePageDataGrid)
             {
                 var dataSourceBindingPathInTypeScript = TypescriptNaming.NormalizeBindingPath(Config.BindingPrefixInCSharp + data.DataSourceBindingPath);
@@ -84,9 +86,11 @@ namespace BOA.OneDesigner.CodeGeneration
                         writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("selectable", "\"single\"");    
                     }    
                 }
-                
 
-
+                if (totalSummaryList.Any())
+                {
+                    writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("totalSummaryItems", $"[{TotalSummary.AsJsonArrayBody(totalSummaryList)}]");    
+                }
 
                 return;
             }
@@ -143,7 +147,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             RenderHelper.WriteSize(data.SizeInfo, sb.AppendLine);
 
-            var totalSummaryList = TotalSummary.GetTotalSummaryList(data.Columns);
+            
             if (totalSummaryList.Any())
             {
                 sb.AppendLine("totalSummaryItems={[");
