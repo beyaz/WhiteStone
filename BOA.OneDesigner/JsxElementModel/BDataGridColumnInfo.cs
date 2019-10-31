@@ -15,20 +15,30 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public string BindingPath { get; set; }
 
-
-        public string IsVisibleBindingPath { get; set; }
-
-        public int? Width { get; set; }
-
+        /// <summary>
+        ///     Gets or sets the date format.
+        /// </summary>
         public string DateFormat { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the is visible binding path.
+        /// </summary>
+        public string IsVisibleBindingPath { get; set; }
 
         /// <summary>
         ///     Gets or sets the label.
         /// </summary>
         public LabelInfo Label { get; set; }
 
-
+        /// <summary>
+        ///     Gets the label text.
+        /// </summary>
         public string LabelText => Label.GetDesignerText();
+
+        /// <summary>
+        ///     Gets or sets the width.
+        /// </summary>
+        public int? Width { get; set; }
         #endregion
     }
 }
