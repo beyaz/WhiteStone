@@ -407,7 +407,8 @@ namespace BOA.EntityGeneration
                 return SqlReaderMethods.GetStringValue;
             }
 
-            if (dataType.Equals("char", StringComparison.OrdinalIgnoreCase) )
+            if (dataType.Equals("char", StringComparison.OrdinalIgnoreCase) ||
+                dataType.Equals("STRING",StringComparison.OrdinalIgnoreCase))
             {
                 return SqlReaderMethods.GetStringValue;
             }

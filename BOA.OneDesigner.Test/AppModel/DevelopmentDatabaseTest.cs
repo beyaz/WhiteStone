@@ -17,7 +17,7 @@ namespace BOA.OneDesigner.AppModel
        
 
         #region Public Methods
-        [TestMethod]
+        //[TestMethod]
         public void GetAndSaveAllToDb()
         {
             using (var database = new DevelopmentDatabase())

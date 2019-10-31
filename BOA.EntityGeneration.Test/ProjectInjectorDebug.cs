@@ -14,7 +14,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
             {
                 // kernel.Get<ProjectInjector>().Inject("CC_OPERATIONS");
 
-                kernel.Get<ProjectInjector>().Inject("ACCOUNTING");
+                kernel.Get<ProjectInjector>().Inject("CreditCardExtract");
                 
 
                  // bize ait değil kernel.Get<ProjectInjector>().Inject("CRD_MANAGEMENT");
