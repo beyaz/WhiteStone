@@ -33,6 +33,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
         ///     Gets or sets the name of the SQL database type.
         /// </summary>
         SqlDbType SqlDbTypeName { get; }
+
+        /// <summary>
+        ///     Gets the value access path for add in parameter.
+        /// </summary>
+        string ValueAccessPathForAddInParameter { get; }
         #endregion
     }
 
@@ -67,6 +72,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
         ///     Gets or sets the name of the SQL database type.
         /// </summary>
         public SqlDbType SqlDbTypeName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value access path for add in parameter.
+        /// </summary>
+        public string ValueAccessPathForAddInParameter { get; set; }
         #endregion
     }
 }

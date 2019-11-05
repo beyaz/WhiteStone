@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data;
-using System.Linq;
+﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
 
@@ -64,7 +62,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
         /// </summary>
         public void Write(PaddedStringBuilder sb, CustomSqlInfo data,ProjectCustomSqlInfo projectCustomSqlInfo)
         {
-
             var key = $"{projectCustomSqlInfo.NamespaceNameOfBusiness}.{data.BusinessClassName}.Execute";
 
             WriteComment(sb, data);
@@ -79,8 +76,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
             WriteComment(sb, data);
             if (data.SqlResultIsCollection)
             {
-
-
                 sb.AppendLine($"public GenericResponse<List<{data.ResultContractName}>> Execute({data.ParameterContractName} request)");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
@@ -252,19 +247,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
         /// </summary>
         static void AddInParameter(PaddedStringBuilder sb, IReadOnlyCustomSqlInfoParameter item)
         {
-            var value = $"request.{item.CSharpPropertyName}";
-
-            var endsWithFlagSuffix    = item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase);
-            var isChar                = item.SqlDbTypeName == SqlDbType.Char;
-            var propertyTypeIsBoolean = item.CSharpPropertyTypeName == DotNetTypeName.DotNetBool || item.CSharpPropertyTypeName == DotNetTypeName.DotNetBool + "?";
-
-            var valueShouldBeBooleanChar = endsWithFlagSuffix && isChar && propertyTypeIsBoolean;
-            if (valueShouldBeBooleanChar)
-            {
-                value = $"request.{item.CSharpPropertyName} ? \"1\" : \"0\"";
-            }
-
-            sb.AppendLine($"DBLayer.AddInParameter(command, \"@{item.Name}\", SqlDbType.{item.SqlDbTypeName}, {value});");
+            sb.AppendLine($"DBLayer.AddInParameter(command, \"@{item.Name}\", SqlDbType.{item.SqlDbTypeName}, request.{item.ValueAccessPathForAddInParameter});");
         }
 
         /// <summary>

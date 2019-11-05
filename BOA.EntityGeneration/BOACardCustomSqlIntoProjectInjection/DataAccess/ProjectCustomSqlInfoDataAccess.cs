@@ -405,15 +405,38 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
                 var cSharpPropertyTypeName = GetDataTypeInDotnet(dataType, isNullable);
 
-                cSharpPropertyTypeName = TableOverride.GetColumnDotnetType(name, cSharpPropertyTypeName, isNullable);
+                var cSharpPropertyName = name.ToContractName();
+
+                var valueAccessPathForAddInParameter = cSharpPropertyName;
+              
+
+                var sqlDbTypeName = GetSqlDbTypeName(dataType);
+
+                var isChar = sqlDbTypeName == SqlDbType.Char;
+
+                var endsWithFlagSuffix    = name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase);
+                if (endsWithFlagSuffix && isChar)
+                {
+                    if (isNullable)
+                    {
+                        cSharpPropertyTypeName = DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
+                    }
+                    else
+                    {
+                        cSharpPropertyTypeName = DotNetTypeName.DotNetBool;
+                    }
+
+                    valueAccessPathForAddInParameter = valueAccessPathForAddInParameter + " ? \"1\" : \"0\"";
+                }
 
                 var item = new CustomSqlInfoParameter
                 {
                     Name                   = name,
                     IsNullable             = isNullable,
-                    CSharpPropertyName     = name.ToContractName(),
+                    CSharpPropertyName     = cSharpPropertyName,
                     CSharpPropertyTypeName = cSharpPropertyTypeName,
-                    SqlDbTypeName          = GetSqlDbTypeName(dataType)
+                    SqlDbTypeName          = sqlDbTypeName,
+                    ValueAccessPathForAddInParameter = valueAccessPathForAddInParameter
                 };
 
                 items.Add(item);
