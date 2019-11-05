@@ -103,7 +103,7 @@ if (data.SqlResultIsCollection)
             
             #line default
             #line hidden
-            this.Write("\");\r\n\t\r\n\t\tconst string sql = @\"\r\n\t\t\t");
+            this.Write("\");\r\n\t\r\n\t\tconst string sql = @\"\r\n\t\t");
             
             #line 25 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.Sql));
@@ -226,7 +226,7 @@ else
             
             #line default
             #line hidden
-            this.Write("\");\r\n\t\r\n\t\tconst string sql = @\"\r\n\t\t\t");
+            this.Write("\");\r\n\t\r\n\t\tconst string sql = @\"\r\n\t\t");
             
             #line 69 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.Sql));

@@ -22,7 +22,7 @@ public sealed class <#=data.BusinessClassName#> : ObjectHelper
 		var returnObject = InitializeGenericResponse<List<<#=data.ResultContractName#>>>("<#=key#>");
 	
 		const string sql = @"
-			<#=data.Sql#>
+		<#=data.Sql#>
 		";
 	
 		var command = DBLayer.GetDBCommand(Databases.BOACard, sql, null, CommandType.Text);
@@ -66,7 +66,7 @@ public sealed class <#=data.BusinessClassName#> : ObjectHelper
 		var returnObject = InitializeGenericResponse<<#=data.ResultContractName#>>("<#=key#>");
 	
 		const string sql = @"
-			<#=data.Sql#>
+		<#=data.Sql#>
 		";
 	
 		var command = DBLayer.GetDBCommand(Databases.BOACard, sql, null, CommandType.Text);
