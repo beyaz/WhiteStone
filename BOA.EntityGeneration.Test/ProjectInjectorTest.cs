@@ -108,106 +108,90 @@ namespace BOA.EntityGeneration.SchemaToDllExporting
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "RECORD_ID",
-                                    DataType   = "bigInt",
                                     IsNullable = true
                                 },
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "RECORD_ID_NOT_NULL",
-                                    DataType   = "bigInt",
                                     IsNullable = false
                                 },
 
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "Customer_ID",
-                                    DataType   = "Int",
                                     IsNullable = true
                                 },
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "SUPPLEMENTARY_CARD_FLAG",
-                                    DataType   = "Varchar",
                                     IsNullable = true
                                 },
 
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "CARD_REF_NUMBER",
-                                    DataType   = "Varchar",
                                     IsNullable = true
                                 },
 
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "MAIN_CARD_REF_NUMBER",
-                                    DataType   = "char",
                                     IsNullable = true
                                 },
 
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "PART_DATE",
-                                    DataType   = "daTe",
                                     IsNullable = true
                                 },
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "PART_DATE_TIME",
-                                    DataType   = "daTeTime",
                                     IsNullable = true
                                 },
 
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "PART_LONG",
-                                    DataType   = "long",
                                     IsNullable = true
                                 },
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "PART_STRING",
-                                    DataType   = "string",
                                     IsNullable = true
                                 },
 
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "PART_BIT",
-                                    DataType   = "bit",
                                     IsNullable = true
                                 },
 
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "PART_DECIMAL",
-                                    DataType   = "decimal",
                                     IsNullable = true
                                 },
 
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "PART_SHORT",
-                                    DataType   = "Int16",
                                     IsNullable = true
                                 },
 
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "PART_SMALL_INT",
-                                    DataType   = "smallint",
                                     IsNullable = true
                                 },
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "PART_CHAR",
-                                    DataType   = "char",
                                     IsNullable = true
                                 },
                                 new CustomSqlInfoParameter
                                 {
                                     Name       = "PART_CHAR_WITH_FLAG",
-                                    DataType   = "char",
                                     IsNullable = true
                                 }
                             },

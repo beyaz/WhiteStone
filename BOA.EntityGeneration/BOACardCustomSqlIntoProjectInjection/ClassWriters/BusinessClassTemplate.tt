@@ -1,13 +1,11 @@
 ﻿<#@ template language="C#" #>
 <#@ import namespace="System.Linq" #>
-
 <#@ parameter name="data" type="BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.CustomSqlInfo" #>
 <#@ parameter name="key" type="System.String" #>
-
 /// <summary>
 ///     Data access part of '<#=data.Name#>' sql.
 /// </summary>
-public sealed class {data.BusinessClassName} : ObjectHelper
+public sealed class <#=data.BusinessClassName#> : ObjectHelper
 {
 	/// <summary>
 	///     Data access part of '<#=data.Name#>' sql.
@@ -28,14 +26,11 @@ public sealed class {data.BusinessClassName} : ObjectHelper
 		";
 	
 		var command = DBLayer.GetDBCommand(Databases.BOACard, sql, null, CommandType.Text);
-		<#if (data.Parameters.Any())#>
-		<#{#>
+		<#if (data.Parameters.Any()){#>
 		
-			<#
-			foreach (var item in data.Parameters)
-			{#>
-			DBLayer.AddInParameter(command, "@<#=item.Name#>", SqlDbType.<#=item.SqlDbTypeName#>, request.<#=item.ValueAccessPathForAddInParameter#>);
-			<#}#>
+<#foreach (var item in data.Parameters){#>
+		DBLayer.AddInParameter(command, "@<#=item.Name#>", SqlDbType.<#=item.SqlDbTypeName#>, request.<#=item.ValueAccessPathForAddInParameter#>);
+<#}#>
 		<#}#>
 	
 		var response = DBLayer.ExecuteReader(command);
@@ -78,10 +73,10 @@ public sealed class {data.BusinessClassName} : ObjectHelper
 		<#if (data.Parameters.Any())#>
 		<#{#>
             
-            <#foreach (var item in data.Parameters){#>
+<#foreach (var item in data.Parameters){#>
 		DBLayer.AddInParameter(command, "@<#=item.Name#>", SqlDbType.<#=item.SqlDbTypeName#>, request.<#=item.ValueAccessPathForAddInParameter#>);
             <#}#>
-		<#}#>
+<#}#>
 	
 		var response = DBLayer.ExecuteReader(command);
 		if (!response.Success)
@@ -115,8 +110,8 @@ public sealed class {data.BusinessClassName} : ObjectHelper
 	/// </summary>
 	static void ReadContract(IDataRecord reader, <#=data.ResultContractName#> contract)
 	{
-	<#foreach (var item in data.ResultColumns){#>
+<#foreach (var item in data.ResultColumns){#>
 		contract.<#=item.NameInDotnet#> = SQLDBHelper.<#=item.SqlReaderMethod#>(reader["<#=item.Name#>"]);
-	<#}#>
-
+<#}#>
 	}
+}

@@ -61,6 +61,11 @@
       <DependentUpon>BusinessClassTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassWriter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\CustomSqlClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomSqlClassTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\CustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\CustomSqlInfoParameter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\CustomSqlInfoResult.cs" />
@@ -141,6 +146,10 @@
     <Content Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BusinessClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\CustomSqlClassTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>CustomSqlClassTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="EmbeddedUtilizationClassForDao.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
