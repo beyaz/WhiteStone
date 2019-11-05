@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
 
@@ -63,6 +64,18 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
         public void Write(PaddedStringBuilder sb, CustomSqlInfo data,ProjectCustomSqlInfo projectCustomSqlInfo)
         {
             var key = $"{projectCustomSqlInfo.NamespaceNameOfBusiness}.{data.BusinessClassName}.Execute";
+
+            var template = new BusinessClassTemplate
+            {
+                Session = new Dictionary<string, object>
+                {
+                    {nameof(data), data},
+                    {nameof(key), key}
+                }
+            };
+            template.Initialize();
+            var output = template.TransformText();
+            FileHelper.WriteAllText("d:\\temp\\a.txt",output);
 
             WriteComment(sb, data);
             sb.AppendLine($"public sealed class {data.BusinessClassName} : ObjectHelper");

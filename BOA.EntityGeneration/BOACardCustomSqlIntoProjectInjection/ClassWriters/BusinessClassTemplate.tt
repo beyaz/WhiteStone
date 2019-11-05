@@ -1,0 +1,122 @@
+﻿<#@ template language="C#" #>
+<#@ import namespace="System.Linq" #>
+
+<#@ parameter name="data" type="BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.CustomSqlInfo" #>
+<#@ parameter name="key" type="System.String" #>
+
+/// <summary>
+///     Data access part of '<#=data.Name#>' sql.
+/// </summary>
+public sealed class {data.BusinessClassName} : ObjectHelper
+{
+	/// <summary>
+	///     Data access part of '<#=data.Name#>' sql.
+	/// </summary>
+	public <#=data.BusinessClassName#>(ExecutionDataContext context) : base(context) {}
+
+	/// <summary>
+	///     Data access part of '<#=data.Name#>' sql.
+	/// </summary>
+<#if (data.SqlResultIsCollection)#>
+<#{#>
+	public GenericResponse<List<<#=data.ResultContractName#>>> Execute(<#=data.ParameterContractName#> request)
+	{
+		var returnObject = InitializeGenericResponse<List<<#=data.ResultContractName#>>>("<#=key#>");
+	
+		const string sql = @"
+			<#=data.Sql#>
+		";
+	
+		var command = DBLayer.GetDBCommand(Databases.BOACard, sql, null, CommandType.Text);
+		<#if (data.Parameters.Any())#>
+		<#{#>
+		
+			<#
+			foreach (var item in data.Parameters)
+			{#>
+			DBLayer.AddInParameter(command, "@<#=item.Name#>", SqlDbType.<#=item.SqlDbTypeName#>, request.<#=item.ValueAccessPathForAddInParameter#>);
+			<#}#>
+		<#}#>
+	
+		var response = DBLayer.ExecuteReader(command);
+		if (!response.Success)
+		{
+		    returnObject.Results.AddRange(response.Results);
+		    return returnObject;
+		}		
+		var reader = response.Value;
+	
+		var listOfDataContract = new List<<#=data.ResultContractName#>>();		
+		
+		while (reader.Read())
+		{
+			var dataContract = new <#=data.ResultContractName#>();
+
+			ReadContract(reader, dataContract);
+
+			listOfDataContract.Add(dataContract);
+		}		
+		
+		reader.Close();
+
+		returnObject.Value = listOfDataContract;
+
+		return returnObject;
+	}
+<#}#>
+<#else#>
+<#{#>
+	public GenericResponse<<#=data.ResultContractName#>> Execute(<#=data.ParameterContractName#> request)
+	{
+		var returnObject = InitializeGenericResponse<<#=data.ResultContractName#>>("<#=key#>");
+	
+		const string sql = @"
+			<#=data.Sql#>
+		";
+	
+		var command = DBLayer.GetDBCommand(Databases.BOACard, sql, null, CommandType.Text);
+		<#if (data.Parameters.Any())#>
+		<#{#>
+            
+            <#foreach (var item in data.Parameters){#>
+		DBLayer.AddInParameter(command, "@<#=item.Name#>", SqlDbType.<#=item.SqlDbTypeName#>, request.<#=item.ValueAccessPathForAddInParameter#>);
+            <#}#>
+		<#}#>
+	
+		var response = DBLayer.ExecuteReader(command);
+		if (!response.Success)
+		{
+		    returnObject.Results.AddRange(response.Results);
+		    return returnObject;
+		}		
+		var reader = response.Value;
+	
+		<#=data.ResultContractName#> dataContract = null;
+		
+		while (reader.Read())
+		{
+			dataContract = new <#=data.ResultContractName#>();
+
+			ReadContract(reader, dataContract);
+
+			break;
+		}		
+		
+		reader.Close();
+
+		returnObject.Value = dataContract;
+
+		return returnObject;
+	}
+<#}#>
+
+	/// <summary>
+	///     Maps reader columns to contract for '<#=data.Name#>' sql.
+	/// </summary>
+	static void ReadContract(IDataRecord reader, <#=data.ResultContractName#> contract)
+	{
+	<#foreach (var item in data.ResultColumns){#>
+		contract.<#=item.NameInDotnet#> = SQLDBHelper.<#=item.SqlReaderMethod#>(reader["<#=item.Name#>"]);
+	<#}#>
+
+	}
