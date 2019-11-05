@@ -13,26 +13,47 @@ using Ninject;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 {
+    /// <summary>
+    ///     The project custom SQL information data access
+    /// </summary>
     public class ProjectCustomSqlInfoDataAccess
     {
         #region Public Properties
+        /// <summary>
+        ///     Gets or sets the database.
+        /// </summary>
         [Inject]
         public IDatabase Database { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the SQL database type map.
+        /// </summary>
         [Inject]
         public SqlDbTypeMap SqlDbTypeMap { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the table information DAO.
+        /// </summary>
         [Inject]
         public TableInfoDao TableInfoDao { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the table override.
+        /// </summary>
         [Inject]
         public TableOverride TableOverride { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the tracer.
+        /// </summary>
         [Inject]
         public Tracer Tracer { get; set; }
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Gets the by profile identifier.
+        /// </summary>
         public ProjectCustomSqlInfo GetByProfileId(string profileId)
         {
             var project = GetByProfileIdFromDatabase(profileId);
@@ -47,9 +68,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Gets the by profile identifier from database.
+        /// </summary>
         protected virtual ProjectCustomSqlInfo GetByProfileIdFromDatabase(string profileId)
         {
-            
             var list = new List<CustomSqlInfo>();
 
             Database.CommandText = $"SELECT objectid, text, schemaname, resultcollectionflag FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL'";
@@ -69,7 +92,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
             reader.Close();
 
-            Tracer.CustomSqlGenerationOfProfileIdProcess.Total = list.Count;
+            Tracer.CustomSqlGenerationOfProfileIdProcess.Total   = list.Count;
             Tracer.CustomSqlGenerationOfProfileIdProcess.Current = 0;
 
             foreach (var customSqlInfo in list)
@@ -79,7 +102,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
                 customSqlInfo.Parameters = ReadInputParameters(customSqlInfo);
             }
-
 
             Tracer.CustomSqlGenerationOfProfileIdProcess.Current = 0;
             foreach (var customSqlInfo in list)
@@ -99,7 +121,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             {
                 returnValue = new ProjectCustomSqlInfo
                 {
-                    ProfileId = profileId,
+                    ProfileId               = profileId,
                     CustomSqlInfoList       = list,
                     TypesProjectPath        = reader["typesprojectpath"].ToString(),
                     BusinessProjectPath     = reader["businessprojectpath"].ToString(),
@@ -114,6 +136,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             return returnValue;
         }
 
+        /// <summary>
+        ///     Gets the data type in dotnet.
+        /// </summary>
         static string GetDataTypeInDotnet(string dataType, bool isNullable)
         {
             if (dataType.Equals("string", StringComparison.OrdinalIgnoreCase))
@@ -190,12 +215,15 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
             if (SqlDbType.TinyInt.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
             {
-                return DotNetTypeName.DotNetByte +suffix;
+                return DotNetTypeName.DotNetByte + suffix;
             }
 
             throw new NotImplementedException(dataType);
         }
 
+        /// <summary>
+        ///     Gets the name of the SQL database type.
+        /// </summary>
         static SqlDbType GetSqlDbTypeName(string dataType)
         {
             if (dataType.Equals("string", StringComparison.OrdinalIgnoreCase))
@@ -258,10 +286,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             throw new NotImplementedException(dataType);
         }
 
+        /// <summary>
+        ///     Fills the specified custom SQL information.
+        /// </summary>
         void Fill(CustomSqlInfo customSqlInfo)
         {
-            
-
             if (customSqlInfo.ResultColumns.Any(x => x.DataType.Equals("object", StringComparison.OrdinalIgnoreCase)))
             {
                 var customSqlInfoResults = new List<CustomSqlInfoResult>();
@@ -303,6 +332,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             }
         }
 
+        /// <summary>
+        ///     Fills the specified item.
+        /// </summary>
         void Fill(CustomSqlInfoResult item)
         {
             item.NameInDotnet = item.Name.ToContractName();
@@ -313,7 +345,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
             if (item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
             {
-                var sqlDataTypeIsChar = item.DataType.EndsWith("char",StringComparison.OrdinalIgnoreCase);
+                var sqlDataTypeIsChar = item.DataType.EndsWith("char", StringComparison.OrdinalIgnoreCase);
                 if (!sqlDataTypeIsChar)
                 {
                     throw new InvalidOperationException($"{item.Name} column should be char.");
@@ -335,6 +367,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             }
         }
 
+        /// <summary>
+        ///     Gets the by profile identifier list.
+        /// </summary>
         IReadOnlyList<string> GetByProfileIdList()
         {
             var items = new List<string>();
@@ -352,6 +387,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             return items;
         }
 
+        /// <summary>
+        ///     Reads the input parameters.
+        /// </summary>
         IReadOnlyList<IReadOnlyCustomSqlInfoParameter> ReadInputParameters(CustomSqlInfo customSqlInfo)
         {
             var items = new List<IReadOnlyCustomSqlInfoParameter>();
@@ -361,17 +399,22 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             var reader = Database.ExecuteReader();
             while (reader.Read())
             {
+                var name       = reader["parameterid"].ToString();
+                var dataType   = reader["datatype"].ToString();
+                var isNullable = reader["nullableflag"] + string.Empty == "1";
+
+                var cSharpPropertyTypeName = GetDataTypeInDotnet(dataType, isNullable);
+
+                cSharpPropertyTypeName = TableOverride.GetColumnDotnetType(name, cSharpPropertyTypeName, isNullable);
+
                 var item = new CustomSqlInfoParameter
                 {
-                    Name       = reader["parameterid"].ToString(),
-                    DataType   = reader["datatype"].ToString(),
-                    IsNullable = reader["nullableflag"] + string.Empty == "1"
+                    Name                   = name,
+                    IsNullable             = isNullable,
+                    CSharpPropertyName     = name.ToContractName(),
+                    CSharpPropertyTypeName = cSharpPropertyTypeName,
+                    SqlDbTypeName          = GetSqlDbTypeName(dataType)
                 };
-
-                item.CSharpPropertyName     = item.Name.ToContractName();
-                item.CSharpPropertyTypeName = GetDataTypeInDotnet(item.DataType, item.IsNullable);
-                item.SqlDbTypeName          = GetSqlDbTypeName(item.DataType);
-                item.CSharpPropertyTypeName = TableOverride.GetColumnDotnetType(item.Name, item.CSharpPropertyTypeName, item.IsNullable);
 
                 items.Add(item);
             }
@@ -381,6 +424,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             return items;
         }
 
+        /// <summary>
+        ///     Reads the result columns.
+        /// </summary>
         IReadOnlyList<CustomSqlInfoResult> ReadResultColumns(CustomSqlInfo customSqlInfo)
         {
             var items = new List<CustomSqlInfoResult>();

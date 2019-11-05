@@ -8,35 +8,32 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
     /// </summary>
     public interface IReadOnlyCustomSqlInfoParameter
     {
+        #region Public Properties
         /// <summary>
         ///     Gets or sets the name of the c sharp property.
         /// </summary>
-        string CSharpPropertyName { get;  }
+        string CSharpPropertyName { get; }
 
         /// <summary>
         ///     Gets or sets the name of the c sharp property type.
         /// </summary>
-        string CSharpPropertyTypeName { get;  }
-
-        /// <summary>
-        ///     Gets or sets the type of the data.
-        /// </summary>
-        string DataType { get;  }
+        string CSharpPropertyTypeName { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is nullable.
         /// </summary>
-        bool IsNullable { get;  }
+        bool IsNullable { get; }
 
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>
-        string Name { get;  }
+        string Name { get; }
 
         /// <summary>
         ///     Gets or sets the name of the SQL database type.
         /// </summary>
-        SqlDbType SqlDbTypeName { get;  }
+        SqlDbType SqlDbTypeName { get; }
+        #endregion
     }
 
     /// <summary>
@@ -55,11 +52,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
         ///     Gets or sets the name of the c sharp property type.
         /// </summary>
         public string CSharpPropertyTypeName { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the type of the data.
-        /// </summary>
-        public string DataType { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is nullable.
