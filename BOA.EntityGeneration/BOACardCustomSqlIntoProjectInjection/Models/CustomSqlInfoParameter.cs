@@ -4,10 +4,46 @@ using System.Data;
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
 {
     /// <summary>
+    ///     The read only custom SQL information parameter
+    /// </summary>
+    public interface IReadOnlyCustomSqlInfoParameter
+    {
+        /// <summary>
+        ///     Gets or sets the name of the c sharp property.
+        /// </summary>
+        string CSharpPropertyName { get;  }
+
+        /// <summary>
+        ///     Gets or sets the name of the c sharp property type.
+        /// </summary>
+        string CSharpPropertyTypeName { get;  }
+
+        /// <summary>
+        ///     Gets or sets the type of the data.
+        /// </summary>
+        string DataType { get;  }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is nullable.
+        /// </summary>
+        bool IsNullable { get;  }
+
+        /// <summary>
+        ///     Gets or sets the name.
+        /// </summary>
+        string Name { get;  }
+
+        /// <summary>
+        ///     Gets or sets the name of the SQL database type.
+        /// </summary>
+        SqlDbType SqlDbTypeName { get;  }
+    }
+
+    /// <summary>
     ///     The custom SQL information parameter
     /// </summary>
     [Serializable]
-    public class CustomSqlInfoParameter
+    public class CustomSqlInfoParameter : IReadOnlyCustomSqlInfoParameter
     {
         #region Public Properties
         /// <summary>

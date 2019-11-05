@@ -6,9 +6,15 @@ using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 {
+    /// <summary>
+    ///     The business class writer
+    /// </summary>
     public class BusinessClassWriter
     {
-        
+
+        /// <summary>
+        ///     Writes the custom SQL class.
+        /// </summary>
         public void Write_CustomSqlClass(PaddedStringBuilder sb, ProjectCustomSqlInfo project)
         {
             sb.AppendLine("public static class CustomSql");
@@ -53,6 +59,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
         }
 
         #region Public Methods
+        /// <summary>
+        ///     Writes the specified sb.
+        /// </summary>
         public void Write(PaddedStringBuilder sb, CustomSqlInfo data,ProjectCustomSqlInfo projectCustomSqlInfo)
         {
 
@@ -238,13 +247,19 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
             
         }
 
-        static void AddInParameter(PaddedStringBuilder sb, CustomSqlInfoParameter item)
+        /// <summary>
+        ///     Adds the in parameter.
+        /// </summary>
+        static void AddInParameter(PaddedStringBuilder sb, IReadOnlyCustomSqlInfoParameter item)
         {
             var value = $"request.{item.CSharpPropertyName}";
 
-            if (item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase) &&
-                item.SqlDbTypeName == SqlDbType.Char &&
-                (item.CSharpPropertyTypeName == DotNetTypeName.DotNetBool || item.CSharpPropertyTypeName == DotNetTypeName.DotNetBool + "?"))
+            var endsWithFlagSuffix    = item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase);
+            var isChar                = item.SqlDbTypeName == SqlDbType.Char;
+            var propertyTypeIsBoolean = item.CSharpPropertyTypeName == DotNetTypeName.DotNetBool || item.CSharpPropertyTypeName == DotNetTypeName.DotNetBool + "?";
+
+            var valueShouldBeBooleanChar = endsWithFlagSuffix && isChar && propertyTypeIsBoolean;
+            if (valueShouldBeBooleanChar)
             {
                 value = $"request.{item.CSharpPropertyName} ? \"1\" : \"0\"";
             }
@@ -252,6 +267,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
             sb.AppendLine($"DBLayer.AddInParameter(command, \"@{item.Name}\", SqlDbType.{item.SqlDbTypeName}, {value});");
         }
 
+        /// <summary>
+        ///     Writes the comment.
+        /// </summary>
         static void WriteComment(PaddedStringBuilder sb, CustomSqlInfo data)
         {
             sb.AppendLine("/// <summary>");

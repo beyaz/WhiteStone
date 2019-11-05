@@ -260,14 +260,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
         void Fill(CustomSqlInfo customSqlInfo)
         {
-            foreach (var item in customSqlInfo.Parameters)
-            {
-                item.CSharpPropertyName     = item.Name.ToContractName();
-                item.CSharpPropertyTypeName = GetDataTypeInDotnet(item.DataType, item.IsNullable);
-                item.SqlDbTypeName          = GetSqlDbTypeName(item.DataType);
-
-                item.CSharpPropertyTypeName = TableOverride.GetColumnDotnetType(item.Name, item.CSharpPropertyTypeName, item.IsNullable);
-            }
+            
 
             if (customSqlInfo.ResultColumns.Any(x => x.DataType.Equals("object", StringComparison.OrdinalIgnoreCase)))
             {
@@ -359,9 +352,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             return items;
         }
 
-        IReadOnlyList<CustomSqlInfoParameter> ReadInputParameters(CustomSqlInfo customSqlInfo)
+        IReadOnlyList<IReadOnlyCustomSqlInfoParameter> ReadInputParameters(CustomSqlInfo customSqlInfo)
         {
-            var items = new List<CustomSqlInfoParameter>();
+            var items = new List<IReadOnlyCustomSqlInfoParameter>();
 
             Database.CommandText = $"select parameterid,datatype,nullableflag from dbo.objectparameters WITH (NOLOCK) WHERE profileid = '{customSqlInfo.ProfileId}' AND objectid = '{customSqlInfo.Name}'";
 
@@ -374,6 +367,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
                     DataType   = reader["datatype"].ToString(),
                     IsNullable = reader["nullableflag"] + string.Empty == "1"
                 };
+
+                item.CSharpPropertyName     = item.Name.ToContractName();
+                item.CSharpPropertyTypeName = GetDataTypeInDotnet(item.DataType, item.IsNullable);
+                item.SqlDbTypeName          = GetSqlDbTypeName(item.DataType);
+                item.CSharpPropertyTypeName = TableOverride.GetColumnDotnetType(item.Name, item.CSharpPropertyTypeName, item.IsNullable);
 
                 items.Add(item);
             }

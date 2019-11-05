@@ -28,7 +28,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
         /// <summary>
         ///     Gets or sets the parameters.
         /// </summary>
-        public IReadOnlyList<CustomSqlInfoParameter> Parameters { get; set; }
+        public IReadOnlyList<IReadOnlyCustomSqlInfoParameter> Parameters { get; set; }
 
         public string ProfileId { get; set; }
 
