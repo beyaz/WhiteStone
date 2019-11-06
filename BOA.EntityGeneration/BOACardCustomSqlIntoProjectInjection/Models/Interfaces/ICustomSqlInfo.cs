@@ -3,8 +3,12 @@ using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces
 {
+    /// <summary>
+    ///     The custom SQL information
+    /// </summary>
     public interface ICustomSqlInfo
     {
+        #region Public Properties
         /// <summary>
         ///     Gets the name of the business class.
         /// </summary>
@@ -13,7 +17,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Inter
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>
-        string Name { get; set; }
+        string Name { get; }
 
         /// <summary>
         ///     Gets the name of the parameter contract.
@@ -23,14 +27,17 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Inter
         /// <summary>
         ///     Gets or sets the parameters.
         /// </summary>
-        IReadOnlyList<ICustomSqlInfoParameter> Parameters { get; set; }
+        IReadOnlyList<ICustomSqlInfoParameter> Parameters { get; }
 
-        string ProfileId { get; set; }
+        /// <summary>
+        ///     Gets or sets the profile identifier.
+        /// </summary>
+        string ProfileId { get; }
 
         /// <summary>
         ///     Gets or sets the result columns.
         /// </summary>
-        IReadOnlyList<CustomSqlInfoResult> ResultColumns { get; set; }
+        IReadOnlyList<CustomSqlInfoResult> ResultColumns { get; }
 
         /// <summary>
         ///     Gets the name of the result contract.
@@ -40,18 +47,22 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Inter
         /// <summary>
         ///     Gets or sets the name of the schema.
         /// </summary>
-        string SchemaName { get; set; }
+        string SchemaName { get; }
 
         /// <summary>
         ///     Gets or sets the SQL.
         /// </summary>
-        string Sql { get; set; }
+        string Sql { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether [SQL result is collection].
         /// </summary>
-        bool SqlResultIsCollection { get; set; }
+        bool SqlResultIsCollection { get; }
 
-        int SwitchCaseIndex { get; set; }
+        /// <summary>
+        ///     Gets or sets the index of the switch case.
+        /// </summary>
+        int SwitchCaseIndex { get; }
+        #endregion
     }
 }
