@@ -60,7 +60,7 @@ namespace BOA.EntityGeneration.DbModel
     ///     The column information
     /// </summary>
     [Serializable]
-    public class ColumnInfo : IColumnInfo
+    public sealed class ColumnInfo : IColumnInfo
     {
         #region Public Properties
         /// <summary>

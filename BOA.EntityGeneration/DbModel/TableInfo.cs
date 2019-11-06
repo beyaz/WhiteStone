@@ -68,6 +68,9 @@ namespace BOA.EntityGeneration.DbModel
         /// </summary>
         public IReadOnlyList<ColumnInfo> Columns { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the columns.
+        /// </summary>
         IReadOnlyList<IColumnInfo> ITableInfo.Columns => Columns;
 
         /// <summary>

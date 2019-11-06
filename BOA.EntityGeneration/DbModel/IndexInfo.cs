@@ -46,7 +46,7 @@ namespace BOA.EntityGeneration.DbModel
     ///     The index information
     /// </summary>
     [Serializable]
-    public class IndexInfo : IIndexInfo
+    public sealed class IndexInfo : IIndexInfo
     {
         #region Public Properties
         /// <summary>
