@@ -6,6 +6,7 @@ using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.EntityGeneration;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 using Names2 = BOA.CodeGeneration.Common.Names2;
 
@@ -77,7 +78,7 @@ namespace BOA.CodeGeneration.Generators
             }
         }
 
-        ColumnInfo SelectOnlySpecificColumn
+        IColumnInfo SelectOnlySpecificColumn
         {
             get
             {
@@ -338,7 +339,7 @@ namespace BOA.CodeGeneration.Generators
 
         string ContractName => Context.Naming.ContractName;
 
-        IReadOnlyList<ColumnInfo> Columns => Context.Table.Columns;
+        IReadOnlyList<IColumnInfo> Columns => Context.Table.Columns;
 
         IReadOnlyList<Where> Parameters => CustomSelect.Parameters;
 

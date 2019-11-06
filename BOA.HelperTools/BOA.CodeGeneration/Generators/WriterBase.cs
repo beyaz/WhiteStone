@@ -5,6 +5,7 @@ using System.Text;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.DbModel;
 using WhiteStone.Common;
 using WhiteStone.Helpers;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
@@ -253,7 +254,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        protected void GenerateSqlSelectByColumns_WriteColumnsForReturn(IReadOnlyList<ColumnInfo> columns)
+        protected void GenerateSqlSelectByColumns_WriteColumnsForReturn(IReadOnlyList<IColumnInfo> columns)
         {
             if (columns == null)
             {

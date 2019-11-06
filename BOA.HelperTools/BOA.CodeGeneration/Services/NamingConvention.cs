@@ -83,7 +83,7 @@ namespace BOA.CodeGeneration.Services
         #endregion
 
         #region Methods
-        TableInfo InitializeTableInformation()
+        ITableInfo InitializeTableInformation()
         {
             var tableConfig = Context.Config;
 

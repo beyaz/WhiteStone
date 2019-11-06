@@ -5,6 +5,7 @@ using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.EntityGeneration;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
@@ -38,7 +39,7 @@ namespace BOA.CodeGeneration.Generators
 
         #region Properties
         bool       ColumnIsString  => ParameterColumn.DotNetType == DotNetTypeName.DotNetStringName;
-        ColumnInfo ParameterColumn => Context.Table.Columns.First(c => c.ColumnName == GetColumnName());
+        IColumnInfo ParameterColumn => Context.Table.Columns.First(c => c.ColumnName == GetColumnName());
 
         string ParameterType
         {

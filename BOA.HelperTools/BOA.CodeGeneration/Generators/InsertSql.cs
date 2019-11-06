@@ -5,6 +5,7 @@ using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.EntityGeneration;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 using Names2 = BOA.CodeGeneration.Common.Names2;
 
@@ -33,7 +34,7 @@ namespace BOA.CodeGeneration.Generators
             }
         }
 
-        IReadOnlyList<ColumnInfo> Columns => Context.Table.Columns;
+        IReadOnlyList<IColumnInfo> Columns => Context.Table.Columns;
 
         string DatabaseTableFullPath => Context.Config.DatabaseTableFullPath;
 
@@ -45,9 +46,9 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Public Methods
-        public static List<ColumnInfo> GetProcedureParameterColumns(IReadOnlyList<ColumnInfo> columns)
+        public static List<IColumnInfo> GetProcedureParameterColumns(IReadOnlyList<IColumnInfo> columns)
         {
-            var returnList = new List<ColumnInfo>();
+            var returnList = new List<IColumnInfo>();
 
             foreach (var columnInfo in columns)
             {

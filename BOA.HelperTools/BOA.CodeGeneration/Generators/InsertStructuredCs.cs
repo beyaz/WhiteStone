@@ -3,6 +3,7 @@ using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
@@ -160,7 +161,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        List<ColumnInfo> GetProcedureParameterColumns()
+        List<IColumnInfo> GetProcedureParameterColumns()
         {
             return InsertSql.GetProcedureParameterColumns(Columns);
         }
@@ -181,7 +182,7 @@ namespace BOA.CodeGeneration.Generators
 
         string ContractName => "IReadOnlyCollection<" + Context.Naming.ContractName + ">";
 
-        IReadOnlyList<ColumnInfo> Columns => Context.Table.Columns;
+        IReadOnlyList<IColumnInfo> Columns => Context.Table.Columns;
 
         InsertStructuredSql InsertStructuredSql => new InsertStructuredSql(Context);
         #endregion

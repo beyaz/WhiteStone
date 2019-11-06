@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
@@ -24,11 +25,11 @@ namespace BOA.CodeGeneration.Generators
         #region Properties
         protected string DatabaseTableFullPath => Context.Config.DatabaseTableFullPath;
 
-        protected IEnumerable<ColumnInfo> PrimaryKeyColumns => Context.Table.PrimaryKeyColumns;
+        protected IEnumerable<IColumnInfo> PrimaryKeyColumns => Context.Table.PrimaryKeyColumns;
 
         bool? CanGenerateSetNoCountOn => Context.Config.CanGenerateSetNoCountOnWhenSelectByKey == true || GetType() == typeof(SelectByKeyListSql);
 
-        IReadOnlyList<ColumnInfo> Columns => Context.Table.Columns;
+        IReadOnlyList<IColumnInfo> Columns => Context.Table.Columns;
 
         string DatabaseTargetSchemaForProcedureNames => Context.Naming.SchemaName;
 

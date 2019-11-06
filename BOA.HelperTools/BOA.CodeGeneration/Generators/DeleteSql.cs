@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.CodeGeneration.Model;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
@@ -27,7 +28,7 @@ namespace BOA.CodeGeneration.Generators
 
         string NameOfSqlProceduresWillBeRunCatalogName => Context.Naming.NameOfSqlProceduresWillBeRunCatalogName;
 
-        IEnumerable<ColumnInfo> PrimaryKeyColumns => Context.Table.PrimaryKeyColumns;
+        IEnumerable<IColumnInfo> PrimaryKeyColumns => Context.Table.PrimaryKeyColumns;
         #endregion
 
         #region Public Methods

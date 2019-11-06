@@ -4,6 +4,7 @@ using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.EntityGeneration;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 using Names2 = BOA.CodeGeneration.Common.Names2;
 
@@ -110,7 +111,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        protected virtual IEnumerable<ColumnInfo> GetUpdateColumns()
+        protected virtual IEnumerable<IColumnInfo> GetUpdateColumns()
         {
             return Context.Table.Columns.Where(c => !(
                                                    c.ColumnName == Names2.UserName ||
@@ -122,7 +123,7 @@ namespace BOA.CodeGeneration.Generators
                           .Select(y => y);
         }
 
-        string GetDbLayerMethod(ColumnInfo columnInfo)
+        string GetDbLayerMethod(IColumnInfo columnInfo)
         {
             if (Context.Config.IsSecureColumn(columnInfo.ColumnName))
             {

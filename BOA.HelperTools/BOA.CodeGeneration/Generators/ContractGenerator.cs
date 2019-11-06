@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
@@ -22,7 +23,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Public Properties
-        public IReadOnlyList<ColumnInfo> Columns                         { get; set; }
+        public IReadOnlyList<IColumnInfo> Columns                         { get; set; }
         public string                    PrefixOfFieldOfContractProperty { get; set; }
         public string                    RegionText                      { get; set; }
         #endregion

@@ -4,6 +4,7 @@ using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.EntityGeneration;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 using Names2 = BOA.CodeGeneration.Common.Names2;
 
@@ -151,7 +152,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        string GetDbLayerMethod(ColumnInfo columnInfo)
+        string GetDbLayerMethod(IColumnInfo columnInfo)
         {
             if (Context.Config.IsSecureColumn(columnInfo.ColumnName))
             {
@@ -161,7 +162,7 @@ namespace BOA.CodeGeneration.Generators
             return "AddInParameter";
         }
 
-        List<ColumnInfo> GetProcedureParameterColumns()
+        List<IColumnInfo> GetProcedureParameterColumns()
         {
             return InsertSql.GetProcedureParameterColumns(Columns);
         }
@@ -182,7 +183,7 @@ namespace BOA.CodeGeneration.Generators
 
         string ContractName => Context.Naming.ContractName;
 
-        IReadOnlyList<ColumnInfo> Columns => Context.Table.Columns;
+        IReadOnlyList<IColumnInfo> Columns => Context.Table.Columns;
         #endregion
     }
 }

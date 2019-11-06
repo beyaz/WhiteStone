@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.CodeGeneration.Model;
+using BOA.EntityGeneration.DbModel;
 using TableInfo = BOA.EntityGeneration.DbModel.TableInfo;
 
 namespace BOA.CodeGeneration.Generators
@@ -37,7 +38,7 @@ namespace BOA.CodeGeneration.Generators
             }
         }
 
-        TableInfo Table => Context.Table;
+        ITableInfo Table => Context.Table;
         #endregion
 
         #region Methods

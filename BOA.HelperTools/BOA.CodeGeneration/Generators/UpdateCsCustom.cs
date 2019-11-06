@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
@@ -10,7 +11,7 @@ namespace BOA.CodeGeneration.Generators
     class UpdateCsCustom : UpdateCs
     {
         #region Fields
-        readonly IEnumerable<ColumnInfo> _procedureParameters;
+        readonly IEnumerable<IColumnInfo> _procedureParameters;
         #endregion
 
         #region Constructors
@@ -61,7 +62,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
-        protected override IEnumerable<ColumnInfo> GetUpdateColumns()
+        protected override IEnumerable<IColumnInfo> GetUpdateColumns()
         {
             return _procedureParameters;
         }

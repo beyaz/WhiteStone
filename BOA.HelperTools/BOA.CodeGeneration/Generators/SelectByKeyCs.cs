@@ -2,6 +2,7 @@
 using System.Linq;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
+using BOA.EntityGeneration.DbModel;
 using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
@@ -140,7 +141,7 @@ namespace BOA.CodeGeneration.Generators
 
         string DatabaseEnumName => Context.Naming.DatabaseEnumName;
 
-        protected IEnumerable<ColumnInfo> PrimaryKeyColumns => Context.Table.PrimaryKeyColumns;
+        protected IEnumerable<IColumnInfo> PrimaryKeyColumns => Context.Table.PrimaryKeyColumns;
 
         protected string DatabaseTableFullPath => Context.Naming.DatabaseTableFullPath;
 
