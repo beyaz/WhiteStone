@@ -19,6 +19,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
     public class ProjectCustomSqlInfoDataAccess
     {
         #region Public Properties
+        [Inject]
+        public GeneratorDataCreator GeneratorDataCreator { get; set; }
+        
         /// <summary>
         ///     Gets or sets the database.
         /// </summary>
@@ -37,11 +40,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         [Inject]
         public TableInfoDao TableInfoDao { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the table override.
-        /// </summary>
-        [Inject]
-        public TableOverride TableOverride { get; set; }
+      
 
         /// <summary>
         ///     Gets or sets the tracer.
@@ -299,10 +298,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
                 {
                     if (item.DataType.Equals("object", StringComparison.OrdinalIgnoreCase))
                     {
-                        var tableInfo = JsonHelper.Deserialize<TableInfo>(JsonHelper.Serialize(TableInfoDao.GetInfo(TableCatalogName.BOACard, customSqlInfo.SchemaName, item.Name)));
 
-                        TableOverride.Override(tableInfo);
-
+                        
+                        var tableInfo = GeneratorDataCreator.Create(TableInfoDao.GetInfo(TableCatalogName.BOACard, customSqlInfo.SchemaName, item.Name));
+                        
                         customSqlInfoResults.AddRange(from columnInfo in tableInfo.Columns
                                                       select new CustomSqlInfoResult
                                                       {
@@ -341,8 +340,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
             item.DataTypeInDotnet = GetDataTypeInDotnet(item.DataType, item.IsNullable);
 
-            item.DataTypeInDotnet = TableOverride.GetColumnDotnetType(item.Name, item.DataTypeInDotnet, item.IsNullable);
-
             if (item.Name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
             {
                 var sqlDataTypeIsChar = item.DataType.EndsWith("char", StringComparison.OrdinalIgnoreCase);
@@ -351,15 +348,14 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
                     throw new InvalidOperationException($"{item.Name} column should be char.");
                 }
 
-                var dotNetPropertyTypeIsBoolean = item.DataTypeInDotnet == DotNetTypeName.DotNetBool ||
-                                                  item.DataTypeInDotnet == DotNetTypeName.DotNetBoolNullable;
-
-                if (!dotNetPropertyTypeIsBoolean)
+                item.DataTypeInDotnet = DotNetTypeName.DotNetBool;
+                item.SqlReaderMethod =  SqlReaderMethods.GetBooleanValue;
+                if (item.IsNullable)
                 {
-                    throw new InvalidOperationException($"{item.Name} property should be boolean.");
+                    item.DataTypeInDotnet = DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
+                    item.SqlReaderMethod = SqlReaderMethods.GetBooleanNullableValue2;
                 }
-
-                item.SqlReaderMethod = item.IsNullable ? SqlReaderMethods.GetBooleanNullableValue2 : SqlReaderMethods.GetBooleanValue;
+               
             }
             else
             {

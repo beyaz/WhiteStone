@@ -5,8 +5,11 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
+using BOA.EntityGeneration.DbModel;
 using Ninject;
 using WhiteStone.Helpers;
+using ITableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.ITableInfo;
+using TableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.TableInfo;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
@@ -28,13 +31,29 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         [Inject]
         public IDatabase Database { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the table override.
-        /// </summary>
-        [Inject]
-        public TableOverride TableOverride { get; set; }
+     
         #endregion
 
+        static IColumnInfo ReEvaluate(IColumnInfo columnInfo)
+        {
+            var item = ColumnInfo.CreateFrom(columnInfo);
+
+            if (item.ColumnName.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
+            {
+                if (item.IsNullable)
+                {
+                    item.DotNetType      = DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
+                    item.SqlReaderMethod = SqlReaderMethods.GetBooleanNullableValue;
+                }
+                else
+                {
+                    item.DotNetType      = DotNetTypeName.DotNetBool;
+                    item.SqlReaderMethod = SqlReaderMethods.GetBooleanValue;
+                }
+            }
+
+            return item;
+        }
         #region Public Methods
         /// <summary>
         ///     Creates the specified table information.
@@ -49,18 +68,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
             var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
 
-            var data = JsonHelper.Deserialize<TableInfo>(JsonHelper.Serialize(tableInfo));
 
-            data.UniqueIndexInfoList          = uniqueIndexIdentifiers;
-            data.NonUniqueIndexInfoList       = nonUniqueIndexIdentifiers;
-            data.IsSupportSelectByKey         = isSupportSelectByKey;
-            data.IsSupportSelectByIndex       = isSupportSelectByIndex;
-            data.IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex;
-            data.DatabaseEnumName             = Config.DatabaseEnumName;
 
+            var SequenceList = new List<SequenceInfo>();
             if (Config.SqlSequenceInformationOfTable == null)
             {
-                data.SequenceList = new List<SequenceInfo>();
+                SequenceList = new List<SequenceInfo>();
             }
             else
             {
@@ -68,32 +81,35 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
                 Database["schema"]    = tableInfo.SchemaName;
                 Database["tableName"] = tableInfo.TableName;
 
-                data.SequenceList = Database.ExecuteReader().ToList<SequenceInfo>().Where(x => tableInfo.Columns.Any(c => c.ColumnName == x.TargetColumnName)).ToList();
+                SequenceList = Database.ExecuteReader().ToList<SequenceInfo>().Where(x => tableInfo.Columns.Any(c => c.ColumnName == x.TargetColumnName)).ToList();
             }
 
-            foreach (var item in data.Columns)
+            var data = new TableInfo
             {
-                if (item.ColumnName.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (item.IsNullable)
-                    {
-                        item.DotNetType = DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
-                        item.SqlReaderMethod = SqlReaderMethods.GetBooleanNullableValue;
-                    }
-                    else
-                    {
-                        item.DotNetType = DotNetTypeName.DotNetBool;
-                        item.SqlReaderMethod = SqlReaderMethods.GetBooleanValue;
-                    }
-                }
-               
-            }
+                CatalogName                  = tableInfo.CatalogName,
+                Columns                      = tableInfo.Columns.ToList().ConvertAll(ReEvaluate),
+                HasIdentityColumn            = tableInfo.HasIdentityColumn,
+                IdentityColumn               = tableInfo.IdentityColumn,
+                IndexInfoList                = tableInfo.IndexInfoList,
+                PrimaryKeyColumns            = tableInfo.PrimaryKeyColumns,
+                SchemaName                   = tableInfo.SchemaName,
+                TableName                    = tableInfo.TableName,
+                UniqueIndexInfoList          = uniqueIndexIdentifiers,
+                NonUniqueIndexInfoList       = nonUniqueIndexIdentifiers,
+                IsSupportSelectByKey         = isSupportSelectByKey,
+                IsSupportSelectByIndex       = isSupportSelectByIndex,
+                IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex,
+                DatabaseEnumName             = Config.DatabaseEnumName,
+                SequenceList                 = SequenceList,
+            };
 
-            if (data.Columns.Any(x => x.ColumnName.Equals("VALID_FLAG", StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))
+
+           
+
+            if (tableInfo.Columns.Any(x => x.ColumnName.Equals("VALID_FLAG", StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))
             {
                 data.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass = true;
             }
-
 
             return data;
         }

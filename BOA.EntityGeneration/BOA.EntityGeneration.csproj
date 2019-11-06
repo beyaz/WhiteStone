@@ -78,7 +78,6 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\FileSystem.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\MsBuildQueue.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Util\Tracer.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\TableOverride.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\BusinessProjectExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\InsertInfoCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\Kernel.cs" />

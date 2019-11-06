@@ -111,6 +111,25 @@ namespace BOA.EntityGeneration.DbModel
 
         #region Public Methods
         /// <summary>
+        ///     Creates from.
+        /// </summary>
+        public static ColumnInfo CreateFrom(IColumnInfo info)
+        {
+            return new ColumnInfo
+            {
+                ColumnName      = info.ColumnName,
+                Comment         = info.Comment,
+                DataType        = info.DataType,
+                DotNetType      = info.DotNetType,
+                IsIdentity      = info.IsIdentity,
+                IsNullable      = info.IsNullable,
+                IsPrimaryKey    = info.IsPrimaryKey,
+                SqlDbType       = info.SqlDbType,
+                SqlReaderMethod = info.SqlReaderMethod
+            };
+        }
+
+        /// <summary>
         ///     Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         public override string ToString()
