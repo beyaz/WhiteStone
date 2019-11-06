@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
     public class InsertInfoCreator : ScriptModel.Creators.InsertInfoCreator
     {
         #region Methods
-        protected override IReadOnlyList<IColumnInfo> GetColumnsWillBeInsert(DbModel.TableInfo tableInfo)
+        protected override IReadOnlyList<IColumnInfo> GetColumnsWillBeInsert(ITableInfo tableInfo)
         {
             var excludedColumnNames = new List<string>
             {

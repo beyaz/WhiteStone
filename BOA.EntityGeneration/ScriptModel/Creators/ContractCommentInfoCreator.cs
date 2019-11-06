@@ -6,7 +6,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
     public static class ContractCommentInfoCreator
     {
         #region Public Methods
-        public static ContractCommentInfo Create(TableInfo tableInfo)
+        public static ContractCommentInfo Create(ITableInfo tableInfo)
         {
             var sb = new PaddedStringBuilder();
 
@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             };
         }
 
-        public static void Write(PaddedStringBuilder sb, TableInfo tableInfo)
+        public static void Write(PaddedStringBuilder sb, ITableInfo tableInfo)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Entity contract for table {tableInfo.SchemaName}.{tableInfo.TableName}");

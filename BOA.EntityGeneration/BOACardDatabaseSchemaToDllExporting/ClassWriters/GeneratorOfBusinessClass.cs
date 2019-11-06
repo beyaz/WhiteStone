@@ -35,7 +35,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         #endregion
 
         #region Public Methods
-        public void WriteClass(PaddedStringBuilder sb, TableInfo tableInfo)
+        public void WriteClass(PaddedStringBuilder sb, ITableInfo tableInfo)
         {
             var typeContractName = $"{tableInfo.TableName.ToContractName()}Contract";
             var className        = tableInfo.TableName.ToContractName();
@@ -318,7 +318,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("}");
         }
 
-        public void WriteUsingList(PaddedStringBuilder sb, TableInfo tableInfo)
+        public void WriteUsingList(PaddedStringBuilder sb, ITableInfo tableInfo)
         {
             foreach (var line in Config.DaoUsingLines)
             {
@@ -335,7 +335,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         #endregion
 
         #region Methods
-        static void GetDbColumnInfo(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName)
+        static void GetDbColumnInfo(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Gets the database column information.");
@@ -368,7 +368,7 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
             sb.AppendLine("}");
         }
 
-        static void SelectAll(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName)
+        static void SelectAll(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
             var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
 
@@ -402,7 +402,7 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
             sb.AppendLine("}");
         }
 
-        static void SelectByValidFlag(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName, SelectAllInfo selectAllInfo)
+        static void SelectByValidFlag(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName, SelectAllInfo selectAllInfo)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName} where ValidFlag is true.");
@@ -562,7 +562,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
-        static void Update(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName)
+        static void Update(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
@@ -641,7 +641,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
-        static void UpdateSpecificColumns(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName)
+        static void UpdateSpecificColumns(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
@@ -772,7 +772,7 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
-        void Insert(PaddedStringBuilder sb, TableInfo tableInfo, string typeContractName)
+        void Insert(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
             var insertInfo = InsertInfoCreator.Create(tableInfo);
 

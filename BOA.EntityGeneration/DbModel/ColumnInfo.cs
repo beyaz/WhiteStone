@@ -8,50 +8,52 @@ namespace BOA.EntityGeneration.DbModel
     /// </summary>
     public interface IColumnInfo
     {
+        #region Public Properties
         /// <summary>
         ///     Gets or sets the name of the column.
         /// </summary>
-        string ColumnName { get; set; }
+        string ColumnName { get; }
 
         /// <summary>
         ///     Gets or sets the comment.
         /// </summary>
-        string Comment { get; set; }
+        string Comment { get; }
 
         /// <summary>
         ///     Gets or sets the type of the data.
         /// </summary>
-        string DataType { get; set; }
+        string DataType { get; }
 
         /// <summary>
         ///     Gets or sets the type of the dot net.
         /// </summary>
-        string DotNetType { get; set; }
+        string DotNetType { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is identity.
         /// </summary>
-        bool IsIdentity { get; set; }
+        bool IsIdentity { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is nullable.
         /// </summary>
-        bool IsNullable { get; set; }
+        bool IsNullable { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is primary key.
         /// </summary>
-        bool IsPrimaryKey { get; set; }
+        bool IsPrimaryKey { get; }
 
         /// <summary>
         ///     Gets or sets the name of the SQL database type.
         /// </summary>
-        SqlDbType SqlDbType { get; set; }
+        SqlDbType SqlDbType { get; }
 
         /// <summary>
         ///     Gets or sets the SQL reader method.
         /// </summary>
-        SqlReaderMethods SqlReaderMethod { get; set; }
+        SqlReaderMethods SqlReaderMethod { get; }
+        #endregion
     }
 
     /// <summary>
@@ -60,7 +62,6 @@ namespace BOA.EntityGeneration.DbModel
     [Serializable]
     public class ColumnInfo : IColumnInfo
     {
-
         #region Public Properties
         /// <summary>
         ///     Gets or sets the name of the column.

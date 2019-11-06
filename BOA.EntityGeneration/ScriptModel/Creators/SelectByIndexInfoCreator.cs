@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
     public static class SelectByIndexInfoCreator
     {
         #region Public Methods
-        public static SelectByIndexInfo Create(TableInfo tableInfo, IndexInfo indexInfo)
+        public static SelectByIndexInfo Create(ITableInfo tableInfo, IndexInfo indexInfo)
         {
             var sqlParameters = tableInfo.Columns.Where(x => indexInfo.ColumnNames.Contains(x.ColumnName)).ToList();
 
@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #endregion
 
         #region Methods
-        static string GetSql(TableInfo tableInfo, IReadOnlyList<IColumnInfo> sqlParameters)
+        static string GetSql(ITableInfo tableInfo, IReadOnlyList<IColumnInfo> sqlParameters)
         {
             var sb = new PaddedStringBuilder();
 

@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
     public static class UpdateByPrimaryKeyInfoCreator
     {
         #region Public Methods
-        public static UpdateByPrimaryKeyInfo Create(TableInfo tableInfo)
+        public static UpdateByPrimaryKeyInfo Create(ITableInfo tableInfo)
         {
             var whereParameters = tableInfo.PrimaryKeyColumns;
 
@@ -26,7 +26,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #endregion
 
         #region Methods
-        static IReadOnlyList<IColumnInfo> GetColumnsWillBeUpdate(TableInfo tableInfo)
+        static IReadOnlyList<IColumnInfo> GetColumnsWillBeUpdate(ITableInfo tableInfo)
         {
             var excludedColumnNames = tableInfo.PrimaryKeyColumns.Select(x => x.ColumnName).ToList();
 
@@ -39,7 +39,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             return tableInfo.Columns.Where(c => !excludedColumnNames.Contains(c.ColumnName)).ToList();
         }
 
-        static string GetSql(TableInfo tableInfo, IReadOnlyList<IColumnInfo> columnsWillBeUpdate, IReadOnlyList<IColumnInfo> whereParameters)
+        static string GetSql(ITableInfo tableInfo, IReadOnlyList<IColumnInfo> columnsWillBeUpdate, IReadOnlyList<IColumnInfo> whereParameters)
         {
             var sb = new PaddedStringBuilder();
 

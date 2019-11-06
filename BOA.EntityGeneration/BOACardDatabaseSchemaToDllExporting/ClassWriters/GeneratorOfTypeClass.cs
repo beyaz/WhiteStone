@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         #endregion
 
         #region Public Methods
-        public static void WriteUsingList(PaddedStringBuilder sb, TableInfo tableInfo, Config config)
+        public static void WriteUsingList(PaddedStringBuilder sb, ITableInfo tableInfo, Config config)
         {
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
@@ -31,7 +31,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             }
         }
 
-        public void WriteClass(PaddedStringBuilder sb, TableInfo tableInfo)
+        public void WriteClass(PaddedStringBuilder sb, ITableInfo tableInfo)
         {
             ContractCommentInfoCreator.Write(sb, tableInfo);
 

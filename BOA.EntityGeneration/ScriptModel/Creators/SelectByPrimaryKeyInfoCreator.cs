@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
     public static class SelectByPrimaryKeyInfoCreator
     {
         #region Public Methods
-        public static SelectByPrimaryKeyInfo Create(TableInfo tableInfo)
+        public static SelectByPrimaryKeyInfo Create(ITableInfo tableInfo)
         {
             var parameters = tableInfo.PrimaryKeyColumns;
 
@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             };
         }
 
-        static string GetSql(TableInfo tableInfo, IReadOnlyList<IColumnInfo> parameters)
+        static string GetSql(ITableInfo tableInfo, IReadOnlyList<IColumnInfo> parameters)
         {
             var sb = new PaddedStringBuilder();
 

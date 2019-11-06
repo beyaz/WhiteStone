@@ -14,7 +14,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #endregion
 
         #region Public Methods
-        public  ContractBodyDbMembers Create(TableInfo TableInfo)
+        public  ContractBodyDbMembers Create(ITableInfo TableInfo)
         {
             var sb = new StringBuilder();
 

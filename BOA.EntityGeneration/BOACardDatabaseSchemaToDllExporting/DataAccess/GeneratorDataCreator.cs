@@ -8,21 +8,36 @@ using WhiteStone.Helpers;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
+    /// <summary>
+    ///     The generator data creator
+    /// </summary>
     public class GeneratorDataCreator
     {
         #region Public Properties
+        /// <summary>
+        ///     Gets or sets the configuration.
+        /// </summary>
         [Inject]
         public Config Config { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the database.
+        /// </summary>
         [Inject]
         public IDatabase Database { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the table override.
+        /// </summary>
         [Inject]
         public TableOverride TableOverride { get; set; }
         #endregion
 
         #region Public Methods
-        public TableInfo Create(DbModel.TableInfo tableInfo)
+        /// <summary>
+        ///     Creates the specified table information.
+        /// </summary>
+        public ITableInfo Create(DbModel.ITableInfo tableInfo)
         {
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 

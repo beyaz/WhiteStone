@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
     public static class SelectAllInfoCreator
     {
         #region Public Methods
-        public static SelectAllInfo Create(TableInfo tableInfo)
+        public static SelectAllInfo Create(ITableInfo tableInfo)
         {
             return new SelectAllInfo
             {
@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             };
         }
 
-        public static void WriteSql(TableInfo tableInfo, PaddedStringBuilder sb, string topCountParameterName = null)
+        public static void WriteSql(ITableInfo tableInfo, PaddedStringBuilder sb, string topCountParameterName = null)
         {
             if (topCountParameterName == null)
             {
@@ -42,7 +42,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #endregion
 
         #region Methods
-        static string GetSql(TableInfo tableInfo)
+        static string GetSql(ITableInfo tableInfo)
         {
             var sb = new PaddedStringBuilder();
 

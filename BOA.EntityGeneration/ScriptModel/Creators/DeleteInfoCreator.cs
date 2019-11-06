@@ -6,7 +6,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
     public static class DeleteInfoCreator
     {
         #region Public Methods
-        public static DeleteInfo Create(TableInfo tableInfo)
+        public static DeleteInfo Create(ITableInfo tableInfo)
         {
             var parameters = tableInfo.PrimaryKeyColumns;
 
