@@ -2,7 +2,9 @@
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
+using BOA.EntityGeneration.DbModel.Types;
 
 namespace BOA.CodeGeneration.Services
 {

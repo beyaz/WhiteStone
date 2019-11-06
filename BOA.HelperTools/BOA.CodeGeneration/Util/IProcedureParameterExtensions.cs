@@ -3,6 +3,7 @@ using System.Data;
 using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.SQLParser;
 using BOA.EntityGeneration;
+using BOA.EntityGeneration.DbModel;
 
 namespace BOA.CodeGeneration.Util
 {

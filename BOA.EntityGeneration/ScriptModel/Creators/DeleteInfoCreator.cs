@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.ScriptModel.Creators
 {

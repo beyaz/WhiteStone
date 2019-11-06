@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {

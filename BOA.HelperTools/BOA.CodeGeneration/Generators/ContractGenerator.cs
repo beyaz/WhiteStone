@@ -3,7 +3,8 @@ using System.Linq;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
-using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
+using BOA.EntityGeneration.DbModel.Interfaces;
+using ColumnInfo = BOA.EntityGeneration.DbModel.Types.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {

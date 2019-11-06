@@ -6,6 +6,8 @@ using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.Interfaces;
+using BOA.EntityGeneration.DbModel.Types;
 using Ninject;
 using WhiteStone.Helpers;
 using ITableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.ITableInfo;
@@ -58,7 +60,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         /// <summary>
         ///     Creates the specified table information.
         /// </summary>
-        public ITableInfo Create(DbModel.ITableInfo tableInfo)
+        public ITableInfo Create(DbModel.Interfaces.ITableInfo tableInfo)
         {
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 

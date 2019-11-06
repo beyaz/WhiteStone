@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.EntityGeneration.DbModel.Types;
 using Ninject;
 using WhiteStone.Helpers;
 

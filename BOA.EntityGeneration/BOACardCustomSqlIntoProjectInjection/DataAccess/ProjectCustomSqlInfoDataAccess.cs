@@ -8,6 +8,7 @@ using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Ninject;
 

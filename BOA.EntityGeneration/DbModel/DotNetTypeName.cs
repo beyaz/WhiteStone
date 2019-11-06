@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.EntityGeneration
+namespace BOA.EntityGeneration.DbModel
 {
     public static class DotNetTypeName
     {

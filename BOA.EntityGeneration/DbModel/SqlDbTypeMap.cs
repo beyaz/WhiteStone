@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+
 // using static BOA.EntityGeneration.SqlDataType;
 
-namespace BOA.EntityGeneration
+namespace BOA.EntityGeneration.DbModel
 {
     public class SqlDbTypeMap
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using BOA.EntityGeneration.DbModel;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
 {

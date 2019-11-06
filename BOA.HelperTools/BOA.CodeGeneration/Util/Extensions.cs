@@ -6,8 +6,9 @@ using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.Interfaces;
 using Mono.Cecil;
-using ColumnInfo = BOA.EntityGeneration.DbModel.ColumnInfo;
+using ColumnInfo = BOA.EntityGeneration.DbModel.Types.ColumnInfo;
 
 namespace BOA.CodeGeneration.Util
 {

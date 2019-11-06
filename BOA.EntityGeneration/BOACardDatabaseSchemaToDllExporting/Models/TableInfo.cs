@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
 {
     /// <summary>
     ///     The table information
     /// </summary>
-    public interface ITableInfo : DbModel.ITableInfo
+    public interface ITableInfo : DbModel.Interfaces.ITableInfo
     {
         #region Public Properties
         /// <summary>
@@ -56,7 +57,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
     ///     The generator data
     /// </summary>
     [Serializable]
-    public class TableInfo : DbModel.TableInfo, ITableInfo
+    public class TableInfo : DbModel.Types.TableInfo, ITableInfo
     {
         #region Public Properties
 

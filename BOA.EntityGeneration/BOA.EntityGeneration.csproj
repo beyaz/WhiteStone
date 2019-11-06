@@ -86,17 +86,20 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\TableCatalogName.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\TypesProjectExporter.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="DbModel\Interfaces\IColumnInfo.cs" />
+    <Compile Include="DbModel\Interfaces\IIndexInfo.cs" />
+    <Compile Include="DbModel\Interfaces\ITableInfo.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="DotNetTypeName.cs" />
-    <Compile Include="SqlDbTypeMap.cs" />
-    <Compile Include="SqlReaderMethods.cs" />
+    <Compile Include="DbModel\DotNetTypeName.cs" />
+    <Compile Include="DbModel\SqlDbTypeMap.cs" />
+    <Compile Include="DbModel\SqlReaderMethods.cs" />
     <Compile Include="DbModel\SqlServerDataAccess\SequenceInfo.cs" />
-    <Compile Include="DbModel\ColumnInfo.cs" />
+    <Compile Include="DbModel\Types\ColumnInfo.cs" />
     <Compile Include="DbModel\SqlServerDataAccess\IndexInfoAccess.cs" />
     <Compile Include="DbModel\SqlServerDataAccess\SchemaInfo.cs" />
     <Compile Include="DbModel\SqlServerDataAccess\TableInfoDao.cs" />
-    <Compile Include="DbModel\IndexInfo.cs" />
-    <Compile Include="DbModel\TableInfo.cs" />
+    <Compile Include="DbModel\Types\IndexInfo.cs" />
+    <Compile Include="DbModel\Types\TableInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\GeneratorOfBusinessClass.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\BOACardDatabaseExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\GeneratorOfTypeClass.cs" />
@@ -154,5 +157,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
