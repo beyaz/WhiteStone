@@ -1,63 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
 {
-    /// <summary>
-    ///     The custom SQL information
-    /// </summary>
-    [Serializable]
-    public class CustomSqlInfo
+    public interface ICustomSqlInfo
     {
-        #region Public Properties
         /// <summary>
         ///     Gets the name of the business class.
         /// </summary>
-        public string BusinessClassName => Name.ToContractName();
+        string BusinessClassName { get; }
 
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>
-        public string Name { get; set; }
+        string Name { get; set; }
 
         /// <summary>
         ///     Gets the name of the parameter contract.
         /// </summary>
-        public string ParameterContractName => Name.ToContractName() + "Request";
+        string ParameterContractName { get; }
 
         /// <summary>
         ///     Gets or sets the parameters.
         /// </summary>
-        public IReadOnlyList<IReadOnlyCustomSqlInfoParameter> Parameters { get; set; }
+        IReadOnlyList<ICustomSqlInfoParameter> Parameters { get; set; }
 
-        public string ProfileId { get; set; }
+        string ProfileId { get; set; }
 
         /// <summary>
         ///     Gets or sets the result columns.
         /// </summary>
-        public IReadOnlyList<CustomSqlInfoResult> ResultColumns { get; set; }
+        IReadOnlyList<CustomSqlInfoResult> ResultColumns { get; set; }
 
         /// <summary>
         ///     Gets the name of the result contract.
         /// </summary>
-        public string ResultContractName => Name.ToContractName() + "Contract";
+        string ResultContractName { get; }
 
         /// <summary>
         ///     Gets or sets the name of the schema.
         /// </summary>
-        public string SchemaName { get; set; }
+        string SchemaName { get; set; }
 
         /// <summary>
         ///     Gets or sets the SQL.
         /// </summary>
-        public string Sql { get; set; }
+        string Sql { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether [SQL result is collection].
         /// </summary>
-        public bool SqlResultIsCollection { get; set; }
+        bool SqlResultIsCollection { get; set; }
 
-        public int SwitchCaseIndex { get; set; }
-        #endregion
+        int SwitchCaseIndex { get; set; }
     }
 }

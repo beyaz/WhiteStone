@@ -66,11 +66,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CustomSqlClassTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\CustomSqlInfo.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\CustomSqlInfoParameter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\CustomSqlInfoResult.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfo.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfoParameter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfoResult.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\DataAccess\ProjectCustomSqlInfoDataAccess.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\ProjectCustomSqlInfo.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\ICustomSqlInfo.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\ICustomSqlInfoResult.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\ICustomSqlInfoParameter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\IProjectCustomSqlInfo.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\ProjectCustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Injectors\ProjectInjector.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\TypeClassWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />

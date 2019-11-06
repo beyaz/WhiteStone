@@ -387,9 +387,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         /// <summary>
         ///     Reads the input parameters.
         /// </summary>
-        IReadOnlyList<IReadOnlyCustomSqlInfoParameter> ReadInputParameters(CustomSqlInfo customSqlInfo)
+        IReadOnlyList<ICustomSqlInfoParameter> ReadInputParameters(CustomSqlInfo customSqlInfo)
         {
-            var items = new List<IReadOnlyCustomSqlInfoParameter>();
+            var items = new List<ICustomSqlInfoParameter>();
 
             Database.CommandText = $"select parameterid,datatype,nullableflag from dbo.objectparameters WITH (NOLOCK) WHERE profileid = '{customSqlInfo.ProfileId}' AND objectid = '{customSqlInfo.Name}'";
 

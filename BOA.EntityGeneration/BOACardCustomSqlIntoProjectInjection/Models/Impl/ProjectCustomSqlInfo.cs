@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
 {
     [Serializable]
-    public class ProjectCustomSqlInfo
+    public class ProjectCustomSqlInfo : IProjectCustomSqlInfo
     {
         public IReadOnlyList<CustomSqlInfo> CustomSqlInfoList       { get; set; }
         public string                       NamespaceNameOfType     { get; set; }

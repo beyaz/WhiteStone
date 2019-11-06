@@ -4,7 +4,7 @@ using BOA.EntityGeneration.DbModel;
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
 {
     [Serializable]
-    public class CustomSqlInfoResult
+    public class CustomSqlInfoResult : ICustomSqlInfoResult
     {
         #region Public Properties
         public string DataType { get; set; }
