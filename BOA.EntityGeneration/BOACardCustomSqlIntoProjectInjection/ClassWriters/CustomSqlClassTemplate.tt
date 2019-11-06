@@ -1,5 +1,5 @@
 ﻿<#@ template language="C#" #>
-<#@ parameter name="project" type="BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl.ProjectCustomSqlInfo" #>
+<#@ parameter name="project" type="BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.IProjectCustomSqlInfo" #>
 public static class CustomSql
 {
 	public static TOutput Execute<TOutput, T>(ObjectHelper objectHelper, ICustomSqlProxy<TOutput, T> input) where TOutput : GenericResponse<T>

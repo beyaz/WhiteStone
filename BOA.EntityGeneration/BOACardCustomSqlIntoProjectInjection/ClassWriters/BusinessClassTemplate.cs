@@ -368,12 +368,12 @@ foreach (var item in data.ResultColumns){
         
         #line 1 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
 
-private global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl.CustomSqlInfo _dataField;
+private global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.ICustomSqlInfo _dataField;
 
 /// <summary>
 /// Access the data parameter of the template.
 /// </summary>
-private global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl.CustomSqlInfo data
+private global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.ICustomSqlInfo data
 {
     get
     {
@@ -405,7 +405,7 @@ public virtual void Initialize()
 bool dataValueAcquired = false;
 if (this.Session.ContainsKey("data"))
 {
-    this._dataField = ((global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl.CustomSqlInfo)(this.Session["data"]));
+    this._dataField = ((global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.ICustomSqlInfo)(this.Session["data"]));
     dataValueAcquired = true;
 }
 if ((dataValueAcquired == false))
@@ -413,7 +413,7 @@ if ((dataValueAcquired == false))
     object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("data");
     if ((data != null))
     {
-        this._dataField = ((global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl.CustomSqlInfo)(data));
+        this._dataField = ((global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.ICustomSqlInfo)(data));
     }
 }
 bool keyValueAcquired = false;

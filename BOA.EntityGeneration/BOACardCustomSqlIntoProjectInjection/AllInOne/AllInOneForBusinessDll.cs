@@ -1,24 +1,35 @@
 ﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 {
+    /// <summary>
+    ///     All in one for business DLL
+    /// </summary>
     public class AllInOneForBusinessDll
     {
         #region Public Properties
+        /// <summary>
+        ///     Gets or sets the business class writer.
+        /// </summary>
         [Inject]
         public BusinessClassWriter BusinessClassWriter { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the tracer.
+        /// </summary>
         [Inject]
         public Tracer Tracer { get; set; }
         #endregion
 
         #region Public Methods
-        public string GetCode(ProjectCustomSqlInfo data)
+        /// <summary>
+        ///     Gets the code.
+        /// </summary>
+        public string GetCode(IProjectCustomSqlInfo data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -27,7 +38,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             return sb.ToString();
         }
 
-        public void Write(PaddedStringBuilder sb, ProjectCustomSqlInfo data)
+        /// <summary>
+        ///     Writes the specified sb.
+        /// </summary>
+        public void Write(PaddedStringBuilder sb, IProjectCustomSqlInfo data)
         {
             sb.AppendLine("using BOA.Base;");
             sb.AppendLine("using BOA.Base.Data;");

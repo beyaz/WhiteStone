@@ -69,12 +69,12 @@ foreach (var item in project.CustomSqlInfoList){
         
         #line 1 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\CustomSqlClassTemplate.tt"
 
-private global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl.ProjectCustomSqlInfo _projectField;
+private global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.IProjectCustomSqlInfo _projectField;
 
 /// <summary>
 /// Access the project parameter of the template.
 /// </summary>
-private global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl.ProjectCustomSqlInfo project
+private global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.IProjectCustomSqlInfo project
 {
     get
     {
@@ -93,7 +93,7 @@ public virtual void Initialize()
 bool projectValueAcquired = false;
 if (this.Session.ContainsKey("project"))
 {
-    this._projectField = ((global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl.ProjectCustomSqlInfo)(this.Session["project"]));
+    this._projectField = ((global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.IProjectCustomSqlInfo)(this.Session["project"]));
     projectValueAcquired = true;
 }
 if ((projectValueAcquired == false))
@@ -101,7 +101,7 @@ if ((projectValueAcquired == false))
     object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("project");
     if ((data != null))
     {
-        this._projectField = ((global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl.ProjectCustomSqlInfo)(data));
+        this._projectField = ((global::BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.IProjectCustomSqlInfo)(data));
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
@@ -14,7 +14,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
         /// <summary>
         ///     Writes the specified sb.
         /// </summary>
-        public void Write(PaddedStringBuilder sb, CustomSqlInfo data, ProjectCustomSqlInfo projectCustomSqlInfo)
+        public void Write(PaddedStringBuilder sb, ICustomSqlInfo data, IProjectCustomSqlInfo projectCustomSqlInfo)
         {
             var key = $"{projectCustomSqlInfo.NamespaceNameOfBusiness}.{data.BusinessClassName}.Execute";
 
@@ -36,7 +36,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
         /// <summary>
         ///     Writes the custom SQL class.
         /// </summary>
-        public void Write_CustomSqlClass(PaddedStringBuilder sb, ProjectCustomSqlInfo project)
+        public void Write_CustomSqlClass(PaddedStringBuilder sb, IProjectCustomSqlInfo project)
         {
 
             var template = new CustomSqlClassTemplate

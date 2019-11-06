@@ -1,6 +1,6 @@
 ﻿<#@ template language="C#" #>
 <#@ import namespace="System.Linq" #>
-<#@ parameter name="data" type="BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl.CustomSqlInfo" #>
+<#@ parameter name="data" type="BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.ICustomSqlInfo" #>
 <#@ parameter name="key" type="System.String" #>
 /// <summary>
 ///     Data access part of '<#=data.Name#>' sql.

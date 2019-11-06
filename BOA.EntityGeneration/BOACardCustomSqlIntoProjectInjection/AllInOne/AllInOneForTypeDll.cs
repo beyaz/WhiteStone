@@ -1,7 +1,6 @@
 ﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
@@ -18,7 +17,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         #endregion
 
         #region Public Methods
-        public string GetCode(ProjectCustomSqlInfo data)
+        public string GetCode(IProjectCustomSqlInfo data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -27,7 +26,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             return sb.ToString();
         }
 
-        public void Write(PaddedStringBuilder sb, ProjectCustomSqlInfo data)
+        public void Write(PaddedStringBuilder sb, IProjectCustomSqlInfo data)
         {
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using System;");

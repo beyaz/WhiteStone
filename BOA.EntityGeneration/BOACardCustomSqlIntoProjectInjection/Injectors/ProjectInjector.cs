@@ -2,6 +2,7 @@
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.TfsAccess;
 using Ninject;
@@ -59,7 +60,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         /// <summary>
         ///     Injects the specified data.
         /// </summary>
-        void Inject(ProjectCustomSqlInfo data)
+        void Inject(IProjectCustomSqlInfo data)
         {
             for (var i = 0; i < data.CustomSqlInfoList.Count; i++)
             {

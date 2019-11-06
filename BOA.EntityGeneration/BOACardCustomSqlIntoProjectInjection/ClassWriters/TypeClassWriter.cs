@@ -1,6 +1,7 @@
 ﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 {
@@ -17,7 +18,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
             sb.AppendLine("}");
         }
         #region Public Methods
-        public void Write(PaddedStringBuilder sb, CustomSqlInfo data)
+        public void Write(PaddedStringBuilder sb, ICustomSqlInfo data)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///     Result class of '{data.Name}' sql.");
