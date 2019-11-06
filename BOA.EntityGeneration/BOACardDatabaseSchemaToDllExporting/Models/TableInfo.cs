@@ -59,6 +59,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
     public class TableInfo : DbModel.TableInfo, ITableInfo
     {
         #region Public Properties
+
+        /// <summary>
+        ///     Gets or sets the columns.
+        /// </summary>
+        public new IReadOnlyList<ColumnInfo> Columns { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the columns.
+        /// </summary>
+        IReadOnlyList<IColumnInfo> DbModel.ITableInfo.Columns => Columns;
+
         /// <summary>
         ///     Gets or sets the name of the database enum.
         /// </summary>
