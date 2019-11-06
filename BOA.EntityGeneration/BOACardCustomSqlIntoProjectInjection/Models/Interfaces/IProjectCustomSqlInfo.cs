@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
+namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces
 {
     public interface IProjectCustomSqlInfo
     {

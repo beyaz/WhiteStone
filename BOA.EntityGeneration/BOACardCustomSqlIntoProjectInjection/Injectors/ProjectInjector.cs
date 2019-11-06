@@ -1,6 +1,7 @@
 ﻿using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.TfsAccess;
 using Ninject;

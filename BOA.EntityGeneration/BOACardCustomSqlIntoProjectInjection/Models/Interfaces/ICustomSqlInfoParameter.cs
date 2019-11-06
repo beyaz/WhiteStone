@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models
+namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces
 {
     /// <summary>
     ///     The read only custom SQL information parameter
