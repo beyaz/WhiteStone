@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.DbModel
         /// <summary>
         ///     Gets or sets the index information list.
         /// </summary>
-        IReadOnlyList<IndexInfo> IndexInfoList { get; }
+        IReadOnlyList<IIndexInfo> IndexInfoList { get; }
 
         /// <summary>
         ///     Gets or sets the primary key columns.
@@ -66,7 +66,9 @@ namespace BOA.EntityGeneration.DbModel
         /// <summary>
         ///     Gets or sets the columns.
         /// </summary>
-        public IReadOnlyList<IColumnInfo> Columns { get; set; }
+        public IReadOnlyList<ColumnInfo> Columns { get; set; }
+
+        IReadOnlyList<IColumnInfo> ITableInfo.Columns => Columns;
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance has identity column.
@@ -81,7 +83,7 @@ namespace BOA.EntityGeneration.DbModel
         /// <summary>
         ///     Gets or sets the index information list.
         /// </summary>
-        public IReadOnlyList<IndexInfo> IndexInfoList { get; set; }
+        public IReadOnlyList<IIndexInfo> IndexInfoList { get; set; }
 
         /// <summary>
         ///     Gets or sets the primary key columns.

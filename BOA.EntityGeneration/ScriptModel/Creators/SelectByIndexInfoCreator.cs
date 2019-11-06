@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
     public static class SelectByIndexInfoCreator
     {
         #region Public Methods
-        public static SelectByIndexInfo Create(ITableInfo tableInfo, IndexInfo indexInfo)
+        public static SelectByIndexInfo Create(ITableInfo tableInfo, IIndexInfo indexInfo)
         {
             var sqlParameters = tableInfo.Columns.Where(x => indexInfo.ColumnNames.Contains(x.ColumnName)).ToList();
 

@@ -7,87 +7,49 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
     /// <summary>
     ///     The table information
     /// </summary>
-    public interface ITableInfo:BOA.EntityGeneration.DbModel.ITableInfo
+    public interface ITableInfo : DbModel.ITableInfo
     {
+        #region Public Properties
         /// <summary>
         ///     Gets or sets the name of the database enum.
         /// </summary>
-        string DatabaseEnumName { get;  }
+        string DatabaseEnumName { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is support select by index.
         /// </summary>
-        bool IsSupportSelectByIndex { get;  }
+        bool IsSupportSelectByIndex { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is support select by key.
         /// </summary>
-        bool IsSupportSelectByKey { get;  }
+        bool IsSupportSelectByKey { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is support select by unique index.
         /// </summary>
-        bool IsSupportSelectByUniqueIndex { get;  }
+        bool IsSupportSelectByUniqueIndex { get; }
 
         /// <summary>
         ///     Gets or sets the non unique index information list.
         /// </summary>
-        IReadOnlyList<IndexInfo> NonUniqueIndexInfoList { get;  }
+        IReadOnlyList<IIndexInfo> NonUniqueIndexInfoList { get; }
 
         /// <summary>
         ///     Gets or sets the sequence list.
         /// </summary>
-        IReadOnlyList<SequenceInfo> SequenceList { get;  }
-
-        /// <summary>
-        ///     Gets or sets the unique index information list.
-        /// </summary>
-        IReadOnlyList<IndexInfo> UniqueIndexInfoList { get;  }
+        IReadOnlyList<SequenceInfo> SequenceList { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether [should generate select all by valid flag method in business class].
         /// </summary>
-        bool ShouldGenerateSelectAllByValidFlagMethodInBusinessClass { get;  }
+        bool ShouldGenerateSelectAllByValidFlagMethodInBusinessClass { get; }
 
         /// <summary>
-        ///     Gets or sets the name of the catalog.
+        ///     Gets or sets the unique index information list.
         /// </summary>
-        string CatalogName { get;  }
-
-        /// <summary>
-        ///     Gets or sets the columns.
-        /// </summary>
-        IReadOnlyList<IColumnInfo> Columns { get;  }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether this instance has identity column.
-        /// </summary>
-        bool HasIdentityColumn { get;  }
-
-        /// <summary>
-        ///     Gets or sets the identity column.
-        /// </summary>
-        IColumnInfo IdentityColumn { get;  }
-
-        /// <summary>
-        ///     Gets or sets the index information list.
-        /// </summary>
-        IReadOnlyList<IndexInfo> IndexInfoList { get;  }
-
-        /// <summary>
-        ///     Gets or sets the primary key columns.
-        /// </summary>
-        IReadOnlyList<IColumnInfo> PrimaryKeyColumns { get;  }
-
-        /// <summary>
-        ///     Gets or sets the name of the schema.
-        /// </summary>
-        string SchemaName { get;  }
-
-        /// <summary>
-        ///     Gets or sets the name of the table.
-        /// </summary>
-        string TableName { get;  }
+        IReadOnlyList<IIndexInfo> UniqueIndexInfoList { get; }
+        #endregion
     }
 
     /// <summary>
@@ -120,8 +82,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
         /// <summary>
         ///     Gets or sets the non unique index information list.
         /// </summary>
-        public IReadOnlyList<IndexInfo> NonUniqueIndexInfoList { get; set; }
-
+        public IReadOnlyList<IIndexInfo> NonUniqueIndexInfoList { get; set; }
 
         /// <summary>
         ///     Gets or sets the sequence list.
@@ -129,14 +90,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
         public IReadOnlyList<SequenceInfo> SequenceList { get; set; }
 
         /// <summary>
-        ///     Gets or sets the unique index information list.
-        /// </summary>
-        public IReadOnlyList<IndexInfo> UniqueIndexInfoList { get; set; }
-
-        /// <summary>
         ///     Gets or sets a value indicating whether [should generate select all by valid flag method in business class].
         /// </summary>
         public bool ShouldGenerateSelectAllByValidFlagMethodInBusinessClass { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the unique index information list.
+        /// </summary>
+        public IReadOnlyList<IIndexInfo> UniqueIndexInfoList { get; set; }
         #endregion
     }
 
@@ -146,14 +107,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
     [Serializable]
     public class SequenceInfo
     {
+        #region Public Properties
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         ///     Gets or sets the name of the target column.
         /// </summary>
         public string TargetColumnName { get; set; }
+        #endregion
     }
-
 }

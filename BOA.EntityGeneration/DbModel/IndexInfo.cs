@@ -4,19 +4,86 @@ using System.Linq;
 
 namespace BOA.EntityGeneration.DbModel
 {
-    [Serializable]
-    public class IndexInfo
+    /// <summary>
+    ///     The index information
+    /// </summary>
+    public interface IIndexInfo
     {
         #region Public Properties
-        public IReadOnlyList<string> ColumnNames    { get; set; }
-        public bool                  IsClustered    { get; set; }
-        public bool                  IsNonClustered { get; set; }
-        public bool                  IsPrimaryKey   { get; set; }
-        public bool                  IsUnique       { get; set; }
-        public string                Name           { get; set; }
+        /// <summary>
+        ///     Gets or sets the column names.
+        /// </summary>
+        IReadOnlyList<string> ColumnNames { get; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is clustered.
+        /// </summary>
+        bool IsClustered { get; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is non clustered.
+        /// </summary>
+        bool IsNonClustered { get; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is primary key.
+        /// </summary>
+        bool IsPrimaryKey { get; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is unique.
+        /// </summary>
+        bool IsUnique { get; }
+
+        /// <summary>
+        ///     Gets or sets the name.
+        /// </summary>
+        string Name { get; }
+        #endregion
+    }
+
+    /// <summary>
+    ///     The index information
+    /// </summary>
+    [Serializable]
+    public class IndexInfo : IIndexInfo
+    {
+        #region Public Properties
+        /// <summary>
+        ///     Gets or sets the column names.
+        /// </summary>
+        public IReadOnlyList<string> ColumnNames { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is clustered.
+        /// </summary>
+        public bool IsClustered { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is non clustered.
+        /// </summary>
+        public bool IsNonClustered { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is primary key.
+        /// </summary>
+        public bool IsPrimaryKey { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is unique.
+        /// </summary>
+        public bool IsUnique { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the name.
+        /// </summary>
+        public string Name { get; set; }
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
         public override string ToString()
         {
             var properties = new List<string>();

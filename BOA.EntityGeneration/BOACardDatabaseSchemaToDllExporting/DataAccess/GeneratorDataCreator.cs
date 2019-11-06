@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
@@ -69,7 +71,29 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
                 data.SequenceList = Database.ExecuteReader().ToList<SequenceInfo>().Where(x => tableInfo.Columns.Any(c => c.ColumnName == x.TargetColumnName)).ToList();
             }
 
-            TableOverride.Override(data);
+            foreach (var item in data.Columns)
+            {
+                if (item.ColumnName.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (item.IsNullable)
+                    {
+                        item.DotNetType = DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
+                        item.SqlReaderMethod = SqlReaderMethods.GetBooleanNullableValue;
+                    }
+                    else
+                    {
+                        item.DotNetType = DotNetTypeName.DotNetBool;
+                        item.SqlReaderMethod = SqlReaderMethods.GetBooleanValue;
+                    }
+                }
+               
+            }
+
+            if (data.Columns.Any(x => x.ColumnName.Equals("VALID_FLAG", StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))
+            {
+                data.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass = true;
+            }
+
 
             return data;
         }
