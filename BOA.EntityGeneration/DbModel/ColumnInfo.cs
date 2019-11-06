@@ -6,9 +6,61 @@ namespace BOA.EntityGeneration.DbModel
     /// <summary>
     ///     The column information
     /// </summary>
-    [Serializable]
-    public class ColumnInfo
+    public interface IColumnInfo
     {
+        /// <summary>
+        ///     Gets or sets the name of the column.
+        /// </summary>
+        string ColumnName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the comment.
+        /// </summary>
+        string Comment { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the type of the data.
+        /// </summary>
+        string DataType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the type of the dot net.
+        /// </summary>
+        string DotNetType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is identity.
+        /// </summary>
+        bool IsIdentity { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is nullable.
+        /// </summary>
+        bool IsNullable { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is primary key.
+        /// </summary>
+        bool IsPrimaryKey { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the name of the SQL database type.
+        /// </summary>
+        SqlDbType SqlDbType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the SQL reader method.
+        /// </summary>
+        SqlReaderMethods SqlReaderMethod { get; set; }
+    }
+
+    /// <summary>
+    ///     The column information
+    /// </summary>
+    [Serializable]
+    public class ColumnInfo : IColumnInfo
+    {
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets the name of the column.

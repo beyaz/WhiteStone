@@ -6,7 +6,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
     static class ParameterHelper
     {
         #region Public Methods
-        public static string GetValueForSqlInsert(ColumnInfo columnInfo, string contractVariableName = "contract")
+        public static string GetValueForSqlInsert(IColumnInfo columnInfo, string contractVariableName = "contract")
         {
             //if (columnInfo.ColumnName == Names2.ROW_GUID)
             //{
@@ -44,7 +44,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
             return $"{contractVariableName}.{columnInfo.ColumnName.ToContractName()}";
         }
 
-        public static string GetValueForSqlUpdate(ColumnInfo columnInfo, string contractVariableName = "contract")
+        public static string GetValueForSqlUpdate(IColumnInfo columnInfo, string contractVariableName = "contract")
         {
             if (columnInfo.SqlDbType == SqlDbType.Char &&
                 columnInfo.DotNetType == DotNetTypeName.DotNetBool )

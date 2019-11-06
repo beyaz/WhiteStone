@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             };
         }
 
-        static string GetSql(TableInfo tableInfo, IReadOnlyList<ColumnInfo> parameters)
+        static string GetSql(TableInfo tableInfo, IReadOnlyList<IColumnInfo> parameters)
         {
             var sb = new PaddedStringBuilder();
 

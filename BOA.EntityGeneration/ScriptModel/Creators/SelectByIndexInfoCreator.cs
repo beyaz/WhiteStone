@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #endregion
 
         #region Methods
-        static string GetSql(TableInfo tableInfo, IReadOnlyList<ColumnInfo> sqlParameters)
+        static string GetSql(TableInfo tableInfo, IReadOnlyList<IColumnInfo> sqlParameters)
         {
             var sb = new PaddedStringBuilder();
 

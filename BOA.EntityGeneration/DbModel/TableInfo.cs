@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.DbModel
         /// <summary>
         ///     Gets or sets the columns.
         /// </summary>
-        public IReadOnlyList<ColumnInfo> Columns { get; set; }
+        public IReadOnlyList<IColumnInfo> Columns { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance has identity column.
@@ -28,14 +28,17 @@ namespace BOA.EntityGeneration.DbModel
         /// <summary>
         ///     Gets or sets the identity column.
         /// </summary>
-        public ColumnInfo IdentityColumn { get; set; }
+        public IColumnInfo IdentityColumn { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the index information list.
+        /// </summary>
         public IReadOnlyList<IndexInfo> IndexInfoList { get; set; }
 
         /// <summary>
         ///     Gets or sets the primary key columns.
         /// </summary>
-        public IReadOnlyList<ColumnInfo> PrimaryKeyColumns { get; set; }
+        public IReadOnlyList<IColumnInfo> PrimaryKeyColumns { get; set; }
 
         /// <summary>
         ///     Gets or sets the name of the schema.
@@ -46,8 +49,6 @@ namespace BOA.EntityGeneration.DbModel
         ///     Gets or sets the name of the table.
         /// </summary>
         public string TableName { get; set; }
-
-        
         #endregion
     }
 }

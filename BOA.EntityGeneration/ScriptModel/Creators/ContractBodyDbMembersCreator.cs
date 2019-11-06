@@ -42,7 +42,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #endregion
 
         #region Methods
-        static void Write(StringBuilder sb, ColumnInfo data, string extraComment)
+        static void Write(StringBuilder sb, IColumnInfo data, string extraComment)
         {
             var comment = data.Comment;
 

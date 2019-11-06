@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.ScriptModel
     {
         #region Public Properties
         public string                    Sql           { get; set; }
-        public IReadOnlyList<ColumnInfo> SqlParameters { get; set; }
+        public IReadOnlyList<IColumnInfo> SqlParameters { get; set; }
         #endregion
     }
 }

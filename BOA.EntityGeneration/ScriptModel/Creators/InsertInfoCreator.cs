@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #endregion
 
         #region Methods
-        protected virtual IReadOnlyList<ColumnInfo> GetColumnsWillBeInsert(TableInfo tableInfo)
+        protected virtual IReadOnlyList<IColumnInfo> GetColumnsWillBeInsert(TableInfo tableInfo)
         {
             var excludedColumnNames = new List<string>();
 
@@ -34,7 +34,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             return tableInfo.Columns.Where(c => !excludedColumnNames.Contains(c.ColumnName)).ToList();
         }
 
-        string GetSql(TableInfo tableInfo, IReadOnlyList<ColumnInfo> columnsWillBeInsert)
+        string GetSql(TableInfo tableInfo, IReadOnlyList<IColumnInfo> columnsWillBeInsert)
         {
             var sb = new PaddedStringBuilder();
 
