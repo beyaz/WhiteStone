@@ -13,35 +13,63 @@ using InsertInfoCreator = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporti
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
+    /// <summary>
+    ///     The generator of business class
+    /// </summary>
     public class GeneratorOfBusinessClass
     {
         #region Constants
-        const string contractParameterName       = "contract";
-        const string ParameterIdentifier         = "@";
+        /// <summary>
+        ///     The contract parameter name
+        /// </summary>
+        const string contractParameterName = "contract";
+
+        /// <summary>
+        ///     The parameter identifier
+        /// </summary>
+        const string ParameterIdentifier = "@";
+
+        /// <summary>
+        ///     The parameter name of column names
+        /// </summary>
         const string ParameterNameOf_columnNames = "columnNames";
 
+        /// <summary>
+        ///     The top count parameter name
+        /// </summary>
         const string TopCountParameterName = "$resultCount";
         #endregion
 
         #region Public Properties
-        [Inject]
-        public InsertInfoCreator InsertInfoCreator { get; set; }
-
-        [Inject]
-        public NamingHelper NamingHelper { get; set; }
-
+        /// <summary>
+        ///     Gets or sets the configuration.
+        /// </summary>
         [Inject]
         public Config Config { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the insert information creator.
+        /// </summary>
+        [Inject]
+        public InsertInfoCreator InsertInfoCreator { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the naming helper.
+        /// </summary>
+        [Inject]
+        public NamingHelper NamingHelper { get; set; }
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Writes the class.
+        /// </summary>
         public void WriteClass(PaddedStringBuilder sb, ITableInfo tableInfo)
         {
             var typeContractName = $"{tableInfo.TableName.ToContractName()}Contract";
             var className        = tableInfo.TableName.ToContractName();
 
-            if (typeContractName == "TransactionLogContract"||
+            if (typeContractName == "TransactionLogContract" ||
                 typeContractName == "BoaUserContract") // resolve conflig
             {
                 typeContractName = $"{NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName)}.{typeContractName}";
@@ -272,14 +300,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                     columnInfo.DotNetType == DotNetTypeName.DotNetBool)
                 {
                     readerLine = Config.ReadLineCharToBool;
-                   
                 }
                 else if (columnInfo.SqlDbType == SqlDbType.Char &&
                          columnInfo.DotNetType == DotNetTypeName.DotNetBoolNullable)
                 {
                     readerLine = Config.ReadLineCharToBoolNullable;
                 }
-
 
                 readerLine = readerLine
                              .Replace("{Contract}", contractParameterName)
@@ -319,11 +345,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("}");
         }
 
+        /// <summary>
+        ///     Writes the using list.
+        /// </summary>
         public void WriteUsingList(PaddedStringBuilder sb, ITableInfo tableInfo)
         {
             foreach (var line in Config.DaoUsingLines)
             {
-                sb.AppendLine(line.Replace("{SchemaName}",tableInfo.SchemaName));    
+                sb.AppendLine(line.Replace("{SchemaName}", tableInfo.SchemaName));
             }
 
             sb.AppendLine("using System;");
@@ -336,6 +365,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Gets the database column information.
+        /// </summary>
         static void GetDbColumnInfo(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
             sb.AppendLine("/// <summary>");
@@ -369,6 +401,9 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
             sb.AppendLine("}");
         }
 
+        /// <summary>
+        ///     Selects all.
+        /// </summary>
         static void SelectAll(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
             var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
@@ -403,6 +438,9 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
             sb.AppendLine("}");
         }
 
+        /// <summary>
+        ///     Selects the by valid flag.
+        /// </summary>
         static void SelectByValidFlag(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName, SelectAllInfo selectAllInfo)
         {
             sb.AppendLine("/// <summary>");
@@ -435,6 +473,9 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
             sb.AppendLine("}");
         }
 
+        /// <summary>
+        ///     Selects the by where conditions.
+        /// </summary>
         static void SelectByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql)
         {
             sb.AppendLine("/// <summary>");
@@ -495,6 +536,9 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
+        /// <summary>
+        ///     Selects the top n by where conditions.
+        /// </summary>
         static void SelectTopNByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql)
         {
             sb.AppendLine("/// <summary>");
@@ -563,6 +607,9 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
+        /// <summary>
+        ///     Updates the specified sb.
+        /// </summary>
         static void Update(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
@@ -642,6 +689,9 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
+        /// <summary>
+        ///     Updates the specific columns.
+        /// </summary>
         static void UpdateSpecificColumns(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
@@ -773,6 +823,9 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
             sb.AppendLine("}");
         }
 
+        /// <summary>
+        ///     Inserts the specified sb.
+        /// </summary>
         void Insert(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
             var insertInfo = InsertInfoCreator.Create(tableInfo);
