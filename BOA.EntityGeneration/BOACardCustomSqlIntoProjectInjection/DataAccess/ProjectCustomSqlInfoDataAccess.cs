@@ -4,7 +4,6 @@ using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
@@ -22,14 +21,17 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
     public class ProjectCustomSqlInfoDataAccess
     {
         #region Public Properties
-        [Inject]
-        public GeneratorDataCreator GeneratorDataCreator { get; set; }
-        
         /// <summary>
         ///     Gets or sets the database.
         /// </summary>
         [Inject]
         public IDatabase Database { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the generator data creator.
+        /// </summary>
+        [Inject]
+        public GeneratorDataCreator GeneratorDataCreator { get; set; }
 
         /// <summary>
         ///     Gets or sets the SQL database type map.
@@ -42,8 +44,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         /// </summary>
         [Inject]
         public TableInfoDao TableInfoDao { get; set; }
-
-      
 
         /// <summary>
         ///     Gets or sets the tracer.
@@ -301,10 +301,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
                 {
                     if (item.DataType.Equals("object", StringComparison.OrdinalIgnoreCase))
                     {
-
-                        
                         var tableInfo = GeneratorDataCreator.Create(TableInfoDao.GetInfo(TableCatalogName.BOACard, customSqlInfo.SchemaName, item.Name));
-                        
+
                         customSqlInfoResults.AddRange(from columnInfo in tableInfo.Columns
                                                       select new CustomSqlInfoResult
                                                       {
@@ -352,13 +350,12 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
                 }
 
                 item.DataTypeInDotnet = DotNetTypeName.DotNetBool;
-                item.SqlReaderMethod =  SqlReaderMethods.GetBooleanValue;
+                item.SqlReaderMethod  = SqlReaderMethods.GetBooleanValue;
                 if (item.IsNullable)
                 {
                     item.DataTypeInDotnet = DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
-                    item.SqlReaderMethod = SqlReaderMethods.GetBooleanNullableValue2;
+                    item.SqlReaderMethod  = SqlReaderMethods.GetBooleanNullableValue2;
                 }
-               
             }
             else
             {
@@ -407,13 +404,12 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
                 var cSharpPropertyName = name.ToContractName();
 
                 var valueAccessPathForAddInParameter = cSharpPropertyName;
-              
 
                 var sqlDbTypeName = GetSqlDbTypeName(dataType);
 
                 var isChar = sqlDbTypeName == SqlDbType.Char;
 
-                var endsWithFlagSuffix    = name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase);
+                var endsWithFlagSuffix = name.EndsWith("_FLAG", StringComparison.OrdinalIgnoreCase);
                 if (endsWithFlagSuffix && isChar)
                 {
                     if (isNullable)
@@ -430,11 +426,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
                 var item = new CustomSqlInfoParameter
                 {
-                    Name                   = name,
-                    IsNullable             = isNullable,
-                    CSharpPropertyName     = cSharpPropertyName,
-                    CSharpPropertyTypeName = cSharpPropertyTypeName,
-                    SqlDbTypeName          = sqlDbTypeName,
+                    Name                             = name,
+                    IsNullable                       = isNullable,
+                    CSharpPropertyName               = cSharpPropertyName,
+                    CSharpPropertyTypeName           = cSharpPropertyTypeName,
+                    SqlDbTypeName                    = sqlDbTypeName,
                     ValueAccessPathForAddInParameter = valueAccessPathForAddInParameter
                 };
 
