@@ -107,7 +107,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
     ///     The sequence information
     /// </summary>
     [Serializable]
-    public class SequenceInfo
+    public class SequenceInfo : ISequenceInfo
     {
         #region Public Properties
         /// <summary>
@@ -121,4 +121,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
         public string TargetColumnName { get; set; }
         #endregion
     }
+
+    
 }

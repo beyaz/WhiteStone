@@ -295,6 +295,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             throw new NotImplementedException(dataType);
         }
 
+         static class TableCatalogName
+        {
+            public const string BOACard = nameof(BOACard);
+        }
         /// <summary>
         ///     Fills the specified custom SQL information.
         /// </summary>
