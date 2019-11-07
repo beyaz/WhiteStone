@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
 using BOA.EntityGeneration.DbModel.Interfaces;
+using ITableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces.ITableInfo;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
+namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl
 {
     /// <summary>
     ///     The generator data
@@ -41,7 +42,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
         /// <summary>
         ///     Gets or sets the sequence list.
         /// </summary>
-        public IReadOnlyList<SequenceInfo> SequenceList { get; set; }
+        public IReadOnlyList<ISequenceInfo> SequenceList { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether [should generate select all by valid flag method in business class].

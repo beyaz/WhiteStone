@@ -1,4 +1,4 @@
-﻿namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
+﻿namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces
 {
     /// <summary>
     ///     The sequence information

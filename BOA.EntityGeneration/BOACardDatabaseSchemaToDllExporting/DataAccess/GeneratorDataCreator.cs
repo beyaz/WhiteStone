@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.DbModel.Types;
 using Ninject;
 using WhiteStone.Helpers;
-using ITableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.ITableInfo;
-using TableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.TableInfo;
+using ITableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces.ITableInfo;
+using TableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl.TableInfo;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
