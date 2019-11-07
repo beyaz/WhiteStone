@@ -53,6 +53,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         #endregion
 
         #region Public Methods
+
+        
         /// <summary>
         ///     Gets the by profile identifier.
         /// </summary>
@@ -63,6 +65,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             foreach (var customSqlInfo in project.CustomSqlInfoList)
             {
                 Fill(customSqlInfo);
+            }
+
+            for (var i = 0; i < project.CustomSqlInfoList.Count; i++)
+            {
+                project.CustomSqlInfoList[i].SwitchCaseIndex = i;
             }
 
             return project;

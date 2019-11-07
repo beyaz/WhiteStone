@@ -31,6 +31,9 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl
         /// </summary>
         public IReadOnlyList<ICustomSqlInfoParameter> Parameters { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the profile identifier.
+        /// </summary>
         public string ProfileId { get; set; }
 
         /// <summary>
@@ -58,7 +61,17 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl
         /// </summary>
         public bool SqlResultIsCollection { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the index of the switch case.
+        /// </summary>
         public int SwitchCaseIndex { get; set; }
+        #endregion
+
+        #region Explicit Interface Properties
+        /// <summary>
+        ///     Gets or sets the result columns.
+        /// </summary>
+        IReadOnlyList<ICustomSqlInfoResult> ICustomSqlInfo.ResultColumns => ResultColumns;
         #endregion
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces
 {
@@ -37,7 +36,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Inter
         /// <summary>
         ///     Gets or sets the result columns.
         /// </summary>
-        IReadOnlyList<CustomSqlInfoResult> ResultColumns { get; }
+        IReadOnlyList<ICustomSqlInfoResult> ResultColumns { get; }
 
         /// <summary>
         ///     Gets the name of the result contract.

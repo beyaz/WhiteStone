@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces
 {
@@ -17,7 +16,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Inter
         /// <summary>
         ///     Gets the custom SQL information list.
         /// </summary>
-        IReadOnlyList<CustomSqlInfo> CustomSqlInfoList { get; }
+        IReadOnlyList<ICustomSqlInfo> CustomSqlInfoList { get; }
 
         /// <summary>
         ///     Gets the namespace name of business.

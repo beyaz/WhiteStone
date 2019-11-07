@@ -62,11 +62,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         /// </summary>
         void Inject(IProjectCustomSqlInfo data)
         {
-            for (var i = 0; i < data.CustomSqlInfoList.Count; i++)
-            {
-                data.CustomSqlInfoList[i].SwitchCaseIndex = i;
-            }
-
             Tracer.CustomSqlGenerationOfProfileIdProcess.Text = "Generating types...";
             var typeCode = AllInOneForTypeDll.GetCode(data);
 
