@@ -79,6 +79,8 @@
     <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\TypeClassWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllTypeClassesInOne.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ITableInfo.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Impl\SequenceInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ISequenceInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\FileSystem.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\MsBuildQueue.cs" />

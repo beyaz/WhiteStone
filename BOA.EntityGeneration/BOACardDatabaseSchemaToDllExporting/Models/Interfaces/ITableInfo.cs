@@ -1,57 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using BOA.EntityGeneration.DbModel;
+﻿using System.Collections.Generic;
 using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models
 {
     /// <summary>
-    ///     The generator data
+    ///     The table information
     /// </summary>
-    [Serializable]
-    public class TableInfo : DbModel.Types.TableInfo, ITableInfo
+    public interface ITableInfo : DbModel.Interfaces.ITableInfo
     {
         #region Public Properties
-
         /// <summary>
         ///     Gets or sets the name of the database enum.
         /// </summary>
-        public string DatabaseEnumName { get; set; }
+        string DatabaseEnumName { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is support select by index.
         /// </summary>
-        public bool IsSupportSelectByIndex { get; set; }
+        bool IsSupportSelectByIndex { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is support select by key.
         /// </summary>
-        public bool IsSupportSelectByKey { get; set; }
+        bool IsSupportSelectByKey { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is support select by unique index.
         /// </summary>
-        public bool IsSupportSelectByUniqueIndex { get; set; }
+        bool IsSupportSelectByUniqueIndex { get; }
 
         /// <summary>
         ///     Gets or sets the non unique index information list.
         /// </summary>
-        public IReadOnlyList<IIndexInfo> NonUniqueIndexInfoList { get; set; }
+        IReadOnlyList<IIndexInfo> NonUniqueIndexInfoList { get; }
 
         /// <summary>
         ///     Gets or sets the sequence list.
         /// </summary>
-        public IReadOnlyList<SequenceInfo> SequenceList { get; set; }
+        IReadOnlyList<SequenceInfo> SequenceList { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether [should generate select all by valid flag method in business class].
         /// </summary>
-        public bool ShouldGenerateSelectAllByValidFlagMethodInBusinessClass { get; set; }
+        bool ShouldGenerateSelectAllByValidFlagMethodInBusinessClass { get; }
 
         /// <summary>
         ///     Gets or sets the unique index information list.
         /// </summary>
-        public IReadOnlyList<IIndexInfo> UniqueIndexInfoList { get; set; }
+        IReadOnlyList<IIndexInfo> UniqueIndexInfoList { get; }
         #endregion
     }
 }
