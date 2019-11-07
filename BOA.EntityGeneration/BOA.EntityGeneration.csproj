@@ -79,6 +79,11 @@
     <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\TypeClassWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllTypeClassesInOne.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\DeleteMethodTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeleteMethodTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ITableInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Impl\SequenceInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ISequenceInfo.cs" />
@@ -158,6 +163,10 @@
     <Content Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\CustomSqlClassTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>CustomSqlClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\DeleteMethodTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DeleteMethodTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="EmbeddedUtilizationClassForDao.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

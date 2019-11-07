@@ -90,49 +90,66 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             {
                 var deleteInfo = DeleteInfoCreator.Create(tableInfo);
 
-                var parameterPart = string.Join(", ", deleteInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
-
-                sb.AppendLine();
-                sb.AppendLine("/// <summary>");
-                sb.AppendLine($"///{Padding.ForComment}Deletes only one record from '{tableInfo.SchemaName}.{tableInfo.TableName}' by using '{string.Join(" and ", deleteInfo.SqlParameters.Select(x => x.ColumnName.AsMethodParameter()))}'");
-                sb.AppendLine("/// </summary>");
-                sb.AppendLine($"public GenericResponse<int> Delete({parameterPart})");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{businessClassNamespace}.{className}.Delete\");");
-
-                sb.AppendLine();
-                sb.AppendLine("const string sql = @\"");
-                sb.AppendAll(deleteInfo.Sql);
-                sb.AppendLine();
-                sb.AppendLine("\";");
-                sb.AppendLine();
-                sb.AppendLine("var command = this.CreateCommand(sql);");
-
-                if (deleteInfo.SqlParameters.Any())
+                var deleteMethodTemplate = new DeleteMethodTemplate
                 {
-                    sb.AppendLine();
-                    foreach (var columnInfo in deleteInfo.SqlParameters)
+                    Session = new Dictionary<string, object>
                     {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                        { nameof(deleteInfo),deleteInfo},
+                        { nameof(tableInfo),tableInfo},
+                        { nameof(businessClassNamespace),businessClassNamespace},
+                        { nameof(className),className}
                     }
-                }
+                };
+                deleteMethodTemplate.Initialize();
 
-                sb.AppendLine();
-                sb.AppendLine("var response = DBLayer.ExecuteNonQuery(command);");
-                sb.AppendLine("if (!response.Success)");
-                sb.AppendLine("{");
-                sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
-                sb.AppendLine("    return returnObject;");
-                sb.AppendLine("}");
-                sb.AppendLine();
-                sb.AppendLine("returnObject.Value = response.Value;");
-                sb.AppendLine();
-                sb.AppendLine("return returnObject;");
+                var deleteMethodText = deleteMethodTemplate.TransformText();
 
-                sb.PaddingCount--;
-                sb.AppendLine("}");
+                sb.AppendAll(deleteMethodText);
+                sb.AppendLine();
+
+                //var parameterPart = string.Join(", ", deleteInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+
+                //sb.AppendLine();
+                //sb.AppendLine("/// <summary>");
+                //sb.AppendLine($"///{Padding.ForComment}Deletes only one record from '{tableInfo.SchemaName}.{tableInfo.TableName}' by using '{string.Join(" and ", deleteInfo.SqlParameters.Select(x => x.ColumnName.AsMethodParameter()))}'");
+                //sb.AppendLine("/// </summary>");
+                //sb.AppendLine($"public GenericResponse<int> Delete({parameterPart})");
+                //sb.AppendLine("{");
+                //sb.PaddingCount++;
+
+                //sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{businessClassNamespace}.{className}.Delete\");");
+
+                //sb.AppendLine();
+                //sb.AppendLine("const string sql = @\"");
+                //sb.AppendAll(deleteInfo.Sql);
+                //sb.AppendLine();
+                //sb.AppendLine("\";");
+                //sb.AppendLine();
+                //sb.AppendLine("var command = this.CreateCommand(sql);");
+
+                //if (deleteInfo.SqlParameters.Any())
+                //{
+                //    sb.AppendLine();
+                //    foreach (var columnInfo in deleteInfo.SqlParameters)
+                //    {
+                //        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                //    }
+                //}
+
+                //sb.AppendLine();
+                //sb.AppendLine("var response = DBLayer.ExecuteNonQuery(command);");
+                //sb.AppendLine("if (!response.Success)");
+                //sb.AppendLine("{");
+                //sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
+                //sb.AppendLine("    return returnObject;");
+                //sb.AppendLine("}");
+                //sb.AppendLine();
+                //sb.AppendLine("returnObject.Value = response.Value;");
+                //sb.AppendLine();
+                //sb.AppendLine("return returnObject;");
+
+                //sb.PaddingCount--;
+                //sb.AppendLine("}");
             }
             #endregion
 
