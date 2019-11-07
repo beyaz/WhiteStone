@@ -1,5 +1,4 @@
 ﻿using BOA.Common.Helpers;
-using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.ScriptModel.Creators

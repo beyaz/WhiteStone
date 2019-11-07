@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl;
 using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces

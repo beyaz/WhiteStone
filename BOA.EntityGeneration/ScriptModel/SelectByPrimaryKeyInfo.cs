@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.ScriptModel

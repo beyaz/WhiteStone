@@ -10,8 +10,7 @@
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 {
     using System.Linq;
-    using System;
-    
+
     /// <summary>
     /// Class to produce the template output
     /// </summary>

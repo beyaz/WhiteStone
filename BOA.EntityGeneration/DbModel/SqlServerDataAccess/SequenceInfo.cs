@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using BOA.DatabaseAccess;
+﻿using BOA.DatabaseAccess;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {

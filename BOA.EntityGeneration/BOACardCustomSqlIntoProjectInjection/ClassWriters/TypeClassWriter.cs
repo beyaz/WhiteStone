@@ -1,6 +1,4 @@
 ﻿using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters

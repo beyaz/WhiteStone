@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 {
