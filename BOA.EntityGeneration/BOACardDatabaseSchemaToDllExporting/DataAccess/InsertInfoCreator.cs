@@ -4,9 +4,15 @@ using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
+    /// <summary>
+    ///     The insert information creator
+    /// </summary>
     public class InsertInfoCreator : ScriptModel.Creators.InsertInfoCreator
     {
         #region Methods
+        /// <summary>
+        ///     Gets the columns will be insert.
+        /// </summary>
         protected override IReadOnlyList<IColumnInfo> GetColumnsWillBeInsert(ITableInfo tableInfo)
         {
             var excludedColumnNames = new List<string>
