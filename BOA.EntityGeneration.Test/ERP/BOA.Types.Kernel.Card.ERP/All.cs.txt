@@ -6,31 +6,91 @@ namespace BOA.Types.Kernel.Card.ERP
 {
 
     /// <summary>
-    ///     Entity contract for table ERP.Person
-    ///     <para>[ PrimaryKey + Unique + Clustered ] index on "PersonId"</para>
+    ///     Entity contract for table ERP.SAMPLE_TABLE
+    ///     <para>[ PrimaryKey + Unique + Clustered ] index on "SAMPLE_TABLE_ID"</para>
     /// </summary>
     [Serializable]
-    public sealed class PersonContract : CardContractBase
+    public sealed class SampleTableContract : CardContractBase
     {
         /// <summary>
-        ///     Entity contract for table ERP.Person
-        ///     <para>[ PrimaryKey + Unique + Clustered ] index on "PersonId"</para>
+        ///     Entity contract for table ERP.SAMPLE_TABLE
+        ///     <para>[ PrimaryKey + Unique + Clustered ] index on "SAMPLE_TABLE_ID"</para>
         /// </summary>
         // ReSharper disable once EmptyConstructor
-        public PersonContract()
+        public SampleTableContract()
         {
         }
 
         #region Database Columns
 
         /// <summary>
-        ///     [ PrimaryKey + Unique + Clustered ] index on "PersonId"
+        ///     [ PrimaryKey + Unique + Clustered ] index on "SAMPLE_TABLE_ID"
         /// </summary>
-        public int Personid { get; set; }
+        public int SampleTableId { get; set; }
 
-        public string Name { get; set; }
+        public string FieldVarchar50 { get; set; }
 
-        public bool ValidFlag { get; set; }
+        public string FieldVarchar50Nullable { get; set; }
+
+        public DateTime FieldDatetime { get; set; }
+
+        public DateTime? FieldDatetimeNullable { get; set; }
+
+        public decimal FieldNumeric270 { get; set; }
+
+        public decimal? FieldNumeric270Nullable { get; set; }
+
+        public int FieldInt { get; set; }
+
+        public int? FieldIntNullable { get; set; }
+
+        public decimal FieldMoney { get; set; }
+
+        public decimal? FieldMoneyNullable { get; set; }
+
+        public string FieldNvarchar { get; set; }
+
+        public string FieldNvarcharNullable { get; set; }
+
+        public string FieldNchar { get; set; }
+
+        public string FieldNcharNullable { get; set; }
+
+        public DateTime FieldSmalldatetime { get; set; }
+
+        public DateTime? FieldSmalldatetimeNullable { get; set; }
+
+        public short FieldSmallint { get; set; }
+
+        public short? FieldSmallintNullable { get; set; }
+
+        public byte FieldTinyint { get; set; }
+
+        public byte? FieldTinyintNullable { get; set; }
+
+        public string FieldChar { get; set; }
+
+        public string FieldCharNullable { get; set; }
+
+        public long FieldBigint { get; set; }
+
+        public long? FieldBigintNullable { get; set; }
+
+        public bool FieldBit { get; set; }
+
+        public bool? FieldBitNullable { get; set; }
+
+        public decimal FieldDecimal { get; set; }
+
+        public decimal? FieldDecimalNullable { get; set; }
+
+        public Guid FieldUniqueidentifier { get; set; }
+
+        public Guid? FieldUniqueidentifierNullable { get; set; }
+
+        public byte[] FieldVarbinary { get; set; }
+
+        public byte[] FieldVarbinaryNullable { get; set; }
 
         #endregion
     }
