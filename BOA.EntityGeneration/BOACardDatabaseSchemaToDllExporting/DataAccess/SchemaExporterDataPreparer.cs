@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
     /// </summary>
     public class SchemaExporterDataPreparer
     {
-        #region Fields
+        #region Static Fields
         /// <summary>
         ///     The cache
         /// </summary>
@@ -21,6 +21,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         #endregion
 
         #region Public Properties
+        /// <summary>
+        ///     Gets or sets the configuration.
+        /// </summary>
+        [Inject]
+        public Config Config { get; set; }
+
         /// <summary>
         ///     Gets or sets the database.
         /// </summary>
@@ -44,19 +50,20 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         /// </summary>
         [Inject]
         public Tracer Tracer { get; set; }
-
-
-        /// <summary>
-        ///     Gets or sets the configuration.
-        /// </summary>
-        [Inject]
-        public Config Config { get; set; }
-
         #endregion
 
-
-
         #region Public Methods
+        /// <summary>
+        ///     Gets the table information.
+        /// </summary>
+        public ITableInfo GetTableInfo(string schemaName, string tableName)
+        {
+            var tableInfo = TableInfoDao.GetInfo(Config.TableCatalog, schemaName, tableName);
+
+            var generatorData = GeneratorDataCreator.Create(tableInfo);
+            return generatorData;
+        }
+
         /// <summary>
         ///     Prepares the specified schema name.
         /// </summary>
@@ -74,8 +81,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
             var items = new List<ITableInfo>();
 
-
-            Tracer.SchemaGenerationProcess.Total = tableNames.Count;
+            Tracer.SchemaGenerationProcess.Total   = tableNames.Count;
             Tracer.SchemaGenerationProcess.Current = 0;
 
             foreach (var tableName in tableNames)
@@ -92,17 +98,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
             return items;
         }
-
-        /// <summary>
-        ///     Gets the table information.
-        /// </summary>
-        public ITableInfo GetTableInfo(string schemaName, string tableName)
-        {
-            var tableInfo = TableInfoDao.GetInfo(Config.TableCatalog, schemaName, tableName);
-
-            var generatorData = GeneratorDataCreator.Create(tableInfo);
-            return generatorData;
-        }
         #endregion
 
         #region Methods
@@ -110,11 +105,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         ///     Determines whether [is ready to export] [the specified schema name].
         /// </summary>
         bool IsReadyToExport(string schemaName, string tableName)
-         {
-             var fullTableName = $"{schemaName}.{tableName}";
+        {
+            var fullTableName = $"{schemaName}.{tableName}";
 
-             return !Config.NotExportableTables.Contains(fullTableName);
-         }
+            var isNotExportable = Config.NotExportableTables.Contains(fullTableName);
+            if (isNotExportable)
+            {
+                return false;
+            }
+
+            return true;
+        }
         #endregion
     }
 }
