@@ -512,33 +512,32 @@ namespace BOA.Business.Kernel.Card.ERP
     }
 
     /// <summary>
-    ///     Entity contract for table ERP.Person
-    ///     <para>[ PrimaryKey + Unique + Clustered ] index on "PersonId"</para>
+    ///     Entity contract for table ERP.SAMPLE_TABLE
+    ///     <para>[ PrimaryKey + Unique + Clustered ] index on "SAMPLE_TABLE_ID"</para>
     /// </summary>
-    public sealed class Person : ObjectHelper
+    public sealed class SampleTable : ObjectHelper
     {
         /// <summary>
-        ///     Entity contract for table ERP.Person
-        ///     <para>[ PrimaryKey + Unique + Clustered ] index on "PersonId"</para>
+        ///     Entity contract for table ERP.SAMPLE_TABLE
+        ///     <para>[ PrimaryKey + Unique + Clustered ] index on "SAMPLE_TABLE_ID"</para>
         /// </summary>
-        public Person(ExecutionDataContext context) : base(context) { }
-
+        public SampleTable(ExecutionDataContext context) : base(context) { }
         /// <summary>
-        ///     Deletes only one record from 'ERP.Person' by using 'personid'
+        ///     Deletes only one record from 'ERP.SAMPLE_TABLE' by using 'sampleTableId'
         /// </summary>
-        public GenericResponse<int> Delete(int personid)
+        public GenericResponse<int> Delete(int sampleTableId)
         {
-            var returnObject = InitializeGenericResponse<int>("BOA.Business.Kernel.Card.ERP.Person.Delete");
+        	var returnObject = InitializeGenericResponse<int>("BOA.Business.Kernel.Card.ERP.SampleTable.Delete");
 
-            const string sql = @"
-            DELETE FROM [ERP].[Person] WHERE [PersonId] = @PersonId
-            ";
-
-            var command = this.CreateCommand(sql);
-
-            DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, personid);
-
-            var response = DBLayer.ExecuteNonQuery(command);
+        	const string sql = @"
+        	DELETE FROM [ERP].[SAMPLE_TABLE] WHERE [SAMPLE_TABLE_ID] = @SAMPLE_TABLE_ID
+        	";
+        	
+        	var command = this.CreateCommand(sql);
+        	
+        			DBLayer.AddInParameter(command, "@SAMPLE_TABLE_ID", SqlDbType.Int, sampleTableId);
+        			
+        	var response = DBLayer.ExecuteNonQuery(command);
             if (!response.Success)
             {
                 returnObject.Results.AddRange(response.Results);
@@ -553,7 +552,7 @@ namespace BOA.Business.Kernel.Card.ERP
         /// <summary>
         ///      Inserts new record into table.
         /// </summary>
-        public GenericResponse<int> Insert(PersonContract contract)
+        public GenericResponse<int> Insert(SampleTableContract contract)
         {
             if (contract == null)
             {
@@ -561,27 +560,117 @@ namespace BOA.Business.Kernel.Card.ERP
             }
 
             const string sql = @"
-            INSERT INTO [ERP].[Person]
+            INSERT INTO [ERP].[SAMPLE_TABLE]
             (
-                [Name],
-                [VALID_FLAG]
+                [FIELD_VARCHAR_50],
+                [FIELD_VARCHAR_50_NULLABLE],
+                [FIELD_DATETIME],
+                [FIELD_DATETIME_NULLABLE],
+                [FIELD_NUMERIC_27_0],
+                [FIELD_NUMERIC_27_0_NULLABLE],
+                [FIELD_INT],
+                [FIELD_INT_NULLABLE],
+                [FIELD_MONEY],
+                [FIELD_MONEY_NULLABLE],
+                [FIELD_NVARCHAR],
+                [FIELD_NVARCHAR_NULLABLE],
+                [FIELD_NCHAR],
+                [FIELD_NCHAR_NULLABLE],
+                [FIELD_SMALLDATETIME],
+                [FIELD_SMALLDATETIME_NULLABLE],
+                [FIELD_SMALLINT],
+                [FIELD_SMALLINT_NULLABLE],
+                [FIELD_TINYINT],
+                [FIELD_TINYINT_NULLABLE],
+                [FIELD_CHAR],
+                [FIELD_CHAR_NULLABLE],
+                [FIELD_BIGINT],
+                [FIELD_BIGINT_NULLABLE],
+                [FIELD_BIT],
+                [FIELD_BIT_NULLABLE],
+                [FIELD_DECIMAL],
+                [FIELD_DECIMAL_NULLABLE],
+                [FIELD_UNIQUEIDENTIFIER],
+                [FIELD_UNIQUEIDENTIFIER_NULLABLE],
+                [FIELD_VARBINARY],
+                [FIELD_VARBINARY_NULLABLE]
             )
             VALUES
             (
-                @Name,
-                @VALID_FLAG
+                @FIELD_VARCHAR_50,
+                @FIELD_VARCHAR_50_NULLABLE,
+                @FIELD_DATETIME,
+                @FIELD_DATETIME_NULLABLE,
+                @FIELD_NUMERIC_27_0,
+                @FIELD_NUMERIC_27_0_NULLABLE,
+                @FIELD_INT,
+                @FIELD_INT_NULLABLE,
+                @FIELD_MONEY,
+                @FIELD_MONEY_NULLABLE,
+                @FIELD_NVARCHAR,
+                @FIELD_NVARCHAR_NULLABLE,
+                @FIELD_NCHAR,
+                @FIELD_NCHAR_NULLABLE,
+                @FIELD_SMALLDATETIME,
+                @FIELD_SMALLDATETIME_NULLABLE,
+                @FIELD_SMALLINT,
+                @FIELD_SMALLINT_NULLABLE,
+                @FIELD_TINYINT,
+                @FIELD_TINYINT_NULLABLE,
+                @FIELD_CHAR,
+                @FIELD_CHAR_NULLABLE,
+                @FIELD_BIGINT,
+                @FIELD_BIGINT_NULLABLE,
+                @FIELD_BIT,
+                @FIELD_BIT_NULLABLE,
+                @FIELD_DECIMAL,
+                @FIELD_DECIMAL_NULLABLE,
+                @FIELD_UNIQUEIDENTIFIER,
+                @FIELD_UNIQUEIDENTIFIER_NULLABLE,
+                @FIELD_VARBINARY,
+                @FIELD_VARBINARY_NULLABLE
             )
             SELECT CAST(SCOPE_IDENTITY() AS INT)
             ";
 
             var command = this.CreateCommand(sql);
 
-            DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
-            DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.Char, contract.ValidFlag ? "1" : "0");
+            DBLayer.AddInParameter(command, "@FIELD_VARCHAR_50", SqlDbType.VarChar, contract.FieldVarchar50);
+            DBLayer.AddInParameter(command, "@FIELD_VARCHAR_50_NULLABLE", SqlDbType.VarChar, contract.FieldVarchar50Nullable);
+            DBLayer.AddInParameter(command, "@FIELD_DATETIME", SqlDbType.DateTime, contract.FieldDatetime);
+            DBLayer.AddInParameter(command, "@FIELD_DATETIME_NULLABLE", SqlDbType.DateTime, contract.FieldDatetimeNullable);
+            DBLayer.AddInParameter(command, "@FIELD_NUMERIC_27_0", SqlDbType.Decimal, contract.FieldNumeric270);
+            DBLayer.AddInParameter(command, "@FIELD_NUMERIC_27_0_NULLABLE", SqlDbType.Decimal, contract.FieldNumeric270Nullable);
+            DBLayer.AddInParameter(command, "@FIELD_INT", SqlDbType.Int, contract.FieldInt);
+            DBLayer.AddInParameter(command, "@FIELD_INT_NULLABLE", SqlDbType.Int, contract.FieldIntNullable);
+            DBLayer.AddInParameter(command, "@FIELD_MONEY", SqlDbType.Money, contract.FieldMoney);
+            DBLayer.AddInParameter(command, "@FIELD_MONEY_NULLABLE", SqlDbType.Money, contract.FieldMoneyNullable);
+            DBLayer.AddInParameter(command, "@FIELD_NVARCHAR", SqlDbType.NVarChar, contract.FieldNvarchar);
+            DBLayer.AddInParameter(command, "@FIELD_NVARCHAR_NULLABLE", SqlDbType.NVarChar, contract.FieldNvarcharNullable);
+            DBLayer.AddInParameter(command, "@FIELD_NCHAR", SqlDbType.NChar, contract.FieldNchar);
+            DBLayer.AddInParameter(command, "@FIELD_NCHAR_NULLABLE", SqlDbType.NChar, contract.FieldNcharNullable);
+            DBLayer.AddInParameter(command, "@FIELD_SMALLDATETIME", SqlDbType.SmallDateTime, contract.FieldSmalldatetime);
+            DBLayer.AddInParameter(command, "@FIELD_SMALLDATETIME_NULLABLE", SqlDbType.SmallDateTime, contract.FieldSmalldatetimeNullable);
+            DBLayer.AddInParameter(command, "@FIELD_SMALLINT", SqlDbType.SmallInt, contract.FieldSmallint);
+            DBLayer.AddInParameter(command, "@FIELD_SMALLINT_NULLABLE", SqlDbType.SmallInt, contract.FieldSmallintNullable);
+            DBLayer.AddInParameter(command, "@FIELD_TINYINT", SqlDbType.TinyInt, contract.FieldTinyint);
+            DBLayer.AddInParameter(command, "@FIELD_TINYINT_NULLABLE", SqlDbType.TinyInt, contract.FieldTinyintNullable);
+            DBLayer.AddInParameter(command, "@FIELD_CHAR", SqlDbType.Char, contract.FieldChar);
+            DBLayer.AddInParameter(command, "@FIELD_CHAR_NULLABLE", SqlDbType.Char, contract.FieldCharNullable);
+            DBLayer.AddInParameter(command, "@FIELD_BIGINT", SqlDbType.BigInt, contract.FieldBigint);
+            DBLayer.AddInParameter(command, "@FIELD_BIGINT_NULLABLE", SqlDbType.BigInt, contract.FieldBigintNullable);
+            DBLayer.AddInParameter(command, "@FIELD_BIT", SqlDbType.Bit, contract.FieldBit);
+            DBLayer.AddInParameter(command, "@FIELD_BIT_NULLABLE", SqlDbType.Bit, contract.FieldBitNullable);
+            DBLayer.AddInParameter(command, "@FIELD_DECIMAL", SqlDbType.Decimal, contract.FieldDecimal);
+            DBLayer.AddInParameter(command, "@FIELD_DECIMAL_NULLABLE", SqlDbType.Decimal, contract.FieldDecimalNullable);
+            DBLayer.AddInParameter(command, "@FIELD_UNIQUEIDENTIFIER", SqlDbType.UniqueIdentifier, contract.FieldUniqueidentifier);
+            DBLayer.AddInParameter(command, "@FIELD_UNIQUEIDENTIFIER_NULLABLE", SqlDbType.UniqueIdentifier, contract.FieldUniqueidentifierNullable);
+            DBLayer.AddInParameter(command, "@FIELD_VARBINARY", SqlDbType.VarBinary, contract.FieldVarbinary);
+            DBLayer.AddInParameter(command, "@FIELD_VARBINARY_NULLABLE", SqlDbType.VarBinary, contract.FieldVarbinaryNullable);
 
             var response = this.ExecuteScalar(command);
 
-            contract.Personid = response.Value;
+            contract.SampleTableId = response.Value;
 
             return response;
         }
@@ -589,7 +678,7 @@ namespace BOA.Business.Kernel.Card.ERP
         /// <summary>
         ///      Updates only one record by primary keys.
         /// </summary>
-        public GenericResponse<int> Update(PersonContract contract)
+        public GenericResponse<int> Update(SampleTableContract contract)
         {
             if (contract == null)
             {
@@ -597,18 +686,78 @@ namespace BOA.Business.Kernel.Card.ERP
             }
 
             const string sql = @"
-            UPDATE [ERP].[Person] SET
-                [Name] = @Name,
-                [VALID_FLAG] = @VALID_FLAG
+            UPDATE [ERP].[SAMPLE_TABLE] SET
+                [FIELD_VARCHAR_50] = @FIELD_VARCHAR_50,
+                [FIELD_VARCHAR_50_NULLABLE] = @FIELD_VARCHAR_50_NULLABLE,
+                [FIELD_DATETIME] = @FIELD_DATETIME,
+                [FIELD_DATETIME_NULLABLE] = @FIELD_DATETIME_NULLABLE,
+                [FIELD_NUMERIC_27_0] = @FIELD_NUMERIC_27_0,
+                [FIELD_NUMERIC_27_0_NULLABLE] = @FIELD_NUMERIC_27_0_NULLABLE,
+                [FIELD_INT] = @FIELD_INT,
+                [FIELD_INT_NULLABLE] = @FIELD_INT_NULLABLE,
+                [FIELD_MONEY] = @FIELD_MONEY,
+                [FIELD_MONEY_NULLABLE] = @FIELD_MONEY_NULLABLE,
+                [FIELD_NVARCHAR] = @FIELD_NVARCHAR,
+                [FIELD_NVARCHAR_NULLABLE] = @FIELD_NVARCHAR_NULLABLE,
+                [FIELD_NCHAR] = @FIELD_NCHAR,
+                [FIELD_NCHAR_NULLABLE] = @FIELD_NCHAR_NULLABLE,
+                [FIELD_SMALLDATETIME] = @FIELD_SMALLDATETIME,
+                [FIELD_SMALLDATETIME_NULLABLE] = @FIELD_SMALLDATETIME_NULLABLE,
+                [FIELD_SMALLINT] = @FIELD_SMALLINT,
+                [FIELD_SMALLINT_NULLABLE] = @FIELD_SMALLINT_NULLABLE,
+                [FIELD_TINYINT] = @FIELD_TINYINT,
+                [FIELD_TINYINT_NULLABLE] = @FIELD_TINYINT_NULLABLE,
+                [FIELD_CHAR] = @FIELD_CHAR,
+                [FIELD_CHAR_NULLABLE] = @FIELD_CHAR_NULLABLE,
+                [FIELD_BIGINT] = @FIELD_BIGINT,
+                [FIELD_BIGINT_NULLABLE] = @FIELD_BIGINT_NULLABLE,
+                [FIELD_BIT] = @FIELD_BIT,
+                [FIELD_BIT_NULLABLE] = @FIELD_BIT_NULLABLE,
+                [FIELD_DECIMAL] = @FIELD_DECIMAL,
+                [FIELD_DECIMAL_NULLABLE] = @FIELD_DECIMAL_NULLABLE,
+                [FIELD_UNIQUEIDENTIFIER] = @FIELD_UNIQUEIDENTIFIER,
+                [FIELD_UNIQUEIDENTIFIER_NULLABLE] = @FIELD_UNIQUEIDENTIFIER_NULLABLE,
+                [FIELD_VARBINARY] = @FIELD_VARBINARY,
+                [FIELD_VARBINARY_NULLABLE] = @FIELD_VARBINARY_NULLABLE
             WHERE
-                [PersonId] = @PersonId
+                [SAMPLE_TABLE_ID] = @SAMPLE_TABLE_ID
             ";
 
             var command = this.CreateCommand(sql);
 
-            DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
-            DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.Char, contract.ValidFlag ? "1" : "0");
-            DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, contract.Personid);
+            DBLayer.AddInParameter(command, "@FIELD_VARCHAR_50", SqlDbType.VarChar, contract.FieldVarchar50);
+            DBLayer.AddInParameter(command, "@FIELD_VARCHAR_50_NULLABLE", SqlDbType.VarChar, contract.FieldVarchar50Nullable);
+            DBLayer.AddInParameter(command, "@FIELD_DATETIME", SqlDbType.DateTime, contract.FieldDatetime);
+            DBLayer.AddInParameter(command, "@FIELD_DATETIME_NULLABLE", SqlDbType.DateTime, contract.FieldDatetimeNullable);
+            DBLayer.AddInParameter(command, "@FIELD_NUMERIC_27_0", SqlDbType.Decimal, contract.FieldNumeric270);
+            DBLayer.AddInParameter(command, "@FIELD_NUMERIC_27_0_NULLABLE", SqlDbType.Decimal, contract.FieldNumeric270Nullable);
+            DBLayer.AddInParameter(command, "@FIELD_INT", SqlDbType.Int, contract.FieldInt);
+            DBLayer.AddInParameter(command, "@FIELD_INT_NULLABLE", SqlDbType.Int, contract.FieldIntNullable);
+            DBLayer.AddInParameter(command, "@FIELD_MONEY", SqlDbType.Money, contract.FieldMoney);
+            DBLayer.AddInParameter(command, "@FIELD_MONEY_NULLABLE", SqlDbType.Money, contract.FieldMoneyNullable);
+            DBLayer.AddInParameter(command, "@FIELD_NVARCHAR", SqlDbType.NVarChar, contract.FieldNvarchar);
+            DBLayer.AddInParameter(command, "@FIELD_NVARCHAR_NULLABLE", SqlDbType.NVarChar, contract.FieldNvarcharNullable);
+            DBLayer.AddInParameter(command, "@FIELD_NCHAR", SqlDbType.NChar, contract.FieldNchar);
+            DBLayer.AddInParameter(command, "@FIELD_NCHAR_NULLABLE", SqlDbType.NChar, contract.FieldNcharNullable);
+            DBLayer.AddInParameter(command, "@FIELD_SMALLDATETIME", SqlDbType.SmallDateTime, contract.FieldSmalldatetime);
+            DBLayer.AddInParameter(command, "@FIELD_SMALLDATETIME_NULLABLE", SqlDbType.SmallDateTime, contract.FieldSmalldatetimeNullable);
+            DBLayer.AddInParameter(command, "@FIELD_SMALLINT", SqlDbType.SmallInt, contract.FieldSmallint);
+            DBLayer.AddInParameter(command, "@FIELD_SMALLINT_NULLABLE", SqlDbType.SmallInt, contract.FieldSmallintNullable);
+            DBLayer.AddInParameter(command, "@FIELD_TINYINT", SqlDbType.TinyInt, contract.FieldTinyint);
+            DBLayer.AddInParameter(command, "@FIELD_TINYINT_NULLABLE", SqlDbType.TinyInt, contract.FieldTinyintNullable);
+            DBLayer.AddInParameter(command, "@FIELD_CHAR", SqlDbType.Char, contract.FieldChar);
+            DBLayer.AddInParameter(command, "@FIELD_CHAR_NULLABLE", SqlDbType.Char, contract.FieldCharNullable);
+            DBLayer.AddInParameter(command, "@FIELD_BIGINT", SqlDbType.BigInt, contract.FieldBigint);
+            DBLayer.AddInParameter(command, "@FIELD_BIGINT_NULLABLE", SqlDbType.BigInt, contract.FieldBigintNullable);
+            DBLayer.AddInParameter(command, "@FIELD_BIT", SqlDbType.Bit, contract.FieldBit);
+            DBLayer.AddInParameter(command, "@FIELD_BIT_NULLABLE", SqlDbType.Bit, contract.FieldBitNullable);
+            DBLayer.AddInParameter(command, "@FIELD_DECIMAL", SqlDbType.Decimal, contract.FieldDecimal);
+            DBLayer.AddInParameter(command, "@FIELD_DECIMAL_NULLABLE", SqlDbType.Decimal, contract.FieldDecimalNullable);
+            DBLayer.AddInParameter(command, "@FIELD_UNIQUEIDENTIFIER", SqlDbType.UniqueIdentifier, contract.FieldUniqueidentifier);
+            DBLayer.AddInParameter(command, "@FIELD_UNIQUEIDENTIFIER_NULLABLE", SqlDbType.UniqueIdentifier, contract.FieldUniqueidentifierNullable);
+            DBLayer.AddInParameter(command, "@FIELD_VARBINARY", SqlDbType.VarBinary, contract.FieldVarbinary);
+            DBLayer.AddInParameter(command, "@FIELD_VARBINARY_NULLABLE", SqlDbType.VarBinary, contract.FieldVarbinaryNullable);
+            DBLayer.AddInParameter(command, "@SAMPLE_TABLE_ID", SqlDbType.Int, contract.SampleTableId);
 
             return this.ExecuteNonQuery(command);
         }
@@ -616,7 +765,7 @@ namespace BOA.Business.Kernel.Card.ERP
         /// <summary>
         ///      Updates only one record's specific columns by primary keys.
         /// </summary>
-        public GenericResponse<int> UpdateSpecificColumns(PersonContract contract, params string[] columnNames)
+        public GenericResponse<int> UpdateSpecificColumns(SampleTableContract contract, params string[] columnNames)
         {
             if (contract == null)
             {
@@ -628,35 +777,335 @@ namespace BOA.Business.Kernel.Card.ERP
             }
 
             var sql = new StringBuilder();
-            sql.Append("UPDATE [ERP].[Person] SET ");
+            sql.Append("UPDATE [ERP].[SAMPLE_TABLE] SET ");
 
-            if(Array.IndexOf(columnNames, nameof(PersonContract.Name)) >= 0)
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldVarchar50)) >= 0)
             {
-                sql.Append("[Name] = @Name,");
+                sql.Append("[FIELD_VARCHAR_50] = @FIELD_VARCHAR_50,");
             }
 
-            if(Array.IndexOf(columnNames, nameof(PersonContract.ValidFlag)) >= 0)
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldVarchar50Nullable)) >= 0)
             {
-                sql.Append("[VALID_FLAG] = @VALID_FLAG,");
+                sql.Append("[FIELD_VARCHAR_50_NULLABLE] = @FIELD_VARCHAR_50_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldDatetime)) >= 0)
+            {
+                sql.Append("[FIELD_DATETIME] = @FIELD_DATETIME,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldDatetimeNullable)) >= 0)
+            {
+                sql.Append("[FIELD_DATETIME_NULLABLE] = @FIELD_DATETIME_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNumeric270)) >= 0)
+            {
+                sql.Append("[FIELD_NUMERIC_27_0] = @FIELD_NUMERIC_27_0,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNumeric270Nullable)) >= 0)
+            {
+                sql.Append("[FIELD_NUMERIC_27_0_NULLABLE] = @FIELD_NUMERIC_27_0_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldInt)) >= 0)
+            {
+                sql.Append("[FIELD_INT] = @FIELD_INT,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldIntNullable)) >= 0)
+            {
+                sql.Append("[FIELD_INT_NULLABLE] = @FIELD_INT_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldMoney)) >= 0)
+            {
+                sql.Append("[FIELD_MONEY] = @FIELD_MONEY,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldMoneyNullable)) >= 0)
+            {
+                sql.Append("[FIELD_MONEY_NULLABLE] = @FIELD_MONEY_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNvarchar)) >= 0)
+            {
+                sql.Append("[FIELD_NVARCHAR] = @FIELD_NVARCHAR,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNvarcharNullable)) >= 0)
+            {
+                sql.Append("[FIELD_NVARCHAR_NULLABLE] = @FIELD_NVARCHAR_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNchar)) >= 0)
+            {
+                sql.Append("[FIELD_NCHAR] = @FIELD_NCHAR,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNcharNullable)) >= 0)
+            {
+                sql.Append("[FIELD_NCHAR_NULLABLE] = @FIELD_NCHAR_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldSmalldatetime)) >= 0)
+            {
+                sql.Append("[FIELD_SMALLDATETIME] = @FIELD_SMALLDATETIME,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldSmalldatetimeNullable)) >= 0)
+            {
+                sql.Append("[FIELD_SMALLDATETIME_NULLABLE] = @FIELD_SMALLDATETIME_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldSmallint)) >= 0)
+            {
+                sql.Append("[FIELD_SMALLINT] = @FIELD_SMALLINT,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldSmallintNullable)) >= 0)
+            {
+                sql.Append("[FIELD_SMALLINT_NULLABLE] = @FIELD_SMALLINT_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldTinyint)) >= 0)
+            {
+                sql.Append("[FIELD_TINYINT] = @FIELD_TINYINT,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldTinyintNullable)) >= 0)
+            {
+                sql.Append("[FIELD_TINYINT_NULLABLE] = @FIELD_TINYINT_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldChar)) >= 0)
+            {
+                sql.Append("[FIELD_CHAR] = @FIELD_CHAR,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldCharNullable)) >= 0)
+            {
+                sql.Append("[FIELD_CHAR_NULLABLE] = @FIELD_CHAR_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldBigint)) >= 0)
+            {
+                sql.Append("[FIELD_BIGINT] = @FIELD_BIGINT,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldBigintNullable)) >= 0)
+            {
+                sql.Append("[FIELD_BIGINT_NULLABLE] = @FIELD_BIGINT_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldBit)) >= 0)
+            {
+                sql.Append("[FIELD_BIT] = @FIELD_BIT,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldBitNullable)) >= 0)
+            {
+                sql.Append("[FIELD_BIT_NULLABLE] = @FIELD_BIT_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldDecimal)) >= 0)
+            {
+                sql.Append("[FIELD_DECIMAL] = @FIELD_DECIMAL,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldDecimalNullable)) >= 0)
+            {
+                sql.Append("[FIELD_DECIMAL_NULLABLE] = @FIELD_DECIMAL_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldUniqueidentifier)) >= 0)
+            {
+                sql.Append("[FIELD_UNIQUEIDENTIFIER] = @FIELD_UNIQUEIDENTIFIER,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldUniqueidentifierNullable)) >= 0)
+            {
+                sql.Append("[FIELD_UNIQUEIDENTIFIER_NULLABLE] = @FIELD_UNIQUEIDENTIFIER_NULLABLE,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldVarbinary)) >= 0)
+            {
+                sql.Append("[FIELD_VARBINARY] = @FIELD_VARBINARY,");
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldVarbinaryNullable)) >= 0)
+            {
+                sql.Append("[FIELD_VARBINARY_NULLABLE] = @FIELD_VARBINARY_NULLABLE,");
             }
             sql.Remove(sql.Length - 1, 1);
             sql.Append(" WHERE ");
-            sql.Append("[PersonId] = @PersonId AND");
+            sql.Append("[SAMPLE_TABLE_ID] = @SAMPLE_TABLE_ID AND");
             sql.Remove(sql.Length - 4, 4);
 
             var command = this.CreateCommand(sql.ToString());
 
 
-            if(Array.IndexOf(columnNames, nameof(PersonContract.Name)) >= 0)
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldVarchar50)) >= 0)
             {
-                DBLayer.AddInParameter(command, "@Name", SqlDbType.VarChar, contract.Name);
+                DBLayer.AddInParameter(command, "@FIELD_VARCHAR_50", SqlDbType.VarChar, contract.FieldVarchar50);
             }
 
-            if(Array.IndexOf(columnNames, nameof(PersonContract.ValidFlag)) >= 0)
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldVarchar50Nullable)) >= 0)
             {
-                DBLayer.AddInParameter(command, "@VALID_FLAG", SqlDbType.Char, contract.ValidFlag ? "1" : "0");
+                DBLayer.AddInParameter(command, "@FIELD_VARCHAR_50_NULLABLE", SqlDbType.VarChar, contract.FieldVarchar50Nullable);
             }
-            DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, contract.Personid);
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldDatetime)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_DATETIME", SqlDbType.DateTime, contract.FieldDatetime);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldDatetimeNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_DATETIME_NULLABLE", SqlDbType.DateTime, contract.FieldDatetimeNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNumeric270)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_NUMERIC_27_0", SqlDbType.Decimal, contract.FieldNumeric270);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNumeric270Nullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_NUMERIC_27_0_NULLABLE", SqlDbType.Decimal, contract.FieldNumeric270Nullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldInt)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_INT", SqlDbType.Int, contract.FieldInt);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldIntNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_INT_NULLABLE", SqlDbType.Int, contract.FieldIntNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldMoney)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_MONEY", SqlDbType.Money, contract.FieldMoney);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldMoneyNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_MONEY_NULLABLE", SqlDbType.Money, contract.FieldMoneyNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNvarchar)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_NVARCHAR", SqlDbType.NVarChar, contract.FieldNvarchar);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNvarcharNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_NVARCHAR_NULLABLE", SqlDbType.NVarChar, contract.FieldNvarcharNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNchar)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_NCHAR", SqlDbType.NChar, contract.FieldNchar);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldNcharNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_NCHAR_NULLABLE", SqlDbType.NChar, contract.FieldNcharNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldSmalldatetime)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_SMALLDATETIME", SqlDbType.SmallDateTime, contract.FieldSmalldatetime);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldSmalldatetimeNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_SMALLDATETIME_NULLABLE", SqlDbType.SmallDateTime, contract.FieldSmalldatetimeNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldSmallint)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_SMALLINT", SqlDbType.SmallInt, contract.FieldSmallint);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldSmallintNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_SMALLINT_NULLABLE", SqlDbType.SmallInt, contract.FieldSmallintNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldTinyint)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_TINYINT", SqlDbType.TinyInt, contract.FieldTinyint);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldTinyintNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_TINYINT_NULLABLE", SqlDbType.TinyInt, contract.FieldTinyintNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldChar)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_CHAR", SqlDbType.Char, contract.FieldChar);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldCharNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_CHAR_NULLABLE", SqlDbType.Char, contract.FieldCharNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldBigint)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_BIGINT", SqlDbType.BigInt, contract.FieldBigint);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldBigintNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_BIGINT_NULLABLE", SqlDbType.BigInt, contract.FieldBigintNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldBit)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_BIT", SqlDbType.Bit, contract.FieldBit);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldBitNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_BIT_NULLABLE", SqlDbType.Bit, contract.FieldBitNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldDecimal)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_DECIMAL", SqlDbType.Decimal, contract.FieldDecimal);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldDecimalNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_DECIMAL_NULLABLE", SqlDbType.Decimal, contract.FieldDecimalNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldUniqueidentifier)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_UNIQUEIDENTIFIER", SqlDbType.UniqueIdentifier, contract.FieldUniqueidentifier);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldUniqueidentifierNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_UNIQUEIDENTIFIER_NULLABLE", SqlDbType.UniqueIdentifier, contract.FieldUniqueidentifierNullable);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldVarbinary)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_VARBINARY", SqlDbType.VarBinary, contract.FieldVarbinary);
+            }
+
+            if(Array.IndexOf(columnNames, nameof(SampleTableContract.FieldVarbinaryNullable)) >= 0)
+            {
+                DBLayer.AddInParameter(command, "@FIELD_VARBINARY_NULLABLE", SqlDbType.VarBinary, contract.FieldVarbinaryNullable);
+            }
+            DBLayer.AddInParameter(command, "@SAMPLE_TABLE_ID", SqlDbType.Int, contract.SampleTableId);
 
             return this.ExecuteNonQuery(command);
         }
@@ -664,70 +1113,141 @@ namespace BOA.Business.Kernel.Card.ERP
         /// <summary>
         ///      Selects record by primary keys.
         /// </summary>
-        public GenericResponse<PersonContract> SelectByKey(int personid)
+        public GenericResponse<SampleTableContract> SelectByKey(int sampleTableId)
         {
             const string sql = @"
             SELECT
-                [PersonId],
-                [Name],
-                [VALID_FLAG]
-                FROM [ERP].[Person] WITH (NOLOCK)
+                [SAMPLE_TABLE_ID],
+                [FIELD_VARCHAR_50],
+                [FIELD_VARCHAR_50_NULLABLE],
+                [FIELD_DATETIME],
+                [FIELD_DATETIME_NULLABLE],
+                [FIELD_NUMERIC_27_0],
+                [FIELD_NUMERIC_27_0_NULLABLE],
+                [FIELD_INT],
+                [FIELD_INT_NULLABLE],
+                [FIELD_MONEY],
+                [FIELD_MONEY_NULLABLE],
+                [FIELD_NVARCHAR],
+                [FIELD_NVARCHAR_NULLABLE],
+                [FIELD_NCHAR],
+                [FIELD_NCHAR_NULLABLE],
+                [FIELD_SMALLDATETIME],
+                [FIELD_SMALLDATETIME_NULLABLE],
+                [FIELD_SMALLINT],
+                [FIELD_SMALLINT_NULLABLE],
+                [FIELD_TINYINT],
+                [FIELD_TINYINT_NULLABLE],
+                [FIELD_CHAR],
+                [FIELD_CHAR_NULLABLE],
+                [FIELD_BIGINT],
+                [FIELD_BIGINT_NULLABLE],
+                [FIELD_BIT],
+                [FIELD_BIT_NULLABLE],
+                [FIELD_DECIMAL],
+                [FIELD_DECIMAL_NULLABLE],
+                [FIELD_UNIQUEIDENTIFIER],
+                [FIELD_UNIQUEIDENTIFIER_NULLABLE],
+                [FIELD_VARBINARY],
+                [FIELD_VARBINARY_NULLABLE]
+                FROM [ERP].[SAMPLE_TABLE] WITH (NOLOCK)
             WHERE
-                [PersonId] = @PersonId
+                [SAMPLE_TABLE_ID] = @SAMPLE_TABLE_ID
             ";
 
             var command = this.CreateCommand(sql);
 
-            DBLayer.AddInParameter(command, "@PersonId", SqlDbType.Int, personid);
+            DBLayer.AddInParameter(command, "@SAMPLE_TABLE_ID", SqlDbType.Int, sampleTableId);
 
-            return this.ExecuteReaderForOnlyOneRecord<PersonContract>(command, ReadContract);
+            return this.ExecuteReaderForOnlyOneRecord<SampleTableContract>(command, ReadContract);
         }
 
         /// <summary>
         ///      Reads one record from reader
         /// </summary>
-        static void ReadContract(IDataReader reader, PersonContract contract)
+        static void ReadContract(IDataReader reader, SampleTableContract contract)
         {
-            contract.Personid = SQLDBHelper.GetInt32Value(reader["PersonId"]);
-            contract.Name = SQLDBHelper.GetStringValue(reader["Name"]);
-            contract.ValidFlag = SQLDBHelper.GetStringValue(reader["VALID_FLAG"]) == "1";
+            contract.SampleTableId = SQLDBHelper.GetInt32Value(reader["SAMPLE_TABLE_ID"]);
+            contract.FieldVarchar50 = SQLDBHelper.GetStringValue(reader["FIELD_VARCHAR_50"]);
+            contract.FieldVarchar50Nullable = SQLDBHelper.GetStringValue(reader["FIELD_VARCHAR_50_NULLABLE"]);
+            contract.FieldDatetime = SQLDBHelper.GetDateTimeValue(reader["FIELD_DATETIME"]);
+            contract.FieldDatetimeNullable = SQLDBHelper.GetDateTimeNullableValue(reader["FIELD_DATETIME_NULLABLE"]);
+            contract.FieldNumeric270 = SQLDBHelper.GetDecimalValue(reader["FIELD_NUMERIC_27_0"]);
+            contract.FieldNumeric270Nullable = SQLDBHelper.GetDecimalNullableValue(reader["FIELD_NUMERIC_27_0_NULLABLE"]);
+            contract.FieldInt = SQLDBHelper.GetInt32Value(reader["FIELD_INT"]);
+            contract.FieldIntNullable = SQLDBHelper.GetInt32NullableValue(reader["FIELD_INT_NULLABLE"]);
+            contract.FieldMoney = SQLDBHelper.GetDecimalValue(reader["FIELD_MONEY"]);
+            contract.FieldMoneyNullable = SQLDBHelper.GetDecimalNullableValue(reader["FIELD_MONEY_NULLABLE"]);
+            contract.FieldNvarchar = SQLDBHelper.GetStringValue(reader["FIELD_NVARCHAR"]);
+            contract.FieldNvarcharNullable = SQLDBHelper.GetStringValue(reader["FIELD_NVARCHAR_NULLABLE"]);
+            contract.FieldNchar = SQLDBHelper.GetStringValue(reader["FIELD_NCHAR"]);
+            contract.FieldNcharNullable = SQLDBHelper.GetStringValue(reader["FIELD_NCHAR_NULLABLE"]);
+            contract.FieldSmalldatetime = SQLDBHelper.GetDateTimeValue(reader["FIELD_SMALLDATETIME"]);
+            contract.FieldSmalldatetimeNullable = SQLDBHelper.GetDateTimeNullableValue(reader["FIELD_SMALLDATETIME_NULLABLE"]);
+            contract.FieldSmallint = SQLDBHelper.GetInt16Value(reader["FIELD_SMALLINT"]);
+            contract.FieldSmallintNullable = SQLDBHelper.GetInt16NullableValue(reader["FIELD_SMALLINT_NULLABLE"]);
+            contract.FieldTinyint = SQLDBHelper.GetByteValue(reader["FIELD_TINYINT"]);
+            contract.FieldTinyintNullable = SQLDBHelper.GetByteNullableValue(reader["FIELD_TINYINT_NULLABLE"]);
+            contract.FieldChar = SQLDBHelper.GetStringValue(reader["FIELD_CHAR"]);
+            contract.FieldCharNullable = SQLDBHelper.GetStringValue(reader["FIELD_CHAR_NULLABLE"]);
+            contract.FieldBigint = SQLDBHelper.GetInt64Value(reader["FIELD_BIGINT"]);
+            contract.FieldBigintNullable = SQLDBHelper.GetInt64NullableValue(reader["FIELD_BIGINT_NULLABLE"]);
+            contract.FieldBit = SQLDBHelper.GetBooleanValue(reader["FIELD_BIT"]);
+            contract.FieldBitNullable = SQLDBHelper.GetBooleanNullableValue(reader["FIELD_BIT_NULLABLE"]);
+            contract.FieldDecimal = SQLDBHelper.GetDecimalValue(reader["FIELD_DECIMAL"]);
+            contract.FieldDecimalNullable = SQLDBHelper.GetDecimalNullableValue(reader["FIELD_DECIMAL_NULLABLE"]);
+            contract.FieldUniqueidentifier = SQLDBHelper.GetGUIDValue(reader["FIELD_UNIQUEIDENTIFIER"]);
+            contract.FieldUniqueidentifierNullable = SQLDBHelper.GetGUIDValue(reader["FIELD_UNIQUEIDENTIFIER_NULLABLE"]);
+            contract.FieldVarbinary = SQLDBHelper.GetBinaryValue(reader["FIELD_VARBINARY"]);
+            contract.FieldVarbinaryNullable = SQLDBHelper.GetBinaryValue(reader["FIELD_VARBINARY_NULLABLE"]);
         }
 
         /// <summary>
-        ///      Selects all records in table ERPPerson
+        ///      Selects all records in table ERPSAMPLE_TABLE
         /// </summary>
-        public GenericResponse<List<PersonContract>> Select()
+        public GenericResponse<List<SampleTableContract>> Select()
         {
             const string sql = @"
             SELECT 
-                [PersonId],
-                [Name],
-                [VALID_FLAG]
-            FROM [ERP].[Person] WITH(NOLOCK)
+                [SAMPLE_TABLE_ID],
+                [FIELD_VARCHAR_50],
+                [FIELD_VARCHAR_50_NULLABLE],
+                [FIELD_DATETIME],
+                [FIELD_DATETIME_NULLABLE],
+                [FIELD_NUMERIC_27_0],
+                [FIELD_NUMERIC_27_0_NULLABLE],
+                [FIELD_INT],
+                [FIELD_INT_NULLABLE],
+                [FIELD_MONEY],
+                [FIELD_MONEY_NULLABLE],
+                [FIELD_NVARCHAR],
+                [FIELD_NVARCHAR_NULLABLE],
+                [FIELD_NCHAR],
+                [FIELD_NCHAR_NULLABLE],
+                [FIELD_SMALLDATETIME],
+                [FIELD_SMALLDATETIME_NULLABLE],
+                [FIELD_SMALLINT],
+                [FIELD_SMALLINT_NULLABLE],
+                [FIELD_TINYINT],
+                [FIELD_TINYINT_NULLABLE],
+                [FIELD_CHAR],
+                [FIELD_CHAR_NULLABLE],
+                [FIELD_BIGINT],
+                [FIELD_BIGINT_NULLABLE],
+                [FIELD_BIT],
+                [FIELD_BIT_NULLABLE],
+                [FIELD_DECIMAL],
+                [FIELD_DECIMAL_NULLABLE],
+                [FIELD_UNIQUEIDENTIFIER],
+                [FIELD_UNIQUEIDENTIFIER_NULLABLE],
+                [FIELD_VARBINARY],
+                [FIELD_VARBINARY_NULLABLE]
+            FROM [ERP].[SAMPLE_TABLE] WITH(NOLOCK)
             ";
 
             var command = this.CreateCommand(sql);
 
-            return this.ExecuteReader<PersonContract>(command, ReadContract);
-        }
-
-        /// <summary>
-        ///      Selects all records in table ERPPerson where ValidFlag is true.
-        /// </summary>
-        public GenericResponse<List<PersonContract>> SelectByValidFlag()
-        {
-            const string sql = @"
-            SELECT 
-                [PersonId],
-                [Name],
-                [VALID_FLAG]
-            FROM [ERP].[Person] WITH(NOLOCK)
-             WHERE [VALID_FLAG] = '1'
-            ";
-
-            var command = this.CreateCommand(sql);
-
-            return this.ExecuteReader<PersonContract>(command, ReadContract);
+            return this.ExecuteReader<SampleTableContract>(command, ReadContract);
         }
 
         /// <summary>
@@ -735,28 +1255,268 @@ namespace BOA.Business.Kernel.Card.ERP
         /// </summary>
         static DbColumnInfo GetDbColumnInfo(string propertyNameInContract)
         {
-            if (propertyNameInContract == nameof(PersonContract.Personid))
+            if (propertyNameInContract == nameof(SampleTableContract.SampleTableId))
             {
                 return new DbColumnInfo
                 {
-                    Name      = "PersonId",
+                    Name      = "SAMPLE_TABLE_ID",
                     SqlDbType = SqlDbType.Int
                 };
             }
-            if (propertyNameInContract == nameof(PersonContract.Name))
+            if (propertyNameInContract == nameof(SampleTableContract.FieldVarchar50))
             {
                 return new DbColumnInfo
                 {
-                    Name      = "Name",
+                    Name      = "FIELD_VARCHAR_50",
                     SqlDbType = SqlDbType.VarChar
                 };
             }
-            if (propertyNameInContract == nameof(PersonContract.ValidFlag))
+            if (propertyNameInContract == nameof(SampleTableContract.FieldVarchar50Nullable))
             {
                 return new DbColumnInfo
                 {
-                    Name      = "VALID_FLAG",
+                    Name      = "FIELD_VARCHAR_50_NULLABLE",
+                    SqlDbType = SqlDbType.VarChar
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldDatetime))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_DATETIME",
+                    SqlDbType = SqlDbType.DateTime
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldDatetimeNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_DATETIME_NULLABLE",
+                    SqlDbType = SqlDbType.DateTime
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldNumeric270))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_NUMERIC_27_0",
+                    SqlDbType = SqlDbType.Decimal
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldNumeric270Nullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_NUMERIC_27_0_NULLABLE",
+                    SqlDbType = SqlDbType.Decimal
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldInt))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_INT",
+                    SqlDbType = SqlDbType.Int
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldIntNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_INT_NULLABLE",
+                    SqlDbType = SqlDbType.Int
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldMoney))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_MONEY",
+                    SqlDbType = SqlDbType.Money
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldMoneyNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_MONEY_NULLABLE",
+                    SqlDbType = SqlDbType.Money
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldNvarchar))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_NVARCHAR",
+                    SqlDbType = SqlDbType.NVarChar
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldNvarcharNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_NVARCHAR_NULLABLE",
+                    SqlDbType = SqlDbType.NVarChar
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldNchar))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_NCHAR",
+                    SqlDbType = SqlDbType.NChar
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldNcharNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_NCHAR_NULLABLE",
+                    SqlDbType = SqlDbType.NChar
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldSmalldatetime))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_SMALLDATETIME",
+                    SqlDbType = SqlDbType.SmallDateTime
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldSmalldatetimeNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_SMALLDATETIME_NULLABLE",
+                    SqlDbType = SqlDbType.SmallDateTime
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldSmallint))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_SMALLINT",
+                    SqlDbType = SqlDbType.SmallInt
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldSmallintNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_SMALLINT_NULLABLE",
+                    SqlDbType = SqlDbType.SmallInt
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldTinyint))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_TINYINT",
+                    SqlDbType = SqlDbType.TinyInt
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldTinyintNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_TINYINT_NULLABLE",
+                    SqlDbType = SqlDbType.TinyInt
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldChar))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_CHAR",
                     SqlDbType = SqlDbType.Char
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldCharNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_CHAR_NULLABLE",
+                    SqlDbType = SqlDbType.Char
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldBigint))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_BIGINT",
+                    SqlDbType = SqlDbType.BigInt
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldBigintNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_BIGINT_NULLABLE",
+                    SqlDbType = SqlDbType.BigInt
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldBit))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_BIT",
+                    SqlDbType = SqlDbType.Bit
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldBitNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_BIT_NULLABLE",
+                    SqlDbType = SqlDbType.Bit
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldDecimal))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_DECIMAL",
+                    SqlDbType = SqlDbType.Decimal
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldDecimalNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_DECIMAL_NULLABLE",
+                    SqlDbType = SqlDbType.Decimal
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldUniqueidentifier))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_UNIQUEIDENTIFIER",
+                    SqlDbType = SqlDbType.UniqueIdentifier
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldUniqueidentifierNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_UNIQUEIDENTIFIER_NULLABLE",
+                    SqlDbType = SqlDbType.UniqueIdentifier
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldVarbinary))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_VARBINARY",
+                    SqlDbType = SqlDbType.VarBinary
+                };
+            }
+            if (propertyNameInContract == nameof(SampleTableContract.FieldVarbinaryNullable))
+            {
+                return new DbColumnInfo
+                {
+                    Name      = "FIELD_VARBINARY_NULLABLE",
+                    SqlDbType = SqlDbType.VarBinary
                 };
             }
 
@@ -766,22 +1526,52 @@ namespace BOA.Business.Kernel.Card.ERP
         /// <summary>
         ///     Selects records by given  <paramref name="whereConditions"/>.
         /// </summary>
-        public GenericResponse<List<PersonContract>> Select(params WhereCondition[] whereConditions)
+        public GenericResponse<List<SampleTableContract>> Select(params WhereCondition[] whereConditions)
         {
-            InitializeGenericResponse<List<PersonContract>>("BOA.Business.Kernel.Card.ERP.Person.Select");
+            InitializeGenericResponse<List<SampleTableContract>>("BOA.Business.Kernel.Card.ERP.SampleTable.Select");
 
 
             if (whereConditions == null || whereConditions.Length == 0)
             {
-                return this.WhereConditionsCannotBeNullOrEmpty<PersonContract>();
+                return this.WhereConditionsCannotBeNullOrEmpty<SampleTableContract>();
             }
 
             const string sqlSelectPart = @"
             SELECT 
-                [PersonId],
-                [Name],
-                [VALID_FLAG]
-            FROM [ERP].[Person] WITH(NOLOCK)
+                [SAMPLE_TABLE_ID],
+                [FIELD_VARCHAR_50],
+                [FIELD_VARCHAR_50_NULLABLE],
+                [FIELD_DATETIME],
+                [FIELD_DATETIME_NULLABLE],
+                [FIELD_NUMERIC_27_0],
+                [FIELD_NUMERIC_27_0_NULLABLE],
+                [FIELD_INT],
+                [FIELD_INT_NULLABLE],
+                [FIELD_MONEY],
+                [FIELD_MONEY_NULLABLE],
+                [FIELD_NVARCHAR],
+                [FIELD_NVARCHAR_NULLABLE],
+                [FIELD_NCHAR],
+                [FIELD_NCHAR_NULLABLE],
+                [FIELD_SMALLDATETIME],
+                [FIELD_SMALLDATETIME_NULLABLE],
+                [FIELD_SMALLINT],
+                [FIELD_SMALLINT_NULLABLE],
+                [FIELD_TINYINT],
+                [FIELD_TINYINT_NULLABLE],
+                [FIELD_CHAR],
+                [FIELD_CHAR_NULLABLE],
+                [FIELD_BIGINT],
+                [FIELD_BIGINT_NULLABLE],
+                [FIELD_BIT],
+                [FIELD_BIT_NULLABLE],
+                [FIELD_DECIMAL],
+                [FIELD_DECIMAL_NULLABLE],
+                [FIELD_UNIQUEIDENTIFIER],
+                [FIELD_UNIQUEIDENTIFIER_NULLABLE],
+                [FIELD_VARBINARY],
+                [FIELD_VARBINARY_NULLABLE]
+            FROM [ERP].[SAMPLE_TABLE] WITH(NOLOCK)
 
             ";
 
@@ -814,28 +1604,58 @@ namespace BOA.Business.Kernel.Card.ERP
                 DBLayer.AddInParameter(command, "@"+parameter.Name, parameter.SqlDbType, parameter.Value );    
             }
 
-            return this.ExecuteReader<PersonContract>(command, ReadContract);
+            return this.ExecuteReader<SampleTableContract>(command, ReadContract);
         }
 
         /// <summary>
         ///     Selects top resultCount records by given  <paramref name="whereConditions"/>.
         /// </summary>
-        public GenericResponse<List<PersonContract>> SelectTop(int resultCount, params WhereCondition[] whereConditions)
+        public GenericResponse<List<SampleTableContract>> SelectTop(int resultCount, params WhereCondition[] whereConditions)
         {
-            InitializeGenericResponse<List<PersonContract>>("BOA.Business.Kernel.Card.ERP.Person.SelectTop");
+            InitializeGenericResponse<List<SampleTableContract>>("BOA.Business.Kernel.Card.ERP.SampleTable.SelectTop");
 
 
             if (whereConditions == null || whereConditions.Length == 0)
             {
-                return this.WhereConditionsCannotBeNullOrEmpty<PersonContract>();
+                return this.WhereConditionsCannotBeNullOrEmpty<SampleTableContract>();
             }
 
             const string sqlSelectPart = @"
             SELECT TOP(@$resultCount) 
-                [PersonId],
-                [Name],
-                [VALID_FLAG]
-            FROM [ERP].[Person] WITH(NOLOCK)
+                [SAMPLE_TABLE_ID],
+                [FIELD_VARCHAR_50],
+                [FIELD_VARCHAR_50_NULLABLE],
+                [FIELD_DATETIME],
+                [FIELD_DATETIME_NULLABLE],
+                [FIELD_NUMERIC_27_0],
+                [FIELD_NUMERIC_27_0_NULLABLE],
+                [FIELD_INT],
+                [FIELD_INT_NULLABLE],
+                [FIELD_MONEY],
+                [FIELD_MONEY_NULLABLE],
+                [FIELD_NVARCHAR],
+                [FIELD_NVARCHAR_NULLABLE],
+                [FIELD_NCHAR],
+                [FIELD_NCHAR_NULLABLE],
+                [FIELD_SMALLDATETIME],
+                [FIELD_SMALLDATETIME_NULLABLE],
+                [FIELD_SMALLINT],
+                [FIELD_SMALLINT_NULLABLE],
+                [FIELD_TINYINT],
+                [FIELD_TINYINT_NULLABLE],
+                [FIELD_CHAR],
+                [FIELD_CHAR_NULLABLE],
+                [FIELD_BIGINT],
+                [FIELD_BIGINT_NULLABLE],
+                [FIELD_BIT],
+                [FIELD_BIT_NULLABLE],
+                [FIELD_DECIMAL],
+                [FIELD_DECIMAL_NULLABLE],
+                [FIELD_UNIQUEIDENTIFIER],
+                [FIELD_UNIQUEIDENTIFIER_NULLABLE],
+                [FIELD_VARBINARY],
+                [FIELD_VARBINARY_NULLABLE]
+            FROM [ERP].[SAMPLE_TABLE] WITH(NOLOCK)
 
             ";
 
@@ -876,7 +1696,7 @@ namespace BOA.Business.Kernel.Card.ERP
                 DBLayer.AddInParameter(command, "@"+parameter.Name, parameter.SqlDbType, parameter.Value );    
             }
 
-            return this.ExecuteReader<PersonContract>(command, ReadContract);
+            return this.ExecuteReader<SampleTableContract>(command, ReadContract);
         }
     }
 }
