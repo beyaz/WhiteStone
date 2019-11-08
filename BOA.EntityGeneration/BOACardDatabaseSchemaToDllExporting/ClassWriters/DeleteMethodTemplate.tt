@@ -11,16 +11,14 @@ public GenericResponse<int> Delete(<#=string.Join(", ", deleteInfo.SqlParameters
 {
 	var returnObject = InitializeGenericResponse<int>("<#=businessClassNamespace#>.<#=className#>.Delete");
 
-	const string sql = @"
-	<#=deleteInfo.Sql #>
-	";
+	const string sql = @"<#=deleteInfo.Sql #>";
 	
 	var command = this.CreateCommand(sql);
 	<# if (deleteInfo.SqlParameters.Any()){ #>
 
-		<# foreach (var columnInfo in deleteInfo.SqlParameters) {#>
+<# foreach (var columnInfo in deleteInfo.SqlParameters) {#>
 	DBLayer.AddInParameter(command, "@<#=columnInfo.ColumnName#>", SqlDbType.<#=columnInfo.SqlDbType#>, <#=columnInfo.ColumnName.AsMethodParameter()#>);
-		<#}#>
+<#}#>
 	<#}#>
 
 	var response = DBLayer.ExecuteNonQuery(command);
