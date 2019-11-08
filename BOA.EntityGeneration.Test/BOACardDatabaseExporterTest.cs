@@ -67,7 +67,7 @@ CREATE TABLE DLV.SAMPLE_TABLE
         [TestMethod]
         public void ExportPRM()
         {
-            using (var kernel = new TestKernel())
+            using (var kernel = new Kernel())
             {
                 BOACardDatabaseExporter.Export(kernel, "CRD");
             }
@@ -82,7 +82,7 @@ CREATE TABLE DLV.SAMPLE_TABLE
         #region Public Methods
         public override string GetConfigFilePath()
         {
-            return @"D:\github\WhiteStone\BOA.EntityGeneration\BOA.EntityGeneration.json";
+            return @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
         }
         #endregion
     }
