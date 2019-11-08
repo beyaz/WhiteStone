@@ -107,14 +107,6 @@ CREATE TABLE ERP.SAMPLE_TABLE
         }
         #endregion
 
-        class TestKernel : Kernel
-        {
-            #region Public Methods
-            public override string GetConfigFilePath()
-            {
-                return @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
-            }
-            #endregion
-        }
+        
     }
 }
