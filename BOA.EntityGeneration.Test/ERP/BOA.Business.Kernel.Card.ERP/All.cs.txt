@@ -1203,7 +1203,7 @@ namespace BOA.Business.Kernel.Card.ERP
         }
 
         /// <summary>
-        ///      Selects all records in table ERPSAMPLE_TABLE
+        ///      Selects all records from table 'ERP.SAMPLE_TABLE'.
         /// </summary>
         public GenericResponse<List<SampleTableContract>> Select()
         {
