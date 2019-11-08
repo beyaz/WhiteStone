@@ -90,7 +90,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             {
                 var deleteInfo = DeleteInfoCreator.Create(tableInfo);
 
-                var deleteMethodTemplate = new DeleteMethodTemplate
+                var template = new DeleteMethodTemplate
                 {
                     Session = new Dictionary<string, object>
                     {
@@ -100,11 +100,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                         { nameof(className),className}
                     }
                 };
-                deleteMethodTemplate.Initialize();
+                template.Initialize();
 
-                var deleteMethodText = deleteMethodTemplate.TransformText();
+                var methodText = template.TransformText();
 
-                sb.AppendAll(deleteMethodText);
+                sb.AppendAll(methodText);
                 sb.AppendLine();
 
                 //var parameterPart = string.Join(", ", deleteInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
