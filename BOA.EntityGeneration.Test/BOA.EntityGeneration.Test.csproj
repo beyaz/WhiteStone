@@ -73,6 +73,9 @@
     <Compile Include="ProjectInjectorDebug.cs" />
     <Compile Include="ProjectInjectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="SampleDatabase.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="BOA.EntityGeneration.json">
