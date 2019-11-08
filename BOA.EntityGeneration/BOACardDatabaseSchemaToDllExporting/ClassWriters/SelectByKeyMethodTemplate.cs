@@ -41,65 +41,65 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             
             #line default
             #line hidden
-            this.Write(")\r\n{\r\n\tconst string sql = @\"");
+            this.Write(")\r\n{\r\n\tconst string sql = @\"\r\n\t");
             
-            #line 11 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 12 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(selectByPrimaryKeyInfo.Sql));
             
             #line default
             #line hidden
             this.Write("\";\r\n\t\r\n\tvar command = this.CreateCommand(sql);\r\n\t");
             
-            #line 14 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 15 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
  if (selectByPrimaryKeyInfo.SqlParameters.Any()){ 
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 16 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 17 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
  foreach (var columnInfo in selectByPrimaryKeyInfo.SqlParameters) {
             
             #line default
             #line hidden
             this.Write("\tDBLayer.AddInParameter(command, \"@");
             
-            #line 17 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 18 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(columnInfo.ColumnName));
             
             #line default
             #line hidden
             this.Write("\", SqlDbType.");
             
-            #line 17 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 18 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(columnInfo.SqlDbType));
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 17 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 18 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(columnInfo.ColumnName.AsMethodParameter()));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 18 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 19 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 19 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 20 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n\treturn this.ExecuteReaderForOnlyOneRecord<");
             
-            #line 21 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 22 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(typeContractName));
             
             #line default

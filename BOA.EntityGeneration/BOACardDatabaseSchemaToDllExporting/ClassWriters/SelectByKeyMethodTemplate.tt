@@ -8,7 +8,8 @@
 /// </summary>
 public GenericResponse<<#=typeContractName#>> SelectByKey(<#=string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"))#>)
 {
-	const string sql = @"<#=selectByPrimaryKeyInfo.Sql #>";
+	const string sql = @"
+	<#=selectByPrimaryKeyInfo.Sql #>";
 	
 	var command = this.CreateCommand(sql);
 	<# if (selectByPrimaryKeyInfo.SqlParameters.Any()){ #>
