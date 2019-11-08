@@ -84,6 +84,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DeleteMethodTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectAllMethodTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SelectAllMethodTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -172,6 +177,10 @@
     <Content Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\DeleteMethodTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DeleteMethodTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectAllMethodTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SelectAllMethodTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

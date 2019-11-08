@@ -443,34 +443,51 @@ if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.T
         {
             var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
 
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName}");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public GenericResponse<List<{typeContractName}>> Select()");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
 
-            sb.AppendLine("const string sql = @\"");
-            sb.AppendAll(selectAllInfo.Sql);
-            sb.AppendLine();
-            sb.AppendLine("\";");
-            sb.AppendLine();
-            sb.AppendLine("var command = this.CreateCommand(sql);");
-
-            if (selectAllInfo.SqlParameters.Any())
+            var template = new SelectAllMethodTemplate
             {
-                sb.AppendLine();
-                foreach (var columnInfo in selectAllInfo.SqlParameters)
+                Session = new Dictionary<string, object>
                 {
-                    sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                    { nameof(selectAllInfo),selectAllInfo},
+                    {nameof(tableInfo),tableInfo },
+                    { nameof(typeContractName),typeContractName}
                 }
-            }
+            };
+            template.Initialize();
 
+            var methodText = template.TransformText();
+
+            sb.AppendAll(methodText);
             sb.AppendLine();
-            sb.AppendLine($"return this.ExecuteReader<{typeContractName}>(command, ReadContract);");
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            //sb.AppendLine("/// <summary>");
+            //sb.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName}");
+            //sb.AppendLine("/// </summary>");
+            //sb.AppendLine($"public GenericResponse<List<{typeContractName}>> Select()");
+            //sb.AppendLine("{");
+            //sb.PaddingCount++;
+
+            //sb.AppendLine("const string sql = @\"");
+            //sb.AppendAll(selectAllInfo.Sql);
+            //sb.AppendLine();
+            //sb.AppendLine("\";");
+            //sb.AppendLine();
+            //sb.AppendLine("var command = this.CreateCommand(sql);");
+
+            //if (selectAllInfo.SqlParameters.Any())
+            //{
+            //    sb.AppendLine();
+            //    foreach (var columnInfo in selectAllInfo.SqlParameters)
+            //    {
+            //        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+            //    }
+            //}
+
+            //sb.AppendLine();
+            //sb.AppendLine($"return this.ExecuteReader<{typeContractName}>(command, ReadContract);");
+
+            //sb.PaddingCount--;
+            //sb.AppendLine("}");
         }
 
         /// <summary>
