@@ -84,6 +84,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DeleteMethodTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SelectByKeyMethodTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ITableInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Impl\SequenceInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ISequenceInfo.cs" />
@@ -167,6 +172,10 @@
     <Content Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\DeleteMethodTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DeleteMethodTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SelectByKeyMethodTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="EmbeddedUtilizationClassForDao.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
