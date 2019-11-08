@@ -23,17 +23,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
                 database.CommandText =
                     @"
 
-IF EXISTS (SELECT OBJECT_ID('DLV.SAMPLE_TABLE') )
-BEGIN
-  DROP TABLE DLV.SAMPLE_TABLE
-END
-
+EXEC('CREATE SCHEMA DVL');
 CREATE TABLE DLV.SAMPLE_TABLE
 (
     ID INT PRIMARY KEY IDENTITY (1, 1),
-    FIELD_VARCHAR_50 VARCHAR (50) NULL,    
-    FIELD_DATETIME DATETIME,
-    FIELD_INT INT
+    FIELD_VARCHAR_50            VARCHAR (50) NULL,
+    FIELD_VARCHAR_50_NULLABLE   VARCHAR (50) NULL,
+    FIELD_DATETIME              DATETIME,
+    FIELD_DATETIME_NULLABLE     DATETIME NULL,
+    FIELD_INT                   INT,
+    FIELD_INT_NULLABLE          INT NULL
 )
 
 ";
