@@ -26,170 +26,113 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("/// <summary>\r\n///     Deletes only one record from \'");
+            this.Write("\r\n/// <summary>\r\n///     Selects record by primary keys.\r\n/// </summary>\r\npublic " +
+                    "GenericResponse<");
             
-            #line 8 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(tableInfo.SchemaName));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 8 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(tableInfo.TableName));
+            #line 9 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(typeContractName));
             
             #line default
             #line hidden
-            this.Write("\' by using \'");
+            this.Write("> SelectByKey(");
             
-            #line 8 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(" and ", deleteInfo.SqlParameters.Select(x => x.ColumnName.AsMethodParameter()))));
-            
-            #line default
-            #line hidden
-            this.Write("\'\r\n/// </summary>\r\npublic GenericResponse<int> Delete(");
-            
-            #line 10 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(", ", deleteInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"))));
+            #line 9 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"))));
             
             #line default
             #line hidden
-            this.Write(")\r\n{\r\n\tvar returnObject = InitializeGenericResponse<int>(\"");
+            this.Write(")\r\n{\r\n\tconst string sql = @\"");
             
-            #line 12 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(businessClassNamespace));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 12 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
-            this.Write(".Delete\");\r\n\r\n\tconst string sql = @\"");
-            
-            #line 14 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(deleteInfo.Sql));
+            #line 11 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(selectByPrimaryKeyInfo.Sql));
             
             #line default
             #line hidden
             this.Write("\";\r\n\t\r\n\tvar command = this.CreateCommand(sql);\r\n\t");
             
-            #line 17 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
- if (deleteInfo.SqlParameters.Any()){ 
+            #line 14 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+ if (selectByPrimaryKeyInfo.SqlParameters.Any()){ 
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 19 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
- foreach (var columnInfo in deleteInfo.SqlParameters) {
+            #line 16 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+ foreach (var columnInfo in selectByPrimaryKeyInfo.SqlParameters) {
             
             #line default
             #line hidden
             this.Write("\tDBLayer.AddInParameter(command, \"@");
             
-            #line 20 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 17 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(columnInfo.ColumnName));
             
             #line default
             #line hidden
             this.Write("\", SqlDbType.");
             
-            #line 20 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 17 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(columnInfo.SqlDbType));
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 20 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 17 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(columnInfo.ColumnName.AsMethodParameter()));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 21 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 18 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 22 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            #line 19 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write(@"
-	var response = DBLayer.ExecuteNonQuery(command);
-    if (!response.Success)
-    {
-        returnObject.Results.AddRange(response.Results);
-        return returnObject;
-    }
-
-    returnObject.Value = response.Value;
-
-    return returnObject;
-}");
+            this.Write("\r\n\treturn this.ExecuteReaderForOnlyOneRecord<");
+            
+            #line 21 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(typeContractName));
+            
+            #line default
+            #line hidden
+            this.Write(">(command, ReadContract);\r\n}");
             return this.GenerationEnvironment.ToString();
         }
         
         #line 1 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectByKeyMethodTemplate.tt"
 
-private global::BOA.EntityGeneration.ScriptModel.DeleteInfo _deleteInfoField;
+private global::BOA.EntityGeneration.ScriptModel.SelectByPrimaryKeyInfo _selectByPrimaryKeyInfoField;
 
 /// <summary>
-/// Access the deleteInfo parameter of the template.
+/// Access the selectByPrimaryKeyInfo parameter of the template.
 /// </summary>
-private global::BOA.EntityGeneration.ScriptModel.DeleteInfo deleteInfo
+private global::BOA.EntityGeneration.ScriptModel.SelectByPrimaryKeyInfo selectByPrimaryKeyInfo
 {
     get
     {
-        return this._deleteInfoField;
+        return this._selectByPrimaryKeyInfoField;
     }
 }
 
-private global::BOA.EntityGeneration.DbModel.Interfaces.ITableInfo _tableInfoField;
+private string _typeContractNameField;
 
 /// <summary>
-/// Access the tableInfo parameter of the template.
+/// Access the typeContractName parameter of the template.
 /// </summary>
-private global::BOA.EntityGeneration.DbModel.Interfaces.ITableInfo tableInfo
+private string typeContractName
 {
     get
     {
-        return this._tableInfoField;
-    }
-}
-
-private string _businessClassNamespaceField;
-
-/// <summary>
-/// Access the businessClassNamespace parameter of the template.
-/// </summary>
-private string businessClassNamespace
-{
-    get
-    {
-        return this._businessClassNamespaceField;
-    }
-}
-
-private string _classNameField;
-
-/// <summary>
-/// Access the className parameter of the template.
-/// </summary>
-private string className
-{
-    get
-    {
-        return this._classNameField;
+        return this._typeContractNameField;
     }
 }
 
@@ -201,60 +144,32 @@ public virtual void Initialize()
 {
     if ((this.Errors.HasErrors == false))
     {
-bool deleteInfoValueAcquired = false;
-if (this.Session.ContainsKey("deleteInfo"))
+bool selectByPrimaryKeyInfoValueAcquired = false;
+if (this.Session.ContainsKey("selectByPrimaryKeyInfo"))
 {
-    this._deleteInfoField = ((global::BOA.EntityGeneration.ScriptModel.DeleteInfo)(this.Session["deleteInfo"]));
-    deleteInfoValueAcquired = true;
+    this._selectByPrimaryKeyInfoField = ((global::BOA.EntityGeneration.ScriptModel.SelectByPrimaryKeyInfo)(this.Session["selectByPrimaryKeyInfo"]));
+    selectByPrimaryKeyInfoValueAcquired = true;
 }
-if ((deleteInfoValueAcquired == false))
+if ((selectByPrimaryKeyInfoValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("deleteInfo");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("selectByPrimaryKeyInfo");
     if ((data != null))
     {
-        this._deleteInfoField = ((global::BOA.EntityGeneration.ScriptModel.DeleteInfo)(data));
+        this._selectByPrimaryKeyInfoField = ((global::BOA.EntityGeneration.ScriptModel.SelectByPrimaryKeyInfo)(data));
     }
 }
-bool tableInfoValueAcquired = false;
-if (this.Session.ContainsKey("tableInfo"))
+bool typeContractNameValueAcquired = false;
+if (this.Session.ContainsKey("typeContractName"))
 {
-    this._tableInfoField = ((global::BOA.EntityGeneration.DbModel.Interfaces.ITableInfo)(this.Session["tableInfo"]));
-    tableInfoValueAcquired = true;
+    this._typeContractNameField = ((string)(this.Session["typeContractName"]));
+    typeContractNameValueAcquired = true;
 }
-if ((tableInfoValueAcquired == false))
+if ((typeContractNameValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("tableInfo");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("typeContractName");
     if ((data != null))
     {
-        this._tableInfoField = ((global::BOA.EntityGeneration.DbModel.Interfaces.ITableInfo)(data));
-    }
-}
-bool businessClassNamespaceValueAcquired = false;
-if (this.Session.ContainsKey("businessClassNamespace"))
-{
-    this._businessClassNamespaceField = ((string)(this.Session["businessClassNamespace"]));
-    businessClassNamespaceValueAcquired = true;
-}
-if ((businessClassNamespaceValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("businessClassNamespace");
-    if ((data != null))
-    {
-        this._businessClassNamespaceField = ((string)(data));
-    }
-}
-bool classNameValueAcquired = false;
-if (this.Session.ContainsKey("className"))
-{
-    this._classNameField = ((string)(this.Session["className"]));
-    classNameValueAcquired = true;
-}
-if ((classNameValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("className");
-    if ((data != null))
-    {
-        this._classNameField = ((string)(data));
+        this._typeContractNameField = ((string)(data));
     }
 }
 

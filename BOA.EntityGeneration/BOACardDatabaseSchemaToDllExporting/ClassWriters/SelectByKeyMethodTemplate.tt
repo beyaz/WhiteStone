@@ -1,34 +1,22 @@
 ﻿<#@ template language="C#" #>
 <#@ import namespace="System.Linq" #>
-<#@ parameter name="deleteInfo" type="BOA.EntityGeneration.ScriptModel.DeleteInfo" #>
-<#@ parameter name="tableInfo" type="BOA.EntityGeneration.DbModel.Interfaces.ITableInfo" #>
-<#@ parameter name="businessClassNamespace" type="System.String" #>
-<#@ parameter name="className" type="System.String" #>
-/// <summary>
-///     Deletes only one record from '<#=tableInfo.SchemaName#>.<#=tableInfo.TableName#>' by using '<#=string.Join(" and ", deleteInfo.SqlParameters.Select(x => x.ColumnName.AsMethodParameter()))#>'
-/// </summary>
-public GenericResponse<int> Delete(<#=string.Join(", ", deleteInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"))#>)
-{
-	var returnObject = InitializeGenericResponse<int>("<#=businessClassNamespace#>.<#=className#>.Delete");
+<#@ parameter name="selectByPrimaryKeyInfo" type="BOA.EntityGeneration.ScriptModel.SelectByPrimaryKeyInfo" #>
+<#@ parameter name="typeContractName" type="System.String" #>
 
-	const string sql = @"<#=deleteInfo.Sql #>";
+/// <summary>
+///     Selects record by primary keys.
+/// </summary>
+public GenericResponse<<#=typeContractName#>> SelectByKey(<#=string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"))#>)
+{
+	const string sql = @"<#=selectByPrimaryKeyInfo.Sql #>";
 	
 	var command = this.CreateCommand(sql);
-	<# if (deleteInfo.SqlParameters.Any()){ #>
+	<# if (selectByPrimaryKeyInfo.SqlParameters.Any()){ #>
 
-<# foreach (var columnInfo in deleteInfo.SqlParameters) {#>
+<# foreach (var columnInfo in selectByPrimaryKeyInfo.SqlParameters) {#>
 	DBLayer.AddInParameter(command, "@<#=columnInfo.ColumnName#>", SqlDbType.<#=columnInfo.SqlDbType#>, <#=columnInfo.ColumnName.AsMethodParameter()#>);
 <#}#>
 	<#}#>
 
-	var response = DBLayer.ExecuteNonQuery(command);
-    if (!response.Success)
-    {
-        returnObject.Results.AddRange(response.Results);
-        return returnObject;
-    }
-
-    returnObject.Value = response.Value;
-
-    return returnObject;
+	return this.ExecuteReaderForOnlyOneRecord<<#=typeContractName#>>(command, ReadContract);
 }

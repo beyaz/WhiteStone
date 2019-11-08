@@ -178,37 +178,55 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             {
                 var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
 
-                var parameterPart = string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
-
-                sb.AppendLine();
-                sb.AppendLine("/// <summary>");
-                sb.AppendLine($"///{Padding.ForComment} Selects record by primary keys.");
-                sb.AppendLine("/// </summary>");
-                sb.AppendLine($"public GenericResponse<{typeContractName}> SelectByKey({parameterPart})");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine("const string sql = @\"");
-                sb.AppendAll(selectByPrimaryKeyInfo.Sql);
-                sb.AppendLine();
-                sb.AppendLine("\";");
-                sb.AppendLine();
-                sb.AppendLine("var command = this.CreateCommand(sql);");
-
-                if (selectByPrimaryKeyInfo.SqlParameters.Any())
+                var template = new SelectByKeyMethodTemplate
                 {
-                    sb.AppendLine();
-                    foreach (var columnInfo in selectByPrimaryKeyInfo.SqlParameters)
+                    Session = new Dictionary<string, object>
                     {
-                        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                        { nameof(selectByPrimaryKeyInfo),selectByPrimaryKeyInfo},
+                        { nameof(typeContractName),typeContractName}
                     }
-                }
+                };
+                template.Initialize();
 
+                var methodText = template.TransformText();
+
+                sb.AppendAll(methodText);
                 sb.AppendLine();
-                sb.AppendLine($"return this.ExecuteReaderForOnlyOneRecord<{typeContractName}>(command, ReadContract);");
 
-                sb.PaddingCount--;
-                sb.AppendLine("}");
+
+                
+
+                //var parameterPart = string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+
+                //sb.AppendLine();
+                //sb.AppendLine("/// <summary>");
+                //sb.AppendLine($"///{Padding.ForComment} Selects record by primary keys.");
+                //sb.AppendLine("/// </summary>");
+                //sb.AppendLine($"public GenericResponse<{typeContractName}> SelectByKey({parameterPart})");
+                //sb.AppendLine("{");
+                //sb.PaddingCount++;
+
+                //sb.AppendLine("const string sql = @\"");
+                //sb.AppendAll(selectByPrimaryKeyInfo.Sql);
+                //sb.AppendLine();
+                //sb.AppendLine("\";");
+                //sb.AppendLine();
+                //sb.AppendLine("var command = this.CreateCommand(sql);");
+
+                //if (selectByPrimaryKeyInfo.SqlParameters.Any())
+                //{
+                //    sb.AppendLine();
+                //    foreach (var columnInfo in selectByPrimaryKeyInfo.SqlParameters)
+                //    {
+                //        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                //    }
+                //}
+
+                //sb.AppendLine();
+                //sb.AppendLine($"return this.ExecuteReaderForOnlyOneRecord<{typeContractName}>(command, ReadContract);");
+
+                //sb.PaddingCount--;
+                //sb.AppendLine("}");
             }
             #endregion
 
