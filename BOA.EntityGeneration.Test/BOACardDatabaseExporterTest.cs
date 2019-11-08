@@ -20,17 +20,25 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
                 database.BeginTransaction();
 
+                database.CommandText = "CREATE SCHEMA CRD";
+                database.ExecuteNonQuery();
+
                 database.CommandText =
                     @"
 
-EXEC('CREATE SCHEMA DVL');
-CREATE TABLE DLV.SAMPLE_TABLE
+CREATE TABLE CRD.SAMPLE_TABLE
 (
-    ID INT PRIMARY KEY IDENTITY (1, 1),
+    SAMPLE_TABLE_ID INT PRIMARY KEY IDENTITY (1, 1),
+
     FIELD_VARCHAR_50            VARCHAR (50) NULL,
     FIELD_VARCHAR_50_NULLABLE   VARCHAR (50) NULL,
+
     FIELD_DATETIME              DATETIME,
     FIELD_DATETIME_NULLABLE     DATETIME NULL,
+
+    FIELD_NUMERIC_27_0              NUMERIC(27,0),
+    FIELD_NUMERIC_27_0_NULLABLE     NUMERIC(27,0) NULL,
+
     FIELD_INT                   INT,
     FIELD_INT_NULLABLE          INT NULL
 )
@@ -42,7 +50,7 @@ CREATE TABLE DLV.SAMPLE_TABLE
                 var sb = new PaddedStringBuilder();
 
                 var generatorOfBusinessClass = kernel.Get<GeneratorOfBusinessClass>();
-                var tableInfo                = kernel.Get<SchemaExporterDataPreparer>().GetTableInfo("DLV", "SAMPLE_TABLE");
+                var tableInfo                = kernel.Get<SchemaExporterDataPreparer>().GetTableInfo("CRD", "SAMPLE_TABLE");
 
                 generatorOfBusinessClass.WriteClass(sb, tableInfo);
 

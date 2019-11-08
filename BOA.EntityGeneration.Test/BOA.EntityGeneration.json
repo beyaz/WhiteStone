@@ -4,7 +4,7 @@
   "DatabaseEnumName": "SampleDatabase",
   "NotExportableTables": [],
   "SchemaNamesToBeExport": [
-    "ERP"
+    "CRD"
   ],
   "SqlSequenceInformationOfTable": null,
   "EntityAssemblyNamespaceFormat": "BOA.Types.Kernel.Card.{SchemaName}",
