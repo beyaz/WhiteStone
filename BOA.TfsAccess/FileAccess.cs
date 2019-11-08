@@ -6,11 +6,14 @@ using BOA.Common.Helpers;
 namespace BOA.TfsAccess
 {
     /// <summary>
-    /// 
+    ///     The file access
     /// </summary>
     public class FileAccess
     {
         #region Public Methods
+        /// <summary>
+        ///     Writes all text.
+        /// </summary>
         public virtual FileAccessWriteResult WriteAllText(string path, string content)
         {
             var tfsPath = GetTfsPath(path);
@@ -52,6 +55,9 @@ namespace BOA.TfsAccess
             return result;
         }
 
+        /// <summary>
+        ///     Writes to file system.
+        /// </summary>
         public static void WriteToFileSystem(string path, string content, FileAccessWriteResult result)
         {
             try
@@ -73,6 +79,9 @@ namespace BOA.TfsAccess
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Gets the TFS path.
+        /// </summary>
         static string GetTfsPath(string filePath)
         {
             return "$" + filePath.RemoveFromStart(@"d:\work",StringComparison.OrdinalIgnoreCase).Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
