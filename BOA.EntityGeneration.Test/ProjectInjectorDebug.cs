@@ -1,4 +1,5 @@
 ﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 
