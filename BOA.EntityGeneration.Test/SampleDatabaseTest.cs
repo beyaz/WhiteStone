@@ -21,13 +21,13 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
                 database.BeginTransaction();
 
-                database.CommandText = "CREATE SCHEMA CRD";
+                database.CommandText = "CREATE SCHEMA ERP";
                 database.ExecuteNonQuery();
 
                 database.CommandText =
                     @"
 
-CREATE TABLE CRD.SAMPLE_TABLE
+CREATE TABLE ERP.SAMPLE_TABLE
 (
     SAMPLE_TABLE_ID INT PRIMARY KEY IDENTITY (1, 1),
 
