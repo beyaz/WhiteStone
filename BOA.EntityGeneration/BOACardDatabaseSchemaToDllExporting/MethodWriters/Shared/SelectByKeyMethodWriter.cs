@@ -7,9 +7,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
     static class SelectByKeyMethodWriter
     {
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb, ISelectByPrimaryKeyInfo data)
+        public static void Write(PaddedStringBuilder sb, ISelectByPrimaryKeyInfo selectByPrimaryKeyInfo)
         {
-            var parameterPart = string.Join(", ", data.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+            var parameterPart = string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
             sb.AppendLine($"static SqlInfo GetSelectByKeyInfo({parameterPart})");
             sb.AppendLine("{");
@@ -17,17 +17,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
 
             sb.AppendLine();
             sb.AppendLine("const string sql = @\"");
-            sb.AppendAll(data.Sql);
+            sb.AppendAll(selectByPrimaryKeyInfo.Sql);
             sb.AppendLine();
             sb.AppendLine("\";");
             sb.AppendLine();
 
             sb.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
 
-            if (data.SqlParameters.Any())
+            if (selectByPrimaryKeyInfo.SqlParameters.Any())
             {
                 sb.AppendLine();
-                foreach (var columnInfo in data.SqlParameters)
+                foreach (var columnInfo in selectByPrimaryKeyInfo.SqlParameters)
                 {
                     sb.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
                 }

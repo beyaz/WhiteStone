@@ -24,6 +24,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public ITableInfo TableInfo { get; set; }
         public bool CanWriteSelectByKeyMethod { get; set; }
         public ISelectByPrimaryKeyInfo SelectByPrimaryKeyInfo { get; set; }
+        public SharedClassConfig SharedClassConfig { get; set; }
     }
 
     /// <summary>
@@ -97,7 +98,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 BusinessClassNamespace = businessClassNamespace,
                 CanWriteDeleteByKeyMethod = tableInfo.IsSupportSelectByKey,
                 CanWriteSelectByKeyMethod = tableInfo.IsSupportSelectByKey,
-                TableInfo = tableInfo
+                TableInfo = tableInfo,
+                SharedClassConfig = Config.SharedClassConfig
             };
             if (businessClassWriterContext.CanWriteDeleteByKeyMethod)
             {

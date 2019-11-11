@@ -109,6 +109,24 @@ namespace BOA.EntityGeneration
         ///     Gets or sets the type using lines.
         /// </summary>
         public IReadOnlyCollection<string> TypeUsingLines { get; set; }
+
+
+        /// <summary>
+        ///     Gets or sets the shared class configuration.
+        /// </summary>
+        public SharedClassConfig SharedClassConfig { get; set; }  = new SharedClassConfig();
         #endregion
+    }
+
+    /// <summary>
+    ///     The shared class configuration
+    /// </summary>
+    [Serializable]
+    public class SharedClassConfig
+    {
+        /// <summary>
+        ///     Gets or sets the method name of delete by key.
+        /// </summary>
+        public string MethodNameOfDeleteByKey { get; set; } = "GetDeleteByKeyInfo";
     }
 }
