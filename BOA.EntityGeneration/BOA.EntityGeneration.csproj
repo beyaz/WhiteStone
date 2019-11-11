@@ -70,6 +70,8 @@
       <DependentUpon>CustomSqlClassTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\CreateSqlInfoMethodWriter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ExecuteForListMethodWriter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ExecuteForSingleContractMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ReadContractMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfoParameter.cs" />
