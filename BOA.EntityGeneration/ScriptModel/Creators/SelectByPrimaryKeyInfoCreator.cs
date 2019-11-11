@@ -6,10 +6,16 @@ using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.ScriptModel.Creators
 {
+    /// <summary>
+    ///     The select by primary key information creator
+    /// </summary>
     public static class SelectByPrimaryKeyInfoCreator
     {
         #region Public Methods
-        public static SelectByPrimaryKeyInfo Create(ITableInfo tableInfo)
+        /// <summary>
+        ///     Creates the specified table information.
+        /// </summary>
+        public static ISelectByPrimaryKeyInfo Create(ITableInfo tableInfo)
         {
             var parameters = tableInfo.PrimaryKeyColumns;
 
@@ -20,6 +26,9 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             };
         }
 
+        /// <summary>
+        ///     Gets the SQL.
+        /// </summary>
         static string GetSql(ITableInfo tableInfo, IReadOnlyList<IColumnInfo> parameters)
         {
             var sb = new PaddedStringBuilder();

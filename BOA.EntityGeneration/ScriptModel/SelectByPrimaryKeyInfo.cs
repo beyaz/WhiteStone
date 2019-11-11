@@ -7,8 +7,24 @@ namespace BOA.EntityGeneration.ScriptModel
     /// <summary>
     ///     The select by primary key information
     /// </summary>
+    public interface ISelectByPrimaryKeyInfo
+    {
+        /// <summary>
+        ///     Gets or sets the SQL.
+        /// </summary>
+        string Sql { get;  }
+
+        /// <summary>
+        ///     Gets or sets the SQL parameters.
+        /// </summary>
+        IReadOnlyList<IColumnInfo> SqlParameters { get;  }
+    }
+
+    /// <summary>
+    ///     The select by primary key information
+    /// </summary>
     [Serializable]
-    public class SelectByPrimaryKeyInfo
+    public class SelectByPrimaryKeyInfo : ISelectByPrimaryKeyInfo
     {
         #region Public Properties
         /// <summary>

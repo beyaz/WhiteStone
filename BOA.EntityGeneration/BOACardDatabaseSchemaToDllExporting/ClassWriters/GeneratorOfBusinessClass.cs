@@ -22,6 +22,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public bool CanWriteDeleteByKeyMethod { get; set; }
         public IDeleteInfo DeleteByKeyInfo { get; set; }
         public ITableInfo TableInfo { get; set; }
+        public bool CanWriteSelectByKeyMethod { get; set; }
+        public ISelectByPrimaryKeyInfo SelectByPrimaryKeyInfo { get; set; }
     }
 
     /// <summary>
@@ -94,12 +96,19 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 ClassName = className,
                 BusinessClassNamespace = businessClassNamespace,
                 CanWriteDeleteByKeyMethod = tableInfo.IsSupportSelectByKey,
+                CanWriteSelectByKeyMethod = tableInfo.IsSupportSelectByKey,
                 TableInfo = tableInfo
             };
             if (businessClassWriterContext.CanWriteDeleteByKeyMethod)
             {
                 businessClassWriterContext.DeleteByKeyInfo = DeleteInfoCreator.Create(tableInfo);
             }
+            if (businessClassWriterContext.CanWriteSelectByKeyMethod)
+            {
+                businessClassWriterContext.SelectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
+            }
+
+           
             
             ContractCommentInfoCreator.Write(sb, tableInfo);
             sb.AppendLine($"public sealed class {className} : ObjectHelper");
@@ -138,24 +147,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             #endregion
 
             #region SelectByKey
-            if (tableInfo.IsSupportSelectByKey)
+            if (businessClassWriterContext.CanWriteSelectByKeyMethod)
             {
-                var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
 
-                var template = new SelectByKeyMethodTemplate
-                {
-                    Session = new Dictionary<string, object>
-                    {
-                        { nameof(selectByPrimaryKeyInfo),selectByPrimaryKeyInfo},
-                        { nameof(typeContractName),typeContractName}
-                    }
-                };
-                template.Initialize();
-
-                var methodText = template.TransformText();
-
-                sb.AppendAll(methodText);
                 sb.AppendLine();
+                MethodWriters.BoaSystem.SelectByKeyMethodWriter.Write(sb,businessClassWriterContext);
+
+                
 
 
                 
