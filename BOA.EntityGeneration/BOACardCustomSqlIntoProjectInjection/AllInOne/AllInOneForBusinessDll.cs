@@ -21,11 +21,13 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 
             return sb.ToString();
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         ///     Writes the specified sb.
         /// </summary>
-        public void Write(PaddedStringBuilder sb, IProjectCustomSqlInfo data)
+        static void Write(PaddedStringBuilder sb, IProjectCustomSqlInfo data)
         {
             sb.AppendLine("using BOA.Base;");
             sb.AppendLine("using BOA.Base.Data;");
