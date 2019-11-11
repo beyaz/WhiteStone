@@ -13,6 +13,17 @@ using InsertInfoCreator = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporti
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
+
+    public class BusinessClassWriterContext
+    {
+        public string TypeContractName { get; set; }
+        public string ClassName { get; set; }
+        public string BusinessClassNamespace { get; set; }
+        public bool CanWriteDeleteByKeyMethod { get; set; }
+        public IDeleteInfo DeleteByKeyInfo { get; set; }
+        public ITableInfo TableInfo { get; set; }
+    }
+
     /// <summary>
     ///     The generator of business class
     /// </summary>
@@ -67,16 +78,29 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public void WriteClass(PaddedStringBuilder sb, ITableInfo tableInfo)
         {
             var typeContractName = $"{tableInfo.TableName.ToContractName()}Contract";
-            var className        = tableInfo.TableName.ToContractName();
-
             if (typeContractName == "TransactionLogContract" ||
                 typeContractName == "BoaUserContract") // resolve conflig
             {
                 typeContractName = $"{NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName)}.{typeContractName}";
             }
 
+            var className = tableInfo.TableName.ToContractName();
+
             var businessClassNamespace = NamingHelper.GetBusinessClassNamespace(tableInfo.SchemaName);
 
+            var businessClassWriterContext = new BusinessClassWriterContext
+            {
+                TypeContractName = typeContractName,
+                ClassName = className,
+                BusinessClassNamespace = businessClassNamespace,
+                CanWriteDeleteByKeyMethod = tableInfo.IsSupportSelectByKey,
+                TableInfo = tableInfo
+            };
+            if (businessClassWriterContext.CanWriteDeleteByKeyMethod)
+            {
+                businessClassWriterContext.DeleteByKeyInfo = DeleteInfoCreator.Create(tableInfo);
+            }
+            
             ContractCommentInfoCreator.Write(sb, tableInfo);
             sb.AppendLine($"public sealed class {className} : ObjectHelper");
             sb.AppendLine("{");
@@ -86,70 +110,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine($"public {className}(ExecutionDataContext context) : base(context) {{ }}");
 
             #region Delete
-            if (tableInfo.IsSupportSelectByKey)
+            if (businessClassWriterContext.CanWriteDeleteByKeyMethod)
             {
-                var deleteInfo = DeleteInfoCreator.Create(tableInfo);
-
-                var template = new DeleteMethodTemplate
-                {
-                    Session = new Dictionary<string, object>
-                    {
-                        { nameof(deleteInfo),deleteInfo},
-                        { nameof(tableInfo),tableInfo},
-                        { nameof(businessClassNamespace),businessClassNamespace},
-                        { nameof(className),className}
-                    }
-                };
-                template.Initialize();
-
-                var methodText = template.TransformText();
-
-                sb.AppendAll(methodText);
                 sb.AppendLine();
-
-                //var parameterPart = string.Join(", ", deleteInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
-
-                //sb.AppendLine();
-                //sb.AppendLine("/// <summary>");
-                //sb.AppendLine($"///{Padding.ForComment}Deletes only one record from '{tableInfo.SchemaName}.{tableInfo.TableName}' by using '{string.Join(" and ", deleteInfo.SqlParameters.Select(x => x.ColumnName.AsMethodParameter()))}'");
-                //sb.AppendLine("/// </summary>");
-                //sb.AppendLine($"public GenericResponse<int> Delete({parameterPart})");
-                //sb.AppendLine("{");
-                //sb.PaddingCount++;
-
-                //sb.AppendLine($"var returnObject = InitializeGenericResponse<int>(\"{businessClassNamespace}.{className}.Delete\");");
-
-                //sb.AppendLine();
-                //sb.AppendLine("const string sql = @\"");
-                //sb.AppendAll(deleteInfo.Sql);
-                //sb.AppendLine();
-                //sb.AppendLine("\";");
-                //sb.AppendLine();
-                //sb.AppendLine("var command = this.CreateCommand(sql);");
-
-                //if (deleteInfo.SqlParameters.Any())
-                //{
-                //    sb.AppendLine();
-                //    foreach (var columnInfo in deleteInfo.SqlParameters)
-                //    {
-                //        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
-                //    }
-                //}
-
-                //sb.AppendLine();
-                //sb.AppendLine("var response = DBLayer.ExecuteNonQuery(command);");
-                //sb.AppendLine("if (!response.Success)");
-                //sb.AppendLine("{");
-                //sb.AppendLine("    returnObject.Results.AddRange(response.Results);");
-                //sb.AppendLine("    return returnObject;");
-                //sb.AppendLine("}");
-                //sb.AppendLine();
-                //sb.AppendLine("returnObject.Value = response.Value;");
-                //sb.AppendLine();
-                //sb.AppendLine("return returnObject;");
-
-                //sb.PaddingCount--;
-                //sb.AppendLine("}");
+                MethodWriters.BoaSystem.DeleteByKeyMethodWriter.Write(sb,businessClassWriterContext);
             }
             #endregion
 

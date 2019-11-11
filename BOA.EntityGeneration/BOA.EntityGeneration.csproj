@@ -87,11 +87,6 @@
     <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\TypeClassWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllTypeClassesInOne.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\DeleteMethodTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DeleteMethodTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectAllMethodTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -102,6 +97,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SelectByKeyMethodTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SharedDalClassWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\DeleteByKeyMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\Shared\DeleteByKeyMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ITableInfo.cs" />
@@ -177,10 +173,6 @@
     <Content Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\CustomSqlClassTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>CustomSqlClassTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\DeleteMethodTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>DeleteMethodTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SelectAllMethodTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

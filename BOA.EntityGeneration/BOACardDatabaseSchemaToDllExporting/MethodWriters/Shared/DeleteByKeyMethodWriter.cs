@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
     static class DeleteByKeyMethodWriter
     {
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb, DeleteInfo deleteInfo)
+        public static void Write(PaddedStringBuilder sb, IDeleteInfo deleteInfo)
         {
             var parameterPart = string.Join(", ", deleteInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 

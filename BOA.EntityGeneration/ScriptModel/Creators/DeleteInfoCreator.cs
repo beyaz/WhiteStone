@@ -3,10 +3,16 @@ using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.ScriptModel.Creators
 {
+    /// <summary>
+    ///     The delete information creator
+    /// </summary>
     public static class DeleteInfoCreator
     {
         #region Public Methods
-        public static DeleteInfo Create(ITableInfo tableInfo)
+        /// <summary>
+        ///     Creates the specified table information.
+        /// </summary>
+        public static IDeleteInfo Create(ITableInfo tableInfo)
         {
             var parameters = tableInfo.PrimaryKeyColumns;
 
