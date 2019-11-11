@@ -10,7 +10,8 @@
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 {
     using System.Linq;
-
+    using System;
+    
     /// <summary>
     /// Class to produce the template output
     /// </summary>
@@ -27,28 +28,49 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
         {
             this.Write("/// <summary>\r\n///     Data access part of \'");
             
-            #line 6 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 7 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.Name));
             
             #line default
             #line hidden
             this.Write("\' sql.\r\n/// </summary>\r\npublic sealed class ");
             
-            #line 8 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 9 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.BusinessClassName));
             
             #line default
             #line hidden
-            this.Write(" : ObjectHelper\r\n{\r\n\t/// <summary>\r\n\t///     Data access part of \'");
+            this.Write(" : ObjectHelper\r\n{\r\n\tconst string CallerMemberPath = \"");
             
             #line 11 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(key));
+            
+            #line default
+            #line hidden
+            this.Write("\";\r\n\tconst string ProfileId        = \"");
+            
+            #line 12 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ProfileId));
+            
+            #line default
+            #line hidden
+            this.Write("\";\r\n\tconst string ObjectId         = \"");
+            
+            #line 13 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(data.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\";\r\n\r\n\t/// <summary>\r\n\t///     Data access part of \'");
+            
+            #line 16 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.Name));
             
             #line default
             #line hidden
             this.Write("\' sql.\r\n\t/// </summary>\r\n\tpublic ");
             
-            #line 13 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 18 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.BusinessClassName));
             
             #line default
@@ -56,312 +78,200 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
             this.Write("(ExecutionDataContext context) : base(context) {}\r\n\r\n\t/// <summary>\r\n\t///     Dat" +
                     "a access part of \'");
             
-            #line 16 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 21 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.Name));
             
             #line default
             #line hidden
             this.Write("\' sql.\r\n\t/// </summary>\r\n");
             
-            #line 18 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 23 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
 if (data.SqlResultIsCollection)
             
             #line default
             #line hidden
             
-            #line 19 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 24 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
 {
             
             #line default
             #line hidden
             this.Write("\tpublic GenericResponse<List<");
             
-            #line 20 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 25 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.ResultContractName));
             
             #line default
             #line hidden
             this.Write(">> Execute(");
             
-            #line 20 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 25 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.ParameterContractName));
             
             #line default
             #line hidden
-            this.Write(" request)\r\n\t{\r\n\t\tvar returnObject = InitializeGenericResponse<List<");
-            
-            #line 22 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(data.ResultContractName));
-            
-            #line default
-            #line hidden
-            this.Write(">>(\"");
-            
-            #line 22 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(key));
-            
-            #line default
-            #line hidden
-            this.Write("\");\r\n\t\r\n\t\tconst string sql = @\"\r\n\t\t");
-            
-            #line 25 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(data.Sql));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n\t\t\";\r\n\t\r\n\t\tvar command = DBLayer.GetDBCommand(Databases.BOACard, sql, null, Com" +
-                    "mandType.Text);\r\n\t\t");
+            this.Write(" request)\r\n\t{\r\n\t\tvar sqlInfo = CreateSqlInfo(request);\r\n\r\n\t\treturn this.ExecuteCu" +
+                    "stomSql<");
             
             #line 29 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-if (data.Parameters.Any()){
+            this.Write(this.ToStringHelper.ToStringWithCulture(data.ResultContractName));
             
             #line default
             #line hidden
-            this.Write("\t\t\r\n");
+            this.Write(">(CallerMemberPath, sqlInfo, ReadContract, ProfileId, ObjectId);\r\n\t}\t\r\n");
             
             #line 31 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-foreach (var item in data.Parameters){
-            
-            #line default
-            #line hidden
-            this.Write("\t\tDBLayer.AddInParameter(command, \"@");
-            
-            #line 32 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
-            
-            #line default
-            #line hidden
-            this.Write("\", SqlDbType.");
-            
-            #line 32 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.SqlDbTypeName));
-            
-            #line default
-            #line hidden
-            this.Write(", request.");
-            
-            #line 32 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.ValueAccessPathForAddInParameter));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
-            
-            #line 33 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write("\t\t");
-            
-            #line 34 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write("\t\r\n\t\tvar response = DBLayer.ExecuteReader(command);\r\n\t\tif (!response.Success)\r\n\t\t" +
-                    "{\r\n\t\t    returnObject.Results.AddRange(response.Results);\r\n\t\t    return returnOb" +
-                    "ject;\r\n\t\t}\t\t\r\n\t\tvar reader = response.Value;\r\n\t\r\n\t\tvar listOfDataContract = new " +
-                    "List<");
-            
-            #line 44 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(data.ResultContractName));
-            
-            #line default
-            #line hidden
-            this.Write(">();\t\t\r\n\t\t\r\n\t\twhile (reader.Read())\r\n\t\t{\r\n\t\t\tvar dataContract = new ");
-            
-            #line 48 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(data.ResultContractName));
-            
-            #line default
-            #line hidden
-            this.Write("();\r\n\r\n\t\t\tReadContract(reader, dataContract);\r\n\r\n\t\t\tlistOfDataContract.Add(dataCo" +
-                    "ntract);\r\n\t\t}\t\t\r\n\t\t\r\n\t\treader.Close();\r\n\r\n\t\treturnObject.Value = listOfDataContr" +
-                    "act;\r\n\r\n\t\treturn returnObject;\r\n\t}\r\n");
-            
-            #line 61 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 62 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 32 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
 else
             
             #line default
             #line hidden
             
-            #line 63 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 33 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
 {
             
             #line default
             #line hidden
             this.Write("\tpublic GenericResponse<");
             
-            #line 64 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 34 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.ResultContractName));
             
             #line default
             #line hidden
             this.Write("> Execute(");
             
-            #line 64 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 34 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.ParameterContractName));
             
             #line default
             #line hidden
-            this.Write(" request)\r\n\t{\r\n\t\tvar returnObject = InitializeGenericResponse<");
+            this.Write(" request)\r\n\t{\r\n\t\tvar sqlInfo = CreateSqlInfo(request);\r\n\r\n\t\treturn this.ExecuteCu" +
+                    "stomSqlForOneRecord<");
             
-            #line 66 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 38 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.ResultContractName));
             
             #line default
             #line hidden
-            this.Write(">(\"");
+            this.Write(">(CallerMemberPath, sqlInfo, ReadContract, ProfileId, ObjectId);\r\n\t}\r\n");
             
-            #line 66 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(key));
-            
-            #line default
-            #line hidden
-            this.Write("\");\r\n\t\r\n\t\tconst string sql = @\"\r\n\t\t");
-            
-            #line 69 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(data.Sql));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n\t\t\";\r\n\t\r\n\t\tvar command = DBLayer.GetDBCommand(Databases.BOACard, sql, null, Com" +
-                    "mandType.Text);\r\n\t\t");
-            
-            #line 73 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-if (data.Parameters.Any())
-            
-            #line default
-            #line hidden
-            this.Write("\t\t");
-            
-            #line 74 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-{
-            
-            #line default
-            #line hidden
-            this.Write("            \r\n");
-            
-            #line 76 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-foreach (var item in data.Parameters){
-            
-            #line default
-            #line hidden
-            this.Write("\t\tDBLayer.AddInParameter(command, \"@");
-            
-            #line 77 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
-            
-            #line default
-            #line hidden
-            this.Write("\", SqlDbType.");
-            
-            #line 77 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.SqlDbTypeName));
-            
-            #line default
-            #line hidden
-            this.Write(", request.");
-            
-            #line 77 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.ValueAccessPathForAddInParameter));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n            ");
-            
-            #line 78 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            
-            #line 79 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write("\t\r\n\t\tvar response = DBLayer.ExecuteReader(command);\r\n\t\tif (!response.Success)\r\n\t\t" +
-                    "{\r\n\t\t    returnObject.Results.AddRange(response.Results);\r\n\t\t    return returnOb" +
-                    "ject;\r\n\t\t}\t\t\r\n\t\tvar reader = response.Value;\r\n\t\r\n\t\t");
-            
-            #line 89 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(data.ResultContractName));
-            
-            #line default
-            #line hidden
-            this.Write(" dataContract = null;\r\n\t\t\r\n\t\twhile (reader.Read())\r\n\t\t{\r\n\t\t\tdataContract = new ");
-            
-            #line 93 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(data.ResultContractName));
-            
-            #line default
-            #line hidden
-            this.Write("();\r\n\r\n\t\t\tReadContract(reader, dataContract);\r\n\r\n\t\t\tbreak;\r\n\t\t}\t\t\r\n\t\t\r\n\t\treader.C" +
-                    "lose();\r\n\r\n\t\treturnObject.Value = dataContract;\r\n\r\n\t\treturn returnObject;\r\n\t}\r\n");
-            
-            #line 106 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 40 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n\t/// <summary>\r\n\t///     Maps reader columns to contract for \'");
             
-            #line 109 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 43 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.Name));
             
             #line default
             #line hidden
             this.Write("\' sql.\r\n\t/// </summary>\r\n\tstatic void ReadContract(IDataRecord reader, ");
             
-            #line 111 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 45 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(data.ResultContractName));
             
             #line default
             #line hidden
             this.Write(" contract)\r\n\t{\r\n");
             
-            #line 113 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 47 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
 foreach (var item in data.ResultColumns){
             
             #line default
             #line hidden
             this.Write("\t\tcontract.");
             
-            #line 114 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 48 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.NameInDotnet));
             
             #line default
             #line hidden
             this.Write(" = SQLDBHelper.");
             
-            #line 114 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 48 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.SqlReaderMethod));
             
             #line default
             #line hidden
             this.Write("(reader[\"");
             
-            #line 114 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 48 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
             
             #line default
             #line hidden
             this.Write("\"]);\r\n");
             
-            #line 115 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            #line 49 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\t}\r\n}");
+            this.Write("\t}\r\n\r\n\tstatic SqlInfo CreateSqlInfo(");
+            
+            #line 52 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(data.ParameterContractName));
+            
+            #line default
+            #line hidden
+            this.Write(" request)\r\n\t{\r\n\t\tvar sqlInfo = new SqlInfo();\r\n\t\t");
+            
+            #line 55 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+if (data.Parameters.Any()){
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\r\n");
+            
+            #line 57 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+foreach (var item in data.Parameters){
+            
+            #line default
+            #line hidden
+            this.Write("\t\tsqlInfo.AddInParameter(\"@");
+            
+            #line 58 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\", SqlDbType.");
+            
+            #line 58 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.SqlDbTypeName));
+            
+            #line default
+            #line hidden
+            this.Write(", request.");
+            
+            #line 58 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.ValueAccessPathForAddInParameter));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n");
+            
+            #line 59 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t\t");
+            
+            #line 60 "D:\github\WhiteStone\BOA.EntityGeneration\BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t\r\n\t\treturn sqlInfo;\r\n\t}\r\n}");
             return this.GenerationEnvironment.ToString();
         }
         
@@ -390,6 +300,19 @@ private string key
     get
     {
         return this._keyField;
+    }
+}
+
+private string _ProfileIdField;
+
+/// <summary>
+/// Access the ProfileId parameter of the template.
+/// </summary>
+private string ProfileId
+{
+    get
+    {
+        return this._ProfileIdField;
     }
 }
 
@@ -427,6 +350,20 @@ if ((keyValueAcquired == false))
     if ((data != null))
     {
         this._keyField = ((string)(data));
+    }
+}
+bool ProfileIdValueAcquired = false;
+if (this.Session.ContainsKey("ProfileId"))
+{
+    this._ProfileIdField = ((string)(this.Session["ProfileId"]));
+    ProfileIdValueAcquired = true;
+}
+if ((ProfileIdValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("ProfileId");
+    if ((data != null))
+    {
+        this._ProfileIdField = ((string)(data));
     }
 }
 

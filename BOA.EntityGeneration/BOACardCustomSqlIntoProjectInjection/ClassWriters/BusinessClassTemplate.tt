@@ -2,11 +2,16 @@
 <#@ import namespace="System.Linq" #>
 <#@ parameter name="data" type="BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces.ICustomSqlInfo" #>
 <#@ parameter name="key" type="System.String" #>
+<#@ parameter name="ProfileId" type="System.String" #>
 /// <summary>
 ///     Data access part of '<#=data.Name#>' sql.
 /// </summary>
 public sealed class <#=data.BusinessClassName#> : ObjectHelper
 {
+	const string CallerMemberPath = "<#=key#>";
+	const string ProfileId        = "<#=ProfileId#>";
+	const string ObjectId         = "<#=data.Name#>";
+
 	/// <summary>
 	///     Data access part of '<#=data.Name#>' sql.
 	/// </summary>
@@ -19,89 +24,18 @@ public sealed class <#=data.BusinessClassName#> : ObjectHelper
 <#{#>
 	public GenericResponse<List<<#=data.ResultContractName#>>> Execute(<#=data.ParameterContractName#> request)
 	{
-		var returnObject = InitializeGenericResponse<List<<#=data.ResultContractName#>>>("<#=key#>");
-	
-		const string sql = @"
-		<#=data.Sql#>
-		";
-	
-		var command = DBLayer.GetDBCommand(Databases.BOACard, sql, null, CommandType.Text);
-		<#if (data.Parameters.Any()){#>
-		
-<#foreach (var item in data.Parameters){#>
-		DBLayer.AddInParameter(command, "@<#=item.Name#>", SqlDbType.<#=item.SqlDbTypeName#>, request.<#=item.ValueAccessPathForAddInParameter#>);
-<#}#>
-		<#}#>
-	
-		var response = DBLayer.ExecuteReader(command);
-		if (!response.Success)
-		{
-		    returnObject.Results.AddRange(response.Results);
-		    return returnObject;
-		}		
-		var reader = response.Value;
-	
-		var listOfDataContract = new List<<#=data.ResultContractName#>>();		
-		
-		while (reader.Read())
-		{
-			var dataContract = new <#=data.ResultContractName#>();
+		var sqlInfo = CreateSqlInfo(request);
 
-			ReadContract(reader, dataContract);
-
-			listOfDataContract.Add(dataContract);
-		}		
-		
-		reader.Close();
-
-		returnObject.Value = listOfDataContract;
-
-		return returnObject;
-	}
+		return this.ExecuteCustomSql<<#=data.ResultContractName#>>(CallerMemberPath, sqlInfo, ReadContract, ProfileId, ObjectId);
+	}	
 <#}#>
 <#else#>
 <#{#>
 	public GenericResponse<<#=data.ResultContractName#>> Execute(<#=data.ParameterContractName#> request)
 	{
-		var returnObject = InitializeGenericResponse<<#=data.ResultContractName#>>("<#=key#>");
-	
-		const string sql = @"
-		<#=data.Sql#>
-		";
-	
-		var command = DBLayer.GetDBCommand(Databases.BOACard, sql, null, CommandType.Text);
-		<#if (data.Parameters.Any())#>
-		<#{#>
-            
-<#foreach (var item in data.Parameters){#>
-		DBLayer.AddInParameter(command, "@<#=item.Name#>", SqlDbType.<#=item.SqlDbTypeName#>, request.<#=item.ValueAccessPathForAddInParameter#>);
-            <#}#>
-<#}#>
-	
-		var response = DBLayer.ExecuteReader(command);
-		if (!response.Success)
-		{
-		    returnObject.Results.AddRange(response.Results);
-		    return returnObject;
-		}		
-		var reader = response.Value;
-	
-		<#=data.ResultContractName#> dataContract = null;
-		
-		while (reader.Read())
-		{
-			dataContract = new <#=data.ResultContractName#>();
+		var sqlInfo = CreateSqlInfo(request);
 
-			ReadContract(reader, dataContract);
-
-			break;
-		}		
-		
-		reader.Close();
-
-		returnObject.Value = dataContract;
-
-		return returnObject;
+		return this.ExecuteCustomSqlForOneRecord<<#=data.ResultContractName#>>(CallerMemberPath, sqlInfo, ReadContract, ProfileId, ObjectId);
 	}
 <#}#>
 
@@ -113,5 +47,18 @@ public sealed class <#=data.BusinessClassName#> : ObjectHelper
 <#foreach (var item in data.ResultColumns){#>
 		contract.<#=item.NameInDotnet#> = SQLDBHelper.<#=item.SqlReaderMethod#>(reader["<#=item.Name#>"]);
 <#}#>
+	}
+
+	static SqlInfo CreateSqlInfo(<#=data.ParameterContractName#> request)
+	{
+		var sqlInfo = new SqlInfo();
+		<#if (data.Parameters.Any()){#>
+		
+<#foreach (var item in data.Parameters){#>
+		sqlInfo.AddInParameter("@<#=item.Name#>", SqlDbType.<#=item.SqlDbTypeName#>, request.<#=item.ValueAccessPathForAddInParameter#>);
+<#}#>
+		<#}#>
+	
+		return sqlInfo;
 	}
 }

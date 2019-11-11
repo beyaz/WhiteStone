@@ -22,7 +22,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
                 Session = new Dictionary<string, object>
                 {
                     {nameof(data), data},
-                    {nameof(key), key}
+                    {nameof(key), key},
+                    {nameof(projectCustomSqlInfo.ProfileId),projectCustomSqlInfo.ProfileId }
                 }
             };
             template.Initialize();

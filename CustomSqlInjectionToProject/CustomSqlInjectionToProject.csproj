@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -117,10 +117,6 @@
     <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
       <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
       <Name>BOA.EntityGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BOA.TfsAccess\BOA.TfsAccess.csproj">
-      <Project>{819466b2-7d52-4c21-a270-61134a6a04c9}</Project>
-      <Name>BOA.TfsAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
