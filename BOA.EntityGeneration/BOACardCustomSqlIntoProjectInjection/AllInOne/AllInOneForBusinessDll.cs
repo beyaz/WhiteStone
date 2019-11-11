@@ -16,7 +16,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         ///     Gets or sets the business class writer.
         /// </summary>
         [Inject]
-        public BusinessClassWriter BusinessClassWriter { get; set; }
+        public BusinessClassWriter2 BusinessClassWriter2 { get; set; }
 
         /// <summary>
         ///     Gets or sets the tracer.
@@ -55,13 +55,13 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            BusinessClassWriter.Write_CustomSqlClass(sb, data);
+            BusinessClassWriter2.Write_CustomSqlClass(sb, data);
 
             foreach (var item in data.CustomSqlInfoList)
             {
                 Tracer.Trace($"Writing business class {item.ParameterContractName}");
                 sb.AppendLine();
-                BusinessClassWriter.Write(sb, item,data);
+                BusinessClassWriter2.Write(sb, item,data);
             }
 
             sb.PaddingCount--;

@@ -8,7 +8,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
     /// <summary>
     ///     The business class writer
     /// </summary>
-    public class BusinessClassWriter
+    public class BusinessClassWriter2
     {
         
 
