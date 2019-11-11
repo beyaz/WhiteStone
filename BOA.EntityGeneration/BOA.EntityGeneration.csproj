@@ -69,6 +69,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CustomSqlClassTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\CustomSqlClassWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\CreateSqlInfoMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ExecuteForListMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ExecuteForSingleContractMethodWriter.cs" />

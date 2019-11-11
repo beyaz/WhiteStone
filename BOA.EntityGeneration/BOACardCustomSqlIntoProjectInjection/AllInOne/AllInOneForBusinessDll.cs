@@ -1,8 +1,6 @@
 ﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using Ninject;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 {
@@ -11,20 +9,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
     /// </summary>
     public class AllInOneForBusinessDll
     {
-        #region Public Properties
-        /// <summary>
-        ///     Gets or sets the business class writer.
-        /// </summary>
-        [Inject]
-        public BusinessClassWriter2 BusinessClassWriter2 { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the tracer.
-        /// </summary>
-        [Inject]
-        public Tracer Tracer { get; set; }
-        #endregion
-
         #region Public Methods
         /// <summary>
         ///     Gets the code.
@@ -55,13 +39,12 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            BusinessClassWriter2.Write_CustomSqlClass(sb, data);
+            CustomSqlClassWriter.Write(sb, data);
 
             foreach (var item in data.CustomSqlInfoList)
             {
-                Tracer.Trace($"Writing business class {item.ParameterContractName}");
                 sb.AppendLine();
-                BusinessClassWriter.Write(sb, item,data);
+                BusinessClassWriter.Write(sb, item, data);
             }
 
             sb.PaddingCount--;
