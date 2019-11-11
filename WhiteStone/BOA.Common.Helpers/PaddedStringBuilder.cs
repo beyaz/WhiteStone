@@ -9,6 +9,9 @@ namespace BOA.Common.Helpers
     public class PaddedStringBuilder
     {
         #region Fields
+        /// <summary>
+        ///     The sb
+        /// </summary>
         readonly StringBuilder sb = new StringBuilder();
         #endregion
 
@@ -30,7 +33,7 @@ namespace BOA.Common.Helpers
         /// </summary>
         string Padding
         {
-            get { return "".PadRight(PaddingLength * PaddingCount); }
+            get { return string.Empty.PadRight(PaddingLength * PaddingCount); }
         }
         #endregion
 
@@ -56,11 +59,10 @@ namespace BOA.Common.Helpers
                 AppendLine(strings[i]);
             }
 
-            if (length >=0)
+            if (length >= 0)
             {
                 AppendWithPadding(strings[length]);
             }
-           
         }
 
         /// <summary>
@@ -73,6 +75,7 @@ namespace BOA.Common.Helpers
                 sb.AppendLine();
                 return;
             }
+
             sb.Append(Padding);
             sb.AppendLine(line);
         }

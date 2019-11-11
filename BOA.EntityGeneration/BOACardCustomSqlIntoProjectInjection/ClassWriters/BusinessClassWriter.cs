@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 
@@ -9,6 +10,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
     /// </summary>
     public class BusinessClassWriter
     {
+        
+
         #region Public Methods
         /// <summary>
         ///     Writes the specified sb.

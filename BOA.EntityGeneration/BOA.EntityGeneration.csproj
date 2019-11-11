@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -69,6 +69,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CustomSqlClassTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\CreateSqlInfoMethodWriter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ReadContractMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfoParameter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfoResult.cs" />
