@@ -102,6 +102,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SelectByKeyMethodTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\DeleteByKeyMethodWriter.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\Shared\DeleteByKeyMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ITableInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Impl\SequenceInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ISequenceInfo.cs" />
