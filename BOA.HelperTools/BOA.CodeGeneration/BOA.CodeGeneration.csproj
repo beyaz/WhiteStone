@@ -70,6 +70,9 @@
     <AssemblyOriginatorKeyFile>..\Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BOA.TfsAccess">
+      <HintPath>$(SolutionDir)BOA.TfsAccess\bin\debug\BOA.TfsAccess.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.SqlServer.TransactSql.ScriptDom, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>whipackages\Microsoft.SqlServer.TransactSql.ScriptDom.12.0\lib\Microsoft.SqlServer.TransactSql.ScriptDom.dll</HintPath>
       <Private>True</Private>
@@ -200,10 +203,6 @@
     <ProjectReference Include="..\..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
       <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
       <Name>BOA.EntityGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\BOA.TfsAccess\BOA.TfsAccess.csproj">
-      <Project>{819466b2-7d52-4c21-a270-61134a6a04c9}</Project>
-      <Name>BOA.TfsAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
