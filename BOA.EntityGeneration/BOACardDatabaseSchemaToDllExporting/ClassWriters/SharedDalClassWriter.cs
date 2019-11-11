@@ -15,7 +15,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             if (data.CanWriteDeleteByKeyMethod)
             {
                 sb.AppendLine();
-                DeleteByKeyMethodWriter.Write(sb, data.DeleteByKeyInfo);
+                DeleteByKeyMethodWriter.Write(sb, data.DeleteByKeyInfo,data.SharedClassConfig);
+            }
+
+            if (data.CanWriteSelectByKeyMethod)
+            {
+                sb.AppendLine();
+                SelectByKeyMethodWriter.Write(sb, data.SelectByPrimaryKeyInfo,data.SharedClassConfig);
             }
 
             sb.PaddingCount--;

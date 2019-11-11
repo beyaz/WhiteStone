@@ -8,9 +8,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
     static class SelectByKeyMethodWriter
     {
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb, BusinessClassWriterContext businessClassWriterContext, Config config)
+        public static void Write(PaddedStringBuilder sb, BusinessClassWriterContext businessClassWriterContext)
         {
-            var typeContractName = businessClassWriterContext.TypeContractName;
+            var typeContractName  = businessClassWriterContext.TypeContractName;
+            var sharedClassConfig = businessClassWriterContext.SharedClassConfig;
 
             var parameterPart = string.Join(", ", businessClassWriterContext.SelectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
@@ -22,7 +23,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"var sqlInfo = GetSelectByKeyInfo({string.Join(", ", businessClassWriterContext.SelectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))})");
+            sb.AppendLine($"var sqlInfo = {sharedClassConfig.MethodNameOfSelecyByKey}({string.Join(", ", businessClassWriterContext.SelectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))})");
 
             sb.AppendLine($"return this.ExecuteReaderToContract(\"{businessClassWriterContext.BusinessClassNamespace}.{businessClassWriterContext.ClassName}.SelectByKey\", sqlInfo, readContract);");
 

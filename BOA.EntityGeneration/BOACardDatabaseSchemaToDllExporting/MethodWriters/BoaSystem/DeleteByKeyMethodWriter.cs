@@ -10,17 +10,22 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
         #region Public Methods
         public static void Write(PaddedStringBuilder sb, BusinessClassWriterContext businessClassWriterContext)
         {
-            var parameterPart = string.Join(", ", businessClassWriterContext.DeleteByKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+            var sqlParameters     = businessClassWriterContext.DeleteByKeyInfo.SqlParameters;
+            var schemaName        = businessClassWriterContext.TableInfo.SchemaName;
+            var tableName         = businessClassWriterContext.TableInfo.TableName;
+            var sharedClassConfig = businessClassWriterContext.SharedClassConfig;
+
+            var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Deletes only one record from '{businessClassWriterContext.TableInfo.SchemaName}.{businessClassWriterContext.TableInfo.TableName}' by using '{string.Join(" and ", businessClassWriterContext.DeleteByKeyInfo.SqlParameters.Select(x => x.ColumnName.AsMethodParameter()))}'");
+            sb.AppendLine($"///{Padding.ForComment}Deletes only one record from '{schemaName}.{tableName}' by using '{string.Join(" and ", sqlParameters.Select(x => x.ColumnName.AsMethodParameter()))}'");
             sb.AppendLine("/// </summary>");
             sb.AppendLine($"public GenericResponse<int> Delete({parameterPart})");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"var sqlInfo = {businessClassWriterContext.SharedClassConfig.MethodNameOfDeleteByKey}({string.Join(", ", businessClassWriterContext.DeleteByKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))})");
+            sb.AppendLine($"var sqlInfo = {sharedClassConfig.MethodNameOfDeleteByKey}({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))})");
 
             sb.AppendLine($"return this.ExecuteNonQuery(\"{businessClassWriterContext.BusinessClassNamespace}.{businessClassWriterContext.ClassName}.Delete\", sqlInfo);");
 

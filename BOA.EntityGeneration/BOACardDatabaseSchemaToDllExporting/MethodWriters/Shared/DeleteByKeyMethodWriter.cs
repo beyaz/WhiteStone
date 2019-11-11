@@ -9,8 +9,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
         #region Public Methods
         public static void Write(PaddedStringBuilder sb, IDeleteInfo deleteInfo, SharedClassConfig config)
         {
+            var sqlParameters = deleteInfo.SqlParameters;
 
-            var parameterPart = string.Join(", ", deleteInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+            var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
             sb.AppendLine($"static SqlInfo {config.MethodNameOfDeleteByKey}({parameterPart})");
             sb.AppendLine("{");
@@ -25,10 +26,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
 
             sb.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
 
-            if (deleteInfo.SqlParameters.Any())
+            if (sqlParameters.Any())
             {
                 sb.AppendLine();
-                foreach (var columnInfo in deleteInfo.SqlParameters)
+                foreach (var columnInfo in sqlParameters)
                 {
                     sb.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
                 }

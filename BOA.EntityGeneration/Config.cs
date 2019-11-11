@@ -128,5 +128,8 @@ namespace BOA.EntityGeneration
         ///     Gets or sets the method name of delete by key.
         /// </summary>
         public string MethodNameOfDeleteByKey { get; set; } = "GetDeleteByKeyInfo";
+
+        public string MethodNameOfSelecyByKey { get; set; } = "GetSelectByKeyInfo";
+        
     }
 }
