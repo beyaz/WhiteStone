@@ -1,5 +1,4 @@
 ﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
-using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 
@@ -11,7 +10,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         [TestMethod]
         public void CustomSqlInjection()
         {
-            using (var kernel = new TestKernel())
+            using (var kernel = new Kernel())
             {
                 kernel.Get<ProjectInjector>().Inject("CC_OPERATIONS");
 
