@@ -61,7 +61,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             {
                 Tracer.Trace($"Writing business class {item.ParameterContractName}");
                 sb.AppendLine();
-                BusinessClassWriter2.Write(sb, item,data);
+                BusinessClassWriter.Write(sb, item,data);
             }
 
             sb.PaddingCount--;
