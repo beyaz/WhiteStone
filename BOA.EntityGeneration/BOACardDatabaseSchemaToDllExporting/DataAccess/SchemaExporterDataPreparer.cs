@@ -71,7 +71,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         {
             if (Cache.ContainsKey(schemaName))
             {
-                Tracer.Trace($"Fetching from cache {schemaName}");
                 return Cache[schemaName];
             }
 

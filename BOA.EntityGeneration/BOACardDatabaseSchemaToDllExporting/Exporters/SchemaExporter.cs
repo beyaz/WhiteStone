@@ -51,11 +51,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             Context.Add(Data.SharedRepositoryClassOutput,new PaddedStringBuilder());
             SharedDalClassWriter.WriteUsingList();
 
-            Tracer.Trace($"*** Started to export type classes {schemaName} ***");
-
             ExportTypeDll(schemaName);
 
-            Tracer.Trace($"*** Started to export business classes {schemaName} ***");
             ExportBusinessDll(schemaName);
 
             Context.Remove(Data.SharedRepositoryClassOutput);

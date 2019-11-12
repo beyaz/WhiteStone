@@ -41,7 +41,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 
             foreach (var item in data.CustomSqlInfoList)
             {
-                Tracer.Trace($"Writing parameter class {item.ParameterContractName}");
                 sb.AppendLine();
                 TypeClassWriter.Write(sb, item);
             }
