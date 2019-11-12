@@ -8,14 +8,23 @@ using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.ScriptModel.Creators
 {
-    public  class ContractBodyDbMembersCreator
+    /// <summary>
+    ///     The contract body database members creator
+    /// </summary>
+    public class ContractBodyDbMembersCreator
     {
         #region Properties
+        /// <summary>
+        ///     Gets the padding for comment.
+        /// </summary>
         static string PaddingForComment => "     ";
         #endregion
 
         #region Public Methods
-        public  ContractBodyDbMembers Create(ITableInfo TableInfo)
+        /// <summary>
+        ///     Creates the specified table information.
+        /// </summary>
+        public static ContractBodyDbMembers Create(ITableInfo TableInfo)
         {
             var sb = new StringBuilder();
 
@@ -43,6 +52,9 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Writes the specified sb.
+        /// </summary>
         static void Write(StringBuilder sb, IColumnInfo data, string extraComment)
         {
             var comment = data.Comment;

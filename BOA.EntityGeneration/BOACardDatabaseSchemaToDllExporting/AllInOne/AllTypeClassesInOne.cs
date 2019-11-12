@@ -1,17 +1,16 @@
 ﻿using System.Linq;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
-using ___Company___.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 {
     public class AllTypeClassesInOne
     {
-      
         #region Public Properties
         [Inject]
         public SchemaExporterDataPreparer DataPreparer { get; set; }
@@ -21,26 +20,31 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
         [Inject]
         public NamingHelper NamingHelper { get; set; }
-
-        
-        [Inject]
-        public Config Config { get; set; }
         #endregion
 
         #region Public Methods
         public string GetCode(string schemaName)
         {
-            var sb = new PaddedStringBuilder();
+            Context.Add(Data.TypesFileOutput, new PaddedStringBuilder());
+            Context.Add(Data.SchemaName, schemaName);
 
-            Write(sb, schemaName);
+            Write();
 
-            return sb.ToString();
+            var code = Context.Get(Data.TypesFileOutput).ToString();
+
+            Context.Remove(Data.TypesFileOutput);
+            Context.Remove(Data.SchemaName);
+
+            return code;
         }
         #endregion
 
         #region Methods
-        void Write(PaddedStringBuilder sb, string schemaName)
+        void Write()
         {
+            var sb         = Context.Get(Data.TypesFileOutput);
+            var schemaName = Context.Get(Data.SchemaName);
+
             var progress = Context.Get(Data.SchemaGenerationProcess);
 
             var isFirst = true;
@@ -49,13 +53,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
             foreach (var tableInfo in items)
             {
+                Context.Add(Data.TableInfo, tableInfo);
+
                 if (isFirst)
                 {
-                    GeneratorOfTypeClass.WriteUsingList(sb, tableInfo,Config);
+                    GeneratorOfTypeClass.WriteUsingList(sb);
                     sb.AppendLine();
-                    sb.AppendLine($"namespace {NamingHelper.GetTypeClassNamespace(schemaName)}");
-                    sb.AppendLine("{");
-                    sb.PaddingCount++;
+
+                    sb.BeginNamespace(NamingHelper.GetTypeClassNamespace(schemaName));
 
                     isFirst = false;
                 }
@@ -64,14 +69,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
                 sb.AppendLine();
                 GeneratorOfTypeClass.WriteClass(sb, tableInfo);
+
+                Context.Remove(Data.TableInfo);
             }
 
             if (items.Any())
             {
-                sb.PaddingCount--;
-                sb.AppendLine("}"); // end of namespace    
+                sb.EndNamespace();
             }
-            
         }
         #endregion
     }

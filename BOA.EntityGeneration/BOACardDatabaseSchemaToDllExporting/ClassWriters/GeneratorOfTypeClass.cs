@@ -3,25 +3,39 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using Ninject;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
+using ___Company___.EntityGeneration.DataFlow;
+
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
+    /// <summary>
+    ///     The generator of type class
+    /// </summary>
     public class GeneratorOfTypeClass
     {
         #region Public Properties
+        /// <summary>
+        ///     Gets or sets the configuration.
+        /// </summary>
         [Inject]
         public Config Config { get; set; }
-
-        [Inject]
-        public ContractBodyDbMembersCreator ContractBodyDbMembersCreator { get; set; }
-
+        
+        /// <summary>
+        ///     Gets or sets the naming helper.
+        /// </summary>
         [Inject]
         public NamingHelper NamingHelper { get; set; }
         #endregion
 
         #region Public Methods
-        public static void WriteUsingList(PaddedStringBuilder sb, ITableInfo tableInfo, Config config)
+        /// <summary>
+        ///     Writes the using list.
+        /// </summary>
+        public static void WriteUsingList(PaddedStringBuilder sb)
         {
+            var config = Context.Get(Data.Config);
+
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
 
@@ -31,6 +45,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             }
         }
 
+        /// <summary>
+        ///     Writes the class.
+        /// </summary>
         public void WriteClass(PaddedStringBuilder sb, ITableInfo tableInfo)
         {
             ContractCommentInfoCreator.Write(sb, tableInfo);

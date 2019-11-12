@@ -3,6 +3,7 @@ using BOA.Common.Helpers;
 using BOA.EntityGeneration;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace ___Company___.EntityGeneration.DataFlow
 {
@@ -42,7 +43,19 @@ namespace ___Company___.EntityGeneration.DataFlow
         /// </summary>
         public static readonly IDataConstant<PaddedStringBuilder> SharedRepositoryClassOutput = new DataConstant<PaddedStringBuilder> {Id = nameof(SharedRepositoryClassOutput)};
 
+
+        /// <summary>
+        ///     The schema name
+        /// </summary>
+        public static readonly IDataConstant<string> SchemaName = new DataConstant<string> {Id = nameof(SchemaName)};
+
+        /// <summary>
+        ///     The table information
+        /// </summary>
+        public static readonly IDataConstant<ITableInfo> TableInfo = new DataConstant<ITableInfo> {Id = nameof(ITableInfo)};
+
       
+        public static readonly IDataConstant<PaddedStringBuilder> TypesFileOutput = new DataConstant<PaddedStringBuilder> {Id = nameof(TypesFileOutput)};
         #endregion
     }
 }
