@@ -13,15 +13,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
 
             var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-            sb.AppendLine($"static SqlInfo {config.MethodNameOfDeleteByKey}({parameterPart})");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            sb.AppendLine($"public static SqlInfo {config.MethodNameOfDeleteByKey}({parameterPart})");
+           sb.OpenBracket();
 
-            sb.AppendLine();
-            sb.AppendLine("const string sql = @\"");
-            sb.AppendAll(deleteInfo.Sql);
-            sb.AppendLine();
-            sb.AppendLine("\";");
+            sb.AppendLine($"const string sql = \"{deleteInfo.Sql}\";");
             sb.AppendLine();
 
             sb.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
@@ -38,8 +33,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.AppendLine();
             sb.AppendLine("return sqlInfo;");
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.CloseBracket();
         }
         #endregion
     }

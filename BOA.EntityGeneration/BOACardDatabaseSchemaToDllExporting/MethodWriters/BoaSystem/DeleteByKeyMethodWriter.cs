@@ -25,9 +25,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"var sqlInfo = {sharedClassConfig.MethodNameOfDeleteByKey}({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))})");
+            
+            sb.AppendLine($"var sqlInfo = {schemaName}_Core.{tableName.ToContractName()}.{sharedClassConfig.MethodNameOfDeleteByKey}({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-            sb.AppendLine($"return this.ExecuteNonQuery(\"{businessClassWriterContext.BusinessClassNamespace}.{businessClassWriterContext.ClassName}.Delete\", sqlInfo);");
+            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteNonQuery(this, \"{businessClassWriterContext.BusinessClassNamespace}.{businessClassWriterContext.ClassName}.Delete\", sqlInfo);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

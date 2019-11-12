@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
@@ -177,8 +178,13 @@ namespace BOAPlugins.TypescriptModelGeneration
 
         
 
-         static bool IsImplicitDefinition(PropertyDefinition propertyDefinition)
+        static bool IsImplicitDefinition(PropertyDefinition propertyDefinition)
         {
+            if (propertyDefinition.PropertyType.FullName=="System.Runtime.Serialization.ExtensionDataObject")
+            {
+                return true;
+            }
+
             return propertyDefinition.Name.Contains(".");
         }
 

@@ -39,7 +39,7 @@ namespace BOA.EntityGeneration
         }
         public static void CloseBracket(this PaddedStringBuilder sb)
         {
-            sb.PaddingCount++;
+            sb.PaddingCount--;
             sb.AppendLine("}");
             
         }
@@ -47,6 +47,11 @@ namespace BOA.EntityGeneration
         {
             sb.PaddingCount--;
             sb.AppendLine("}");
+        }
+
+        public static void UsingNamespace(this PaddedStringBuilder sb, string namespaceName)
+        {
+            sb.AppendLine($"using {namespaceName};");
         }
     }
 }

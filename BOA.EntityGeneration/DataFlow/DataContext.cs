@@ -3,6 +3,18 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 
 namespace ___Company___.EntityGeneration.DataFlow
 {
+
+    /// <summary>
+    ///     The data
+    /// </summary>
+    public static class Data
+    {
+        /// <summary>
+        ///     The configuration
+        /// </summary>
+        public static readonly IDataConstant Config = new DataConstant {Id = nameof(Config)};
+    }
+
     /// <summary>
     ///     The data context
     /// </summary>

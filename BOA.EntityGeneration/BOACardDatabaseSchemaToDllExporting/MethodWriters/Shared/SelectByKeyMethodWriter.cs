@@ -13,11 +13,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
 
             var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-            sb.AppendLine($"static SqlInfo {config.MethodNameOfSelecyByKey}({parameterPart})");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            sb.AppendLine($"public static SqlInfo {config.MethodNameOfSelecyByKey}({parameterPart})");
+            sb.OpenBracket();
 
-            sb.AppendLine();
             sb.AppendLine("const string sql = @\"");
             sb.AppendAll(selectByPrimaryKeyInfo.Sql);
             sb.AppendLine();
@@ -38,8 +36,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.AppendLine();
             sb.AppendLine("return sqlInfo;");
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.CloseBracket();
         }
         #endregion
     }

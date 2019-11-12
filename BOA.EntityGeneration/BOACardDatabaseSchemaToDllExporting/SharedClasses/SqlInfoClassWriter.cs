@@ -1,15 +1,17 @@
-﻿using BOA.Common.Helpers;
+﻿using ___Company___.EntityGeneration.DataFlow;
+using BOA.Common.Helpers;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses
 {
     static class SqlInfoClassWriter
     {
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb, string embeddedClassesDirectoryPath, string namespaceName)
+        public static void Write(PaddedStringBuilder sb)
         {
-            var code = FileHelper.ReadFile(embeddedClassesDirectoryPath + "SqlInfo.txt");
+            var path = Context.Get<Config>(Data.Config).SharedClassConfig.EmbeddedClassesDirectoryPath;
 
-            code = code.Replace("____Namespace____", namespaceName);
+            var code = FileHelper.ReadFile(path + "SqlInfo.txt");
 
             sb.AppendAll(code);
 
@@ -22,11 +24,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses
     static class ObjectHelperSqlUtilClassWriter
     {
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb, string embeddedClassesDirectoryPath, string namespaceName)
+        public static void Write(PaddedStringBuilder sb)
         {
-            var code = FileHelper.ReadFile(embeddedClassesDirectoryPath + "ObjectHelperSqlUtil.txt");
+            var path = Context.Get<Config>(Data.Config).SharedClassConfig.EmbeddedClassesDirectoryPath;
 
-            code = code.Replace("____Namespace____", namespaceName);
+            var code = FileHelper.ReadFile(path + "ObjectHelperSqlUtil.txt");
 
             sb.AppendAll(code);
 

@@ -112,7 +112,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             }
 
             Context.Add(Context.BusinessClassWriterContext,businessClassWriterContext);
-
+            Context.FireEvent(Context.BeforeBusinessClassExport);
            
             
             ContractCommentInfoCreator.Write(sb, tableInfo);
@@ -346,6 +346,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.PaddingCount--;
             sb.AppendLine("}");
 
+            
             Context.Remove(Context.BusinessClassWriterContext);
         }
 

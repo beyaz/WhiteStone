@@ -1,4 +1,6 @@
 ﻿
+using System.IO;
+using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.Tasks;
 using Ninject;
@@ -6,32 +8,55 @@ using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
+    /// <summary>
+    ///     The business project exporter
+    /// </summary>
     public class BusinessProjectExporter
     {
         #region Public Properties
+        /// <summary>
+        ///     Gets or sets the configuration.
+        /// </summary>
         [Inject]
         public Config Config { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the file system.
+        /// </summary>
         [Inject]
         public FileSystem FileSystem { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the ms build queue.
+        /// </summary>
         [Inject]
         public MsBuildQueue MsBuildQueue { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the naming helper.
+        /// </summary>
         [Inject]
         public NamingHelper NamingHelper { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the project export location.
+        /// </summary>
         [Inject]
         public ProjectExportLocation ProjectExportLocation { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the tracer.
+        /// </summary>
         [Inject]
         public Tracer Tracer { get; set; }
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Exports the specified schema name.
+        /// </summary>
         public void Export(string schemaName, string allInOneSourceCode)
         {
-            Context.FireEvent(Context.BeforeBusinessClassExport);
 
             var ns = NamingHelper.GetBusinessClassNamespace(schemaName);
 
@@ -100,6 +125,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
   <ItemGroup>
     <Compile Include=""Properties\AssemblyInfo.cs"" />
     <Compile Include=""{allInOneFileName}.cs"" />
+    <Compile Include=""Shared.cs"" />
   </ItemGroup>
   <ItemGroup />
   <Import Project=""$(MSBuildToolsPath)\Microsoft.CSharp.targets"" />
@@ -139,12 +165,22 @@ using System.Runtime.InteropServices;
             Tracer.SchemaGenerationProcess.Text = "Compile finished.";
         }
 
+        /// <summary>
+        ///     Exports all in one file.
+        /// </summary>
         public void ExportAllInOneFile(string schemaName, string allInOneSourceCode)
         {
             var allInOneFilePath = Config.FilePathForAllDaoInOneFile.Replace("{SchemaName}", schemaName);
 
             FileSystem.WriteAllText(allInOneFilePath, allInOneSourceCode);
+
+            var path = Config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
+
+            FileHelper.WriteAllText(path, Context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput).ToString());
+
         }
         #endregion
     }
+
+    
 }

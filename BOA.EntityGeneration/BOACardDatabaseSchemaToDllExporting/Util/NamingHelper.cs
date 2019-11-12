@@ -31,6 +31,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
         {
             return Config.EntityAssemblyNamespaceFormat.Replace("{SchemaName}", schemaName);
         }
+
+        public string GetSharedRepositoryClassNamespace(string schemaName)
+        {
+            return Config.SharedClassConfig.SharedClassNamespaceFormat.Replace("{SchemaName}", schemaName);
+        }
         #endregion
     }
 }

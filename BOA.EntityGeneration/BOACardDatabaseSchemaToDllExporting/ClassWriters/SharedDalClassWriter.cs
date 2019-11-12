@@ -18,11 +18,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         #region Public Methods
         public static void Write(PaddedStringBuilder sb, BusinessClassWriterContext data)
         {
-            var namespaceName = string.Format(data.SharedClassConfig.SharedClassNamespaceFormat, data.TableInfo.SchemaName);
-
-            sb.BeginNamespace(namespaceName);
-
-            sb.AppendLine($"public sealed class {data.ClassName}");
+            sb.AppendLine($"sealed class {data.ClassName}");
             sb.OpenBracket();
 
             if (data.CanWriteDeleteByKeyMethod)
@@ -37,9 +33,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 SelectByKeyMethodWriter.Write(sb, data.SelectByPrimaryKeyInfo,data.SharedClassConfig);
             }
 
-          sb.CloseBracket();
+            sb.CloseBracket();
+        }
 
-           sb.EndNamespace();
+        public static void WriteUsingList()
+        {
+            var sb = Context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput);
+           sb.UsingNamespace("System");
+           sb.UsingNamespace("System.Collections.Generic");
+           sb.UsingNamespace("System.Data");
+           sb.UsingNamespace("System.Data.SqlClient");
         }
         #endregion
     }

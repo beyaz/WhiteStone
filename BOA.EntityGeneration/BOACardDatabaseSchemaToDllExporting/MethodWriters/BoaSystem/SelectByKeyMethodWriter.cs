@@ -12,6 +12,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
         {
             var typeContractName  = businessClassWriterContext.TypeContractName;
             var sharedClassConfig = businessClassWriterContext.SharedClassConfig;
+            var schemaName = businessClassWriterContext.TableInfo.SchemaName;
+            var tableName = businessClassWriterContext.TableInfo.TableName;
 
             var parameterPart = string.Join(", ", businessClassWriterContext.SelectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
@@ -23,9 +25,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"var sqlInfo = {sharedClassConfig.MethodNameOfSelecyByKey}({string.Join(", ", businessClassWriterContext.SelectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))})");
+            sb.AppendLine($"var sqlInfo = {schemaName}_Core.{tableName.ToContractName()}.{sharedClassConfig.MethodNameOfSelecyByKey}({string.Join(", ", businessClassWriterContext.SelectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-            sb.AppendLine($"return this.ExecuteReaderToContract(\"{businessClassWriterContext.BusinessClassNamespace}.{businessClassWriterContext.ClassName}.SelectByKey\", sqlInfo, readContract);");
+            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{businessClassWriterContext.BusinessClassNamespace}.{businessClassWriterContext.ClassName}.SelectByKey\", sqlInfo, ReadContract);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

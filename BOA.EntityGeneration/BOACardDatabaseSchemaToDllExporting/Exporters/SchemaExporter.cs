@@ -48,6 +48,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         {
             
             Context.Add(Context.SharedRepositoryClassOutput,new PaddedStringBuilder());
+            SharedDalClassWriter.WriteUsingList();
 
             Tracer.Trace($"*** Started to export type classes {schemaName} ***");
 

@@ -4,30 +4,53 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 {
+    /// <summary>
+    ///     All business classes in one
+    /// </summary>
     public class AllBusinessClassesInOne
     {
         #region Public Properties
+        /// <summary>
+        ///     Gets or sets the data preparer.
+        /// </summary>
         [Inject]
         public SchemaExporterDataPreparer DataPreparer { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the generator of business class.
+        /// </summary>
         [Inject]
         public GeneratorOfBusinessClass GeneratorOfBusinessClass { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the naming helper.
+        /// </summary>
         [Inject]
         public NamingHelper NamingHelper { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the tracer.
+        /// </summary>
         [Inject]
         public Tracer Tracer { get; set; }
+        /// <summary>
+        ///     Gets or sets the configuration.
+        /// </summary>
         [Inject]
         public Config Config { get; set; }
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Gets the code.
+        /// </summary>
         public string GetCode(string schemaName)
         {
             var sb = new PaddedStringBuilder();
@@ -39,6 +62,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         #endregion
 
         #region Methods
+        /// <summary>
+        ///     Utilities the class.
+        /// </summary>
         static void UtilClass(PaddedStringBuilder sb, Config config)
         {
 
@@ -51,6 +77,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
             sb.AppendLine();
         }
 
+        /// <summary>
+        ///     Writes the specified sb.
+        /// </summary>
         void Write(PaddedStringBuilder sb, string schemaName)
         {
             var items = DataPreparer.Prepare(schemaName);
@@ -61,10 +90,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
             }
 
             GeneratorOfBusinessClass.WriteUsingList(sb, items.First());
+            Context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput).BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName));
+            SqlInfoClassWriter.Write(Context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput));
+
             sb.AppendLine();
-            sb.AppendLine($"namespace {NamingHelper.GetBusinessClassNamespace(schemaName)}");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            sb.BeginNamespace(NamingHelper.GetBusinessClassNamespace(schemaName));
+            ObjectHelperSqlUtilClassWriter.Write(sb);
 
             UtilClass(sb,Config);
 
@@ -79,12 +110,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
                 sb.AppendLine();
                 GeneratorOfBusinessClass.WriteClass(sb, tableInfo);
-
-                
             }
 
-            sb.PaddingCount--;
-            sb.AppendLine("}"); // end of namespace    
+            sb.EndNamespace();  
+
+            Context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput).EndNamespace();
         }
         #endregion
     }

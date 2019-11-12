@@ -50,6 +50,8 @@ namespace BOA.EntityGeneration
         /// </summary>
         public string FilePathForAllDaoInOneFile { get; set; }
 
+        public string SharedRepositoryAllInOneFilePath { get; set; }
+
         /// <summary>
         ///     Gets or sets the file path for all entities in one file.
         /// </summary>
