@@ -1,16 +1,29 @@
-﻿using BOA.Common.Helpers;
+﻿using ___Company___.DataFlow;
+using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     class SharedDalClassWriter
     {
+        public static void Write(IDataContext context)
+        {
+            var sb = context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput);
+            var businessClassWriterContext = context.Get<BusinessClassWriterContext>(Context.BusinessClassWriterContext);
+
+            Write(sb,businessClassWriterContext);
+        }
+
         #region Public Methods
         public static void Write(PaddedStringBuilder sb, BusinessClassWriterContext data)
         {
+            var namespaceName = string.Format(data.SharedClassConfig.SharedClassNamespaceFormat, data.TableInfo.SchemaName);
+
+            sb.BeginNamespace(namespaceName);
+
             sb.AppendLine($"public sealed class {data.ClassName}");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            sb.OpenBracket();
 
             if (data.CanWriteDeleteByKeyMethod)
             {
@@ -24,8 +37,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 SelectByKeyMethodWriter.Write(sb, data.SelectByPrimaryKeyInfo,data.SharedClassConfig);
             }
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+          sb.CloseBracket();
+
+           sb.EndNamespace();
         }
         #endregion
     }

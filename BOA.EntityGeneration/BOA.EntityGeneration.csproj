@@ -107,6 +107,7 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ISequenceInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\FileSystem.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\MsBuildQueue.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\SqlInfoClassWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Util\Tracer.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\BusinessProjectExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\InsertInfoCreator.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\ProjectExportLocation.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\TypesProjectExporter.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="DataFlow\DataContext.cs" />
     <Compile Include="DbModel\Interfaces\IColumnInfo.cs" />
     <Compile Include="DbModel\Interfaces\IIndexInfo.cs" />
     <Compile Include="DbModel\Interfaces\ITableInfo.cs" />
@@ -184,6 +186,8 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>SelectByKeyMethodTemplate.cs</LastGenOutput>
     </Content>
+    <Content Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\ObjectHelperSqlUtil.txt" />
+    <Content Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\SqlInfo.txt" />
     <Content Include="EmbeddedUtilizationClassForDao.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -79,6 +79,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
                 sb.AppendLine();
                 GeneratorOfBusinessClass.WriteClass(sb, tableInfo);
+
+                
             }
 
             sb.PaddingCount--;

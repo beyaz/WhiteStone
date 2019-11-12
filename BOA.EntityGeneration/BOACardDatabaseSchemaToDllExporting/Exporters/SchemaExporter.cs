@@ -1,9 +1,14 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
+﻿using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
+
+
+
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
@@ -41,12 +46,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         #region Public Methods
         public void Export(string schemaName)
         {
+            
+            Context.Add(Context.SharedRepositoryClassOutput,new PaddedStringBuilder());
+
             Tracer.Trace($"*** Started to export type classes {schemaName} ***");
 
             ExportTypeDll(schemaName);
 
             Tracer.Trace($"*** Started to export business classes {schemaName} ***");
             ExportBusinessDll(schemaName);
+
+            Context.Remove(Context.SharedRepositoryClassOutput);
         }
         #endregion
 

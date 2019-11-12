@@ -10,6 +10,7 @@ using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using Ninject;
 using InsertInfoCreator = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess.InsertInfoCreator;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
@@ -109,6 +110,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             {
                 businessClassWriterContext.SelectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
             }
+
+            Context.Add(Context.BusinessClassWriterContext,businessClassWriterContext);
 
            
             
@@ -342,6 +345,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             sb.PaddingCount--;
             sb.AppendLine("}");
+
+            Context.Remove(Context.BusinessClassWriterContext);
         }
 
         /// <summary>

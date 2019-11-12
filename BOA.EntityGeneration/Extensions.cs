@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using BOA.Common.Helpers;
 
 namespace BOA.EntityGeneration
 {
@@ -24,6 +25,28 @@ namespace BOA.EntityGeneration
         {
             return dbType.ToString().Equals(dataType, comparison);
         }
-        
+
+        public static void BeginNamespace(this PaddedStringBuilder sb,string namespaceName)
+        {
+            sb.AppendLine($"namespace {namespaceName}");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+        }
+        public static void OpenBracket(this PaddedStringBuilder sb)
+        {
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+        }
+        public static void CloseBracket(this PaddedStringBuilder sb)
+        {
+            sb.PaddingCount++;
+            sb.AppendLine("}");
+            
+        }
+        public static void EndNamespace(this PaddedStringBuilder sb)
+        {
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+        }
     }
 }

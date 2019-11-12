@@ -1,6 +1,8 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+﻿
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.Tasks;
 using Ninject;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
@@ -29,6 +31,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #region Public Methods
         public void Export(string schemaName, string allInOneSourceCode)
         {
+            Context.FireEvent(Context.BeforeBusinessClassExport);
+
             var ns = NamingHelper.GetBusinessClassNamespace(schemaName);
 
             var projectDirectory = $"{ProjectExportLocation.GetExportLocationOfBusinessProject(schemaName)}{ns}\\";

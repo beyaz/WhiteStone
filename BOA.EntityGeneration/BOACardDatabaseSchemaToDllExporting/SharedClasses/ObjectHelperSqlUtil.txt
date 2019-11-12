@@ -1,0 +1,191 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using BOA.Base;
+using BOA.Common.Types;
+
+namespace ____Namespace____
+{
+    /// <summary>
+    ///     The object helper SQL utility
+    /// </summary>
+    static class ObjectHelperSqlUtil
+    {
+        #region Public Methods
+        /// <summary>
+        ///     Executes the custom SQL.
+        /// </summary>
+        public static GenericResponse<List<TResultContractType>> ExecuteCustomSql<TResultContractType>(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract, string profileId, string objectId) where TResultContractType : new()
+        {
+            sqlInfo.CommandText = GetSqlTextFromProfileSqlCache(objectHelper, profileId, objectId);
+
+            return ExecuteReaderToList(objectHelper, methodFullPath, sqlInfo, readContract);
+        }
+
+        /// <summary>
+        ///     Executes the custom SQL for one record.
+        /// </summary>
+        public static GenericResponse<TResultContractType> ExecuteCustomSqlForOneRecord<TResultContractType>(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract, string profileId, string objectId) where TResultContractType : new()
+        {
+            sqlInfo.CommandText = GetSqlTextFromProfileSqlCache(objectHelper, profileId, objectId);
+
+            return ExecuteReaderToContract(objectHelper, methodFullPath, sqlInfo, readContract);
+        }
+
+        /// <summary>
+        ///     Executes the reader to contract.
+        /// </summary>
+        public static GenericResponse<TResultContractType> ExecuteReaderToContract<TResultContractType>(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract) where TResultContractType : new()
+        {
+            var returnObject = objectHelper.InitializeGenericResponse<TResultContractType>(methodFullPath);
+
+            var dbLayer = objectHelper.Context.DBLayer;
+
+            var command = dbLayer.GetDBCommand(Databases.BOACard, sqlInfo.CommandText, null, CommandType.Text);
+
+            AddParameters(objectHelper, command, sqlInfo);
+
+            var readerResponse = dbLayer.ExecuteReader(command);
+            if (!readerResponse.Success)
+            {
+                returnObject.Results.AddRange(readerResponse.Results);
+                return returnObject;
+            }
+
+            var reader = readerResponse.Value;
+
+            var dataContract = default(TResultContractType);
+
+            while (reader.Read())
+            {
+                dataContract = new TResultContractType();
+
+                readContract(reader, dataContract);
+
+                break;
+            }
+
+            reader.Close();
+
+            returnObject.Value = dataContract;
+
+            return returnObject;
+        }
+
+        /// <summary>
+        ///     Executes the reader to list.
+        /// </summary>
+        public static GenericResponse<List<TResultContractType>> ExecuteReaderToList<TResultContractType>(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract) where TResultContractType : new()
+        {
+            var returnObject = objectHelper.InitializeGenericResponse<List<TResultContractType>>(methodFullPath);
+
+            var dbLayer = objectHelper.Context.DBLayer;
+
+            var command = dbLayer.GetDBCommand(Databases.BOACard, sqlInfo.CommandText, null, CommandType.Text);
+
+            AddParameters(objectHelper, command, sqlInfo);
+
+            var readerResponse = dbLayer.ExecuteReader(command);
+            if (!readerResponse.Success)
+            {
+                returnObject.Results.AddRange(readerResponse.Results);
+                return returnObject;
+            }
+
+            var reader = readerResponse.Value;
+
+            returnObject.Value = reader.ReadToList(readContract);
+
+            return returnObject;
+        }
+
+        /// <summary>
+        ///     Executes the scalar.
+        /// </summary>
+        public static GenericResponse<TReturnValueType> ExecuteScalar<TReturnValueType>(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo)
+        {
+            var returnObject = objectHelper.InitializeGenericResponse<TReturnValueType>(methodFullPath);
+
+            var dbLayer = objectHelper.Context.DBLayer;
+
+            var command = dbLayer.GetDBCommand(Databases.BOACard, sqlInfo.CommandText, null, CommandType.Text);
+
+            AddParameters(objectHelper, command, sqlInfo);
+
+            var valueResponse = dbLayer.ExecuteScalar<TReturnValueType>(command);
+            if (!valueResponse.Success)
+            {
+                returnObject.Results.AddRange(valueResponse.Results);
+                return returnObject;
+            }
+
+            returnObject.Value = valueResponse.Value;
+
+            return returnObject;
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        ///     Adds the parameters.
+        /// </summary>
+        static void AddParameters(ObjectHelper objectHelper, SqlCommand command, SqlInfo sqlInfo)
+        {
+            foreach (var parameter in sqlInfo.Parameters)
+            {
+                var dbLayer = objectHelper.DBLayer;
+
+                dbLayer.AddInParameter(command, parameter.ParameterName, parameter.SqlDbType, parameter.Value);
+            }
+        }
+
+        /// <summary>
+        ///     Gets the SQL text from profile SQL cache.
+        /// </summary>
+        static string GetSqlTextFromProfileSqlCache(ObjectHelper objectHelper, string profileId, string objectId)
+        {
+            var key = profileId + objectId;
+
+            if (ProfileSqlCache.TryGetValue(key, out var sql))
+            {
+                return sql;
+            }
+
+            var sqlInfo = new SqlInfo
+            {
+                CommandText = "SELECT TOP 1 [text] from dbo.objects WHERE profileid = @profileId AND objectid = @objectId"
+            };
+            sqlInfo.AddInParameter("@profileId", SqlDbType.VarChar, profileId);
+            sqlInfo.AddInParameter("@objectId", SqlDbType.VarChar, objectId);
+
+            var sqlText = ExecuteScalar<string>(objectHelper, nameof(GetSqlTextFromProfileSqlCache), sqlInfo).Value;
+
+            ProfileSqlCache.Set(key, sqlText);
+
+            return sqlText;
+        }
+
+        /// <summary>
+        ///     Readers to list.
+        /// </summary>
+        static List<TContractType> ReadToList<TContractType>(this IDataReader reader, Action<IDataReader, TContractType> ReadContract) where TContractType : new()
+        {
+            var listOfDataContract = new List<TContractType>();
+
+            while (reader.Read())
+            {
+                var dataContract = new TContractType();
+
+                ReadContract(reader, dataContract);
+
+                listOfDataContract.Add(dataContract);
+            }
+
+            reader.Close();
+
+            return listOfDataContract;
+        }
+        #endregion
+    }
+}

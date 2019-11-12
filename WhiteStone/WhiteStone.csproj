@@ -97,6 +97,7 @@
     <Compile Include="BOA.Common\Bag.cs" />
     <Compile Include="BOA.Common\CacheManager.cs" />
     <Compile Include="BOA.Common\Proxy.cs" />
+    <Compile Include="DataFlow\Class1.cs" />
     <Compile Include="HtmlAgilityPack\Helper.cs" />
     <Compile Include="LanguageTranslations\EnglishBank\Parser.cs" />
     <Compile Include="LanguageTranslations\Extensions.cs" />

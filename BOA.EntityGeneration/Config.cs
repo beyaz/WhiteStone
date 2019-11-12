@@ -130,6 +130,10 @@ namespace BOA.EntityGeneration
         public string MethodNameOfDeleteByKey { get; set; } = "GetDeleteByKeyInfo";
 
         public string MethodNameOfSelecyByKey { get; set; } = "GetSelectByKeyInfo";
-        
+
+        public string EmbeddedClassesDirectoryPath { get; set; } = @"D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\SharedClasses\";
+
+        public string SharedClassNamespaceFormat { get; set; } = "BOA.Business.Kernel.Card.{SchemaName}_Core";
+
     }
 }
