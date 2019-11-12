@@ -69,11 +69,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         [Inject]
         public InsertInfoCreator InsertInfoCreator { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the naming helper.
-        /// </summary>
-        [Inject]
-        public NamingHelper NamingHelper { get; set; }
+      
         #endregion
 
         #region Public Methods

@@ -18,8 +18,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         [Inject]
         public GeneratorOfTypeClass GeneratorOfTypeClass { get; set; }
 
-        [Inject]
-        public NamingHelper NamingHelper { get; set; }
+      
         #endregion
 
         #region Public Methods
@@ -57,7 +56,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
                 if (isFirst)
                 {
-                    GeneratorOfTypeClass.WriteUsingList(sb);
+                    GeneratorOfTypeClass.WriteUsingList();
                     sb.AppendLine();
 
                     sb.BeginNamespace(NamingHelper.GetTypeClassNamespace(schemaName));

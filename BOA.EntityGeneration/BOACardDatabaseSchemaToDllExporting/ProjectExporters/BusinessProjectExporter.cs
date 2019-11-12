@@ -33,11 +33,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         [Inject]
         public MsBuildQueue MsBuildQueue { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the naming helper.
-        /// </summary>
-        [Inject]
-        public NamingHelper NamingHelper { get; set; }
+        
 
         /// <summary>
         ///     Gets or sets the project export location.

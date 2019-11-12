@@ -14,26 +14,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
     /// </summary>
     public class GeneratorOfTypeClass
     {
-        #region Public Properties
-        /// <summary>
-        ///     Gets or sets the configuration.
-        /// </summary>
-        [Inject]
-        public Config Config { get; set; }
-        
-        /// <summary>
-        ///     Gets or sets the naming helper.
-        /// </summary>
-        [Inject]
-        public NamingHelper NamingHelper { get; set; }
-        #endregion
 
         #region Public Methods
         /// <summary>
         ///     Writes the using list.
         /// </summary>
-        public static void WriteUsingList(PaddedStringBuilder sb)
+        public static void WriteUsingList()
         {
+            var sb = Context.Get(Data.TypesFileOutput);
             var config = Context.Get(Data.Config);
 
             sb.AppendLine("using System;");
@@ -50,13 +38,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public void WriteClass(PaddedStringBuilder sb, ITableInfo tableInfo)
         {
+            var config = Context.Get(Data.Config);
+
             ContractCommentInfoCreator.Write(sb, tableInfo);
 
             var inheritancePart = string.Empty;
 
-            if (Config.TypeContractBase != null)
+            if (config.TypeContractBase != null)
             {
-                inheritancePart = ": " + Config.TypeContractBase;
+                inheritancePart = ": " + config.TypeContractBase;
             }
 
             sb.AppendLine("[Serializable]");

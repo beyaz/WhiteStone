@@ -1,40 +1,42 @@
-﻿using Ninject;
+﻿using ___Company___.EntityGeneration.DataFlow;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
 {
     /// <summary>
     ///     The naming helper
     /// </summary>
-    public class NamingHelper
+    static class NamingHelper
     {
-        #region Public Properties
-        /// <summary>
-        ///     Gets or sets the configuration.
-        /// </summary>
-        [Inject]
-        public Config Config { get; set; }
-        #endregion
-
         #region Public Methods
         /// <summary>
         ///     Gets the business class namespace.
         /// </summary>
-        public string GetBusinessClassNamespace(string schemaName)
+        public static string GetBusinessClassNamespace(string schemaName)
         {
-            return Config.DaoAssemblyNamespaceFormat.Replace("{SchemaName}", schemaName);
+            var config = Context.Get(Data.Config);
+
+            return config.DaoAssemblyNamespaceFormat.Replace("{SchemaName}", schemaName);
+        }
+
+        /// <summary>
+        ///     Gets the shared repository class namespace.
+        /// </summary>
+        public static string GetSharedRepositoryClassNamespace(string schemaName)
+        {
+            var config = Context.Get(Data.Config);
+
+            return config.SharedClassConfig.SharedClassNamespaceFormat.Replace("{SchemaName}", schemaName);
         }
 
         /// <summary>
         ///     Gets the type class namespace.
         /// </summary>
-        public string GetTypeClassNamespace(string schemaName)
+        public static string GetTypeClassNamespace(string schemaName)
         {
-            return Config.EntityAssemblyNamespaceFormat.Replace("{SchemaName}", schemaName);
-        }
+            var config = Context.Get(Data.Config);
 
-        public string GetSharedRepositoryClassNamespace(string schemaName)
-        {
-            return Config.SharedClassConfig.SharedClassNamespaceFormat.Replace("{SchemaName}", schemaName);
+            return config.EntityAssemblyNamespaceFormat.Replace("{SchemaName}", schemaName);
         }
         #endregion
     }

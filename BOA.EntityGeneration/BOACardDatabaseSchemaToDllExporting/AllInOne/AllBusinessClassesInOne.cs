@@ -31,11 +31,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         [Inject]
         public GeneratorOfBusinessClass GeneratorOfBusinessClass { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the naming helper.
-        /// </summary>
-        [Inject]
-        public NamingHelper NamingHelper { get; set; }
+       
 
       
         /// <summary>
