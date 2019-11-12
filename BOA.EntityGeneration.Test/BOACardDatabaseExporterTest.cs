@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
@@ -20,6 +21,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         {
             using (var kernel = new Kernel())
             {
+                kernel.Get<Config>().BuildAfterCodeGenerationIsCompleted = false;
+
                 BOACardDatabaseExporter.Export(kernel, "CRD");
             }
         }
