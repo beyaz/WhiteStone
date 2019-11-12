@@ -2,6 +2,10 @@
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
+using ___Company___.EntityGeneration.DataFlow;
+
+
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
     public class BOACardDatabaseExporter
@@ -18,18 +22,18 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
         public static void Export(Kernel kernel)
         {
-            var Tracer = kernel.Get<Tracer>();
+            var progress = Context.Get(Data.AllSchemaGenerationProcess);
 
             var schemaNames = kernel.Get<Config>().SchemaNamesToBeExport;
 
-            Tracer.AllSchemaGenerationProcess.Total   = schemaNames.Count;
-            Tracer.AllSchemaGenerationProcess.Current = 0;
+            progress.Total   = schemaNames.Count;
+            progress.Current = 0;
 
             foreach (var schemaName in schemaNames)
             {
-                Tracer.AllSchemaGenerationProcess.Text = $"Schema: {schemaName}";
+                progress.Text = $"Schema: {schemaName}";
 
-                Tracer.AllSchemaGenerationProcess.Current++;
+                progress.Current++;
 
                 var schemaExporter = kernel.Get<SchemaExporter>();
 

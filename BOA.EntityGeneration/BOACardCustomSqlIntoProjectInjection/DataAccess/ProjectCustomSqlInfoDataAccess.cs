@@ -44,11 +44,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         [Inject]
         public TableInfoDao TableInfoDao { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the tracer.
-        /// </summary>
-        [Inject]
-        public Tracer Tracer { get; set; }
+       
+  
         #endregion
 
         #region Public Methods
@@ -100,23 +97,16 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 
             reader.Close();
 
-            Tracer.CustomSqlGenerationOfProfileIdProcess.Total   = list.Count;
-            Tracer.CustomSqlGenerationOfProfileIdProcess.Current = 0;
+            
 
             foreach (var customSqlInfo in list)
             {
-                Tracer.CustomSqlGenerationOfProfileIdProcess.Text = $"Fetching inputs parameters for {customSqlInfo.Name}";
-                Tracer.CustomSqlGenerationOfProfileIdProcess.Current++;
-
                 customSqlInfo.Parameters = ReadInputParameters(customSqlInfo);
             }
 
-            Tracer.CustomSqlGenerationOfProfileIdProcess.Current = 0;
+
             foreach (var customSqlInfo in list)
             {
-                Tracer.CustomSqlGenerationOfProfileIdProcess.Text = $"Fetching result columns for {customSqlInfo.Name}";
-                Tracer.CustomSqlGenerationOfProfileIdProcess.Current++;
-
                 customSqlInfo.ResultColumns = ReadResultColumns(customSqlInfo);
             }
 

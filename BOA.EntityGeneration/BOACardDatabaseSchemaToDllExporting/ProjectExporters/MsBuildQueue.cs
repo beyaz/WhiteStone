@@ -2,6 +2,8 @@
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.Tasks;
 using Ninject;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
+using ___Company___.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
@@ -15,13 +17,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         [Inject]
         public Config Config { get; set; }
 
-        [Inject]
-        public Tracer Tracer { get; set; }
+     
+
         #endregion
 
         #region Public Methods
         public void Build()
         {
+            var progress = Context.Get(Data.SchemaGenerationProcess);
+
             if (!Config.BuildAfterCodeGenerationIsCompleted)
             {
                 return;
@@ -29,9 +33,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
             foreach (var data in Queue)
             {
-                Tracer.SchemaGenerationProcess.Text = "Compile started." + data.ProjectFilePath;
+                progress.Text = "Compile started." + data.ProjectFilePath;
                 MSBuild.Build(data);
-                Tracer.SchemaGenerationProcess.Text = "Compile finished." + data.ProjectFilePath;
+                progress.Text = "Compile finished." + data.ProjectFilePath;
             }
         }
 

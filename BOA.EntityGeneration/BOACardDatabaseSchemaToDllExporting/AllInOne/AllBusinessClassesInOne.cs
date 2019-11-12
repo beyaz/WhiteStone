@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using ___Company___.EntityGeneration.DataFlow;
@@ -36,11 +37,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         [Inject]
         public NamingHelper NamingHelper { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the tracer.
-        /// </summary>
-        [Inject]
-        public Tracer Tracer { get; set; }
+      
         /// <summary>
         ///     Gets or sets the configuration.
         /// </summary>
@@ -83,6 +80,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         /// </summary>
         void Write(PaddedStringBuilder sb, string schemaName)
         {
+
+            var progress = Context.Get(Data.SchemaGenerationProcess);
+
             var items = DataPreparer.Prepare(schemaName);
 
             if (items.Count == 0)
@@ -100,14 +100,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
             UtilClass(sb,Config);
 
-            Tracer.SchemaGenerationProcess.Total   = items.Count;
-            Tracer.SchemaGenerationProcess.Current = 0;
+            progress.Total   = items.Count;
+            progress.Current = 0;
 
             foreach (var tableInfo in items)
             {
-                Tracer.SchemaGenerationProcess.Text = $"Generating business class: {tableInfo.TableName}";
+                progress.Text = $"Generating business class: {tableInfo.TableName}";
 
-                Tracer.SchemaGenerationProcess.Current++;
+                progress.Current++;
 
                 sb.AppendLine();
                 GeneratorOfBusinessClass.WriteClass(sb, tableInfo);

@@ -27,8 +27,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         [Inject]
         public ProjectExportLocation ProjectExportLocation { get; set; }
 
-        [Inject]
-        public Tracer Tracer { get; set; }
         #endregion
 
 

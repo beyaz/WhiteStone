@@ -1,16 +1,18 @@
-﻿using BOA.Common.Helpers;
+﻿
+using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
+using ___Company___.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 {
     public class AllInOneForTypeDll
     {
         #region Public Properties
-        [Inject]
-        public Tracer Tracer { get; set; }
+        
 
         [Inject]
         public TypeClassWriter TypeClassWriter { get; set; }

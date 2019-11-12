@@ -37,8 +37,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         [Inject]
         public GeneratorOfTypeClass GeneratorOfTypeClass { get; set; }
 
-        [Inject]
-        public Tracer Tracer { get; set; }
+
 
         [Inject]
         public TypesProjectExporter TypesProjectExporter { get; set; }

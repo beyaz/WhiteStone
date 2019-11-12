@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
@@ -7,14 +8,14 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.TfsAccess;
 using Ninject;
 using WhiteStone.UI.Container.Mvc;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace CustomSqlInjectionToProject.MainForm
 {
     public class Controller : ControllerBase<Model>
     {
         #region Static Fields
-        static bool   IsFinished;
-        static Tracer Tracer;
+        static bool IsFinished;
         #endregion
 
         #region Public Methods
@@ -43,12 +44,7 @@ namespace CustomSqlInjectionToProject.MainForm
 
         public void GetCapture()
         {
-            if (Tracer == null)
-            {
-                return;
-            }
-
-            Model.CustomSqlGenerationOfProfileIdProcess = Tracer.CustomSqlGenerationOfProfileIdProcess;
+            Model.CustomSqlGenerationOfProfileIdProcess = Context.TryGet(Data.CustomSqlGenerationOfProfileIdProcess) ?? Model.CustomSqlGenerationOfProfileIdProcess;
 
             if (IsFinished)
             {
@@ -87,9 +83,7 @@ namespace CustomSqlInjectionToProject.MainForm
 
             kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>().OnActivation(x => x.CheckInComment = Model.CheckInComment);
 
-            kernel.Bind<Tracer>().To<Tracer>().InSingletonScope();
-
-            Tracer = kernel.Get<Tracer>();
+            Context.Add(Data.CustomSqlGenerationOfProfileIdProcess, new ProcessInfo());
 
             return kernel;
         }

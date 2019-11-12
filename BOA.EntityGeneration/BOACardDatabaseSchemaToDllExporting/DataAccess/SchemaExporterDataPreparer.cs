@@ -5,6 +5,8 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using Ninject;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
+using ___Company___.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
@@ -45,11 +47,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         [Inject]
         public TableInfoDao TableInfoDao { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the tracer.
-        /// </summary>
-        [Inject]
-        public Tracer Tracer { get; set; }
+       
         #endregion
 
         #region Public Methods
@@ -74,19 +72,21 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
                 return Cache[schemaName];
             }
 
+            var progress = Context.Get(Data.SchemaGenerationProcess);
+
             var tableNames = SchemaInfo.GetAllTableNamesInSchema(Database, schemaName).ToList();
 
             tableNames = tableNames.Where(x => IsReadyToExport(schemaName, x)).ToList();
 
             var items = new List<ITableInfo>();
 
-            Tracer.SchemaGenerationProcess.Total   = tableNames.Count;
-            Tracer.SchemaGenerationProcess.Current = 0;
+            progress.Total   = tableNames.Count;
+            progress.Current = 0;
 
             foreach (var tableName in tableNames)
             {
-                Tracer.SchemaGenerationProcess.Text = $"Fetching table information of {tableName}";
-                Tracer.SchemaGenerationProcess.Current++;
+                progress.Text = $"Fetching table information of {tableName}";
+                progress.Current++;
 
                 var generatorData = GetTableInfo(schemaName, tableName);
 

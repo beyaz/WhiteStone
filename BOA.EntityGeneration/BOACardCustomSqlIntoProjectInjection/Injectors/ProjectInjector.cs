@@ -4,6 +4,8 @@ using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interface
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.TfsAccess;
 using Ninject;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
+using ___Company___.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
 {
@@ -37,11 +39,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         [Inject]
         public ProjectCustomSqlInfoDataAccess ProjectCustomSqlInfoDataAccess { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the tracer.
-        /// </summary>
-        [Inject]
-        public Tracer Tracer { get; set; }
+      
         #endregion
 
         #region Public Methods
@@ -60,13 +58,15 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         /// </summary>
         void Inject(IProjectCustomSqlInfo data)
         {
-            Tracer.CustomSqlGenerationOfProfileIdProcess.Text = "Generating types...";
+            var progress = Context.Get(Data.CustomSqlGenerationOfProfileIdProcess);
+
+            progress.Text = "Generating types...";
             var typeCode = AllInOneForTypeDll.GetCode(data);
 
-            Tracer.CustomSqlGenerationOfProfileIdProcess.Text = "Generating business...";
+            progress.Text = "Generating business...";
             var businessCode = AllInOneForBusinessDll.GetCode(data);
 
-            Tracer.CustomSqlGenerationOfProfileIdProcess.Text = "Writing to files...";
+            progress.Text = "Writing to files...";
 
             FileAccess.WriteAllText(data.TypesProjectPath + "\\Generated\\CustomSql.cs", typeCode);
             FileAccess.WriteAllText(data.BusinessProjectPath + "\\Generated\\CustomSql.cs", businessCode);

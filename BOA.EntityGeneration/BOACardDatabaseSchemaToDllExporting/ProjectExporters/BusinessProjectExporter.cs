@@ -45,11 +45,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         [Inject]
         public ProjectExportLocation ProjectExportLocation { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the tracer.
-        /// </summary>
-        [Inject]
-        public Tracer Tracer { get; set; }
+      
         #endregion
 
         #region Public Methods
@@ -58,6 +54,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         /// </summary>
         public void Export(string schemaName, string allInOneSourceCode)
         {
+            var progress = Context.Get(Data.SchemaGenerationProcess);
 
             var ns = NamingHelper.GetBusinessClassNamespace(schemaName);
 
@@ -158,12 +155,12 @@ using System.Runtime.InteropServices;
 
             FileSystem.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
 
-            Tracer.SchemaGenerationProcess.Text = "Compile started.";
+            progress.Text = "Compile started.";
             MsBuildQueue.Push(new MSBuildData
             {
                 ProjectFilePath = csprojFilePath
             });
-            Tracer.SchemaGenerationProcess.Text = "Compile finished.";
+            progress.Text = "Compile finished.";
         }
 
         /// <summary>

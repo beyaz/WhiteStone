@@ -77,6 +77,11 @@ namespace ___Company___.DataFlow
         ///     Gets the specified data constant.
         /// </summary>
         T Get<T>(IDataConstant<T> dataConstant);
+
+        /// <summary>
+        ///     Tries the get.
+        /// </summary>
+        T TryGet<T>(IDataConstant<T> dataConstant);
         
         #endregion
     }
@@ -133,7 +138,7 @@ namespace ___Company___.DataFlow
     public class DataContext : IDataContext
     {
 
-        
+
         #region Fields
         /// <summary>
         ///     The dictionary
@@ -223,7 +228,20 @@ namespace ___Company___.DataFlow
 
             throw new DataNotFoundException(dataConstant);
         }
-       
+
+        /// <summary>
+        ///     Tries the get.
+        /// </summary>
+        public T TryGet<T>(IDataConstant<T> dataConstant)
+        {
+            object value = null;
+            if (dictionary.TryGetValue(dataConstant.Id, out value))
+            {
+                return (T) value;
+            }
+
+            return default(T);
+        }
 
         /// <summary>
         ///     Removes the specified data constant.

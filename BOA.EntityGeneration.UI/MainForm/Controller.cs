@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.UI.Deployment;
 using BOA.TfsAccess;
-using Ninject;
 using WhiteStone.UI.Container.Mvc;
-using FileAccess = BOA.TfsAccess.FileAccess;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.UI.MainForm
 {
@@ -16,7 +15,6 @@ namespace BOA.EntityGeneration.UI.MainForm
     {
         #region Static Fields
         static bool   IsFinished;
-        static Tracer Tracer;
         #endregion
 
         #region Public Methods
@@ -28,6 +26,7 @@ namespace BOA.EntityGeneration.UI.MainForm
                 Model.ViewMessageTypeIsError = true;
                 return;
             }
+
             if (Model.SchemaName.IsNullOrWhiteSpace())
             {
                 Model.ViewMessage            = "SchemaName girilmelidir.";
@@ -52,13 +51,10 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         public void GetCapture()
         {
-            if (Tracer == null)
-            {
-                return;
-            }
+            
+            Model.SchemaGenerationProcess    = Context.TryGet(Data.SchemaGenerationProcess) ?? Model.SchemaGenerationProcess;
 
-            Model.SchemaGenerationProcess    = Tracer.SchemaGenerationProcess;
-            Model.AllSchemaGenerationProcess = Tracer.AllSchemaGenerationProcess;
+            Model.AllSchemaGenerationProcess = Context.TryGet(Data.AllSchemaGenerationProcess) ?? Model.AllSchemaGenerationProcess;
 
             if (IsFinished)
             {
@@ -71,8 +67,6 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         public override void OnViewLoaded()
         {
-            
-
             Model = new Model
             {
                 SchemaGenerationProcess = new ProcessInfo
@@ -103,9 +97,11 @@ namespace BOA.EntityGeneration.UI.MainForm
 
             kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>().OnActivation(x => x.CheckInComment = Model.CheckInComment);
 
-            kernel.Bind<Tracer>().To<Tracer>().InSingletonScope();
+            
 
-            Tracer = kernel.Get<Tracer>();
+            Context.Add(Data.AllSchemaGenerationProcess, new ProcessInfo());
+            Context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
+           
 
             return kernel;
         }

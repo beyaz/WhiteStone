@@ -4,13 +4,14 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
+using ___Company___.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 {
     public class AllTypeClassesInOne
     {
-        [Inject]
-        public Tracer Tracer { get; set; }
+      
         #region Public Properties
         [Inject]
         public SchemaExporterDataPreparer DataPreparer { get; set; }
@@ -40,12 +41,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         #region Methods
         void Write(PaddedStringBuilder sb, string schemaName)
         {
+            var progress = Context.Get(Data.SchemaGenerationProcess);
+
             var isFirst = true;
 
             var items = DataPreparer.Prepare(schemaName);
-
-            Tracer.SchemaGenerationProcess.Total   = items.Count;
-            Tracer.SchemaGenerationProcess.Current = 0;
 
             foreach (var tableInfo in items)
             {
@@ -60,10 +60,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
                     isFirst = false;
                 }
 
-                Tracer.SchemaGenerationProcess.Text = $"Generating Type class for {tableInfo.TableName}";
-
-                Tracer.SchemaGenerationProcess.Current++;
-
+                progress.Text = $"Generating Type class for {tableInfo.TableName}";
 
                 sb.AppendLine();
                 GeneratorOfTypeClass.WriteClass(sb, tableInfo);
