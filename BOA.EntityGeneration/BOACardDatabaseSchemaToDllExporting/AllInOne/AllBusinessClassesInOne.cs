@@ -91,8 +91,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
             }
 
             GeneratorOfBusinessClass.WriteUsingList(sb, items.First());
-            Context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput).BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName));
-            SqlInfoClassWriter.Write(Context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput));
+            Context.Get(Data.SharedRepositoryClassOutput).BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName));
+            SqlInfoClassWriter.Write(Context.Get(Data.SharedRepositoryClassOutput));
 
             sb.AppendLine();
             sb.BeginNamespace(NamingHelper.GetBusinessClassNamespace(schemaName));

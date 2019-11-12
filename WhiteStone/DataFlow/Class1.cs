@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ___Company___.DataFlow
 {
@@ -13,12 +14,17 @@ namespace ___Company___.DataFlow
         ///     Gets the identifier.
         /// </summary>
         string Id { get; }
-
-        /// <summary>
-        ///     Gets the type.
-        /// </summary>
-        Type Type { get; }
+        
         #endregion
+    }
+
+    /// <summary>
+    ///     The data constant
+    /// </summary>
+    [SuppressMessage("ReSharper", "UnusedTypeParameter")]
+    public interface IDataConstant<TValueType>:IDataConstant
+    {
+       
     }
 
     /// <summary>
@@ -50,18 +56,14 @@ namespace ___Company___.DataFlow
     /// <summary>
     ///     The data constant
     /// </summary>
-    public class DataConstant : IDataConstant
+    public class DataConstant<TValueType> : IDataConstant<TValueType>
     {
         #region Public Properties
         /// <summary>
         ///     Gets the identifier.
         /// </summary>
         public string Id { get; set; }
-
-        /// <summary>
-        ///     Gets the type.
-        /// </summary>
-        public Type Type { get; set; }
+        
         #endregion
     }
 
@@ -74,7 +76,8 @@ namespace ___Company___.DataFlow
         /// <summary>
         ///     Gets the specified data constant.
         /// </summary>
-        T Get<T>(IDataConstant dataConstant);
+        T Get<T>(IDataConstant<T> dataConstant);
+        
         #endregion
     }
 
@@ -129,6 +132,8 @@ namespace ___Company___.DataFlow
     /// </summary>
     public class DataContext : IDataContext
     {
+
+        
         #region Fields
         /// <summary>
         ///     The dictionary
@@ -208,7 +213,7 @@ namespace ___Company___.DataFlow
         /// <summary>
         ///     Gets the specified data constant.
         /// </summary>
-        public T Get<T>(IDataConstant dataConstant)
+        public T Get<T>(IDataConstant<T> dataConstant)
         {
             object value = null;
             if (dictionary.TryGetValue(dataConstant.Id, out value))
@@ -218,6 +223,7 @@ namespace ___Company___.DataFlow
 
             throw new DataNotFoundException(dataConstant);
         }
+       
 
         /// <summary>
         ///     Removes the specified data constant.
@@ -234,4 +240,6 @@ namespace ___Company___.DataFlow
         }
         #endregion
     }
+
+   
 }

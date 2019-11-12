@@ -1,4 +1,6 @@
 ﻿using ___Company___.DataFlow;
+using BOA.Common.Helpers;
+using BOA.EntityGeneration;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 
 namespace ___Company___.EntityGeneration.DataFlow
@@ -12,17 +14,17 @@ namespace ___Company___.EntityGeneration.DataFlow
         /// <summary>
         ///     The business class writer context
         /// </summary>
-        public static readonly IDataConstant BusinessClassWriterContext = new DataConstant {Id = nameof(BusinessClassWriterContext)};
+        public static readonly IDataConstant<BusinessClassWriterContext> BusinessClassWriterContext = new DataConstant<BusinessClassWriterContext> {Id = nameof(BusinessClassWriterContext)};
 
         /// <summary>
         ///     The configuration
         /// </summary>
-        public static readonly IDataConstant Config = new DataConstant {Id = nameof(Config)};
+        public static readonly IDataConstant<Config> Config = new DataConstant<Config> {Id = nameof(Config)};
 
         /// <summary>
         ///     The shared repository class output
         /// </summary>
-        public static readonly IDataConstant SharedRepositoryClassOutput = new DataConstant {Id = nameof(SharedRepositoryClassOutput)};
+        public static readonly IDataConstant<PaddedStringBuilder> SharedRepositoryClassOutput = new DataConstant<PaddedStringBuilder> {Id = nameof(SharedRepositoryClassOutput)};
         #endregion
     }
 
