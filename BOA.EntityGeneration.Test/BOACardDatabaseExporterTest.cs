@@ -1,9 +1,4 @@
-﻿using BOA.Common.Helpers;
-using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ninject;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
@@ -11,8 +6,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
     public class BOACardDatabaseExporterTest
     {
         #region Public Methods
-        
-
         //[TestMethod]
         public void Export()
         {
@@ -31,9 +24,5 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             }
         }
         #endregion
-
-        
     }
-
-   
 }
