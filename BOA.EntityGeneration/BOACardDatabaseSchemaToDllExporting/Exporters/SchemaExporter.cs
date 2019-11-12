@@ -55,11 +55,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         [Inject]
         public GeneratorOfBusinessClass GeneratorOfBusinessClass { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the generator of type class.
-        /// </summary>
-        [Inject]
-        public GeneratorOfTypeClass GeneratorOfTypeClass { get; set; }
+      
 
 
 
@@ -79,6 +75,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             
             Context.Add(Data.SchemaName,schemaName);
             Context.Add(Data.SharedRepositoryClassOutput,new PaddedStringBuilder());
+            
 
             SharedDalClassWriter.WriteUsingList();
 

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using BOA.DatabaseAccess;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.DbModel.Types;
-using Ninject;
 using WhiteStone.Helpers;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
 using ITableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces.ITableInfo;
 using TableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl.TableInfo;
 
@@ -19,22 +19,66 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
     /// </summary>
     public class GeneratorDataCreator
     {
-        #region Public Properties
+        #region Public Methods
         /// <summary>
-        ///     Gets or sets the configuration.
+        ///     Creates the specified table information.
         /// </summary>
-        [Inject]
-        public Config Config { get; set; }
+        public static ITableInfo Create(DbModel.Interfaces.ITableInfo tableInfo)
+        {
+            var config   = Context.Get(Data.Config);
+            var database = Context.Get(Data.Database);
 
-        /// <summary>
-        ///     Gets or sets the database.
-        /// </summary>
-        [Inject]
-        public IDatabase Database { get; set; }
+            var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 
-     
+            var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).ToList();
+
+            var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
+            var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
+            var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
+
+            var SequenceList = new List<SequenceInfo>();
+            if (config.SqlSequenceInformationOfTable == null)
+            {
+                SequenceList = new List<SequenceInfo>();
+            }
+            else
+            {
+                database.CommandText  = config.SqlSequenceInformationOfTable;
+                database["schema"]    = tableInfo.SchemaName;
+                database["tableName"] = tableInfo.TableName;
+
+                SequenceList = database.ExecuteReader().ToList<SequenceInfo>().Where(x => tableInfo.Columns.Any(c => c.ColumnName == x.TargetColumnName)).ToList();
+            }
+
+            var data = new TableInfo
+            {
+                CatalogName                  = tableInfo.CatalogName,
+                Columns                      = tableInfo.Columns.ToList().ConvertAll(ReEvaluate),
+                HasIdentityColumn            = tableInfo.HasIdentityColumn,
+                IdentityColumn               = tableInfo.IdentityColumn,
+                IndexInfoList                = tableInfo.IndexInfoList,
+                PrimaryKeyColumns            = tableInfo.PrimaryKeyColumns,
+                SchemaName                   = tableInfo.SchemaName,
+                TableName                    = tableInfo.TableName,
+                UniqueIndexInfoList          = uniqueIndexIdentifiers,
+                NonUniqueIndexInfoList       = nonUniqueIndexIdentifiers,
+                IsSupportSelectByKey         = isSupportSelectByKey,
+                IsSupportSelectByIndex       = isSupportSelectByIndex,
+                IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex,
+                DatabaseEnumName             = config.DatabaseEnumName,
+                SequenceList                 = SequenceList
+            };
+
+            if (tableInfo.Columns.Any(x => x.ColumnName.Equals("VALID_FLAG", StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))
+            {
+                data.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass = true;
+            }
+
+            return data;
+        }
         #endregion
 
+        #region Methods
         static IColumnInfo ReEvaluate(IColumnInfo columnInfo)
         {
             var item = ColumnInfo.CreateFrom(columnInfo);
@@ -54,65 +98,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             }
 
             return item;
-        }
-        #region Public Methods
-        /// <summary>
-        ///     Creates the specified table information.
-        /// </summary>
-        public ITableInfo Create(DbModel.Interfaces.ITableInfo tableInfo)
-        {
-            var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
-
-            var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).ToList();
-
-            var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
-            var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
-            var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
-
-
-
-            var SequenceList = new List<SequenceInfo>();
-            if (Config.SqlSequenceInformationOfTable == null)
-            {
-                SequenceList = new List<SequenceInfo>();
-            }
-            else
-            {
-                Database.CommandText  = Config.SqlSequenceInformationOfTable;
-                Database["schema"]    = tableInfo.SchemaName;
-                Database["tableName"] = tableInfo.TableName;
-
-                SequenceList = Database.ExecuteReader().ToList<SequenceInfo>().Where(x => tableInfo.Columns.Any(c => c.ColumnName == x.TargetColumnName)).ToList();
-            }
-
-            var data = new TableInfo
-            {
-                CatalogName                  = tableInfo.CatalogName,
-                Columns                      = tableInfo.Columns.ToList().ConvertAll(ReEvaluate),
-                HasIdentityColumn            = tableInfo.HasIdentityColumn,
-                IdentityColumn               = tableInfo.IdentityColumn,
-                IndexInfoList                = tableInfo.IndexInfoList,
-                PrimaryKeyColumns            = tableInfo.PrimaryKeyColumns,
-                SchemaName                   = tableInfo.SchemaName,
-                TableName                    = tableInfo.TableName,
-                UniqueIndexInfoList          = uniqueIndexIdentifiers,
-                NonUniqueIndexInfoList       = nonUniqueIndexIdentifiers,
-                IsSupportSelectByKey         = isSupportSelectByKey,
-                IsSupportSelectByIndex       = isSupportSelectByIndex,
-                IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex,
-                DatabaseEnumName             = Config.DatabaseEnumName,
-                SequenceList                 = SequenceList,
-            };
-
-
-           
-
-            if (tableInfo.Columns.Any(x => x.ColumnName.Equals("VALID_FLAG", StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))
-            {
-                data.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass = true;
-            }
-
-            return data;
         }
         #endregion
     }

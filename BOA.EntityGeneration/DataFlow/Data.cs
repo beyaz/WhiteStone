@@ -1,7 +1,9 @@
 ﻿using ___Company___.DataFlow;
 using BOA.Common.Helpers;
+using BOA.DatabaseAccess;
 using BOA.EntityGeneration;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DbModel.Interfaces;
 
@@ -26,7 +28,11 @@ namespace ___Company___.EntityGeneration.DataFlow
         /// <summary>
         ///     The configuration
         /// </summary>
-        public static readonly IDataConstant<Config> Config = new DataConstant<Config> {Id = nameof(Config)};
+        public static readonly IDataConstant<Config> Config = new DataConstant<Config> {Id = nameof(BOA.EntityGeneration.Config)};
+        public static readonly IDataConstant<IDatabase> Database = new DataConstant<IDatabase> {Id = nameof(Database)};
+        public static readonly IDataConstant<MsBuildQueue> MsBuildQueue = new DataConstant<MsBuildQueue> {Id = nameof(MsBuildQueue)};
+        
+        
 
         /// <summary>
         ///     The custom SQL generation of profile identifier process

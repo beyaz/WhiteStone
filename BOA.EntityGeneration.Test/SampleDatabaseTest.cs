@@ -15,6 +15,8 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         [TestMethod]
         public void All_db_types_should_be_handled()
         {
+            
+
             using (var kernel = new TestKernel())
             {
                 var database = kernel.Get<IDatabase>();

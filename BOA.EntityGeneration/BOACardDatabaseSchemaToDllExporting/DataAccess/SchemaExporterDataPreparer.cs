@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
-using Ninject;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 using ___Company___.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
+using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
+using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
@@ -22,43 +19,21 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         static readonly Dictionary<string, IReadOnlyList<ITableInfo>> Cache = new Dictionary<string, IReadOnlyList<ITableInfo>>();
         #endregion
 
-        #region Public Properties
-        /// <summary>
-        ///     Gets or sets the configuration.
-        /// </summary>
-        [Inject]
-        public Config Config { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the database.
-        /// </summary>
-        [Inject]
-        public IDatabase Database { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the generator data creator.
-        /// </summary>
-        [Inject]
-        public GeneratorDataCreator GeneratorDataCreator { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the table information DAO.
-        /// </summary>
-        [Inject]
-        public TableInfoDao TableInfoDao { get; set; }
-
-       
-        #endregion
-
         #region Public Methods
         /// <summary>
         ///     Gets the table information.
         /// </summary>
         public ITableInfo GetTableInfo(string schemaName, string tableName)
         {
-            var tableInfo = TableInfoDao.GetInfo(Config.TableCatalog, schemaName, tableName);
+            var config   = Context.Get(Data.Config);
+            var database = Context.Get(Data.Database);
+
+            var tableInfoDao = new TableInfoDao {Database = database, IndexInfoAccess = new IndexInfoAccess {Database = database}};
+
+            var tableInfo = tableInfoDao.GetInfo(config.TableCatalog, schemaName, tableName);
 
             var generatorData = GeneratorDataCreator.Create(tableInfo);
+
             return generatorData;
         }
 
@@ -72,9 +47,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
                 return Cache[schemaName];
             }
 
+            var database = Context.Get(Data.Database);
+
             var progress = Context.Get(Data.SchemaGenerationProcess);
 
-            var tableNames = SchemaInfo.GetAllTableNamesInSchema(Database, schemaName).ToList();
+            var tableNames = SchemaInfo.GetAllTableNamesInSchema(database, schemaName).ToList();
 
             tableNames = tableNames.Where(x => IsReadyToExport(schemaName, x)).ToList();
 
@@ -105,9 +82,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         /// </summary>
         bool IsReadyToExport(string schemaName, string tableName)
         {
+            var config = Context.Get(Data.Config);
+
             var fullTableName = $"{schemaName}.{tableName}";
 
-            var isNotExportable = Config.NotExportableTables.Contains(fullTableName);
+            var isNotExportable = config.NotExportableTables.Contains(fullTableName);
             if (isNotExportable)
             {
                 return false;

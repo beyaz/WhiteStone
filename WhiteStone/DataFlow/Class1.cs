@@ -14,7 +14,6 @@ namespace ___Company___.DataFlow
         ///     Gets the identifier.
         /// </summary>
         string Id { get; }
-        
         #endregion
     }
 
@@ -22,9 +21,8 @@ namespace ___Company___.DataFlow
     ///     The data constant
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedTypeParameter")]
-    public interface IDataConstant<TValueType>:IDataConstant
+    public interface IDataConstant<TValueType> : IDataConstant
     {
-       
     }
 
     /// <summary>
@@ -63,7 +61,6 @@ namespace ___Company___.DataFlow
         ///     Gets the identifier.
         /// </summary>
         public string Id { get; set; }
-        
         #endregion
     }
 
@@ -82,7 +79,6 @@ namespace ___Company___.DataFlow
         ///     Tries the get.
         /// </summary>
         T TryGet<T>(IDataConstant<T> dataConstant);
-        
         #endregion
     }
 
@@ -95,7 +91,7 @@ namespace ___Company___.DataFlow
         /// <summary>
         ///     Initializes a new instance of the <see cref="DataNotFoundException" /> class.
         /// </summary>
-        public DataNotFoundException(IDataConstant dataConstant)
+        public DataNotFoundException(IDataConstant dataConstant):base(dataConstant.Id)
         {
             DataConstant = dataConstant;
         }
@@ -118,7 +114,7 @@ namespace ___Company___.DataFlow
         /// <summary>
         ///     Initializes a new instance of the <see cref="DataShouldRemoveBeforeSetException" /> class.
         /// </summary>
-        public DataShouldRemoveBeforeSetException(IDataConstant dataConstant)
+        public DataShouldRemoveBeforeSetException(IDataConstant dataConstant):base(dataConstant.Id)
         {
             DataConstant = dataConstant;
         }
@@ -137,8 +133,6 @@ namespace ___Company___.DataFlow
     /// </summary>
     public class DataContext : IDataContext
     {
-
-
         #region Fields
         /// <summary>
         ///     The dictionary
@@ -230,20 +224,6 @@ namespace ___Company___.DataFlow
         }
 
         /// <summary>
-        ///     Tries the get.
-        /// </summary>
-        public T TryGet<T>(IDataConstant<T> dataConstant)
-        {
-            object value = null;
-            if (dictionary.TryGetValue(dataConstant.Id, out value))
-            {
-                return (T) value;
-            }
-
-            return default(T);
-        }
-
-        /// <summary>
         ///     Removes the specified data constant.
         /// </summary>
         public void Remove(IDataConstant dataConstant)
@@ -256,8 +236,20 @@ namespace ___Company___.DataFlow
 
             throw new DataNotFoundException(dataConstant);
         }
+
+        /// <summary>
+        ///     Tries the get.
+        /// </summary>
+        public T TryGet<T>(IDataConstant<T> dataConstant)
+        {
+            object value = null;
+            if (dictionary.TryGetValue(dataConstant.Id, out value))
+            {
+                return (T) value;
+            }
+
+            return default(T);
+        }
         #endregion
     }
-
-   
 }

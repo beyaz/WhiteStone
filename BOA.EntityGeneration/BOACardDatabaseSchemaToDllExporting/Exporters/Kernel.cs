@@ -2,8 +2,8 @@
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
@@ -12,46 +12,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
     public class Kernel : StandardKernel
     {
         #region Constructors
-        public Kernel()
+        public Kernel(string configFilePath = null)
         {
-            Bind<Config>().ToConstant(GetConfig()).InSingletonScope();
-            Bind<IDatabase>().ToConstant(CreateConnection()).InSingletonScope();
-            Bind<MsBuildQueue>().To<MsBuildQueue>().InSingletonScope();
-            Bind<ScriptModel.Creators.InsertInfoCreator>().To<InsertInfoCreator>();
-
-            Context.Add(Data.Config,GetConfig());
-        }
-        #endregion
-
-        #region Public Methods
-        public IDatabase CreateConnection()
-        {
-            return new SqlDatabase(GetConfig().ConnectionString)
+            if (configFilePath == null)
             {
-                CommandTimeout = 1000 * 60 * 60
-            };
-        }
+                configFilePath = Path.GetDirectoryName(typeof(Kernel).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
+            }
 
-        public virtual string GetConfigFilePath()
-        {
-            return Path.GetDirectoryName(typeof(Kernel).Assembly.Location) + Path.DirectorySeparatorChar+"BOA.EntityGeneration.json";
-        }
-        #endregion
-
-        #region Methods
-        static IDatabase CreateConnection(Config config)
-        {
-            return new SqlDatabase(config.ConnectionString)
-            {
-                CommandTimeout = 1000 * 60 * 60
-            };
-        }
-
-        Config GetConfig()
-        {
-            var config = JsonHelper.Deserialize<Config>(File.ReadAllText(GetConfigFilePath()));
-            
-            return config;
+            Context.Add(Data.Config, JsonHelper.Deserialize<Config>(File.ReadAllText(configFilePath)));
+            Context.Add(Data.Database, new SqlDatabase(Context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
+            Context.Add(Data.MsBuildQueue, new MsBuildQueue());
+            Context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
         }
         #endregion
     }

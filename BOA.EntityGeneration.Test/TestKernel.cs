@@ -4,10 +4,9 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     class TestKernel : Kernel
     {
-        #region Public Methods
-        public override string GetConfigFilePath()
+        #region Constructors
+        public TestKernel() : base(@"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json")
         {
-            return @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
         }
         #endregion
     }

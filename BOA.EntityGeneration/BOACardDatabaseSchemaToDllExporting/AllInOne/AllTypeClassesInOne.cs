@@ -15,8 +15,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         [Inject]
         public SchemaExporterDataPreparer DataPreparer { get; set; }
 
-        [Inject]
-        public GeneratorOfTypeClass GeneratorOfTypeClass { get; set; }
+
 
       
         #endregion
@@ -25,14 +24,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         public string GetCode(string schemaName)
         {
             Context.Add(Data.TypesFileOutput, new PaddedStringBuilder());
-            Context.Add(Data.SchemaName, schemaName);
 
             Write();
 
             var code = Context.Get(Data.TypesFileOutput).ToString();
 
             Context.Remove(Data.TypesFileOutput);
-            Context.Remove(Data.SchemaName);
 
             return code;
         }
@@ -44,7 +41,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
             var sb         = Context.Get(Data.TypesFileOutput);
             var schemaName = Context.Get(Data.SchemaName);
 
-            var progress = Context.Get(Data.SchemaGenerationProcess);
+            var progress = Context.TryGet(Data.SchemaGenerationProcess);
 
             var isFirst = true;
 
@@ -67,7 +64,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
                 progress.Text = $"Generating Type class for {tableInfo.TableName}";
 
                 sb.AppendLine();
-                GeneratorOfTypeClass.WriteClass(sb, tableInfo);
+                GeneratorOfTypeClass.WriteClass();
 
                 Context.Remove(Data.TableInfo);
             }

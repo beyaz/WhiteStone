@@ -1,44 +1,23 @@
-﻿using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+﻿using ___Company___.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
-using Ninject;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
-using ___Company___.EntityGeneration.DataFlow;
-
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     /// <summary>
     ///     The generator of type class
     /// </summary>
-    public class GeneratorOfTypeClass
+    static class GeneratorOfTypeClass
     {
-
         #region Public Methods
-        /// <summary>
-        ///     Writes the using list.
-        /// </summary>
-        public static void WriteUsingList()
-        {
-            var sb = Context.Get(Data.TypesFileOutput);
-            var config = Context.Get(Data.Config);
-
-            sb.AppendLine("using System;");
-            sb.AppendLine("using System.Collections.Generic;");
-
-            foreach (var line in config.TypeUsingLines)
-            {
-                sb.AppendLine(line);
-            }
-        }
-
         /// <summary>
         ///     Writes the class.
         /// </summary>
-        public void WriteClass(PaddedStringBuilder sb, ITableInfo tableInfo)
+        public static void WriteClass()
         {
-            var config = Context.Get(Data.Config);
+            var sb        = Context.Get(Data.TypesFileOutput);
+            var config    = Context.Get(Data.Config);
+            var tableInfo = Context.Get(Data.TableInfo);
 
             ContractCommentInfoCreator.Write(sb, tableInfo);
 
@@ -66,6 +45,23 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             sb.PaddingCount--;
             sb.AppendLine("}"); // end of class
+        }
+
+        /// <summary>
+        ///     Writes the using list.
+        /// </summary>
+        public static void WriteUsingList()
+        {
+            var sb     = Context.Get(Data.TypesFileOutput);
+            var config = Context.Get(Data.Config);
+
+            sb.AppendLine("using System;");
+            sb.AppendLine("using System.Collections.Generic;");
+
+            foreach (var line in config.TypeUsingLines)
+            {
+                sb.AppendLine(line);
+            }
         }
         #endregion
     }
