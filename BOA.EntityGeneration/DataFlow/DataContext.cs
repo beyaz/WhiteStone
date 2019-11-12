@@ -3,16 +3,27 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 
 namespace ___Company___.EntityGeneration.DataFlow
 {
-
     /// <summary>
     ///     The data
     /// </summary>
     public static class Data
     {
+        #region Static Fields
+        /// <summary>
+        ///     The business class writer context
+        /// </summary>
+        public static readonly IDataConstant BusinessClassWriterContext = new DataConstant {Id = nameof(BusinessClassWriterContext)};
+
         /// <summary>
         ///     The configuration
         /// </summary>
         public static readonly IDataConstant Config = new DataConstant {Id = nameof(Config)};
+
+        /// <summary>
+        ///     The shared repository class output
+        /// </summary>
+        public static readonly IDataConstant SharedRepositoryClassOutput = new DataConstant {Id = nameof(SharedRepositoryClassOutput)};
+        #endregion
     }
 
     /// <summary>
@@ -29,19 +40,9 @@ namespace ___Company___.EntityGeneration.DataFlow
 
         #region Fields
         /// <summary>
-        ///     The business class writer context
-        /// </summary>
-        public readonly IDataConstant BusinessClassWriterContext = new DataConstant {Id = nameof(BusinessClassWriterContext)};
-
-        /// <summary>
-        ///     The shared repository class output
-        /// </summary>
-        public readonly IDataConstant SharedRepositoryClassOutput = new DataConstant {Id = nameof(SharedRepositoryClassOutput)};
-
-        /// <summary>
         ///     The before business class export
         /// </summary>
-        public IEvent BeforeBusinessClassExport = new Event {Name = nameof(BeforeBusinessClassExport)};
+        public readonly IEvent BeforeBusinessClassExport = new Event {Name = nameof(BeforeBusinessClassExport)};
         #endregion
 
         #region Constructors

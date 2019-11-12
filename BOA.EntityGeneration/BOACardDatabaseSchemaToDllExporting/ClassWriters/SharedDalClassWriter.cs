@@ -1,4 +1,5 @@
 ﻿using ___Company___.DataFlow;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
@@ -9,8 +10,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
     {
         public static void Write(IDataContext context)
         {
-            var sb = context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput);
-            var businessClassWriterContext = context.Get<BusinessClassWriterContext>(Context.BusinessClassWriterContext);
+            var sb = context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput);
+            var businessClassWriterContext = context.Get<BusinessClassWriterContext>(Data.BusinessClassWriterContext);
 
             Write(sb,businessClassWriterContext);
         }
@@ -38,7 +39,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         public static void WriteUsingList()
         {
-            var sb = Context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput);
+            var sb = Context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput);
            sb.UsingNamespace("System");
            sb.UsingNamespace("System.Collections.Generic");
            sb.UsingNamespace("System.Data");

@@ -1,4 +1,5 @@
-﻿using BOA.Common.Helpers;
+﻿using ___Company___.EntityGeneration.DataFlow;
+using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
@@ -47,7 +48,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         public void Export(string schemaName)
         {
             
-            Context.Add(Context.SharedRepositoryClassOutput,new PaddedStringBuilder());
+            Context.Add(Data.SharedRepositoryClassOutput,new PaddedStringBuilder());
             SharedDalClassWriter.WriteUsingList();
 
             Tracer.Trace($"*** Started to export type classes {schemaName} ***");
@@ -57,7 +58,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             Tracer.Trace($"*** Started to export business classes {schemaName} ***");
             ExportBusinessDll(schemaName);
 
-            Context.Remove(Context.SharedRepositoryClassOutput);
+            Context.Remove(Data.SharedRepositoryClassOutput);
         }
         #endregion
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
@@ -90,8 +91,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
             }
 
             GeneratorOfBusinessClass.WriteUsingList(sb, items.First());
-            Context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput).BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName));
-            SqlInfoClassWriter.Write(Context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput));
+            Context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput).BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName));
+            SqlInfoClassWriter.Write(Context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput));
 
             sb.AppendLine();
             sb.BeginNamespace(NamingHelper.GetBusinessClassNamespace(schemaName));
@@ -114,7 +115,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
             sb.EndNamespace();  
 
-            Context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput).EndNamespace();
+            Context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput).EndNamespace();
         }
         #endregion
     }

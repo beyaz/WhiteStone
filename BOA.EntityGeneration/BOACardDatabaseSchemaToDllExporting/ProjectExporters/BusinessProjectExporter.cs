@@ -1,5 +1,6 @@
 ﻿
 using System.IO;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.Tasks;
@@ -176,7 +177,7 @@ using System.Runtime.InteropServices;
 
             var path = Config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
 
-            FileHelper.WriteAllText(path, Context.Get<PaddedStringBuilder>(Context.SharedRepositoryClassOutput).ToString());
+            FileHelper.WriteAllText(path, Context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput).ToString());
 
         }
         #endregion

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
@@ -111,7 +112,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 businessClassWriterContext.SelectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
             }
 
-            Context.Add(Context.BusinessClassWriterContext,businessClassWriterContext);
+            Context.Add(Data.BusinessClassWriterContext,businessClassWriterContext);
             Context.FireEvent(Context.BeforeBusinessClassExport);
            
             
@@ -347,7 +348,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("}");
 
             
-            Context.Remove(Context.BusinessClassWriterContext);
+            Context.Remove(Data.BusinessClassWriterContext);
         }
 
         /// <summary>
