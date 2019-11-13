@@ -6,7 +6,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
     public static class SchemaInfo
     {
         #region Public Methods
-        public static IReadOnlyList<string> GetAllTableNamesInSchema(IDatabase database, string schema)
+        public static List<string> GetAllTableNamesInSchema(IDatabase database, string schema)
         {
             var sql = $@"
 

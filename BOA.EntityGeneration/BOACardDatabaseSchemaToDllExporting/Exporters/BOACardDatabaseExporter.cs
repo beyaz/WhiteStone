@@ -1,11 +1,5 @@
 ﻿using ___Company___.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using Ninject;
-
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 using ___Company___.EntityGeneration.DataFlow;
-
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
@@ -14,17 +8,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         #region Public Methods
         public static void Export(IDataContext context, string schemaName)
         {
-            var schemaExporter = new SchemaExporter();
-
-            schemaExporter.Export(context,schemaName);
-
-            context.Get(Data.MsBuildQueue).Build();
+            SchemaExporter.Export(context, schemaName);
         }
 
         public static void Export(IDataContext context)
         {
             var progress = context.Get(Data.AllSchemaGenerationProcess);
-            var config = context.Get(Data.Config);
+            var config   = context.Get(Data.Config);
 
             var schemaNames = config.SchemaNamesToBeExport;
 
@@ -37,13 +27,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
                 progress.Current++;
 
-                var schemaExporter = new SchemaExporter();
-
-                schemaExporter.Export(context,schemaName);
+                SchemaExporter.Export(context, schemaName);
             }
 
             context.Get(Data.MsBuildQueue).Build();
-            
         }
         #endregion
     }

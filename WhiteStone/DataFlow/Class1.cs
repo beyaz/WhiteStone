@@ -78,24 +78,29 @@ namespace ___Company___.DataFlow
 
         #region Public Methods
         /// <summary>
-        ///     Gets the specified data constant.
-        /// </summary>
-        T Get<T>(IDataConstant<T> dataConstant);
-
-        /// <summary>
-        ///     Tries the get.
-        /// </summary>
-        T TryGet<T>(IDataConstant<T> dataConstant);
-
-        /// <summary>
         ///     Adds the specified data constant.
         /// </summary>
         void Add<T>(IDataConstant dataConstant, T value);
 
         /// <summary>
+        ///     Fires the event.
+        /// </summary>
+        void FireEvent(IEvent @event);
+
+        /// <summary>
+        ///     Gets the specified data constant.
+        /// </summary>
+        T Get<T>(IDataConstant<T> dataConstant);
+
+        /// <summary>
         ///     Removes the specified data constant.
         /// </summary>
         void Remove(IDataConstant dataConstant);
+
+        /// <summary>
+        ///     Tries the get.
+        /// </summary>
+        T TryGet<T>(IDataConstant<T> dataConstant);
         #endregion
     }
 

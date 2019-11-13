@@ -2,6 +2,8 @@
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
@@ -40,10 +42,22 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public static void WriteUsingList(IDataContext context)
         {
             var sb = context.Get(Data.SharedRepositoryClassOutput);
+            var schemaName = context.Get(Data.SchemaName);
+
            sb.UsingNamespace("System");
            sb.UsingNamespace("System.Collections.Generic");
            sb.UsingNamespace("System.Data");
            sb.UsingNamespace("System.Data.SqlClient");
+
+           sb.AppendLine();
+
+           sb.BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName));
+           SqlInfoClassWriter.Write(sb);
+        }
+
+        public static void EndNamespace(IDataContext context)
+        {
+            context.Get(Data.SharedRepositoryClassOutput).EndNamespace();
         }
         #endregion
     }

@@ -1,54 +1,37 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+﻿using ___Company___.DataFlow;
+using ___Company___.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.Tasks;
-using BOA.TfsAccess;
-using Ninject;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
     public class TypesProjectExporter
     {
-        #region Public Properties
-        [Inject]
-        public FileAccess FileAccess { get; set; }
-
-        [Inject]
-        public FileSystem FileSystem { get; set; }
-
-        [Inject]
-        public MsBuildQueue MsBuildQueue { get; set; }
-
-       
-
-        [Inject]
-        public Config Config { get; set; }
-
-
-        [Inject]
-        public ProjectExportLocation ProjectExportLocation { get; set; }
-
-        #endregion
-
-
-        public void ExportAllInOneFile(string schemaName, string allInOneSourceCode)
-        {
-            var allInOneFilePath =Config.FilePathForAllEntitiesInOneFile.Replace("{SchemaName}", schemaName);
-
-            FileSystem.WriteAllText(allInOneFilePath, allInOneSourceCode);
-        }
-
         #region Public Methods
-        public void Export(string schemaName, string allInOneSourceCode)
+        public static void ExportTypeDll(IDataContext context)
         {
-            var ns = NamingHelper.GetTypeClassNamespace(schemaName);
+            var schemaName            = context.Get(Data.SchemaName);
+            var allInOneSourceCode    = context.Get(Data.TypeClassesOutput).ToString();
+            var config                = context.Get(Data.Config);
+            var fileAccess            = context.Get(Data.FileAccess);
+            var ProjectExportLocation = new ProjectExportLocation {Config = config};
 
-            var projectDirectory = $"{ProjectExportLocation.GetExportLocationOfBusinessProject(schemaName)}{ns}\\";
+            var allInOneFilePath = config.FilePathForAllEntitiesInOneFile.Replace("{SchemaName}", schemaName);
 
-            var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
-            var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
+            fileAccess.WriteAllText(allInOneFilePath, allInOneSourceCode);
 
-            const string allInOneFileName = "All";
+            if (config.EnableFullProjectExport)
+            {
+                var ns = NamingHelper.GetTypeClassNamespace(schemaName);
 
-            var content = $@"
+                var projectDirectory = $"{ProjectExportLocation.GetExportLocationOfBusinessProject(schemaName)}{ns}\\";
+
+                var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
+                var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
+
+                const string allInOneFileName = "All";
+
+                var content = $@"
 
 <?xml version=""1.0"" encoding=""utf-8""?>
 <Project ToolsVersion=""15.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
@@ -109,9 +92,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
 ";
 
-            FileSystem.WriteAllText(csprojFilePath, content.Trim());
+                fileAccess.WriteAllText(csprojFilePath, content.Trim());
 
-            var assemblyInfoContent = $@"
+                var assemblyInfoContent = $@"
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -128,9 +111,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion(""1.0.0.0"")]
 ";
 
-            FileSystem.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
+                fileAccess.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
 
-            MsBuildQueue.Push(new MSBuildData {ProjectFilePath = csprojFilePath});
+                context.Get(Data.MsBuildQueue).Push(new MSBuildData {ProjectFilePath = csprojFilePath});
+            }
         }
         #endregion
     }

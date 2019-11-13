@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
@@ -56,28 +57,19 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         const string TopCountParameterName = "$resultCount";
         #endregion
 
-        #region Public Properties
-        /// <summary>
-        ///     Gets or sets the configuration.
-        /// </summary>
-        [Inject]
-        public Config Config { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the insert information creator.
-        /// </summary>
-        [Inject]
-        public InsertInfoCreator InsertInfoCreator { get; set; }
-
-      
-        #endregion
+       
 
         #region Public Methods
         /// <summary>
         ///     Writes the class.
         /// </summary>
-        public void WriteClass(PaddedStringBuilder sb, ITableInfo tableInfo)
+        public static void WriteClass(IDataContext Context)
         {
+            var sb = Context.Get(Data.BoaRepositoryClassesOutput);
+            var tableInfo = Context.Get(Data.TableInfo);
+            var config = Context.Get(Data.Config);
+
+
             var typeContractName = $"{tableInfo.TableName.ToContractName()}Contract";
             if (typeContractName == "TransactionLogContract" ||
                 typeContractName == "BoaUserContract") // resolve conflig
@@ -97,7 +89,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 CanWriteDeleteByKeyMethod = tableInfo.IsSupportSelectByKey,
                 CanWriteSelectByKeyMethod = tableInfo.IsSupportSelectByKey,
                 TableInfo = tableInfo,
-                SharedClassConfig = Config.SharedClassConfig
+                SharedClassConfig = config.SharedClassConfig
             };
             if (businessClassWriterContext.CanWriteDeleteByKeyMethod)
             {
@@ -109,7 +101,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             }
 
             Context.Add(Data.BusinessClassWriterContext,businessClassWriterContext);
-            Context.FireEvent(DataEvent.BeforeBusinessClassExport);
            
             
             ContractCommentInfoCreator.Write(sb, tableInfo);
@@ -293,17 +284,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             foreach (var columnInfo in tableInfo.Columns)
             {
-                var readerLine = Config.ReadLineDefault;
+                var readerLine = config.ReadLineDefault;
 
                 if (columnInfo.SqlDbType == SqlDbType.Char &&
                     columnInfo.DotNetType == DotNetTypeName.DotNetBool)
                 {
-                    readerLine = Config.ReadLineCharToBool;
+                    readerLine = config.ReadLineCharToBool;
                 }
                 else if (columnInfo.SqlDbType == SqlDbType.Char &&
                          columnInfo.DotNetType == DotNetTypeName.DotNetBoolNullable)
                 {
-                    readerLine = Config.ReadLineCharToBoolNullable;
+                    readerLine = config.ReadLineCharToBoolNullable;
                 }
 
                 readerLine = readerLine
@@ -350,11 +341,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// <summary>
         ///     Writes the using list.
         /// </summary>
-        public void WriteUsingList(PaddedStringBuilder sb, ITableInfo tableInfo)
+        public static void WriteUsingList(IDataContext context)
         {
-            foreach (var line in Config.DaoUsingLines)
+            var sb = context.Get(Data.BoaRepositoryClassesOutput);
+            var schemaName = context.Get(Data.SchemaName);
+            var config = context.Get(Data.Config);
+
+            foreach (var line in config.DaoUsingLines)
             {
-                sb.AppendLine(line.Replace("{SchemaName}", tableInfo.SchemaName));
+                sb.AppendLine(line.Replace("{SchemaName}", schemaName));
             }
 
             sb.AppendLine("using System;");
@@ -845,9 +840,9 @@ return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
         /// <summary>
         ///     Inserts the specified sb.
         /// </summary>
-        void Insert(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
+        static void Insert(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
         {
-            var insertInfo = InsertInfoCreator.Create(tableInfo);
+            var insertInfo = new InsertInfoCreator().Create(tableInfo);
 
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment} Inserts new record into table.");

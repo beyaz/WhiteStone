@@ -1,10 +1,7 @@
-﻿
-using System.IO;
+﻿using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
-using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.Tasks;
-using Ninject;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
@@ -14,54 +11,32 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     /// </summary>
     public class BusinessProjectExporter
     {
-        #region Public Properties
-        /// <summary>
-        ///     Gets or sets the configuration.
-        /// </summary>
-        [Inject]
-        public Config Config { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the file system.
-        /// </summary>
-        [Inject]
-        public FileSystem FileSystem { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the ms build queue.
-        /// </summary>
-        [Inject]
-        public MsBuildQueue MsBuildQueue { get; set; }
-
-        
-
-        /// <summary>
-        ///     Gets or sets the project export location.
-        /// </summary>
-        [Inject]
-        public ProjectExportLocation ProjectExportLocation { get; set; }
-
-      
-        #endregion
-
         #region Public Methods
-        /// <summary>
-        ///     Exports the specified schema name.
-        /// </summary>
-        public void Export(string schemaName, string allInOneSourceCode)
+        public static void Export(IDataContext context)
         {
-            var progress = Context.Get(Data.SchemaGenerationProcess);
+            var schemaName            = context.Get(Data.SchemaName);
+            var allInOneSourceCode    = context.Get(Data.BoaRepositoryClassesOutput).ToString();
+            var config                = context.Get(Data.Config);
+            var fileAccess            = context.Get(Data.FileAccess);
+            var allInOneFilePath      = config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
+            var ProjectExportLocation = new ProjectExportLocation {Config = config};
 
-            var ns = NamingHelper.GetBusinessClassNamespace(schemaName);
+            fileAccess.WriteAllText(allInOneFilePath, allInOneSourceCode);
 
-            var projectDirectory = $"{ProjectExportLocation.GetExportLocationOfBusinessProject(schemaName)}{ns}\\";
+            if (config.EnableFullProjectExport)
+            {
+                var progress = Context.Get(Data.SchemaGenerationProcess);
 
-            var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
-            var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
+                var ns = NamingHelper.GetBusinessClassNamespace(schemaName);
 
-            const string allInOneFileName = "All";
+                var projectDirectory = $"{ProjectExportLocation.GetExportLocationOfBusinessProject(schemaName)}{ns}\\";
 
-            var content = $@"
+                var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
+                var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
+
+                const string allInOneFileName = "All";
+
+                var content = $@"
 
 <?xml version=""1.0"" encoding=""utf-8""?>
 <Project ToolsVersion=""15.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
@@ -130,9 +105,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
 ";
 
-            FileSystem.WriteAllText(csprojFilePath, content.Trim());
+                fileAccess.WriteAllText(csprojFilePath, content.Trim());
 
-            var assemblyInfoContent = $@"
+                var assemblyInfoContent = $@"
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -149,32 +124,16 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion(""1.0.0.0"")]
 ";
 
-            FileSystem.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
+                fileAccess.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
 
-            progress.Text = "Compile started.";
-            MsBuildQueue.Push(new MSBuildData
-            {
-                ProjectFilePath = csprojFilePath
-            });
-            progress.Text = "Compile finished.";
-        }
-
-        /// <summary>
-        ///     Exports all in one file.
-        /// </summary>
-        public void ExportAllInOneFile(string schemaName, string allInOneSourceCode)
-        {
-            var allInOneFilePath = Config.FilePathForAllDaoInOneFile.Replace("{SchemaName}", schemaName);
-
-            FileSystem.WriteAllText(allInOneFilePath, allInOneSourceCode);
-
-            var path = Config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
-
-            FileHelper.WriteAllText(path, Context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput).ToString());
-
+                progress.Text = "Compile started.";
+                context.Get(Data.MsBuildQueue).Push(new MSBuildData
+                {
+                    ProjectFilePath = csprojFilePath
+                });
+                progress.Text = "Compile finished.";
+            }
         }
         #endregion
     }
-
-    
 }

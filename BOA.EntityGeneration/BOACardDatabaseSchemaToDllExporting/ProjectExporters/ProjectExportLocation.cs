@@ -5,7 +5,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     public class ProjectExportLocation
     {
         #region Public Properties
-        [Inject]
         public Config Config { get; set; }
         #endregion
 

@@ -1,6 +1,7 @@
-﻿using ___Company___.EntityGeneration.DataFlow;
+﻿using ___Company___.DataFlow;
+using ___Company___.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.ScriptModel.Creators;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
@@ -11,13 +12,33 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
     {
         #region Public Methods
         /// <summary>
+        ///     Begins the namespace.
+        /// </summary>
+        public static void BeginNamespace(IDataContext context)
+        {
+            var sb         = context.Get(Data.TypeClassesOutput);
+            var schemaName = context.Get(Data.SchemaName);
+
+            sb.BeginNamespace(NamingHelper.GetTypeClassNamespace(schemaName));
+        }
+
+        /// <summary>
+        ///     Ends the namespace.
+        /// </summary>
+        public static void EndNamespace(IDataContext context)
+        {
+            var sb = context.Get(Data.TypeClassesOutput);
+            sb.EndNamespace();
+        }
+
+        /// <summary>
         ///     Writes the class.
         /// </summary>
-        public static void WriteClass()
+        public static void WriteClass(IDataContext context)
         {
-            var sb        = Context.Get(Data.TypesFileOutput);
-            var config    = Context.Get(Data.Config);
-            var tableInfo = Context.Get(Data.TableInfo);
+            var sb        = context.Get(Data.TypeClassesOutput);
+            var config    = context.Get(Data.Config);
+            var tableInfo = context.Get(Data.TableInfo);
 
             ContractCommentInfoCreator.Write(sb, tableInfo);
 
@@ -50,10 +71,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// <summary>
         ///     Writes the using list.
         /// </summary>
-        public static void WriteUsingList()
+        public static void WriteUsingList(IDataContext context)
         {
-            var sb     = Context.Get(Data.TypesFileOutput);
-            var config = Context.Get(Data.Config);
+            var sb     = context.Get(Data.TypeClassesOutput);
+            var config = context.Get(Data.Config);
 
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");

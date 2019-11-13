@@ -1,4 +1,5 @@
-﻿using ___Company___.DataFlow;
+﻿using System.Collections.Generic;
+using ___Company___.DataFlow;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration;
@@ -12,10 +13,9 @@ namespace ___Company___.EntityGeneration.DataFlow
 {
     public static class DataEvent
     {
-        /// <summary>
-        ///     The before business class export
-        /// </summary>
-        public static readonly IEvent BeforeBusinessClassExport = new Event {Name = nameof(BeforeBusinessClassExport)};
+        public static readonly IEvent StartToExportSchema = new Event {Name = nameof(StartToExportSchema)};
+        public static readonly IEvent AfterFetchedAllTableNamesInSchema = new Event {Name = nameof(AfterFetchedAllTableNamesInSchema)};
+        public static readonly IEvent StartToExportTable = new Event {Name = nameof(StartToExportTable)};
     }
 
     /// <summary>
@@ -23,6 +23,8 @@ namespace ___Company___.EntityGeneration.DataFlow
     /// </summary>
     public static class Data
     {
+        public static readonly IDataConstant<List<string>> TableNamesInSchema = new DataConstant<List<string>> {Id = nameof(TableNamesInSchema)};
+
         #region Static Fields
         /// <summary>
         ///     All schema generation process
@@ -60,6 +62,9 @@ namespace ___Company___.EntityGeneration.DataFlow
         /// </summary>
         public static readonly IDataConstant<PaddedStringBuilder> SharedRepositoryClassOutput = new DataConstant<PaddedStringBuilder> {Id = nameof(SharedRepositoryClassOutput)};
 
+        public static readonly IDataConstant<PaddedStringBuilder> TypeClassesOutput = new DataConstant<PaddedStringBuilder> {Id = nameof(TypeClassesOutput)};
+        public static readonly IDataConstant<PaddedStringBuilder> BoaRepositoryClassesOutput = new DataConstant<PaddedStringBuilder> {Id = nameof(BoaRepositoryClassesOutput)};
+
 
         /// <summary>
         ///     The schema name
@@ -69,10 +74,10 @@ namespace ___Company___.EntityGeneration.DataFlow
         /// <summary>
         ///     The table information
         /// </summary>
-        public static readonly IDataConstant<ITableInfo> TableInfo = new DataConstant<ITableInfo> {Id = nameof(ITableInfo)};
+        public static readonly IDataConstant<BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces.ITableInfo> TableInfo = new DataConstant<BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces.ITableInfo> {Id = nameof(ITableInfo)};
 
       
-        public static readonly IDataConstant<PaddedStringBuilder> TypesFileOutput = new DataConstant<PaddedStringBuilder> {Id = nameof(TypesFileOutput)};
+        
         #endregion
     }
 }

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
+using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using Ninject;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
@@ -18,40 +13,18 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
     /// </summary>
     public class AllBusinessClassesInOne
     {
-        #region Public Properties
-        /// <summary>
-        ///     Gets or sets the data preparer.
-        /// </summary>
-        [Inject]
-        public SchemaExporterDataPreparer DataPreparer { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the generator of business class.
-        /// </summary>
-        [Inject]
-        public GeneratorOfBusinessClass GeneratorOfBusinessClass { get; set; }
-
-       
-
-      
-        /// <summary>
-        ///     Gets or sets the configuration.
-        /// </summary>
-        [Inject]
-        public Config Config { get; set; }
-        #endregion
-
         #region Public Methods
-        /// <summary>
-        ///     Gets the code.
-        /// </summary>
-        public string GetCode(string schemaName)
+        public static void BeginNamespace(IDataContext context)
         {
-            var sb = new PaddedStringBuilder();
+            var sb         = context.Get(Data.BoaRepositoryClassesOutput);
+            var schemaName = context.Get(Data.SchemaName);
+            var config     = Context.Get(Data.Config);
 
-            Write(sb, schemaName);
+            sb.AppendLine();
+            sb.BeginNamespace(NamingHelper.GetBusinessClassNamespace(schemaName));
+            ObjectHelperSqlUtilClassWriter.Write(sb);
 
-            return sb.ToString();
+            UtilClass(sb, config);
         }
         #endregion
 
@@ -61,7 +34,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         /// </summary>
         static void UtilClass(PaddedStringBuilder sb, Config config)
         {
-
             var path = Path.GetDirectoryName(typeof(AllBusinessClassesInOne).Assembly.Location) + Path.DirectorySeparatorChar + "EmbeddedUtilizationClassForDao.txt";
 
             var code = FileHelper.ReadFile(path);
@@ -69,49 +41,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
             code = code.Replace("{DatabaseEnumName}", config.DatabaseEnumName);
             sb.AppendAll(code.Trim());
             sb.AppendLine();
-        }
-
-        /// <summary>
-        ///     Writes the specified sb.
-        /// </summary>
-        void Write(PaddedStringBuilder sb, string schemaName)
-        {
-
-            var progress = Context.Get(Data.SchemaGenerationProcess);
-
-            var items = DataPreparer.Prepare(schemaName);
-
-            if (items.Count == 0)
-            {
-                throw new NotImplementedException(schemaName);
-            }
-
-            GeneratorOfBusinessClass.WriteUsingList(sb, items.First());
-            Context.Get(Data.SharedRepositoryClassOutput).BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName));
-            SqlInfoClassWriter.Write(Context.Get(Data.SharedRepositoryClassOutput));
-
-            sb.AppendLine();
-            sb.BeginNamespace(NamingHelper.GetBusinessClassNamespace(schemaName));
-            ObjectHelperSqlUtilClassWriter.Write(sb);
-
-            UtilClass(sb,Config);
-
-            progress.Total   = items.Count;
-            progress.Current = 0;
-
-            foreach (var tableInfo in items)
-            {
-                progress.Text = $"Generating business class: {tableInfo.TableName}";
-
-                progress.Current++;
-
-                sb.AppendLine();
-                GeneratorOfBusinessClass.WriteClass(sb, tableInfo);
-            }
-
-            sb.EndNamespace();  
-
-            Context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput).EndNamespace();
         }
         #endregion
     }

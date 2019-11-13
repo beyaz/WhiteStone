@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Tasks;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
@@ -33,6 +34,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         public void Push(MSBuildData data)
         {
             Queue.Add(data);
+        }
+
+        public static void Build(IDataContext context)
+        {
+            context.Get(Data.MsBuildQueue).Build();
         }
         #endregion
     }

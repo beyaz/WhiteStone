@@ -1,78 +1,50 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 {
-    /// <summary>
-    ///     The schema exporter data preparer
-    /// </summary>
-    public class SchemaExporterDataPreparer
+    public static class Events
     {
-        #region Static Fields
-        /// <summary>
-        ///     The cache
-        /// </summary>
-        static readonly Dictionary<string, IReadOnlyList<ITableInfo>> Cache = new Dictionary<string, IReadOnlyList<ITableInfo>>();
-        #endregion
-
         #region Public Methods
-        /// <summary>
-        ///     Gets the table information.
-        /// </summary>
-        public ITableInfo GetTableInfo(string schemaName, string tableName)
+        public static void OnSchemaStartedToExport(IDataContext context)
         {
-            var config   = Context.Get(Data.Config);
-            var database = Context.Get(Data.Database);
-
-            var tableInfoDao = new TableInfoDao {Database = database, IndexInfoAccess = new IndexInfoAccess {Database = database}};
-
-            var tableInfo = tableInfoDao.GetInfo(config.TableCatalog, schemaName, tableName);
-
-            var generatorData = GeneratorDataCreator.Create(tableInfo);
-
-            return generatorData;
-        }
-
-        /// <summary>
-        ///     Prepares the specified schema name.
-        /// </summary>
-        public IReadOnlyList<ITableInfo> Prepare(string schemaName)
-        {
-            if (Cache.ContainsKey(schemaName))
-            {
-                return Cache[schemaName];
-            }
-
-            var database = Context.Get(Data.Database);
-
-            var progress = Context.Get(Data.SchemaGenerationProcess);
+            var database   = context.Get(Data.Database);
+            var progress   = context.Get(Data.SchemaGenerationProcess);
+            var schemaName = context.Get(Data.SchemaName);
+            var config     = context.Get(Data.Config);
 
             var tableNames = SchemaInfo.GetAllTableNamesInSchema(database, schemaName).ToList();
 
-            tableNames = tableNames.Where(x => IsReadyToExport(schemaName, x)).ToList();
+            context.Add(Data.TableNamesInSchema, tableNames);
 
-            var items = new List<ITableInfo>();
+            context.FireEvent(DataEvent.AfterFetchedAllTableNamesInSchema);
+
+            tableNames = context.Get(Data.TableNamesInSchema);
+
+            context.Remove(Data.TableNamesInSchema);
+
+            tableNames = tableNames.Where(x => IsReadyToExport(schemaName, x, config)).ToList();
 
             progress.Total   = tableNames.Count;
             progress.Current = 0;
 
             foreach (var tableName in tableNames)
             {
-                progress.Text = $"Fetching table information of {tableName}";
+                progress.Text = $"Generating codes for table '{tableName}'.";
                 progress.Current++;
 
-                var generatorData = GetTableInfo(schemaName, tableName);
+                var tableInfoDao = new TableInfoDao {Database = database, IndexInfoAccess = new IndexInfoAccess {Database = database}};
 
-                items.Add(generatorData);
+                var tableInfo = tableInfoDao.GetInfo(config.TableCatalog, schemaName, tableName);
+
+                var generatorData = GeneratorDataCreator.Create(tableInfo);
+
+                context.Add(Data.TableInfo, generatorData);
+                context.FireEvent(DataEvent.StartToExportTable);
+                context.Remove(Data.TableInfo);
             }
-
-            Cache[schemaName] = items;
-
-            return items;
         }
         #endregion
 
@@ -80,10 +52,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         /// <summary>
         ///     Determines whether [is ready to export] [the specified schema name].
         /// </summary>
-        bool IsReadyToExport(string schemaName, string tableName)
+        static bool IsReadyToExport(string schemaName, string tableName, Config config)
         {
-            var config = Context.Get(Data.Config);
-
             var fullTableName = $"{schemaName}.{tableName}";
 
             var isNotExportable = config.NotExportableTables.Contains(fullTableName);
