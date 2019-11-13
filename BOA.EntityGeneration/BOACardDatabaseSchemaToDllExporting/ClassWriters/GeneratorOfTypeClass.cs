@@ -8,7 +8,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
     /// <summary>
     ///     The generator of type class
     /// </summary>
-    static class GeneratorOfTypeClass
+    public static class GeneratorOfTypeClass
     {
         #region Public Methods
         /// <summary>

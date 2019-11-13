@@ -7,7 +7,7 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
-    class SharedDalClassWriter
+    public class SharedDalClassWriter
     {
         public static void ExportFile(IDataContext context)
         {

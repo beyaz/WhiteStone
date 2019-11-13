@@ -2,7 +2,11 @@
 using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,15 +15,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
     [TestClass]
     public class SampleDatabaseTest
     {
-        class TestDataContextCreator:DataContextCreator
-        {
-            public TestDataContextCreator()
-            {
-                ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
-                IsFileAccessWithTfs = false;
-            }
-        }
-
         #region Fields
         readonly IDataContext context;
         #endregion
@@ -121,5 +116,39 @@ CREATE TABLE ERP.SAMPLE_TABLE
             StringHelper.IsEqualAsData(current, expected).Should().BeTrue();
         }
         #endregion
+
+        class TestDataContextCreator : DataContextCreator
+        {
+            #region Constructors
+            public TestDataContextCreator()
+            {
+                ConfigFilePath      = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
+                IsFileAccessWithTfs = false;
+            }
+            #endregion
+
+            #region Methods
+            protected override void AttachEvents(IDataContext context)
+            {
+                context.AttachEvent(DataEvent.StartToExportTable, GeneratorOfTypeClass.WriteClass);
+                context.AttachEvent(DataEvent.StartToExportTable, GeneratorOfBusinessClass.CreateBusinessClassWriterContext);
+                context.AttachEvent(DataEvent.StartToExportTable, GeneratorOfBusinessClass.WriteClass);
+                context.AttachEvent(DataEvent.StartToExportTable, SharedDalClassWriter.Write);
+                context.AttachEvent(DataEvent.StartToExportTable, GeneratorOfBusinessClass.RemoveBusinessClassWriterContext);
+
+                context.AttachEvent(DataEvent.StartToExportSchema, SharedDalClassWriter.WriteUsingList);
+                context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfTypeClass.WriteUsingList);
+                context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
+                context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfTypeClass.BeginNamespace);
+                context.AttachEvent(DataEvent.StartToExportSchema, AllBusinessClassesInOne.BeginNamespace);
+                context.AttachEvent(DataEvent.StartToExportSchema, Events.OnSchemaStartedToExport);
+                context.AttachEvent(DataEvent.StartToExportSchema, SharedDalClassWriter.EndNamespace);
+                context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfTypeClass.EndNamespace);
+                context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
+
+
+            }
+            #endregion
+        }
     }
 }
