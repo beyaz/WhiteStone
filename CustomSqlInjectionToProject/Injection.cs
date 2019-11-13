@@ -3,7 +3,6 @@ using System.Threading;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.TfsAccess;
-using Ninject;
 using WhiteStone.UI.Container;
 
 namespace CustomSqlInjectionToProject

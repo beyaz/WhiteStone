@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
@@ -16,10 +17,10 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         {
             var context = TestKernel.CreateDataContext();
 
-
-            using (var kernel = new TestKernel())
-            {
-                var database = kernel.Get<IDatabase>();
+            
+            
+            
+                var database = context.Get(Data.Database);
 
                 database.BeginTransaction();
 
@@ -96,7 +97,7 @@ CREATE TABLE ERP.SAMPLE_TABLE
 
                 database.Rollback();
             }
-        }
+        
         #endregion
 
         #region Methods
