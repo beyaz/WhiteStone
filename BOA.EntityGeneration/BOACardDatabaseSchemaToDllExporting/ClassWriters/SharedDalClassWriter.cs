@@ -43,6 +43,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         {
             var sb = context.Get(Data.SharedRepositoryClassOutput);
             var schemaName = context.Get(Data.SchemaName);
+            var config = context.Get(Data.Config);
 
            sb.UsingNamespace("System");
            sb.UsingNamespace("System.Collections.Generic");
@@ -52,7 +53,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
            sb.AppendLine();
 
            sb.BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName));
-           SqlInfoClassWriter.Write(sb);
+           SqlInfoClassWriter.Write(sb,config);
         }
 
         public static void EndNamespace(IDataContext context)

@@ -17,8 +17,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         /// </summary>
         public static void Inject(IDataContext context, string profileId)
         {
-            var config   = Context.Get(Data.Config);
-            var database = Context.Get(Data.Database);
+            var config   = context.Get(Data.Config);
+            var database = context.Get(Data.Database);
 
             context.Add(Data.CustomSqlInfoProject, ProjectCustomSqlInfoDataAccess.GetByProfileId(database, config, profileId));
 

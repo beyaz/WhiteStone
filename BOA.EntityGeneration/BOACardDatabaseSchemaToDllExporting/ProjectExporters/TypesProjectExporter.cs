@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
             if (config.EnableFullProjectExport)
             {
-                var ns = NamingHelper.GetTypeClassNamespace(schemaName);
+                var ns = NamingHelper.GetTypeClassNamespace(schemaName,config);
 
                 var projectDirectory = $"{ProjectExportLocation.GetExportLocationOfBusinessProject(schemaName)}{ns}\\";
 

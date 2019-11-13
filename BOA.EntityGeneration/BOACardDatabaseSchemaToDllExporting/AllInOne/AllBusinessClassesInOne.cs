@@ -18,11 +18,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         {
             var sb         = context.Get(Data.BoaRepositoryClassesOutput);
             var schemaName = context.Get(Data.SchemaName);
-            var config     = Context.Get(Data.Config);
+            var config     = context.Get(Data.Config);
 
             sb.AppendLine();
-            sb.BeginNamespace(NamingHelper.GetBusinessClassNamespace(schemaName));
-            ObjectHelperSqlUtilClassWriter.Write(sb);
+            sb.BeginNamespace(NamingHelper.GetBusinessClassNamespace(schemaName,config));
+            ObjectHelperSqlUtilClassWriter.Write(sb,config);
 
             UtilClass(sb, config);
         }

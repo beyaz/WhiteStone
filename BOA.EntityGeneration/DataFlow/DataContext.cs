@@ -10,17 +10,6 @@ namespace ___Company___.EntityGeneration.DataFlow
     /// </summary>
     public class DataContext : ___Company___.DataFlow.DataContext
     {
-        #region Static Fields
-        /// <summary>
-        ///     The instance
-        /// </summary>
-        public static readonly DataContext Context = new DataContext();
-        #endregion
-
-        #region Fields
-        
-        #endregion
-
         #region Constructors
         /// <summary>
         ///     Initializes a new instance of the <see cref="DataContext" /> class.
@@ -43,9 +32,6 @@ namespace ___Company___.EntityGeneration.DataFlow
             AttachEvent(DataEvent.StartToExportSchema, TypesProjectExporter.ExportTypeDll);
             AttachEvent(DataEvent.StartToExportSchema, BusinessProjectExporter.Export);
             AttachEvent(DataEvent.StartToExportSchema, MsBuildQueue.Build);
-            
-            
-            
         }
         #endregion
     }

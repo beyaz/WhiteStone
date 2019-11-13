@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
@@ -51,9 +52,9 @@ namespace BOA.EntityGeneration.UI.MainForm
         public void GetCapture()
         {
             
-            Model.SchemaGenerationProcess    = Context.TryGet(Data.SchemaGenerationProcess) ?? Model.SchemaGenerationProcess;
+            Model.SchemaGenerationProcess    = context?.TryGet(Data.SchemaGenerationProcess) ?? Model.SchemaGenerationProcess;
 
-            Model.AllSchemaGenerationProcess = Context.TryGet(Data.AllSchemaGenerationProcess) ?? Model.AllSchemaGenerationProcess;
+            Model.AllSchemaGenerationProcess = context?.TryGet(Data.AllSchemaGenerationProcess) ?? Model.AllSchemaGenerationProcess;
 
             if (IsFinished)
             {
@@ -90,10 +91,11 @@ namespace BOA.EntityGeneration.UI.MainForm
         #endregion
 
         #region Methods
-       
+
+        IDataContext context;
         void Start()
         {
-            var context = Kernel.CreateDataContext(null,true,Model.CheckInComment);
+            context = Kernel.CreateDataContext(null,true,Model.CheckInComment);
 
             BOACardDatabaseExporter.Export(context, Model.SchemaName);
 

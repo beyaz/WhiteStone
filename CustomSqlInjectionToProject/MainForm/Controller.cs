@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
@@ -42,7 +43,7 @@ namespace CustomSqlInjectionToProject.MainForm
 
         public void GetCapture()
         {
-            Model.CustomSqlGenerationOfProfileIdProcess = Context.TryGet(Data.CustomSqlGenerationOfProfileIdProcess) ?? Model.CustomSqlGenerationOfProfileIdProcess;
+            Model.CustomSqlGenerationOfProfileIdProcess = context?.TryGet(Data.CustomSqlGenerationOfProfileIdProcess) ?? Model.CustomSqlGenerationOfProfileIdProcess;
 
             if (IsFinished)
             {
@@ -75,9 +76,10 @@ namespace CustomSqlInjectionToProject.MainForm
         #endregion
 
         #region Methods
+        IDataContext context;
         void Start()
         {
-            var context = Kernel.CreateDataContext(null, true, Model.CheckInComment);
+            context = Kernel.CreateDataContext(null, true, Model.CheckInComment);
             ProjectInjector.Inject(context, Model.ProfileId.Trim());
             IsFinished = true;
         }
