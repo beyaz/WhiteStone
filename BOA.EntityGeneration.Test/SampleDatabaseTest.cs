@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using ___Company___.DataFlow;
-using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
@@ -9,6 +8,7 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static ___Company___.EntityGeneration.DataFlow.Data;
 using static ___Company___.EntityGeneration.DataFlow.DataEvent;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
@@ -25,7 +25,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         {
             context = new TestDataContextCreator().Create();
 
-            var database = context.Get(Data.Database);
+            var database = context.Get(Database);
 
             database.BeginTransaction();
 
@@ -113,12 +113,15 @@ CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_IND
 
             BOACardDatabaseExporter.Export(context, "ERP");
 
+            var expected = File.ReadAllText(@"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
+            var value = context.Get(EntityContractsCodes).ToString();
 
-            ShouldBeSame(@"D:\temp\ERP\BOA.Types.Kernel.Card.ERP\All.cs",
-                         @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
+            StringHelper.IsEqualAsData(value, expected).Should().BeTrue();
 
-            ShouldBeSame(@"D:\temp\ERP\BOA.Business.Kernel.Card.ERP\All.cs",
-                         @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt");
+
+
+            //ShouldBeSame(@"D:\temp\ERP\BOA.Business.Kernel.Card.ERP\All.cs",
+            //             @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt");
         }
         #endregion
 
@@ -132,7 +135,12 @@ CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_IND
         }
         #endregion
 
-         static readonly IDataConstant<PaddedStringBuilder> EntityContractsCodes = new DataConstant<PaddedStringBuilder> {Id = nameof(EntityContractsCodes)};
+         static readonly IDataConstant<PaddedStringBuilder> EntityContractsCodes = DataConstant.Create<PaddedStringBuilder> ();
+
+         static void HoldEntityContractsCodes(IDataContext context)
+         {
+             context.Add(EntityContractsCodes,context.Get(TypeClassesOutput));
+         }
 
         class TestDataContextCreator : DataContextCreator
         {
@@ -163,9 +171,8 @@ CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_IND
                 context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.EndNamespace);
                 context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
 
-                context.AttachEvent(StartToExportSchema, TypesProjectExporter.ExportTypeDll);
-                context.AttachEvent(StartToExportSchema, BusinessProjectExporter.Export);
-                context.AttachEvent(StartToExportSchema, SharedDalClassWriter.ExportFile);
+                context.AttachEvent(StartToExportSchema, HoldEntityContractsCodes);
+
 
 
             }

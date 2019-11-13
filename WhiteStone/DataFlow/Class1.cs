@@ -56,12 +56,37 @@ namespace ___Company___.DataFlow
     /// </summary>
     public class DataConstant<TValueType> : IDataConstant<TValueType>
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DataConstant{TValueType}"/> class.
+        /// </summary>
+        internal DataConstant(int id)
+        {
+            Id = id.ToString();
+        }
         #region Public Properties
         /// <summary>
         ///     Gets the identifier.
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; }
         #endregion
+    }
+
+    /// <summary>
+    ///     The data constant
+    /// </summary>
+    public static class DataConstant
+    {
+        /// <summary>
+        ///     The identifier
+        /// </summary>
+        static int Id;
+        /// <summary>
+        ///     Creates this instance.
+        /// </summary>
+        public static DataConstant<TValueType> Create<TValueType>()
+        {
+            return new DataConstant<TValueType>(Id++);
+        }
     }
 
     /// <summary>
