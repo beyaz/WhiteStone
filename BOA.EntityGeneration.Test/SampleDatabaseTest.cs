@@ -84,8 +84,20 @@ CREATE TABLE ERP.SAMPLE_TABLE
     FIELD_UNIQUEIDENTIFIER_NULLABLE          UNIQUEIDENTIFIER NULL,
 
     FIELD_VARBINARY                  VARBINARY NOT NULL,
-    FIELD_VARBINARY_NULLABLE          VARBINARY NULL
+    FIELD_VARBINARY_NULLABLE          VARBINARY NULL,
+
+    FIELD_INDEX_1          INT NOT NULL,
+    FIELD_INDEX_2_1        INT NOT NULL,
+    FIELD_INDEX_2_2        INT NOT NULL,
+    
+FIELD_INDEX_3_1        INT NOT NULL,
+FIELD_INDEX_3_2        INT NOT NULL,
+FIELD_INDEX_3_3        INT NULL
 )
+
+CREATE INDEX index_on_erp_sample_1 ON ERP.SAMPLE_TABLE(FIELD_INDEX_1);
+CREATE INDEX index_on_erp_sample_2 ON ERP.SAMPLE_TABLE(FIELD_INDEX_2_1,FIELD_INDEX_2_2);
+CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_INDEX_3_2,FIELD_INDEX_3_3);
 
 ";
 
@@ -97,7 +109,9 @@ CREATE TABLE ERP.SAMPLE_TABLE
         [TestMethod]
         public void All_db_types_should_be_handled()
         {
+
             BOACardDatabaseExporter.Export(context, "ERP");
+
 
             ShouldBeSame(@"D:\temp\ERP\BOA.Types.Kernel.Card.ERP\All.cs",
                          @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
@@ -116,6 +130,8 @@ CREATE TABLE ERP.SAMPLE_TABLE
             StringHelper.IsEqualAsData(current, expected).Should().BeTrue();
         }
         #endregion
+
+        
 
         class TestDataContextCreator : DataContextCreator
         {
@@ -145,6 +161,10 @@ CREATE TABLE ERP.SAMPLE_TABLE
                 context.AttachEvent(DataEvent.StartToExportSchema, SharedDalClassWriter.EndNamespace);
                 context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfTypeClass.EndNamespace);
                 context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
+
+                context.AttachEvent(DataEvent.StartToExportSchema, TypesProjectExporter.ExportTypeDll);
+                context.AttachEvent(DataEvent.StartToExportSchema, BusinessProjectExporter.Export);
+                context.AttachEvent(DataEvent.StartToExportSchema, SharedDalClassWriter.ExportFile);
 
 
             }

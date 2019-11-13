@@ -20,6 +20,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             var schemaName = context.Get(Data.SchemaName);
             var config = context.Get(Data.Config);
 
+            sb.AppendLine();
             sb.BeginNamespace(NamingHelper.GetTypeClassNamespace(schemaName,config));
         }
 
