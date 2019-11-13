@@ -9,6 +9,7 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static ___Company___.EntityGeneration.DataFlow.DataEvent;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
@@ -131,7 +132,7 @@ CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_IND
         }
         #endregion
 
-        
+         static readonly IDataConstant<PaddedStringBuilder> EntityContractsCodes = new DataConstant<PaddedStringBuilder> {Id = nameof(EntityContractsCodes)};
 
         class TestDataContextCreator : DataContextCreator
         {
@@ -146,25 +147,25 @@ CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_IND
             #region Methods
             protected override void AttachEvents(IDataContext context)
             {
-                context.AttachEvent(DataEvent.StartToExportTable, GeneratorOfTypeClass.WriteClass);
-                context.AttachEvent(DataEvent.StartToExportTable, GeneratorOfBusinessClass.CreateBusinessClassWriterContext);
-                context.AttachEvent(DataEvent.StartToExportTable, GeneratorOfBusinessClass.WriteClass);
-                context.AttachEvent(DataEvent.StartToExportTable, SharedDalClassWriter.Write);
-                context.AttachEvent(DataEvent.StartToExportTable, GeneratorOfBusinessClass.RemoveBusinessClassWriterContext);
+                context.AttachEvent(StartToExportTable, GeneratorOfTypeClass.WriteClass);
+                context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.CreateBusinessClassWriterContext);
+                context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.WriteClass);
+                context.AttachEvent(StartToExportTable, SharedDalClassWriter.Write);
+                context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.RemoveBusinessClassWriterContext);
 
-                context.AttachEvent(DataEvent.StartToExportSchema, SharedDalClassWriter.WriteUsingList);
-                context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfTypeClass.WriteUsingList);
-                context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
-                context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfTypeClass.BeginNamespace);
-                context.AttachEvent(DataEvent.StartToExportSchema, AllBusinessClassesInOne.BeginNamespace);
-                context.AttachEvent(DataEvent.StartToExportSchema, Events.OnSchemaStartedToExport);
-                context.AttachEvent(DataEvent.StartToExportSchema, SharedDalClassWriter.EndNamespace);
-                context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfTypeClass.EndNamespace);
-                context.AttachEvent(DataEvent.StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
+                context.AttachEvent(StartToExportSchema, SharedDalClassWriter.WriteUsingList);
+                context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.WriteUsingList);
+                context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
+                context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.BeginNamespace);
+                context.AttachEvent(StartToExportSchema, AllBusinessClassesInOne.BeginNamespace);
+                context.AttachEvent(StartToExportSchema, Events.OnSchemaStartedToExport);
+                context.AttachEvent(StartToExportSchema, SharedDalClassWriter.EndNamespace);
+                context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.EndNamespace);
+                context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
 
-                context.AttachEvent(DataEvent.StartToExportSchema, TypesProjectExporter.ExportTypeDll);
-                context.AttachEvent(DataEvent.StartToExportSchema, BusinessProjectExporter.Export);
-                context.AttachEvent(DataEvent.StartToExportSchema, SharedDalClassWriter.ExportFile);
+                context.AttachEvent(StartToExportSchema, TypesProjectExporter.ExportTypeDll);
+                context.AttachEvent(StartToExportSchema, BusinessProjectExporter.Export);
+                context.AttachEvent(StartToExportSchema, SharedDalClassWriter.ExportFile);
 
 
             }
