@@ -42,7 +42,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
         #region Public Methods
         [TestMethod]
-        public void All_db_types_should_be_handled()
+        public void CheckEntityFiles()
         {
             var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
             var value    = context.Get(EntityFileTemp).ToString();
@@ -51,7 +51,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         }
 
         [TestMethod]
-        public void SharedRepository()
+        public void CheckSharedRepository()
         {
             var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt");
             var value    = context.Get(SharedRepositoryFileTemp).ToString();
@@ -64,7 +64,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         static void HoldSomeDataForCheckingTestResults(IDataContext context)
         {
             context.Add(EntityFileTemp, context.Get(EntityFile));
-            context.Add(SharedRepositoryFileTemp, context.Get(Data.SharedRepositoryFile));
+            context.Add(SharedRepositoryFileTemp, context.Get(SharedRepositoryFile));
         }
         #endregion
 
