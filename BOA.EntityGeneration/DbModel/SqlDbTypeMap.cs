@@ -6,7 +6,7 @@ using System.Data;
 
 namespace BOA.EntityGeneration.DbModel
 {
-    public class SqlDbTypeMap
+    public static class SqlDbTypeMap
     {
         #region Static Fields
         
@@ -51,7 +51,7 @@ namespace BOA.EntityGeneration.DbModel
         #endregion
 
         #region Public Methods
-        public string GetDotNetType(string dataType, bool isNullable)
+        public static string GetDotNetType(string dataType, bool isNullable)
         {
             if (SqlDbType.TinyInt.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase))
             {
@@ -281,7 +281,7 @@ namespace BOA.EntityGeneration.DbModel
             throw new ArgumentException(dataType);
         }
 
-        public virtual SqlDbType GetSqlDbType(string dataType)
+        public static SqlDbType GetSqlDbType(string dataType)
         {
             try
             {
@@ -334,7 +334,7 @@ namespace BOA.EntityGeneration.DbModel
 
         
 
-        public virtual SqlReaderMethods GetSqlReaderMethod(string dataType, bool isNullable)
+        public static SqlReaderMethods GetSqlReaderMethod(string dataType, bool isNullable)
         {
             if (dataType.IsEqual(SqlDbType.Timestamp))
             {

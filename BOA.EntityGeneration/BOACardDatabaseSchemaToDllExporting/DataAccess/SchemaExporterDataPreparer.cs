@@ -39,7 +39,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
                 var tableInfo = tableInfoDao.GetInfo(config.TableCatalog, schemaName, tableName);
 
-                var generatorData = GeneratorDataCreator.Create(tableInfo);
+                var generatorData = GeneratorDataCreator.Create(config,database,tableInfo);
 
                 context.Add(Data.TableInfo, generatorData);
                 context.FireEvent(DataEvent.StartToExportTable);

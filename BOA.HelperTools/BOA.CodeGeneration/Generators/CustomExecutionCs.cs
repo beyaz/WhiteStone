@@ -19,7 +19,6 @@ namespace BOA.CodeGeneration.Generators
     public class CustomExecutionCs : WriterBase
     {
 
-        public SqlDbTypeMap SqlDbTypeMap { get; set; } = new SqlDbTypeMap();
 
 
         #region Fields

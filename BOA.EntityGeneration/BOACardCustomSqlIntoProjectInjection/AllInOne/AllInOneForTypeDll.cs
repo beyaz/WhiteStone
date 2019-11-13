@@ -9,17 +9,12 @@ using ___Company___.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 {
-    public class AllInOneForTypeDll
+    public static class AllInOneForTypeDll
     {
-        #region Public Properties
-        
-
-        [Inject]
-        public TypeClassWriter TypeClassWriter { get; set; }
-        #endregion
+       
 
         #region Public Methods
-        public string GetCode(IProjectCustomSqlInfo data)
+        public static string GetCode(IProjectCustomSqlInfo data)
         {
             var sb = new PaddedStringBuilder();
 
@@ -28,7 +23,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             return sb.ToString();
         }
 
-        public void Write(PaddedStringBuilder sb, IProjectCustomSqlInfo data)
+        static void Write(PaddedStringBuilder sb, IProjectCustomSqlInfo data)
         {
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using System;");

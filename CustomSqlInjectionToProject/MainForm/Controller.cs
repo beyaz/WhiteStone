@@ -5,8 +5,6 @@ using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.TfsAccess;
-using Ninject;
 using WhiteStone.UI.Container.Mvc;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
@@ -77,24 +75,11 @@ namespace CustomSqlInjectionToProject.MainForm
         #endregion
 
         #region Methods
-        Kernel CreateKernel()
-        {
-            var kernel = new Kernel();
-
-            kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>().OnActivation(x => x.CheckInComment = Model.CheckInComment);
-
-            Context.Add(Data.CustomSqlGenerationOfProfileIdProcess, new ProcessInfo());
-
-            return kernel;
-        }
-
         void Start()
         {
-            using (var kernel = CreateKernel())
-            {
-                kernel.Get<ProjectInjector>().Inject(Model.ProfileId.Trim());
-                IsFinished = true;
-            }
+            var context = Kernel.CreateDataContext(null, true, Model.CheckInComment);
+            ProjectInjector.Inject(context, Model.ProfileId.Trim());
+            IsFinished = true;
         }
         #endregion
     }

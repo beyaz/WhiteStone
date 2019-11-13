@@ -3,6 +3,7 @@ using ___Company___.DataFlow;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
@@ -16,6 +17,10 @@ namespace ___Company___.EntityGeneration.DataFlow
         public static readonly IEvent StartToExportSchema = new Event {Name = nameof(StartToExportSchema)};
         public static readonly IEvent AfterFetchedAllTableNamesInSchema = new Event {Name = nameof(AfterFetchedAllTableNamesInSchema)};
         public static readonly IEvent StartToExportTable = new Event {Name = nameof(StartToExportTable)};
+
+        public static readonly IEvent StartToExportCustomSqlInfoProject = new Event {Name = nameof(StartToExportCustomSqlInfoProject)};
+
+
     }
 
     /// <summary>
@@ -23,6 +28,9 @@ namespace ___Company___.EntityGeneration.DataFlow
     /// </summary>
     public static class Data
     {
+        public static readonly IDataConstant<ICustomSqlInfo>        CustomSqlInfo        = new DataConstant<ICustomSqlInfo> {Id        = nameof(CustomSqlInfo)};
+        public static readonly IDataConstant<IProjectCustomSqlInfo> CustomSqlInfoProject = new DataConstant<IProjectCustomSqlInfo> {Id = nameof(CustomSqlInfoProject)};
+
         public static readonly IDataConstant<List<string>> TableNamesInSchema = new DataConstant<List<string>> {Id = nameof(TableNamesInSchema)};
 
         #region Static Fields

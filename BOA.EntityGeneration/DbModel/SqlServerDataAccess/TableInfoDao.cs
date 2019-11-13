@@ -12,7 +12,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     public class TableInfoDao
     {
-        static readonly SqlDbTypeMap SqlDbTypeMap  = new SqlDbTypeMap();
 
         #region Public Properties
         [Inject]

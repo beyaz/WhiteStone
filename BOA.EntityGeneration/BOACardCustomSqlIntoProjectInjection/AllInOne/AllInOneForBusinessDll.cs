@@ -7,13 +7,13 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
     /// <summary>
     ///     All in one for business DLL
     /// </summary>
-    public class AllInOneForBusinessDll
+    public static class AllInOneForBusinessDll
     {
         #region Public Methods
         /// <summary>
         ///     Gets the code.
         /// </summary>
-        public string GetCode(IProjectCustomSqlInfo data)
+        public  static string GetCode(IProjectCustomSqlInfo data)
         {
             var sb = new PaddedStringBuilder();
 

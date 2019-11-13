@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
+using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.DbModel.Types;
 using WhiteStone.Helpers;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 using ITableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces.ITableInfo;
 using TableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl.TableInfo;
 
@@ -23,10 +24,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         /// <summary>
         ///     Creates the specified table information.
         /// </summary>
-        public static ITableInfo Create(DbModel.Interfaces.ITableInfo tableInfo)
+        public static ITableInfo Create( Config config, IDatabase database,  DbModel.Interfaces.ITableInfo tableInfo)
         {
-            var config   = Context.Get(Data.Config);
-            var database = Context.Get(Data.Database);
 
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 

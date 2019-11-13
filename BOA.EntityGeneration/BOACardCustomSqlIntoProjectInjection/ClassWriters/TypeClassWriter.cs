@@ -3,9 +3,9 @@ using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interface
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
 {
-    public class TypeClassWriter
+    public static class TypeClassWriter
     {
-        public void Write_ICustomSqlProxy(PaddedStringBuilder sb)
+        public static void Write_ICustomSqlProxy(PaddedStringBuilder sb)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///     Custom sql proxy.");
@@ -16,7 +16,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters
             sb.AppendLine("}");
         }
         #region Public Methods
-        public void Write(PaddedStringBuilder sb, ICustomSqlInfo data)
+        public static void Write(PaddedStringBuilder sb, ICustomSqlInfo data)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///     Result class of '{data.Name}' sql.");

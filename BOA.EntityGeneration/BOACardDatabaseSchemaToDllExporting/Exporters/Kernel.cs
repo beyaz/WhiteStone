@@ -28,6 +28,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
             context.Add(Data.MsBuildQueue, new MsBuildQueue());
             context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
+            context.Add(Data.CustomSqlGenerationOfProfileIdProcess, new ProcessInfo());
 
             if (isFileAccessWithTfs)
             {
