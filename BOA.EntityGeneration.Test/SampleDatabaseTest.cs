@@ -48,7 +48,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         [TestMethod]
         public void CheckSharedRepository()
         {
-            var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt");
+            var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Business.Kernel.Card.ERP\Shared.cs.txt");
             var value    = context.Get(SharedRepositoryFileTemp).ToString();
 
             StringHelper.IsEqualAsData(value, expected).Should().BeTrue();
