@@ -14,7 +14,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
 
 
-    public class Kernel : StandardKernel
+    public class Kernel 
     {
         public static IDataContext CreateDataContext(string configFilePath ,bool isFileAccessWithTfs, string checkinComment)
         {
