@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         [TestMethod]
         public void ExportPRM()
         {
-            var context = Kernel.CreateDataContext(null, false, null);
+            var context = new DataContextCreator().Create();
 
             context.Get(Data.Config).BuildAfterCodeGenerationIsCompleted = false;
             context.Get(Data.Config).IntegrateWithBOATfs = false;

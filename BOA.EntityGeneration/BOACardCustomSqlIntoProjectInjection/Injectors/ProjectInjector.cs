@@ -2,7 +2,6 @@
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
 {

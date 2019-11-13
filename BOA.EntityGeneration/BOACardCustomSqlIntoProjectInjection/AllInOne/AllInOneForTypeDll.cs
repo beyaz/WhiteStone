@@ -2,9 +2,6 @@
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.ClassWriters;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
-using ___Company___.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 {

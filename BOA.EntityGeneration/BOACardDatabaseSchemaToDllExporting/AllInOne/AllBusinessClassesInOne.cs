@@ -4,7 +4,6 @@ using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 {

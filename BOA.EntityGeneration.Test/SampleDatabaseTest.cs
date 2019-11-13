@@ -1,7 +1,7 @@
 ﻿using System.IO;
+using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
-using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,24 +11,33 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
     [TestClass]
     public class SampleDatabaseTest
     {
-        #region Public Methods
-        [TestMethod]
-        public void All_db_types_should_be_handled()
+        class TestDataContextCreator:DataContextCreator
         {
-            var context = TestKernel.CreateDataContext();
+            public TestDataContextCreator()
+            {
+                ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
+                IsFileAccessWithTfs = false;
+            }
+        }
 
-            
-            
-            
-                var database = context.Get(Data.Database);
+        #region Fields
+        readonly IDataContext context;
+        #endregion
 
-                database.BeginTransaction();
+        #region Constructors
+        public SampleDatabaseTest()
+        {
+            context = new TestDataContextCreator().Create();
 
-                database.CommandText = "CREATE SCHEMA ERP";
-                database.ExecuteNonQuery();
+            var database = context.Get(Data.Database);
 
-                database.CommandText =
-                    @"
+            database.BeginTransaction();
+
+            database.CommandText = "CREATE SCHEMA ERP";
+            database.ExecuteNonQuery();
+
+            database.CommandText =
+                @"
 
 CREATE TABLE ERP.SAMPLE_TABLE
 (
@@ -85,19 +94,22 @@ CREATE TABLE ERP.SAMPLE_TABLE
 
 ";
 
-                database.ExecuteNonQuery();
+            database.ExecuteNonQuery();
+        }
+        #endregion
 
-                BOACardDatabaseExporter.Export(context,"ERP");
+        #region Public Methods
+        [TestMethod]
+        public void All_db_types_should_be_handled()
+        {
+            BOACardDatabaseExporter.Export(context, "ERP");
 
-                ShouldBeSame(@"D:\temp\ERP\BOA.Types.Kernel.Card.ERP\All.cs",
-                             @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
+            ShouldBeSame(@"D:\temp\ERP\BOA.Types.Kernel.Card.ERP\All.cs",
+                         @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
 
-                ShouldBeSame(@"D:\temp\ERP\BOA.Business.Kernel.Card.ERP\All.cs",
-                             @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt");
-
-                database.Rollback();
-            }
-        
+            ShouldBeSame(@"D:\temp\ERP\BOA.Business.Kernel.Card.ERP\All.cs",
+                         @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt");
+        }
         #endregion
 
         #region Methods
@@ -109,7 +121,5 @@ CREATE TABLE ERP.SAMPLE_TABLE
             StringHelper.IsEqualAsData(current, expected).Should().BeTrue();
         }
         #endregion
-
-        
     }
 }

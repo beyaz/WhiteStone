@@ -7,7 +7,6 @@ using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using WhiteStone.UI.Container.Mvc;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace CustomSqlInjectionToProject.MainForm
 {
@@ -79,7 +78,9 @@ namespace CustomSqlInjectionToProject.MainForm
         IDataContext context;
         void Start()
         {
-            context = Kernel.CreateDataContext(null, true, Model.CheckInComment);
+            
+
+            context = new DataContextCreator{ IsFileAccessWithTfs = true,CheckinComment = Model.CheckInComment}.Create();
             ProjectInjector.Inject(context, Model.ProfileId.Trim());
             IsFinished = true;
         }

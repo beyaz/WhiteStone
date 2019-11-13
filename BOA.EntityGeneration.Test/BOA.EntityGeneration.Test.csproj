@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOACardDatabaseExporterTest.cs" />
-    <Compile Include="TestKernel.cs" />
     <Content Include="ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt" />
     <Content Include="ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt" />
     <Compile Include="NamingTest.cs" />

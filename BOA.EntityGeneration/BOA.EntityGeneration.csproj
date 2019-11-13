@@ -107,13 +107,12 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Util\ProcessInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\BusinessProjectExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\InsertInfoCreator.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\Kernel.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\DataContextCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Util\NamingHelper.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\ProjectExportLocation.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\TypesProjectExporter.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="DataFlow\Data.cs" />
-    <Compile Include="DataFlow\DataContext.cs" />
     <Compile Include="DbModel\Interfaces\IColumnInfo.cs" />
     <Compile Include="DbModel\Interfaces\IIndexInfo.cs" />
     <Compile Include="DbModel\Interfaces\ITableInfo.cs" />

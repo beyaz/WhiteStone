@@ -1,6 +1,5 @@
 ﻿using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses
 {

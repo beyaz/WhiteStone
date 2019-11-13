@@ -7,7 +7,6 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.UI.Deployment;
 using WhiteStone.UI.Container.Mvc;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.UI.MainForm
 {
@@ -95,7 +94,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         IDataContext context;
         void Start()
         {
-            context = Kernel.CreateDataContext(null,true,Model.CheckInComment);
+            context = new DataContextCreator {CheckinComment = Model.CheckInComment, IsFileAccessWithTfs = true}.Create();
 
             BOACardDatabaseExporter.Export(context, Model.SchemaName);
 
@@ -105,7 +104,7 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         void StartAll()
         {
-            var context = Kernel.CreateDataContext(null,true,Model.CheckInComment);
+            context = new DataContextCreator {CheckinComment = Model.CheckInComment, IsFileAccessWithTfs = true}.Create();
             BOACardDatabaseExporter.Export(context);
         }
         #endregion

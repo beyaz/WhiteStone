@@ -10,7 +10,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         [TestMethod]
         public void CustomSqlInjection()
         {
-            var context = Kernel.CreateDataContext(null, false, null);
+            var context = new DataContextCreator().Create();
             ProjectInjector.Inject(context, "CC_OPERATIONS");
         }
         #endregion

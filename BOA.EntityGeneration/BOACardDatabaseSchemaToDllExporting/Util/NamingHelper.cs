@@ -1,5 +1,4 @@
 ﻿using ___Company___.EntityGeneration.DataFlow;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
 {
