@@ -16,10 +16,7 @@ namespace ___Company___.EntityGeneration.DataFlow
         #endregion
 
         #region Fields
-        /// <summary>
-        ///     The before business class export
-        /// </summary>
-        public readonly IEvent BeforeBusinessClassExport = new Event {Name = nameof(BeforeBusinessClassExport)};
+        
         #endregion
 
         #region Constructors
@@ -28,7 +25,7 @@ namespace ___Company___.EntityGeneration.DataFlow
         /// </summary>
         public DataContext()
         {
-            AttachEvent(BeforeBusinessClassExport, SharedDalClassWriter.Write);
+            AttachEvent(DataEvent.BeforeBusinessClassExport, SharedDalClassWriter.Write);
         }
         #endregion
     }

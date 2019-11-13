@@ -9,6 +9,14 @@ using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace ___Company___.EntityGeneration.DataFlow
 {
+    public static class DataEvent
+    {
+        /// <summary>
+        ///     The before business class export
+        /// </summary>
+        public static readonly IEvent BeforeBusinessClassExport = new Event {Name = nameof(BeforeBusinessClassExport)};
+    }
+
     /// <summary>
     ///     The data
     /// </summary>

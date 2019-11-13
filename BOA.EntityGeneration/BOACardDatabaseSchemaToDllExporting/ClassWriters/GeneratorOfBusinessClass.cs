@@ -109,7 +109,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             }
 
             Context.Add(Data.BusinessClassWriterContext,businessClassWriterContext);
-            Context.FireEvent(Context.BeforeBusinessClassExport);
+            Context.FireEvent(DataEvent.BeforeBusinessClassExport);
            
             
             ContractCommentInfoCreator.Write(sb, tableInfo);

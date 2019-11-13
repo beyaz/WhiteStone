@@ -9,8 +9,11 @@ using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
+
+
     public class Kernel : StandardKernel
     {
+        
         #region Constructors
         public Kernel(string configFilePath = null)
         {
