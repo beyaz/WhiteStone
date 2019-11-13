@@ -47,9 +47,16 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
     static class SampleDatabaseTestExtensions
     {
+        static readonly IDataConstant<bool> TablesAreCreated = DataConstant.Create<bool>();
+
         #region Public Methods
         public static void CreateTables(this IDataContext context)
         {
+            if (context.TryGet(TablesAreCreated))
+            {
+                return;
+            }
+
             var database = context.Get(Database);
 
             database.BeginTransaction();
@@ -59,6 +66,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
             database.CommandText =
                 @"
+
 
 CREATE TABLE ERP.SAMPLE_TABLE
 (
@@ -128,6 +136,8 @@ CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_IND
 ";
 
             database.ExecuteNonQuery();
+
+            context.Add(TablesAreCreated,true);
         }
         #endregion
     }
