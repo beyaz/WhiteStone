@@ -52,7 +52,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
            sb.AppendLine();
 
-           sb.BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName));
+           sb.BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName,config));
            SqlInfoClassWriter.Write(sb,config);
         }
 

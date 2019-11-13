@@ -30,7 +30,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
                 SchemaExporter.Export(context, schemaName);
             }
 
-            context.Get(Data.MsBuildQueue).Build();
         }
         #endregion
     }
