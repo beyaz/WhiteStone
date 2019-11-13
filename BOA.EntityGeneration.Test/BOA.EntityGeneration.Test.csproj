@@ -65,8 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOACardDatabaseExporterTest.cs" />
-    <Content Include="ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt" />
-    <Content Include="ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt" />
+    <Compile Include="SampleDatabaseTestExtensions.cs" />
+    <Content Include="SampleDatabaseTest.ExpectedResults\ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt" />
+    <Content Include="SampleDatabaseTest.ExpectedResults\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt" />
     <Compile Include="NamingTest.cs" />
     <Compile Include="SampleDatabaseTest.cs" />
     <Compile Include="ProjectInjectorDebug.cs" />
@@ -85,6 +86,7 @@
       <Name>BOA.EntityGeneration</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

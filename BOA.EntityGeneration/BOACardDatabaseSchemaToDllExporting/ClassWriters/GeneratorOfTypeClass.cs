@@ -16,7 +16,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public static void BeginNamespace(IDataContext context)
         {
-            var sb         = context.Get(Data.TypeClassesOutput);
+            var sb         = context.Get(Data.EntityFile);
             var schemaName = context.Get(Data.SchemaName);
             var config = context.Get(Data.Config);
 
@@ -29,7 +29,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public static void EndNamespace(IDataContext context)
         {
-            var sb = context.Get(Data.TypeClassesOutput);
+            var sb = context.Get(Data.EntityFile);
             sb.EndNamespace();
         }
 
@@ -38,7 +38,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public static void WriteClass(IDataContext context)
         {
-            var sb        = context.Get(Data.TypeClassesOutput);
+            var sb        = context.Get(Data.EntityFile);
             var config    = context.Get(Data.Config);
             var tableInfo = context.Get(Data.TableInfo);
 
@@ -75,7 +75,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public static void WriteUsingList(IDataContext context)
         {
-            var sb     = context.Get(Data.TypeClassesOutput);
+            var sb     = context.Get(Data.EntityFile);
             var config = context.Get(Data.Config);
 
             sb.AppendLine("using System;");

@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using ___Company___.DataFlow;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static ___Company___.EntityGeneration.DataFlow.Data;
@@ -16,6 +16,15 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
     [TestClass]
     public class SampleDatabaseTest
     {
+        #region Constants
+        const string ExpectedResultsDirectory = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\SampleDatabaseTest.ExpectedResults\";
+        #endregion
+
+        #region Static Fields
+        static readonly IDataConstant<PaddedStringBuilder> EntityFileTemp  = DataConstant.Create<PaddedStringBuilder>();
+        static readonly IDataConstant<PaddedStringBuilder> SharedRepositoryFileTemp = DataConstant.Create<PaddedStringBuilder>();
+        #endregion
+
         #region Fields
         readonly IDataContext context;
         #endregion
@@ -25,84 +34,9 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         {
             context = new TestDataContextCreator().Create();
 
-            var database = context.Get(Database);
+            context.CreateTables();
 
-            database.BeginTransaction();
-
-            database.CommandText = "CREATE SCHEMA ERP";
-            database.ExecuteNonQuery();
-
-            database.CommandText =
-                @"
-
-CREATE TABLE ERP.SAMPLE_TABLE
-(
-    SAMPLE_TABLE_ID INT PRIMARY KEY IDENTITY (1, 1),
-
-    FIELD_VARCHAR_50            VARCHAR (50) NOT NULL,
-    FIELD_VARCHAR_50_NULLABLE   VARCHAR (50) NULL,
-
-    FIELD_DATETIME              DATETIME NOT NULL,
-    FIELD_DATETIME_NULLABLE     DATETIME NULL,
-
-    FIELD_NUMERIC_27_0              NUMERIC(27,0) NOT NULL,
-    FIELD_NUMERIC_27_0_NULLABLE     NUMERIC(27,0) NULL,
-
-    FIELD_INT                   INT NOT NULL,
-    FIELD_INT_NULLABLE          INT NULL,
-
-    FIELD_MONEY                   MONEY NOT NULL,
-    FIELD_MONEY_NULLABLE          MONEY NULL,
-
-    FIELD_NVARCHAR                   NVARCHAR(7) NOT NULL,
-    FIELD_NVARCHAR_NULLABLE          NVARCHAR(7) NULL,
-
-    FIELD_NCHAR                   NCHAR(7) NOT NULL,
-    FIELD_NCHAR_NULLABLE          NCHAR(7) NULL,
-
-    FIELD_SMALLDATETIME                   SMALLDATETIME NOT NULL,
-    FIELD_SMALLDATETIME_NULLABLE          SMALLDATETIME NULL,
-
-    FIELD_SMALLINT                   SMALLINT NOT NULL,
-    FIELD_SMALLINT_NULLABLE          SMALLINT NULL,
-
-    FIELD_TINYINT                   TINYINT NOT NULL,
-    FIELD_TINYINT_NULLABLE          TINYINT NULL,
-
-    FIELD_CHAR                   CHAR NOT NULL,
-    FIELD_CHAR_NULLABLE          CHAR NULL,
-
-    FIELD_BIGINT                   BIGINT NOT NULL,
-    FIELD_BIGINT_NULLABLE          BIGINT NULL,
-
-    FIELD_BIT                   BIT NOT NULL,
-    FIELD_BIT_NULLABLE          BIT NULL,
-
-    FIELD_DECIMAL                   DECIMAL NOT NULL,
-    FIELD_DECIMAL_NULLABLE          DECIMAL NULL,
-
-    FIELD_UNIQUEIDENTIFIER                   UNIQUEIDENTIFIER NOT NULL,
-    FIELD_UNIQUEIDENTIFIER_NULLABLE          UNIQUEIDENTIFIER NULL,
-
-    FIELD_VARBINARY                  VARBINARY NOT NULL,
-    FIELD_VARBINARY_NULLABLE          VARBINARY NULL,
-
-    FIELD_INDEX_1          INT NOT NULL,
-    FIELD_INDEX_2_1        INT NOT NULL,
-    FIELD_INDEX_2_2        INT NOT NULL,
-    
-FIELD_INDEX_3_1        INT NOT NULL,
-FIELD_INDEX_3_2        INT NOT NULL,
-FIELD_INDEX_3_3        INT NULL
-)
-
-CREATE INDEX index_on_erp_sample_1 ON ERP.SAMPLE_TABLE(FIELD_INDEX_1);
-CREATE INDEX index_on_erp_sample_2 ON ERP.SAMPLE_TABLE(FIELD_INDEX_2_1,FIELD_INDEX_2_2);
-CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_INDEX_3_2,FIELD_INDEX_3_3);
-
-";
-
-            database.ExecuteNonQuery();
+            BOACardDatabaseExporter.Export(context, "ERP");
         }
         #endregion
 
@@ -110,37 +44,29 @@ CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_IND
         [TestMethod]
         public void All_db_types_should_be_handled()
         {
-
-            BOACardDatabaseExporter.Export(context, "ERP");
-
-            var expected = File.ReadAllText(@"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
-            var value = context.Get(EntityContractsCodes).ToString();
+            var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
+            var value    = context.Get(EntityFileTemp).ToString();
 
             StringHelper.IsEqualAsData(value, expected).Should().BeTrue();
+        }
 
+        [TestMethod]
+        public void SharedRepository()
+        {
+            var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt");
+            var value    = context.Get(SharedRepositoryFileTemp).ToString();
 
-
-            //ShouldBeSame(@"D:\temp\ERP\BOA.Business.Kernel.Card.ERP\All.cs",
-            //             @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Business.Kernel.Card.ERP\All.cs.txt");
+            StringHelper.IsEqualAsData(value, expected).Should().BeTrue();
         }
         #endregion
 
         #region Methods
-        static void ShouldBeSame(string currentFilePath, string expectedFilePath)
+        static void HoldSomeDataForCheckingTestResults(IDataContext context)
         {
-            var current  = File.ReadAllText(currentFilePath);
-            var expected = File.ReadAllText(expectedFilePath);
-
-            StringHelper.IsEqualAsData(current, expected).Should().BeTrue();
+            context.Add(EntityFileTemp, context.Get(EntityFile));
+            context.Add(SharedRepositoryFileTemp, context.Get(Data.SharedRepositoryFile));
         }
         #endregion
-
-         static readonly IDataConstant<PaddedStringBuilder> EntityContractsCodes = DataConstant.Create<PaddedStringBuilder> ();
-
-         static void HoldEntityContractsCodes(IDataContext context)
-         {
-             context.Add(EntityContractsCodes,context.Get(TypeClassesOutput));
-         }
 
         class TestDataContextCreator : DataContextCreator
         {
@@ -171,10 +97,7 @@ CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_IND
                 context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.EndNamespace);
                 context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
 
-                context.AttachEvent(StartToExportSchema, HoldEntityContractsCodes);
-
-
-
+                context.AttachEvent(StartToExportSchema, HoldSomeDataForCheckingTestResults);
             }
             #endregion
         }

@@ -16,15 +16,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         public static void Export(IDataContext context, string schemaName)
         {
             context.Add(Data.SchemaName, schemaName);
-            context.Add(Data.SharedRepositoryClassOutput, new PaddedStringBuilder());
-            context.Add(Data.TypeClassesOutput, new PaddedStringBuilder());
-            context.Add(Data.BoaRepositoryClassesOutput, new PaddedStringBuilder());
+            context.Add(Data.SharedRepositoryFile, new PaddedStringBuilder());
+            context.Add(Data.EntityFile, new PaddedStringBuilder());
+            context.Add(Data.BoaRepositoryFile, new PaddedStringBuilder());
 
             context.FireEvent(DataEvent.StartToExportSchema);
 
-            context.Remove(Data.SharedRepositoryClassOutput);
-            context.Remove(Data.TypeClassesOutput);
-            context.Remove(Data.BoaRepositoryClassesOutput);
+            context.Remove(Data.SharedRepositoryFile);
+            context.Remove(Data.EntityFile);
+            context.Remove(Data.BoaRepositoryFile);
             context.Remove(Data.SchemaName);
         }
         #endregion

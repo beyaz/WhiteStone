@@ -12,7 +12,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public static void ExportFile(IDataContext context)
         {
             var schemaName            = context.Get(Data.SchemaName);
-            var allInOneSourceCode    = context.Get(Data.SharedRepositoryClassOutput).ToString();
+            var allInOneSourceCode    = context.Get(Data.SharedRepositoryFile).ToString();
             var config                = context.Get(Data.Config);
             var fileAccess            = context.Get(Data.FileAccess);
             var allInOneFilePath      = config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         }
         public static void Write(IDataContext context)
         {
-            var sb = context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput);
+            var sb = context.Get<PaddedStringBuilder>(Data.SharedRepositoryFile);
             var businessClassWriterContext = context.Get<BusinessClassWriterContext>(Data.BusinessClassWriterContext);
 
             Write(sb,businessClassWriterContext);
@@ -50,7 +50,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         public static void WriteUsingList(IDataContext context)
         {
-            var sb = context.Get(Data.SharedRepositoryClassOutput);
+            var sb = context.Get(Data.SharedRepositoryFile);
             var schemaName = context.Get(Data.SchemaName);
             var config = context.Get(Data.Config);
 
@@ -67,7 +67,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         public static void EndNamespace(IDataContext context)
         {
-            context.Get(Data.SharedRepositoryClassOutput).EndNamespace();
+            context.Get(Data.SharedRepositoryFile).EndNamespace();
         }
         #endregion
     }

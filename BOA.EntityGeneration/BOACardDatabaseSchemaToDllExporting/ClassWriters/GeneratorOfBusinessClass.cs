@@ -36,7 +36,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         public static void EndNamespace(IDataContext context)
         {
-            var sb = context.Get(Data.BoaRepositoryClassesOutput);
+            var sb = context.Get(Data.BoaRepositoryFile);
             sb.EndNamespace();
         }
 
@@ -114,7 +114,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public static void WriteClass(IDataContext context)
         {
-            var sb = context.Get(Data.BoaRepositoryClassesOutput);
+            var sb = context.Get(Data.BoaRepositoryFile);
             var tableInfo = context.Get(Data.TableInfo);
             var config = context.Get(Data.Config);
 
@@ -340,7 +340,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public static void WriteUsingList(IDataContext context)
         {
-            var sb = context.Get(Data.BoaRepositoryClassesOutput);
+            var sb = context.Get(Data.BoaRepositoryFile);
             var schemaName = context.Get(Data.SchemaName);
             var config = context.Get(Data.Config);
 
