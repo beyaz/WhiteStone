@@ -6,7 +6,6 @@ using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.TfsAccess;
-using Ninject;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
 using DataContext = ___Company___.EntityGeneration.DataFlow.DataContext;
 

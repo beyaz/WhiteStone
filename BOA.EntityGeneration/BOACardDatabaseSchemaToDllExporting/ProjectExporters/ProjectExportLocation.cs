@@ -1,6 +1,4 @@
-﻿using Ninject;
-
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
+﻿namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
     public class ProjectExportLocation
     {
