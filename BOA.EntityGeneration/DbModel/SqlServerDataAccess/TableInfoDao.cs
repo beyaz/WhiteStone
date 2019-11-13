@@ -5,7 +5,6 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel.Types;
-using Ninject;
 using WhiteStone.Helpers;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
@@ -14,9 +13,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
     {
 
         #region Public Properties
-        [Inject]
         public IDatabase Database { get; set; }
-        [Inject]
         public IndexInfoAccess IndexInfoAccess { get; set; }
         #endregion
 

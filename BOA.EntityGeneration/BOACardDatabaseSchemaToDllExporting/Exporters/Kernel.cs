@@ -30,14 +30,25 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
             context.Add(Data.CustomSqlGenerationOfProfileIdProcess, new ProcessInfo());
 
+
             if (isFileAccessWithTfs)
             {
-                context.Add(Data.FileAccess, new FileAccessWithAutoCheckIn {CheckInComment = checkinComment});    
+                context.Add(Data.FileAccess,  new FileSystem
+                {
+                    Config     = context.Get(Data.Config),
+                    FileAccess = new FileAccessWithAutoCheckIn{CheckInComment = checkinComment}
+                });
             }
             else
             {
-                context.Add(Data.FileAccess, new System.IO.FileAccess());
+                context.Add(Data.FileAccess,  new FileSystem
+                {
+                    Config     = context.Get(Data.Config),
+                    FileAccess = new TfsAccess.FileAccess()
+                });
             }
+
+           
             
             context.Add(Data.AllSchemaGenerationProcess, new ProcessInfo());
             context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
