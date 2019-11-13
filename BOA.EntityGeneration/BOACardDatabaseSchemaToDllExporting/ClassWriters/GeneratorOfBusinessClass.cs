@@ -59,14 +59,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
        
 
         #region Public Methods
-        /// <summary>
-        ///     Writes the class.
-        /// </summary>
-        public static void WriteClass(IDataContext Context)
+
+        public static void CreateBusinessClassWriterContext(IDataContext context)
         {
-            var sb = Context.Get(Data.BoaRepositoryClassesOutput);
-            var tableInfo = Context.Get(Data.TableInfo);
-            var config = Context.Get(Data.Config);
+            var tableInfo = context.Get(Data.TableInfo);
+            var config    = context.Get(Data.Config);
 
 
             var typeContractName = $"{tableInfo.TableName.ToContractName()}Contract";
@@ -82,13 +79,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             var businessClassWriterContext = new BusinessClassWriterContext
             {
-                TypeContractName = typeContractName,
-                ClassName = className,
-                BusinessClassNamespace = businessClassNamespace,
+                TypeContractName          = typeContractName,
+                ClassName                 = className,
+                BusinessClassNamespace    = businessClassNamespace,
                 CanWriteDeleteByKeyMethod = tableInfo.IsSupportSelectByKey,
                 CanWriteSelectByKeyMethod = tableInfo.IsSupportSelectByKey,
-                TableInfo = tableInfo,
-                SharedClassConfig = config.SharedClassConfig
+                TableInfo                 = tableInfo,
+                SharedClassConfig         = config.SharedClassConfig
             };
             if (businessClassWriterContext.CanWriteDeleteByKeyMethod)
             {
@@ -99,7 +96,32 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 businessClassWriterContext.SelectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
             }
 
-            Context.Add(Data.BusinessClassWriterContext,businessClassWriterContext);
+            context.Add(Data.BusinessClassWriterContext,businessClassWriterContext);
+        }
+
+        public static void RemoveBusinessClassWriterContext(IDataContext context)
+        {
+            context.Remove(Data.BusinessClassWriterContext);
+        }
+        /// <summary>
+        ///     Writes the class.
+        /// </summary>
+        public static void WriteClass(IDataContext context)
+        {
+            var sb = context.Get(Data.BoaRepositoryClassesOutput);
+            var tableInfo = context.Get(Data.TableInfo);
+            var config = context.Get(Data.Config);
+
+
+           
+            var businessClassWriterContext = context.Get(Data.BusinessClassWriterContext);
+
+            var businessClassNamespace = businessClassWriterContext.BusinessClassNamespace;
+            var typeContractName = businessClassWriterContext.TypeContractName;
+            var className = businessClassWriterContext.ClassName;
+           
+
+            
            
             
             ContractCommentInfoCreator.Write(sb, tableInfo);
@@ -334,7 +356,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("}");
 
             
-            Context.Remove(Data.BusinessClassWriterContext);
+            
         }
 
         /// <summary>

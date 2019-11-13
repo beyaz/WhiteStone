@@ -17,8 +17,10 @@ namespace ___Company___.EntityGeneration.DataFlow
         public DataContext()
         {
             AttachEvent(DataEvent.StartToExportTable, GeneratorOfTypeClass.WriteClass);
+            AttachEvent(DataEvent.StartToExportTable, GeneratorOfBusinessClass.CreateBusinessClassWriterContext);
             AttachEvent(DataEvent.StartToExportTable, GeneratorOfBusinessClass.WriteClass);
             AttachEvent(DataEvent.StartToExportTable, SharedDalClassWriter.Write);
+            AttachEvent(DataEvent.StartToExportTable, GeneratorOfBusinessClass.RemoveBusinessClassWriterContext);
 
             AttachEvent(DataEvent.StartToExportSchema, SharedDalClassWriter.WriteUsingList);
             AttachEvent(DataEvent.StartToExportSchema, GeneratorOfTypeClass.WriteUsingList);
