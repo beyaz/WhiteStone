@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
@@ -21,27 +22,27 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         #endregion
 
         #region Public Methods
-        public string GetCode(string schemaName)
+        public string GetCode(IDataContext context)
         {
-            Context.Add(Data.TypesFileOutput, new PaddedStringBuilder());
+            context.Add(Data.TypesFileOutput, new PaddedStringBuilder());
 
-            Write();
+            Write(context);
 
-            var code = Context.Get(Data.TypesFileOutput).ToString();
+            var code = context.Get(Data.TypesFileOutput).ToString();
 
-            Context.Remove(Data.TypesFileOutput);
+            context.Remove(Data.TypesFileOutput);
 
             return code;
         }
         #endregion
 
         #region Methods
-        void Write()
+        void Write(IDataContext context)
         {
-            var sb         = Context.Get(Data.TypesFileOutput);
-            var schemaName = Context.Get(Data.SchemaName);
+            var sb         = context.Get(Data.TypesFileOutput);
+            var schemaName = context.Get(Data.SchemaName);
 
-            var progress = Context.TryGet(Data.SchemaGenerationProcess);
+            var progress = context.TryGet(Data.SchemaGenerationProcess);
 
             var isFirst = true;
 
@@ -49,7 +50,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
 
             foreach (var tableInfo in items)
             {
-                Context.Add(Data.TableInfo, tableInfo);
+                context.Add(Data.TableInfo, tableInfo);
 
                 if (isFirst)
                 {
@@ -66,7 +67,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
                 sb.AppendLine();
                 GeneratorOfTypeClass.WriteClass();
 
-                Context.Remove(Data.TableInfo);
+                context.Remove(Data.TableInfo);
             }
 
             if (items.Any())

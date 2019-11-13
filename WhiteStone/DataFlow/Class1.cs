@@ -86,6 +86,16 @@ namespace ___Company___.DataFlow
         ///     Tries the get.
         /// </summary>
         T TryGet<T>(IDataConstant<T> dataConstant);
+
+        /// <summary>
+        ///     Adds the specified data constant.
+        /// </summary>
+        void Add<T>(IDataConstant dataConstant, T value);
+
+        /// <summary>
+        ///     Removes the specified data constant.
+        /// </summary>
+        void Remove(IDataConstant dataConstant);
         #endregion
     }
 

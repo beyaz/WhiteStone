@@ -5,6 +5,7 @@ using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.TfsAccess;
 using Ninject;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
 using DataContext = ___Company___.EntityGeneration.DataFlow.DataContext;
@@ -15,7 +16,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
     public class Kernel : StandardKernel
     {
-        public static IDataContext CreateDataContext(string configFilePath = null)
+        public static IDataContext CreateDataContext(string configFilePath ,bool isFileAccessWithTfs, string checkinComment)
         {
             var context = new DataContext();
             if (configFilePath == null)
@@ -26,6 +27,18 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             context.Add(Data.Config, JsonHelper.Deserialize<Config>(File.ReadAllText(configFilePath)));
             context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
             context.Add(Data.MsBuildQueue, new MsBuildQueue());
+            context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
+
+            if (isFileAccessWithTfs)
+            {
+                context.Add(Data.FileAccess, new FileAccessWithAutoCheckIn {CheckInComment = checkinComment});    
+            }
+            else
+            {
+                context.Add(Data.FileAccess, new System.IO.FileAccess());
+            }
+            
+            context.Add(Data.AllSchemaGenerationProcess, new ProcessInfo());
             context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
 
             return context;

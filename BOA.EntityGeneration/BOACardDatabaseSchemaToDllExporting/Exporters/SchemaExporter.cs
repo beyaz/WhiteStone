@@ -1,4 +1,5 @@
-﻿using ___Company___.EntityGeneration.DataFlow;
+﻿using ___Company___.DataFlow;
+using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
@@ -70,21 +71,21 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         /// <summary>
         ///     Exports the specified schema name.
         /// </summary>
-        public void Export(string schemaName)
+        public void Export(IDataContext context,string schemaName)
         {
             
-            Context.Add(Data.SchemaName,schemaName);
-            Context.Add(Data.SharedRepositoryClassOutput,new PaddedStringBuilder());
+            context.Add(Data.SchemaName,schemaName);
+            context.Add(Data.SharedRepositoryClassOutput,new PaddedStringBuilder());
             
 
-            SharedDalClassWriter.WriteUsingList();
+            SharedDalClassWriter.WriteUsingList(context);
 
-            ExportTypeDll(schemaName);
+            ExportTypeDll(context);
 
-            ExportBusinessDll(schemaName);
+            ExportBusinessDll();
 
-            Context.Remove(Data.SharedRepositoryClassOutput);
-            Context.Remove(Data.SchemaName);
+            context.Remove(Data.SharedRepositoryClassOutput);
+            context.Remove(Data.SchemaName);
         }
         #endregion
 
@@ -92,8 +93,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         /// <summary>
         ///     Exports the business DLL.
         /// </summary>
-        void ExportBusinessDll(string schemaName)
+        void ExportBusinessDll()
         {
+            var schemaName = Context.Get(Data.SchemaName);
+
             var code = AllBusinessClassesInOne.GetCode(schemaName);
 
             BusinessProjectExporter.ExportAllInOneFile(schemaName, code);
@@ -107,9 +110,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         /// <summary>
         ///     Exports the type DLL.
         /// </summary>
-        void ExportTypeDll(string schemaName)
+        void ExportTypeDll(IDataContext context)
         {
-            var code = AllTypeClassesInOne.GetCode(schemaName);
+            var schemaName = context.Get(Data.SchemaName);
+            var code = AllTypeClassesInOne.GetCode(context);
 
             TypesProjectExporter.ExportAllInOneFile(schemaName, code);
 

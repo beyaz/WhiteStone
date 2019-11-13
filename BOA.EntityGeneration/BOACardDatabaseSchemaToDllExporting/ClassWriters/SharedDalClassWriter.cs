@@ -37,9 +37,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.CloseBracket();
         }
 
-        public static void WriteUsingList()
+        public static void WriteUsingList(IDataContext context)
         {
-            var sb = Context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput);
+            var sb = context.Get(Data.SharedRepositoryClassOutput);
            sb.UsingNamespace("System");
            sb.UsingNamespace("System.Collections.Generic");
            sb.UsingNamespace("System.Data");

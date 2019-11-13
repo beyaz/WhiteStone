@@ -1,4 +1,5 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+﻿using ___Company___.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 
@@ -11,20 +12,21 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
     public class BOACardDatabaseExporter
     {
         #region Public Methods
-        public static void Export(Kernel kernel, string schemaName)
+        public static void Export(IDataContext context, string schemaName)
         {
-            var schemaExporter = kernel.Get<SchemaExporter>();
+            var schemaExporter = new SchemaExporter();
 
-            schemaExporter.Export(schemaName);
+            schemaExporter.Export(context,schemaName);
 
-            kernel.Get<MsBuildQueue>().Build();
+            context.Get(Data.MsBuildQueue).Build();
         }
 
-        public static void Export(Kernel kernel)
+        public static void Export(IDataContext context)
         {
-            var progress = Context.Get(Data.AllSchemaGenerationProcess);
+            var progress = context.Get(Data.AllSchemaGenerationProcess);
+            var config = context.Get(Data.Config);
 
-            var schemaNames = kernel.Get<Config>().SchemaNamesToBeExport;
+            var schemaNames = config.SchemaNamesToBeExport;
 
             progress.Total   = schemaNames.Count;
             progress.Current = 0;
@@ -35,12 +37,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
                 progress.Current++;
 
-                var schemaExporter = kernel.Get<SchemaExporter>();
+                var schemaExporter = new SchemaExporter();
 
-                schemaExporter.Export(schemaName);
+                schemaExporter.Export(context,schemaName);
             }
 
-            kernel.Get<MsBuildQueue>().Build();
+            context.Get(Data.MsBuildQueue).Build();
             
         }
         #endregion

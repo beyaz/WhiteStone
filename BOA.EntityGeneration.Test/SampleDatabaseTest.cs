@@ -15,7 +15,8 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         [TestMethod]
         public void All_db_types_should_be_handled()
         {
-            
+            var context = TestKernel.CreateDataContext();
+
 
             using (var kernel = new TestKernel())
             {
@@ -86,7 +87,7 @@ CREATE TABLE ERP.SAMPLE_TABLE
 
                 database.ExecuteNonQuery();
 
-                BOACardDatabaseExporter.Export(kernel);
+                BOACardDatabaseExporter.Export(context,"ERP");
 
                 ShouldBeSame(@"D:\temp\ERP\BOA.Types.Kernel.Card.ERP\All.cs",
                              @"D:\github\WhiteStone\BOA.EntityGeneration.Test\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");

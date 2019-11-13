@@ -5,7 +5,6 @@ using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.UI.Deployment;
-using BOA.TfsAccess;
 using WhiteStone.UI.Container.Mvc;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
 
@@ -91,39 +90,21 @@ namespace BOA.EntityGeneration.UI.MainForm
         #endregion
 
         #region Methods
-        Kernel CreateKernel()
-        {
-            var kernel = new Kernel();
-
-            kernel.Bind<FileAccess>().To<FileAccessWithAutoCheckIn>().OnActivation(x => x.CheckInComment = Model.CheckInComment);
-
-            
-
-            Context.Add(Data.AllSchemaGenerationProcess, new ProcessInfo());
-            Context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
-           
-
-            return kernel;
-        }
-
+       
         void Start()
         {
-            using (var kernel = CreateKernel())
-            {
-                BOACardDatabaseExporter.Export(kernel, Model.SchemaName);
+            var context = Kernel.CreateDataContext(null,true,Model.CheckInComment);
 
-                IsFinished = true;
-            }
+            BOACardDatabaseExporter.Export(context, Model.SchemaName);
+
+            IsFinished = true;
         }
+        
 
         void StartAll()
         {
-            using (var kernel = CreateKernel())
-            {
-                BOACardDatabaseExporter.Export(kernel);
-
-                IsFinished = true;
-            }
+            var context = Kernel.CreateDataContext(null,true,Model.CheckInComment);
+            BOACardDatabaseExporter.Export(context);
         }
         #endregion
     }

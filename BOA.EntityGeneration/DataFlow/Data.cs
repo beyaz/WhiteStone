@@ -6,6 +6,7 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DbModel.Interfaces;
+using BOA.TfsAccess;
 
 namespace ___Company___.EntityGeneration.DataFlow
 {
@@ -51,6 +52,8 @@ namespace ___Company___.EntityGeneration.DataFlow
         ///     The schema generation process
         /// </summary>
         public static readonly IDataConstant<ProcessInfo> SchemaGenerationProcess = new DataConstant<ProcessInfo> {Id = nameof(SchemaGenerationProcess)};
+
+        public static readonly IDataConstant<FileAccess> FileAccess = new DataConstant<FileAccess> {Id = nameof(FileAccess)};
 
         /// <summary>
         ///     The shared repository class output

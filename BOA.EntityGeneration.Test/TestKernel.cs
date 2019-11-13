@@ -1,13 +1,13 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+﻿using ___Company___.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     class TestKernel : Kernel
     {
-        #region Constructors
-        public TestKernel() : base(@"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json")
+        public static IDataContext CreateDataContext()
         {
+            return Kernel.CreateDataContext(@"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json", false, null);
         }
-        #endregion
     }
 }
