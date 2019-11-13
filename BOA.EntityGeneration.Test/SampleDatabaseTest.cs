@@ -4,7 +4,6 @@ using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ninject;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
