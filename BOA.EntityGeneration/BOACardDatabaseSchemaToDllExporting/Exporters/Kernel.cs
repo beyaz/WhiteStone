@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
@@ -6,6 +7,7 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using Ninject;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
+using DataContext = ___Company___.EntityGeneration.DataFlow.DataContext;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
@@ -13,6 +15,21 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
     public class Kernel : StandardKernel
     {
+        public static IDataContext CreateDataContext(string configFilePath = null)
+        {
+            var context = new DataContext();
+            if (configFilePath == null)
+            {
+                configFilePath = Path.GetDirectoryName(typeof(Kernel).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
+            }
+
+            context.Add(Data.Config, JsonHelper.Deserialize<Config>(File.ReadAllText(configFilePath)));
+            context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
+            context.Add(Data.MsBuildQueue, new MsBuildQueue());
+            context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
+
+            return context;
+        }
         
         #region Constructors
         public Kernel(string configFilePath = null)
