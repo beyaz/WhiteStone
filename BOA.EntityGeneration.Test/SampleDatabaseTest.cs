@@ -1,27 +1,22 @@
 ﻿using System.IO;
 using ___Company___.DataFlow;
-using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static ___Company___.EntityGeneration.DataFlow.Data;
-using static ___Company___.EntityGeneration.DataFlow.DataEvent;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     [TestClass]
-    public class SampleDatabaseTest
+    public partial class SampleDatabaseTest
     {
         #region Constants
         const string ExpectedResultsDirectory = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\SampleDatabaseTest.ExpectedResults\";
         #endregion
 
         #region Static Fields
-        static readonly IDataConstant<PaddedStringBuilder> EntityFileTemp  = DataConstant.Create<PaddedStringBuilder>();
+        static readonly IDataConstant<PaddedStringBuilder> EntityFileTemp           = DataConstant.Create<PaddedStringBuilder>();
         static readonly IDataConstant<PaddedStringBuilder> SharedRepositoryFileTemp = DataConstant.Create<PaddedStringBuilder>();
         #endregion
 
@@ -67,39 +62,5 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             context.Add(SharedRepositoryFileTemp, context.Get(SharedRepositoryFile));
         }
         #endregion
-
-        class TestDataContextCreator : DataContextCreator
-        {
-            #region Constructors
-            public TestDataContextCreator()
-            {
-                ConfigFilePath      = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
-                IsFileAccessWithTfs = false;
-            }
-            #endregion
-
-            #region Methods
-            protected override void AttachEvents(IDataContext context)
-            {
-                context.AttachEvent(StartToExportTable, GeneratorOfTypeClass.WriteClass);
-                context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.CreateBusinessClassWriterContext);
-                context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.WriteClass);
-                context.AttachEvent(StartToExportTable, SharedDalClassWriter.Write);
-                context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.RemoveBusinessClassWriterContext);
-
-                context.AttachEvent(StartToExportSchema, SharedDalClassWriter.WriteUsingList);
-                context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.WriteUsingList);
-                context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
-                context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.BeginNamespace);
-                context.AttachEvent(StartToExportSchema, AllBusinessClassesInOne.BeginNamespace);
-                context.AttachEvent(StartToExportSchema, Events.OnSchemaStartedToExport);
-                context.AttachEvent(StartToExportSchema, SharedDalClassWriter.EndNamespace);
-                context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.EndNamespace);
-                context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
-
-                context.AttachEvent(StartToExportSchema, HoldSomeDataForCheckingTestResults);
-            }
-            #endregion
-        }
     }
 }

@@ -1,13 +1,56 @@
 ﻿using ___Company___.DataFlow;
-using ___Company___.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using static ___Company___.EntityGeneration.DataFlow.Data;
+using static ___Company___.EntityGeneration.DataFlow.DataEvent;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
+    partial class SampleDatabaseTest
+    {
+        class TestDataContextCreator : DataContextCreator
+        {
+            #region Constructors
+            public TestDataContextCreator()
+            {
+                ConfigFilePath      = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
+                IsFileAccessWithTfs = false;
+            }
+            #endregion
+
+            #region Methods
+            protected override void AttachEvents(IDataContext context)
+            {
+                context.AttachEvent(StartToExportTable, GeneratorOfTypeClass.WriteClass);
+                context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.CreateBusinessClassWriterContext);
+                context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.WriteClass);
+                context.AttachEvent(StartToExportTable, SharedDalClassWriter.Write);
+                context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.RemoveBusinessClassWriterContext);
+
+                context.AttachEvent(StartToExportSchema, SharedDalClassWriter.WriteUsingList);
+                context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.WriteUsingList);
+                context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
+                context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.BeginNamespace);
+                context.AttachEvent(StartToExportSchema, AllBusinessClassesInOne.BeginNamespace);
+                context.AttachEvent(StartToExportSchema, Events.OnSchemaStartedToExport);
+                context.AttachEvent(StartToExportSchema, SharedDalClassWriter.EndNamespace);
+                context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.EndNamespace);
+                context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
+
+                context.AttachEvent(StartToExportSchema, HoldSomeDataForCheckingTestResults);
+            }
+            #endregion
+        }
+    }
+
     static class SampleDatabaseTestExtensions
     {
+        #region Public Methods
         public static void CreateTables(this IDataContext context)
         {
-            var database = context.Get(Data.Database);
+            var database = context.Get(Database);
 
             database.BeginTransaction();
 
@@ -86,5 +129,6 @@ CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_IND
 
             database.ExecuteNonQuery();
         }
+        #endregion
     }
 }
