@@ -69,6 +69,13 @@ namespace ___Company___.DataFlow
     /// </summary>
     public interface IDataContext
     {
+        #region Public Properties
+        /// <summary>
+        ///     Gets a value indicating whether this instance is empty.
+        /// </summary>
+        bool IsEmpty { get; }
+        #endregion
+
         #region Public Methods
         /// <summary>
         ///     Gets the specified data constant.
@@ -91,7 +98,7 @@ namespace ___Company___.DataFlow
         /// <summary>
         ///     Initializes a new instance of the <see cref="DataNotFoundException" /> class.
         /// </summary>
-        public DataNotFoundException(IDataConstant dataConstant):base(dataConstant.Id)
+        public DataNotFoundException(IDataConstant dataConstant) : base(dataConstant.Id)
         {
             DataConstant = dataConstant;
         }
@@ -114,7 +121,7 @@ namespace ___Company___.DataFlow
         /// <summary>
         ///     Initializes a new instance of the <see cref="DataShouldRemoveBeforeSetException" /> class.
         /// </summary>
-        public DataShouldRemoveBeforeSetException(IDataConstant dataConstant):base(dataConstant.Id)
+        public DataShouldRemoveBeforeSetException(IDataConstant dataConstant) : base(dataConstant.Id)
         {
             DataConstant = dataConstant;
         }
@@ -143,6 +150,16 @@ namespace ___Company___.DataFlow
         ///     The subscribers
         /// </summary>
         readonly Dictionary<string, List<Action<IDataContext>>> Subscribers = new Dictionary<string, List<Action<IDataContext>>>();
+        #endregion
+
+        #region Public Properties
+        /// <summary>
+        ///     Gets a value indicating whether this instance is empty.
+        /// </summary>
+        public bool IsEmpty
+        {
+            get { return dictionary.Count == 0; }
+        }
         #endregion
 
         #region Public Methods
