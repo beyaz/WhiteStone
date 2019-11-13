@@ -30,9 +30,12 @@ namespace ___Company___.EntityGeneration.DataFlow
             AttachEvent(DataEvent.StartToExportSchema, Events.OnSchemaStartedToExport);
             AttachEvent(DataEvent.StartToExportSchema, SharedDalClassWriter.EndNamespace);
             AttachEvent(DataEvent.StartToExportSchema, GeneratorOfTypeClass.EndNamespace);
+            AttachEvent(DataEvent.StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
 
             AttachEvent(DataEvent.StartToExportSchema, TypesProjectExporter.ExportTypeDll);
             AttachEvent(DataEvent.StartToExportSchema, BusinessProjectExporter.Export);
+            AttachEvent(DataEvent.StartToExportSchema, SharedDalClassWriter.ExportFile);
+            
             AttachEvent(DataEvent.StartToExportSchema, MsBuildQueue.Build);
         }
         #endregion

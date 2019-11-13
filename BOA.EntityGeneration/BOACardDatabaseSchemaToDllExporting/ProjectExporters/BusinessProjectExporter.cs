@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
             var allInOneSourceCode    = context.Get(Data.BoaRepositoryClassesOutput).ToString();
             var config                = context.Get(Data.Config);
             var fileAccess            = context.Get(Data.FileAccess);
-            var allInOneFilePath      = config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
+            var allInOneFilePath      = config.FilePathForAllDaoInOneFile.Replace("{SchemaName}", schemaName);
             var ProjectExportLocation = new ProjectExportLocation {Config = config};
 
             fileAccess.WriteAllText(allInOneFilePath, allInOneSourceCode);

@@ -63,7 +63,7 @@ namespace ___Company___.EntityGeneration.DataFlow
         /// </summary>
         public static readonly IDataConstant<ProcessInfo> SchemaGenerationProcess = new DataConstant<ProcessInfo> {Id = nameof(SchemaGenerationProcess)};
 
-        public static readonly IDataConstant<FileAccess> FileAccess = new DataConstant<FileAccess> {Id = nameof(FileAccess)};
+        public static readonly IDataConstant<FileSystem> FileAccess = new DataConstant<FileSystem> {Id = nameof(FileAccess)};
 
         /// <summary>
         ///     The shared repository class output

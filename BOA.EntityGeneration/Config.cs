@@ -117,8 +117,10 @@ namespace BOA.EntityGeneration
         ///     Gets or sets the shared class configuration.
         /// </summary>
         public SharedClassConfig SharedClassConfig { get; set; }  = new SharedClassConfig();
+        
         #endregion
     }
+
 
     /// <summary>
     ///     The shared class configuration

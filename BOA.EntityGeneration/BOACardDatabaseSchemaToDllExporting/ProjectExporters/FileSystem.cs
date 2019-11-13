@@ -12,7 +12,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         {
             if (!Config.IntegrateWithBOATfs)
             {
-                FileAccess.WriteToFileSystem(path,content,new FileAccessWriteResult());
+                var result = new FileAccessWriteResult();
+
+                FileAccess.WriteToFileSystem(path,content,result);
+                if (result.Exception != null)
+                {
+                    throw result.Exception;
+                }
                 return;
             }
 

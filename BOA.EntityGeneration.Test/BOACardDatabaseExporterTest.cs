@@ -1,7 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static ___Company___.EntityGeneration.DataFlow.DataContext;
+﻿using ___Company___.DataFlow;
 using ___Company___.EntityGeneration.DataFlow;
-using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
@@ -21,11 +20,22 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         [TestMethod]
         public void ExportPRM()
         {
-            var context = Kernel.CreateDataContext(null,false,null);
+            var context = Kernel.CreateDataContext(null, false, null);
 
             context.Get(Data.Config).BuildAfterCodeGenerationIsCompleted = false;
+            context.Get(Data.Config).IntegrateWithBOATfs = false;
+            context.AttachEvent(DataEvent.AfterFetchedAllTableNamesInSchema, SelectFirstTenTable);
 
             BOACardDatabaseExporter.Export(context, "CRD");
+        }
+        #endregion
+
+        #region Methods
+        static void SelectFirstTenTable(IDataContext context)
+        {
+            var       list  = context.Get(Data.TableNamesInSchema);
+            const int count = 30;
+            list.RemoveRange(count, list.Count - count);
         }
         #endregion
     }

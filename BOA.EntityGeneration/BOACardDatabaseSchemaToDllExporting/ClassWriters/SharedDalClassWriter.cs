@@ -2,6 +2,7 @@
 using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using static ___Company___.EntityGeneration.DataFlow.DataContext;
@@ -10,6 +11,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     class SharedDalClassWriter
     {
+        public static void ExportFile(IDataContext context)
+        {
+            var schemaName            = context.Get(Data.SchemaName);
+            var allInOneSourceCode    = context.Get(Data.SharedRepositoryClassOutput).ToString();
+            var config                = context.Get(Data.Config);
+            var fileAccess            = context.Get(Data.FileAccess);
+            var allInOneFilePath      = config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
+
+            fileAccess.WriteAllText(allInOneFilePath, allInOneSourceCode);
+        }
         public static void Write(IDataContext context)
         {
             var sb = context.Get<PaddedStringBuilder>(Data.SharedRepositoryClassOutput);

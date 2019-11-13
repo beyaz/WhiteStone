@@ -7,6 +7,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
 {
     static class DeleteByKeyMethodWriter
     {
+
         #region Public Methods
         public static void Write(PaddedStringBuilder sb, BusinessClassWriterContext businessClassWriterContext)
         {
@@ -33,6 +34,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.PaddingCount--;
             sb.AppendLine("}");
         }
+
+        
         #endregion
     }
 }

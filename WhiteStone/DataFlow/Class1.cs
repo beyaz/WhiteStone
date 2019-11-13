@@ -83,6 +83,16 @@ namespace ___Company___.DataFlow
         void Add<T>(IDataConstant dataConstant, T value);
 
         /// <summary>
+        ///     Attaches the event.
+        /// </summary>
+        void AttachEvent(IEvent @event, Action<IDataContext> action);
+
+        /// <summary>
+        ///     Detaches the event.
+        /// </summary>
+        void DetachEvent(IEvent @event, Action<IDataContext> action);
+
+        /// <summary>
         ///     Fires the event.
         /// </summary>
         void FireEvent(IEvent @event);

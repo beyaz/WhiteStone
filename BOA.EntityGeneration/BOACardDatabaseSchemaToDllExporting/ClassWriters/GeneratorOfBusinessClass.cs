@@ -34,6 +34,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
     /// </summary>
     public class GeneratorOfBusinessClass
     {
+
+        public static void EndNamespace(IDataContext context)
+        {
+            var sb = context.Get(Data.BoaRepositoryClassesOutput);
+            sb.EndNamespace();
+        }
+
         #region Constants
         /// <summary>
         ///     The contract parameter name
@@ -167,42 +174,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine();
                 MethodWriters.BoaSystem.SelectByKeyMethodWriter.Write(sb,businessClassWriterContext);
 
-                
 
 
-                
 
-                //var parameterPart = string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-                //sb.AppendLine();
-                //sb.AppendLine("/// <summary>");
-                //sb.AppendLine($"///{Padding.ForComment} Selects record by primary keys.");
-                //sb.AppendLine("/// </summary>");
-                //sb.AppendLine($"public GenericResponse<{typeContractName}> SelectByKey({parameterPart})");
-                //sb.AppendLine("{");
-                //sb.PaddingCount++;
 
-                //sb.AppendLine("const string sql = @\"");
-                //sb.AppendAll(selectByPrimaryKeyInfo.Sql);
-                //sb.AppendLine();
-                //sb.AppendLine("\";");
-                //sb.AppendLine();
-                //sb.AppendLine("var command = this.CreateCommand(sql);");
-
-                //if (selectByPrimaryKeyInfo.SqlParameters.Any())
-                //{
-                //    sb.AppendLine();
-                //    foreach (var columnInfo in selectByPrimaryKeyInfo.SqlParameters)
-                //    {
-                //        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
-                //    }
-                //}
-
-                //sb.AppendLine();
-                //sb.AppendLine($"return this.ExecuteReaderForOnlyOneRecord<{typeContractName}>(command, ReadContract);");
-
-                //sb.PaddingCount--;
-                //sb.AppendLine("}");
+              
             }
             #endregion
 
