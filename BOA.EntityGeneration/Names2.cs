@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using BOA.Common.Helpers;
 
 namespace BOA.EntityGeneration
@@ -63,22 +64,7 @@ namespace BOA.EntityGeneration
             
             if (names.Count == 1)
             {
-                var isCamelCase = true;
-                for (var i = 0; i < names[0].Length; i++)
-                {
-                    if (i==0 && char.IsLower(names[0][i]))
-                    {
-                        isCamelCase = false;
-                        break;
-                    }
-                    if (!char.IsLower(names[0][i]))
-                    {
-                        isCamelCase = false;
-                        break;
-                    }
-                }
-
-                if (isCamelCase)
+                if (IsCamelCase(names[0]))
                 {
                     return names[0];    
                 }
@@ -86,6 +72,11 @@ namespace BOA.EntityGeneration
             }
 
             return string.Join(string.Empty, names.Select(name => name.Substring(0, 1).ToUpper(new CultureInfo("EN-US")) + name.Substring(1).ToLowerInvariant()));
+        }
+
+        static bool IsCamelCase(string value)
+        {
+            return Regex.IsMatch(value, "(^[a-z]|[A-Z0-9])[a-z]*");
         }
         #endregion
     }
