@@ -9,6 +9,8 @@ namespace BOA.Types.Kernel.Card.ERP
     ///     <para>[ NonClustered ] index on "FIELD_INDEX_1"</para>
     ///     <para>[ NonClustered ] index on "FIELD_INDEX_2_1" and "FIELD_INDEX_2_2"</para>
     ///     <para>[ NonClustered ] index on "FIELD_INDEX_3_1" and "FIELD_INDEX_3_2" and "FIELD_INDEX_3_3"</para>
+    ///     <para>[ Unique + NonClustered ] index on "FIELD_INT_2"</para>
+    ///     <para>[ Unique + NonClustered ] index on "FIELD_INT_3_0" and "FIELD_INT_3_1"</para>
     ///     <para>[ PrimaryKey + Unique + Clustered ] index on "SAMPLE_TABLE_ID"</para>
     /// </summary>
     [Serializable]
@@ -19,6 +21,8 @@ namespace BOA.Types.Kernel.Card.ERP
         ///     <para>[ NonClustered ] index on "FIELD_INDEX_1"</para>
         ///     <para>[ NonClustered ] index on "FIELD_INDEX_2_1" and "FIELD_INDEX_2_2"</para>
         ///     <para>[ NonClustered ] index on "FIELD_INDEX_3_1" and "FIELD_INDEX_3_2" and "FIELD_INDEX_3_3"</para>
+        ///     <para>[ Unique + NonClustered ] index on "FIELD_INT_2"</para>
+        ///     <para>[ Unique + NonClustered ] index on "FIELD_INT_3_0" and "FIELD_INT_3_1"</para>
         ///     <para>[ PrimaryKey + Unique + Clustered ] index on "SAMPLE_TABLE_ID"</para>
         /// </summary>
         // ReSharper disable once EmptyConstructor
@@ -129,9 +133,23 @@ namespace BOA.Types.Kernel.Card.ERP
 
         public bool FieldCharValidFlag { get; set; }
 
+        /// <summary>
+        ///     [ Unique + NonClustered ] index on "FIELD_INT_2"
+        /// </summary>
+        public int FieldInt2 { get; set; }
+
+        /// <summary>
+        ///     [ Unique + NonClustered ] index on "FIELD_INT_3_0" and "FIELD_INT_3_1"
+        /// </summary>
+        public int FieldInt30 { get; set; }
+
+        /// <summary>
+        ///     [ Unique + NonClustered ] index on "FIELD_INT_3_0" and "FIELD_INT_3_1"
+        /// </summary>
+        public int FieldInt31 { get; set; }
+
         #endregion
     }
-
     /// <summary>
     ///     Entity contract for table ERP.SAMPLE_TABLE2
     ///     <para>[ PrimaryKey + Unique + Clustered ] index on "Id"</para>
