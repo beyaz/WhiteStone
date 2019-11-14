@@ -35,10 +35,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         #region Table
         public static void PushNamesRelatedWithSchema(IDataContext context)
         {
-            var tableInfo = context.Get(TableInfo);
             var config    = context.Get(Data.Config);
 
-            context.Add(BusinessClassNamespace,NamingHelper.GetBusinessClassNamespace(tableInfo.SchemaName,config));
+            context.Add(BusinessClassNamespace,NamingHelper.GetBusinessClassNamespace(context.Get(SchemaName),config));
         }
 
         public static void RemoveNamesRelatedWithSchema(IDataContext context)
