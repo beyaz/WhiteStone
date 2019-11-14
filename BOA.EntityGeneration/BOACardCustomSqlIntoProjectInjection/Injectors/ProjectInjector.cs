@@ -1,4 +1,5 @@
-﻿using ___Company___.DataFlow;
+﻿using BOA.DataFlow;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
 using BOA.EntityGeneration.DataFlow;

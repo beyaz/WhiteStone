@@ -1,5 +1,6 @@
 ﻿using System.Linq;
-using ___Company___.DataFlow;
+using BOA.DataFlow;
+using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 

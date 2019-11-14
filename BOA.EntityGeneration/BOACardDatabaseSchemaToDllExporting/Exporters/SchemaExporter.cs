@@ -1,5 +1,6 @@
-﻿using ___Company___.DataFlow;
+﻿using BOA.DataFlow;
 using BOA.Common.Helpers;
+using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters

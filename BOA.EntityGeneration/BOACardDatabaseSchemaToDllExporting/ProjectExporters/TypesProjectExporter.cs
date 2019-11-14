@@ -1,4 +1,5 @@
-﻿using ___Company___.DataFlow;
+﻿using BOA.DataFlow;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
 using BOA.Tasks;

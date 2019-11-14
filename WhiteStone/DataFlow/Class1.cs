@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ___Company___.DataFlow
+namespace BOA.DataFlow
 {
     /// <summary>
     ///     The data constant
@@ -240,7 +240,7 @@ namespace ___Company___.DataFlow
                 return;
             }
 
-            Subscribers[@event.Name] = new List<Action<IDataContext>> {action};
+            Subscribers[@event.Name] = new List<Action<IDataContext>> { action };
         }
 
         /// <summary>
@@ -284,7 +284,7 @@ namespace ___Company___.DataFlow
             object value = null;
             if (dictionary.TryGetValue(dataConstant.Id, out value))
             {
-                return (T) value;
+                return (T)value;
             }
 
             throw new DataNotFoundException(dataConstant);
@@ -312,7 +312,7 @@ namespace ___Company___.DataFlow
             object value = null;
             if (dictionary.TryGetValue(dataConstant.Id, out value))
             {
-                return (T) value;
+                return (T)value;
             }
 
             return default(T);

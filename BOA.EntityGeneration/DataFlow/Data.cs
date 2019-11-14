@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using ___Company___.DataFlow;
+using BOA.DataFlow;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
