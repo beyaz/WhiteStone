@@ -3,7 +3,7 @@
     public class ProjectExportLocation
     {
         #region Public Properties
-        public Config Config { get; set; }
+        public ConfigContract Config { get; set; }
         #endregion
 
         #region Properties

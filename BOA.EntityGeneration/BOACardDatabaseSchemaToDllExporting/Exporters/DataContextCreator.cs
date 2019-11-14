@@ -33,7 +33,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
                 ConfigFilePath = Path.GetDirectoryName(typeof(DataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
             }
 
-            context.Add(Data.Config, JsonHelper.Deserialize<Config>(File.ReadAllText(ConfigFilePath)));
+            context.Add(Data.Config, JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath)));
             context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
             context.Add(Data.MsBuildQueue, new MsBuildQueue());
 

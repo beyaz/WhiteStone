@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         /// <summary>
         ///     Utilities the class.
         /// </summary>
-        static void UtilClass(PaddedStringBuilder sb, Config config)
+        static void UtilClass(PaddedStringBuilder sb, ConfigContract config)
         {
             var path = Path.GetDirectoryName(typeof(AllBusinessClassesInOne).Assembly.Location) + Path.DirectorySeparatorChar + "EmbeddedUtilizationClassForDao.txt";
 

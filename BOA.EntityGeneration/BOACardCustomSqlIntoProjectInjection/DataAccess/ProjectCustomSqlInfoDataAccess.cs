@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         /// <summary>
         ///     Gets the by profile identifier.
         /// </summary>
-        public static ProjectCustomSqlInfo GetByProfileId(IDatabase database, Config config, string profileId)
+        public static ProjectCustomSqlInfo GetByProfileId(IDatabase database, ConfigContract config, string profileId)
         {
             var project = GetByProfileIdFromDatabase(database, profileId);
 
@@ -43,7 +43,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         /// <summary>
         ///     Fills the specified custom SQL information.
         /// </summary>
-        static void Fill(CustomSqlInfo customSqlInfo, Config config, IDatabase database)
+        static void Fill(CustomSqlInfo customSqlInfo, ConfigContract config, IDatabase database)
         {
             var tableInfoDao = new TableInfoDao {Database = database, IndexInfoAccess = new IndexInfoAccess {Database = database}};
 

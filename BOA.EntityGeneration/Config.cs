@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration
     ///     The configuration
     /// </summary>
     [Serializable]
-    public class Config
+    public class ConfigContract
     {
         #region Public Properties
         /// <summary>

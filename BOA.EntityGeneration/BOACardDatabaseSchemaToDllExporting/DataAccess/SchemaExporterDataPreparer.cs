@@ -53,7 +53,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         /// <summary>
         ///     Determines whether [is ready to export] [the specified schema name].
         /// </summary>
-        static bool IsReadyToExport(string schemaName, string tableName, Config config)
+        static bool IsReadyToExport(string schemaName, string tableName, ConfigContract config)
         {
             var fullTableName = $"{schemaName}.{tableName}";
 

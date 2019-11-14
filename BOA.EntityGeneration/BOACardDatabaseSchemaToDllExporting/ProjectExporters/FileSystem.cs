@@ -4,7 +4,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 {
     public class FileSystem
     {
-        public Config Config { get; set; }
+        public ConfigContract Config { get; set; }
 
         public FileAccess FileAccess { get; set; }
 

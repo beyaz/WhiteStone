@@ -5,7 +5,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses
     static class SqlInfoClassWriter
     {
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb,Config config)
+        public static void Write(PaddedStringBuilder sb,ConfigContract config)
         {
             var path = config.SharedClassConfig.EmbeddedClassesDirectoryPath;
 
@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses
     static class ObjectHelperSqlUtilClassWriter
     {
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb,Config config)
+        public static void Write(PaddedStringBuilder sb,ConfigContract config)
         {
             var path = config.SharedClassConfig.EmbeddedClassesDirectoryPath;
 

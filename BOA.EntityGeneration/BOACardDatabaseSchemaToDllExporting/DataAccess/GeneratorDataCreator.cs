@@ -23,7 +23,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         /// <summary>
         ///     Creates the specified table information.
         /// </summary>
-        public static ITableInfo Create( Config config, IDatabase database,  DbModel.Interfaces.ITableInfo tableInfo)
+        public static ITableInfo Create( ConfigContract config, IDatabase database,  DbModel.Interfaces.ITableInfo tableInfo)
         {
 
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();

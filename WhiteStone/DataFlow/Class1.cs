@@ -4,9 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BOA.DataFlow
 {
-     
-
-
     /// <summary>
     ///     The data constant
     /// </summary>
@@ -17,6 +14,11 @@ namespace BOA.DataFlow
         ///     Gets the identifier.
         /// </summary>
         string Id { get; }
+
+        /// <summary>
+        ///     Gets the name.
+        /// </summary>
+        string Name { get; }
         #endregion
     }
 
@@ -59,18 +61,42 @@ namespace BOA.DataFlow
     /// </summary>
     public class DataConstant<TValueType> : IDataConstant<TValueType>
     {
+        #region Constructors
         /// <summary>
-        ///     Initializes a new instance of the <see cref="DataConstant{TValueType}"/> class.
+        ///     Initializes a new instance of the <see cref="DataConstant{TValueType}" /> class.
         /// </summary>
-        internal DataConstant(int id)
+        internal DataConstant(int id, string name)
         {
-            Id = id.ToString();
+            Name = name;
+            Id   = id.ToString();
         }
+        #endregion
+
         #region Public Properties
         /// <summary>
         ///     Gets the identifier.
         /// </summary>
         public string Id { get; }
+
+        /// <summary>
+        ///     Gets the name.
+        /// </summary>
+        public string Name { get; }
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        ///     Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        public override string ToString()
+        {
+            if (Name == null)
+            {
+                return $"Id: {Id} - Type: {typeof(TValueType).FullName}";
+            }
+
+            return $"name: {Name} - Type: {typeof(TValueType).FullName}";
+        }
         #endregion
     }
 
@@ -79,17 +105,22 @@ namespace BOA.DataFlow
     /// </summary>
     public static class DataConstant
     {
+        #region Static Fields
         /// <summary>
         ///     The identifier
         /// </summary>
         static int Id;
+        #endregion
+
+        #region Public Methods
         /// <summary>
         ///     Creates this instance.
         /// </summary>
-        public static DataConstant<TValueType> Create<TValueType>()
+        public static DataConstant<TValueType> Create<TValueType>(string name = null)
         {
-            return new DataConstant<TValueType>(Id++);
+            return new DataConstant<TValueType>(Id++, name);
         }
+        #endregion
     }
 
     /// <summary>
@@ -151,7 +182,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Initializes a new instance of the <see cref="DataNotFoundException" /> class.
         /// </summary>
-        public DataNotFoundException(IDataConstant dataConstant) : base(dataConstant.Id)
+        public DataNotFoundException(IDataConstant dataConstant) : base(dataConstant.ToString())
         {
             DataConstant = dataConstant;
         }
@@ -243,7 +274,7 @@ namespace BOA.DataFlow
                 return;
             }
 
-            Subscribers[@event.Name] = new List<Action<IDataContext>> { action };
+            Subscribers[@event.Name] = new List<Action<IDataContext>> {action};
         }
 
         /// <summary>
@@ -287,7 +318,7 @@ namespace BOA.DataFlow
             object value = null;
             if (dictionary.TryGetValue(dataConstant.Id, out value))
             {
-                return (T)value;
+                return (T) value;
             }
 
             throw new DataNotFoundException(dataConstant);
@@ -315,7 +346,7 @@ namespace BOA.DataFlow
             object value = null;
             if (dictionary.TryGetValue(dataConstant.Id, out value))
             {
-                return (T)value;
+                return (T) value;
             }
 
             return default(T);
