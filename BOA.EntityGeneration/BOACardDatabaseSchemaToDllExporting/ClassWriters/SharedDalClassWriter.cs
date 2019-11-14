@@ -39,7 +39,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             if (tableInfo.IsSupportSelectByUniqueIndex)
             {
                 sb.AppendLine();
-                SelectByUniqueIndexMethodWriter.Write(context);
+                SelectByIndexMethodWriter.Write(context);
             }
 
             

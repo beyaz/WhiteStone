@@ -1,12 +1,14 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared
 {
-    static class SelectByUniqueIndexMethodWriter
+    static class SelectByIndexMethodWriter
     {
         #region Public Methods
         public static void Write(IDataContext context)
@@ -14,7 +16,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             var sb        = context.Get(Data.SharedRepositoryFile);
             var tableInfo = context.Get(Data.TableInfo);
 
-            foreach (var indexIdentifier in tableInfo.UniqueIndexInfoList)
+            var allIndexes = new List<IIndexInfo>();
+            allIndexes.AddRange(tableInfo.NonUniqueIndexInfoList);
+            allIndexes.AddRange(tableInfo.UniqueIndexInfoList);
+
+            foreach (var indexIdentifier in allIndexes)
             {
                 var indexInfo     = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
                 var methodName    = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));

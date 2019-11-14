@@ -134,56 +134,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             }
             #endregion
 
-            #region SelectByUniqueIndex
-            if (tableInfo.IsSupportSelectByUniqueIndex)
-            {
-                SelectByUniqueIndexMethodWriter.Write(context);
-            }
-            #endregion
-
-            #region SelectByNonUniqueIndex
-            if (tableInfo.IsSupportSelectByIndex)
-            {
-                foreach (var indexIdentifier in tableInfo.NonUniqueIndexInfoList)
-                {
-                    var indexInfo = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
-
-                    var parameterPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
-
-                    var methodName = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
-
-                    sb.AppendLine();
-                    sb.AppendLine("/// <summary>");
-                    sb.AppendLine($"///{Padding.ForComment} Selects records by given parameters");
-                    sb.AppendLine("/// </summary>");
-                    sb.AppendLine($"public GenericResponse<List<{typeContractName}>> {methodName}({parameterPart})");
-                    sb.AppendLine("{");
-                    sb.PaddingCount++;
-
-                    sb.AppendLine("const string sql = @\"");
-                    sb.AppendAll(indexInfo.Sql);
-                    sb.AppendLine();
-                    sb.AppendLine("\";");
-                    sb.AppendLine();
-                    sb.AppendLine("var command = this.CreateCommand(sql);");
-
-                    if (indexInfo.SqlParameters.Any())
-                    {
-                        sb.AppendLine();
-                        foreach (var columnInfo in indexInfo.SqlParameters)
-                        {
-                            sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
-                        }
-                    }
-
-                    sb.AppendLine();
-                    sb.AppendLine($"return this.ExecuteReader<{typeContractName}>(command, ReadContract);");
-
-                    sb.PaddingCount--;
-                    sb.AppendLine("}");
-                }
-            }
-            #endregion
+            SelectByUniqueIndexMethodWriter.Write(context);
 
             #region ReadContract
             sb.AppendLine();

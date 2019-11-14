@@ -27,7 +27,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interf
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is support select by unique index.
         /// </summary>
-        bool IsSupportSelectByUniqueIndex { get; }
+        bool IsSupportSelectByUniqueIndex { get; } // TODO remove
 
         /// <summary>
         ///     Gets or sets the non unique index information list.
