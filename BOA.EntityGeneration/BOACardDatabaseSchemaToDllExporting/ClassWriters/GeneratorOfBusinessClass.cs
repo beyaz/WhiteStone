@@ -175,27 +175,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
 
-            sb.AppendLine();
-            SelectAll(sb, tableInfo, typeContractName);
+            SelectAllMethodWriter.Write(context);
 
             if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
             {
-                sb.AppendLine();
-                SelectByValidFlag(sb, tableInfo, typeContractName, selectAllInfo);
+                SelectAllByValidFlagMethodWriter.Write(context);
             }
 
-            sb.AppendLine();
-            GetDbColumnInfo(sb, tableInfo, typeContractName);
-            sb.AppendLine();
-            SelectByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectAllInfo.Sql);
-
-            sb.AppendLine();
-            var selectTopNRecordsSql = new PaddedStringBuilder();
-            SelectAllInfoCreator.WriteSql(tableInfo, selectTopNRecordsSql, ParameterIdentifier + TopCountParameterName);
-            SelectTopNByWhereConditions(sb, typeContractName, businessClassNamespace, className, selectTopNRecordsSql.ToString());
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.CloseBracket();
 
             
             
@@ -225,264 +212,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         #endregion
 
         #region Methods
-        /// <summary>
-        ///     Gets the database column information.
-        /// </summary>
-        static void GetDbColumnInfo(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
-        {
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Gets the database column information.");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine("static DbColumnInfo GetDbColumnInfo(string propertyNameInContract)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+       
 
-            foreach (var columnInfo in tableInfo.Columns)
-            {
-                sb.AppendAll($@"
+        
 
-if (propertyNameInContract == nameof({typeContractName}.{columnInfo.ColumnName.ToContractName()}))
-{{
-    return new DbColumnInfo
-    {{
-        Name      = ""{columnInfo.ColumnName}"",
-        SqlDbType = SqlDbType.{columnInfo.SqlDbType.ToString()}
-    }};
-}}
+        
 
-".Trim());
-                sb.AppendLine();
-            }
+      
 
-            sb.AppendLine();
-            sb.AppendLine("throw new ArgumentException(propertyNameInContract);");
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-        }
-
-        /// <summary>
-        ///     Selects all.
-        /// </summary>
-        static void SelectAll(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName)
-        {
-            var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
-
-
-            var template = new SelectAllMethodTemplate
-            {
-                Session = new Dictionary<string, object>
-                {
-                    { nameof(selectAllInfo),selectAllInfo},
-                    {nameof(tableInfo),tableInfo },
-                    { nameof(typeContractName),typeContractName}
-                }
-            };
-            template.Initialize();
-
-            var methodText = template.TransformText();
-
-            sb.AppendAll(methodText);
-            sb.AppendLine();
-
-            //sb.AppendLine("/// <summary>");
-            //sb.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName}");
-            //sb.AppendLine("/// </summary>");
-            //sb.AppendLine($"public GenericResponse<List<{typeContractName}>> Select()");
-            //sb.AppendLine("{");
-            //sb.PaddingCount++;
-
-            //sb.AppendLine("const string sql = @\"");
-            //sb.AppendAll(selectAllInfo.Sql);
-            //sb.AppendLine();
-            //sb.AppendLine("\";");
-            //sb.AppendLine();
-            //sb.AppendLine("var command = this.CreateCommand(sql);");
-
-            //if (selectAllInfo.SqlParameters.Any())
-            //{
-            //    sb.AppendLine();
-            //    foreach (var columnInfo in selectAllInfo.SqlParameters)
-            //    {
-            //        sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
-            //    }
-            //}
-
-            //sb.AppendLine();
-            //sb.AppendLine($"return this.ExecuteReader<{typeContractName}>(command, ReadContract);");
-
-            //sb.PaddingCount--;
-            //sb.AppendLine("}");
-        }
-
-        /// <summary>
-        ///     Selects the by valid flag.
-        /// </summary>
-        static void SelectByValidFlag(PaddedStringBuilder sb, ITableInfo tableInfo, string typeContractName, SelectAllInfo selectAllInfo)
-        {
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName} where ValidFlag is true.");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public GenericResponse<List<{typeContractName}>> SelectByValidFlag()");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("const string sql = @\"");
-            sb.AppendAll(selectAllInfo.Sql + " WHERE [VALID_FLAG] = '1'");
-            sb.AppendLine();
-            sb.AppendLine("\";");
-            sb.AppendLine();
-            sb.AppendLine("var command = this.CreateCommand(sql);");
-
-            if (selectAllInfo.SqlParameters.Any())
-            {
-                sb.AppendLine();
-                foreach (var columnInfo in selectAllInfo.SqlParameters)
-                {
-                    sb.AppendLine($"DBLayer.AddInParameter(command, \"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
-                }
-            }
-
-            sb.AppendLine();
-            sb.AppendLine($"return this.ExecuteReader<{typeContractName}>(command, ReadContract);");
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-        }
-
-        /// <summary>
-        ///     Selects the by where conditions.
-        /// </summary>
-        static void SelectByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql)
-        {
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Selects records by given  <paramref name=\"whereConditions\"/>.");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public GenericResponse<List<{typeContractName}>> Select(params WhereCondition[] whereConditions)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine($"InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.Select\");");
-
-            sb.AppendAll(@"
-
-if (whereConditions == null || whereConditions.Length == 0)
-{
-    return this.WhereConditionsCannotBeNullOrEmpty<" + typeContractName + @">();
-}
-
-const string sqlSelectPart = @""
-" + sql + @"
-"";
-
-var sql = new StringBuilder(sqlSelectPart);
-
-var parameters = new List<DbParameterInfo>();
-
-var whereLines = new List<string>();
-
-foreach (var whereCondition in whereConditions)
-{
-    var dbColumn = GetDbColumnInfo(whereCondition.ColumnName);
-
-    Util.ProcessCondition(whereCondition, whereLines, dbColumn, parameters);
-}
-
-sql.AppendLine(Util.WhereSymbol);
-
-sql.AppendLine(whereLines[0]);
-
-for (var i = 1; i < whereLines.Count; i++)
-{
-    sql.AppendLine(Util.AndSymbol + whereLines[i]);
-}
-
-var command = this.CreateCommand(sql.ToString());
-
-foreach (var parameter in parameters)
-{
-    DBLayer.AddInParameter(command, ""@""+parameter.Name, parameter.SqlDbType, parameter.Value );    
-}
-
-return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
-
-".Trim());
-            sb.AppendLine();
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-        }
-
-        /// <summary>
-        ///     Selects the top n by where conditions.
-        /// </summary>
-        static void SelectTopNByWhereConditions(PaddedStringBuilder sb, string typeContractName, string businessClassNamespace, string className, string sql)
-        {
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Selects top resultCount records by given  <paramref name=\"whereConditions\"/>.");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public GenericResponse<List<{typeContractName}>> SelectTop(int resultCount, params WhereCondition[] whereConditions)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine($"InitializeGenericResponse<List<{typeContractName}>>(\"{businessClassNamespace}.{className}.SelectTop\");");
-
-            sb.AppendAll(@"
-
-if (whereConditions == null || whereConditions.Length == 0)
-{
-    return this.WhereConditionsCannotBeNullOrEmpty<" + typeContractName + @">();
-}
-
-const string sqlSelectPart = @""
-" + sql + @"
-"";
-
-var sql = new StringBuilder(sqlSelectPart);
-
-var parameters = new List<DbParameterInfo>
-{
-    new DbParameterInfo
-	{
-		Name      = ""$resultCount"",
-		SqlDbType = SqlDbType.Int,
-		Value     = resultCount
-	}
-};
-
-var whereLines = new List<string>();
-
-foreach (var whereCondition in whereConditions)
-{
-    var dbColumn = GetDbColumnInfo(whereCondition.ColumnName);
-
-    Util.ProcessCondition(whereCondition, whereLines, dbColumn, parameters);
-}
-
-sql.AppendLine(Util.WhereSymbol);
-
-sql.AppendLine(whereLines[0]);
-
-for (var i = 1; i < whereLines.Count; i++)
-{
-    sql.AppendLine(Util.AndSymbol + whereLines[i]);
-}
-
-var command = this.CreateCommand(sql.ToString());
-
-foreach (var parameter in parameters)
-{
-    DBLayer.AddInParameter(command, ""@""+parameter.Name, parameter.SqlDbType, parameter.Value );    
-}
-
-return this.ExecuteReader<" + typeContractName + @">(command, ReadContract);
-
-".Trim());
-            sb.AppendLine();
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-        }
+        
 
         /// <summary>
         ///     Updates the specified sb.

@@ -42,6 +42,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 SelectByIndexMethodWriter.Write(context);
             }
 
+            SelectAllMethodWriter.Write(context);
+
+            if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
+            {
+                SelectAllByValidFlagMethodWriter.Write(context);
+            }
+
             
 
             sb.CloseBracket();
