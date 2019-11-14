@@ -45,6 +45,7 @@ namespace BOA.Business.Kernel.Card.ERP_Core
         }
         #endregion
     }
+
     sealed class SampleTable
     {
 

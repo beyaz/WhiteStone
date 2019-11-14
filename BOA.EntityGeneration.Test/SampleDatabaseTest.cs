@@ -21,18 +21,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         #endregion
 
         #region Fields
-        readonly IDataContext context;
-        #endregion
-
-        #region Constructors
-        public SampleDatabaseTest()
-        {
-            context = new TestDataContextCreator().Create();
-
-            context.CreateTables();
-
-            BOACardDatabaseExporter.Export(context, "ERP");
-        }
+        IDataContext context;
         #endregion
 
         #region Public Methods
@@ -51,7 +40,24 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Business.Kernel.Card.ERP\Shared.cs.txt");
             var value    = context.Get(SharedRepositoryFileTemp).ToString();
 
+
             StringHelper.IsEqualAsData(value, expected).Should().BeTrue();
+        }
+
+        [TestCleanup]
+        public void Clean()
+        {
+            context.Get(Database).Rollback();
+        }
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            context = new TestDataContextCreator().Create();
+
+            context.CreateTables();
+
+            BOACardDatabaseExporter.Export(context, "ERP");
         }
         #endregion
 
