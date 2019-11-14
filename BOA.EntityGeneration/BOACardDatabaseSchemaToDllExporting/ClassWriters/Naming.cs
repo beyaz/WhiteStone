@@ -23,9 +23,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             context.Add(TableEntityClassNameForMethodParametersInRepositoryFiles,typeContractName);
             context.Add(RepositoryClassName, tableInfo.TableName.ToContractName());
-            context.Add(SharedRepositoryClassName, string.Format(config.SharedRepositoryClassNameFormat, tableInfo.TableName.ToContractName()));
+            context.Add(SharedRepositoryClassName,config.SharedRepositoryClassNameFormat.Replace("{TableName}", tableInfo.TableName.ToContractName()));
 
-            
+
         }
 
         public static void RemoveNamesRelatedWithTable(IDataContext context)
