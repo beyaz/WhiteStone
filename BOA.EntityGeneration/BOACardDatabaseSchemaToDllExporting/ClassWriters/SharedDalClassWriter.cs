@@ -25,12 +25,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             var sb = context.Get<PaddedStringBuilder>(Data.SharedRepositoryFile);
             var businessClassWriterContext = context.Get<BusinessClassWriterContext>(Data.BusinessClassWriterContext);
 
-            Write(sb,businessClassWriterContext);
+            Write(context,sb,businessClassWriterContext);
         }
 
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb, BusinessClassWriterContext data)
+        public static void Write(IDataContext context,PaddedStringBuilder sb, BusinessClassWriterContext data)
         {
+            var tableInfo = context.Get(Data.TableInfo);
+
             sb.AppendLine($"sealed class {data.ClassName}");
             sb.OpenBracket();
 
@@ -45,6 +47,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine();
                 SelectByKeyMethodWriter.Write(sb, data.SelectByPrimaryKeyInfo,data.SharedClassConfig);
             }
+
+            if (tableInfo.IsSupportSelectByUniqueIndex)
+            {
+                sb.AppendLine();
+                SelectByUniqueIndexMethodWriter.Write(context);
+            }
+
+            
 
             sb.CloseBracket();
         }
