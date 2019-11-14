@@ -24,7 +24,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             var sb = context.Get(SharedRepositoryFile);
             var tableInfo = context.Get(TableInfo);
 
-            sb.AppendLine($"sealed class {context.Get(RepositoryClassName)}");
+            sb.AppendLine($"sealed class {context.Get(SharedRepositoryClassName)}");
             sb.OpenBracket();
 
             if (tableInfo.IsSupportSelectByKey)

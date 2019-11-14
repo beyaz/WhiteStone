@@ -21,7 +21,7 @@
         public static string GetSharedRepositoryClassNamespace(string schemaName, ConfigContract config)
         {
 
-            return config.SharedClassConfig.SharedClassNamespaceFormat.Replace("{SchemaName}", schemaName);
+            return config.SharedRepositoryNamespaceFormat.Replace("{SchemaName}", schemaName);
         }
 
         /// <summary>

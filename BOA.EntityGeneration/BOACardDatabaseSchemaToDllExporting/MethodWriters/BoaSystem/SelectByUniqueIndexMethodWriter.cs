@@ -2,9 +2,9 @@
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.BoaSystem
 {
@@ -14,11 +14,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb        = context.Get(Data.BoaRepositoryFile);
-            var tableInfo = context.Get(Data.TableInfo);
-            var schemaName = context.Get(Data.SchemaName);
+            var sb        = context.Get(BoaRepositoryFile);
+            var tableInfo = context.Get(TableInfo);
+            var schemaName = context.Get(SchemaName);
             var tableName  = tableInfo.TableName;
-            var typeContractName = context.Get(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
            
             foreach (var indexIdentifier in tableInfo.UniqueIndexInfoList)
             {
@@ -36,9 +36,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
                 sb.OpenBracket();
 
                 
-                sb.AppendLine($"var sqlInfo = {schemaName}_Core.{tableName.ToContractName()}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+                sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(Data.BusinessClassNamespace)}.{context.Get(Data.RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
+                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(BusinessClassNamespace)}.{context.Get(RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
 
                 sb.CloseBracket();
             }

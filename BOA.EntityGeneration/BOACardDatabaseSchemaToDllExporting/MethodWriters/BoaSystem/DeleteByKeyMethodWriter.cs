@@ -36,7 +36,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.PaddingCount++;
 
             
-            sb.AppendLine($"var sqlInfo = {schemaName}_Core.{tableName.ToContractName()}.Delete({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+            sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.Delete({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
             sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteNonQuery(this, \"{businessClassNamespace}.{context.Get(RepositoryClassName)}.Delete\", sqlInfo);");
 

@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public static void PushNamesRelatedWithTable(IDataContext context)
         {
             var tableInfo = context.Get(TableInfo);
-            var config    = context.Get(Data.Config);
+            var config    = context.Get(Config);
 
 
             var typeContractName = $"{tableInfo.TableName.ToContractName()}Contract";
@@ -23,12 +23,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             context.Add(TableEntityClassNameForMethodParametersInRepositoryFiles,typeContractName);
             context.Add(RepositoryClassName, tableInfo.TableName.ToContractName());
+            context.Add(SharedRepositoryClassName, string.Format(config.SharedRepositoryClassNameFormat, tableInfo.TableName.ToContractName()));
+
+            
         }
 
         public static void RemoveNamesRelatedWithTable(IDataContext context)
         {
             context.Remove(TableEntityClassNameForMethodParametersInRepositoryFiles);
             context.Remove(RepositoryClassName);
+            context.Remove(SharedRepositoryClassName);
         }
         #endregion
 

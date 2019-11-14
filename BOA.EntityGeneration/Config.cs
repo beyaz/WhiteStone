@@ -113,31 +113,15 @@ namespace BOA.EntityGeneration
         public IReadOnlyCollection<string> TypeUsingLines { get; set; }
 
 
-        /// <summary>
-        ///     Gets or sets the shared class configuration.
-        /// </summary>
-        public SharedClassConfig SharedClassConfig { get; set; }  = new SharedClassConfig();
+        public string EmbeddedClassesDirectoryPath { get; set; } = @"D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\SharedClasses\";
         
+        public string SharedRepositoryNamespaceFormat { get; set; } = "BOA.Business.Kernel.Card.{SchemaName}_Core";
+
+        public string SharedRepositoryClassNameFormat { get; set; } = "{TableName}Shared";
+
         #endregion
     }
 
 
-    /// <summary>
-    ///     The shared class configuration
-    /// </summary>
-    [Serializable]
-    public class SharedClassConfig
-    {
-        /// <summary>
-        ///     Gets or sets the method name of delete by key.
-        /// </summary>
-        public string MethodNameOfDeleteByKey { get; set; } = "GetDeleteByKeyInfo";
-
-        public string MethodNameOfSelecyByKey { get; set; } = "GetSelectByKeyInfo";
-
-        public string EmbeddedClassesDirectoryPath { get; set; } = @"D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\SharedClasses\";
-
-        public string SharedClassNamespaceFormat { get; set; } = "BOA.Business.Kernel.Card.{SchemaName}_Core";
-
-    }
+    
 }
