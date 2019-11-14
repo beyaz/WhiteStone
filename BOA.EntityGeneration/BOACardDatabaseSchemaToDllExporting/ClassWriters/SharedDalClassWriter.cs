@@ -34,6 +34,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
                 sb.AppendLine();
                 SelectByKeyMethodWriter.Write(context);
+
+                UpdateByPrimaryKeyMethodWriter.Write(context);
             }
 
             if (tableInfo.IsSupportSelectByUniqueIndex)
@@ -49,7 +51,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 SelectAllByValidFlagMethodWriter.Write(context);
             }
 
-            
+            InsertMethodWriter.Write(context);
+
+            ReadContractMethodWriter.Write(context);
 
             sb.CloseBracket();
         }
