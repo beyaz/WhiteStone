@@ -127,6 +127,8 @@ namespace BOA.Types.Kernel.Card.ERP
         /// </summary>
         public int? FieldIndex33 { get; set; }
 
+		public bool FieldCharValidFlag { get; set; }
+
         #endregion
     }
 }
