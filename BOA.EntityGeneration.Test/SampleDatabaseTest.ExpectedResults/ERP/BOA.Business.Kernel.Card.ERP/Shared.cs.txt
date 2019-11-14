@@ -48,7 +48,7 @@ namespace BOA.Business.Kernel.Card.ERP_Core
     sealed class SampleTable
     {
 
-        public static SqlInfo GetDeleteByKeyInfo(int sampleTableId)
+        public static SqlInfo Delete(int sampleTableId)
         {
             const string sql = "DELETE FROM [ERP].[SAMPLE_TABLE] WHERE [SAMPLE_TABLE_ID] = @SAMPLE_TABLE_ID";
 
@@ -59,7 +59,7 @@ namespace BOA.Business.Kernel.Card.ERP_Core
             return sqlInfo;
         }
 
-        public static SqlInfo GetSelectByKeyInfo(int sampleTableId)
+        public static SqlInfo SelectByKey(int sampleTableId)
         {
             const string sql = @"
             SELECT
@@ -102,7 +102,10 @@ namespace BOA.Business.Kernel.Card.ERP_Core
                 [FIELD_INDEX_3_1],
                 [FIELD_INDEX_3_2],
                 [FIELD_INDEX_3_3],
-                [FIELD_CHAR_VALID_FLAG]
+                [FIELD_CHAR_VALID_FLAG],
+                [FIELD_INT_2],
+                [FIELD_INT_3_0],
+                [FIELD_INT_3_1]
                 FROM [ERP].[SAMPLE_TABLE] WITH (NOLOCK)
             WHERE
                 [SAMPLE_TABLE_ID] = @SAMPLE_TABLE_ID
@@ -111,6 +114,166 @@ namespace BOA.Business.Kernel.Card.ERP_Core
             var sqlInfo = new SqlInfo { CommandText = sql };
 
             sqlInfo.AddInParameter("@SAMPLE_TABLE_ID", SqlDbType.Int, sampleTableId);
+
+            return sqlInfo;
+        }
+
+
+        /// <summary>
+        ///      Selects records by given parameters.
+        /// </summary>
+        public static SqlInfo SelectByFieldInt2(int fieldInt2)
+        {
+            const string sql = @"
+            SELECT
+                [SAMPLE_TABLE_ID],
+                [FIELD_VARCHAR_50],
+                [FIELD_VARCHAR_50_NULLABLE],
+                [FIELD_DATETIME],
+                [FIELD_DATETIME_NULLABLE],
+                [FIELD_NUMERIC_27_0],
+                [FIELD_NUMERIC_27_0_NULLABLE],
+                [FIELD_INT],
+                [FIELD_INT_NULLABLE],
+                [FIELD_MONEY],
+                [FIELD_MONEY_NULLABLE],
+                [FIELD_NVARCHAR],
+                [FIELD_NVARCHAR_NULLABLE],
+                [FIELD_NCHAR],
+                [FIELD_NCHAR_NULLABLE],
+                [FIELD_SMALLDATETIME],
+                [FIELD_SMALLDATETIME_NULLABLE],
+                [FIELD_SMALLINT],
+                [FIELD_SMALLINT_NULLABLE],
+                [FIELD_TINYINT],
+                [FIELD_TINYINT_NULLABLE],
+                [FIELD_CHAR],
+                [FIELD_CHAR_NULLABLE],
+                [FIELD_BIGINT],
+                [FIELD_BIGINT_NULLABLE],
+                [FIELD_BIT],
+                [FIELD_BIT_NULLABLE],
+                [FIELD_DECIMAL],
+                [FIELD_DECIMAL_NULLABLE],
+                [FIELD_UNIQUEIDENTIFIER],
+                [FIELD_UNIQUEIDENTIFIER_NULLABLE],
+                [FIELD_VARBINARY],
+                [FIELD_VARBINARY_NULLABLE],
+                [FIELD_INDEX_1],
+                [FIELD_INDEX_2_1],
+                [FIELD_INDEX_2_2],
+                [FIELD_INDEX_3_1],
+                [FIELD_INDEX_3_2],
+                [FIELD_INDEX_3_3],
+                [FIELD_CHAR_VALID_FLAG],
+                [FIELD_INT_2],
+                [FIELD_INT_3_0],
+                [FIELD_INT_3_1]
+                FROM [ERP].[SAMPLE_TABLE] WITH (NOLOCK)
+            WHERE
+                [FIELD_INT_2] = @FIELD_INT_2
+            ";
+
+            var sqlInfo = new SqlInfo { CommandText = sql };
+
+            sqlInfo.AddInParameter("@FIELD_INT_2", SqlDbType.Int, fieldInt2);
+
+            return sqlInfo;
+        }
+
+        /// <summary>
+        ///      Selects records by given parameters.
+        /// </summary>
+        public static SqlInfo SelectByFieldInt30FieldInt31(int fieldInt30, int fieldInt31)
+        {
+            const string sql = @"
+            SELECT
+                [SAMPLE_TABLE_ID],
+                [FIELD_VARCHAR_50],
+                [FIELD_VARCHAR_50_NULLABLE],
+                [FIELD_DATETIME],
+                [FIELD_DATETIME_NULLABLE],
+                [FIELD_NUMERIC_27_0],
+                [FIELD_NUMERIC_27_0_NULLABLE],
+                [FIELD_INT],
+                [FIELD_INT_NULLABLE],
+                [FIELD_MONEY],
+                [FIELD_MONEY_NULLABLE],
+                [FIELD_NVARCHAR],
+                [FIELD_NVARCHAR_NULLABLE],
+                [FIELD_NCHAR],
+                [FIELD_NCHAR_NULLABLE],
+                [FIELD_SMALLDATETIME],
+                [FIELD_SMALLDATETIME_NULLABLE],
+                [FIELD_SMALLINT],
+                [FIELD_SMALLINT_NULLABLE],
+                [FIELD_TINYINT],
+                [FIELD_TINYINT_NULLABLE],
+                [FIELD_CHAR],
+                [FIELD_CHAR_NULLABLE],
+                [FIELD_BIGINT],
+                [FIELD_BIGINT_NULLABLE],
+                [FIELD_BIT],
+                [FIELD_BIT_NULLABLE],
+                [FIELD_DECIMAL],
+                [FIELD_DECIMAL_NULLABLE],
+                [FIELD_UNIQUEIDENTIFIER],
+                [FIELD_UNIQUEIDENTIFIER_NULLABLE],
+                [FIELD_VARBINARY],
+                [FIELD_VARBINARY_NULLABLE],
+                [FIELD_INDEX_1],
+                [FIELD_INDEX_2_1],
+                [FIELD_INDEX_2_2],
+                [FIELD_INDEX_3_1],
+                [FIELD_INDEX_3_2],
+                [FIELD_INDEX_3_3],
+                [FIELD_CHAR_VALID_FLAG],
+                [FIELD_INT_2],
+                [FIELD_INT_3_0],
+                [FIELD_INT_3_1]
+                FROM [ERP].[SAMPLE_TABLE] WITH (NOLOCK)
+            WHERE
+                [FIELD_INT_3_0] = @FIELD_INT_3_0 AND 
+                [FIELD_INT_3_1] = @FIELD_INT_3_1
+            ";
+
+            var sqlInfo = new SqlInfo { CommandText = sql };
+
+            sqlInfo.AddInParameter("@FIELD_INT_3_0", SqlDbType.Int, fieldInt30);
+            sqlInfo.AddInParameter("@FIELD_INT_3_1", SqlDbType.Int, fieldInt31);
+
+            return sqlInfo;
+        }
+    }
+    sealed class SampleTable2
+    {
+
+        public static SqlInfo Delete(int id)
+        {
+            const string sql = "DELETE FROM [ERP].[SAMPLE_TABLE2] WHERE [Id] = @Id";
+
+            var sqlInfo = new SqlInfo { CommandText = sql };
+
+            sqlInfo.AddInParameter("@Id", SqlDbType.Int, id);
+
+            return sqlInfo;
+        }
+
+        public static SqlInfo SelectByKey(int id)
+        {
+            const string sql = @"
+            SELECT
+                [Id],
+                [UserName],
+                [NullableIntColumn]
+                FROM [ERP].[SAMPLE_TABLE2] WITH (NOLOCK)
+            WHERE
+                [Id] = @Id
+            ";
+
+            var sqlInfo = new SqlInfo { CommandText = sql };
+
+            sqlInfo.AddInParameter("@Id", SqlDbType.Int, id);
 
             return sqlInfo;
         }
