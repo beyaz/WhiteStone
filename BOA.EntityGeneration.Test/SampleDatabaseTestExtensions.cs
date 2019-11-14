@@ -130,6 +130,13 @@ CREATE INDEX index_on_erp_sample_1 ON ERP.SAMPLE_TABLE(FIELD_INDEX_1);
 CREATE INDEX index_on_erp_sample_2 ON ERP.SAMPLE_TABLE(FIELD_INDEX_2_1,FIELD_INDEX_2_2);
 CREATE INDEX index_on_erp_sample_3 ON ERP.SAMPLE_TABLE(FIELD_INDEX_3_1,FIELD_INDEX_3_2,FIELD_INDEX_3_3);
 
+CREATE TABLE ERP.SAMPLE_TABLE2
+(
+    Id                  INT PRIMARY KEY,
+    UserName            VARCHAR (10) NOT NULL,
+    NullableIntColumn   Int  NULL
+)
+
 ";
 
             database.ExecuteNonQuery();

@@ -127,7 +127,37 @@ namespace BOA.Types.Kernel.Card.ERP
         /// </summary>
         public int? FieldIndex33 { get; set; }
 
-		public bool FieldCharValidFlag { get; set; }
+        public bool FieldCharValidFlag { get; set; }
+
+        #endregion
+    }
+
+    /// <summary>
+    ///     Entity contract for table ERP.SAMPLE_TABLE2
+    ///     <para>[ PrimaryKey + Unique + Clustered ] index on "Id"</para>
+    /// </summary>
+    [Serializable]
+    public sealed class SampleTable2Contract : CardContractBase
+    {
+        /// <summary>
+        ///     Entity contract for table ERP.SAMPLE_TABLE2
+        ///     <para>[ PrimaryKey + Unique + Clustered ] index on "Id"</para>
+        /// </summary>
+        // ReSharper disable once EmptyConstructor
+        public SampleTable2Contract()
+        {
+        }
+
+        #region Database Columns
+
+        /// <summary>
+        ///     [ PrimaryKey + Unique + Clustered ] index on "Id"
+        /// </summary>
+        public int Id { get; set; }
+
+        public string UserName { get; set; }
+
+        public int? NullableIntColumn { get; set; }
 
         #endregion
     }
