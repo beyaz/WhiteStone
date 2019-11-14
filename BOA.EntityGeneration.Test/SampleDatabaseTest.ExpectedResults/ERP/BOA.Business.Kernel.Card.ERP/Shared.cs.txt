@@ -45,7 +45,6 @@ namespace BOA.Business.Kernel.Card.ERP_Core
         }
         #endregion
     }
-
     sealed class SampleTable
     {
 
@@ -102,7 +101,8 @@ namespace BOA.Business.Kernel.Card.ERP_Core
                 [FIELD_INDEX_2_2],
                 [FIELD_INDEX_3_1],
                 [FIELD_INDEX_3_2],
-                [FIELD_INDEX_3_3]
+                [FIELD_INDEX_3_3],
+                [FIELD_CHAR_VALID_FLAG]
                 FROM [ERP].[SAMPLE_TABLE] WITH (NOLOCK)
             WHERE
                 [SAMPLE_TABLE_ID] = @SAMPLE_TABLE_ID
