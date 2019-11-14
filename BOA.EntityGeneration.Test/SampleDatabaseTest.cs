@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using BOA.DataFlow;
 using BOA.Common.Helpers;
-using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,7 +22,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
         #region Fields
         IDataContext context;
-        #endregion
+        #endregion 
 
         #region Public Methods
         [TestMethod]

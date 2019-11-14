@@ -13,6 +13,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void Parse0()
         {
+
             var info = VariableAssignmentLine.Parse("  a = b;  ");
 
             Assert.AreEqual("a", info.VariableName);

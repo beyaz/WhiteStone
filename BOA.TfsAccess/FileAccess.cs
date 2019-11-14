@@ -16,6 +16,11 @@ namespace BOA.TfsAccess
         /// </summary>
         public virtual FileAccessWriteResult WriteAllText(string path, string content)
         {
+
+
+          
+
+
             var tfsPath = GetTfsPath(path);
 
             var oldContent = string.Empty;
