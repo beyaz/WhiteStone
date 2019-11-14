@@ -1,4 +1,5 @@
-﻿InActiveRegionSize:10
+﻿MinimizeRegionsIsEnabled:false
+InActiveRegionSize:10
 InActiveRegionOpacity:0.5
 ActiveRegionSize:10
 ActiveRegionOpacity:0.5

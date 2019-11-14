@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Documents;
 
 
@@ -28,10 +29,14 @@ namespace RegionsAreEvil.Classifications
     internal sealed class InactiveRegionClassification : ClassificationFormatDefinition
     {
         #region Initialization
-
+        
         // Methods
         public InactiveRegionClassification()
         {
+            if (!Options.MinimizeRegionsIsEnabled)
+            {
+                return;
+            }
             ForegroundColor = Colors.Gray;
             FontRenderingSize = Options.InActiveRegionSize;
             ForegroundOpacity = Options.InActiveRegionOpacity;
@@ -45,6 +50,8 @@ namespace RegionsAreEvil.Classifications
         static string OptionFilePath=> Path.GetDirectoryName(typeof(Options).Assembly.Location) + Path.DirectorySeparatorChar + "HideIfResponseSuccessCheckForBOA.Options.txt";
         public static bool IsReadFromFile;
 
+        public static bool MinimizeRegionsIsEnabled;
+
         public static int InActiveRegionSize = 10;
         public static double InActiveRegionOpacity= 0.5;
 
@@ -56,6 +63,8 @@ namespace RegionsAreEvil.Classifications
             if (File.Exists(OptionFilePath))
             {
                 var lines = File.ReadAllText(OptionFilePath).Split(Environment.NewLine.ToCharArray()).Where(x => !string.IsNullOrWhiteSpace(x)).Select(x=>x.Trim()).ToList();
+
+                MinimizeRegionsIsEnabled = bool.Parse(GetValue(lines, "MinimizeRegionsIsEnabled:"));
 
                 InActiveRegionSize = int.Parse(GetValue(lines, "InActiveRegionSize:"));
                 InActiveRegionOpacity = double.Parse(GetValue(lines, "InActiveRegionOpacity:"));

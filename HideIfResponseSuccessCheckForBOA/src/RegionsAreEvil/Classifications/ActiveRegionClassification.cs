@@ -25,6 +25,11 @@ namespace RegionsAreEvil.Classifications
         // Methods
         public ActiveRegionClassification()
         {
+            if (!Options.MinimizeRegionsIsEnabled)
+            {
+                return;
+            }
+
             ForegroundColor = Colors.DarkGray;
             FontRenderingSize = Options.ActiveRegionSize;
             ForegroundOpacity = Options.ActiveRegionOpacity;
