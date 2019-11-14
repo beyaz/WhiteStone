@@ -3,8 +3,8 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
-using static ___Company___.EntityGeneration.DataFlow.Data;
-using static ___Company___.EntityGeneration.DataFlow.DataEvent;
+using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.DataFlow.DataEvent;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {

@@ -4,7 +4,7 @@ using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static ___Company___.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {

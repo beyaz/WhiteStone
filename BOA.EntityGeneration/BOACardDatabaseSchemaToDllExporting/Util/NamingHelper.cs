@@ -1,6 +1,4 @@
-﻿using ___Company___.EntityGeneration.DataFlow;
-
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
+﻿namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
 {
     /// <summary>
     ///     The naming helper

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using ___Company___.DataFlow;
-using ___Company___.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess

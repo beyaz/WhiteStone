@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using ___Company___.DataFlow;
-using ___Company___.EntityGeneration.DataFlow;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
@@ -8,8 +7,9 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.DataFlow;
 using BOA.TfsAccess;
-using static ___Company___.EntityGeneration.DataFlow.DataEvent;
+using static BOA.EntityGeneration.DataFlow.DataEvent;
 using FileAccess = BOA.TfsAccess.FileAccess;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
