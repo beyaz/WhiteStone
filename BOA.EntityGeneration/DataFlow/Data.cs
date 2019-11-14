@@ -27,15 +27,21 @@ namespace BOA.EntityGeneration.DataFlow
     /// </summary>
     public static class Data
     {
+        #region Naming
+        public static readonly IDataConstant<string> SchemaName = DataConstant.Create<string>();
+        public static readonly IDataConstant<string> TableEntityClassNameForMethodParametersInRepositoryFiles = DataConstant.Create<string>();
+        public static readonly IDataConstant<string> RepositoryClassName = DataConstant.Create<string>();
+        public static readonly IDataConstant<string> BusinessClassNamespace = DataConstant.Create<string>();
+        #endregion
+
         #region Static Fields
-        public static readonly IDataConstant<BusinessClassWriterContext> BusinessClassWriterContext = DataConstant.Create<BusinessClassWriterContext>();
         public static readonly IDataConstant<Config>                     Config                     = DataConstant.Create<Config>();
         public static readonly IDataConstant<ICustomSqlInfo>             CustomSqlInfo              = DataConstant.Create<ICustomSqlInfo>();
         public static readonly IDataConstant<IProjectCustomSqlInfo>      CustomSqlInfoProject       = DataConstant.Create<IProjectCustomSqlInfo>();
         public static readonly IDataConstant<IDatabase>                  Database                   = DataConstant.Create<IDatabase>();
         public static readonly IDataConstant<FileSystem>                 FileAccess                 = DataConstant.Create<FileSystem>();
         public static readonly IDataConstant<MsBuildQueue>               MsBuildQueue               = DataConstant.Create<MsBuildQueue>();
-        public static readonly IDataConstant<string>                     SchemaName                 = DataConstant.Create<string>();
+        
         public static readonly IDataConstant<ITableInfo>                 TableInfo                  = DataConstant.Create<ITableInfo>();
         public static readonly IDataConstant<List<string>>               TableNamesInSchema         = DataConstant.Create<List<string>>();
         #endregion

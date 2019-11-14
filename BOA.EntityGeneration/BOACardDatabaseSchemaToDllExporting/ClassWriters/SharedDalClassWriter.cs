@@ -1,10 +1,9 @@
 ﻿using BOA.DataFlow;
-using BOA.Common.Helpers;
-using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
+using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
@@ -12,40 +11,29 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
     {
         public static void ExportFile(IDataContext context)
         {
-            var schemaName            = context.Get(Data.SchemaName);
-            var allInOneSourceCode    = context.Get(Data.SharedRepositoryFile).ToString();
+            var schemaName            = context.Get(SchemaName);
+            var allInOneSourceCode    = context.Get(SharedRepositoryFile).ToString();
             var config                = context.Get(Data.Config);
-            var fileAccess            = context.Get(Data.FileAccess);
+            var fileAccess            = context.Get(FileAccess);
             var allInOneFilePath      = config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
 
             fileAccess.WriteAllText(allInOneFilePath, allInOneSourceCode);
         }
         public static void Write(IDataContext context)
         {
-            var sb = context.Get<PaddedStringBuilder>(Data.SharedRepositoryFile);
-            var businessClassWriterContext = context.Get<BusinessClassWriterContext>(Data.BusinessClassWriterContext);
+            var sb = context.Get(SharedRepositoryFile);
+            var tableInfo = context.Get(TableInfo);
 
-            Write(context,sb,businessClassWriterContext);
-        }
-
-        #region Public Methods
-        public static void Write(IDataContext context,PaddedStringBuilder sb, BusinessClassWriterContext data)
-        {
-            var tableInfo = context.Get(Data.TableInfo);
-
-            sb.AppendLine($"sealed class {data.ClassName}");
+            sb.AppendLine($"sealed class {context.Get(RepositoryClassName)}");
             sb.OpenBracket();
 
-            if (data.CanWriteDeleteByKeyMethod)
+            if (tableInfo.IsSupportSelectByKey)
             {
                 sb.AppendLine();
-                DeleteByKeyMethodWriter.Write(sb, data.DeleteByKeyInfo,data.SharedClassConfig);
-            }
+                DeleteByKeyMethodWriter.Write(context);
 
-            if (data.CanWriteSelectByKeyMethod)
-            {
                 sb.AppendLine();
-                SelectByKeyMethodWriter.Write(sb, data.SelectByPrimaryKeyInfo,data.SharedClassConfig);
+                SelectByKeyMethodWriter.Write(context);
             }
 
             if (tableInfo.IsSupportSelectByUniqueIndex)
@@ -59,10 +47,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.CloseBracket();
         }
 
+        #region Public Methods
+        
+
         public static void WriteUsingList(IDataContext context)
         {
-            var sb = context.Get(Data.SharedRepositoryFile);
-            var schemaName = context.Get(Data.SchemaName);
+            var sb = context.Get(SharedRepositoryFile);
+            var schemaName = context.Get(SchemaName);
             var config = context.Get(Data.Config);
 
            sb.UsingNamespace("System");
@@ -78,7 +69,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         public static void EndNamespace(IDataContext context)
         {
-            context.Get(Data.SharedRepositoryFile).EndNamespace();
+            context.Get(SharedRepositoryFile).EndNamespace();
         }
         #endregion
     }

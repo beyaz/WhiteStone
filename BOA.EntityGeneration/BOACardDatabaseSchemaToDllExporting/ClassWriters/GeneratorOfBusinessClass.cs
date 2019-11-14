@@ -12,23 +12,13 @@ using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using static BOA.EntityGeneration.DataFlow.Data;
 using InsertInfoCreator = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess.InsertInfoCreator;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
 
-    public class BusinessClassWriterContext
-    {
-        public string TypeContractName { get; set; }
-        public string ClassName { get; set; }
-        public string BusinessClassNamespace { get; set; }
-        public bool CanWriteDeleteByKeyMethod { get; set; }
-        public IDeleteInfo DeleteByKeyInfo { get; set; }
-        public ITableInfo TableInfo { get; set; }
-        public bool CanWriteSelectByKeyMethod { get; set; }
-        public ISelectByPrimaryKeyInfo SelectByPrimaryKeyInfo { get; set; }
-        public SharedClassConfig SharedClassConfig { get; set; }
-    }
+    
 
     /// <summary>
     ///     The generator of business class
@@ -38,7 +28,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         public static void EndNamespace(IDataContext context)
         {
-            var sb = context.Get(Data.BoaRepositoryFile);
+            var sb = context.Get(BoaRepositoryFile);
             sb.EndNamespace();
         }
 
@@ -68,65 +58,25 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         #region Public Methods
 
-        public static void CreateBusinessClassWriterContext(IDataContext context)
-        {
-            var tableInfo = context.Get(Data.TableInfo);
-            var config    = context.Get(Data.Config);
+        
 
-
-            var typeContractName = $"{tableInfo.TableName.ToContractName()}Contract";
-            if (typeContractName == "TransactionLogContract" ||
-                typeContractName == "BoaUserContract") // resolve conflig
-            {
-                typeContractName = $"{NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName,config)}.{typeContractName}";
-            }
-
-            var className = tableInfo.TableName.ToContractName();
-
-            var businessClassNamespace = NamingHelper.GetBusinessClassNamespace(tableInfo.SchemaName,config);
-
-            var businessClassWriterContext = new BusinessClassWriterContext
-            {
-                TypeContractName          = typeContractName,
-                ClassName                 = className,
-                BusinessClassNamespace    = businessClassNamespace,
-                CanWriteDeleteByKeyMethod = tableInfo.IsSupportSelectByKey,
-                CanWriteSelectByKeyMethod = tableInfo.IsSupportSelectByKey,
-                TableInfo                 = tableInfo,
-                SharedClassConfig         = config.SharedClassConfig
-            };
-            if (businessClassWriterContext.CanWriteDeleteByKeyMethod)
-            {
-                businessClassWriterContext.DeleteByKeyInfo = DeleteInfoCreator.Create(tableInfo);
-            }
-            if (businessClassWriterContext.CanWriteSelectByKeyMethod)
-            {
-                businessClassWriterContext.SelectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
-            }
-
-            context.Add(Data.BusinessClassWriterContext,businessClassWriterContext);
-        }
-
-        public static void RemoveBusinessClassWriterContext(IDataContext context)
-        {
-            context.Remove(Data.BusinessClassWriterContext);
-        }
+        
         /// <summary>
         ///     Writes the class.
         /// </summary>
         public static void WriteClass(IDataContext context)
         {
-            var sb = context.Get(Data.BoaRepositoryFile);
-            var tableInfo = context.Get(Data.TableInfo);
+            var sb = context.Get(BoaRepositoryFile);
+            var tableInfo = context.Get(TableInfo);
             var config = context.Get(Data.Config);
 
 
-           
-            var businessClassWriterContext = context.Get(Data.BusinessClassWriterContext);
 
-            var businessClassNamespace = businessClassWriterContext.BusinessClassNamespace;
-            var typeContractName = businessClassWriterContext.TypeContractName;
-            var className = businessClassWriterContext.ClassName;
+
+
+            var businessClassNamespace = context.Get(BusinessClassNamespace);
+            var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var className = tableInfo.TableName.ToContractName();
            
 
             
@@ -141,10 +91,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine($"public {className}(ExecutionDataContext context) : base(context) {{ }}");
 
             #region Delete
-            if (businessClassWriterContext.CanWriteDeleteByKeyMethod)
+            if (tableInfo.IsSupportSelectByKey)
             {
                 sb.AppendLine();
-                MethodWriters.BoaSystem.DeleteByKeyMethodWriter.Write(sb,businessClassWriterContext);
+                MethodWriters.BoaSystem.DeleteByKeyMethodWriter.Write(context);
             }
             #endregion
 
@@ -169,11 +119,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             #endregion
 
             #region SelectByKey
-            if (businessClassWriterContext.CanWriteSelectByKeyMethod)
+            if (tableInfo.IsSupportSelectByKey)
             {
 
                 sb.AppendLine();
-                MethodWriters.BoaSystem.SelectByKeyMethodWriter.Write(sb,businessClassWriterContext);
+                MethodWriters.BoaSystem.SelectByKeyMethodWriter.Write(context);
 
 
 
@@ -305,8 +255,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public static void WriteUsingList(IDataContext context)
         {
-            var sb = context.Get(Data.BoaRepositoryFile);
-            var schemaName = context.Get(Data.SchemaName);
+            var sb = context.Get(BoaRepositoryFile);
+            var schemaName = context.Get(SchemaName);
             var config = context.Get(Data.Config);
 
             foreach (var line in config.DaoUsingLines)

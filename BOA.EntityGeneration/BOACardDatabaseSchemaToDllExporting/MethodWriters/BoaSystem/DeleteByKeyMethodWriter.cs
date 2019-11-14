@@ -1,7 +1,10 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.ScriptModel;
+using BOA.EntityGeneration.ScriptModel.Creators;
+using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.BoaSystem
 {
@@ -9,12 +12,18 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
     {
 
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb, BusinessClassWriterContext businessClassWriterContext)
+        public static void Write(IDataContext context)
         {
-            var sqlParameters     = businessClassWriterContext.DeleteByKeyInfo.SqlParameters;
-            var schemaName        = businessClassWriterContext.TableInfo.SchemaName;
-            var tableName         = businessClassWriterContext.TableInfo.TableName;
-            var sharedClassConfig = businessClassWriterContext.SharedClassConfig;
+            var sb        = context.Get(BoaRepositoryFile);
+            var tableInfo = context.Get(TableInfo);
+            var deleteByKeyInfo = DeleteInfoCreator.Create(tableInfo);
+
+            var sqlParameters     = deleteByKeyInfo.SqlParameters;
+            var schemaName = context.Get(SchemaName);
+
+            var businessClassNamespace = context.Get(BusinessClassNamespace);
+
+            var tableName         = tableInfo.TableName;
 
             var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
@@ -27,9 +36,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.PaddingCount++;
 
             
-            sb.AppendLine($"var sqlInfo = {schemaName}_Core.{tableName.ToContractName()}.{sharedClassConfig.MethodNameOfDeleteByKey}({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+            sb.AppendLine($"var sqlInfo = {schemaName}_Core.{tableName.ToContractName()}.Delete({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteNonQuery(this, \"{businessClassWriterContext.BusinessClassNamespace}.{businessClassWriterContext.ClassName}.Delete\", sqlInfo);");
+            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteNonQuery(this, \"{businessClassNamespace}.{context.Get(RepositoryClassName)}.Delete\", sqlInfo);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

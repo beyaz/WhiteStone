@@ -67,12 +67,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         #region Methods
         protected virtual void AttachEvents(IDataContext context)
         {
+            context.AttachEvent(StartToExportTable, Naming.PushNamesRelatedWithTable);
+
             context.AttachEvent(StartToExportTable, GeneratorOfTypeClass.WriteClass);
-            context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.CreateBusinessClassWriterContext);
             context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.WriteClass);
             context.AttachEvent(StartToExportTable, SharedDalClassWriter.Write);
-            context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.RemoveBusinessClassWriterContext);
 
+            context.AttachEvent(StartToExportTable, Naming.RemoveNamesRelatedWithTable);
+
+            context.AttachEvent(StartToExportSchema, Naming.PushNamesRelatedWithSchema);
             context.AttachEvent(StartToExportSchema, SharedDalClassWriter.WriteUsingList);
             context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.WriteUsingList);
             context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
@@ -86,6 +89,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             context.AttachEvent(StartToExportSchema, TypesProjectExporter.ExportTypeDll);
             context.AttachEvent(StartToExportSchema, BusinessProjectExporter.Export);
             context.AttachEvent(StartToExportSchema, SharedDalClassWriter.ExportFile);
+
+            context.AttachEvent(StartToExportSchema, Naming.RemoveNamesRelatedWithSchema);
 
             context.AttachEvent(StartToExportSchema, MsBuildQueue.Build);
         }

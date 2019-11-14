@@ -16,10 +16,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
         {
             var sb        = context.Get(Data.BoaRepositoryFile);
             var tableInfo = context.Get(Data.TableInfo);
-            var businessClassWriterContext = context.Get(Data.BusinessClassWriterContext);
             var schemaName = context.Get(Data.SchemaName);
-            var tableName  = businessClassWriterContext.TableInfo.TableName;
-            var typeContractName = businessClassWriterContext.TypeContractName;
+            var tableName  = tableInfo.TableName;
+            var typeContractName = context.Get(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
            
             foreach (var indexIdentifier in tableInfo.UniqueIndexInfoList)
             {
@@ -39,7 +38,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
                 
                 sb.AppendLine($"var sqlInfo = {schemaName}_Core.{tableName.ToContractName()}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{businessClassWriterContext.BusinessClassNamespace}.{businessClassWriterContext.ClassName}.SelectByKey\", sqlInfo, ReadContract);");
+                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(Data.BusinessClassNamespace)}.{context.Get(Data.RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
 
                 sb.CloseBracket();
             }
