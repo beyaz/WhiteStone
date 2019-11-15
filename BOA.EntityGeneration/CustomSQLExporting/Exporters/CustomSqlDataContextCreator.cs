@@ -21,6 +21,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
 
             TypeFileExporter.AttachEvents(context);
+            SharedFileExporter.AttachEvents(context);
             BoaRepositoryFileExporter.AttachEvents(context);
 
             
