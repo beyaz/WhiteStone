@@ -13,23 +13,20 @@ namespace BOA.EntityGeneration.DataFlow
     public static class CustomSqlExportingEvent
     {
         #region Static Fields
-        public static readonly IEvent StartedToExportProfileId = new Event {Name = nameof(StartedToExportProfileId)};
-        public static readonly IEvent StartedToExportObjectId= new Event {Name = nameof(StartedToExportObjectId)};
+        public static readonly IEvent ProfileIdExportingIsStarted = new Event {Name = nameof(ProfileIdExportingIsStarted)};
+
+        public static readonly IEvent ProfileIdExportingIsFinished = new Event {Name = nameof(ProfileIdExportingIsFinished)};
+
+        public static readonly IEvent ObjectIdExportIsStarted = new Event {Name = nameof(ObjectIdExportIsStarted)};
         #endregion
     }
 
-    public static class CustomSqlExportingData
-    {
-        #region Static Fields
-        
-        #endregion
-    }
+   
 
     public static class DataEvent
     {
         #region Static Fields
         public static readonly IEvent AfterFetchedAllTableNamesInSchema = new Event {Name = nameof(AfterFetchedAllTableNamesInSchema)};
-        public static readonly IEvent StartToExportCustomSqlInfoProject = new Event {Name = nameof(StartToExportCustomSqlInfoProject)};
         public static readonly IEvent StartToExportSchema               = new Event {Name = nameof(StartToExportSchema)};
         public static readonly IEvent StartToExportTable                = new Event {Name = nameof(StartToExportTable)};
         #endregion

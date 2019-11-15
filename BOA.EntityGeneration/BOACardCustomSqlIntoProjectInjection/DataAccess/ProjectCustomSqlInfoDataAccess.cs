@@ -12,7 +12,6 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
-using static BOA.EntityGeneration.DataFlow.CustomSqlExportingData;
 using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
@@ -41,7 +40,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
                 customSqlInfo.SwitchCaseIndex = switchCaseIndex++;
 
                 context.Add(CustomSqlExporter.CustomSqlInfo,customSqlInfo);
-                context.FireEvent(CustomSqlExportingEvent.StartedToExportProfileId);
+                context.FireEvent(CustomSqlExportingEvent.ObjectIdExportIsStarted);
                 context.Remove(CustomSqlExporter.CustomSqlInfo);
             }
 

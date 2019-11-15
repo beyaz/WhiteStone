@@ -99,8 +99,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
         protected virtual void AttachCustomSqlExportEvents(IDataContext context)
         {
-            context.AttachEvent(CustomSqlExportingEvent.StartedToExportProfileId, Naming.PushNamesRelatedWithTable);
-            context.AttachEvent(CustomSqlExportingEvent.StartedToExportObjectId, Naming.PushNamesRelatedWithTable);
+            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, Naming.PushNamesRelatedWithTable);
+            context.AttachEvent(CustomSqlExportingEvent.ObjectIdExportIsStarted, Naming.PushNamesRelatedWithTable);
 
             
         }

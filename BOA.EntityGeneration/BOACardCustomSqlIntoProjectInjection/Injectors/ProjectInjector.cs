@@ -3,7 +3,6 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
 using BOA.EntityGeneration.DataFlow;
-using static BOA.EntityGeneration.DataFlow.CustomSqlExportingData;
 using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
@@ -23,11 +22,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
             var database = context.Get(Database);
 
             context.Add(CustomSqlExporter.ProfileId,profileId);
-            context.FireEvent(CustomSqlExportingEvent.StartedToExportProfileId);
+            context.FireEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted);
 
             context.Add(CustomSqlExporter.CustomSqlInfoProject, ProjectCustomSqlInfoDataAccess.GetByProfileId(context));
 
-            context.FireEvent(DataEvent.StartToExportCustomSqlInfoProject);
 
             context.Remove(CustomSqlExporter.CustomSqlInfoProject);
 
