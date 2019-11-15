@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using BOA.DataFlow;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
@@ -14,7 +13,8 @@ namespace CustomSqlInjectionToProject.MainForm
     public class Controller : ControllerBase<Model>
     {
         #region Static Fields
-        static bool IsFinished;
+        static IDataContext context;
+        static bool         IsFinished;
         #endregion
 
         #region Public Methods
@@ -76,14 +76,13 @@ namespace CustomSqlInjectionToProject.MainForm
         #endregion
 
         #region Methods
-        IDataContext context;
         void Start()
         {
-            
-
-            context = new DataContextCreator{ IsFileAccessWithTfs = true,CheckinComment = Model.CheckInComment}.Create();
+            context = new DataContextCreator {IsFileAccessWithTfs = true, CheckinComment = Model.CheckInComment}.Create();
             ProjectInjector.Inject(context, Model.ProfileId.Trim());
             IsFinished = true;
+
+            context = null;
         }
         #endregion
     }
