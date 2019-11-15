@@ -1,5 +1,4 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
-using BOA.EntityGeneration.CustomSQLExporting.Exporters;
+﻿using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
