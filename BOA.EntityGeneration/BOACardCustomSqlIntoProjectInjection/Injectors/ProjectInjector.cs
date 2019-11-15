@@ -22,6 +22,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
             var database = context.Get(Database);
 
             context.Add(CustomSqlExporter.ProfileId,profileId);
+
             context.FireEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted);
 
             context.Add(CustomSqlExporter.CustomSqlInfoProject, ProjectCustomSqlInfoDataAccess.GetByProfileId(context));

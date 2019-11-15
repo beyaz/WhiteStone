@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl
         /// <summary>
         ///     Gets or sets the custom SQL information list.
         /// </summary>
-        public IReadOnlyList<CustomSqlInfo> CustomSqlInfoList { get; set; }
+        public List<CustomSqlInfo> CustomSqlInfoList { get; set; }
 
         /// <summary>
         ///     Gets or sets the namespace name of business.
@@ -47,6 +47,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl
         ///     Gets the custom SQL information list.
         /// </summary>
         IReadOnlyList<ICustomSqlInfo> IProjectCustomSqlInfo.CustomSqlInfoList => CustomSqlInfoList;
+
+        public List<string> ObjectIdList { get; set; }
         #endregion
     }
 }
