@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
+using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
+using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
-using static BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne.CustomSqlExporter;
+using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
+namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     public static class SharedFileExporter
     {

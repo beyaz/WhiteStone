@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces
+namespace BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces
 {
 
     

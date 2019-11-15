@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
+using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
 using BOA.EntityGeneration.DataFlow;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
+namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     public static class CustomSqlExporter
     {

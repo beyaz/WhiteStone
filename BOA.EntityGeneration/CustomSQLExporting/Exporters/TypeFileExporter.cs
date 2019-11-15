@@ -1,9 +1,9 @@
 ﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
-using static BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne.CustomSqlExporter;
+using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
+namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     public static class TypeFileExporter
     {

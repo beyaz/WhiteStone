@@ -1,7 +1,7 @@
 ﻿using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
+namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     public class CustomSqlDataContextCreator : DataContextCreatorBase
     {

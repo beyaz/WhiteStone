@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
+using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl
+namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
 {
 
    

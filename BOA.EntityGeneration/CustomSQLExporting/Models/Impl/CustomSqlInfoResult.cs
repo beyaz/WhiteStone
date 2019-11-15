@@ -1,8 +1,8 @@
 ﻿using System;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
+using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
 using BOA.EntityGeneration.DbModel;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl
+namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
 {
     /// <summary>
     ///     The custom SQL information result

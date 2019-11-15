@@ -1,6 +1,6 @@
 ﻿using BOA.EntityGeneration.DbModel;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces
+namespace BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces
 {
     /// <summary>
     ///     The custom SQL information result

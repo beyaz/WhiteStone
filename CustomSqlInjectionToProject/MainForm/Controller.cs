@@ -2,9 +2,10 @@
 using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.CustomSQLExporting.Exporters;
+using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.DataFlow;
 using WhiteStone.UI.Container.Mvc;
 

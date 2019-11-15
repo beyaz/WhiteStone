@@ -4,13 +4,13 @@ using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
+using BOA.EntityGeneration.CustomSQLExporting.Models.Impl;
+using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
+namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     /// <summary>
     ///     The project custom SQL information data access
@@ -105,7 +105,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
                 {
                     if (item.DataType.Equals("object", StringComparison.OrdinalIgnoreCase))
                     {
-                        var tableInfo = GeneratorDataCreator.Create(config, database, tableInfoDao.GetInfo(TableCatalogName.BOACard, customSqlInfo.SchemaName, item.Name));
+                        var tableInfo = GeneratorDataCreator.Create(config, database, tableInfoDao.GetInfo("BOACard", customSqlInfo.SchemaName, item.Name));
 
                         customSqlInfoResults.AddRange(from columnInfo in tableInfo.Columns
                                                       select new CustomSqlInfoResult
@@ -425,11 +425,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         }
         #endregion
 
-        static class TableCatalogName
-        {
-            #region Constants
-            public const string BOACard = nameof(BOACard);
-            #endregion
-        }
+        
     }
 }
