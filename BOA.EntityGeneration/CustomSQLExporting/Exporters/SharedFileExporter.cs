@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
+using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
@@ -51,12 +52,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("using BOA.Base;");
             sb.AppendLine("using BOA.Base.Data;");
             sb.AppendLine("using BOA.Common.Types;");
-            sb.AppendLine($"using {data.NamespaceNameOfType};");
+            sb.AppendLine($"using {context.GetNameofEntityNamespace()};");
             sb.AppendLine("using System.Data;");
             sb.AppendLine("using System.Collections.Generic;");
 
             sb.AppendLine();
-            sb.AppendLine($"namespace {data.NamespaceNameOfBusiness}");
+            sb.AppendLine($"namespace {context.GetNameofRepositoryNamespace()}.Shared");
             sb.OpenBracket();
         }
 

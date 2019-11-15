@@ -1,5 +1,6 @@
 ﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
+using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.DataFlow;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
@@ -38,7 +39,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("using System.Collections.Generic;");
 
             sb.AppendLine();
-            sb.AppendLine($"namespace {data.NamespaceNameOfType}");
+            sb.AppendLine($"namespace {context.GetNameofEntityNamespace()}");
             sb.OpenBracket();
 
             sb.AppendLine("/// <summary>");

@@ -9,7 +9,11 @@ namespace BOA.EntityGeneration
     [Serializable]
     public class ConfigContract
     {
-        
+        public string CustomSQLEntityNamespaceFormat { get; set; }
+        public string CustomSQLRepositoryNamespaceFormat { get; set; }
+        public string CustomSQLNamesDefinedToProfileSql { get; set; }
+        public string CustomSQL_Get_SQL_Item_Info { get; set; }
+            
         public string CustomSQLOutputFilePathForSharedRepository { get; set; }
         public string CustomSQLOutputFilePathForBoaRepository { get; set; }
         public string CustomSQLOutputFilePathForEntity { get; set; }

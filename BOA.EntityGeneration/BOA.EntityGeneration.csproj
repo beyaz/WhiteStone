@@ -60,6 +60,7 @@
     <Compile Include="CustomSQLExporting\Models\Impl\CustomSqlInfo.cs" />
     <Compile Include="CustomSQLExporting\Models\Impl\CustomSqlInfoParameter.cs" />
     <Compile Include="CustomSQLExporting\Models\Impl\CustomSqlInfoResult.cs" />
+    <Compile Include="CustomSQLExporting\Wrapper\Extensions.cs" />
     <Compile Include="CustomSQLExporting\Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
     <Compile Include="CustomSQLExporting\Models\Interfaces\ICustomSqlInfo.cs" />
     <Compile Include="CustomSQLExporting\Models\Interfaces\ICustomSqlInfoResult.cs" />

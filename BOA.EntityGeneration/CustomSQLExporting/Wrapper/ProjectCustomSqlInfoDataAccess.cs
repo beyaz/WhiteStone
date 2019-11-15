@@ -18,36 +18,23 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     public class ProjectCustomSqlInfoDataAccess
     {
         #region Public Methods
-        public static ICustomSqlProfileInfo GetByProfileIdFromDatabase(IDatabase database, string profileId)
+        public static ICustomSqlProfileInfo GetByProfileIdFromDatabase(IDatabase database, string profileId,ConfigContract config)
         {
             var objectIdList = new List<string>();
 
             var returnValue = new CustomSqlProfileInfo
             {
-                ProfileId    = profileId,
                 ObjectIdList = objectIdList
             };
 
-            database.CommandText = $@"SELECT typesnamespace,typesprojectpath, businessnamespace,businessprojectpath FROM dbo.profileskt WITH(NOLOCK) WHERE profileid = '{profileId}'";
+
+            database.CommandText = config.CustomSQLNamesDefinedToProfileSql;
+            database[nameof(profileId)] = profileId;
 
             var reader = database.ExecuteReader();
             while (reader.Read())
             {
-                returnValue.TypesProjectPath        = reader["typesprojectpath"].ToString();
-                returnValue.BusinessProjectPath     = reader["businessprojectpath"].ToString();
-                returnValue.NamespaceNameOfType     = reader["typesnamespace"].ToString();
-                returnValue.NamespaceNameOfBusiness = reader["businessnamespace"].ToString();
-                break;
-            }
-
-            reader.Close();
-
-            database.CommandText = $"SELECT objectid FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL'";
-
-            reader = database.ExecuteReader();
-            while (reader.Read())
-            {
-                objectIdList.Add(reader["objectid"].ToString());
+                objectIdList.Add(reader["Id"].ToString());
             }
 
             reader.Close();
@@ -55,22 +42,24 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             return returnValue;
         }
 
-        public static ICustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string objectId, ConfigContract config, int switchCaseIndex)
+        public static ICustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string id, ConfigContract config, int switchCaseIndex)
         {
             var customSqlInfo = new CustomSqlInfo
             {
-                Name      = objectId,
+                Name      = id,
                 ProfileId = profileId
             };
 
-            database.CommandText = $"SELECT objectid, text, schemaname, resultcollectionflag FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL' AND objectid = '{objectId}'";
+            database.CommandText = config.CustomSQL_Get_SQL_Item_Info;
+            database[nameof(profileId)] = profileId;
+            database[nameof(id)] = id;
 
             var reader = database.ExecuteReader();
             while (reader.Read())
             {
-                customSqlInfo.Sql                   = reader["text"] + string.Empty;
-                customSqlInfo.SchemaName            = reader["schemaname"] + string.Empty;
-                customSqlInfo.SqlResultIsCollection = reader["resultcollectionflag"] + string.Empty == "1";
+                customSqlInfo.Sql                   = reader[nameof(CustomSqlInfo.Sql)] + string.Empty;
+                customSqlInfo.SchemaName            = reader[nameof(CustomSqlInfo.SchemaName)] + string.Empty;
+                customSqlInfo.SqlResultIsCollection =Convert.ToBoolean( reader[nameof(CustomSqlInfo.SqlResultIsCollection)]);
 
                 break;
             }
