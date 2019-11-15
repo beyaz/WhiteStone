@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace BOA.Common.Helpers
@@ -33,7 +35,15 @@ namespace BOA.Common.Helpers
         /// </summary>
         string Padding
         {
-            get { return string.Empty.PadRight(PaddingLength * PaddingCount); }
+            get
+            {
+                if (PaddingCount < 0)
+                {
+                    throw new InvalidOperationException(nameof(PaddingCount) + Path.VolumeSeparatorChar + PaddingCount);
+                }
+
+                return string.Empty.PadRight(PaddingLength * PaddingCount);
+            }
         }
         #endregion
 

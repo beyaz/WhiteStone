@@ -16,18 +16,45 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         public static void AttachEvents(IDataContext context)
         {
 
-            context.AttachEvent(ProfileInfoIsAvailable, InitializeOutput);
-            context.AttachEvent(ProfileInfoIsAvailable, WriteUsingList);
-            context.AttachEvent(ProfileInfoIsAvailable, BeginClass);
-            context.AttachEvent(ProfileInfoIsAvailable, EndClass);
+            context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
+            context.AttachEvent(OnProfileInfoInitialized, WriteUsingList);
+            context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
             
-            context.AttachEvent(ProfileInfoIsAvailable, ExportFileToDirectory);
-            context.AttachEvent(ProfileInfoIsAvailable, ClearOutput);
+            
+            context.AttachEvent(OnCustomSqlInfoInitialized, EmptyLine);
+            context.AttachEvent(OnCustomSqlInfoInitialized, BeginClass);
+            context.AttachEvent(OnCustomSqlInfoInitialized, CreateSqlInfo);
+            context.AttachEvent(OnCustomSqlInfoInitialized, EmptyLine);
+            context.AttachEvent(OnCustomSqlInfoInitialized, WriteReadContract);
+            context.AttachEvent(OnCustomSqlInfoInitialized, EndClass);
 
-            context.AttachEvent(CustomSqlInfoIsAvailable, CreateSqlInfo);
-            context.AttachEvent(CustomSqlInfoIsAvailable, EmptyLine);
-            context.AttachEvent(CustomSqlInfoIsAvailable, WriteReadContract);
+            context.AttachEvent(OnProfileInfoRemove, EndNamespace);
+            context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
+            context.AttachEvent(OnProfileInfoRemove, ClearOutput);
             
+        }
+
+        static void BeginNamespace(IDataContext context)
+        {
+            var sb   = context.Get(File);
+            var data = context.Get(CustomSqlProfileInfo);
+
+            sb.AppendLine("using BOA.Base;");
+            sb.AppendLine("using BOA.Base.Data;");
+            sb.AppendLine("using BOA.Common.Types;");
+            sb.AppendLine($"using {data.NamespaceNameOfType};");
+            sb.AppendLine("using System.Data;");
+            sb.AppendLine("using System.Collections.Generic;");
+
+            sb.AppendLine();
+            sb.AppendLine($"namespace {data.NamespaceNameOfBusiness}");
+            sb.OpenBracket();
+        }
+
+        static void EndNamespace(IDataContext context)
+        {
+            var sb = context.Get(File);
+            sb.CloseBracket();
         }
 
         static void InitializeOutput(IDataContext context)
@@ -60,7 +87,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{data.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"static void ReadContract(IDataRecord reader, {data.ResultContractName} contract)");
+            sb.AppendLine($"public static void ReadContract(IDataRecord reader, {data.ResultContractName} contract)");
             sb.OpenBracket();
 
             foreach (var item in data.ResultColumns)
@@ -76,7 +103,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             PaddedStringBuilder sb   = context.Get(File);
             ICustomSqlInfo      data = context.Get(CustomSqlExporter.CustomSqlInfo);
         
-            sb.AppendLine($"static SqlInfo CreateSqlInfo({data.ParameterContractName} request)");
+            sb.AppendLine($"public static SqlInfo CreateSqlInfo({data.ParameterContractName} request)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 

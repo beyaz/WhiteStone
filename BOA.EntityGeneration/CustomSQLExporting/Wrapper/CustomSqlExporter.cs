@@ -9,8 +9,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     public static class CustomSqlExporter
     {
         #region Static Fields
-        public static readonly IEvent ProfileInfoIsAvailable   = new Event {Name = nameof(ProfileInfoIsAvailable)};
-        public static readonly IEvent CustomSqlInfoIsAvailable = new Event {Name = nameof(CustomSqlInfoIsAvailable)};
+        public static readonly IEvent OnProfileInfoInitialized   = new Event {Name = nameof(OnProfileInfoInitialized)};
+        public static readonly IEvent OnProfileInfoRemove = new Event {Name = nameof(OnProfileInfoRemove)};
+        public static readonly IEvent OnCustomSqlInfoInitialized = new Event {Name = nameof(OnCustomSqlInfoInitialized)};
         #endregion
 
 
@@ -21,6 +22,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             InitializeProfileInfo(context);
             ProcessCustomSQLsInProfile(context);
+            RemoveProfileInfo(context);
 
             context.Remove(ProcessedCustomSqlInfoListInProfile);
             context.Remove(ProfileId);
@@ -59,8 +61,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             context.Add(CustomSqlProfileInfo,profileInfo);
 
-            context.FireEvent(ProfileInfoIsAvailable);
-            
+            context.FireEvent(OnProfileInfoInitialized);
+        }
+
+        static void RemoveProfileInfo(IDataContext context)
+        {
+
+            context.FireEvent(OnProfileInfoRemove);
+            context.Remove(CustomSqlProfileInfo);
         }
 
         static void ProcessCustomSQLsInProfile(IDataContext context)
@@ -80,7 +88,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 context.Get(ProcessedCustomSqlInfoListInProfile).Add(customSqlInfo);
 
                 context.Add(CustomSqlInfo,customSqlInfo);
-                context.FireEvent(CustomSqlInfoIsAvailable);
+                context.FireEvent(OnCustomSqlInfoInitialized);
                 context.Remove(CustomSqlInfo);
             }
 

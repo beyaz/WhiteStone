@@ -14,17 +14,20 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
-            context.AttachEvent(ProfileInfoIsAvailable, InitializeOutput);
-            context.AttachEvent(ProfileInfoIsAvailable, BeginNamespace);
-            context.AttachEvent(ProfileInfoIsAvailable, EndNamespace);
-            context.AttachEvent(ProfileInfoIsAvailable, ExportFileToDirectory);
-            context.AttachEvent(ProfileInfoIsAvailable, ClearOutput);
+            context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
+            context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
 
-            context.AttachEvent(CustomSqlInfoIsAvailable, WriteSqlInputOutputTypes);
+            context.AttachEvent(OnCustomSqlInfoInitialized, WriteSqlInputOutputTypes);
+
+            context.AttachEvent(OnProfileInfoRemove, EndNamespace);
+            context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
+            context.AttachEvent(OnProfileInfoRemove, ClearOutput);
         }
         #endregion
 
         #region Methods
+
+     
         static void BeginNamespace(IDataContext context)
         {
             var sb   = context.Get(File);
@@ -61,7 +64,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb         = context.Get(File);
-            var data       = context.Get(CustomSqlProfileInfo);
             var fileAccess = context.Get(Data.FileAccess);
 
             var config = context.Get(Data.Config);

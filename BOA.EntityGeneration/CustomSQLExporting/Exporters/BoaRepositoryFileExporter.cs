@@ -1,61 +1,37 @@
 ﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-   
     public static class BoaRepositoryFileExporter
     {
+        #region Static Fields
+        public static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(BoaRepositoryFileExporter) + "->" + nameof(File));
+        #endregion
 
-
-
-        public static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(BoaRepositoryFileExporter) +"->"+ nameof(File));
-
-
-
-        static void InitializeOutput(IDataContext context)
-        {
-            context.Add(File, new PaddedStringBuilder());
-        }
-        static void ClearOutput(IDataContext context)
-        {
-            context.Remove(File);
-        }
-
-
-
+        #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
-            context.AttachEvent(ProfileInfoIsAvailable, InitializeOutput);
-            context.AttachEvent(ProfileInfoIsAvailable, BeginNamespace);
-            context.AttachEvent(ProfileInfoIsAvailable, WriteProxyClass);
-            context.AttachEvent(ProfileInfoIsAvailable, EndNamespace);
-            
-            context.AttachEvent(ProfileInfoIsAvailable, ExportFileToDirectory);
-            context.AttachEvent(ProfileInfoIsAvailable, ClearOutput);
+            context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
+            context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
+            context.AttachEvent(OnProfileInfoInitialized, WriteProxyClass);
 
-            context.AttachEvent(CustomSqlInfoIsAvailable, WriteBoaRepositoryClass);
+            context.AttachEvent(OnCustomSqlInfoInitialized, WriteBoaRepositoryClass);
+
+            context.AttachEvent(OnProfileInfoRemove, EndNamespace);
+            context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
+            context.AttachEvent(OnProfileInfoRemove, ClearOutput);
         }
+        #endregion
 
-        static void ExportFileToDirectory(IDataContext context)
-        {
-            var sb         = context.Get(File);
-            var config = context.Get(Data.Config);
-            var fileAccess = context.Get(Data.FileAccess);
-
-            var filePath = config.CustomSQLOutputFilePathForBoaRepository.Replace("{ProfileId}", context.Get(ProfileId));
-
-            fileAccess.WriteAllText(filePath, sb.ToString());
-        }
-
+        #region Methods
         static void BeginNamespace(IDataContext context)
         {
             var sb   = context.Get(File);
-            var data = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
+            var data = context.Get(CustomSqlProfileInfo);
 
             sb.AppendLine("using BOA.Base;");
             sb.AppendLine("using BOA.Base.Data;");
@@ -70,56 +46,38 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.PaddingCount++;
         }
 
+        static void ClearOutput(IDataContext context)
+        {
+            context.Remove(File);
+        }
+
         static void EndNamespace(IDataContext context)
         {
             var sb = context.Get(File);
             sb.CloseBracket();
         }
 
-
-        static void WriteProxyClass(IDataContext context)
+        static void ExportFileToDirectory(IDataContext context)
         {
-            var sb   = context.Get(File);
-            var customSqlInfos = context.Get(CustomSqlExporter.ProcessedCustomSqlInfoListInProfile);
+            var sb         = context.Get(File);
+            var config     = context.Get(Data.Config);
+            var fileAccess = context.Get(Data.FileAccess);
 
-            sb.AppendLine("public static class CustomSql");
-            sb.OpenBracket();
+            var filePath = config.CustomSQLOutputFilePathForBoaRepository.Replace("{ProfileId}", context.Get(ProfileId));
 
-            sb.AppendLine("public static TOutput Execute<TOutput, T>(ObjectHelper objectHelper, ICustomSqlProxy<TOutput, T> input) where TOutput : GenericResponse<T>");
-            sb.OpenBracket();
-
-            sb.AppendLine("switch (input.Index)");
-            sb.OpenBracket();
-            
-            foreach (var customSqlInfo in customSqlInfos)
-            {
-                sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");
-                sb.OpenBracket();
-                sb.AppendLine($"return (TOutput) (object) new {customSqlInfo.BusinessClassName}(objectHelper.Context).Execute(({customSqlInfo.ParameterContractName})(object) input);");
-                sb.CloseBracket();
-            }
-
-            sb.CloseBracket(); // end of switch
-
-            sb.AppendLine();
-            sb.AppendLine("throw new System.InvalidOperationException(input.GetType().FullName);");
-
-            sb.CloseBracket(); // end of method
-
-            sb.CloseBracket(); // end of class
+            fileAccess.WriteAllText(filePath, sb.ToString());
         }
 
+        static void InitializeOutput(IDataContext context)
+        {
+            context.Add(File, new PaddedStringBuilder());
+        }
 
-
-        
-
-        #region Methods
-      
         static void WriteBoaRepositoryClass(IDataContext context)
         {
-            var sb      = context.Get(File);
-            var projectCustomSqlInfo = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
-            var data = context.Get(CustomSqlExporter.CustomSqlInfo);
+            var sb                   = context.Get(File);
+            var projectCustomSqlInfo = context.Get(CustomSqlProfileInfo);
+            var data                 = context.Get(CustomSqlInfo);
 
             var key = $"{projectCustomSqlInfo.NamespaceNameOfBusiness}.{data.BusinessClassName}.Execute";
 
@@ -147,18 +105,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             {
                 sb.AppendLine($"public GenericResponse<List<{data.ResultContractName}>> Execute({data.ParameterContractName} request)");
                 sb.OpenBracket();
-                sb.AppendLine("var sqlInfo = CreateSqlInfo(request);");
+                sb.AppendLine($"var sqlInfo = Shared.{data.BusinessClassName}.CreateSqlInfo(request);");
                 sb.AppendLine();
                 sb.AppendLine($"return this.ExecuteCustomSql<{data.ResultContractName}>(CallerMemberPath, sqlInfo, ReadContract, ProfileId, ObjectId);");
                 sb.CloseBracket();
-
             }
             else
             {
                 sb.AppendLine($"public GenericResponse<{data.ResultContractName}> Execute({data.ParameterContractName} request)");
                 sb.OpenBracket();
 
-                sb.AppendLine("var sqlInfo = CreateSqlInfo(request);");
+                sb.AppendLine($"var sqlInfo = Shared.{data.BusinessClassName}.CreateSqlInfo(request);");
                 sb.AppendLine();
                 sb.AppendLine($"return this.ExecuteCustomSqlForOneRecord<{data.ResultContractName}>(CallerMemberPath, sqlInfo, ReadContract, ProfileId, ObjectId);");
 
@@ -168,6 +125,38 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine();
 
             sb.CloseBracket();
+        }
+
+        static void WriteProxyClass(IDataContext context)
+        {
+            var sb             = context.Get(File);
+            var customSqlInfos = context.Get(ProcessedCustomSqlInfoListInProfile);
+
+            sb.AppendLine("public static class CustomSql");
+            sb.OpenBracket();
+
+            sb.AppendLine("public static TOutput Execute<TOutput, T>(ObjectHelper objectHelper, ICustomSqlProxy<TOutput, T> input) where TOutput : GenericResponse<T>");
+            sb.OpenBracket();
+
+            sb.AppendLine("switch (input.Index)");
+            sb.OpenBracket();
+
+            foreach (var customSqlInfo in customSqlInfos)
+            {
+                sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");
+                sb.OpenBracket();
+                sb.AppendLine($"return (TOutput) (object) new {customSqlInfo.BusinessClassName}(objectHelper.Context).Execute(({customSqlInfo.ParameterContractName})(object) input);");
+                sb.CloseBracket();
+            }
+
+            sb.CloseBracket(); // end of switch
+
+            sb.AppendLine();
+            sb.AppendLine("throw new System.InvalidOperationException(input.GetType().FullName);");
+
+            sb.CloseBracket(); // end of method
+
+            sb.CloseBracket(); // end of class
         }
         #endregion
     }
