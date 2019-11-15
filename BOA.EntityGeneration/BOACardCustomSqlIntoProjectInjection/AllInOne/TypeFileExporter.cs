@@ -1,28 +1,26 @@
-﻿using System;
-using System.IO;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
+using static BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 {
     public static class TypeFileExporter
     {
         #region Static Fields
-        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(TypeFileExporter) +"->"+ nameof(File));
+        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(TypeFileExporter) + "->" + nameof(File));
         #endregion
 
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
-            context.AttachEvent(CustomSqlExporter.ProfileInfoIsAvailable, InitializeOutput);
-            context.AttachEvent(CustomSqlExporter.ProfileInfoIsAvailable, BeginNamespace);
+            context.AttachEvent(ProfileInfoIsAvailable, InitializeOutput);
+            context.AttachEvent(ProfileInfoIsAvailable, BeginNamespace);
+            context.AttachEvent(ProfileInfoIsAvailable, EndNamespace);
+            context.AttachEvent(ProfileInfoIsAvailable, ExportFileToDirectory);
+            context.AttachEvent(ProfileInfoIsAvailable, ClearOutput);
 
-            context.AttachEvent(CustomSqlExporter.CustomSqlInfoIsAvailable, WriteSqlInputOutputTypes);
-
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, EndNamespace);
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, ExportFileToDirectory);
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, ClearOutput);
+            context.AttachEvent(CustomSqlInfoIsAvailable, WriteSqlInputOutputTypes);
         }
         #endregion
 
@@ -30,7 +28,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         static void BeginNamespace(IDataContext context)
         {
             var sb   = context.Get(File);
-            var data = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
+            var data = context.Get(CustomSqlProfileInfo);
 
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using System;");
@@ -63,7 +61,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb         = context.Get(File);
-            var data       = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
+            var data       = context.Get(CustomSqlProfileInfo);
             var fileAccess = context.Get(Data.FileAccess);
 
             fileAccess.WriteAllText(data.TypesProjectPath + "\\Generated\\CustomSql.cs", sb.ToString());
@@ -77,7 +75,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         static void WriteSqlInputOutputTypes(IDataContext context)
         {
             var sb   = context.Get(File);
-            var data = context.Get(CustomSqlExporter.CustomSqlInfo);
+            var data = context.Get(CustomSqlInfo);
 
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///     Result class of '{data.Name}' sql.");

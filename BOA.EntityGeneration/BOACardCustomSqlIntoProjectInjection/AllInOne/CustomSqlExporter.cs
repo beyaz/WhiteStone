@@ -9,6 +9,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 {
     public static class CustomSqlExporter
     {
+        #region Static Fields
+        public static readonly IEvent ProfileInfoIsAvailable   = new Event {Name = nameof(ProfileInfoIsAvailable)};
+        public static readonly IEvent CustomSqlInfoIsAvailable = new Event {Name = nameof(CustomSqlInfoIsAvailable)};
+        #endregion
+
 
         public static void Export(IDataContext context, string profileId)
         {
@@ -24,13 +29,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         }
 
 
-        #region Static Fields
-        public static readonly IEvent ProfileInfoIsAvailable = new Event {Name = nameof(ProfileInfoIsAvailable)};
-        public static readonly IEvent CustomSqlInfoIsAvailable = new Event {Name = nameof(CustomSqlInfoIsAvailable)};
-
-        public static readonly IEvent StartedToExportObjectId  = new Event {Name = nameof(StartedToExportObjectId)};
-        public static readonly IEvent StartedToExportProfileId = new Event {Name = nameof(StartedToExportProfileId)};
-        #endregion
+       
 
        
 

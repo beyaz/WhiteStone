@@ -9,16 +9,7 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 namespace BOA.EntityGeneration.DataFlow
 {
 
-    public static class CustomSqlExportingEvent
-    {
-        #region Static Fields
-        public static readonly IEvent ProfileIdExportingIsStarted = new Event {Name = nameof(ProfileIdExportingIsStarted)};
-
-        public static readonly IEvent ProfileIdExportingIsFinished = new Event {Name = nameof(ProfileIdExportingIsFinished)};
-
-        public static readonly IEvent ObjectIdExportIsStarted = new Event {Name = nameof(ObjectIdExportIsStarted)};
-        #endregion
-    }
+  
 
    
 

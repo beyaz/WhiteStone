@@ -4,6 +4,7 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
+using static BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 {
@@ -14,15 +15,18 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         public static void AttachEvents(IDataContext context)
         {
 
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, InitializeOutput);
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, WriteUsingList);
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, BeginClass);
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, EndClass);
+            context.AttachEvent(ProfileInfoIsAvailable, InitializeOutput);
+            context.AttachEvent(ProfileInfoIsAvailable, WriteUsingList);
+            context.AttachEvent(ProfileInfoIsAvailable, BeginClass);
+            context.AttachEvent(ProfileInfoIsAvailable, EndClass);
             
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, ExportFileToDirectory);
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, ClearOutput);
+            context.AttachEvent(ProfileInfoIsAvailable, ExportFileToDirectory);
+            context.AttachEvent(ProfileInfoIsAvailable, ClearOutput);
 
-            context.AttachEvent(CustomSqlExportingEvent.ObjectIdExportIsStarted, CreateSqlInfo);
+            context.AttachEvent(CustomSqlInfoIsAvailable, CreateSqlInfo);
+            context.AttachEvent(CustomSqlInfoIsAvailable, EmptyLine);
+            context.AttachEvent(CustomSqlInfoIsAvailable, WriteReadContract);
+            
         }
 
         static void InitializeOutput(IDataContext context)
