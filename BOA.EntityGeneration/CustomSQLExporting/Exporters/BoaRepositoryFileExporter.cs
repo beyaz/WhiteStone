@@ -44,11 +44,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb         = context.Get(File);
-            var data       = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
+            var config = context.Get(Data.Config);
             var fileAccess = context.Get(Data.FileAccess);
 
-            
-            fileAccess.WriteAllText(data.BusinessProjectPath + "\\Generated\\CustomSql.cs", sb.ToString());
+            var filePath = config.CustomSQLOutputFilePathForBoaRepository.Replace("{ProfileId}", context.Get(ProfileId));
+
+            fileAccess.WriteAllText(filePath, sb.ToString());
         }
 
         static void BeginNamespace(IDataContext context)

@@ -9,6 +9,11 @@ namespace BOA.EntityGeneration
     [Serializable]
     public class ConfigContract
     {
+        
+        public string CustomSQLOutputFilePathForSharedRepository { get; set; }
+        public string CustomSQLOutputFilePathForBoaRepository { get; set; }
+        public string CustomSQLOutputFilePathForEntity { get; set; }
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets a value indicating whether [build after code generation is completed].

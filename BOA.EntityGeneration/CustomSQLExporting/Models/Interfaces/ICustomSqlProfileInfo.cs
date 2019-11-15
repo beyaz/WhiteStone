@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces
         /// <summary>
         ///     Gets the business project path.
         /// </summary>
-        string BusinessProjectPath { get; }
+        string BusinessProjectPath { get; } // TODO remove
 
         /// <summary>
         ///     Gets the namespace name of business.

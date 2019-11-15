@@ -45,8 +45,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             var data       = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
             var fileAccess = context.Get(Data.FileAccess);
 
-            
-            fileAccess.WriteAllText(data.BusinessProjectPath + "\\Generated\\Shared.cs", sb.ToString());
+            var config = context.Get(Data.Config);
+
+            var filePath = config.CustomSQLOutputFilePathForSharedRepository.Replace("{ProfileId}", context.Get(ProfileId));
+
+            fileAccess.WriteAllText(filePath, sb.ToString());
         }
 
         static void WriteReadContract(IDataContext context)
