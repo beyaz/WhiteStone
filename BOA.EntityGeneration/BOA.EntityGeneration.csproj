@@ -56,11 +56,6 @@
     <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\BoaRepositoryFileExporter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\CustomSqlExporter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\TypeFileExporter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BusinessClassTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\CreateSqlInfoMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ExecuteForListMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ExecuteForSingleContractMethodWriter.cs" />
@@ -160,10 +155,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BusinessClassTemplate.cs</LastGenOutput>
-    </Content>
     <Content Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\ObjectHelperSqlUtil.txt" />
     <Content Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\SqlInfo.txt" />
     <Content Include="EmbeddedUtilizationClassForDao.txt">

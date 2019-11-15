@@ -2,7 +2,7 @@
 using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
@@ -78,8 +78,8 @@ namespace CustomSqlInjectionToProject.MainForm
         #region Methods
         void Start()
         {
-            context = new DataContextCreator {IsFileAccessWithTfs = true, CheckinComment = Model.CheckInComment}.Create();
-            ProjectInjector.Inject(context, Model.ProfileId.Trim());
+            context = new CustomSqlDataContextCreator {IsFileAccessWithTfs = true, CheckinComment = Model.CheckInComment}.Create();
+            CustomSqlExporter.Export(context, Model.ProfileId.Trim());
             IsFinished = true;
 
             context = null;

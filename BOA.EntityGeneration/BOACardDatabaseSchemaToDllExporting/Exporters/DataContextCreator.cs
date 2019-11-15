@@ -77,6 +77,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         {
 
             TypeFileExporter.AttachEvents(context);
+            BoaRepositoryFileExporter.AttachEvents(context);
 
             
         }
