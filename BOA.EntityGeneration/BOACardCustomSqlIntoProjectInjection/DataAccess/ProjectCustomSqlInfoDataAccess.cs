@@ -4,11 +4,16 @@ using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
+using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
+using static BOA.EntityGeneration.DataFlow.CustomSqlExportingData;
+using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 {
@@ -21,18 +26,23 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
         /// <summary>
         ///     Gets the by profile identifier.
         /// </summary>
-        public static ProjectCustomSqlInfo GetByProfileId(IDatabase database, ConfigContract config, string profileId)
+        public static ProjectCustomSqlInfo GetByProfileId(IDataContext context)
         {
+            var config    = context.Get(Config);
+            var database  = context.Get(Data.Database);
+            var profileId = context.Get(CustomSqlExporter.ProfileId);
+
             var project = GetByProfileIdFromDatabase(database, profileId);
 
+            var switchCaseIndex = 0;
             foreach (var customSqlInfo in project.CustomSqlInfoList)
             {
                 Fill(customSqlInfo, config, database);
-            }
+                customSqlInfo.SwitchCaseIndex = switchCaseIndex++;
 
-            for (var i = 0; i < project.CustomSqlInfoList.Count; i++)
-            {
-                project.CustomSqlInfoList[i].SwitchCaseIndex = i;
+                context.Add(CustomSqlExporter.CustomSqlInfo,customSqlInfo);
+                context.FireEvent(CustomSqlExportingEvent.StartedToExportProfileId);
+                context.Remove(CustomSqlExporter.CustomSqlInfo);
             }
 
             return project;

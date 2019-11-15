@@ -9,6 +9,22 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 
 namespace BOA.EntityGeneration.DataFlow
 {
+
+    public static class CustomSqlExportingEvent
+    {
+        #region Static Fields
+        public static readonly IEvent StartedToExportProfileId = new Event {Name = nameof(StartedToExportProfileId)};
+        public static readonly IEvent StartedToExportObjectId= new Event {Name = nameof(StartedToExportObjectId)};
+        #endregion
+    }
+
+    public static class CustomSqlExportingData
+    {
+        #region Static Fields
+        
+        #endregion
+    }
+
     public static class DataEvent
     {
         #region Static Fields
@@ -26,8 +42,7 @@ namespace BOA.EntityGeneration.DataFlow
     {
         #region Static Fields
         public static readonly IDataConstant<ConfigContract>        Config               = DataConstant.Create<ConfigContract>();
-        public static readonly IDataConstant<ICustomSqlInfo>        CustomSqlInfo        = DataConstant.Create<ICustomSqlInfo>();
-        public static readonly IDataConstant<IProjectCustomSqlInfo> CustomSqlInfoProject = DataConstant.Create<IProjectCustomSqlInfo>();
+        
         public static readonly IDataConstant<IDatabase>             Database             = DataConstant.Create<IDatabase>();
         public static readonly IDataConstant<FileSystem>            FileAccess           = DataConstant.Create<FileSystem>();
         public static readonly IDataConstant<MsBuildQueue>          MsBuildQueue         = DataConstant.Create<MsBuildQueue>();

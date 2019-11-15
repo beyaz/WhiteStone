@@ -60,6 +60,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
             AttachEvents(context);
 
+            AttachCustomSqlExportEvents(context);
+
             return context;
         }
         #endregion
@@ -93,6 +95,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             context.AttachEvent(StartToExportSchema, Naming.RemoveNamesRelatedWithSchema);
 
             context.AttachEvent(StartToExportSchema, MsBuildQueue.Build);
+        }
+
+        protected virtual void AttachCustomSqlExportEvents(IDataContext context)
+        {
+            context.AttachEvent(CustomSqlExportingEvent.StartedToExportProfileId, Naming.PushNamesRelatedWithTable);
+            context.AttachEvent(CustomSqlExportingEvent.StartedToExportObjectId, Naming.PushNamesRelatedWithTable);
+
+            
         }
         #endregion
     }

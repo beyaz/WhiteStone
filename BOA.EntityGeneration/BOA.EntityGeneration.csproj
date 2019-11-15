@@ -54,7 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\AllInOneForBusinessDll.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\AllInOneForTypeDll.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\CustomSqlExporter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\TypeFileExporter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -81,7 +82,6 @@
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\IProjectCustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\ProjectCustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Injectors\ProjectInjector.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\TypeClassWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\Naming.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SharedDalClassWriter.cs" />

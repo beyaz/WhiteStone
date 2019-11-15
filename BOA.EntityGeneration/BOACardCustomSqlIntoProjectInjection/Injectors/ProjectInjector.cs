@@ -3,6 +3,8 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
 using BOA.EntityGeneration.DataFlow;
+using static BOA.EntityGeneration.DataFlow.CustomSqlExportingData;
+using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
 {
@@ -17,14 +19,20 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         /// </summary>
         public static void Inject(IDataContext context, string profileId)
         {
-            var config   = context.Get(Data.Config);
-            var database = context.Get(Data.Database);
+            var config   = context.Get(Config);
+            var database = context.Get(Database);
 
-            context.Add(Data.CustomSqlInfoProject, ProjectCustomSqlInfoDataAccess.GetByProfileId(database, config, profileId));
+            context.Add(CustomSqlExporter.ProfileId,profileId);
+            context.FireEvent(CustomSqlExportingEvent.StartedToExportProfileId);
+
+            context.Add(CustomSqlExporter.CustomSqlInfoProject, ProjectCustomSqlInfoDataAccess.GetByProfileId(context));
 
             context.FireEvent(DataEvent.StartToExportCustomSqlInfoProject);
 
-            context.Remove(Data.CustomSqlInfoProject);
+            context.Remove(CustomSqlExporter.CustomSqlInfoProject);
+
+            context.Remove(CustomSqlExporter.ProfileId);
+
         }
 
         /// <summary>
@@ -32,19 +40,16 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         /// </summary>
         public static void Inject(IDataContext context)
         {
-            var data       = context.Get(Data.CustomSqlInfoProject);
-            var progress   = context.Get(Data.CustomSqlGenerationOfProfileIdProcess);
-            var fileAccess = context.Get(Data.FileAccess);
+            var data       = context.Get(CustomSqlExporter.CustomSqlInfoProject);
+            var progress   = context.Get(CustomSqlGenerationOfProfileIdProcess);
+            var fileAccess = context.Get(FileAccess);
 
-            progress.Text = "Generating types...";
-            var typeCode = AllInOneForTypeDll.GetCode(data);
 
             progress.Text = "Generating business...";
             var businessCode = AllInOneForBusinessDll.GetCode(data);
 
             progress.Text = "Writing to files...";
 
-            fileAccess.WriteAllText(data.TypesProjectPath + "\\Generated\\CustomSql.cs", typeCode);
             fileAccess.WriteAllText(data.BusinessProjectPath + "\\Generated\\CustomSql.cs", businessCode);
         }
         #endregion
