@@ -6,11 +6,8 @@ using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration;
-using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
-using ColumnInfo = BOA.EntityGeneration.DbModel.Types.ColumnInfo;
 using Names2 = BOA.CodeGeneration.Common.Names2;
-using TableInfo = BOA.EntityGeneration.DbModel.Types.TableInfo;
 
 namespace BOA.CodeGeneration.Generators
 {

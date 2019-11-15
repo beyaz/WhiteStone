@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using BOA.DataFlow;
 using BOA.Common.Helpers;
-using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;

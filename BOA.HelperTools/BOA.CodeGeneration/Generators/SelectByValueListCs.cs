@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
-using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
-using BOA.EntityGeneration;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
-using ColumnInfo = BOA.EntityGeneration.DbModel.Types.ColumnInfo;
 
 namespace BOA.CodeGeneration.Generators
 {

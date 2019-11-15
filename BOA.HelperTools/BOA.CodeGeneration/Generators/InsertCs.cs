@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.Model;
 using BOA.EntityGeneration;
-using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
-using ColumnInfo = BOA.EntityGeneration.DbModel.Types.ColumnInfo;
 using Names2 = BOA.CodeGeneration.Common.Names2;
 
 namespace BOA.CodeGeneration.Generators

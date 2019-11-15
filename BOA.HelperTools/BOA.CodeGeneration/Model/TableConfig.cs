@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using BOA.CodeGeneration.Common;
-using BOA.EntityGeneration;
 using BOA.EntityGeneration.DbModel;
 using WhiteStone.Common;
 using WhiteStone.Helpers;

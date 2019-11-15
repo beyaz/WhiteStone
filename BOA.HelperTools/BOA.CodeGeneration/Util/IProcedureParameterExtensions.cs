@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using BOA.CodeGeneration.Common;
 using BOA.CodeGeneration.SQLParser;
 using BOA.EntityGeneration;
 using BOA.EntityGeneration.DbModel;

@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using BOA.CodeGeneration.Common;
-using BOA.CodeGeneration.Model;
-using BOA.Common.Helpers;
-using WhiteStone.Helpers;
-
-namespace BOA.CodeGeneration.Input
+﻿namespace BOA.CodeGeneration.Input
 {
     public enum Databases
     {

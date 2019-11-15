@@ -1,9 +1,7 @@
 ﻿using System.Data;
-using System.Linq;
 using BOA.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
-using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared

@@ -4,7 +4,6 @@ using System.Linq;
 using BOA.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
-using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
 using InsertInfoCreator = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess.InsertInfoCreator;
 
