@@ -1,4 +1,5 @@
-﻿using BOA.Common.Helpers;
+﻿using System.Collections.Generic;
+using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
@@ -12,10 +13,12 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         public static void Export(IDataContext context, string profileId)
         {
             context.Add(ProfileId,profileId);
+            context.Add(ProcessedCustomSqlInfoListInProfile,new List<ICustomSqlInfo>());
 
             InitializeProfileInfo(context);
             ProcessCustomSQLsInProfile(context);
 
+            context.Remove(ProcessedCustomSqlInfoListInProfile);
             context.Remove(ProfileId);
 
         }
@@ -37,9 +40,11 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         #endregion
 
         #region Data
+
+        public static readonly IDataConstant<List<ICustomSqlInfo>> ProcessedCustomSqlInfoListInProfile = DataConstant.Create<List<ICustomSqlInfo>>();
+
         public static readonly IDataConstant<string>                ProfileId            = DataConstant.Create<string>(nameof(ProfileId));
         public static readonly IDataConstant<ICustomSqlInfo>        CustomSqlInfo        = DataConstant.Create<ICustomSqlInfo>();
-        public static readonly IDataConstant<IProjectCustomSqlInfo> CustomSqlInfoProject = DataConstant.Create<IProjectCustomSqlInfo>();
 
         public static readonly IDataConstant<ICustomSqlProfileInfo> CustomSqlProfileInfo = DataConstant.Create<ICustomSqlProfileInfo>();
         
@@ -74,6 +79,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             {
                 var customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileId, objectId, config, switchCaseIndex++);
                 
+                context.Get(ProcessedCustomSqlInfoListInProfile).Add(customSqlInfo);
+
                 context.Add(CustomSqlInfo,customSqlInfo);
                 context.FireEvent(CustomSqlInfoIsAvailable);
                 context.Remove(CustomSqlInfo);

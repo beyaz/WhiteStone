@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
     public static class TypeFileExporter
     {
         #region Static Fields
-        public static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
+        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
         #endregion
 
         #region Public Methods
@@ -25,20 +25,10 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         #endregion
 
         #region Methods
-        static void ExportFileToDirectory(IDataContext context)
-        {
-            var sb   = context.Get(File);
-            var data = context.Get(CustomSqlExporter.CustomSqlInfoProject);
-            var fileAccess = context.Get(Data.FileAccess);
-
-            
-            fileAccess.WriteAllText(data.TypesProjectPath + "\\Generated\\CustomSql.cs", sb.ToString());
-        }
-
         static void BeginNamespace(IDataContext context)
         {
             var sb   = context.Get(File);
-            var data = context.Get(CustomSqlExporter.CustomSqlInfoProject);
+            var data = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
 
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using System;");
@@ -57,19 +47,29 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             sb.AppendLine("}");
         }
 
+        static void ClearOutput(IDataContext context)
+        {
+            context.Remove(File);
+        }
+
         static void EndNamespace(IDataContext context)
         {
             var sb = context.Get(File);
             sb.CloseBracket();
         }
 
+        static void ExportFileToDirectory(IDataContext context)
+        {
+            var sb         = context.Get(File);
+            var data       = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
+            var fileAccess = context.Get(Data.FileAccess);
+
+            fileAccess.WriteAllText(data.TypesProjectPath + "\\Generated\\CustomSql.cs", sb.ToString());
+        }
+
         static void InitializeOutput(IDataContext context)
         {
             context.Add(File, new PaddedStringBuilder());
-        }
-        static void ClearOutput(IDataContext context)
-        {
-            context.Remove(File);
         }
 
         static void WriteSqlInputOutputTypes(IDataContext context)

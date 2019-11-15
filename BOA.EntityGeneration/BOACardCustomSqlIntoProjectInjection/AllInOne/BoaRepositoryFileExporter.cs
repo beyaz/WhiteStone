@@ -43,7 +43,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb         = context.Get(File);
-            var data       = context.Get(CustomSqlExporter.CustomSqlInfoProject);
+            var data       = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
             var fileAccess = context.Get(Data.FileAccess);
 
             
@@ -53,7 +53,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         static void BeginNamespace(IDataContext context)
         {
             var sb   = context.Get(File);
-            var data = context.Get(CustomSqlExporter.CustomSqlInfoProject);
+            var data = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
 
             sb.AppendLine("using BOA.Base;");
             sb.AppendLine("using BOA.Base.Data;");
@@ -78,7 +78,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         static void WriteProxy(IDataContext context)
         {
             var sb   = context.Get(File);
-            var project = context.Get(CustomSqlExporter.CustomSqlInfoProject);
 
            
 
@@ -94,7 +93,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            foreach (var item in project.CustomSqlInfoList)
+            foreach (var item in context.Get(CustomSqlExporter.ProcessedCustomSqlInfoListInProfile))
             {
                 sb.AppendLine($"case {item.SwitchCaseIndex}:");
                 sb.AppendLine("{");
@@ -128,7 +127,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         static void WriteBoaRepositoryClass(IDataContext context)
         {
             var sb      = context.Get(File);
-            var projectCustomSqlInfo = context.Get(CustomSqlExporter.CustomSqlInfoProject);
+            var projectCustomSqlInfo = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
             var data = context.Get(CustomSqlExporter.CustomSqlInfo);
 
             var key = $"{projectCustomSqlInfo.NamespaceNameOfBusiness}.{data.BusinessClassName}.Execute";
