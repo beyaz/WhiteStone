@@ -7,22 +7,20 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.MethodWriter
     static class ReadContractMethodWriter
     {
         #region Public Methods
-        public static void Write(PaddedStringBuilder sb, ICustomSqlInfo data)
+        public static void WriteReadContract(PaddedStringBuilder sb, ICustomSqlInfo data)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{data.Name}' sql.");
             sb.AppendLine("/// </summary>");
             sb.AppendLine($"static void ReadContract(IDataRecord reader, {data.ResultContractName} contract)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            sb.OpenBracket();
 
             foreach (var item in data.ResultColumns)
             {
                 sb.AppendLine($"contract.{item.NameInDotnet} = SQLDBHelper.{item.SqlReaderMethod}(reader[\"{item.Name}\"]);");
             }
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.CloseBracket();
         }
         #endregion
     }

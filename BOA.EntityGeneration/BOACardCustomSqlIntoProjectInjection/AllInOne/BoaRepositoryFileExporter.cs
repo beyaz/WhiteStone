@@ -31,7 +31,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         {
             context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, InitializeOutput);
             context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, BeginNamespace);
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, WriteProxy);
+            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, WriteProxyClass);
             context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, EndNamespace);
             
             context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, ExportFileToDirectory);
@@ -75,47 +75,36 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         }
 
 
-        static void WriteProxy(IDataContext context)
+        static void WriteProxyClass(IDataContext context)
         {
             var sb   = context.Get(File);
-
-           
+            var customSqlInfos = context.Get(CustomSqlExporter.ProcessedCustomSqlInfoListInProfile);
 
             sb.AppendLine("public static class CustomSql");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            sb.OpenBracket();
 
             sb.AppendLine("public static TOutput Execute<TOutput, T>(ObjectHelper objectHelper, ICustomSqlProxy<TOutput, T> input) where TOutput : GenericResponse<T>");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            sb.OpenBracket();
 
             sb.AppendLine("switch (input.Index)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            foreach (var item in context.Get(CustomSqlExporter.ProcessedCustomSqlInfoListInProfile))
+            sb.OpenBracket();
+            
+            foreach (var customSqlInfo in customSqlInfos)
             {
-                sb.AppendLine($"case {item.SwitchCaseIndex}:");
-                sb.AppendLine("{");
-                sb.PaddingCount++;
-
-                sb.AppendLine($"return (TOutput) (object) new {item.BusinessClassName}(objectHelper.Context).Execute(({item.ParameterContractName})(object) input);");
-
-                sb.PaddingCount--;
-                sb.AppendLine("}");
+                sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");
+                sb.OpenBracket();
+                sb.AppendLine($"return (TOutput) (object) new {customSqlInfo.BusinessClassName}(objectHelper.Context).Execute(({customSqlInfo.ParameterContractName})(object) input);");
+                sb.CloseBracket();
             }
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.CloseBracket(); // end of switch
 
             sb.AppendLine();
             sb.AppendLine("throw new System.InvalidOperationException(input.GetType().FullName);");
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.CloseBracket(); // end of method
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.CloseBracket(); // end of class
         }
 
 
@@ -147,19 +136,35 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             sb.AppendLine($"///{Padding.ForComment}Data access part of '{data.Name}' sql.");
             sb.AppendLine("/// </summary>");
             sb.AppendLine($"public {data.BusinessClassName}(ExecutionDataContext context) : base(context) {{}}");
-            sb.AppendLine();
 
+            sb.AppendLine();
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"///{Padding.ForComment}Data access part of '{data.Name}' sql.");
+            sb.AppendLine("/// </summary>");
             if (data.SqlResultIsCollection)
             {
-                ExecuteForListMethodWriter.Write(sb, data);
+                sb.AppendLine($"public GenericResponse<List<{data.ResultContractName}>> Execute({data.ParameterContractName} request)");
+                sb.OpenBracket();
+                sb.AppendLine("var sqlInfo = CreateSqlInfo(request);");
+                sb.AppendLine();
+                sb.AppendLine($"return this.ExecuteCustomSql<{data.ResultContractName}>(CallerMemberPath, sqlInfo, ReadContract, ProfileId, ObjectId);");
+                sb.CloseBracket();
+
             }
             else
             {
-                ExecuteForSingleContractMethodWriter.Write(sb, data);
+                sb.AppendLine($"public GenericResponse<{data.ResultContractName}> Execute({data.ParameterContractName} request)");
+                sb.OpenBracket();
+
+                sb.AppendLine("var sqlInfo = CreateSqlInfo(request);");
+                sb.AppendLine();
+                sb.AppendLine($"return this.ExecuteCustomSqlForOneRecord<{data.ResultContractName}>(CallerMemberPath, sqlInfo, ReadContract, ProfileId, ObjectId);");
+
+                sb.CloseBracket();
             }
 
             sb.AppendLine();
-            ReadContractMethodWriter.Write(sb, data);
+            ReadContractMethodWriter.WriteReadContract(sb, data);
             sb.AppendLine();
             CreateSqlInfoMethodWriter.Write(sb, data);
 
