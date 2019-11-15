@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
     public static class TypeFileExporter
     {
         #region Static Fields
-        public static readonly IDataConstant<PaddedStringBuilder> EntityFile = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFile));
+        public static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
         #endregion
 
         #region Public Methods
@@ -26,7 +26,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         #region Methods
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb   = context.Get(EntityFile);
+            var sb   = context.Get(File);
             var data = context.Get(CustomSqlExporter.CustomSqlInfoProject);
             var fileAccess = context.Get(Data.FileAccess);
 
@@ -36,7 +36,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 
         static void BeginNamespace(IDataContext context)
         {
-            var sb   = context.Get(EntityFile);
+            var sb   = context.Get(File);
             var data = context.Get(CustomSqlExporter.CustomSqlInfoProject);
 
             sb.AppendLine("using BOA.Common.Types;");
@@ -58,22 +58,22 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
 
         static void EndNamespace(IDataContext context)
         {
-            var sb = context.Get(EntityFile);
+            var sb = context.Get(File);
             sb.CloseBracket();
         }
 
         static void InitializeOutput(IDataContext context)
         {
-            context.Add(EntityFile, new PaddedStringBuilder());
+            context.Add(File, new PaddedStringBuilder());
         }
         static void ClearOutput(IDataContext context)
         {
-            context.Remove(EntityFile);
+            context.Remove(File);
         }
 
         static void WriteSqlInputOutputTypes(IDataContext context)
         {
-            var sb   = context.Get(EntityFile);
+            var sb   = context.Get(File);
             var data = context.Get(CustomSqlExporter.CustomSqlInfo);
 
             sb.AppendLine("/// <summary>");

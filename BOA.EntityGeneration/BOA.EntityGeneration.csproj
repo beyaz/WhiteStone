@@ -53,7 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\AllInOneForBusinessDll.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\BoaRepositoryFileExporter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\CustomSqlExporter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\TypeFileExporter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.cs">
@@ -61,13 +61,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BusinessClassTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\CustomSqlClassTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CustomSqlClassTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\CustomSqlClassWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\CreateSqlInfoMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ExecuteForListMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ExecuteForSingleContractMethodWriter.cs" />

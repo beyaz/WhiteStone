@@ -35,23 +35,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
 
         }
 
-        /// <summary>
-        ///     Injects the specified data.
-        /// </summary>
-        public static void Inject(IDataContext context)
-        {
-            var data       = context.Get(CustomSqlExporter.CustomSqlInfoProject);
-            var progress   = context.Get(CustomSqlGenerationOfProfileIdProcess);
-            var fileAccess = context.Get(FileAccess);
-
-
-            progress.Text = "Generating business...";
-            var businessCode = AllInOneForBusinessDll.GetCode(data);
-
-            progress.Text = "Writing to files...";
-
-            fileAccess.WriteAllText(data.BusinessProjectPath + "\\Generated\\CustomSql.cs", businessCode);
-        }
+       
         #endregion
     }
 }
