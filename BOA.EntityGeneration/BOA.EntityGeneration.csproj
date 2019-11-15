@@ -55,9 +55,8 @@
   <ItemGroup>
     <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\BoaRepositoryFileExporter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\CustomSqlExporter.cs" />
+    <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\SharedFileExporter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\AllInOne\TypeFileExporter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\CreateSqlInfoMethodWriter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ReadContractMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfoParameter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfoResult.cs" />

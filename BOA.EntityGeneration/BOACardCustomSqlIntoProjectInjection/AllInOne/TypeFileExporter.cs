@@ -1,4 +1,6 @@
-﻿using BOA.Common.Helpers;
+﻿using System;
+using System.IO;
+using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
 
@@ -7,7 +9,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
     public static class TypeFileExporter
     {
         #region Static Fields
-        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
+        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(TypeFileExporter) +"->"+ nameof(File));
         #endregion
 
         #region Public Methods

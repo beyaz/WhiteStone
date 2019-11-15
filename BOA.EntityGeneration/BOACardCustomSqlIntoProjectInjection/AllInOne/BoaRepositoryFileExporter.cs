@@ -1,6 +1,5 @@
 ﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.MethodWriters;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 
@@ -164,12 +163,8 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
             }
 
             sb.AppendLine();
-            ReadContractMethodWriter.WriteReadContract(sb, data);
-            sb.AppendLine();
-            CreateSqlInfoMethodWriter.Write(sb, data);
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.CloseBracket();
         }
         #endregion
     }
