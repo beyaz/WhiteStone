@@ -53,23 +53,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Exporters\BoaRepositoryFileExporter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Wrapper\CustomSqlExporter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Exporters\SharedFileExporter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Exporters\TypeFileExporter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfo.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfoParameter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\CustomSqlInfoResult.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\ICustomSqlInfo.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\ICustomSqlInfoResult.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\ICustomSqlInfoParameter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\IProjectCustomSqlInfo.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\ProjectCustomSqlInfo.cs" />
+    <Compile Include="CustomSQLExporting\Exporters\BoaRepositoryFileExporter.cs" />
+    <Compile Include="CustomSQLExporting\Wrapper\CustomSqlExporter.cs" />
+    <Compile Include="CustomSQLExporting\Exporters\SharedFileExporter.cs" />
+    <Compile Include="CustomSQLExporting\Exporters\TypeFileExporter.cs" />
+    <Compile Include="CustomSQLExporting\Models\Impl\CustomSqlInfo.cs" />
+    <Compile Include="CustomSQLExporting\Models\Impl\CustomSqlInfoParameter.cs" />
+    <Compile Include="CustomSQLExporting\Models\Impl\CustomSqlInfoResult.cs" />
+    <Compile Include="CustomSQLExporting\Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
+    <Compile Include="CustomSQLExporting\Models\Interfaces\ICustomSqlInfo.cs" />
+    <Compile Include="CustomSQLExporting\Models\Interfaces\ICustomSqlInfoResult.cs" />
+    <Compile Include="CustomSQLExporting\Models\Interfaces\ICustomSqlInfoParameter.cs" />
+    <Compile Include="CustomSQLExporting\Models\Interfaces\IProjectCustomSqlInfo.cs" />
+    <Compile Include="CustomSQLExporting\Models\Impl\ProjectCustomSqlInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\Naming.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SharedDalClassWriter.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Wrapper\CustomSqlDataContextCreator.cs" />
+    <Compile Include="CustomSQLExporting\Wrapper\CustomSqlDataContextCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectAllByValidFlagMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectAllMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectByKeyMethodWriter.cs" />
