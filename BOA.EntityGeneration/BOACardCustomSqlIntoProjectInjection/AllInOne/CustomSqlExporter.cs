@@ -12,14 +12,16 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         public static void Export(IDataContext context, string profileId)
         {
             context.Add(ProfileId,profileId);
-            context.FireEvent(ProfileIdIsAvailable);
+
+            InitializeProfileInfo(context);
+            ProcessCustomSQLsInProfile(context);
+
             context.Remove(ProfileId);
 
         }
 
 
         #region Static Fields
-        public static readonly IEvent ProfileIdIsAvailable = new Event {Name = nameof(ProfileIdIsAvailable)};
         public static readonly IEvent ProfileInfoIsAvailable = new Event {Name = nameof(ProfileInfoIsAvailable)};
         public static readonly IEvent CustomSqlInfoIsAvailable = new Event {Name = nameof(CustomSqlInfoIsAvailable)};
 
@@ -27,15 +29,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         public static readonly IEvent StartedToExportProfileId = new Event {Name = nameof(StartedToExportProfileId)};
         #endregion
 
-        #region Public Methods
-        public static void AttachEvents(IDataContext context)
-        {
-            context.AttachEvent(ProfileIdIsAvailable,InitializeProfileInfo);
-            context.AttachEvent(ProfileIdIsAvailable,ProcessCustomSQLsInProfile);
-
-            TypeFileExporter.AttachEvents(context);
-        }
-        #endregion
+       
 
         #region Output Strings
         public static readonly IDataConstant<PaddedStringBuilder> SharedDalFile = DataConstant.Create<PaddedStringBuilder>(nameof(SharedDalFile));

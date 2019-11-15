@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         [TestMethod]
         public void CustomSqlInjection()
         {
-            var context = new DataContextCreator().Create();
+            var context = new CustomSqlDataContextCreator().Create();
             CustomSqlExporter.Export(context, "CC_OPERATIONS");
         }
         #endregion

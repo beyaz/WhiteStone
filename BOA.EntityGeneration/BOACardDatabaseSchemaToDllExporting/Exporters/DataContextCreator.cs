@@ -3,6 +3,7 @@ using BOA.DataFlow;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
@@ -15,19 +16,15 @@ using FileAccess = BOA.TfsAccess.FileAccess;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
-    public class DataContextCreator
+
+    public class DataContextCreatorBase
     {
-        #region Public Properties
         public string CheckinComment      { get; set; }
         public string ConfigFilePath      { get; set; }
         public bool   IsFileAccessWithTfs { get; set; }
-        #endregion
 
-        #region Public Methods
-        public IDataContext Create()
+        public void InitializeServices( IDataContext context)
         {
-            var context = new DataContext();
-
             if (ConfigFilePath == null)
             {
                 ConfigFilePath = Path.GetDirectoryName(typeof(DataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
@@ -57,10 +54,49 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             context.Add(Data.AllSchemaGenerationProcess, new ProcessInfo());
             context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
             context.Add(Data.CustomSqlGenerationOfProfileIdProcess, new ProcessInfo());
+        }
+    }
+
+
+
+    public class CustomSqlDataContextCreator : DataContextCreatorBase
+    {
+        public IDataContext Create()
+        {
+            var context = new DataContext();
+
+            InitializeServices(context);
+
+            AttachEvents(context);
+            
+
+            return context;
+        }
+
+        protected virtual void AttachEvents(IDataContext context)
+        {
+
+            TypeFileExporter.AttachEvents(context);
+
+            
+        }
+    }
+
+    public class DataContextCreator:DataContextCreatorBase
+    {
+        #region Public Properties
+       
+        #endregion
+
+        #region Public Methods
+        public IDataContext Create()
+        {
+            var context = new DataContext();
+
+            InitializeServices(context);
 
             AttachEvents(context);
 
-            AttachCustomSqlExportEvents(context);
 
             return context;
         }
@@ -96,14 +132,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
             context.AttachEvent(StartToExportSchema, MsBuildQueue.Build);
         }
-
-        protected virtual void AttachCustomSqlExportEvents(IDataContext context)
-        {
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, Naming.PushNamesRelatedWithTable);
-            context.AttachEvent(CustomSqlExportingEvent.ObjectIdExportIsStarted, Naming.PushNamesRelatedWithTable);
-
-            
-        }
+        
         #endregion
     }
 }
