@@ -1,17 +1,18 @@
-﻿using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+﻿using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
 {
     [TestClass]
-    public class ProjectInjectorDebug
+    public class CustomSqlExporterDebug
     {
         #region Public Methods
         [TestMethod]
         public void CustomSqlInjection()
         {
             var context = new DataContextCreator().Create();
-            ProjectInjector.Inject(context, "CC_OPERATIONS");
+            CustomSqlExporter.Export(context, "CC_OPERATIONS");
         }
         #endregion
     }

@@ -79,7 +79,6 @@
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\ICustomSqlInfoParameter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Interfaces\IProjectCustomSqlInfo.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\Models\Impl\ProjectCustomSqlInfo.cs" />
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\Injectors\ProjectInjector.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\Naming.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SharedDalClassWriter.cs" />

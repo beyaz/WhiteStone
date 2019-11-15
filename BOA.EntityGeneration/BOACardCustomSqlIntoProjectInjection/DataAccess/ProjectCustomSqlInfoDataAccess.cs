@@ -4,16 +4,11 @@ using System.Data;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Impl;
 using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
-using static BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne.CustomSqlExporter;
-using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
 {
@@ -23,30 +18,74 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
     public class ProjectCustomSqlInfoDataAccess
     {
         #region Public Methods
-        /// <summary>
-        ///     Gets the by profile identifier.
-        /// </summary>
-        public static ProjectCustomSqlInfo GetByProfileId(IDataContext context)
+        public static ICustomSqlProfileInfo GetByProfileIdFromDatabase(IDatabase database, string profileId)
         {
-            var config    = context.Get(Config);
-            var database  = context.Get(Data.Database);
-            var profileId = context.Get(ProfileId);
+            var objectIdList = new List<string>();
 
-            var project = GetByProfileIdFromDatabase(database, profileId);
-
-            var switchCaseIndex = 0;
-            foreach (var objectId in project.ObjectIdList)
+            var returnValue = new CustomSqlProfileInfo
             {
-                var customSqlInfo = GetCustomSqlInfo(database, profileId, objectId, context.Get(Config), switchCaseIndex++);
-                project.CustomSqlInfoList.Add(customSqlInfo);
-                
+                ProfileId    = profileId,
+                ObjectIdList = objectIdList
+            };
 
-                context.Add(CustomSqlExporter.CustomSqlInfo,customSqlInfo);
-                context.FireEvent(CustomSqlExportingEvent.ObjectIdExportIsStarted);
-                context.Remove(CustomSqlExporter.CustomSqlInfo);
+            database.CommandText = $@"SELECT typesnamespace,typesprojectpath, businessnamespace,businessprojectpath FROM dbo.profileskt WITH(NOLOCK) WHERE profileid = '{profileId}'";
+
+            var reader = database.ExecuteReader();
+            while (reader.Read())
+            {
+                returnValue.TypesProjectPath        = reader["typesprojectpath"].ToString();
+                returnValue.BusinessProjectPath     = reader["businessprojectpath"].ToString();
+                returnValue.NamespaceNameOfType     = reader["typesnamespace"].ToString();
+                returnValue.NamespaceNameOfBusiness = reader["businessnamespace"].ToString();
+                break;
             }
 
-            return project;
+            reader.Close();
+
+            database.CommandText = $"SELECT objectid FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL'";
+
+            reader = database.ExecuteReader();
+            while (reader.Read())
+            {
+                objectIdList.Add(reader["objectid"].ToString());
+            }
+
+            reader.Close();
+
+            return returnValue;
+        }
+
+        public static ICustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string objectId, ConfigContract config, int switchCaseIndex)
+        {
+            var customSqlInfo = new CustomSqlInfo
+            {
+                Name      = objectId,
+                ProfileId = profileId
+            };
+
+            database.CommandText = $"SELECT objectid, text, schemaname, resultcollectionflag FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL' AND objectid = '{objectId}'";
+
+            var reader = database.ExecuteReader();
+            while (reader.Read())
+            {
+                customSqlInfo.Sql                   = reader["text"] + string.Empty;
+                customSqlInfo.SchemaName            = reader["schemaname"] + string.Empty;
+                customSqlInfo.SqlResultIsCollection = reader["resultcollectionflag"] + string.Empty == "1";
+
+                break;
+            }
+
+            reader.Close();
+
+            customSqlInfo.Parameters = ReadInputParameters(customSqlInfo, database);
+
+            customSqlInfo.ResultColumns = ReadResultColumns(customSqlInfo, database);
+
+            Fill(customSqlInfo, config, database);
+
+            customSqlInfo.SwitchCaseIndex = switchCaseIndex;
+
+            return customSqlInfo;
         }
         #endregion
 
@@ -126,90 +165,6 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.DataAccess
             {
                 item.SqlReaderMethod = SqlDbTypeMap.GetSqlReaderMethod(item.DataType.ToUpperEN(), item.IsNullable);
             }
-        }
-
-        /// <summary>
-        ///     Gets the by profile identifier from database.
-        /// </summary>
-        static ProjectCustomSqlInfo GetByProfileIdFromDatabase(IDatabase database, string profileId)
-        {
-
-            var returnValue = new ProjectCustomSqlInfo
-            {
-                ProfileId               = profileId,
-                CustomSqlInfoList       = new List<CustomSqlInfo>(),
-                ObjectIdList = new List<string>()
-            };
-            
-
-            database.CommandText = $@"SELECT typesnamespace,typesprojectpath, businessnamespace,businessprojectpath FROM dbo.profileskt WITH(NOLOCK) WHERE profileid = '{profileId}'";
-
-            var reader = database.ExecuteReader();
-            while (reader.Read())
-            {
-                returnValue.TypesProjectPath = reader["typesprojectpath"].ToString();
-                returnValue.BusinessProjectPath = reader["businessprojectpath"].ToString();
-                returnValue.NamespaceNameOfType = reader["typesnamespace"].ToString();
-                returnValue.NamespaceNameOfBusiness = reader["businessnamespace"].ToString();
-                break;
-            }
-
-            reader.Close();
-
-
-
-
-            database.CommandText = $"SELECT objectid FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL'";
-
-            reader = database.ExecuteReader();
-            while (reader.Read())
-            {
-                returnValue.ObjectIdList.Add( reader["objectid"].ToString() );
-            }
-
-            reader.Close();
-
-
-
-            return returnValue;
-        }
-
-       
-        static CustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId,string objectId, ConfigContract config, int switchCaseIndex )
-        {
-
-            var customSqlInfo = new CustomSqlInfo
-            {
-                Name = objectId,
-                ProfileId = profileId
-
-            };
-
-
-            database.CommandText = $"SELECT objectid, text, schemaname, resultcollectionflag FROM dbo.objects WITH (NOLOCK) WHERE profileid = '{profileId}' AND objecttype = 'CUSTOMSQL' AND objectid = '{objectId}'";
-
-            var reader = database.ExecuteReader();
-            while (reader.Read())
-            {
-                customSqlInfo.Sql = reader["text"] + string.Empty;
-                customSqlInfo.SchemaName = reader["schemaname"] + string.Empty;
-                customSqlInfo.SqlResultIsCollection = reader["resultcollectionflag"] + string.Empty == "1";
-
-                break;
-            }
-
-            reader.Close();
-
-            customSqlInfo.Parameters = ReadInputParameters(customSqlInfo, database);
-
-            customSqlInfo.ResultColumns = ReadResultColumns(customSqlInfo, database);
-            
-
-            Fill(customSqlInfo, config, database);
-
-            customSqlInfo.SwitchCaseIndex = switchCaseIndex;
-
-            return customSqlInfo;
         }
 
         /// <summary>

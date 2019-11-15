@@ -13,13 +13,14 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.AllInOne
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, InitializeOutput);
-            context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, BeginNamespace);
+            context.AttachEvent(CustomSqlExporter.ProfileInfoIsAvailable, InitializeOutput);
+            context.AttachEvent(CustomSqlExporter.ProfileInfoIsAvailable, BeginNamespace);
+
+            context.AttachEvent(CustomSqlExporter.CustomSqlInfoIsAvailable, WriteSqlInputOutputTypes);
+
             context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, EndNamespace);
             context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, ExportFileToDirectory);
             context.AttachEvent(CustomSqlExportingEvent.ProfileIdExportingIsStarted, ClearOutput);
-
-            context.AttachEvent(CustomSqlExportingEvent.ObjectIdExportIsStarted, WriteSqlInputOutputTypes);
         }
         #endregion
 
