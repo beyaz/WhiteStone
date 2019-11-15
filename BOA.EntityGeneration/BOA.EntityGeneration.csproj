@@ -61,11 +61,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BusinessClassTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\CustomSqlClassTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CustomSqlClassTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\CreateSqlInfoMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ExecuteForListMethodWriter.cs" />
     <Compile Include="BOACardCustomSqlIntoProjectInjection\MethodWriters\ExecuteForSingleContractMethodWriter.cs" />
@@ -168,10 +163,6 @@
     <Content Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\BusinessClassTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BusinessClassTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="BOACardCustomSqlIntoProjectInjection\ClassWriters\CustomSqlClassTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>CustomSqlClassTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\ObjectHelperSqlUtil.txt" />
     <Content Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\SqlInfo.txt" />

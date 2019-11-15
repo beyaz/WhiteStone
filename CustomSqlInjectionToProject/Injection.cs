@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Threading;
-using BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
-using BOA.TfsAccess;
 using WhiteStone.UI.Container;
 
 namespace CustomSqlInjectionToProject
 {
     public static class Injection
     {
+        #region Static Fields
         public static string ProfileId;
+        #endregion
 
-        #region Methods
+        #region Public Methods
         public static void Inject(string[] args)
         {
-
-           
-
-
             if (args == null || args.Length == 0)
             {
                 throw new ArgumentException(nameof(args));
