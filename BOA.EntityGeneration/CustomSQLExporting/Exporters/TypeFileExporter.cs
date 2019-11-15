@@ -68,6 +68,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var config = context.Get(Data.Config);
 
+            var processInfo = context.Get(Data.CustomSqlGenerationOfProfileIdProcess);
+
+            processInfo.Text = "Exporting Entity classes.";
+
             var filePath = config.CustomSQLOutputFilePathForEntity.Replace("{ProfileId}", context.Get(ProfileId));
 
             fileAccess.WriteAllText(filePath, sb.ToString());

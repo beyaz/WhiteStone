@@ -15,6 +15,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
+            
             context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
             context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
             context.AttachEvent(OnProfileInfoInitialized, WriteProxyClass);
@@ -62,6 +63,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             var sb         = context.Get(File);
             var config     = context.Get(Data.Config);
             var fileAccess = context.Get(Data.FileAccess);
+            var processInfo = context.Get(Data.CustomSqlGenerationOfProfileIdProcess);
+
+            processInfo.Text = "Exporting BOA repository.";
 
             var filePath = config.CustomSQLOutputFilePathForBoaRepository.Replace("{ProfileId}", context.Get(ProfileId));
 
@@ -81,6 +85,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var key = $"{projectCustomSqlInfo.NamespaceNameOfBusiness}.{data.BusinessClassName}.Execute";
 
+            var sharedRepositoryClassAccessPath = $"Shared.{data.BusinessClassName}";
+
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Data access part of '{data.Name}' sql.");
             sb.AppendLine("/// </summary>");
@@ -88,9 +94,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
-            sb.AppendLine($"const string ProfileId        = \"{projectCustomSqlInfo.ProfileId}\";");
-            sb.AppendLine($"const string ObjectId         = \"{data.Name}\";");
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Data access part of '{data.Name}' sql.");
@@ -105,19 +108,22 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             {
                 sb.AppendLine($"public GenericResponse<List<{data.ResultContractName}>> Execute({data.ParameterContractName} request)");
                 sb.OpenBracket();
-                sb.AppendLine($"var sqlInfo = Shared.{data.BusinessClassName}.CreateSqlInfo(request);");
+                sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
                 sb.AppendLine();
-                sb.AppendLine($"return this.ExecuteCustomSql<{data.ResultContractName}>(CallerMemberPath, sqlInfo, ReadContract, ProfileId, ObjectId);");
+                sb.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
+                sb.AppendLine();
+                sb.AppendLine($"return ExecuteReaderToList<{data.ResultContractName}>(this, CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
                 sb.CloseBracket();
             }
             else
             {
                 sb.AppendLine($"public GenericResponse<{data.ResultContractName}> Execute({data.ParameterContractName} request)");
                 sb.OpenBracket();
-
-                sb.AppendLine($"var sqlInfo = Shared.{data.BusinessClassName}.CreateSqlInfo(request);");
+                sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
                 sb.AppendLine();
-                sb.AppendLine($"return this.ExecuteCustomSqlForOneRecord<{data.ResultContractName}>(CallerMemberPath, sqlInfo, ReadContract, ProfileId, ObjectId);");
+                sb.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
+                sb.AppendLine();
+                sb.AppendLine($"return this.ExecuteReaderToContract<{data.ResultContractName}>(this, CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
 
                 sb.CloseBracket();
             }

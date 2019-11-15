@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
@@ -26,6 +28,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             context.Remove(ProcessedCustomSqlInfoListInProfile);
             context.Remove(ProfileId);
+
+            var processInfo = context.Get(Data.CustomSqlGenerationOfProfileIdProcess);
+            processInfo.Text = "Finished Successfully.";
+            Thread.Sleep(TimeSpan.FromSeconds(2));
 
         }
 
@@ -57,6 +63,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var database  = context.Get(Data.Database);
             var profileId = context.Get(ProfileId);
 
+            context.Get(Data.CustomSqlGenerationOfProfileIdProcess).Text = "Fetching profile informations...";
             var profileInfo = ProjectCustomSqlInfoDataAccess.GetByProfileIdFromDatabase(database, profileId);
 
             context.Add(CustomSqlProfileInfo,profileInfo);
@@ -74,15 +81,20 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         static void ProcessCustomSQLsInProfile(IDataContext context)
         {
             var profileInfo = context.Get(CustomSqlProfileInfo);
+            var processInfo = context.Get(Data.CustomSqlGenerationOfProfileIdProcess);
 
             var config    = context.Get(Data.Config);
             var database  = context.Get(Data.Database);
             var profileId = context.Get(ProfileId);
 
+            processInfo.Total = profileInfo.ObjectIdList.Count;
 
             var switchCaseIndex = 0;
             foreach (var objectId in profileInfo.ObjectIdList)
             {
+                processInfo.Text = $"Processing '{objectId}'";
+                processInfo.Current = switchCaseIndex;    
+
                 var customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileId, objectId, config, switchCaseIndex++);
                 
                 context.Get(ProcessedCustomSqlInfoListInProfile).Add(customSqlInfo);

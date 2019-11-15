@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
-using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
@@ -11,16 +9,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     public static class SharedFileExporter
     {
-        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(TypeFileExporter) +"->"+ nameof(File));
+        #region Static Fields
+        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(TypeFileExporter) + "->" + nameof(File));
+        #endregion
 
+        #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
-
             context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
             context.AttachEvent(OnProfileInfoInitialized, WriteUsingList);
             context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
-            
-            
+
             context.AttachEvent(OnCustomSqlInfoInitialized, EmptyLine);
             context.AttachEvent(OnCustomSqlInfoInitialized, BeginClass);
             context.AttachEvent(OnCustomSqlInfoInitialized, CreateSqlInfo);
@@ -31,7 +30,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             context.AttachEvent(OnProfileInfoRemove, EndNamespace);
             context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
             context.AttachEvent(OnProfileInfoRemove, ClearOutput);
-            
+        }
+        #endregion
+
+        #region Methods
+        static void BeginClass(IDataContext context)
+        {
+            var sb   = context.Get(File);
+            var data = context.Get(CustomSqlInfo);
+
+            sb.AppendLine($"public static class {data.BusinessClassName}Shared");
+            sb.OpenBracket();
         }
 
         static void BeginNamespace(IDataContext context)
@@ -51,38 +60,84 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.OpenBracket();
         }
 
+        static void ClearOutput(IDataContext context)
+        {
+            context.Remove(File);
+        }
+
+        static void CreateSqlInfo(IDataContext context)
+        {
+            var sb   = context.Get(File);
+            var customSqlInfo = context.Get(CustomSqlInfo);
+
+            sb.AppendLine($"public static SqlInfo CreateSqlInfo({customSqlInfo.ParameterContractName} request)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine("const string sql = @\"");
+            sb.AppendAll(customSqlInfo.Sql);
+            sb.AppendLine();
+            sb.AppendLine("\";");
+            sb.AppendLine();
+            sb.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
+
+
+            if (customSqlInfo.Parameters.Any())
+            {
+                sb.AppendLine();
+                foreach (var item in customSqlInfo.Parameters)
+                {
+                    sb.AppendLine($"sqlInfo.AddInParameter(\"@{item.Name}\", SqlDbType.{item.SqlDbTypeName}, request.{item.ValueAccessPathForAddInParameter});");
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("return sqlInfo;");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+        }
+
+        static void EmptyLine(IDataContext context)
+        {
+            context.Get(File).AppendLine();
+        }
+
+        static void EndClass(IDataContext context)
+        {
+            context.Get(File).CloseBracket();
+        }
+
         static void EndNamespace(IDataContext context)
         {
             var sb = context.Get(File);
             sb.CloseBracket();
         }
 
-        static void InitializeOutput(IDataContext context)
-        {
-            context.Add(File, new PaddedStringBuilder());
-        }
-        static void ClearOutput(IDataContext context)
-        {
-            context.Remove(File);
-        }
-
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb         = context.Get(File);
-            var data       = context.Get(CustomSqlExporter.CustomSqlProfileInfo);
-            var fileAccess = context.Get(Data.FileAccess);
+            var sb          = context.Get(File);
+            var processInfo = context.Get(Data.CustomSqlGenerationOfProfileIdProcess);
+            var fileAccess  = context.Get(Data.FileAccess);
 
             var config = context.Get(Data.Config);
+
+            processInfo.Text = "Exporting Shared repository.";
 
             var filePath = config.CustomSQLOutputFilePathForSharedRepository.Replace("{ProfileId}", context.Get(ProfileId));
 
             fileAccess.WriteAllText(filePath, sb.ToString());
         }
 
+        static void InitializeOutput(IDataContext context)
+        {
+            context.Add(File, new PaddedStringBuilder());
+        }
+
         static void WriteReadContract(IDataContext context)
         {
-            PaddedStringBuilder sb = context.Get(File);
-            ICustomSqlInfo data = context.Get(CustomSqlExporter.CustomSqlInfo);
+            var sb   = context.Get(File);
+            var data = context.Get(CustomSqlInfo);
 
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{data.Name}' sql.");
@@ -98,64 +153,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.CloseBracket();
         }
 
-        static void CreateSqlInfo(IDataContext context)
-        {
-            PaddedStringBuilder sb   = context.Get(File);
-            ICustomSqlInfo      data = context.Get(CustomSqlExporter.CustomSqlInfo);
-        
-            sb.AppendLine($"public static SqlInfo CreateSqlInfo({data.ParameterContractName} request)");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            sb.AppendLine("var sqlInfo = new SqlInfo();");
-            if (data.Parameters.Any())
-            {
-                sb.AppendLine();
-                foreach (var item in data.Parameters)
-                {
-                    sb.AppendLine($"sqlInfo.AddInParameter(\"@{item.Name}\", SqlDbType.{item.SqlDbTypeName}, request.{item.ValueAccessPathForAddInParameter});");
-                }
-            }
-
-            sb.AppendLine();
-            sb.AppendLine("return sqlInfo;");
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-        }
-
-
         static void WriteUsingList(IDataContext context)
         {
-            var sb   = context.Get(File);
+            var sb = context.Get(File);
 
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
-
         }
-
-        static void EmptyLine(IDataContext context)
-        {
-            context.Get(File).AppendLine();
-        }
-
-        static void BeginClass(IDataContext context)
-        {
-            var sb      = context.Get(File);
-            var data = context.Get(CustomSqlExporter.CustomSqlInfo);
-
-
-           
-            sb.AppendLine($"public static class {data.BusinessClassName}Shared");
-            sb.OpenBracket();
-
-            
-
-        }
-
-        static void EndClass(IDataContext context)
-        {
-            context.Get(File).CloseBracket();
-        }
+        #endregion
     }
 }
