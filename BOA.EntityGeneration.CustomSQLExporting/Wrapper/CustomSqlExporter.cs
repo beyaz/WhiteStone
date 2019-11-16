@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             context.Remove(ProfileId);
             NamingPattern.Remove(context);
 
-            var processInfo = context.Get(CustomSqlGenerationOfProfileIdProcess);
+            var processInfo = context.Get(ProcessInfo);
             processInfo.Text = "Finished Successfully.";
             WaitTwoSecondForUserCanSeeSuccessMessage();
         }
@@ -45,7 +45,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var profileId = context.Get(ProfileId);
             var config    = context.Get(ConfigurationContract.Id);
 
-            context.Get(CustomSqlGenerationOfProfileIdProcess).Text = "Fetching profile informations...";
+            context.Get(ProcessInfo).Text = "Fetching profile informations...";
             context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileId, config));
 
             context.FireEvent(OnProfileInfoInitialized);
@@ -54,7 +54,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         static void ProcessCustomSQLsInProfile(IDataContext context)
         {
             var customSqlNamesInfProfile = context.Get(CustomSqlNamesInfProfile);
-            var processInfo              = context.Get(CustomSqlGenerationOfProfileIdProcess);
+            var processInfo              = context.Get(ProcessInfo);
 
             var config    = context.Get(ConfigurationContract.Id);
             var database  = context.Get(Database);
@@ -101,12 +101,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public static readonly IDataConstant<string>        ProfileId     = DataConstant.Create<string>(nameof(ProfileId));
         public static readonly IDataConstant<CustomSqlInfo> CustomSqlInfo = DataConstant.Create<CustomSqlInfo>();
 
-        public static readonly IDataConstant<ConfigurationContract> ConfigFile = DataConstant.Create<ConfigurationContract>(nameof(ConfigFile));
+        public static readonly IDataConstant<ConfigurationContract> Config = DataConstant.Create<ConfigurationContract>(nameof(Config));
 
         public static readonly IDataConstant<List<string>> CustomSqlNamesInfProfile = DataConstant.Create<List<string>>(nameof(CustomSqlNamesInfProfile));
 
         public static readonly IDataConstant<IDatabase> Database = DataConstant.Create<IDatabase>();
-        public static readonly IDataConstant<ProcessContract> CustomSqlGenerationOfProfileIdProcess = DataConstant.Create<ProcessContract>(nameof(CustomSqlGenerationOfProfileIdProcess));
+        public static readonly IDataConstant<ProcessContract> ProcessInfo = DataConstant.Create<ProcessContract>(nameof(ProcessInfo));
 
         
 

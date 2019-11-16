@@ -43,7 +43,7 @@ namespace CustomSqlInjectionToProject.MainForm
 
         public void GetCapture()
         {
-            Model.CustomSqlGenerationOfProfileIdProcess = context?.TryGet(CustomSqlExporter.CustomSqlGenerationOfProfileIdProcess) ?? Model.CustomSqlGenerationOfProfileIdProcess;
+            Model.CustomSqlGenerationOfProfileIdProcess = context?.TryGet(CustomSqlExporter.ProcessInfo) ?? Model.CustomSqlGenerationOfProfileIdProcess;
 
             if (IsFinished)
             {

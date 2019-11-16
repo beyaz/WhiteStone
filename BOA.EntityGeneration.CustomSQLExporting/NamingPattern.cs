@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
 
         public static void Initialize(IDataContext context)
         {
-            var config = context.Get(CustomSqlExporter.ConfigFile);
+            var config = context.Get(CustomSqlExporter.Config);
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, (key, value) => key == nameof(CustomSqlExporter.ProfileId) ? context.Get(CustomSqlExporter.ProfileId) : value);
 

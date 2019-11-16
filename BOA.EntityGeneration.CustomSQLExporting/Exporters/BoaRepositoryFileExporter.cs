@@ -64,7 +64,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             var sb         = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
 
-            var processInfo = context.Get(CustomSqlExporter.CustomSqlGenerationOfProfileIdProcess);
+            var processInfo = context.Get(CustomSqlExporter.ProcessInfo);
 
             processInfo.Text = "Exporting BOA repository.";
 
