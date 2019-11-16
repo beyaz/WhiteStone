@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using WhiteStone.UI.Container.Mvc;
 
@@ -14,6 +15,9 @@ namespace CustomSqlInjectionToProject.MainForm
         public bool   StartTimer            { get; set; }
 
         public ProcessInfo CustomSqlGenerationOfProfileIdProcess { get; set; }
+
+
+        public IReadOnlyList<string> ProfileIdList { get; set; }
         #endregion
     }
 }

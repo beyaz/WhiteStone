@@ -1,13 +1,13 @@
 {
   "Title": "Custom Sql Generation",
-  "Width": 340,
+  "Width": 400,
   "Height": 300,
   "Content": {
     "ui": "Grid",
     "rows": [
       {
         "view": "StackPanel",
-        "Margin": 10,
+        "Margin": 20,
         "Rows": [
           {
             "view": "Textbox",
@@ -17,6 +17,7 @@
           {
             "view": "Textbox",
             "Text": "{Binding ProfileId}",
+            "IntellisenseSource": "{Binding ProfileIdList}",
             "Label": "ProfileId"
           },
 
