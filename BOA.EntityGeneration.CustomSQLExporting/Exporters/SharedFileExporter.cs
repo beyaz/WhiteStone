@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
@@ -10,7 +11,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     public static class SharedFileExporter
     {
         #region Static Fields
-        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(TypeFileExporter) + "->" + nameof(File));
+        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
         #endregion
 
         #region Public Methods
@@ -18,6 +19,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
             context.AttachEvent(OnProfileInfoInitialized, WriteUsingList);
+            context.AttachEvent(OnProfileInfoInitialized, EmptyLine);
+            context.AttachEvent(OnProfileInfoInitialized, WriteSqlInfoClass);
             context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
 
             context.AttachEvent(OnCustomSqlInfoInitialized, EmptyLine);
@@ -39,7 +42,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             var sb   = context.Get(File);
             var data = context.Get(CustomSqlInfo);
 
-            sb.AppendLine($"public static class {data.BusinessClassName}Shared");
+            sb.AppendLine($"public static class {data.BusinessClassName}");
             sb.OpenBracket();
         }
 
@@ -48,16 +51,20 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
 
-            sb.AppendLine("using BOA.Base;");
-            sb.AppendLine("using BOA.Base.Data;");
-            sb.AppendLine("using BOA.Common.Types;");
-            sb.AppendLine($"using {namingPattern.EntityNamespace};");
-            sb.AppendLine("using System.Data;");
-            sb.AppendLine("using System.Collections.Generic;");
 
-            sb.AppendLine();
             sb.AppendLine($"namespace {namingPattern.RepositoryNamespace}.Shared");
             sb.OpenBracket();
+        }
+
+        static void WriteSqlInfoClass(IDataContext context)
+        {
+            var sb            = context.Get(File);
+            var namingPattern = context.Get(NamingPattern.Id);
+
+            var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryEmbeddedCodes.txt";
+
+            sb.AppendAll(System.IO.File.ReadAllText(path).Replace("$(Namespace)",namingPattern.RepositoryNamespace));
+            sb.AppendLine();
         }
 
         static void ClearOutput(IDataContext context)
@@ -144,7 +151,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             foreach (var item in data.ResultColumns)
             {
-                sb.AppendLine($"contract.{item.NameInDotnet} = SQLDBHelper.{item.SqlReaderMethod}(reader[\"{item.Name}\"]);");
+                sb.AppendLine($"contract.{item.NameInDotnet} = {item.SqlReaderMethod}(reader,\"{item.Name}\");");
             }
 
             sb.CloseBracket();
@@ -152,10 +159,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void WriteUsingList(IDataContext context)
         {
-            var sb = context.Get(File);
+            var sb            = context.Get(File);
+            var namingPattern = context.Get(NamingPattern.Id);
 
-            sb.AppendLine("using System;");
+            sb.AppendLine("using System.Data;");
             sb.AppendLine("using System.Collections.Generic;");
+            sb.AppendLine("using BOA.Base.Data;");
+            sb.AppendLine($"using {namingPattern.EntityNamespace};");
+            sb.AppendLine("using static BOA.Base.Data.SQLDBHelper;");
         }
         #endregion
     }

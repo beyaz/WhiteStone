@@ -30,11 +30,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Methods
         static void AttachEvents(IDataContext context)
         {
-            TypeFileExporter.AttachEvents(context);
+            EntityFileExporter.AttachEvents(context);
             SharedFileExporter.AttachEvents(context);
             BoaRepositoryFileExporter.AttachEvents(context);
-            TypesProjectExporter.AttachEvents(context);
-            RepositoryProjectExporter.AttachEvents(context);
+            EntityCsprojFileExporter.AttachEvents(context);
+            RepositoryCsprojFileExporter.AttachEvents(context);
         }
 
         static void InitializeConfig(IDataContext context)

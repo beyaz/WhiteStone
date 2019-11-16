@@ -34,6 +34,7 @@ sealed class SqlInfo
             SqlDbType     = dbType,
             Value         = value
         };
+
         parameters.Add(parameter);
     }
     #endregion
