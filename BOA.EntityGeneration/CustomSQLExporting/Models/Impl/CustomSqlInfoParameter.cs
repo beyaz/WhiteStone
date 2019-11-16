@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
 {
@@ -8,7 +7,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
     ///     The custom SQL information parameter
     /// </summary>
     [Serializable]
-    public class CustomSqlInfoParameter : ICustomSqlInfoParameter
+    public class CustomSqlInfoParameter
     {
         #region Public Properties
         /// <summary>

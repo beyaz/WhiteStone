@@ -303,9 +303,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         /// <summary>
         ///     Reads the input parameters.
         /// </summary>
-        static IReadOnlyList<ICustomSqlInfoParameter> ReadInputParameters(CustomSqlInfo customSqlInfo, IDatabase database)
+        static IReadOnlyList<CustomSqlInfoParameter> ReadInputParameters(CustomSqlInfo customSqlInfo, IDatabase database)
         {
-            var items = new List<ICustomSqlInfoParameter>();
+            var items = new List<CustomSqlInfoParameter>();
 
             database.CommandText = $"select parameterid,datatype,nullableflag from dbo.objectparameters WITH (NOLOCK) WHERE profileid = '{customSqlInfo.ProfileId}' AND objectid = '{customSqlInfo.Name}'";
 

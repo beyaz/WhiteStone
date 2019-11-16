@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BOA.EntityGeneration.CustomSQLExporting.Models.Impl;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces
 {
@@ -26,7 +27,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces
         /// <summary>
         ///     Gets or sets the parameters.
         /// </summary>
-        IReadOnlyList<ICustomSqlInfoParameter> Parameters { get; }
+        IReadOnlyList<CustomSqlInfoParameter> Parameters { get; }
 
         /// <summary>
         ///     Gets or sets the profile identifier.
@@ -36,7 +37,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces
         /// <summary>
         ///     Gets or sets the result columns.
         /// </summary>
-        IReadOnlyList<ICustomSqlInfoResult> ResultColumns { get; }
+        IReadOnlyList<CustomSqlInfoResult> ResultColumns { get; }
 
         /// <summary>
         ///     Gets the name of the result contract.

@@ -1,5 +1,4 @@
 ﻿using System;
-using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
 using BOA.EntityGeneration.DbModel;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
@@ -8,7 +7,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
     ///     The custom SQL information result
     /// </summary>
     [Serializable]
-    public class CustomSqlInfoResult : ICustomSqlInfoResult
+    public class CustomSqlInfoResult
     {
         #region Public Properties
         /// <summary>

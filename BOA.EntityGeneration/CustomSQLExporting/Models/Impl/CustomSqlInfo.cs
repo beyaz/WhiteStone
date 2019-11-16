@@ -29,7 +29,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
         /// <summary>
         ///     Gets or sets the parameters.
         /// </summary>
-        public IReadOnlyList<ICustomSqlInfoParameter> Parameters { get; set; }
+        public IReadOnlyList<CustomSqlInfoParameter> Parameters { get; set; }
 
         /// <summary>
         ///     Gets or sets the profile identifier.
@@ -71,7 +71,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
         /// <summary>
         ///     Gets or sets the result columns.
         /// </summary>
-        IReadOnlyList<ICustomSqlInfoResult> ICustomSqlInfo.ResultColumns => ResultColumns;
+        IReadOnlyList<CustomSqlInfoResult> ICustomSqlInfo.ResultColumns => ResultColumns;
         #endregion
     }
 }
