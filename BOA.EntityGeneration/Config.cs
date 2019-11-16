@@ -27,10 +27,7 @@ namespace BOA.EntityGeneration
         public string CustomSQLOutputFilePathForEntity { get; set; }
 
         #region Public Properties
-        /// <summary>
-        ///     Gets or sets a value indicating whether [build after code generation is completed].
-        /// </summary>
-        public bool BuildAfterCodeGenerationIsCompleted { get; set; }
+      
 
         /// <summary>
         ///     Gets or sets the connection string.

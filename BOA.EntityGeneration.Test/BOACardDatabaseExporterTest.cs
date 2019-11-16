@@ -23,7 +23,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         {
             var context = new DataContextCreator().Create();
 
-            context.Get(Data.Config).BuildAfterCodeGenerationIsCompleted = false;
+            
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,false);
             context.AttachEvent(DataEvent.AfterFetchedAllTableNamesInSchema, SelectFirstTenTable);
 

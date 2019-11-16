@@ -88,11 +88,13 @@ namespace CustomSqlInjectionToProject.MainForm
 
             context.Add(FileSystem.CheckinComment,Model.CheckInComment);
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,true);
+            context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted,true);
 
             CustomSqlExporter.Export(context, Model.ProfileId.Trim());
 
             context.Remove(FileSystem.CheckinComment);
             context.Remove(FileSystem.IntegrateWithTFSAndCheckInAutomatically);
+            context.Remove(MsBuildQueue.BuildAfterCodeGenerationIsCompleted);
 
             IsFinished = true;
 

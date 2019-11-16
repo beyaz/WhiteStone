@@ -8,6 +8,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     public class MsBuildQueue
     {
         public static readonly IDataConstant<MsBuildQueue> MsBuildQueueId = DataConstant.Create<MsBuildQueue>();
+        public static readonly IDataConstant<bool> BuildAfterCodeGenerationIsCompleted = DataConstant.Create<bool>(nameof(BuildAfterCodeGenerationIsCompleted));
 
         #region Fields
         readonly List<MSBuildData> Queue = new List<MSBuildData>();
@@ -16,13 +17,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #region Public Methods
          void BuildInternal(IDataContext context)
         {
-            var config   = context.Get(Data.Config);
-            var progress = context.Get(Data.SchemaGenerationProcess);
+      
 
-            if (!config.BuildAfterCodeGenerationIsCompleted)
+            if (!context.TryGet(BuildAfterCodeGenerationIsCompleted))
             {
                 return;
             }
+
+            var progress = context.Get(Data.SchemaGenerationProcess);
 
             foreach (var data in Queue)
             {
