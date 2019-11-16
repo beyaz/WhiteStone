@@ -45,8 +45,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbModel\DotNetTypeName.cs" />
+    <Compile Include="DbModel\Interfaces\IColumnInfo.cs" />
+    <Compile Include="DbModel\Interfaces\IIndexInfo.cs" />
+    <Compile Include="DbModel\Interfaces\ITableInfo.cs" />
+    <Compile Include="DbModel\SqlDbTypeMap.cs" />
+    <Compile Include="DbModel\SqlReaderMethods.cs" />
+    <Compile Include="DbModel\SqlServerDataAccess\IndexInfoAccess.cs" />
+    <Compile Include="DbModel\SqlServerDataAccess\SchemaInfo.cs" />
+    <Compile Include="DbModel\SqlServerDataAccess\SequenceInfo.cs" />
+    <Compile Include="DbModel\SqlServerDataAccess\TableInfoDao.cs" />
+    <Compile Include="DbModel\Types\ColumnInfo.cs" />
+    <Compile Include="DbModel\Types\IndexInfo.cs" />
+    <Compile Include="DbModel\Types\TableInfo.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Names2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptModel\ContractBodyDbMembers.cs" />
+    <Compile Include="ScriptModel\ContractCommentInfo.cs" />
+    <Compile Include="ScriptModel\Creators\ContractBodyDbMembersCreator.cs" />
+    <Compile Include="ScriptModel\Creators\ContractCommentInfoCreator.cs" />
+    <Compile Include="ScriptModel\Creators\DeleteInfoCreator.cs" />
+    <Compile Include="ScriptModel\Creators\InsertInfoCreator.cs" />
+    <Compile Include="ScriptModel\Creators\SelectAllInfoCreator.cs" />
+    <Compile Include="ScriptModel\Creators\SelectByIndexInfoCreator.cs" />
+    <Compile Include="ScriptModel\Creators\SelectByPrimaryKeyInfoCreator.cs" />
+    <Compile Include="ScriptModel\Creators\UpdateByPrimaryKeyInfoCreator.cs" />
+    <Compile Include="ScriptModel\DeleteInfo.cs" />
+    <Compile Include="ScriptModel\InsertInfo.cs" />
+    <Compile Include="ScriptModel\Padding.cs" />
+    <Compile Include="ScriptModel\SelectAllInfo.cs" />
+    <Compile Include="ScriptModel\SelectByIndexInfo.cs" />
+    <Compile Include="ScriptModel\SelectByPrimaryKeyInfo.cs" />
+    <Compile Include="ScriptModel\UpdateByPrimaryKeyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
