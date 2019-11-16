@@ -53,6 +53,7 @@
     <Compile Include="Models\CustomSqlInfo.cs" />
     <Compile Include="Models\CustomSqlInfoParameter.cs" />
     <Compile Include="Models\CustomSqlInfoResult.cs" />
+    <Compile Include="NamingPattern.cs" />
     <Compile Include="Wrapper\CustomSqlExporter.cs" />
     <Compile Include="Wrapper\Extensions.cs" />
     <Compile Include="Wrapper\ProjectCustomSqlInfoDataAccess.cs" />

@@ -23,6 +23,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             context.Add(ProfileId, profileId);
             context.Add(ProcessedCustomSqlInfoListInProfile, new List<CustomSqlInfo>());
+            NamingPattern.Initialize(context);
 
             InitializeProfileInfo(context);
             ProcessCustomSQLsInProfile(context);
@@ -30,6 +31,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             context.Remove(ProcessedCustomSqlInfoListInProfile);
             context.Remove(ProfileId);
+            NamingPattern.Remove(context);
 
             var processInfo = context.Get(CustomSqlGenerationOfProfileIdProcess);
             processInfo.Text = "Finished Successfully.";
@@ -106,6 +108,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         public static readonly IDataConstant<IDatabase> Database = DataConstant.Create<IDatabase>();
         public static readonly IDataConstant<ProcessInfo> CustomSqlGenerationOfProfileIdProcess = DataConstant.Create<ProcessInfo>(nameof(CustomSqlGenerationOfProfileIdProcess));
+
+        
+
         #endregion
     }
+
+    
 }

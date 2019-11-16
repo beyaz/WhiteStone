@@ -1,17 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BOA.Common.Helpers
 {
     public static class ConfigurationDictionaryCompiler
     {
         #region Public Methods
-        public static IDictionary<string, string> Compile(IDictionary<string, string> dictionary)
+        public static IReadOnlyDictionary<string, string> Compile(IReadOnlyDictionary<string, string> dictionary,Func<string,string,string> getValueFunc)
         {
             var pairs = new List<Pair>();
 
             foreach (var pair in dictionary)
             {
-                pairs.Add(new Pair {key = pair.Key, value = pair.Value});
+                var item = new Pair
+                {
+                    key = pair.Key,
+                    value = getValueFunc(pair.Key,pair.Value)
+                };
+                pairs.Add(item);
             }
 
             foreach (var pair in pairs)

@@ -23,7 +23,7 @@ namespace BOA.Common.Helpers
                 {"A4", "9$(A)-p-$(A2)"}
             };
 
-            var compiledMap = ConfigurationDictionaryCompiler.Compile(map);
+            var compiledMap = ConfigurationDictionaryCompiler.Compile(map,(key,value)=>value);
 
             compiledMap.Should().BeEquivalentTo(new Dictionary<string, string>
             {
