@@ -20,7 +20,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Debug\WhiteStone.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -77,6 +77,7 @@
     <Compile Include="BOA.Common.Helpers\BindingPathExpressionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\CompressionHelper.cs" />
     <Compile Include="BOA.Common.Helpers\ConfigHelper.cs" />
+    <Compile Include="BOA.Common.Helpers\ConfigurationDictionaryCompiler.cs" />
     <Compile Include="BOA.Common.Helpers\DateTimeExtensions.cs" />
     <Compile Include="BOA.Common.Helpers\EmbeddedAssembly.cs" />
     <Compile Include="BOA.Common.Helpers\EmbeddedResourceHelper.cs" />
