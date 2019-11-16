@@ -53,27 +53,13 @@ namespace CustomSqlInjectionToProject.MainForm
             }
         }
 
+     
         public override void OnViewLoaded()
         {
 
-            var profileIdList = new List<string>();
 
             var ctx = new CustomSqlDataContextCreator().Create();
-
-            var database = ctx.Get(Data.Database);
-            var config = ctx.Get(Data.Config);
-
-            database.CommandText = config.SQL_GetProfileIdList;
-            var reader = database.ExecuteReader();
-            while (reader.Read())
-            {
-                profileIdList.Add(reader["ProfileId"].ToString());
-            }
-
-            reader.Close();
-
             
-
             Model = new Model
             {
                 ProfileId = Injection.ProfileId,
@@ -82,7 +68,7 @@ namespace CustomSqlInjectionToProject.MainForm
                     Text = "Ready"
                 },
                 CheckInComment = CheckInCommentAccess.GetCheckInComment(),
-                ProfileIdList =  profileIdList,
+                ProfileIdList =  ctx.GetProfileNames(),
 
                 ActionButtons = new List<ActionButtonInfo>
                 {
