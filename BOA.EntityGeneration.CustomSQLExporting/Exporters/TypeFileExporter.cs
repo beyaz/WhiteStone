@@ -83,6 +83,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             var sb   = context.Get(File);
             var data = context.Get(CustomSqlInfo);
 
+            sb.AppendLine();
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///     Result class of '{data.Name}' sql.");
             sb.AppendLine("/// </summary>");
