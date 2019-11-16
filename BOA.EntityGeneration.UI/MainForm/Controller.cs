@@ -3,6 +3,7 @@ using System.Threading;
 using BOA.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.UI.Deployment;
@@ -96,7 +97,13 @@ namespace BOA.EntityGeneration.UI.MainForm
         {
             context = new DataContextCreator {CheckinComment = Model.CheckInComment, IsFileAccessWithTfs = true}.Create();
 
+            context.Add(FileSystem.CheckinComment,Model.CheckInComment);
+            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,true);
+
             BOACardDatabaseExporter.Export(context, Model.SchemaName);
+
+            context.Remove(FileSystem.CheckinComment);
+            context.Remove(FileSystem.IntegrateWithTFSAndCheckInAutomatically);
 
             IsFinished = true;
         }
@@ -105,7 +112,14 @@ namespace BOA.EntityGeneration.UI.MainForm
         void StartAll()
         {
             context = new DataContextCreator {CheckinComment = Model.CheckInComment, IsFileAccessWithTfs = true}.Create();
+
+            context.Add(FileSystem.CheckinComment,Model.CheckInComment);
+            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,true);
+
             BOACardDatabaseExporter.Export(context);
+
+            context.Remove(FileSystem.CheckinComment);
+            context.Remove(FileSystem.IntegrateWithTFSAndCheckInAutomatically);
         }
         #endregion
     }

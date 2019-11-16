@@ -3,6 +3,7 @@ using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
@@ -86,7 +87,15 @@ namespace CustomSqlInjectionToProject.MainForm
         void Start()
         {
             context = new CustomSqlDataContextCreator {IsFileAccessWithTfs = true, CheckinComment = Model.CheckInComment}.Create();
+
+            context.Add(FileSystem.CheckinComment,Model.CheckInComment);
+            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,true);
+
             CustomSqlExporter.Export(context, Model.ProfileId.Trim());
+
+            context.Remove(FileSystem.CheckinComment);
+            context.Remove(FileSystem.IntegrateWithTFSAndCheckInAutomatically);
+
             IsFinished = true;
 
             context = null;

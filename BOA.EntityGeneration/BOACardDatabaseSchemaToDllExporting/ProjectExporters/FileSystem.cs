@@ -5,25 +5,34 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 {
     public class FileSystem
     {
-        public ConfigContract Config { get; set; }
+        #region Static Fields
+        public static IDataConstant<string> CheckinComment                          = DataConstant.Create<string>();
+        public static IDataConstant<bool>   IntegrateWithTFSAndCheckInAutomatically = DataConstant.Create<bool>();
+        #endregion
 
-        public FileAccess FileAccess { get; set; }
-
+        #region Public Methods
         public void WriteAllText(IDataContext context, string path, string content)
         {
-            if (!Config.IntegrateWithBOATfs)
-            {
-                var result = new FileAccessWriteResult();
+            FileAccessWriteResult fileAccessWriteResult = null;
 
-                FileAccess.WriteToFileSystem(path,content,result);
-                if (result.Exception != null)
-                {
-                    throw result.Exception;
-                }
-                return;
+            if (context.TryGet(IntegrateWithTFSAndCheckInAutomatically))
+            {
+                var fileAccessWithAutoCheckIn = new FileAccessWithAutoCheckIn {CheckInComment = context.Get(CheckinComment)};
+
+                fileAccessWriteResult = fileAccessWithAutoCheckIn.WriteAllText(path, content);
+            }
+            else
+            {
+                var fileAccess = new FileAccess();
+
+                fileAccessWriteResult = fileAccess.WriteAllText(path, content);
             }
 
-            FileAccess.WriteAllText(path,content);
+            if (fileAccessWriteResult.Exception != null)
+            {
+                throw fileAccessWriteResult.Exception;
+            }
         }
+        #endregion
     }
 }
