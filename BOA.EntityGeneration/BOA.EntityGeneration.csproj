@@ -75,7 +75,6 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ITableInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Impl\SequenceInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ISequenceInfo.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\MsBuildQueue.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\SqlInfoClassWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\BusinessProjectExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\InsertInfoCreator.cs" />

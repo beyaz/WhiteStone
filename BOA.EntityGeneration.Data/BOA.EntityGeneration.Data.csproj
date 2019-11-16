@@ -60,6 +60,7 @@
     <Compile Include="DbModel\Types\TableInfo.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FileSystem.cs" />
+    <Compile Include="MsBuildQueue.cs" />
     <Compile Include="Names2.cs" />
     <Compile Include="ProcessInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,7 +3,6 @@ using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 
 namespace BOA.EntityGeneration.DataFlow
@@ -13,7 +12,7 @@ namespace BOA.EntityGeneration.DataFlow
 
    
 
-    public static class DataEvent
+     static class DataEvent
     {
         #region Static Fields
         public static readonly IEvent AfterFetchedAllTableNamesInSchema = new Event {Name = nameof(AfterFetchedAllTableNamesInSchema)};
@@ -25,7 +24,7 @@ namespace BOA.EntityGeneration.DataFlow
     /// <summary>
     ///     The data
     /// </summary>
-    public static class Data
+     static class Data
     {
         #region Static Fields
         internal static readonly IDataConstant<ConfigContract>        Config               = DataConstant.Create<ConfigContract>();
