@@ -66,11 +66,7 @@ namespace BOA.EntityGeneration
         ///     Gets or sets the file path for all entities in one file.
         /// </summary>
         public string FilePathForAllEntitiesInOneFile { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether [integrate with boa TFS].
-        /// </summary>
-        public bool IntegrateWithBOATfs { get; set; }
+        
 
         /// <summary>
         ///     Gets or sets the not exportable tables.

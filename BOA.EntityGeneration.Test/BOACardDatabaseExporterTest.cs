@@ -1,4 +1,5 @@
 ﻿using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.DataFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -23,7 +24,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             var context = new DataContextCreator().Create();
 
             context.Get(Data.Config).BuildAfterCodeGenerationIsCompleted = false;
-            context.Get(Data.Config).IntegrateWithBOATfs = false;
+            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,false);
             context.AttachEvent(DataEvent.AfterFetchedAllTableNamesInSchema, SelectFirstTenTable);
 
             BOACardDatabaseExporter.Export(context, "CRD");

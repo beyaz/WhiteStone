@@ -34,7 +34,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb   = context.Get(File);
-            var data = context.Get(CustomSqlProfileInfo);
+            
 
             sb.AppendLine("using BOA.Base;");
             sb.AppendLine("using BOA.Base.Data;");
@@ -82,7 +82,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteBoaRepositoryClass(IDataContext context)
         {
             var sb                   = context.Get(File);
-            var projectCustomSqlInfo = context.Get(CustomSqlProfileInfo);
+            
             var data                 = context.Get(CustomSqlInfo);
 
             var key = $"{context.GetNameofRepositoryNamespace()}.{data.BusinessClassName}.Execute";

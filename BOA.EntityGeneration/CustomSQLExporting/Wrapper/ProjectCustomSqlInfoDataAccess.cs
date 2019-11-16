@@ -18,15 +18,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     public class ProjectCustomSqlInfoDataAccess
     {
         #region Public Methods
-        public static ICustomSqlProfileInfo GetByProfileIdFromDatabase(IDatabase database, string profileId,ConfigContract config)
+        public static IReadOnlyList<string> GetCustomSqlNamesInfProfile(IDatabase database, string profileId,ConfigContract config)
         {
             var objectIdList = new List<string>();
-
-            var returnValue = new CustomSqlProfileInfo
-            {
-                ObjectIdList = objectIdList
-            };
-
 
             database.CommandText = config.CustomSQLNamesDefinedToProfileSql;
             database[nameof(profileId)] = profileId;
@@ -39,7 +33,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             reader.Close();
 
-            return returnValue;
+            return objectIdList;
         }
 
         public static ICustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string id, ConfigContract config, int switchCaseIndex)

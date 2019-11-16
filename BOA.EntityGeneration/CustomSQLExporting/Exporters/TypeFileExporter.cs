@@ -33,7 +33,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb   = context.Get(File);
-            var data = context.Get(CustomSqlProfileInfo);
+            
 
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using System;");

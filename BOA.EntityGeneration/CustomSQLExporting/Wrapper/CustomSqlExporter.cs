@@ -45,26 +45,24 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var config = context.Get(Config);
 
             context.Get(CustomSqlGenerationOfProfileIdProcess).Text = "Fetching profile informations...";
-            var profileInfo = ProjectCustomSqlInfoDataAccess.GetByProfileIdFromDatabase(database, profileId,config);
-
-            context.Add(CustomSqlProfileInfo, profileInfo);
+            context.Add(CustomSqlNamesInfProfile,ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileId,config));
 
             context.FireEvent(OnProfileInfoInitialized);
         }
 
         static void ProcessCustomSQLsInProfile(IDataContext context)
         {
-            var profileInfo = context.Get(CustomSqlProfileInfo);
+            var customSqlNamesInfProfile = context.Get(CustomSqlNamesInfProfile);
             var processInfo = context.Get(CustomSqlGenerationOfProfileIdProcess);
 
             var config    = context.Get(Config);
             var database  = context.Get(Database);
             var profileId = context.Get(ProfileId);
 
-            processInfo.Total = profileInfo.ObjectIdList.Count;
+            processInfo.Total = customSqlNamesInfProfile.Count;
 
             var switchCaseIndex = 0;
-            foreach (var objectId in profileInfo.ObjectIdList)
+            foreach (var objectId in customSqlNamesInfProfile)
             {
                 processInfo.Text    = $"Processing '{objectId}'";
                 processInfo.Current = switchCaseIndex;
@@ -82,7 +80,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         static void RemoveProfileInfo(IDataContext context)
         {
             context.FireEvent(OnProfileInfoRemove);
-            context.Remove(CustomSqlProfileInfo);
+            context.Remove(CustomSqlNamesInfProfile);
         }
 
         static void WaitTwoSecondForUserCanSeeSuccessMessage()
@@ -101,7 +99,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         public static readonly IDataConstant<string>                ProfileId            = DataConstant.Create<string>(nameof(ProfileId));
         public static readonly IDataConstant<ICustomSqlInfo>        CustomSqlInfo        = DataConstant.Create<ICustomSqlInfo>();
-        public static readonly IDataConstant<ICustomSqlProfileInfo> CustomSqlProfileInfo = DataConstant.Create<ICustomSqlProfileInfo>();
+        
+
+        public static readonly IDataConstant<List<string>> CustomSqlNamesInfProfile = DataConstant.Create<List<string>>(nameof(CustomSqlNamesInfProfile));
         #endregion
     }
 }
