@@ -6,7 +6,6 @@ using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.CustomSQLExporting.Models.Impl;
-using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 
@@ -36,7 +35,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             return objectIdList;
         }
 
-        public static ICustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string id, ConfigContract config, int switchCaseIndex)
+        public static CustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string id, ConfigContract config, int switchCaseIndex)
         {
             var customSqlInfo = new CustomSqlInfo
             {

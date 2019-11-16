@@ -62,7 +62,6 @@
     <Compile Include="CustomSQLExporting\Models\Impl\CustomSqlInfoResult.cs" />
     <Compile Include="CustomSQLExporting\Wrapper\Extensions.cs" />
     <Compile Include="CustomSQLExporting\Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
-    <Compile Include="CustomSQLExporting\Models\Interfaces\ICustomSqlInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\Naming.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SharedDalClassWriter.cs" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
 {
@@ -8,7 +7,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
     ///     The custom SQL information
     /// </summary>
     [Serializable]
-    public class CustomSqlInfo : ICustomSqlInfo
+    public class CustomSqlInfo
     {
         #region Public Properties
         /// <summary>
@@ -67,11 +66,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
         public int SwitchCaseIndex { get; set; }
         #endregion
 
-        #region Explicit Interface Properties
-        /// <summary>
-        ///     Gets or sets the result columns.
-        /// </summary>
-        IReadOnlyList<CustomSqlInfoResult> ICustomSqlInfo.ResultColumns => ResultColumns;
-        #endregion
+        
     }
 }

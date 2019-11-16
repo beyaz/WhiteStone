@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.CustomSQLExporting.Models.Interfaces;
+using BOA.EntityGeneration.CustomSQLExporting.Models.Impl;
 using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public static void Export(IDataContext context, string profileId)
         {
             context.Add(ProfileId, profileId);
-            context.Add(ProcessedCustomSqlInfoListInProfile, new List<ICustomSqlInfo>());
+            context.Add(ProcessedCustomSqlInfoListInProfile, new List<CustomSqlInfo>());
 
             InitializeProfileInfo(context);
             ProcessCustomSQLsInProfile(context);
@@ -95,10 +95,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #endregion
 
         #region Data
-        public static readonly IDataConstant<List<ICustomSqlInfo>> ProcessedCustomSqlInfoListInProfile = DataConstant.Create<List<ICustomSqlInfo>>();
+        public static readonly IDataConstant<List<CustomSqlInfo>> ProcessedCustomSqlInfoListInProfile = DataConstant.Create<List<CustomSqlInfo>>();
 
         public static readonly IDataConstant<string>                ProfileId            = DataConstant.Create<string>(nameof(ProfileId));
-        public static readonly IDataConstant<ICustomSqlInfo>        CustomSqlInfo        = DataConstant.Create<ICustomSqlInfo>();
+        public static readonly IDataConstant<CustomSqlInfo>        CustomSqlInfo        = DataConstant.Create<CustomSqlInfo>();
         
 
         public static readonly IDataConstant<List<string>> CustomSqlNamesInfProfile = DataConstant.Create<List<string>>(nameof(CustomSqlNamesInfProfile));
