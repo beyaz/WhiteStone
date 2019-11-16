@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using BOA.Common.Helpers;
+using BOA.DatabaseAccess;
 using BOA.DataFlow;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
 using static BOA.EntityGeneration.DataFlow.Data;
@@ -10,8 +11,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     public static class CustomSqlExporter
     {
-        
-      
         #region Static Fields
         public static readonly IEvent OnCustomSqlInfoInitialized = new Event {Name = nameof(OnCustomSqlInfoInitialized)};
         public static readonly IEvent OnProfileInfoInitialized   = new Event {Name = nameof(OnProfileInfoInitialized)};
@@ -42,10 +41,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             var database  = context.Get(Database);
             var profileId = context.Get(ProfileId);
-            var config = context.Get(Config);
+            var config    = context.Get(Config);
 
             context.Get(CustomSqlGenerationOfProfileIdProcess).Text = "Fetching profile informations...";
-            context.Add(CustomSqlNamesInfProfile,ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileId,config));
+            context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileId, config));
 
             context.FireEvent(OnProfileInfoInitialized);
         }
@@ -53,7 +52,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         static void ProcessCustomSQLsInProfile(IDataContext context)
         {
             var customSqlNamesInfProfile = context.Get(CustomSqlNamesInfProfile);
-            var processInfo = context.Get(CustomSqlGenerationOfProfileIdProcess);
+            var processInfo              = context.Get(CustomSqlGenerationOfProfileIdProcess);
 
             var config    = context.Get(Config);
             var database  = context.Get(Database);
@@ -97,13 +96,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #region Data
         public static readonly IDataConstant<List<CustomSqlInfo>> ProcessedCustomSqlInfoListInProfile = DataConstant.Create<List<CustomSqlInfo>>();
 
-        public static readonly IDataConstant<string>                ProfileId            = DataConstant.Create<string>(nameof(ProfileId));
-        public static readonly IDataConstant<CustomSqlInfo>        CustomSqlInfo        = DataConstant.Create<CustomSqlInfo>();
-        
+        public static readonly IDataConstant<string>        ProfileId     = DataConstant.Create<string>(nameof(ProfileId));
+        public static readonly IDataConstant<CustomSqlInfo> CustomSqlInfo = DataConstant.Create<CustomSqlInfo>();
 
         public static readonly IDataConstant<ConfigurationContract> ConfigFile = DataConstant.Create<ConfigurationContract>(nameof(ConfigFile));
 
         public static readonly IDataConstant<List<string>> CustomSqlNamesInfProfile = DataConstant.Create<List<string>>(nameof(CustomSqlNamesInfProfile));
+
+        public static readonly IDataConstant<IDatabase> Database = DataConstant.Create<IDatabase>();
         #endregion
     }
 }
