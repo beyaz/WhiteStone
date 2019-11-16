@@ -44,18 +44,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomSQLExporting\ConfigurationContract.cs" />
-    <Compile Include="CustomSQLExporting\Exporters\BoaRepositoryFileExporter.cs" />
-    <Compile Include="CustomSQLExporting\Exporters\CustomSqlDataContextCreator.cs" />
-    <Compile Include="CustomSQLExporting\Exporters\SharedFileExporter.cs" />
-    <Compile Include="CustomSQLExporting\Exporters\TypeFileExporter.cs" />
-    <Compile Include="CustomSQLExporting\Exporters\TypesProjectExporter.cs" />
-    <Compile Include="CustomSQLExporting\Models\CustomSqlInfo.cs" />
-    <Compile Include="CustomSQLExporting\Models\CustomSqlInfoParameter.cs" />
-    <Compile Include="CustomSQLExporting\Models\CustomSqlInfoResult.cs" />
-    <Compile Include="CustomSQLExporting\Wrapper\CustomSqlExporter.cs" />
-    <Compile Include="CustomSQLExporting\Wrapper\Extensions.cs" />
-    <Compile Include="CustomSQLExporting\Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
+    <Compile Include="ConfigurationContract.cs" />
+    <Compile Include="Exporters\BoaRepositoryFileExporter.cs" />
+    <Compile Include="Exporters\CustomSqlDataContextCreator.cs" />
+    <Compile Include="Exporters\SharedFileExporter.cs" />
+    <Compile Include="Exporters\TypeFileExporter.cs" />
+    <Compile Include="Exporters\TypesProjectExporter.cs" />
+    <Compile Include="Models\CustomSqlInfo.cs" />
+    <Compile Include="Models\CustomSqlInfoParameter.cs" />
+    <Compile Include="Models\CustomSqlInfoResult.cs" />
+    <Compile Include="Wrapper\CustomSqlExporter.cs" />
+    <Compile Include="Wrapper\Extensions.cs" />
+    <Compile Include="Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +67,11 @@
       <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
       <Name>BOA.EntityGeneration</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CustomSQLExporting.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
