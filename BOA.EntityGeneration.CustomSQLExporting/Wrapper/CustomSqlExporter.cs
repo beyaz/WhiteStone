@@ -44,7 +44,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             var database  = context.Get(Database);
             var profileId = context.Get(ProfileId);
-            var config    = context.Get(Config);
+            var config    = context.Get(ConfigurationContract.Id);
 
             context.Get(CustomSqlGenerationOfProfileIdProcess).Text = "Fetching profile informations...";
             context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileId, config));
@@ -57,7 +57,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var customSqlNamesInfProfile = context.Get(CustomSqlNamesInfProfile);
             var processInfo              = context.Get(CustomSqlGenerationOfProfileIdProcess);
 
-            var config    = context.Get(Config);
+            var config    = context.Get(ConfigurationContract.Id);
             var database  = context.Get(Database);
             var profileId = context.Get(ProfileId);
 

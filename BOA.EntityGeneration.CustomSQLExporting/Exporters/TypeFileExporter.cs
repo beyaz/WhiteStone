@@ -66,15 +66,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb         = context.Get(File);
-        
+            var namingPattern = context.Get(NamingPattern.Id);
 
-            var config = context.Get(Data.Config);
 
             var processInfo = context.Get(CustomSqlExporter.CustomSqlGenerationOfProfileIdProcess);
 
             processInfo.Text = "Exporting Entity classes.";
 
-            var filePath = config.CustomSQLOutputFilePathForEntity.Replace("{ProfileId}", context.Get(ProfileId));
+            var filePath = namingPattern.EntityProjectDirectory + "All.cs";
 
             FileSystem.WriteAllText(context, filePath, sb.ToString());
         }

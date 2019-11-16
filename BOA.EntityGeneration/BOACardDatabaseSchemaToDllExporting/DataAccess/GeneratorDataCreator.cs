@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
         /// <summary>
         ///     Creates the specified table information.
         /// </summary>
-        public static ITableInfo Create( ConfigContract config, IDatabase database,  DbModel.Interfaces.ITableInfo tableInfo)
+        public static ITableInfo Create( string SqlSequenceInformationOfTable,string DatabaseEnumName,  IDatabase database,  DbModel.Interfaces.ITableInfo tableInfo)
         {
 
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
@@ -34,13 +34,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
             var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
 
             var SequenceList = new List<SequenceInfo>();
-            if (config.SqlSequenceInformationOfTable == null)
+            if (SqlSequenceInformationOfTable == null)
             {
                 SequenceList = new List<SequenceInfo>();
             }
             else
             {
-                database.CommandText  = config.SqlSequenceInformationOfTable;
+                database.CommandText  = SqlSequenceInformationOfTable;
                 database["schema"]    = tableInfo.SchemaName;
                 database["tableName"] = tableInfo.TableName;
 
@@ -62,7 +62,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
                 IsSupportSelectByKey         = isSupportSelectByKey,
                 IsSupportSelectByIndex       = isSupportSelectByIndex,
                 IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex,
-                DatabaseEnumName             = config.DatabaseEnumName,
+                DatabaseEnumName             = DatabaseEnumName,
                 SequenceList                 = SequenceList
             };
 

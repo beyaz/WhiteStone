@@ -63,13 +63,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb         = context.Get(File);
-            var config     = context.Get(Data.Config);
-            
+            var namingPattern = context.Get(NamingPattern.Id);
+
             var processInfo = context.Get(CustomSqlExporter.CustomSqlGenerationOfProfileIdProcess);
 
             processInfo.Text = "Exporting BOA repository.";
 
-            var filePath = config.CustomSQLOutputFilePathForBoaRepository.Replace("{ProfileId}", context.Get(ProfileId));
+            var filePath = namingPattern.RepositoryProjectDirectory + "Boa.cs";
 
             FileSystem.WriteAllText(context, filePath, sb.ToString());
         }

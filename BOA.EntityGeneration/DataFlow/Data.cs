@@ -28,7 +28,7 @@ namespace BOA.EntityGeneration.DataFlow
     public static class Data
     {
         #region Static Fields
-        public static readonly IDataConstant<ConfigContract>        Config               = DataConstant.Create<ConfigContract>();
+        internal static readonly IDataConstant<ConfigContract>        Config               = DataConstant.Create<ConfigContract>();
         
         internal static readonly IDataConstant<IDatabase>             Database             = DataConstant.Create<IDatabase>();
         public static readonly IDataConstant<MsBuildQueue>          MsBuildQueue         = DataConstant.Create<MsBuildQueue>();

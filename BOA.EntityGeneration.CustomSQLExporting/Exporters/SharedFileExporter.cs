@@ -120,13 +120,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb          = context.Get(File);
             var processInfo = context.Get(CustomSqlExporter.CustomSqlGenerationOfProfileIdProcess);
-          
+            var namingPattern = context.Get(NamingPattern.Id);
 
-            var config = context.Get(Data.Config);
 
             processInfo.Text = "Exporting Shared repository.";
 
-            var filePath = config.CustomSQLOutputFilePathForSharedRepository.Replace("{ProfileId}", context.Get(ProfileId));
+            var filePath = namingPattern.RepositoryProjectDirectory + "Shared.cs";
 
             FileSystem.WriteAllText(context, filePath, sb.ToString());
         }

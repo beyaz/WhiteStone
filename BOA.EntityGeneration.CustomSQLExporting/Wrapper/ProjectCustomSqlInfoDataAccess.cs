@@ -17,7 +17,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     public class ProjectCustomSqlInfoDataAccess
     {
         #region Public Methods
-        public static IReadOnlyList<string> GetCustomSqlNamesInfProfile(IDatabase database, string profileId,ConfigContract config)
+        public static IReadOnlyList<string> GetCustomSqlNamesInfProfile(IDatabase database, string profileId, ConfigurationContract config)
         {
             var objectIdList = new List<string>();
 
@@ -35,7 +35,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             return objectIdList;
         }
 
-        public static CustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string id, ConfigContract config, int switchCaseIndex)
+        public static CustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string id, ConfigurationContract config, int switchCaseIndex)
         {
             var customSqlInfo = new CustomSqlInfo
             {
@@ -75,7 +75,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         /// <summary>
         ///     Fills the specified custom SQL information.
         /// </summary>
-        static void Fill(CustomSqlInfo customSqlInfo, ConfigContract config, IDatabase database)
+        static void Fill(CustomSqlInfo customSqlInfo, ConfigurationContract config, IDatabase database)
         {
             var tableInfoDao = new TableInfoDao {Database = database, IndexInfoAccess = new IndexInfoAccess {Database = database}};
 
@@ -87,7 +87,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 {
                     if (item.DataType.Equals("object", StringComparison.OrdinalIgnoreCase))
                     {
-                        var tableInfo = GeneratorDataCreator.Create(config, database, tableInfoDao.GetInfo("BOACard", customSqlInfo.SchemaName, item.Name));
+                        var tableInfo = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable,config.DatabaseEnumName, database, tableInfoDao.GetInfo("BOACard", customSqlInfo.SchemaName, item.Name));
 
                         customSqlInfoResults.AddRange(from columnInfo in tableInfo.Columns
                                                       select new CustomSqlInfoResult

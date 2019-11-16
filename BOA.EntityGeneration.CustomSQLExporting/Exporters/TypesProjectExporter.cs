@@ -1,8 +1,5 @@
-﻿using System.IO;
-using BOA.DataFlow;
+﻿using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.DataFlow;
 using BOA.Tasks;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
