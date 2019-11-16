@@ -16,7 +16,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             public TestDataContextCreator()
             {
                 ConfigFilePath      = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
-                IsFileAccessWithTfs = false;
             }
             #endregion
 

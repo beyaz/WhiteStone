@@ -95,7 +95,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         IDataContext context;
         void Start()
         {
-            context = new DataContextCreator {CheckinComment = Model.CheckInComment, IsFileAccessWithTfs = true}.Create();
+            context = new DataContextCreator().Create();
 
             context.Add(FileSystem.CheckinComment,Model.CheckInComment);
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,true);
@@ -111,7 +111,7 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         void StartAll()
         {
-            context = new DataContextCreator {CheckinComment = Model.CheckInComment, IsFileAccessWithTfs = true}.Create();
+            context = new DataContextCreator ().Create();
 
             context.Add(FileSystem.CheckinComment,Model.CheckInComment);
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,true);

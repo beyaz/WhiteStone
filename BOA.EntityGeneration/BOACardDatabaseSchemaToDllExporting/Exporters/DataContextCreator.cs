@@ -1,27 +1,25 @@
 ﻿using System.IO;
-using BOA.DataFlow;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
-using BOA.TfsAccess;
 using static BOA.EntityGeneration.DataFlow.DataEvent;
-using FileAccess = BOA.TfsAccess.FileAccess;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
-
     public class DataContextCreatorBase
     {
-        public string CheckinComment      { get; set; }
-        public string ConfigFilePath      { get; set; }
-        public bool   IsFileAccessWithTfs { get; set; }
+        #region Public Properties
+        public string ConfigFilePath { get; set; }
+        #endregion
 
-        public void InitializeServices( IDataContext context)
+        #region Public Methods
+        public void InitializeServices(IDataContext context)
         {
             if (ConfigFilePath == null)
             {
@@ -32,20 +30,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
             context.Add(Data.MsBuildQueue, new MsBuildQueue());
 
-            
-
             context.Add(Data.AllSchemaGenerationProcess, new ProcessInfo());
             context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
             context.Add(Data.CustomSqlGenerationOfProfileIdProcess, new ProcessInfo());
         }
+        #endregion
     }
 
-    public class DataContextCreator:DataContextCreatorBase
+    public class DataContextCreator : DataContextCreatorBase
     {
-        #region Public Properties
-       
-        #endregion
-
         #region Public Methods
         public IDataContext Create()
         {
@@ -54,7 +47,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             InitializeServices(context);
 
             AttachEvents(context);
-
 
             return context;
         }
@@ -90,7 +82,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
             context.AttachEvent(StartToExportSchema, MsBuildQueue.Build);
         }
-        
         #endregion
     }
 }
