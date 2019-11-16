@@ -1,4 +1,5 @@
-﻿using BOA.Common.Helpers;
+﻿using System.IO;
+using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.ScriptModel;
@@ -17,15 +18,29 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
             context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
-            context.AttachEvent(OnProfileInfoInitialized, WriteProxyClass);
+            context.AttachEvent(OnProfileInfoInitialized, WriteEmbeddedClasses);
+            
+
 
             context.AttachEvent(OnCustomSqlInfoInitialized, WriteBoaRepositoryClass);
 
+            context.AttachEvent(OnProfileInfoRemove, WriteProxyClass);
             context.AttachEvent(OnProfileInfoRemove, EndNamespace);
             context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
             context.AttachEvent(OnProfileInfoRemove, ClearOutput);
         }
         #endregion
+
+
+        static void WriteEmbeddedClasses(IDataContext context)
+        {
+            var sb            = context.Get(File);
+
+            var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BoaRepositoryFileEmbeddedCodes.txt";
+
+            sb.AppendAll(System.IO.File.ReadAllText(path));
+            sb.AppendLine();
+        }
 
         #region Methods
         static void BeginNamespace(IDataContext context)
@@ -111,7 +126,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
                 sb.AppendLine();
                 sb.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
                 sb.AppendLine();
-                sb.AppendLine($"return ExecuteReaderToList<{data.ResultContractName}>(this, CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
+                sb.AppendLine($"return this.ExecuteReaderToList<{data.ResultContractName}>(CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
                 sb.CloseBracket();
             }
             else
@@ -122,7 +137,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
                 sb.AppendLine();
                 sb.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
                 sb.AppendLine();
-                sb.AppendLine($"return this.ExecuteReaderToContract<{data.ResultContractName}>(this, CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
+                sb.AppendLine($"return this.ExecuteReaderToContract<{data.ResultContractName}>(CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
 
                 sb.CloseBracket();
             }

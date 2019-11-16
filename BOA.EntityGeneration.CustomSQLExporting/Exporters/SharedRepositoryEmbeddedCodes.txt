@@ -43,7 +43,7 @@ public sealed class SqlInfo
 /// <summary>
 ///     The data reader helper
 /// </summary>
-public static class IDataRecordHelper
+static class IDataRecordHelper
 {
     #region Public Methods
     /// <summary>

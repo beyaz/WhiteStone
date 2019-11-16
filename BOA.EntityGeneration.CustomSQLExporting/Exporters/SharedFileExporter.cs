@@ -60,11 +60,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteEmbeddedClasses(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
 
             var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryEmbeddedCodes.txt";
 
-            sb.AppendAll(System.IO.File.ReadAllText(path).Replace("$(Namespace)",namingPattern.RepositoryNamespace));
+            sb.AppendAll(System.IO.File.ReadAllText(path));
             sb.AppendLine();
         }
 
