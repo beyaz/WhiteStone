@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         {
             var config = context.Get(CustomSqlExporter.Config);
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, (key, value) => key == nameof(CustomSqlExporter.ProfileId) ? context.Get(CustomSqlExporter.ProfileId) : value);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, (key, value) => key == nameof(CustomSqlExporter.ProfileName) ? context.Get(CustomSqlExporter.ProfileName) : value);
 
             context.Add(Id,new NamingPattern
             {

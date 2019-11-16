@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
     [Serializable]
     public class ConfigurationContract
     {
-        internal static readonly IDataConstant<ConfigurationContract> Id = DataConstant.Create<ConfigurationContract>(nameof(ConfigurationContract));
+        
 
         #region Public Properties
         public string SqlSequenceInformationOfTable { get; set; }

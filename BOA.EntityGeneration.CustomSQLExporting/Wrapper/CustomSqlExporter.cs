@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #region Public Methods
         public static void Export(IDataContext context, string profileId)
         {
-            context.Add(ProfileId, profileId);
+            context.Add(ProfileName, profileId);
             context.Add(ProcessedCustomSqlInfoListInProfile, new List<CustomSqlInfo>());
             NamingPattern.Initialize(context);
 
@@ -29,7 +29,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             RemoveProfileInfo(context);
 
             context.Remove(ProcessedCustomSqlInfoListInProfile);
-            context.Remove(ProfileId);
+            context.Remove(ProfileName);
             NamingPattern.Remove(context);
 
             var processInfo = context.Get(ProcessInfo);
@@ -42,8 +42,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         static void InitializeProfileInfo(IDataContext context)
         {
             var database  = context.Get(Database);
-            var profileId = context.Get(ProfileId);
-            var config    = context.Get(ConfigurationContract.Id);
+            var profileId = context.Get(ProfileName);
+            var config    = context.Get(Config);
 
             context.Get(ProcessInfo).Text = "Fetching profile informations...";
             context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileId, config));
@@ -56,9 +56,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var customSqlNamesInfProfile = context.Get(CustomSqlNamesInfProfile);
             var processInfo              = context.Get(ProcessInfo);
 
-            var config    = context.Get(ConfigurationContract.Id);
+            var config    = context.Get(Config);
             var database  = context.Get(Database);
-            var profileId = context.Get(ProfileId);
+            var profileId = context.Get(ProfileName);
 
             processInfo.Total = customSqlNamesInfProfile.Count;
 
@@ -98,7 +98,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #region Data
         public static readonly IDataConstant<List<CustomSqlInfo>> ProcessedCustomSqlInfoListInProfile = DataConstant.Create<List<CustomSqlInfo>>();
 
-        public static readonly IDataConstant<string>        ProfileId     = DataConstant.Create<string>(nameof(ProfileId));
+        public static readonly IDataConstant<string>        ProfileName     = DataConstant.Create<string>(nameof(ProfileName));
         public static readonly IDataConstant<CustomSqlInfo> CustomSqlInfo = DataConstant.Create<CustomSqlInfo>();
 
         public static readonly IDataConstant<ConfigurationContract> Config = DataConstant.Create<ConfigurationContract>(nameof(Config));

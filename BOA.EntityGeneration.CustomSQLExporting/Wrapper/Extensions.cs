@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             var profileIdList = new List<string>();
             var database      = context.Get(CustomSqlExporter.Database);
-            var config        = context.Get(ConfigurationContract.Id);
+            var config        = context.Get(CustomSqlExporter.Config);
 
             database.CommandText = config.SQL_GetProfileIdList;
             var reader = database.ExecuteReader();
