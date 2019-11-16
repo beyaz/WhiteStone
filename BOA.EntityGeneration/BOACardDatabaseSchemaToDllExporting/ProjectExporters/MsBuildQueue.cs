@@ -7,6 +7,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 {
     public class MsBuildQueue
     {
+        public static readonly IDataConstant<MsBuildQueue> MsBuildQueueId = DataConstant.Create<MsBuildQueue>();
+
         #region Fields
         readonly List<MSBuildData> Queue = new List<MSBuildData>();
         #endregion
@@ -37,7 +39,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
         public static void Build(IDataContext context)
         {
-            context.Get(Data.MsBuildQueueId).BuildInternal(context);
+            context.Get<MsBuildQueue>(MsBuildQueueId).BuildInternal(context);
         }
         #endregion
     }

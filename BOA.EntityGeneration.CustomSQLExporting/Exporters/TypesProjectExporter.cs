@@ -112,7 +112,7 @@ using System.Runtime.InteropServices;
             var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
             FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
 
-            context.Get(Data.MsBuildQueueId).Push(new MSBuildData {ProjectFilePath = csprojFilePath});
+            context.Get(MsBuildQueue.MsBuildQueueId).Push(new MSBuildData {ProjectFilePath = csprojFilePath});
         }
         #endregion
     }

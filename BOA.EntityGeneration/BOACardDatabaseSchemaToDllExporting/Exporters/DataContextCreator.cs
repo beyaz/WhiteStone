@@ -28,7 +28,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
             context.Add(Data.Config, JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath)));
             context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
-            context.Add(Data.MsBuildQueueId, new MsBuildQueue());
+            context.Add(MsBuildQueue.MsBuildQueueId, new MsBuildQueue());
 
             context.Add(Data.AllSchemaGenerationProcess, new ProcessInfo());
             context.Add(Data.SchemaGenerationProcess, new ProcessInfo());

@@ -123,7 +123,7 @@ using System.Runtime.InteropServices;
             FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
 
             progress.Text = "Compile started.";
-            context.Get(Data.MsBuildQueueId).Push(new MSBuildData
+            context.Get(MsBuildQueue.MsBuildQueueId).Push(new MSBuildData
             {
                 ProjectFilePath = csprojFilePath
             });
