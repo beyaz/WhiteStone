@@ -42,11 +42,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         static void InitializeProfileInfo(IDataContext context)
         {
             var database  = context.Get(Database);
-            var profileId = context.Get(ProfileName);
+            var profileName = context.Get(ProfileName);
             var config    = context.Get(Config);
 
             context.Get(ProcessInfo).Text = "Fetching profile informations...";
-            context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileId, config));
+            context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config));
 
             context.FireEvent(OnProfileInfoInitialized);
         }
@@ -58,7 +58,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             var config    = context.Get(Config);
             var database  = context.Get(Database);
-            var profileId = context.Get(ProfileName);
+            var profileName = context.Get(ProfileName);
 
             processInfo.Total = customSqlNamesInfProfile.Count;
 
@@ -68,7 +68,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 processInfo.Text    = $"Processing '{objectId}'";
                 processInfo.Current = switchCaseIndex;
 
-                var customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileId, objectId, config, switchCaseIndex++);
+                var customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileName, objectId, config, switchCaseIndex++);
 
                 context.Get(ProcessedCustomSqlInfoListInProfile).Add(customSqlInfo);
 
