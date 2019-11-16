@@ -32,27 +32,27 @@ namespace BOA.EntityGeneration.DataFlow
         
         internal static readonly IDataConstant<IDatabase>             Database             = DataConstant.Create<IDatabase>();
         public static readonly IDataConstant<MsBuildQueue>          MsBuildQueue         = DataConstant.Create<MsBuildQueue>();
-        public static readonly IDataConstant<ITableInfo>            TableInfo            = DataConstant.Create<ITableInfo>();
-        public static readonly IDataConstant<List<string>>          TableNamesInSchema   = DataConstant.Create<List<string>>();
+        internal static readonly IDataConstant<ITableInfo>            TableInfo            = DataConstant.Create<ITableInfo>();
+        internal static readonly IDataConstant<List<string>>          TableNamesInSchema   = DataConstant.Create<List<string>>();
         #endregion
 
         #region Naming
-        public static readonly IDataConstant<string> SchemaName                                               = DataConstant.Create<string>(nameof(SchemaName));
-        public static readonly IDataConstant<string> TableEntityClassNameForMethodParametersInRepositoryFiles = DataConstant.Create<string>(nameof(TableEntityClassNameForMethodParametersInRepositoryFiles));
-        public static readonly IDataConstant<string> RepositoryClassName                                      = DataConstant.Create<string>(nameof(RepositoryClassName));
-        public static readonly IDataConstant<string> SharedRepositoryClassName = DataConstant.Create<string>(nameof(SharedRepositoryClassName));
-        public static readonly IDataConstant<string> BusinessClassNamespace                                   = DataConstant.Create<string>(nameof(BusinessClassNamespace));
+        internal static readonly IDataConstant<string> SchemaName                                               = DataConstant.Create<string>(nameof(SchemaName));
+        internal static readonly IDataConstant<string> TableEntityClassNameForMethodParametersInRepositoryFiles = DataConstant.Create<string>(nameof(TableEntityClassNameForMethodParametersInRepositoryFiles));
+        internal static readonly IDataConstant<string> RepositoryClassName                                      = DataConstant.Create<string>(nameof(RepositoryClassName));
+        internal static readonly IDataConstant<string> SharedRepositoryClassName = DataConstant.Create<string>(nameof(SharedRepositoryClassName));
+        internal static readonly IDataConstant<string> BusinessClassNamespace                                   = DataConstant.Create<string>(nameof(BusinessClassNamespace));
         #endregion
 
         #region Process Indicators
-        public static readonly IDataConstant<ProcessInfo> AllSchemaGenerationProcess            = DataConstant.Create<ProcessInfo>(nameof(AllSchemaGenerationProcess));
-        public static readonly IDataConstant<ProcessInfo> SchemaGenerationProcess               = DataConstant.Create<ProcessInfo>(nameof(SchemaGenerationProcess));
+        internal static readonly IDataConstant<ProcessInfo> AllSchemaGenerationProcess            = DataConstant.Create<ProcessInfo>(nameof(AllSchemaGenerationProcess));
+        internal static readonly IDataConstant<ProcessInfo> SchemaGenerationProcess               = DataConstant.Create<ProcessInfo>(nameof(SchemaGenerationProcess));
         #endregion
 
         #region Files
-        public static readonly IDataConstant<PaddedStringBuilder> EntityFile           = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFile));
-        public static readonly IDataConstant<PaddedStringBuilder> SharedRepositoryFile = DataConstant.Create<PaddedStringBuilder>(nameof(SharedRepositoryFile));
-        public static readonly IDataConstant<PaddedStringBuilder> BoaRepositoryFile    = DataConstant.Create<PaddedStringBuilder>(nameof(BoaRepositoryFile));
+        internal static readonly IDataConstant<PaddedStringBuilder> EntityFile           = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFile));
+        internal static readonly IDataConstant<PaddedStringBuilder> SharedRepositoryFile = DataConstant.Create<PaddedStringBuilder>(nameof(SharedRepositoryFile));
+        internal static readonly IDataConstant<PaddedStringBuilder> BoaRepositoryFile    = DataConstant.Create<PaddedStringBuilder>(nameof(BoaRepositoryFile));
         #endregion
     }
 }

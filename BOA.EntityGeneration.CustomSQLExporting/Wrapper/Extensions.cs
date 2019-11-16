@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var config = context.Get(Config);
 
             return config.CustomSqlEntityProjectDirectory
-                         .Replace("{SchemaName}", context.Get(SchemaName))
+                         .Replace("{SchemaName}", context.Get(CustomSqlExporter.ProfileId))
                          .Replace("{"+nameof(config.CustomSQLEntityNamespaceFormat)+"}", context.GetNameofEntityNamespace());
         }
 
@@ -24,7 +24,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var config = context.Get(Config);
 
             return config.CustomSqlRepositoryProjectDirectory
-                         .Replace("{SchemaName}", context.Get(SchemaName))
+                         .Replace("{SchemaName}", context.Get(CustomSqlExporter.ProfileId))
                          .Replace("{"+nameof(config.CustomSQLRepositoryNamespaceFormat)+"}", context.GetNameofRepositoryNamespace());
         }
 
