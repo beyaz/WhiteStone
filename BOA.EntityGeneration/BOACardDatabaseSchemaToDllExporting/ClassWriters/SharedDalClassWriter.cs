@@ -17,7 +17,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             var fileAccess            = context.Get(FileAccess);
             var allInOneFilePath      = config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
 
-            fileAccess.WriteAllText(allInOneFilePath, allInOneSourceCode);
+            fileAccess.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
         }
         public static void Write(IDataContext context)
         {

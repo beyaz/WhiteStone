@@ -75,7 +75,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var filePath = config.CustomSQLOutputFilePathForEntity.Replace("{ProfileId}", context.Get(ProfileId));
 
-            fileAccess.WriteAllText(filePath, sb.ToString());
+            fileAccess.WriteAllText(context, filePath, sb.ToString());
         }
 
         static void InitializeOutput(IDataContext context)

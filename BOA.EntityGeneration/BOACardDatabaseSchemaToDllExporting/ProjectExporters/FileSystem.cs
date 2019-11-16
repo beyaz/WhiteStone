@@ -1,4 +1,5 @@
-﻿using BOA.TfsAccess;
+﻿using BOA.DataFlow;
+using BOA.TfsAccess;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
@@ -8,7 +9,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
         public FileAccess FileAccess { get; set; }
 
-        public void WriteAllText(string path, string content)
+        public void WriteAllText(IDataContext context, string path, string content)
         {
             if (!Config.IntegrateWithBOATfs)
             {
