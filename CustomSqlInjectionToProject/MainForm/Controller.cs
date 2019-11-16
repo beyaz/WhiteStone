@@ -6,7 +6,6 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
-using BOA.EntityGeneration.DataFlow;
 using WhiteStone.UI.Container.Mvc;
 
 namespace CustomSqlInjectionToProject.MainForm

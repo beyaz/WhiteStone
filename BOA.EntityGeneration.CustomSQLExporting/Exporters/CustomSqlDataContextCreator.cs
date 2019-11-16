@@ -4,7 +4,6 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
-using BOA.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {

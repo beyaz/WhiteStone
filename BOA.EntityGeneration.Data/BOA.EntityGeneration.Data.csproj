@@ -59,7 +59,9 @@
     <Compile Include="DbModel\Types\IndexInfo.cs" />
     <Compile Include="DbModel\Types\TableInfo.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FileSystem.cs" />
     <Compile Include="Names2.cs" />
+    <Compile Include="ProcessInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptModel\ContractBodyDbMembers.cs" />
     <Compile Include="ScriptModel\ContractCommentInfo.cs" />

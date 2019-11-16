@@ -31,7 +31,7 @@ namespace BOA.EntityGeneration.DataFlow
         internal static readonly IDataConstant<ConfigContract>        Config               = DataConstant.Create<ConfigContract>();
         
         internal static readonly IDataConstant<IDatabase>             Database             = DataConstant.Create<IDatabase>();
-        public static readonly IDataConstant<MsBuildQueue>          MsBuildQueue         = DataConstant.Create<MsBuildQueue>();
+        public static readonly IDataConstant<MsBuildQueue>          MsBuildQueueId         = DataConstant.Create<MsBuildQueue>();
         internal static readonly IDataConstant<ITableInfo>            TableInfo            = DataConstant.Create<ITableInfo>();
         internal static readonly IDataConstant<List<string>>          TableNamesInSchema   = DataConstant.Create<List<string>>();
         #endregion

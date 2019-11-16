@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using BOA.DataFlow;
-using BOA.EntityGeneration.DataFlow;
-using static BOA.EntityGeneration.DataFlow.Data;
-
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {

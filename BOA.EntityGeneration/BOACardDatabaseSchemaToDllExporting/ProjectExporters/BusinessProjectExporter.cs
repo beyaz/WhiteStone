@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
             var allInOneFilePath      = config.FilePathForAllDaoInOneFile.Replace("{SchemaName}", schemaName);
             var ProjectExportLocation = context.GetRepositoryProjectDirectory();
 
-            FileSystem.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
+            BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters.FileSystem.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
 
             var progress = context.Get(Data.SchemaGenerationProcess);
 
@@ -123,7 +123,7 @@ using System.Runtime.InteropServices;
             FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
 
             progress.Text = "Compile started.";
-            context.Get(Data.MsBuildQueue).Push(new MSBuildData
+            context.Get(Data.MsBuildQueueId).Push(new MSBuildData
             {
                 ProjectFilePath = csprojFilePath
             });
