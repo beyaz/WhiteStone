@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\Extensions.cs" />
     <Compile Include="CustomSQLExporting\Exporters\BoaRepositoryFileExporter.cs" />
     <Compile Include="CustomSQLExporting\Wrapper\CustomSqlExporter.cs" />
     <Compile Include="CustomSQLExporting\Exporters\SharedFileExporter.cs" />
@@ -92,7 +93,6 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\InsertInfoCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\DataContextCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Util\NamingHelper.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\ProjectExportLocation.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\TypesProjectExporter.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="DataFlow\Data.cs" />

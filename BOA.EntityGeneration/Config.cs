@@ -9,6 +9,10 @@ namespace BOA.EntityGeneration
     [Serializable]
     public class ConfigContract
     {
+
+        public string EntityProjectDirectory { get; set; }
+        public string RepositoryProjectDirectory { get; set; }
+
         public string SQL_GetProfileIdList { get; set; }
         public string CustomSQLEntityNamespaceFormat { get; set; }
         public string CustomSQLRepositoryNamespaceFormat { get; set; }
@@ -45,10 +49,7 @@ namespace BOA.EntityGeneration
         /// </summary>
         public string DatabaseEnumName { get; set; }
 
-        /// <summary>
-        ///     Gets or sets a value indicating whether [enable full project export].
-        /// </summary>
-        public bool EnableFullProjectExport { get; set; }
+      
 
         /// <summary>
         ///     Gets or sets the entity assembly namespace format.
@@ -62,10 +63,7 @@ namespace BOA.EntityGeneration
 
         public string SharedRepositoryAllInOneFilePath { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the file path for all entities in one file.
-        /// </summary>
-        public string FilePathForAllEntitiesInOneFile { get; set; }
+       
         
 
         /// <summary>
@@ -96,7 +94,7 @@ namespace BOA.EntityGeneration
         /// <summary>
         ///     Gets or sets the SLN directory path.
         /// </summary>
-        public string SlnDirectoryPath { get; set; }
+        public string SlnDirectoryPath { get; set; } // TODO check usage
 
         /// <summary>
         ///     Gets or sets the SQL sequence information of table.

@@ -1,4 +1,5 @@
-﻿using BOA.DataFlow;
+﻿using System.IO;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
 using BOA.Tasks;
@@ -10,27 +11,25 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #region Public Methods
         public static void ExportTypeDll(IDataContext context)
         {
+            var projectDirectory = context.GetEntityProjectDirectory();
+
             var schemaName            = context.Get(Data.SchemaName);
             var allInOneSourceCode    = context.Get(Data.EntityFile).ToString();
             var config                = context.Get(Data.Config);
-            var ProjectExportLocation = new ProjectExportLocation {Config = config};
 
-            var allInOneFilePath = config.FilePathForAllEntitiesInOneFile.Replace("{SchemaName}", schemaName);
 
-            FileSystem.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
+            FileSystem.WriteAllText(context, projectDirectory+ "All.cs", allInOneSourceCode);
 
-            if (config.EnableFullProjectExport)
-            {
-                var ns = NamingHelper.GetTypeClassNamespace(schemaName,config);
+            var ns = NamingHelper.GetTypeClassNamespace(schemaName, config);
 
-                var projectDirectory = $"{ProjectExportLocation.GetExportLocationOfBusinessProject(schemaName)}{ns}\\";
 
-                var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
-                var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
 
-                const string allInOneFileName = "All";
 
-                var content = $@"
+            var csprojFilePath = $"{projectDirectory}{ns}.csproj";
+
+
+
+            var content = $@"
 
 <?xml version=""1.0"" encoding=""utf-8""?>
 <Project ToolsVersion=""15.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
@@ -76,7 +75,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
   </ItemGroup>
   <ItemGroup>
     <Compile Include=""Properties\AssemblyInfo.cs"" />
-    <Compile Include=""{allInOneFileName}.cs"" />
+    <Compile Include=""All.cs"" />
   </ItemGroup>
   <ItemGroup />
   <Import Project=""$(MSBuildToolsPath)\Microsoft.CSharp.targets"" />
@@ -91,9 +90,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
 ";
 
-                FileSystem.WriteAllText(context, csprojFilePath, content.Trim());
+            FileSystem.WriteAllText(context, csprojFilePath, content.Trim());
 
-                var assemblyInfoContent = $@"
+            var assemblyInfoContent = $@"
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -110,10 +109,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion(""1.0.0.0"")]
 ";
 
-                FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
+            var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
+            FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
 
-                context.Get(Data.MsBuildQueue).Push(new MSBuildData {ProjectFilePath = csprojFilePath});
-            }
+            context.Get(Data.MsBuildQueue).Push(new MSBuildData {ProjectFilePath = csprojFilePath});
         }
         #endregion
     }
