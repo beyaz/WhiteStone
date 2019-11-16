@@ -1,23 +1,32 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
+using BOA.DatabaseAccess;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    public class CustomSqlDataContextCreator : DataContextCreatorBase
+    public sealed  class CustomSqlDataContextCreator 
     {
         public IDataContext Create()
         {
             var context = new DataContext();
 
-            context.Add(CustomSqlExporter.CustomSqlGenerationOfProfileIdProcess, new ProcessInfo());
+            var processInfo = new ProcessInfo();
+
+            context.Add(CustomSqlExporter.CustomSqlGenerationOfProfileIdProcess, processInfo);
+            context.Add(MsBuildQueue.ProcessInfo, processInfo);
+
             var configFilePath = Path.GetDirectoryName(typeof(CustomSqlDataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
             context.Add(CustomSqlExporter.ConfigFile, JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(configFilePath)));
 
-            InitializeServices(context);
+            
+            context.Add(CustomSqlExporter.Database, new SqlDatabase(context.Get(CustomSqlExporter.ConfigFile).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
+            context.Add(MsBuildQueue.MsBuildQueueId, new MsBuildQueue());
+
+            
 
             AttachEvents(context);
             
@@ -25,7 +34,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             return context;
         }
 
-        protected virtual void AttachEvents(IDataContext context)
+        void AttachEvents(IDataContext context)
         {
 
             TypeFileExporter.AttachEvents(context);
