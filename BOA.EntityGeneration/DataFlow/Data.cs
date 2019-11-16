@@ -44,8 +44,8 @@ namespace BOA.EntityGeneration.DataFlow
         #endregion
 
         #region Process Indicators
-        internal static readonly IDataConstant<ProcessInfo> AllSchemaGenerationProcess            = DataConstant.Create<ProcessInfo>(nameof(AllSchemaGenerationProcess));
-        internal static readonly IDataConstant<ProcessInfo> SchemaGenerationProcess               = DataConstant.Create<ProcessInfo>(nameof(SchemaGenerationProcess));
+        internal static readonly IDataConstant<ProcessContract> AllSchemaGenerationProcess            = DataConstant.Create<ProcessContract>(nameof(AllSchemaGenerationProcess));
+        internal static readonly IDataConstant<ProcessContract> SchemaGenerationProcess               = DataConstant.Create<ProcessContract>(nameof(SchemaGenerationProcess));
         #endregion
 
         #region Files

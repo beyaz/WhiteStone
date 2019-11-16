@@ -14,7 +14,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var context = new DataContext();
 
-            var processInfo = new ProcessInfo();
+            var processInfo = new ProcessContract();
 
             context.Add(CustomSqlExporter.CustomSqlGenerationOfProfileIdProcess, processInfo);
             context.Add(MsBuildQueue.ProcessInfo, processInfo);

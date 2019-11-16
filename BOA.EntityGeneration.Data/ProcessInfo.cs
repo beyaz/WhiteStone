@@ -6,7 +6,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
     ///     The process information
     /// </summary>
     [Serializable]
-    public class ProcessInfo
+    public class ProcessContract
     {
         #region Public Properties
         /// <summary>

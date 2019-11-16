@@ -62,7 +62,7 @@ namespace CustomSqlInjectionToProject.MainForm
             Model = new Model
             {
                 ProfileId = Injection.ProfileId,
-                CustomSqlGenerationOfProfileIdProcess = new ProcessInfo
+                CustomSqlGenerationOfProfileIdProcess = new ProcessContract
                 {
                     Text = "Ready"
                 },

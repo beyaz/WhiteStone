@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     {
         public static readonly IDataConstant<MsBuildQueue> MsBuildQueueId = DataConstant.Create<MsBuildQueue>();
         public static readonly IDataConstant<bool> BuildAfterCodeGenerationIsCompleted = DataConstant.Create<bool>(nameof(BuildAfterCodeGenerationIsCompleted));
-        public static readonly IDataConstant<ProcessInfo> ProcessInfo = DataConstant.Create<ProcessInfo>(nameof(ProcessInfo));
+        public static readonly IDataConstant<ProcessContract> ProcessInfo = DataConstant.Create<ProcessContract>(nameof(ProcessInfo));
 
         #region Fields
         readonly List<MSBuildData> Queue = new List<MSBuildData>();

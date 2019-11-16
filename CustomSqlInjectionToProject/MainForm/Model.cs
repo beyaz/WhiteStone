@@ -14,7 +14,7 @@ namespace CustomSqlInjectionToProject.MainForm
         public string ProfileId            { get; set; }
         public bool   StartTimer            { get; set; }
 
-        public ProcessInfo CustomSqlGenerationOfProfileIdProcess { get; set; }
+        public ProcessContract CustomSqlGenerationOfProfileIdProcess { get; set; }
 
 
         public IReadOnlyList<string> ProfileIdList { get; set; }

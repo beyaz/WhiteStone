@@ -106,7 +106,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public static readonly IDataConstant<List<string>> CustomSqlNamesInfProfile = DataConstant.Create<List<string>>(nameof(CustomSqlNamesInfProfile));
 
         public static readonly IDataConstant<IDatabase> Database = DataConstant.Create<IDatabase>();
-        public static readonly IDataConstant<ProcessInfo> CustomSqlGenerationOfProfileIdProcess = DataConstant.Create<ProcessInfo>(nameof(CustomSqlGenerationOfProfileIdProcess));
+        public static readonly IDataConstant<ProcessContract> CustomSqlGenerationOfProfileIdProcess = DataConstant.Create<ProcessContract>(nameof(CustomSqlGenerationOfProfileIdProcess));
 
         
 

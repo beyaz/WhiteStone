@@ -13,8 +13,8 @@ namespace BOA.EntityGeneration.UI.MainForm
         public string SchemaName            { get; set; }
         public bool   StartTimer            { get; set; }
 
-        public ProcessInfo SchemaGenerationProcess { get; set; }
-        public ProcessInfo AllSchemaGenerationProcess { get; set; }
+        public ProcessContract SchemaGenerationProcess { get; set; }
+        public ProcessContract AllSchemaGenerationProcess { get; set; }
         public bool AllSchemaGenerationProcessIsVisible { get; set; }
         #endregion
     }

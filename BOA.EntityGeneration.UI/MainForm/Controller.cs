@@ -69,7 +69,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         {
             Model = new Model
             {
-                SchemaGenerationProcess = new ProcessInfo
+                SchemaGenerationProcess = new ProcessContract
                 {
                     Text = "Ready"
                 },
