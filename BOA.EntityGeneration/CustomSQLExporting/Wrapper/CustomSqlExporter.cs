@@ -101,6 +101,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public static readonly IDataConstant<CustomSqlInfo>        CustomSqlInfo        = DataConstant.Create<CustomSqlInfo>();
         
 
+        public static readonly IDataConstant<ConfigurationContract> ConfigFile = DataConstant.Create<ConfigurationContract>(nameof(ConfigFile));
+
         public static readonly IDataConstant<List<string>> CustomSqlNamesInfProfile = DataConstant.Create<List<string>>(nameof(CustomSqlNamesInfProfile));
         #endregion
     }

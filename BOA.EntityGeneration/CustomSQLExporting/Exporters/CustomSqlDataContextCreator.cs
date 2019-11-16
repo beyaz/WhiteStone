@@ -1,5 +1,9 @@
-﻿using BOA.DataFlow;
+﻿using System.IO;
+using BOA.Common.Helpers;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
+using BOA.EntityGeneration.DataFlow;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
@@ -8,6 +12,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         public IDataContext Create()
         {
             var context = new DataContext();
+
+            var configFilePath = Path.GetDirectoryName(typeof(CustomSqlDataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
+            context.Add(CustomSqlExporter.ConfigFile, JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(configFilePath)));
 
             InitializeServices(context);
 

@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\Extensions.cs" />
+    <Compile Include="CustomSQLExporting\ConfigurationContract.cs" />
     <Compile Include="CustomSQLExporting\Exporters\BoaRepositoryFileExporter.cs" />
     <Compile Include="CustomSQLExporting\Exporters\TypesProjectExporter.cs" />
     <Compile Include="CustomSQLExporting\Wrapper\CustomSqlExporter.cs" />
@@ -143,6 +144,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CustomSQLExporting.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="BOA.EntityGeneration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
