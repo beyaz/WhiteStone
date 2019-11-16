@@ -33,14 +33,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb   = context.Get(File);
-            
+            var namingPattern = context.Get(NamingPattern.Id);
 
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
 
             sb.AppendLine();
-            sb.AppendLine($"namespace {context.GetNameofEntityNamespace()}");
+            sb.AppendLine($"namespace {namingPattern.EntityNamespace}");
             sb.OpenBracket();
 
             sb.AppendLine("/// <summary>");

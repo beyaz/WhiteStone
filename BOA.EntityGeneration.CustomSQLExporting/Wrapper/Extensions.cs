@@ -10,41 +10,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     {
 
 
-        public static string GetCustomSqlEntityProjectDirectory(this IDataContext context)
-        {
-            var config = context.Get(Config);
 
-            return config.CustomSqlEntityProjectDirectory
-                         .Replace("{SchemaName}", context.Get(CustomSqlExporter.ProfileId))
-                         .Replace("{"+nameof(config.CustomSQLEntityNamespaceFormat)+"}", context.GetNameofEntityNamespace());
-        }
-
-        public static string GetCustomSqlRepositoryProjectDirectory(this IDataContext context)
-        {
-            var config = context.Get(Config);
-
-            return config.CustomSqlRepositoryProjectDirectory
-                         .Replace("{SchemaName}", context.Get(CustomSqlExporter.ProfileId))
-                         .Replace("{"+nameof(config.CustomSQLRepositoryNamespaceFormat)+"}", context.GetNameofRepositoryNamespace());
-        }
+        
 
 
         #region Public Methods
-        public static string GetNameofEntityNamespace(this IDataContext context)
-        {
-            var config    = context.Get(Data.Config);
-            var profileId = context.Get(CustomSqlExporter.ProfileId);
+      
 
-            return config.CustomSQLEntityNamespaceFormat.Replace("{ProfileId}", profileId);
-        }
-
-        public static string GetNameofRepositoryNamespace(this IDataContext context)
-        {
-            var config    = context.Get(Data.Config);
-            var profileId = context.Get(CustomSqlExporter.ProfileId);
-
-            return config.CustomSQLRepositoryNamespaceFormat.Replace("{ProfileId}", profileId);
-        }
+      
 
         public static IReadOnlyList<string> GetProfileNames(this IDataContext context)
         {

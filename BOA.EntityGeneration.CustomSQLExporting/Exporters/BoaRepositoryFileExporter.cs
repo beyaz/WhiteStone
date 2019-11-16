@@ -34,17 +34,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb   = context.Get(File);
-            
+            var namingPattern = context.Get(NamingPattern.Id);
 
             sb.AppendLine("using BOA.Base;");
             sb.AppendLine("using BOA.Base.Data;");
             sb.AppendLine("using BOA.Common.Types;");
-            sb.AppendLine($"using {context.GetNameofEntityNamespace()};");
+            sb.AppendLine($"using {namingPattern.EntityNamespace};");
             sb.AppendLine("using System.Data;");
             sb.AppendLine("using System.Collections.Generic;");
 
             sb.AppendLine();
-            sb.AppendLine($"namespace {context.GetNameofRepositoryNamespace()}");
+            sb.AppendLine($"namespace {namingPattern.RepositoryNamespace}");
             sb.AppendLine("{");
             sb.PaddingCount++;
         }
@@ -82,10 +82,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteBoaRepositoryClass(IDataContext context)
         {
             var sb                   = context.Get(File);
-            
+            var namingPattern = context.Get(NamingPattern.Id);
             var data                 = context.Get(CustomSqlInfo);
 
-            var key = $"{context.GetNameofRepositoryNamespace()}.{data.BusinessClassName}.Execute";
+            var key = $"{namingPattern.RepositoryNamespace}.{data.BusinessClassName}.Execute";
 
             var sharedRepositoryClassAccessPath = $"Shared.{data.BusinessClassName}";
 

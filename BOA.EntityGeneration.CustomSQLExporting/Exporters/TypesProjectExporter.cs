@@ -22,13 +22,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public static void Export(IDataContext context)
         {
-            var projectDirectory = context.GetCustomSqlEntityProjectDirectory();
+            
+            var namingPattern = context.Get(NamingPattern.Id);
 
-
-            var ns = context.GetNameofEntityNamespace();
-
-
-
+            var ns = namingPattern.EntityNamespace;
+            var projectDirectory = namingPattern.EntityProjectDirectory;
 
             var csprojFilePath = $"{projectDirectory}{ns}.csproj";
 
