@@ -46,7 +46,6 @@ namespace BOA.EntityGeneration.DataFlow
 
         #region Process Indicators
         public static readonly IDataConstant<ProcessInfo> AllSchemaGenerationProcess            = DataConstant.Create<ProcessInfo>(nameof(AllSchemaGenerationProcess));
-        public static readonly IDataConstant<ProcessInfo> CustomSqlGenerationOfProfileIdProcess = DataConstant.Create<ProcessInfo>(nameof(CustomSqlGenerationOfProfileIdProcess));
         public static readonly IDataConstant<ProcessInfo> SchemaGenerationProcess               = DataConstant.Create<ProcessInfo>(nameof(SchemaGenerationProcess));
         #endregion
 

@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
             context.Add(Data.AllSchemaGenerationProcess, new ProcessInfo());
             context.Add(Data.SchemaGenerationProcess, new ProcessInfo());
-            context.Add(Data.CustomSqlGenerationOfProfileIdProcess, new ProcessInfo());
+            
         }
         #endregion
     }

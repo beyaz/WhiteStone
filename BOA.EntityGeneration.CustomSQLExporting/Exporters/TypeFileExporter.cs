@@ -70,7 +70,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var config = context.Get(Data.Config);
 
-            var processInfo = context.Get(Data.CustomSqlGenerationOfProfileIdProcess);
+            var processInfo = context.Get(CustomSqlExporter.CustomSqlGenerationOfProfileIdProcess);
 
             processInfo.Text = "Exporting Entity classes.";
 

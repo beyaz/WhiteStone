@@ -119,7 +119,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb          = context.Get(File);
-            var processInfo = context.Get(Data.CustomSqlGenerationOfProfileIdProcess);
+            var processInfo = context.Get(CustomSqlExporter.CustomSqlGenerationOfProfileIdProcess);
           
 
             var config = context.Get(Data.Config);
