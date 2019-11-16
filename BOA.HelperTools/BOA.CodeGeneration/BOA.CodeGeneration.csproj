@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -200,6 +200,10 @@
     <None Include="CodeAnalysis.FxCop" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BOA.EntityGeneration.Data\BOA.EntityGeneration.Data.csproj">
+      <Project>{2ce3e1b8-6f47-4f70-8f67-372d02d3ebc3}</Project>
+      <Name>BOA.EntityGeneration.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
       <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
       <Name>BOA.EntityGeneration</Name>
@@ -208,9 +212,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-
-
-</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)packages\Microsoft.TeamFoundationServer.ExtendedClient.14.102.0\build\Microsoft.TeamFoundationServer.ExtendedClient.targets" Condition="Exists('$(SolutionDir)packages\Microsoft.TeamFoundationServer.ExtendedClient.14.102.0\build\Microsoft.TeamFoundationServer.ExtendedClient.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
