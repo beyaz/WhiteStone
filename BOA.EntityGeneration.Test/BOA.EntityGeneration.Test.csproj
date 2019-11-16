@@ -71,7 +71,6 @@
     <Content Include="SampleDatabaseTest.ExpectedResults\ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt" />
     <Compile Include="NamingTest.cs" />
     <Compile Include="SampleDatabaseTest.cs" />
-    <Compile Include="ProjectInjectorDebug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="SampleDatabase.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
