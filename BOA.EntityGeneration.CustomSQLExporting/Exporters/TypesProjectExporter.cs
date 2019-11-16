@@ -7,26 +7,20 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     public class TypesProjectExporter
     {
-
+        #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
-            
-
             context.AttachEvent(OnProfileInfoRemove, Export);
         }
 
-        #region Public Methods
         public static void Export(IDataContext context)
         {
-            
             var namingPattern = context.Get(NamingPattern.Id);
 
-            var ns = namingPattern.EntityNamespace;
+            var ns               = namingPattern.EntityNamespace;
             var projectDirectory = namingPattern.EntityProjectDirectory;
 
             var csprojFilePath = $"{projectDirectory}{ns}.csproj";
-
-
 
             var content = $@"
 

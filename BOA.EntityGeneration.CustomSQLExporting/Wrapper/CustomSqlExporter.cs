@@ -98,20 +98,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #region Data
         public static readonly IDataConstant<List<CustomSqlInfo>> ProcessedCustomSqlInfoListInProfile = DataConstant.Create<List<CustomSqlInfo>>();
 
-        public static readonly IDataConstant<string>        ProfileName     = DataConstant.Create<string>(nameof(ProfileName));
+        public static readonly IDataConstant<string>        ProfileName   = DataConstant.Create<string>(nameof(ProfileName));
         public static readonly IDataConstant<CustomSqlInfo> CustomSqlInfo = DataConstant.Create<CustomSqlInfo>();
 
         public static readonly IDataConstant<ConfigurationContract> Config = DataConstant.Create<ConfigurationContract>(nameof(Config));
 
         public static readonly IDataConstant<List<string>> CustomSqlNamesInfProfile = DataConstant.Create<List<string>>(nameof(CustomSqlNamesInfProfile));
 
-        public static readonly IDataConstant<IDatabase> Database = DataConstant.Create<IDatabase>();
+        public static readonly IDataConstant<IDatabase>       Database    = DataConstant.Create<IDatabase>();
         public static readonly IDataConstant<ProcessContract> ProcessInfo = DataConstant.Create<ProcessContract>(nameof(ProcessInfo));
-
-        
-
         #endregion
     }
-
-    
 }

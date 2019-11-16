@@ -1,7 +1,6 @@
 ﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
@@ -27,11 +26,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #endregion
 
         #region Methods
-
-     
         static void BeginNamespace(IDataContext context)
         {
-            var sb   = context.Get(File);
+            var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
 
             sb.AppendLine("using BOA.Common.Types;");
@@ -64,11 +61,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb         = context.Get(File);
+            var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
 
-
-            var processInfo = context.Get(CustomSqlExporter.ProcessInfo);
+            var processInfo = context.Get(ProcessInfo);
 
             processInfo.Text = "Exporting Entity classes.";
 
@@ -115,9 +111,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("/// </summary>");
             sb.AppendLine("[Serializable]");
 
-           
             sb.AppendLine($"public sealed class {data.ParameterContractName} : {interfaceName}");
-            
 
             sb.AppendLine("{");
             sb.PaddingCount++;

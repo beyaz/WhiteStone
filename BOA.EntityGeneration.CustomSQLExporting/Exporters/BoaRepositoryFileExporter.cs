@@ -1,7 +1,6 @@
 ﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
@@ -16,7 +15,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
-            
             context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
             context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
             context.AttachEvent(OnProfileInfoInitialized, WriteProxyClass);
@@ -32,7 +30,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Methods
         static void BeginNamespace(IDataContext context)
         {
-            var sb   = context.Get(File);
+            var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
 
             sb.AppendLine("using BOA.Base;");
@@ -61,10 +59,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb         = context.Get(File);
+            var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
 
-            var processInfo = context.Get(CustomSqlExporter.ProcessInfo);
+            var processInfo = context.Get(ProcessInfo);
 
             processInfo.Text = "Exporting BOA repository.";
 
@@ -80,9 +78,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void WriteBoaRepositoryClass(IDataContext context)
         {
-            var sb                   = context.Get(File);
+            var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
-            var data                 = context.Get(CustomSqlInfo);
+            var data          = context.Get(CustomSqlInfo);
 
             var key = $"{namingPattern.RepositoryNamespace}.{data.BusinessClassName}.Execute";
 

@@ -17,24 +17,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     public class ProjectCustomSqlInfoDataAccess
     {
         #region Public Methods
-        public static IReadOnlyList<string> GetCustomSqlNamesInfProfile(IDatabase database, string profileId, ConfigurationContract config)
-        {
-            var objectIdList = new List<string>();
-
-            database.CommandText = config.CustomSQLNamesDefinedToProfileSql;
-            database[nameof(profileId)] = profileId;
-
-            var reader = database.ExecuteReader();
-            while (reader.Read())
-            {
-                objectIdList.Add(reader["Id"].ToString());
-            }
-
-            reader.Close();
-
-            return objectIdList;
-        }
-
         public static CustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string id, ConfigurationContract config, int switchCaseIndex)
         {
             var customSqlInfo = new CustomSqlInfo
@@ -43,16 +25,16 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 ProfileId = profileId
             };
 
-            database.CommandText = config.CustomSQL_Get_SQL_Item_Info;
+            database.CommandText        = config.CustomSQL_Get_SQL_Item_Info;
             database[nameof(profileId)] = profileId;
-            database[nameof(id)] = id;
+            database[nameof(id)]        = id;
 
             var reader = database.ExecuteReader();
             while (reader.Read())
             {
                 customSqlInfo.Sql                   = reader[nameof(CustomSqlInfo.Sql)] + string.Empty;
                 customSqlInfo.SchemaName            = reader[nameof(CustomSqlInfo.SchemaName)] + string.Empty;
-                customSqlInfo.SqlResultIsCollection =Convert.ToBoolean( reader[nameof(CustomSqlInfo.SqlResultIsCollection)]);
+                customSqlInfo.SqlResultIsCollection = Convert.ToBoolean(reader[nameof(CustomSqlInfo.SqlResultIsCollection)]);
 
                 break;
             }
@@ -68,6 +50,24 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             customSqlInfo.SwitchCaseIndex = switchCaseIndex;
 
             return customSqlInfo;
+        }
+
+        public static IReadOnlyList<string> GetCustomSqlNamesInfProfile(IDatabase database, string profileId, ConfigurationContract config)
+        {
+            var objectIdList = new List<string>();
+
+            database.CommandText        = config.CustomSQLNamesDefinedToProfileSql;
+            database[nameof(profileId)] = profileId;
+
+            var reader = database.ExecuteReader();
+            while (reader.Read())
+            {
+                objectIdList.Add(reader["Id"].ToString());
+            }
+
+            reader.Close();
+
+            return objectIdList;
         }
         #endregion
 
@@ -87,7 +87,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 {
                     if (item.DataType.Equals("object", StringComparison.OrdinalIgnoreCase))
                     {
-                        var tableInfo = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable,config.DatabaseEnumName, database, tableInfoDao.GetInfo("BOACard", customSqlInfo.SchemaName, item.Name));
+                        var tableInfo = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfoDao.GetInfo("BOACard", customSqlInfo.SchemaName, item.Name));
 
                         customSqlInfoResults.AddRange(from columnInfo in tableInfo.Columns
                                                       select new CustomSqlInfoResult
@@ -406,7 +406,5 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             return items;
         }
         #endregion
-
-        
     }
 }

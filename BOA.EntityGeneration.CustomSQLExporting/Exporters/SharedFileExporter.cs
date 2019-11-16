@@ -2,7 +2,6 @@
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
@@ -46,7 +45,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void BeginNamespace(IDataContext context)
         {
-            var sb   = context.Get(File);
+            var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
 
             sb.AppendLine("using BOA.Base;");
@@ -68,7 +67,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void CreateSqlInfo(IDataContext context)
         {
-            var sb   = context.Get(File);
+            var sb            = context.Get(File);
             var customSqlInfo = context.Get(CustomSqlInfo);
 
             sb.AppendLine($"public static SqlInfo CreateSqlInfo({customSqlInfo.ParameterContractName} request)");
@@ -81,7 +80,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("\";");
             sb.AppendLine();
             sb.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
-
 
             if (customSqlInfo.Parameters.Any())
             {
@@ -117,10 +115,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb          = context.Get(File);
-            var processInfo = context.Get(CustomSqlExporter.ProcessInfo);
+            var sb            = context.Get(File);
+            var processInfo   = context.Get(ProcessInfo);
             var namingPattern = context.Get(NamingPattern.Id);
-
 
             processInfo.Text = "Exporting Shared repository.";
 

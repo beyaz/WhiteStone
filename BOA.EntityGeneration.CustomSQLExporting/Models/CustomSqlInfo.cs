@@ -65,7 +65,5 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         /// </summary>
         public int SwitchCaseIndex { get; set; }
         #endregion
-
-        
     }
 }
