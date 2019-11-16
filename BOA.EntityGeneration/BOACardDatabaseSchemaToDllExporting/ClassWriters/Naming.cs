@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             if (typeContractName == "TransactionLogContract" ||
                 typeContractName == "BoaUserContract") // resolve conflig
             {
-                typeContractName = $"{NamingHelper.GetTypeClassNamespace(tableInfo.SchemaName,config)}.{typeContractName}";
+                typeContractName = $"{context.GetEntityNamespace()}.{typeContractName}";
             }
 
             context.Add(TableEntityClassNameForMethodParametersInRepositoryFiles,typeContractName);
@@ -41,7 +41,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         {
             var config    = context.Get(Data.Config);
 
-            context.Add(BusinessClassNamespace,NamingHelper.GetBusinessClassNamespace(context.Get(SchemaName),config));
+            context.Add(BusinessClassNamespace,context.GetRepositoryNamespace());
         }
 
         public static void RemoveNamesRelatedWithSchema(IDataContext context)

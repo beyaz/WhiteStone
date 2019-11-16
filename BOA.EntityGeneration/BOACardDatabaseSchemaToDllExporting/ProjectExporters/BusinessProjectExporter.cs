@@ -17,24 +17,22 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
             var allInOneSourceCode    = context.Get(Data.BoaRepositoryFile).ToString();
             var config                = context.Get(Data.Config);
             var allInOneFilePath      = config.FilePathForAllDaoInOneFile.Replace("{SchemaName}", schemaName);
-            var ProjectExportLocation = new ProjectExportLocation {Config = config};
+            var ProjectExportLocation = context.GetRepositoryProjectDirectory();
 
             FileSystem.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
 
-            if (config.EnableFullProjectExport)
-            {
-                var progress = context.Get(Data.SchemaGenerationProcess);
+            var progress = context.Get(Data.SchemaGenerationProcess);
 
-                var ns = NamingHelper.GetBusinessClassNamespace(schemaName,config);
+            var ns = context.GetRepositoryNamespace();
 
-                var projectDirectory = $"{ProjectExportLocation.GetExportLocationOfBusinessProject(schemaName)}{ns}\\";
+            var projectDirectory = $"{ProjectExportLocation}{ns}\\";
 
-                var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
-                var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
+            var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
+            var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
 
-                const string allInOneFileName = "All";
+            const string allInOneFileName = "All";
 
-                var content = $@"
+            var content = $@"
 
 <?xml version=""1.0"" encoding=""utf-8""?>
 <Project ToolsVersion=""15.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
@@ -103,9 +101,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
 ";
 
-                FileSystem.WriteAllText(context, csprojFilePath, content.Trim());
+            FileSystem.WriteAllText(context, csprojFilePath, content.Trim());
 
-                var assemblyInfoContent = $@"
+            var assemblyInfoContent = $@"
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -122,15 +120,14 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion(""1.0.0.0"")]
 ";
 
-                FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
+            FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
 
-                progress.Text = "Compile started.";
-                context.Get(Data.MsBuildQueue).Push(new MSBuildData
-                {
-                    ProjectFilePath = csprojFilePath
-                });
-                progress.Text = "Compile finished.";
-            }
+            progress.Text = "Compile started.";
+            context.Get(Data.MsBuildQueue).Push(new MSBuildData
+            {
+                ProjectFilePath = csprojFilePath
+            });
+            progress.Text = "Compile finished.";
         }
         #endregion
     }

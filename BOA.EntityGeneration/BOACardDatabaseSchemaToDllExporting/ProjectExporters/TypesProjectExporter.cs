@@ -13,14 +13,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         {
             var projectDirectory = context.GetEntityProjectDirectory();
 
-            var schemaName            = context.Get(Data.SchemaName);
             var allInOneSourceCode    = context.Get(Data.EntityFile).ToString();
-            var config                = context.Get(Data.Config);
 
 
             FileSystem.WriteAllText(context, projectDirectory+ "All.cs", allInOneSourceCode);
 
-            var ns = NamingHelper.GetTypeClassNamespace(schemaName, config);
+            var ns = context.GetEntityNamespace();
 
 
 

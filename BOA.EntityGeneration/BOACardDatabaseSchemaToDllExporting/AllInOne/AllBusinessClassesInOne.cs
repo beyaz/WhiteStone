@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
             var config     = context.Get(Data.Config);
 
             sb.AppendLine();
-            sb.BeginNamespace(NamingHelper.GetBusinessClassNamespace(schemaName,config));
+            sb.BeginNamespace(context.GetRepositoryNamespace());
             ObjectHelperSqlUtilClassWriter.Write(sb,config);
 
             UtilClass(sb, config);
