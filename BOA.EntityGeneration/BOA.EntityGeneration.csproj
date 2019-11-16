@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\Extensions.cs" />
     <Compile Include="CustomSQLExporting\Exporters\BoaRepositoryFileExporter.cs" />
+    <Compile Include="CustomSQLExporting\Exporters\TypesProjectExporter.cs" />
     <Compile Include="CustomSQLExporting\Wrapper\CustomSqlExporter.cs" />
     <Compile Include="CustomSQLExporting\Exporters\SharedFileExporter.cs" />
     <Compile Include="CustomSQLExporting\Exporters\TypeFileExporter.cs" />

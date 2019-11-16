@@ -1,11 +1,34 @@
 ﻿using System.Collections.Generic;
 using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
+using static BOA.EntityGeneration.DataFlow.Data;
+
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     public static class Extensions
     {
+
+
+        public static string GetCustomSqlEntityProjectDirectory(this IDataContext context)
+        {
+            var config = context.Get(Config);
+
+            return config.CustomSqlEntityProjectDirectory
+                         .Replace("{SchemaName}", context.Get(SchemaName))
+                         .Replace("{"+nameof(config.CustomSQLEntityNamespaceFormat)+"}", context.GetNameofEntityNamespace());
+        }
+
+        public static string GetCustomSqlRepositoryProjectDirectory(this IDataContext context)
+        {
+            var config = context.Get(Config);
+
+            return config.CustomSqlRepositoryProjectDirectory
+                         .Replace("{SchemaName}", context.Get(SchemaName))
+                         .Replace("{"+nameof(config.CustomSQLRepositoryNamespaceFormat)+"}", context.GetNameofRepositoryNamespace());
+        }
+
+
         #region Public Methods
         public static string GetNameofEntityNamespace(this IDataContext context)
         {

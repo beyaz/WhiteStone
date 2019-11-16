@@ -9,7 +9,10 @@ namespace BOA.EntityGeneration
     [Serializable]
     public class ConfigContract
     {
-
+        public string CustomSqlEntityProjectDirectory { get; set; }
+        public string CustomSqlRepositoryProjectDirectory { get; set; }
+        
+            
         public string EntityProjectDirectory { get; set; }
         public string RepositoryProjectDirectory { get; set; }
 
