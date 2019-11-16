@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using BOA.DataFlow;
-using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.Tasks;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
@@ -9,6 +9,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     {
         public static readonly IDataConstant<MsBuildQueue> MsBuildQueueId = DataConstant.Create<MsBuildQueue>();
         public static readonly IDataConstant<bool> BuildAfterCodeGenerationIsCompleted = DataConstant.Create<bool>(nameof(BuildAfterCodeGenerationIsCompleted));
+        internal static readonly IDataConstant<ProcessInfo> ProcessInfo = DataConstant.Create<ProcessInfo>(nameof(ProcessInfo));
 
         #region Fields
         readonly List<MSBuildData> Queue = new List<MSBuildData>();
@@ -24,7 +25,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
                 return;
             }
 
-            var progress = context.Get(Data.SchemaGenerationProcess);
+            var progress = context.Get(ProcessInfo);
 
             foreach (var data in Queue)
             {
