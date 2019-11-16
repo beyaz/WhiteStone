@@ -3,6 +3,7 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
@@ -20,8 +21,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
             context.AttachEvent(OnProfileInfoInitialized, WriteUsingList);
             context.AttachEvent(OnProfileInfoInitialized, EmptyLine);
-            context.AttachEvent(OnProfileInfoInitialized, WriteSqlInfoClass);
             context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
+            context.AttachEvent(OnProfileInfoInitialized, WriteEmbeddedClasses);
 
             context.AttachEvent(OnCustomSqlInfoInitialized, EmptyLine);
             context.AttachEvent(OnCustomSqlInfoInitialized, BeginClass);
@@ -56,7 +57,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.OpenBracket();
         }
 
-        static void WriteSqlInfoClass(IDataContext context)
+        static void WriteEmbeddedClasses(IDataContext context)
         {
             var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
@@ -151,7 +152,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             foreach (var item in data.ResultColumns)
             {
-                sb.AppendLine($"contract.{item.NameInDotnet} = {item.SqlReaderMethod}(reader,\"{item.Name}\");");
+                var readerMethodName = item.SqlReaderMethod.ToString();
+                if (item.SqlReaderMethod == SqlReaderMethods.GetGUIDValue)
+                {
+                    readerMethodName = "GetGuidValue";
+                }
+                sb.AppendLine($"contract.{item.NameInDotnet} = reader.{readerMethodName}(\"{item.Name}\");");
             }
 
             sb.CloseBracket();
@@ -162,11 +168,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
 
+            sb.AppendLine("using System;");
             sb.AppendLine("using System.Data;");
+            sb.AppendLine("using System.Data.SqlClient;");
             sb.AppendLine("using System.Collections.Generic;");
-            sb.AppendLine("using BOA.Base.Data;");
             sb.AppendLine($"using {namingPattern.EntityNamespace};");
-            sb.AppendLine("using static BOA.Base.Data.SQLDBHelper;");
         }
         #endregion
     }

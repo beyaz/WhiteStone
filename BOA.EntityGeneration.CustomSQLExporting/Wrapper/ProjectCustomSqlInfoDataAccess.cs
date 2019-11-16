@@ -140,7 +140,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 if (item.IsNullable)
                 {
                     item.DataTypeInDotnet = DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
-                    item.SqlReaderMethod  = SqlReaderMethods.GetBooleanNullableValue2;
+                    item.SqlReaderMethod  = SqlReaderMethods.GetBooleanNullableValueFromChar;
                 }
             }
             else

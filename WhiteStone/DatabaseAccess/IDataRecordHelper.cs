@@ -14,7 +14,6 @@ namespace BOA.DatabaseAccess
         /// </summary>
         public static byte[] GetBinaryValue(this IDataRecord reader, string columnName)
         {
-            
             var value = reader[columnName];
             if (value == DBNull.Value)
             {
@@ -36,6 +35,14 @@ namespace BOA.DatabaseAccess
             }
 
             return Convert.ToBoolean(value);
+        }
+
+        /// <summary>
+        ///     Gets the boolean nullable value from character.
+        /// </summary>
+        public static bool? GetBooleanNullableValueFromChar(this IDataRecord reader, string columnName)
+        {
+            return GetInt32Value(reader, columnName) == 1;
         }
 
         /// <summary>

@@ -7,7 +7,7 @@
         GetDecimalNullableValue,
         GetBooleanValue,
         GetBooleanNullableValue,
-        GetBooleanNullableValue2,
+        
         GetDateTimeValue,
         GetDateTimeNullableValue,
         GetInt64Value,
@@ -26,6 +26,7 @@
         GetSingleValue,
         GetBinaryValue,
         GetTimeStampValue,
-        GetSecureStringValue
+        GetSecureStringValue,
+        GetBooleanNullableValueFromChar
     }
 }
