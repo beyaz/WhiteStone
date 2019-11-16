@@ -57,9 +57,9 @@
     <Compile Include="CustomSQLExporting\Wrapper\CustomSqlExporter.cs" />
     <Compile Include="CustomSQLExporting\Exporters\SharedFileExporter.cs" />
     <Compile Include="CustomSQLExporting\Exporters\TypeFileExporter.cs" />
-    <Compile Include="CustomSQLExporting\Models\Impl\CustomSqlInfo.cs" />
-    <Compile Include="CustomSQLExporting\Models\Impl\CustomSqlInfoParameter.cs" />
-    <Compile Include="CustomSQLExporting\Models\Impl\CustomSqlInfoResult.cs" />
+    <Compile Include="CustomSQLExporting\Models\CustomSqlInfo.cs" />
+    <Compile Include="CustomSQLExporting\Models\CustomSqlInfoParameter.cs" />
+    <Compile Include="CustomSQLExporting\Models\CustomSqlInfoResult.cs" />
     <Compile Include="CustomSQLExporting\Wrapper\Extensions.cs" />
     <Compile Include="CustomSQLExporting\Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />

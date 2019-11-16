@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BOA.EntityGeneration.CustomSQLExporting.Models.Impl
+namespace BOA.EntityGeneration.CustomSQLExporting.Models
 {
     /// <summary>
     ///     The custom SQL information

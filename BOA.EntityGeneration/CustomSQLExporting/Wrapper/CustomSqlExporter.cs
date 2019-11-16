@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.CustomSQLExporting.Models.Impl;
+using BOA.EntityGeneration.CustomSQLExporting.Models;
 using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
