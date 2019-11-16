@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.EntityGeneration.UI", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.EntityGeneration.Data", "BOA.EntityGeneration.Data\BOA.EntityGeneration.Data.csproj", "{2CE3E1B8-6F47-4F70-8F67-372D02D3EBC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.EntityGeneration.CustomSQLExporting", "BOA.EntityGeneration.CustomSQLExporting\BOA.EntityGeneration.CustomSQLExporting.csproj", "{E5E754FF-2406-43AC-8AD6-EC13038F1D6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{2CE3E1B8-6F47-4F70-8F67-372D02D3EBC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CE3E1B8-6F47-4F70-8F67-372D02D3EBC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CE3E1B8-6F47-4F70-8F67-372D02D3EBC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5E754FF-2406-43AC-8AD6-EC13038F1D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5E754FF-2406-43AC-8AD6-EC13038F1D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5E754FF-2406-43AC-8AD6-EC13038F1D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5E754FF-2406-43AC-8AD6-EC13038F1D6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
