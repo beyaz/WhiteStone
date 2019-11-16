@@ -49,6 +49,7 @@
     <Compile Include="Exporters\CustomSqlDataContextCreator.cs" />
     <Compile Include="Exporters\SharedFileExporter.cs" />
     <Compile Include="Exporters\TypeFileExporter.cs" />
+    <Compile Include="Exporters\RepositoryProjectExporter.cs" />
     <Compile Include="Exporters\TypesProjectExporter.cs" />
     <Compile Include="Models\CustomSqlInfo.cs" />
     <Compile Include="Models\CustomSqlInfoParameter.cs" />

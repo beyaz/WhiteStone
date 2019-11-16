@@ -34,6 +34,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             SharedFileExporter.AttachEvents(context);
             BoaRepositoryFileExporter.AttachEvents(context);
             TypesProjectExporter.AttachEvents(context);
+            RepositoryProjectExporter.AttachEvents(context);
         }
 
         static void InitializeConfig(IDataContext context)

@@ -5,7 +5,7 @@ using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    public class TypesProjectExporter
+    public class RepositoryProjectExporter
     {
         #region Public Methods
         public static void AttachEvents(IDataContext context)
@@ -13,16 +13,16 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             context.AttachEvent(OnProfileInfoRemove, Export);
         }
 
-        static void Export(IDataContext context)
+        public static void Export(IDataContext context)
         {
             var namingPattern = context.Get(NamingPattern.Id);
 
-            var ns               = namingPattern.EntityNamespace;
-            var projectDirectory = namingPattern.EntityProjectDirectory;
+            var ns               = namingPattern.RepositoryNamespace;
+            var projectDirectory = namingPattern.RepositoryProjectDirectory;
 
             var csprojFilePath = $"{projectDirectory}{ns}.csproj";
 
-            var content = $@"
+           var content = $@"
 
 <?xml version=""1.0"" encoding=""utf-8""?>
 <Project ToolsVersion=""15.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
@@ -50,6 +50,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\{ns}.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' "">
     <DebugType>pdbonly</DebugType>
@@ -59,29 +60,37 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>    
+  <ItemGroup>
+    <Reference Include=""BOA.Base"">
+      <HintPath>D:\BOA\Server\bin\BOA.Base.dll</HintPath>
+    </Reference>
     <Reference Include=""BOA.Common"">
       <HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath>
     </Reference>
+    <Reference Include=""{namingPattern.EntityNamespace}"">
+      <HintPath>D:\BOA\Server\bin\{namingPattern.EntityNamespace}.dll</HintPath>
+    </Reference>
+    <Reference Include=""BOA.Types.Kernel.Card"">
+      <HintPath>d:\boa\server\bin\BOA.Types.Kernel.Card.dll</HintPath>
+    </Reference>    
     <Reference Include=""System"" />
     <Reference Include=""System.Core"" />
+    <Reference Include=""System.Data"" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include=""Properties\AssemblyInfo.cs"" />
-    <Compile Include=""All.cs"" />
+    <Compile Include=""Boa.cs"" />
+    <Compile Include=""Shared.cs"" />
   </ItemGroup>
   <ItemGroup />
   <Import Project=""$(MSBuildToolsPath)\Microsoft.CSharp.targets"" />
   <PropertyGroup>
-    <PostBuildEvent>
-        copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\server\bin\""
-        copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\client\bin\""
-        copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\one\""
-    </PostBuildEvent>
+    <PostBuildEvent>copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\server\bin\""</PostBuildEvent>
   </PropertyGroup>
 </Project>
 
 ";
+
 
             FileSystem.WriteAllText(context, csprojFilePath, content.Trim());
 
