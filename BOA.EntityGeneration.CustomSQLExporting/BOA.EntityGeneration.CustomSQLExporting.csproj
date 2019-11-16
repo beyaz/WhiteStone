@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -44,9 +44,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomSQLExporting\ConfigurationContract.cs" />
+    <Compile Include="CustomSQLExporting\Exporters\BoaRepositoryFileExporter.cs" />
+    <Compile Include="CustomSQLExporting\Exporters\CustomSqlDataContextCreator.cs" />
+    <Compile Include="CustomSQLExporting\Exporters\SharedFileExporter.cs" />
+    <Compile Include="CustomSQLExporting\Exporters\TypeFileExporter.cs" />
+    <Compile Include="CustomSQLExporting\Exporters\TypesProjectExporter.cs" />
+    <Compile Include="CustomSQLExporting\Models\CustomSqlInfo.cs" />
+    <Compile Include="CustomSQLExporting\Models\CustomSqlInfoParameter.cs" />
+    <Compile Include="CustomSQLExporting\Models\CustomSqlInfoResult.cs" />
+    <Compile Include="CustomSQLExporting\Wrapper\CustomSqlExporter.cs" />
+    <Compile Include="CustomSQLExporting\Wrapper\Extensions.cs" />
+    <Compile Include="CustomSQLExporting\Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BOA.EntityGeneration.Data\BOA.EntityGeneration.Data.csproj">
+      <Project>{2ce3e1b8-6f47-4f70-8f67-372d02d3ebc3}</Project>
+      <Name>BOA.EntityGeneration.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
       <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
       <Name>BOA.EntityGeneration</Name>

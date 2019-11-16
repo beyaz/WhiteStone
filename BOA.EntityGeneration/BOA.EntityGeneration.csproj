@@ -54,21 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\Extensions.cs" />
-    <Compile Include="CustomSQLExporting\ConfigurationContract.cs" />
-    <Compile Include="CustomSQLExporting\Exporters\BoaRepositoryFileExporter.cs" />
-    <Compile Include="CustomSQLExporting\Exporters\TypesProjectExporter.cs" />
-    <Compile Include="CustomSQLExporting\Wrapper\CustomSqlExporter.cs" />
-    <Compile Include="CustomSQLExporting\Exporters\SharedFileExporter.cs" />
-    <Compile Include="CustomSQLExporting\Exporters\TypeFileExporter.cs" />
-    <Compile Include="CustomSQLExporting\Models\CustomSqlInfo.cs" />
-    <Compile Include="CustomSQLExporting\Models\CustomSqlInfoParameter.cs" />
-    <Compile Include="CustomSQLExporting\Models\CustomSqlInfoResult.cs" />
-    <Compile Include="CustomSQLExporting\Wrapper\Extensions.cs" />
-    <Compile Include="CustomSQLExporting\Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\Naming.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SharedDalClassWriter.cs" />
-    <Compile Include="CustomSQLExporting\Exporters\CustomSqlDataContextCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectAllByValidFlagMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectAllMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectByKeyMethodWriter.cs" />
