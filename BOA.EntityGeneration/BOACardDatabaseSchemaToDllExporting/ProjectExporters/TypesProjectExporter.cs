@@ -13,12 +13,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
             var schemaName            = context.Get(Data.SchemaName);
             var allInOneSourceCode    = context.Get(Data.EntityFile).ToString();
             var config                = context.Get(Data.Config);
-            var fileAccess            = context.Get(Data.FileAccess);
             var ProjectExportLocation = new ProjectExportLocation {Config = config};
 
             var allInOneFilePath = config.FilePathForAllEntitiesInOneFile.Replace("{SchemaName}", schemaName);
 
-            fileAccess.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
+            FileSystem.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
 
             if (config.EnableFullProjectExport)
             {
@@ -92,7 +91,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
 ";
 
-                fileAccess.WriteAllText(context, csprojFilePath, content.Trim());
+                FileSystem.WriteAllText(context, csprojFilePath, content.Trim());
 
                 var assemblyInfoContent = $@"
 using System.Reflection;
@@ -111,7 +110,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion(""1.0.0.0"")]
 ";
 
-                fileAccess.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
+                FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
 
                 context.Get(Data.MsBuildQueue).Push(new MSBuildData {ProjectFilePath = csprojFilePath});
             }

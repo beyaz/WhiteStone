@@ -3,7 +3,7 @@ using BOA.TfsAccess;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
-    public class FileSystem
+    public static class FileSystem
     {
         #region Static Fields
         public static IDataConstant<string> CheckinComment                          = DataConstant.Create<string>();
@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #endregion
 
         #region Public Methods
-        public void WriteAllText(IDataContext context, string path, string content)
+        public static  void WriteAllText(IDataContext context, string path, string content)
         {
             FileAccessWriteResult fileAccessWriteResult = null;
 

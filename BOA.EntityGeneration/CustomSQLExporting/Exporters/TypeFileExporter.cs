@@ -1,5 +1,6 @@
 ﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.DataFlow;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
@@ -65,7 +66,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb         = context.Get(File);
-            var fileAccess = context.Get(Data.FileAccess);
+        
 
             var config = context.Get(Data.Config);
 
@@ -75,7 +76,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var filePath = config.CustomSQLOutputFilePathForEntity.Replace("{ProfileId}", context.Get(ProfileId));
 
-            fileAccess.WriteAllText(context, filePath, sb.ToString());
+            FileSystem.WriteAllText(context, filePath, sb.ToString());
         }
 
         static void InitializeOutput(IDataContext context)

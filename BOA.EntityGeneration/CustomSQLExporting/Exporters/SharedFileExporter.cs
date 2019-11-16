@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
@@ -119,7 +120,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb          = context.Get(File);
             var processInfo = context.Get(Data.CustomSqlGenerationOfProfileIdProcess);
-            var fileAccess  = context.Get(Data.FileAccess);
+          
 
             var config = context.Get(Data.Config);
 
@@ -127,7 +128,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var filePath = config.CustomSQLOutputFilePathForSharedRepository.Replace("{ProfileId}", context.Get(ProfileId));
 
-            fileAccess.WriteAllText(context, filePath, sb.ToString());
+            FileSystem.WriteAllText(context, filePath, sb.ToString());
         }
 
         static void InitializeOutput(IDataContext context)

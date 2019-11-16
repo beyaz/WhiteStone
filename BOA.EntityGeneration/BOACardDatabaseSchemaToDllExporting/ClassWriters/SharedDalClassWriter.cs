@@ -1,5 +1,6 @@
 ﻿using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
@@ -14,10 +15,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             var schemaName            = context.Get(SchemaName);
             var allInOneSourceCode    = context.Get(SharedRepositoryFile).ToString();
             var config                = context.Get(Data.Config);
-            var fileAccess            = context.Get(FileAccess);
             var allInOneFilePath      = config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
 
-            fileAccess.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
+            FileSystem.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
         }
         public static void Write(IDataContext context)
         {
