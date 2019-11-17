@@ -1,4 +1,5 @@
 ﻿using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
 using BOA.Tasks;
@@ -14,10 +15,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
             var projectDirectory = context.GetEntityProjectDirectory();
 
-            var allInOneSourceCode    = context.Get(Data.EntityFile).ToString();
 
 
-            FileSystem.WriteAllText(context, projectDirectory+ "All.cs", allInOneSourceCode);
 
             var ns = namingPattern.EntityNamespace;
 

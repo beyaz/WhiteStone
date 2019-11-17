@@ -1,25 +1,58 @@
-﻿using BOA.Common.Helpers;
+﻿using System;
+using BOA.Common.Helpers;
 using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
-    /// <summary>
-    ///     The generator of type class
-    /// </summary>
-    public static class GeneratorOfTypeClass
+    static class EntityFileExporter
     {
 
         
+        static void ExportFileToDirectory(IDataContext context)
+        {
+            var sb            = context.Get(File);
+            var namingPattern = context.Get(NamingPattern.Id);
+            var processInfo = context.Get(Data.SchemaGenerationProcess);
+
+            processInfo.Text = "Exporting Entity classes.";
+
+            var filePath = namingPattern.EntityProjectDirectory + "All.cs";
+
+            FileSystem.WriteAllText(context, filePath, sb.ToString());
+        }
+
+
+        static void InitializeOutput(IDataContext context)
+        {
+            context.Add(File, new PaddedStringBuilder());
+        }
+
+        static void ClearOutput(IDataContext context)
+        {
+            context.Remove(File);
+        }
+
+        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
+
+        public static void AttachEvents(IDataContext context)
+        {
+            context.AttachEvent(DataEvent.StartToExportSchema,InitializeOutput);
+
+            context.AttachEvent(DataEvent.FinishingExportingSchema,ExportFileToDirectory);
+            context.AttachEvent(DataEvent.FinishingExportingSchema,ClearOutput);
+        }
         #region Public Methods
         /// <summary>
         ///     Begins the namespace.
         /// </summary>
         public static void BeginNamespace(IDataContext context)
         {
-            var sb         = context.Get(Data.EntityFile);
+            var sb         = context.Get<PaddedStringBuilder>(File);
 
             var namingPattern = context.Get(NamingPattern.Id);
             
@@ -33,7 +66,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public static void EndNamespace(IDataContext context)
         {
-            var sb = context.Get(Data.EntityFile);
+            var sb = context.Get<PaddedStringBuilder>(File);
             sb.EndNamespace();
         }
 
@@ -42,13 +75,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public static void WriteClass(IDataContext context)
         {
-            var sb        = context.Get(Data.EntityFile);
+            var sb        = context.Get<PaddedStringBuilder>(File);
             var config    = context.Get(Data.Config);
             var tableInfo = context.Get(Data.TableInfo);
 
             ContractCommentInfoCreator.Write(sb, tableInfo);
 
-            var inheritancePart = string.Empty;
+            var inheritancePart = String.Empty;
 
             if (config.EntityContractBase != null)
             {
@@ -79,7 +112,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         /// </summary>
         public static void WriteUsingList(IDataContext context)
         {
-            var sb     = context.Get(Data.EntityFile);
+            var sb     = context.Get<PaddedStringBuilder>(File);
             var namingPattern = context.Get(NamingPattern.Id);
             
             foreach (var line in namingPattern.EntityUsingLines)

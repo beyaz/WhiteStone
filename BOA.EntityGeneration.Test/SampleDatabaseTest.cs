@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using BOA.DataFlow;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -64,7 +65,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         #region Methods
         static void HoldSomeDataForCheckingTestResults(IDataContext context)
         {
-            context.Add(EntityFileTemp, context.Get(EntityFile));
+            // TODO:fixme: context.Add(EntityFileTemp, context.Get(EntityFileExporter.File));
             context.Add(SharedRepositoryFileTemp, context.Get(SharedRepositoryFile));
         }
         #endregion

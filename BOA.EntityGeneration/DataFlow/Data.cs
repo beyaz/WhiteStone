@@ -17,6 +17,7 @@ namespace BOA.EntityGeneration.DataFlow
         #region Static Fields
         public static readonly IEvent AfterFetchedAllTableNamesInSchema = new Event {Name = nameof(AfterFetchedAllTableNamesInSchema)};
         public static readonly IEvent StartToExportSchema               = new Event {Name = nameof(StartToExportSchema)};
+        public static readonly IEvent FinishingExportingSchema = new Event {Name = nameof(FinishingExportingSchema)};
         public static readonly IEvent StartToExportTable                = new Event {Name = nameof(StartToExportTable)};
         #endregion
     }
@@ -48,7 +49,7 @@ namespace BOA.EntityGeneration.DataFlow
         #endregion
 
         #region Files
-        internal static readonly IDataConstant<PaddedStringBuilder> EntityFile = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFile));
+        
         internal static readonly IDataConstant<PaddedStringBuilder> SharedRepositoryFile = DataConstant.Create<PaddedStringBuilder>(nameof(SharedRepositoryFile));
         internal static readonly IDataConstant<PaddedStringBuilder> BoaRepositoryFile    = DataConstant.Create<PaddedStringBuilder>(nameof(BoaRepositoryFile));
         #endregion
