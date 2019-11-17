@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
 
             sb.AppendLine($"var sqlInfo = {context.Get(Data.SharedRepositoryClassName)}.SelectByValidFlag();");
 
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(Data.BusinessClassNamespace)}.{context.Get(Data.RepositoryClassName)}.Select\", sqlInfo, ReadContract);");
+            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(NamingPattern.Id).RepositoryNamespace}.{context.Get(Data.RepositoryClassName)}.Select\", sqlInfo, ReadContract);");
 
             sb.CloseBracket();
         }

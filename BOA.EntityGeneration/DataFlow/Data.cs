@@ -40,7 +40,6 @@ namespace BOA.EntityGeneration.DataFlow
         internal static readonly IDataConstant<string> TableEntityClassNameForMethodParametersInRepositoryFiles = DataConstant.Create<string>(nameof(TableEntityClassNameForMethodParametersInRepositoryFiles));
         internal static readonly IDataConstant<string> RepositoryClassName                                      = DataConstant.Create<string>(nameof(RepositoryClassName));
         internal static readonly IDataConstant<string> SharedRepositoryClassName = DataConstant.Create<string>(nameof(SharedRepositoryClassName));
-        internal static readonly IDataConstant<string> BusinessClassNamespace                                   = DataConstant.Create<string>(nameof(BusinessClassNamespace));
         #endregion
 
         #region Process Indicators

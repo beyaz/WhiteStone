@@ -15,14 +15,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         {
             var schemaName            = context.Get(Data.SchemaName);
             var allInOneSourceCode    = context.Get(Data.BoaRepositoryFile).ToString();
-            var config                = context.Get(Data.Config);
+            var namingPattern = context.Get(NamingPattern.Id);
+            
             var ProjectExportLocation = context.GetRepositoryProjectDirectory();
 
             FileSystem.WriteAllText(context, ProjectExportLocation + "Boa.cs", allInOneSourceCode);
 
             var progress = context.Get(Data.SchemaGenerationProcess);
 
-            var ns = context.GetRepositoryNamespace();
+            var ns = namingPattern.RepositoryNamespace;
 
             var projectDirectory = $"{ProjectExportLocation}{ns}\\";
 

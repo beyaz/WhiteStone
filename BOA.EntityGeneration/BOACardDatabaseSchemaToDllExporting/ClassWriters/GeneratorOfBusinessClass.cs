@@ -57,14 +57,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         {
             var sb = context.Get(BoaRepositoryFile);
             var tableInfo = context.Get(TableInfo);
-            var config = context.Get(Data.Config);
+          
 
 
 
 
 
-            var businessClassNamespace = context.Get(BusinessClassNamespace);
-            var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
+         
             var className = tableInfo.TableName.ToContractName();
            
 

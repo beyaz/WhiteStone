@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             var sqlParameters     = deleteByKeyInfo.SqlParameters;
             var schemaName = context.Get(SchemaName);
 
-            var businessClassNamespace = context.Get(BusinessClassNamespace);
+            var businessClassNamespace = context.Get(NamingPattern.Id).RepositoryNamespace;
 
             var tableName         = tableInfo.TableName;
 

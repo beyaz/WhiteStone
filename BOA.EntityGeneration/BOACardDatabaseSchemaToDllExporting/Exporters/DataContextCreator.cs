@@ -63,7 +63,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
             context.AttachEvent(StartToExportTable, Naming.RemoveNamesRelatedWithTable);
 
-            context.AttachEvent(StartToExportSchema, Naming.PushNamesRelatedWithSchema);
             context.AttachEvent(StartToExportSchema, SharedDalClassWriter.WriteUsingList);
             context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.WriteUsingList);
             context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
@@ -78,7 +77,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             context.AttachEvent(StartToExportSchema, BusinessProjectExporter.Export);
             context.AttachEvent(StartToExportSchema, SharedDalClassWriter.ExportFile);
 
-            context.AttachEvent(StartToExportSchema, Naming.RemoveNamesRelatedWithSchema);
 
             context.AttachEvent(StartToExportSchema, MsBuildQueue.Build);
         }

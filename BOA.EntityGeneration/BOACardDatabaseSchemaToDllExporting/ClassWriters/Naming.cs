@@ -12,13 +12,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         {
             var tableInfo = context.Get(TableInfo);
             var config    = context.Get(Config);
-
+            var namingPattern = context.Get(NamingPattern.Id);
 
             var typeContractName = $"{tableInfo.TableName.ToContractName()}Contract";
             if (typeContractName == "TransactionLogContract" ||
                 typeContractName == "BoaUserContract") // resolve conflig
             {
-                typeContractName = $"{context.GetEntityNamespace()}.{typeContractName}";
+                typeContractName = $"{namingPattern.EntityNamespace}.{typeContractName}";
             }
 
             context.Add(TableEntityClassNameForMethodParametersInRepositoryFiles,typeContractName);
@@ -36,18 +36,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         }
         #endregion
 
-        #region Table
-        public static void PushNamesRelatedWithSchema(IDataContext context)
-        {
-            var config    = context.Get(Data.Config);
-
-            context.Add(BusinessClassNamespace,context.GetRepositoryNamespace());
-        }
-
-        public static void RemoveNamesRelatedWithSchema(IDataContext context)
-        {
-            context.Remove(BusinessClassNamespace);
-        }
-        #endregion
+       
     }
 }

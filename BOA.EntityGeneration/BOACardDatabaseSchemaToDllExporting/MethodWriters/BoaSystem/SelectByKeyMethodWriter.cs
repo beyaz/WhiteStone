@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
 
             sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.SelectByKey({string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(BusinessClassNamespace)}.{context.Get(RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
+            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(NamingPattern.Id).RepositoryNamespace}.{context.Get(RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

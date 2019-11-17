@@ -34,7 +34,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
                 
                 sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(BusinessClassNamespace)}.{context.Get(RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
+                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(NamingPattern.Id).RepositoryNamespace}.{context.Get(RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
 
                 sb.CloseBracket();
             }
@@ -57,7 +57,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
                 
                 sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(BusinessClassNamespace)}.{context.Get(RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
+                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(NamingPattern.Id).RepositoryNamespace}.{context.Get(RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
 
                 sb.CloseBracket();
             }

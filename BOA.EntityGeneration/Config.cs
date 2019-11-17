@@ -94,7 +94,7 @@ namespace BOA.EntityGeneration
 
         public string EmbeddedClassesDirectoryPath { get; set; } = @"D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\SharedClasses\";
         
-        public string SharedRepositoryNamespaceFormat { get; set; } = "BOA.Business.Kernel.Card.{SchemaName}_Core";
+        
 
         public string SharedRepositoryClassNameFormat { get; set; } = "{TableName}Shared";
         public IReadOnlyDictionary<string, string> NamingPattern { get; set; }

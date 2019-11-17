@@ -17,11 +17,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public static void BeginNamespace(IDataContext context)
         {
             var sb         = context.Get(Data.EntityFile);
-            var schemaName = context.Get(Data.SchemaName);
-            var config = context.Get(Data.Config);
+
+            var namingPattern = context.Get(NamingPattern.Id);
+            
 
             sb.AppendLine();
-            sb.BeginNamespace(context.GetEntityNamespace());
+            sb.BeginNamespace(namingPattern.EntityNamespace);
         }
 
         /// <summary>

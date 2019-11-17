@@ -24,7 +24,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             var sb        = context.Get(BoaRepositoryFile);
             var tableInfo = context.Get(TableInfo);
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
-            var businessClassNamespace = context.Get(BusinessClassNamespace);
+            var businessClassNamespace = context.Get(NamingPattern.Id).RepositoryNamespace;
            
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 

@@ -64,17 +64,18 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public static void WriteUsingList(IDataContext context)
         {
             var sb = context.Get(SharedRepositoryFile);
-            var schemaName = context.Get(SchemaName);
+
+            foreach (var line in context.Get(NamingPattern.Id).SharedRepositoryUsingLines)
+            {
+                sb.AppendLine(line);
+            }
+
             var config = context.Get(Data.Config);
 
-           sb.UsingNamespace("System");
-           sb.UsingNamespace("System.Collections.Generic");
-           sb.UsingNamespace("System.Data");
-           sb.UsingNamespace("System.Data.SqlClient");
 
            sb.AppendLine();
 
-           sb.BeginNamespace(NamingHelper.GetSharedRepositoryClassNamespace(schemaName,config));
+           sb.BeginNamespace(context.Get(NamingPattern.Id).RepositoryNamespace+".Shared");
            SqlInfoClassWriter.Write(sb,config);
         }
 

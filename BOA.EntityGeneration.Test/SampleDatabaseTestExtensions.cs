@@ -29,7 +29,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
                 
                 context.AttachEvent(StartToExportTable, Naming.RemoveNamesRelatedWithTable);
 
-                context.AttachEvent(StartToExportSchema, Naming.PushNamesRelatedWithSchema);
                 context.AttachEvent(StartToExportSchema, SharedDalClassWriter.WriteUsingList);
                 context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.WriteUsingList);
                 context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
@@ -40,7 +39,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
                 context.AttachEvent(StartToExportSchema, GeneratorOfTypeClass.EndNamespace);
                 context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
 
-                context.AttachEvent(StartToExportSchema, Naming.RemoveNamesRelatedWithSchema);
 
                 context.AttachEvent(StartToExportSchema, HoldSomeDataForCheckingTestResults);
             }

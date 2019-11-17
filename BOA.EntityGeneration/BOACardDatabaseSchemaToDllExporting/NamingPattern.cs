@@ -16,6 +16,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
         public string                EntityNamespace            { get; set; }
         public string                EntityProjectDirectory     { get; set; }
         public IReadOnlyList<string> EntityUsingLines           { get; set; }
+        public IReadOnlyList<string> SharedRepositoryUsingLines { get; set; }
         public string                RepositoryNamespace        { get; set; }
         public string                RepositoryProjectDirectory { get; set; }
         public string                SlnDirectoryPath           { get; set; }
@@ -36,7 +37,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
                 EntityProjectDirectory     = dictionary[nameof(EntityProjectDirectory)],
                 RepositoryProjectDirectory = dictionary[nameof(RepositoryProjectDirectory)],
                 BoaRepositoryUsingLines    = dictionary[nameof(BoaRepositoryUsingLines)].Split('|'),
-                EntityUsingLines           = dictionary[nameof(EntityUsingLines)].Split('|')
+                EntityUsingLines           = dictionary[nameof(EntityUsingLines)].Split('|'),
+                SharedRepositoryUsingLines           = dictionary[nameof(SharedRepositoryUsingLines)].Split('|')
             });
         }
 

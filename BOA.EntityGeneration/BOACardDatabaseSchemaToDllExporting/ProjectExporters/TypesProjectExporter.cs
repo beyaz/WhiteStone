@@ -10,6 +10,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #region Public Methods
         public static void ExportTypeDll(IDataContext context)
         {
+            var namingPattern = context.Get(NamingPattern.Id);
+
             var projectDirectory = context.GetEntityProjectDirectory();
 
             var allInOneSourceCode    = context.Get(Data.EntityFile).ToString();
@@ -17,7 +19,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
             FileSystem.WriteAllText(context, projectDirectory+ "All.cs", allInOneSourceCode);
 
-            var ns = context.GetEntityNamespace();
+            var ns = namingPattern.EntityNamespace;
 
 
 
