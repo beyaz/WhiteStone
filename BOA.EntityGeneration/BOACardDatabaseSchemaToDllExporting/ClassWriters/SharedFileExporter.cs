@@ -63,12 +63,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine();
         }
 
-        public static void WriteClass(IDataContext context)
+         static void WriteClass(IDataContext context)
         {
             var sb = context.Get(File);
             var tableInfo = context.Get(TableInfo);
 
-            sb.AppendLine($"sealed class {context.Get(SharedRepositoryClassName)}");
+            sb.AppendLine($"public sealed class {context.Get(SharedRepositoryClassName)}");
             sb.OpenBracket();
 
             if (tableInfo.IsSupportSelectByKey)
@@ -105,7 +105,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         #region Public Methods
         
 
-        public static void WriteUsingList(IDataContext context)
+         static void WriteUsingList(IDataContext context)
         {
             var sb = context.Get(File);
 
@@ -129,7 +129,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
       
 
 
-        public static void EndNamespace(IDataContext context)
+         static void EndNamespace(IDataContext context)
         {
             context.Get(File).EndNamespace();
         }
