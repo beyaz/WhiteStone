@@ -43,6 +43,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
 
                 context.Add(Data.TableInfo, generatorData);
                 context.FireEvent(TableExportingEvent.TableExportStarted);
+                context.FireEvent(TableExportingEvent.TableExportFinished);
                 context.Remove(Data.TableInfo);
             }
         }

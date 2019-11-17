@@ -65,7 +65,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             
             context.AttachEvent(TableExportingEvent.TableExportStarted, GeneratorOfBusinessClass.WriteClass);
 
-            context.AttachEvent(TableExportingEvent.TableExportStarted, TableNamingPatternInitializer.Remove);
+            context.AttachEvent(TableExportingEvent.TableExportFinished, TableNamingPatternInitializer.Remove);
 
             
             context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);

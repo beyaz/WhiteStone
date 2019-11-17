@@ -25,17 +25,17 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             protected override void AttachEvents(IDataContext context)
             {
                 
-                context.AttachEvent(TableExportingEvent.TableExportStarted, GeneratorOfBusinessClass.WriteClass);
+                //context.AttachEvent(TableExportingEvent.TableExportStarted, GeneratorOfBusinessClass.WriteClass);
                 
                 
 
-                context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
-                context.AttachEvent(StartToExportSchema, AllBusinessClassesInOne.BeginNamespace);
-                context.AttachEvent(StartToExportSchema, Events.OnSchemaStartedToExport);
-                context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
+                //context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
+                //context.AttachEvent(StartToExportSchema, AllBusinessClassesInOne.BeginNamespace);
+                //context.AttachEvent(StartToExportSchema, Events.OnSchemaStartedToExport);
+                //context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
 
 
-                context.AttachEvent(StartToExportSchema, HoldSomeDataForCheckingTestResults);
+                //context.AttachEvent(StartToExportSchema, HoldSomeDataForCheckingTestResults);
             }
             #endregion
         }
