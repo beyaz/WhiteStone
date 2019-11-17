@@ -57,7 +57,7 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\Extensions.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\Naming.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\SharedFileExporter.cs" />
+    <Compile Include="SharedRepositoryFileExporting\SharedFileExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectAllByValidFlagMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectAllMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectByKeyMethodWriter.cs" />
@@ -65,14 +65,14 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\UpdateByKeyMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectByUniqueIndexMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\DeleteByKeyMethodWriter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\Shared\ReadContractMethodWriter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\Shared\SelectAllByValidFlagMethodWriter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\Shared\SelectAllMethodWriter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\Shared\InsertMethodWriter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\Shared\UpdateByPrimaryKeyMethodWriter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\Shared\SelectByKeyMethodWriter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\Shared\DeleteByKeyMethodWriter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\Shared\SelectByIndexMethodWriter.cs" />
+    <Compile Include="SharedRepositoryFileExporting\MethodWriters\ReadContractMethodWriter.cs" />
+    <Compile Include="SharedRepositoryFileExporting\MethodWriters\SelectAllByValidFlagMethodWriter.cs" />
+    <Compile Include="SharedRepositoryFileExporting\MethodWriters\SelectAllMethodWriter.cs" />
+    <Compile Include="SharedRepositoryFileExporting\MethodWriters\InsertMethodWriter.cs" />
+    <Compile Include="SharedRepositoryFileExporting\MethodWriters\UpdateByPrimaryKeyMethodWriter.cs" />
+    <Compile Include="SharedRepositoryFileExporting\MethodWriters\SelectByKeyMethodWriter.cs" />
+    <Compile Include="SharedRepositoryFileExporting\MethodWriters\DeleteByKeyMethodWriter.cs" />
+    <Compile Include="SharedRepositoryFileExporting\MethodWriters\SelectByIndexMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ITableInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Impl\SequenceInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ISequenceInfo.cs" />
@@ -118,5 +118,6 @@
       <Name>BOA.EntityGeneration.Data</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

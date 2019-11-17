@@ -10,6 +10,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     class SharedFileExporter
     {
+        #region Static Fields
+        internal static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
+        #endregion
+
+        #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
             context.AttachEvent(DataEvent.StartToExportSchema, InitializeOutput);
@@ -24,48 +29,47 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             context.AttachEvent(DataEvent.FinishingExportingSchema, ExportFileToDirectory);
             context.AttachEvent(DataEvent.FinishingExportingSchema, ClearOutput);
         }
+        #endregion
+
+        #region Methods
+        static void BeginNamespace(IDataContext context)
+        {
+            var sb = context.Get(File);
+
+            sb.BeginNamespace(context.Get(NamingPattern.Id).RepositoryNamespace + ".Shared");
+        }
 
         static void ClearOutput(IDataContext context)
         {
             context.Remove(File);
         }
-        static void InitializeOutput(IDataContext context)
-        {
-            context.Add(File, new PaddedStringBuilder());
-        }
-
-
-        internal static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
-
 
         static void EmptyLine(IDataContext context)
         {
             context.Get(File).AppendLine();
         }
 
-        public static void ExportFileToDirectory(IDataContext context)
+        static void EndNamespace(IDataContext context)
         {
-            var allInOneSourceCode    = context.Get(File).ToString();
-            var namingPattern = context.Get(NamingPattern.Id);
-
-            
-
-            FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory+"Shared.cs", allInOneSourceCode);
+            context.Get(File).EndNamespace();
         }
 
-        static void WriteEmbeddedClasses(IDataContext context)
+        static void ExportFileToDirectory(IDataContext context)
         {
-            var sb = context.Get(File);
+            var allInOneSourceCode = context.Get(File).ToString();
+            var namingPattern      = context.Get(NamingPattern.Id);
 
-            var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryFileEmbeddedCodes.txt";
-
-            sb.AppendAll(System.IO.File.ReadAllText(path));
-            sb.AppendLine();
+            FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Shared.cs", allInOneSourceCode);
         }
 
-         static void WriteClass(IDataContext context)
+        static void InitializeOutput(IDataContext context)
         {
-            var sb = context.Get(File);
+            context.Add(File, new PaddedStringBuilder());
+        }
+
+        static void WriteClass(IDataContext context)
+        {
+            var sb        = context.Get(File);
             var tableInfo = context.Get(TableInfo);
 
             sb.AppendLine($"public sealed class {context.Get(SharedRepositoryClassName)}");
@@ -102,10 +106,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.CloseBracket();
         }
 
-        #region Public Methods
-        
+        static void WriteEmbeddedClasses(IDataContext context)
+        {
+            var sb = context.Get(File);
 
-         static void WriteUsingList(IDataContext context)
+            var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryFileEmbeddedCodes.txt";
+
+            sb.AppendAll(System.IO.File.ReadAllText(path));
+            sb.AppendLine();
+        }
+
+        static void WriteUsingList(IDataContext context)
         {
             var sb = context.Get(File);
 
@@ -113,25 +124,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             {
                 sb.AppendLine(line);
             }
-
-           
-        }
-
-        static void BeginNamespace(IDataContext context)
-        {
-            var sb = context.Get(File);
-            
-            sb.BeginNamespace(context.Get(NamingPattern.Id).RepositoryNamespace+".Shared");
-           
-            
-        }
-
-      
-
-
-         static void EndNamespace(IDataContext context)
-        {
-            context.Get(File).EndNamespace();
         }
         #endregion
     }
