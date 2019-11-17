@@ -1,23 +1,64 @@
-﻿using System;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     static class EntityFileExporter
     {
+        #region Static Fields
+        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
+        #endregion
 
-        
+        #region Public Methods
+        public static void AttachEvents(IDataContext context)
+        {
+            context.AttachEvent(DataEvent.StartToExportSchema, InitializeOutput);
+            context.AttachEvent(DataEvent.StartToExportSchema, WriteUsingList);
+            context.AttachEvent(DataEvent.StartToExportSchema, EmptyLine);
+            context.AttachEvent(DataEvent.StartToExportSchema, BeginNamespace);
+            context.AttachEvent(DataEvent.StartToExportSchema, EndNamespace);
+
+            context.AttachEvent(DataEvent.StartToExportTable, WriteClass);
+
+            context.AttachEvent(DataEvent.FinishingExportingSchema, ExportFileToDirectory);
+            context.AttachEvent(DataEvent.FinishingExportingSchema, ClearOutput);
+        }
+        #endregion
+
+        #region Methods
+        static void BeginNamespace(IDataContext context)
+        {
+            var sb            = context.Get(File);
+            var namingPattern = context.Get(NamingPattern.Id);
+
+            sb.BeginNamespace(namingPattern.EntityNamespace);
+        }
+
+        static void ClearOutput(IDataContext context)
+        {
+            context.Remove(File);
+        }
+
+        static void EmptyLine(IDataContext context)
+        {
+            context.Get(File).AppendLine();
+        }
+
+        static void EndNamespace(IDataContext context)
+        {
+            var sb = context.Get(File);
+            sb.EndNamespace();
+        }
+
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
-            var processInfo = context.Get(Data.SchemaGenerationProcess);
+            var processInfo   = context.Get(SchemaGenerationProcess);
 
             processInfo.Text = "Exporting Entity classes.";
 
@@ -26,58 +67,20 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             FileSystem.WriteAllText(context, filePath, sb.ToString());
         }
 
-
         static void InitializeOutput(IDataContext context)
         {
             context.Add(File, new PaddedStringBuilder());
         }
 
-        static void ClearOutput(IDataContext context)
+        static void WriteClass(IDataContext context)
         {
-            context.Remove(File);
-        }
-
-        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
-
-        public static void AttachEvents(IDataContext context)
-        {
-            context.AttachEvent(DataEvent.StartToExportSchema,InitializeOutput);
-            context.AttachEvent(DataEvent.StartToExportSchema, WriteUsingList);
-            context.AttachEvent(DataEvent.StartToExportSchema, BeginNamespace);
-            context.AttachEvent(DataEvent.StartToExportSchema, EndNamespace);
-
-            context.AttachEvent(DataEvent.StartToExportTable, WriteClass);
-
-            context.AttachEvent(DataEvent.FinishingExportingSchema,ExportFileToDirectory);
-            context.AttachEvent(DataEvent.FinishingExportingSchema,ClearOutput);
-        }
-        #region Public Methods
-         static void BeginNamespace(IDataContext context)
-        {
-            var sb         = context.Get<PaddedStringBuilder>(File);
-
-            var namingPattern = context.Get(NamingPattern.Id);
-            
-
-            sb.AppendLine();
-            sb.BeginNamespace(namingPattern.EntityNamespace);
-        }
-
-        static void EndNamespace(IDataContext context)
-        {
-            var sb = context.Get<PaddedStringBuilder>(File);
-            sb.EndNamespace();
-        }
-
-       static void WriteClass(IDataContext context)
-        {
-            var sb        = context.Get<PaddedStringBuilder>(File);
-            var config    = context.Get(Data.Config);
-            var tableInfo = context.Get(Data.TableInfo);
+            var sb        = context.Get(File);
+            var config    = context.Get(Config);
+            var tableInfo = context.Get(TableInfo);
 
             ContractCommentInfoCreator.Write(sb, tableInfo);
 
-            var inheritancePart = String.Empty;
+            var inheritancePart = string.Empty;
 
             if (config.EntityContractBase != null)
             {
@@ -103,11 +106,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("}"); // end of class
         }
 
-         static void WriteUsingList(IDataContext context)
+        static void WriteUsingList(IDataContext context)
         {
-            var sb     = context.Get<PaddedStringBuilder>(File);
+            var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
-            
+
             foreach (var line in namingPattern.EntityUsingLines)
             {
                 sb.AppendLine(line);
