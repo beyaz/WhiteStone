@@ -106,10 +106,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BoaRepositoryFileExporting\BoaRepositoryFileEmbeddedCodes.txt">
+    <Content Include="BoaRepositoryFileEmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SharedRepositoryFileExporting\SharedRepositoryFileEmbeddedCodes.txt">
+    <Content Include="SharedRepositoryFileEmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="EmbeddedUtilizationClassForDao.txt">

@@ -58,9 +58,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
                 sb.AppendLine();
                 sb.AppendLine($"const string sqlNextSequence = @\"SELECT NEXT VALUE FOR {sequenceInfo.Name}\";");
                 sb.AppendLine();
-                sb.AppendLine("var commandNextSequence = this.CreateCommand(sqlNextSequence);");
-                sb.AppendLine();
-                sb.AppendLine("var responseSequence = DBLayer.ExecuteScalar<object>(commandNextSequence);");
+                sb.AppendLine("var responseSequence = this.ExecuteScalar<object>(CallerMemberPrefix + nameof(sqlNextSequence), new SqlInfo {CommandText = sqlNextSequence});");
                 sb.AppendLine("if (!responseSequence.Success)");
                 sb.AppendLine("{");
                 sb.AppendLine("    return this.SequenceFetchError(responseSequence);");
@@ -148,7 +146,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.AppendLine();
             if (tableInfo.HasIdentityColumn)
             {
-                sb.AppendLine("var response = ExecuteScalar<int>(this, CallerMemberPrefix + nameof(Update), sqlInfo);");
+                sb.AppendLine("var response = this.ExecuteScalar<int>(CallerMemberPrefix + nameof(Insert), sqlInfo);");
                 sb.AppendLine();
                 sb.AppendLine($"{contractParameterName}.{tableInfo.IdentityColumn.ColumnName.ToContractName()} = response.Value;");
                 sb.AppendLine();
@@ -156,7 +154,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             }
             else
             {
-                sb.AppendLine($"return ExecuteNonQuery(this, CallerMemberPrefix + nameof(Update), sqlInfo);");
+                sb.AppendLine($"return this.ExecuteNonQuery(CallerMemberPrefix + nameof(Insert), sqlInfo);");
             }
 
             sb.PaddingCount--;

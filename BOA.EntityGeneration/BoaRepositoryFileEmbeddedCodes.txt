@@ -3,6 +3,42 @@
 /// </summary>
 static class ObjectHelperSqlUtil
 {
+	const string Comma = ".";
+	public static GenericResponse<int> SequenceFetchError(this ObjectHelper objectHelper, ResponseBase response, [CallerMemberName] string memberName = null)
+	{
+		var returnObject = InitializeResponse<int>(objectHelper, memberName);
+
+		returnObject.Results.AddRange(response.Results);
+
+		return returnObject;
+	}
+
+	public static ResponseBase InitializeResponse(this ObjectHelper objectHelper, [CallerMemberName] string memberName = null)
+	{
+		var key = objectHelper.GetType().FullName + Comma + memberName;
+
+		return objectHelper.InitializeResponseBase(key);
+	}
+
+
+	public static GenericResponse<T> InitializeResponse<T>(this ObjectHelper objectHelper, [CallerMemberName] string memberName = null)
+	{
+		var key = objectHelper.GetType().FullName + Comma + memberName;
+
+		return objectHelper.InitializeGenericResponse<T>(key);
+	}
+
+	public static GenericResponse<int> ContractCannotBeNull(this ObjectHelper objectHelper, [CallerMemberName] string memberName = null)
+	{
+		var returnObject = InitializeResponse<int>(objectHelper, memberName);
+
+		const string errorMessage = "'contract' parameter cannot be null.";
+
+		returnObject.Results.Add(new Result {ErrorMessage = errorMessage});
+
+		return returnObject;
+	}
+
     #region Public Methods
     /// <summary>
     ///     Executes the non query.

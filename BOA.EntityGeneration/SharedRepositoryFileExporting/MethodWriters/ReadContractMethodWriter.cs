@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment} Reads one record from reader");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"static void ReadContract(IDataReader reader, {typeContractName} {contractParameterName})");
+            sb.AppendLine($"public static void ReadContract(IDataReader reader, {typeContractName} {contractParameterName})");
             sb.AppendLine("{");
             sb.PaddingCount++;
 

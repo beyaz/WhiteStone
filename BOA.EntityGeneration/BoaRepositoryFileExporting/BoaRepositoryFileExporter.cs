@@ -4,9 +4,10 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters;
 using BOA.EntityGeneration.DataFlow;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.Naming.NamingPatternContract;
+using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 {
@@ -37,7 +38,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         static void BeginNamespace(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPatternContract.NamingPattern);
+            var namingPattern = context.Get(NamingPattern);
 
             sb.BeginNamespace(namingPattern.RepositoryNamespace);
         }
@@ -61,7 +62,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         static void ExportFileToDirectory(IDataContext context)
         {
             var allInOneSourceCode = context.Get(File).ToString();
-            var namingPattern      = context.Get(NamingPatternContract.NamingPattern);
+            var namingPattern      = context.Get(NamingPattern);
 
             FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Boa.cs", allInOneSourceCode);
         }
@@ -75,16 +76,20 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         {
             var sb        = context.Get(File);
             var tableInfo = context.Get(TableInfo);
+            var tableNamingPattern = context.Get(TableNamingPattern);
+            var namingPattern = context.Get( NamingPattern);
 
-            var className = tableInfo.TableName.ToContractName();
+            
 
             ContractCommentInfoCreator.Write(sb, tableInfo);
-            sb.AppendLine($"public sealed class {className} : ObjectHelper");
+            sb.AppendLine($"public sealed class {tableNamingPattern.BoaRepositoryClassName} : ObjectHelper");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+            sb.AppendLine($"const string CallerMemberPrefix = \"{namingPattern.RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.\";");
+
             ContractCommentInfoCreator.Write(sb, tableInfo);
-            sb.AppendLine($"public {className}(ExecutionDataContext context) : base(context) {{ }}");
+            sb.AppendLine($"public {tableNamingPattern.BoaRepositoryClassName}(ExecutionDataContext context) : base(context) {{ }}");
 
             #region Delete
             if (tableInfo.IsSupportSelectByKey)
@@ -140,7 +145,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         {
             var sb = context.Get(File);
 
-            var namingPattern = context.Get(NamingPatternContract.NamingPattern);
+            var namingPattern = context.Get(NamingPattern);
 
             foreach (var line in namingPattern.BoaRepositoryUsingLines)
             {
