@@ -17,10 +17,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         public static void AttachEvents(IDataContext context)
         {
             context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
+            context.AttachEvent(OnProfileInfoInitialized, UsingList);
+            context.AttachEvent(OnProfileInfoInitialized, EmptyLine);
             context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
             context.AttachEvent(OnProfileInfoInitialized, WriteEmbeddedClasses);
-            
-
 
             context.AttachEvent(OnCustomSqlInfoInitialized, WriteBoaRepositoryClass);
 
@@ -31,39 +31,23 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         }
         #endregion
 
-
-        static void WriteEmbeddedClasses(IDataContext context)
-        {
-            var sb            = context.Get(File);
-
-            var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BoaRepositoryFileEmbeddedCodes.txt";
-
-            sb.AppendAll(System.IO.File.ReadAllText(path));
-            sb.AppendLine();
-        }
-
         #region Methods
         static void BeginNamespace(IDataContext context)
         {
             var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
 
-            sb.AppendLine("using BOA.Base;");
-            sb.AppendLine("using BOA.Base.Data;");
-            sb.AppendLine("using BOA.Common.Types;");
-            sb.AppendLine($"using {namingPattern.EntityNamespace};");
-            sb.AppendLine("using System.Data;");
-            sb.AppendLine("using System.Collections.Generic;");
-
-            sb.AppendLine();
-            sb.AppendLine($"namespace {namingPattern.RepositoryNamespace}");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            sb.BeginNamespace(namingPattern.RepositoryNamespace);
         }
 
         static void ClearOutput(IDataContext context)
         {
             context.Remove(File);
+        }
+
+        static void EmptyLine(IDataContext context)
+        {
+            context.Get(File).AppendLine();
         }
 
         static void EndNamespace(IDataContext context)
@@ -89,6 +73,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void InitializeOutput(IDataContext context)
         {
             context.Add(File, new PaddedStringBuilder());
+        }
+
+        static void UsingList(IDataContext context)
+        {
+            var sb            = context.Get(File);
+            var namingPattern = context.Get(NamingPattern.Id);
+
+            foreach (var line in namingPattern.BoaRepositoryUsingLines)
+            {
+                sb.AppendLine(line);
+            }
         }
 
         static void WriteBoaRepositoryClass(IDataContext context)
@@ -145,6 +140,16 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine();
 
             sb.CloseBracket();
+        }
+
+        static void WriteEmbeddedClasses(IDataContext context)
+        {
+            var sb = context.Get(File);
+
+            var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BoaRepositoryFileEmbeddedCodes.txt";
+
+            sb.AppendAll(System.IO.File.ReadAllText(path));
+            sb.AppendLine();
         }
 
         static void WriteProxyClass(IDataContext context)
