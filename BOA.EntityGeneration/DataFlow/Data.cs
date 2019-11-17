@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;

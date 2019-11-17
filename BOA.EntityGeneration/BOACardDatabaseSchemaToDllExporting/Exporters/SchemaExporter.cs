@@ -1,9 +1,7 @@
 ﻿using BOA.DataFlow;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BoaRepositoryFileExporting;
 using BOA.EntityGeneration.DataFlow;
-using BOA.EntityGeneration.SharedRepositoryFileExporting;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {

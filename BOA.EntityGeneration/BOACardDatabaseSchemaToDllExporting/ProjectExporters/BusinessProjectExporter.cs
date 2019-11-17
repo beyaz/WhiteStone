@@ -1,5 +1,4 @@
 ﻿using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.BoaRepositoryFileExporting;
 using BOA.EntityGeneration.DataFlow;
 using BOA.Tasks;
@@ -18,7 +17,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
             var allInOneSourceCode    = context.Get(BoaRepositoryFileExporter.File).ToString();
             var namingPattern = context.Get(Data.NamingPattern);
             
-            var ProjectExportLocation = context.GetRepositoryProjectDirectory();
+            var ProjectExportLocation = namingPattern.RepositoryProjectDirectory;
 
             FileSystem.WriteAllText(context, ProjectExportLocation + "Boa.cs", allInOneSourceCode);
 

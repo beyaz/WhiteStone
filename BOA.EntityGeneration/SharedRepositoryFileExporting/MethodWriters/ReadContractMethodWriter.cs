@@ -1,6 +1,4 @@
-﻿using System.Data;
-using BOA.DataFlow;
-using BOA.EntityGeneration.DbModel;
+﻿using BOA.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
 

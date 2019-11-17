@@ -1,19 +1,17 @@
 ﻿using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
 using BOA.Tasks;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
-    public class TypesProjectExporter
+    class TypesProjectExporter
     {
         #region Public Methods
         public static void ExportTypeDll(IDataContext context)
         {
             var namingPattern = context.Get(Data.NamingPattern);
 
-            var projectDirectory = context.GetEntityProjectDirectory();
+            var projectDirectory = namingPattern.EntityProjectDirectory;
 
 
 

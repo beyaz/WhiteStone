@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\NamingPattern.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\NamingPatternInitializer.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\Extensions.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TableNamingPattern.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TableNamingPatternInitializer.cs" />
     <Compile Include="SharedRepositoryFileExporting\SharedFileExporter.cs" />
@@ -85,7 +84,7 @@
     <Compile Include="DataFlow\Data.cs" />
     <Compile Include="BoaRepositoryFileExporting\BoaRepositoryFileExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\BOACardDatabaseExporter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\EntityFileExporter.cs" />
+    <Compile Include="EntityFileExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Impl\TableInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\GeneratorDataCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Util\ParameterHelper.cs" />
