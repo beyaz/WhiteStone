@@ -10,11 +10,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     class SharedFileExporter
     {
-        internal static readonly IDataConstant<PaddedStringBuilder> SharedRepositoryFile = DataConstant.Create<PaddedStringBuilder>(nameof(SharedRepositoryFile));
+        internal static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
 
         public static void ExportFile(IDataContext context)
         {
-            var allInOneSourceCode    = context.Get(SharedRepositoryFile).ToString();
+            var allInOneSourceCode    = context.Get(File).ToString();
             var namingPattern = context.Get(NamingPattern.Id);
 
             
@@ -24,17 +24,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         static void WriteEmbeddedClasses(IDataContext context)
         {
-            var sb = context.Get(SharedRepositoryFile);
+            var sb = context.Get(File);
 
             var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryFileEmbeddedCodes.txt";
 
-            sb.AppendAll(File.ReadAllText(path));
+            sb.AppendAll(System.IO.File.ReadAllText(path));
             sb.AppendLine();
         }
 
         public static void Write(IDataContext context)
         {
-            var sb = context.Get(SharedRepositoryFile);
+            var sb = context.Get(File);
             var tableInfo = context.Get(TableInfo);
 
             sb.AppendLine($"sealed class {context.Get(SharedRepositoryClassName)}");
@@ -76,7 +76,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         public static void WriteUsingList(IDataContext context)
         {
-            var sb = context.Get(SharedRepositoryFile);
+            var sb = context.Get(File);
 
             foreach (var line in context.Get(NamingPattern.Id).SharedRepositoryUsingLines)
             {
@@ -96,7 +96,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
         public static void EndNamespace(IDataContext context)
         {
-            context.Get(SharedRepositoryFile).EndNamespace();
+            context.Get(File).EndNamespace();
         }
         #endregion
     }

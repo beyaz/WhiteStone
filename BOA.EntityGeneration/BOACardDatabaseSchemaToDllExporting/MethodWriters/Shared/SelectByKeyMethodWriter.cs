@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb                     = context.Get(SharedFileExporter.SharedRepositoryFile);
+            var sb                     = context.Get(SharedFileExporter.File);
             var tableInfo              = context.Get(TableInfo);
             var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
 
