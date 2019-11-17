@@ -16,15 +16,13 @@ namespace BOA.EntityGeneration
         public string EntityProjectDirectory { get; set; }
         public string RepositoryProjectDirectory { get; set; }
 
-        public string SQL_GetProfileIdList { get; set; }
-        public string CustomSQLEntityNamespaceFormat { get; set; }
-        public string CustomSQLRepositoryNamespaceFormat { get; set; }
-        public string CustomSQLNamesDefinedToProfileSql { get; set; }
-        public string CustomSQL_Get_SQL_Item_Info { get; set; }
+        
+        
+        
             
-        public string CustomSQLOutputFilePathForSharedRepository { get; set; }
-        public string CustomSQLOutputFilePathForBoaRepository { get; set; }
-        public string CustomSQLOutputFilePathForEntity { get; set; }
+        
+        
+        
 
         #region Public Properties
       
