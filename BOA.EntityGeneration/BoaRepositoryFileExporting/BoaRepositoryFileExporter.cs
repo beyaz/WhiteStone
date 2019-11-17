@@ -4,6 +4,7 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters;
 using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
 
@@ -42,7 +43,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         public static void BeginNamespace(IDataContext context)
         {
             var sb            = context.Get(BoaRepositoryFileExporter.File);
-            var namingPattern = context.Get(Data.NamingPattern);
+            var namingPattern = context.Get(NamingPatternContract.NamingPattern);
 
             sb.BeginNamespace(namingPattern.RepositoryNamespace);
 
@@ -67,7 +68,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         static void ExportFileToDirectory(IDataContext context)
         {
             var allInOneSourceCode = context.Get(File).ToString();
-            var namingPattern      = context.Get(Data.NamingPattern);
+            var namingPattern      = context.Get(NamingPatternContract.NamingPattern);
 
             FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Boa.cs", allInOneSourceCode);
         }
@@ -202,7 +203,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         {
             var sb = context.Get(File);
 
-            var namingPattern = context.Get(Data.NamingPattern);
+            var namingPattern = context.Get(NamingPatternContract.NamingPattern);
 
             foreach (var line in namingPattern.BoaRepositoryUsingLines)
             {

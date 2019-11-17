@@ -16,22 +16,22 @@ namespace BOA.EntityGeneration.Naming
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, initialValues);
 
-            context.Add(Data.NamingPattern, new NamingPattern
+            context.Add(NamingPatternContract.NamingPattern, new NamingPatternContract
             {
-                SlnDirectoryPath           = dictionary[nameof(NamingPattern.SlnDirectoryPath)],
-                EntityNamespace            = dictionary[nameof(NamingPattern.EntityNamespace)],
-                RepositoryNamespace        = dictionary[nameof(NamingPattern.RepositoryNamespace)],
-                EntityProjectDirectory     = dictionary[nameof(NamingPattern.EntityProjectDirectory)],
-                RepositoryProjectDirectory = dictionary[nameof(NamingPattern.RepositoryProjectDirectory)],
-                BoaRepositoryUsingLines    = dictionary[nameof(NamingPattern.BoaRepositoryUsingLines)].Split('|'),
-                EntityUsingLines           = dictionary[nameof(NamingPattern.EntityUsingLines)].Split('|'),
-                SharedRepositoryUsingLines = dictionary[nameof(NamingPattern.SharedRepositoryUsingLines)].Split('|')
+                SlnDirectoryPath           = dictionary[nameof(NamingPatternContract.SlnDirectoryPath)],
+                EntityNamespace            = dictionary[nameof(NamingPatternContract.EntityNamespace)],
+                RepositoryNamespace        = dictionary[nameof(NamingPatternContract.RepositoryNamespace)],
+                EntityProjectDirectory     = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
+                RepositoryProjectDirectory = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
+                BoaRepositoryUsingLines    = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
+                EntityUsingLines           = dictionary[nameof(NamingPatternContract.EntityUsingLines)].Split('|'),
+                SharedRepositoryUsingLines = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].Split('|')
             });
         }
 
         public static void Remove(IDataContext context)
         {
-            context.Remove(Data.NamingPattern);
+            context.Remove(NamingPatternContract.NamingPattern);
         }
         #endregion
     }

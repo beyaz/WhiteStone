@@ -4,6 +4,7 @@ using System.Linq;
 using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
 using InsertInfoCreator = BOA.EntityGeneration.DataAccess.InsertInfoCreator;
@@ -134,7 +135,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
                 
             }
-            var tableNamingPattern = context.Get(Data.TableNamingPattern);
+            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
             
 
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Insert({contractParameterName});");

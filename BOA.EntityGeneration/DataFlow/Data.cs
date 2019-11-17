@@ -8,35 +8,13 @@ using BOA.EntityGeneration.Naming;
 
 namespace BOA.EntityGeneration.DataFlow
 {
-
-
-    static class TableExportingEvent
-    {
-        public static readonly IEvent TableExportStarted = new Event {Name = nameof(TableExportStarted)};
-        public static readonly IEvent TableExportFinished = new Event {Name = nameof(TableExportFinished)};
-    }
-
-    static class SchemaExportingEvent
-    {
-        public static readonly IEvent SchemaExportStarted = new Event {Name = nameof(SchemaExportStarted)};
-        public static readonly IEvent SchemaExportFinished = new Event {Name = nameof(SchemaExportFinished)};
-    }
-     static class DataEvent
-    {
-        #region Static Fields
-        public static readonly IEvent AfterFetchedAllTableNamesInSchema = new Event {Name = nameof(AfterFetchedAllTableNamesInSchema)};
-        
-        
-        #endregion
-    }
-
     /// <summary>
     ///     The data
     /// </summary>
      static class Data
     {
-        internal static readonly IDataConstant<NamingPattern> NamingPattern = DataConstant.Create<NamingPattern>(nameof(Naming.NamingPattern));
-        internal static readonly IDataConstant<TableNamingPattern> TableNamingPattern = DataConstant.Create<TableNamingPattern>(nameof(Naming.TableNamingPattern));
+        
+        
 
         #region Static Fields
         internal static readonly IDataConstant<ConfigContract> Config               = DataConstant.Create<ConfigContract>();

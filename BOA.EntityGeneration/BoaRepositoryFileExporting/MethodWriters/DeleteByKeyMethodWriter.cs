@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
@@ -16,14 +17,14 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             var sb        = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo = context.Get(TableInfo);
             var deleteByKeyInfo = DeleteInfoCreator.Create(tableInfo);
-            var tableNamingPattern = context.Get(Data.TableNamingPattern);
+            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
             
             
 
             var sqlParameters     = deleteByKeyInfo.SqlParameters;
             var schemaName = context.Get(SchemaName);
 
-            var businessClassNamespace = context.Get(Data.NamingPattern).RepositoryNamespace;
+            var businessClassNamespace = context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace;
 
             var tableName         = tableInfo.TableName;
 

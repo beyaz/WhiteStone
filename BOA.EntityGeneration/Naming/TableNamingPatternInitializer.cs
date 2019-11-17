@@ -21,15 +21,15 @@ namespace BOA.EntityGeneration.Naming
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.TableNamingPattern, initialValues);
 
-            var tableNamingPattern = new TableNamingPattern
+            var tableNamingPattern = new TableNamingPatternContract
             {
-                EntityClassName                              = dictionary[nameof(TableNamingPattern.EntityClassName)],
-                SharedRepositoryClassName                    = dictionary[nameof(TableNamingPattern.SharedRepositoryClassName)],
-                BoaRepositoryClassName                       = dictionary[nameof(TableNamingPattern.BoaRepositoryClassName)],
-                SharedRepositoryClassNameInBoaRepositoryFile = dictionary[nameof(TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile)]
+                EntityClassName                              = dictionary[nameof(TableNamingPatternContract.EntityClassName)],
+                SharedRepositoryClassName                    = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassName)],
+                BoaRepositoryClassName                       = dictionary[nameof(TableNamingPatternContract.BoaRepositoryClassName)],
+                SharedRepositoryClassNameInBoaRepositoryFile = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassNameInBoaRepositoryFile)]
                 
             };
-            context.Add(Data.TableNamingPattern, tableNamingPattern);
+            context.Add(TableNamingPatternContract.TableNamingPattern, tableNamingPattern);
 
 
             // TODO: move to usings
@@ -37,7 +37,7 @@ namespace BOA.EntityGeneration.Naming
             if (typeContractName == "TransactionLogContract" ||
                 typeContractName == "BoaUserContract") // resolve conflig
             {
-                typeContractName = $"{context.Get(Data.NamingPattern).EntityNamespace}.{typeContractName}";
+                typeContractName = $"{context.Get(NamingPatternContract.NamingPattern).EntityNamespace}.{typeContractName}";
             }
 
             context.Add(Data.TableEntityClassNameForMethodParametersInRepositoryFiles,typeContractName);
@@ -48,7 +48,7 @@ namespace BOA.EntityGeneration.Naming
 
         public static void Remove(IDataContext context)
         {
-            context.Remove(Data.TableNamingPattern);
+            context.Remove(TableNamingPatternContract.TableNamingPattern);
             context.Remove(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
         }
         #endregion

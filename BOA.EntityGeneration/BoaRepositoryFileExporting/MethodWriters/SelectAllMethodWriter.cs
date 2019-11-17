@@ -1,5 +1,6 @@
 ﻿using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
@@ -12,7 +13,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             var sb               = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo        = context.Get(Data.TableInfo);
             var typeContractName = context.Get(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
-            var tableNamingPattern = context.Get(Data.TableNamingPattern);
+            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
             
 
             sb.AppendLine();
@@ -24,7 +25,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Select();");
 
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(Data.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Select\", sqlInfo, ReadContract);");
+            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Select\", sqlInfo, ReadContract);");
 
             sb.CloseBracket();
         }

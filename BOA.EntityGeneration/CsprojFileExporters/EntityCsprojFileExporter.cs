@@ -1,6 +1,7 @@
 ﻿using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.Naming;
 using BOA.Tasks;
 
 namespace BOA.EntityGeneration.CsprojFileExporters
@@ -10,7 +11,7 @@ namespace BOA.EntityGeneration.CsprojFileExporters
         #region Public Methods
         public static void Export(IDataContext context)
         {
-            var namingPattern = context.Get(Data.NamingPattern);
+            var namingPattern = context.Get(NamingPatternContract.NamingPattern);
 
             var projectDirectory = namingPattern.EntityProjectDirectory;
 
