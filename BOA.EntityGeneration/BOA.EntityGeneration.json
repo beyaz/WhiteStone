@@ -52,6 +52,6 @@
   "EntityContractBase": "CardContractBase",
 
   "ReadLineCharToBool": "{Contract}.{PropertyName} = SQLDBHelper.GetStringValue(reader[\"{ColumnName}\"]) == \"1\";",
-  "ReadLineCharToBoolNullable": "{Contract}.{PropertyName} = GetBooleanNullableValueFromChar(reader, \"{ColumnName}\");",
-  "ReadLineDefault": "{Contract}.{PropertyName} = {SqlReaderMethod}(reader,\"{ColumnName}\");"
+  "ReadLineCharToBoolNullable": "{Contract}.{PropertyName} = reader.GetBooleanNullableValueFromChar(\"{ColumnName}\");",
+  "ReadLineDefault": "{Contract}.{PropertyName} = reader.{SqlReaderMethod}(\"{ColumnName}\");"
 }

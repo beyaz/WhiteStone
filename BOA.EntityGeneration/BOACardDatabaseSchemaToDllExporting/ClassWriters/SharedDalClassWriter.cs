@@ -2,13 +2,12 @@
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
 using BOA.EntityGeneration.DataFlow;
 using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
-    public class SharedDalClassWriter
+    class SharedDalClassWriter
     {
         public static void ExportFile(IDataContext context)
         {
