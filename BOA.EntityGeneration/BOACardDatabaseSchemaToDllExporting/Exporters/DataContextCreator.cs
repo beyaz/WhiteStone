@@ -56,11 +56,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         #region Methods
         protected virtual void AttachEvents(IDataContext context)
         {
-
+            context.AttachEvent(StartToExportTable, TableNamingPatternInitializer.Initialize);
             EntityFileExporter.AttachEvents(context);
             SharedFileExporter.AttachEvents(context);
 
-            context.AttachEvent(StartToExportTable, TableNamingPatternInitializer.Initialize);
+            
 
             
             context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.WriteClass);
