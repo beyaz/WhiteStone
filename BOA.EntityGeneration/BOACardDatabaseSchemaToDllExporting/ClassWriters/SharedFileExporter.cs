@@ -16,9 +16,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             context.AttachEvent(DataEvent.StartToExportSchema, WriteUsingList);
             context.AttachEvent(DataEvent.StartToExportSchema, EmptyLine);
             context.AttachEvent(DataEvent.StartToExportSchema, BeginNamespace);
+            context.AttachEvent(DataEvent.StartToExportSchema, WriteEmbeddedClasses);
             context.AttachEvent(DataEvent.StartToExportSchema, EndNamespace);
 
-            context.AttachEvent(DataEvent.StartToExportTable, Write);
+            context.AttachEvent(DataEvent.StartToExportTable, WriteClass);
 
             context.AttachEvent(DataEvent.FinishingExportingSchema, ExportFileToDirectory);
             context.AttachEvent(DataEvent.FinishingExportingSchema, ClearOutput);
@@ -62,7 +63,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine();
         }
 
-        public static void Write(IDataContext context)
+        public static void WriteClass(IDataContext context)
         {
             var sb = context.Get(File);
             var tableInfo = context.Get(TableInfo);
@@ -113,15 +114,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
                 sb.AppendLine(line);
             }
 
-            var config = context.Get(Data.Config);
-
-
-           sb.AppendLine();
-
-           sb.BeginNamespace(context.Get(NamingPattern.Id).RepositoryNamespace+".Shared");
            
-
-           SharedFileExporter.WriteEmbeddedClasses(context);
         }
 
         static void BeginNamespace(IDataContext context)
@@ -130,8 +123,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             
             sb.BeginNamespace(context.Get(NamingPattern.Id).RepositoryNamespace+".Shared");
            
-
-            SharedFileExporter.WriteEmbeddedClasses(context);
+            
         }
 
       

@@ -24,7 +24,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             {
                 context.AttachEvent(StartToExportTable, Naming.PushNamesRelatedWithTable);
                 context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.WriteClass);
-                context.AttachEvent(StartToExportTable, SharedFileExporter.Write);
+                context.AttachEvent(StartToExportTable, SharedFileExporter.WriteClass);
                 
                 context.AttachEvent(StartToExportTable, Naming.RemoveNamesRelatedWithTable);
 
