@@ -16,10 +16,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
             var schemaName            = context.Get(Data.SchemaName);
             var allInOneSourceCode    = context.Get(Data.BoaRepositoryFile).ToString();
             var config                = context.Get(Data.Config);
-            var allInOneFilePath      = config.FilePathForAllDaoInOneFile.Replace("{SchemaName}", schemaName);
             var ProjectExportLocation = context.GetRepositoryProjectDirectory();
 
-            BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters.FileSystem.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
+            FileSystem.WriteAllText(context, ProjectExportLocation + "Boa.cs", allInOneSourceCode);
 
             var progress = context.Get(Data.SchemaGenerationProcess);
 
@@ -89,7 +88,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
   </ItemGroup>
   <ItemGroup>
     <Compile Include=""Properties\AssemblyInfo.cs"" />
-    <Compile Include=""{allInOneFileName}.cs"" />
+    <Compile Include=""Boa.cs"" />
     <Compile Include=""Shared.cs"" />
   </ItemGroup>
   <ItemGroup />

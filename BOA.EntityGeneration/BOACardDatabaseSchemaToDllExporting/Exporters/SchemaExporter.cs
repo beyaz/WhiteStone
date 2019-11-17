@@ -20,12 +20,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             context.Add(Data.EntityFile, new PaddedStringBuilder());
             context.Add(Data.BoaRepositoryFile, new PaddedStringBuilder());
 
+            NamingPattern.Initialize(context);
+
             context.FireEvent(DataEvent.StartToExportSchema);
 
             context.Remove(Data.SharedRepositoryFile);
             context.Remove(Data.EntityFile);
             context.Remove(Data.BoaRepositoryFile);
             context.Remove(Data.SchemaName);
+            NamingPattern.Remove(context);
         }
         #endregion
     }

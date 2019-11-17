@@ -7,16 +7,16 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     {
         public static string GetEntityProjectDirectory(this IDataContext context)
         {
-            var config = context.Get(Config);
+            var namingPattern = context.Get(NamingPattern.Id);
 
-            return config.EntityProjectDirectory.Replace("{SchemaName}", context.Get(SchemaName));
+            return namingPattern.EntityProjectDirectory;
         }
 
         public static string GetRepositoryProjectDirectory(this IDataContext context)
         {
-            var config = context.Get(Config);
+            var namingPattern = context.Get(NamingPattern.Id);
 
-            return config.RepositoryProjectDirectory.Replace("{SchemaName}", context.Get(SchemaName));
+            return namingPattern.RepositoryProjectDirectory;
         }
     }
 }

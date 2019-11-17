@@ -23,16 +23,15 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
 
         public static string GetEntityNamespace(this IDataContext context)
         {
-            var config = context.Get(Data.Config);
-
-            return config.EntityAssemblyNamespaceFormat.Replace("{SchemaName}", context.Get(Data.SchemaName));
+            var namingPattern = context.Get(NamingPattern.Id);
+            return namingPattern.EntityNamespace;
         }
 
         public static string GetRepositoryNamespace(this IDataContext context)
         {
-            var config = context.Get(Data.Config);
-
-            return config.DaoAssemblyNamespaceFormat.Replace("{SchemaName}", context.Get(Data.SchemaName));
+            var namingPattern = context.Get(NamingPattern.Id);
+            return namingPattern.RepositoryNamespace;
+            
         }
         #endregion
     }

@@ -9,12 +9,10 @@ namespace BOA.EntityGeneration
     [Serializable]
     public class ConfigContract
     {
-        public string CustomSqlEntityProjectDirectory { get; set; }
-        public string CustomSqlRepositoryProjectDirectory { get; set; }
-        
+       
             
-        public string EntityProjectDirectory { get; set; }
-        public string RepositoryProjectDirectory { get; set; }
+        
+        
 
         
         
@@ -31,16 +29,8 @@ namespace BOA.EntityGeneration
         ///     Gets or sets the connection string.
         /// </summary>
         public string ConnectionString { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the DAO assembly namespace format.
-        /// </summary>
-        public string DaoAssemblyNamespaceFormat { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the DAO using lines.
-        /// </summary>
-        public IReadOnlyCollection<string> DaoUsingLines { get; set; }
+        
+        
 
         /// <summary>
         ///     Gets or sets the name of the database enum.
@@ -49,17 +39,10 @@ namespace BOA.EntityGeneration
 
       
 
-        /// <summary>
-        ///     Gets or sets the entity assembly namespace format.
-        /// </summary>
-        public string EntityAssemblyNamespaceFormat { get; set; }
+    
+        
 
-        /// <summary>
-        ///     Gets or sets the file path for all DAO in one file.
-        /// </summary>
-        public string FilePathForAllDaoInOneFile { get; set; }
-
-        public string SharedRepositoryAllInOneFilePath { get; set; }
+        
 
        
         
@@ -89,10 +72,7 @@ namespace BOA.EntityGeneration
         /// </summary>
         public IReadOnlyCollection<string> SchemaNamesToBeExport { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the SLN directory path.
-        /// </summary>
-        public string SlnDirectoryPath { get; set; } // TODO check usage
+       
 
         /// <summary>
         ///     Gets or sets the SQL sequence information of table.
@@ -107,12 +87,9 @@ namespace BOA.EntityGeneration
         /// <summary>
         ///     Gets or sets the type contract base.
         /// </summary>
-        public string TypeContractBase { get; set; }
+        public string EntityContractBase { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the type using lines.
-        /// </summary>
-        public IReadOnlyCollection<string> TypeUsingLines { get; set; }
+        
 
 
         public string EmbeddedClassesDirectoryPath { get; set; } = @"D:\github\WhiteStone\BOA.EntityGeneration\BOACardDatabaseSchemaToDllExporting\SharedClasses\";
@@ -120,7 +97,7 @@ namespace BOA.EntityGeneration
         public string SharedRepositoryNamespaceFormat { get; set; } = "BOA.Business.Kernel.Card.{SchemaName}_Core";
 
         public string SharedRepositoryClassNameFormat { get; set; } = "{TableName}Shared";
-
+        public IReadOnlyDictionary<string, string> NamingPattern { get; set; }
         #endregion
     }
 

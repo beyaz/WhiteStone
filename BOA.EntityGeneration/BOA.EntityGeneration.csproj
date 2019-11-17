@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\NamingPattern.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\Extensions.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\Naming.cs" />

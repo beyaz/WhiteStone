@@ -46,9 +46,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             var inheritancePart = string.Empty;
 
-            if (config.TypeContractBase != null)
+            if (config.EntityContractBase != null)
             {
-                inheritancePart = ": " + config.TypeContractBase;
+                inheritancePart = ": " + config.EntityContractBase;
             }
 
             sb.AppendLine("[Serializable]");
@@ -76,12 +76,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public static void WriteUsingList(IDataContext context)
         {
             var sb     = context.Get(Data.EntityFile);
-            var config = context.Get(Data.Config);
-
-            sb.AppendLine("using System;");
-            sb.AppendLine("using System.Collections.Generic;");
-
-            foreach (var line in config.TypeUsingLines)
+            var namingPattern = context.Get(NamingPattern.Id);
+            
+            foreach (var line in namingPattern.EntityUsingLines)
             {
                 sb.AppendLine(line);
             }

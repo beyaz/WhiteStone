@@ -12,12 +12,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
     {
         public static void ExportFile(IDataContext context)
         {
-            var schemaName            = context.Get(SchemaName);
             var allInOneSourceCode    = context.Get(SharedRepositoryFile).ToString();
-            var config                = context.Get(Data.Config);
-            var allInOneFilePath      = config.SharedRepositoryAllInOneFilePath.Replace("{SchemaName}", schemaName);
+            var namingPattern = context.Get(NamingPattern.Id);
 
-            FileSystem.WriteAllText(context, allInOneFilePath, allInOneSourceCode);
+            
+
+            FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory+"Shared.cs", allInOneSourceCode);
         }
         public static void Write(IDataContext context)
         {

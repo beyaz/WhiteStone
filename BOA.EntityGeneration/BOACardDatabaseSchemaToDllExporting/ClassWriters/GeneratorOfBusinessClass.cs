@@ -133,20 +133,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public static void WriteUsingList(IDataContext context)
         {
             var sb = context.Get(BoaRepositoryFile);
-            var schemaName = context.Get(SchemaName);
-            var config = context.Get(Data.Config);
 
-            foreach (var line in config.DaoUsingLines)
+            var namingPattern = context.Get(NamingPattern.Id);
+
+            foreach (var line in namingPattern.BoaRepositoryUsingLines)
             {
-                sb.AppendLine(line.Replace("{SchemaName}", schemaName));
+                sb.AppendLine(line);
             }
-
-            sb.AppendLine("using System;");
-            sb.AppendLine("using System.Collections.Generic;");
-            sb.AppendLine("using System.Data;");
-            sb.AppendLine("using System.Data.SqlClient;");
-            sb.AppendLine("using System.Runtime.CompilerServices;");
-            sb.AppendLine("using System.Text;");
+            
         }
         #endregion
 
