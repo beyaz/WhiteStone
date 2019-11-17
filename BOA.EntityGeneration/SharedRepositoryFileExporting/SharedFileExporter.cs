@@ -18,12 +18,12 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
-            context.AttachEvent(DataEvent.StartToExportSchema, InitializeOutput);
-            context.AttachEvent(DataEvent.StartToExportSchema, WriteUsingList);
-            context.AttachEvent(DataEvent.StartToExportSchema, EmptyLine);
-            context.AttachEvent(DataEvent.StartToExportSchema, BeginNamespace);
-            context.AttachEvent(DataEvent.StartToExportSchema, WriteEmbeddedClasses);
-            context.AttachEvent(DataEvent.StartToExportSchema, EndNamespace);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, InitializeOutput);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, WriteUsingList);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, EmptyLine);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BeginNamespace);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, WriteEmbeddedClasses);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, EndNamespace);
 
             context.AttachEvent(TableExportingEvent.TableExportStarted, WriteClass);
 

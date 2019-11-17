@@ -29,13 +29,13 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
                 
                 
 
-                //context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
-                //context.AttachEvent(StartToExportSchema, AllBusinessClassesInOne.BeginNamespace);
-                //context.AttachEvent(StartToExportSchema, Events.OnSchemaStartedToExport);
-                //context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
+                //context.AttachEvent(SchemaExportStarted, GeneratorOfBusinessClass.WriteUsingList);
+                //context.AttachEvent(SchemaExportStarted, AllBusinessClassesInOne.BeginNamespace);
+                //context.AttachEvent(SchemaExportStarted, Events.OnSchemaStartedToExport);
+                //context.AttachEvent(SchemaExportStarted, GeneratorOfBusinessClass.EndNamespace);
 
 
-                //context.AttachEvent(StartToExportSchema, HoldSomeDataForCheckingTestResults);
+                //context.AttachEvent(SchemaExportStarted, HoldSomeDataForCheckingTestResults);
             }
             #endregion
         }

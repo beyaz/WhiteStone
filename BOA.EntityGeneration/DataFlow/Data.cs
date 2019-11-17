@@ -15,13 +15,17 @@ namespace BOA.EntityGeneration.DataFlow
         public static readonly IEvent TableExportStarted = new Event {Name = nameof(TableExportStarted)};
         public static readonly IEvent TableExportFinished = new Event {Name = nameof(TableExportFinished)};
     }
-   
 
+    static class SchemaExportingEvent
+    {
+        public static readonly IEvent SchemaExportStarted = new Event {Name = nameof(SchemaExportStarted)};
+        public static readonly IEvent SchemaExportFinished = new Event {Name = nameof(SchemaExportFinished)};
+    }
      static class DataEvent
     {
         #region Static Fields
         public static readonly IEvent AfterFetchedAllTableNamesInSchema = new Event {Name = nameof(AfterFetchedAllTableNamesInSchema)};
-        public static readonly IEvent StartToExportSchema               = new Event {Name = nameof(StartToExportSchema)};
+        
         public static readonly IEvent FinishingExportingSchema = new Event {Name = nameof(FinishingExportingSchema)};
         #endregion
     }
