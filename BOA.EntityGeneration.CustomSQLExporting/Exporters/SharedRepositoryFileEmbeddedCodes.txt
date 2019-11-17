@@ -43,7 +43,7 @@ public sealed class SqlInfo
 /// <summary>
 ///     The data reader helper
 /// </summary>
-static class IDataRecordHelper
+public static class IDataRecordHelper
 {
     #region Public Methods
     /// <summary>
@@ -88,6 +88,14 @@ static class IDataRecordHelper
     public static bool GetBooleanValue(this IDataRecord reader, string columnName)
     {
         return reader.GetBooleanNullableValue(columnName).GetValueOrDefault();
+    }
+
+    /// <summary>
+    ///     Gets the boolean value from character.
+    /// </summary>
+    public static bool GetBooleanValueFromChar(this IDataRecord reader, string columnName)
+    {
+        return GetInt32Value(reader, columnName) == 1;
     }
 
     /// <summary>

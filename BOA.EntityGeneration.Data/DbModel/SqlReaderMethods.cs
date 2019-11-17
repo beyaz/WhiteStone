@@ -27,6 +27,7 @@
         GetBinaryValue,
         GetTimeStampValue,
         GetSecureStringValue,
-        GetBooleanNullableValueFromChar
+        GetBooleanNullableValueFromChar,
+        GetBooleanValueFromChar
     }
 }

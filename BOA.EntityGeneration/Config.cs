@@ -52,20 +52,17 @@ namespace BOA.EntityGeneration
         /// </summary>
         public IReadOnlyCollection<string> NotExportableTables { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the read line character to bool.
-        /// </summary>
-        public string ReadLineCharToBool { get; set; }
+        
 
-        /// <summary>
-        ///     Gets or sets the read line character to bool nullable.
-        /// </summary>
-        public string ReadLineCharToBoolNullable { get; set; }
+        
 
         /// <summary>
         ///     Gets or sets the read line default.
         /// </summary>
         public string ReadLineDefault { get; set; }
+
+        public string ContractReadLine { get; set; }
+        
 
         /// <summary>
         ///     Gets or sets the schema names to be export.

@@ -28,26 +28,13 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 
             foreach (var columnInfo in tableInfo.Columns)
             {
-                var readerLine = config.ReadLineDefault;
+                var contractReadLine = config.ContractReadLine
+                                             .Replace("$(Contract)", contractParameterName)
+                                             .Replace("$(PropertyName)", columnInfo.ColumnName.ToContractName())
+                                             .Replace("$(ColumnName)", columnInfo.ColumnName)
+                                             .Replace("$(SqlReaderMethod)", columnInfo.SqlReaderMethod.ToString());
 
-                if (columnInfo.SqlDbType == SqlDbType.Char &&
-                    columnInfo.DotNetType == DotNetTypeName.DotNetBool)
-                {
-                    readerLine = config.ReadLineCharToBool;
-                }
-                else if (columnInfo.SqlDbType == SqlDbType.Char &&
-                         columnInfo.DotNetType == DotNetTypeName.DotNetBoolNullable)
-                {
-                    readerLine = config.ReadLineCharToBoolNullable;
-                }
-
-                readerLine = readerLine
-                             .Replace("{Contract}", contractParameterName)
-                             .Replace("{PropertyName}", columnInfo.ColumnName.ToContractName())
-                             .Replace("{ColumnName}", columnInfo.ColumnName)
-                             .Replace("{SqlReaderMethod}", columnInfo.SqlReaderMethod.ToString());
-
-                sb.AppendLine(readerLine);
+                sb.AppendLine(contractReadLine);
             }
 
             sb.PaddingCount--;

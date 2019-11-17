@@ -54,6 +54,14 @@ namespace BOA.DatabaseAccess
         }
 
         /// <summary>
+        ///     Gets the boolean value from character.
+        /// </summary>
+        public static bool GetBooleanValueFromChar(this IDataRecord reader, string columnName)
+        {
+            return GetInt32Value(reader, columnName) == 1;
+        }
+
+        /// <summary>
         ///     Gets the byte nullable value.
         /// </summary>
         public static byte? GetByteNullableValue(this IDataRecord reader, string columnName)
