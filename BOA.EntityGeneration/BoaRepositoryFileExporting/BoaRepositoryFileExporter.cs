@@ -2,7 +2,6 @@
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
 using BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
@@ -44,12 +43,8 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         {
             var sb            = context.Get(BoaRepositoryFileExporter.File);
             var namingPattern = context.Get(Data.NamingPattern);
-            
-            var config = context.Get(Data.Config);
 
-            sb.AppendLine();
             sb.BeginNamespace(namingPattern.RepositoryNamespace);
-            ObjectHelperSqlUtilClassWriter.Write(sb,config);
 
         }
         #endregion

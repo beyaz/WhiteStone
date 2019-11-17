@@ -77,7 +77,6 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ITableInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Impl\SequenceInfo.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Models\Interfaces\ISequenceInfo.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\SqlInfoClassWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\BusinessProjectExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\InsertInfoCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\DataContextCreator.cs" />
@@ -105,7 +104,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\ObjectHelperSqlUtil.txt" />
     <Content Include="BoaRepositoryFileExporting\BoaRepositoryFileEmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
