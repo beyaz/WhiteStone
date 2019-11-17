@@ -42,15 +42,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         public static void AttachEvents(IDataContext context)
         {
             context.AttachEvent(DataEvent.StartToExportSchema,InitializeOutput);
+            context.AttachEvent(DataEvent.StartToExportSchema, WriteUsingList);
+            context.AttachEvent(DataEvent.StartToExportSchema, BeginNamespace);
+            context.AttachEvent(DataEvent.StartToExportSchema, EndNamespace);
+
+            context.AttachEvent(DataEvent.StartToExportTable, WriteClass);
 
             context.AttachEvent(DataEvent.FinishingExportingSchema,ExportFileToDirectory);
             context.AttachEvent(DataEvent.FinishingExportingSchema,ClearOutput);
         }
         #region Public Methods
-        /// <summary>
-        ///     Begins the namespace.
-        /// </summary>
-        public static void BeginNamespace(IDataContext context)
+         static void BeginNamespace(IDataContext context)
         {
             var sb         = context.Get<PaddedStringBuilder>(File);
 
@@ -61,19 +63,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.BeginNamespace(namingPattern.EntityNamespace);
         }
 
-        /// <summary>
-        ///     Ends the namespace.
-        /// </summary>
-        public static void EndNamespace(IDataContext context)
+        static void EndNamespace(IDataContext context)
         {
             var sb = context.Get<PaddedStringBuilder>(File);
             sb.EndNamespace();
         }
 
-        /// <summary>
-        ///     Writes the class.
-        /// </summary>
-        public static void WriteClass(IDataContext context)
+       static void WriteClass(IDataContext context)
         {
             var sb        = context.Get<PaddedStringBuilder>(File);
             var config    = context.Get(Data.Config);
@@ -107,10 +103,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             sb.AppendLine("}"); // end of class
         }
 
-        /// <summary>
-        ///     Writes the using list.
-        /// </summary>
-        public static void WriteUsingList(IDataContext context)
+         static void WriteUsingList(IDataContext context)
         {
             var sb     = context.Get<PaddedStringBuilder>(File);
             var namingPattern = context.Get(NamingPattern.Id);
