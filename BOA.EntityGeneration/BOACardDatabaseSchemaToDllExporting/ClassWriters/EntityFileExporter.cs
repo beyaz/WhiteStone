@@ -20,12 +20,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, WriteUsingList);
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, EmptyLine);
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BeginNamespace);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, EndNamespace);
+
+            
 
             context.AttachEvent(TableExportingEvent.TableExportStarted, WriteClass);
 
-            context.AttachEvent(DataEvent.FinishingExportingSchema, ExportFileToDirectory);
-            context.AttachEvent(DataEvent.FinishingExportingSchema, ClearOutput);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, EndNamespace);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, ExportFileToDirectory);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, ClearOutput);
         }
         #endregion
 

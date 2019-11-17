@@ -23,12 +23,13 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, EmptyLine);
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BeginNamespace);
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, WriteEmbeddedClasses);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, EndNamespace);
+            
 
             context.AttachEvent(TableExportingEvent.TableExportStarted, WriteClass);
 
-            context.AttachEvent(DataEvent.FinishingExportingSchema, ExportFileToDirectory);
-            context.AttachEvent(DataEvent.FinishingExportingSchema, ClearOutput);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, EndNamespace);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, ExportFileToDirectory);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, ClearOutput);
         }
         #endregion
 
