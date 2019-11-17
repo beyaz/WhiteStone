@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BOA.DataFlow;
+using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
@@ -31,10 +32,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
                 sb.AppendLine($"public GenericResponse<{typeContractName}> {methodName}({parameterPart})");
                 sb.OpenBracket();
 
+                var tableNamingPattern = context.Get(Data.TableNamingPattern);
                 
-                sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(NamingPattern.Id).RepositoryNamespace}.{context.Get(RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
+
+                sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+
+                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(Data.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByKey\", sqlInfo, ReadContract);");
 
                 sb.CloseBracket();
             }
@@ -54,10 +58,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
                 sb.AppendLine($"public GenericResponse<List<{typeContractName}>> {methodName}({parameterPart})");
                 sb.OpenBracket();
 
+                var tableNamingPattern = context.Get(Data.TableNamingPattern);
                 
-                sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(NamingPattern.Id).RepositoryNamespace}.{context.Get(RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
+                sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+
+                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(Data.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByKey\", sqlInfo, ReadContract);");
 
                 sb.CloseBracket();
             }

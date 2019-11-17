@@ -33,7 +33,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         static void BeginNamespace(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var namingPattern = context.Get(Data.NamingPattern);
 
             sb.BeginNamespace(namingPattern.EntityNamespace);
         }
@@ -57,7 +57,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var namingPattern = context.Get(Data.NamingPattern);
             var processInfo   = context.Get(SchemaGenerationProcess);
 
             processInfo.Text = "Exporting Entity classes.";
@@ -77,6 +77,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             var sb        = context.Get(File);
             var config    = context.Get(Config);
             var tableInfo = context.Get(TableInfo);
+            var tableNamingPattern = context.Get(Data.TableNamingPattern);
 
             ContractCommentInfoCreator.Write(sb, tableInfo);
 
@@ -88,7 +89,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             }
 
             sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public sealed class {tableInfo.TableName.ToContractName()}Contract {inheritancePart}");
+            sb.AppendLine($"public sealed class {tableNamingPattern.EntityClassName} {inheritancePart}");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -109,7 +110,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         static void WriteUsingList(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var namingPattern = context.Get(Data.NamingPattern);
 
             foreach (var line in namingPattern.EntityUsingLines)
             {

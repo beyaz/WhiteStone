@@ -2,6 +2,7 @@
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 
@@ -27,20 +28,22 @@ namespace BOA.EntityGeneration.DataFlow
     /// </summary>
      static class Data
     {
+        internal static readonly IDataConstant<NamingPattern> NamingPattern = DataConstant.Create<NamingPattern>(nameof(BOACardDatabaseSchemaToDllExporting.NamingPattern));
+        internal static readonly IDataConstant<TableNamingPattern> TableNamingPattern = DataConstant.Create<TableNamingPattern>(nameof(BOACardDatabaseSchemaToDllExporting.TableNamingPattern));
+
         #region Static Fields
-        internal static readonly IDataConstant<ConfigContract>        Config               = DataConstant.Create<ConfigContract>();
+        internal static readonly IDataConstant<ConfigContract> Config               = DataConstant.Create<ConfigContract>();
         
-        internal static readonly IDataConstant<IDatabase>             Database             = DataConstant.Create<IDatabase>();
+        internal static readonly IDataConstant<IDatabase> Database             = DataConstant.Create<IDatabase>();
         
-        internal static readonly IDataConstant<ITableInfo>            TableInfo            = DataConstant.Create<ITableInfo>();
-        internal static readonly IDataConstant<List<string>>          TableNamesInSchema   = DataConstant.Create<List<string>>();
+        internal static readonly IDataConstant<ITableInfo> TableInfo            = DataConstant.Create<ITableInfo>();
+        internal static readonly IDataConstant<List<string>> TableNamesInSchema   = DataConstant.Create<List<string>>();
         #endregion
 
         #region Naming
         internal static readonly IDataConstant<string> SchemaName                                               = DataConstant.Create<string>(nameof(SchemaName));
         internal static readonly IDataConstant<string> TableEntityClassNameForMethodParametersInRepositoryFiles = DataConstant.Create<string>(nameof(TableEntityClassNameForMethodParametersInRepositoryFiles));
-        internal static readonly IDataConstant<string> RepositoryClassName                                      = DataConstant.Create<string>(nameof(RepositoryClassName));
-        internal static readonly IDataConstant<string> SharedRepositoryClassName = DataConstant.Create<string>(nameof(SharedRepositoryClassName));
+        
         #endregion
 
         #region Process Indicators

@@ -54,9 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOACardDatabaseSchemaToDllExporting\NamingPattern.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\NamingPatternInitializer.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\Extensions.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\ClassWriters\Naming.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\TableNamingPattern.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\TableNamingPatternInitializer.cs" />
     <Compile Include="SharedRepositoryFileExporting\SharedFileExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectAllByValidFlagMethodWriter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\MethodWriters\BoaSystem\SelectAllMethodWriter.cs" />

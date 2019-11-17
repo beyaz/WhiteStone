@@ -60,12 +60,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             EntityFileExporter.AttachEvents(context);
             SharedFileExporter.AttachEvents(context);
 
-            context.AttachEvent(StartToExportTable, Naming.PushNamesRelatedWithTable);
+            context.AttachEvent(StartToExportTable, TableNamingPatternInitializer.Initialize);
 
             
             context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.WriteClass);
 
-            context.AttachEvent(StartToExportTable, Naming.RemoveNamesRelatedWithTable);
+            context.AttachEvent(StartToExportTable, TableNamingPatternInitializer.Remove);
 
             
             context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);

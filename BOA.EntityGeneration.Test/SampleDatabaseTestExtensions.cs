@@ -23,10 +23,10 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             #region Methods
             protected override void AttachEvents(IDataContext context)
             {
-                context.AttachEvent(StartToExportTable, Naming.PushNamesRelatedWithTable);
+                
                 context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.WriteClass);
                 
-                context.AttachEvent(StartToExportTable, Naming.RemoveNamesRelatedWithTable);
+                
 
                 context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
                 context.AttachEvent(StartToExportSchema, AllBusinessClassesInOne.BeginNamespace);

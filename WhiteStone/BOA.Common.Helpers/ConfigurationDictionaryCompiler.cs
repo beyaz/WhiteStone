@@ -6,16 +6,33 @@ namespace BOA.Common.Helpers
     public static class ConfigurationDictionaryCompiler
     {
         #region Public Methods
-        public static IReadOnlyDictionary<string, string> Compile(IReadOnlyDictionary<string, string> dictionary,Func<string,string,string> getValueFunc)
+        public static IReadOnlyDictionary<string, string> Compile(IReadOnlyDictionary<string, string> dictionary, IReadOnlyDictionary<string, string> initialValues)
         {
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
+
+            if (initialValues == null)
+            {
+                throw new ArgumentNullException(nameof(initialValues));
+            }
+
             var pairs = new List<Pair>();
 
             foreach (var pair in dictionary)
             {
+                var key   = pair.Key;
+                var value = pair.Value;
+                if (initialValues.ContainsKey(key))
+                {
+                    value = initialValues[key];
+                }
+
                 var item = new Pair
                 {
-                    key = pair.Key,
-                    value = getValueFunc(pair.Key,pair.Value)
+                    key   = key,
+                    value = value
                 };
                 pairs.Add(item);
             }
@@ -37,7 +54,7 @@ namespace BOA.Common.Helpers
         #endregion
 
         #region Methods
-        static void Apply(List<Pair> pairs, string key, string value)
+        static void Apply(IEnumerable<Pair> pairs, string key, string value)
         {
             foreach (var pair in pairs)
             {

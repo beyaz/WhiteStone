@@ -133,7 +133,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
         {
             var sb = context.Get(BoaRepositoryFile);
 
-            var namingPattern = context.Get(NamingPattern.Id);
+            var namingPattern = context.Get(Data.NamingPattern);
 
             foreach (var line in namingPattern.BoaRepositoryUsingLines)
             {

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BOA.DataFlow;
+using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
@@ -30,9 +31,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.SelectByKey({string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+            var tableNamingPattern = context.Get(Data.TableNamingPattern);
+            
 
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(NamingPattern.Id).RepositoryNamespace}.{context.Get(RepositoryClassName)}.SelectByKey\", sqlInfo, ReadContract);");
+            sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.SelectByKey({string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+
+            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(Data.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByKey\", sqlInfo, ReadContract);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

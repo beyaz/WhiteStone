@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.DataFlow;
+using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
@@ -133,9 +134,10 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
 
                 
             }
+            var tableNamingPattern = context.Get(Data.TableNamingPattern);
+            
 
-
-            sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.Insert({contractParameterName});");
+            sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Insert({contractParameterName});");
 
             
 

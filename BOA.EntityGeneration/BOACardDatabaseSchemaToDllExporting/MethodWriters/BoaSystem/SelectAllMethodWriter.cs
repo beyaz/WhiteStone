@@ -12,6 +12,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             var sb               = context.Get(Data.BoaRepositoryFile);
             var tableInfo        = context.Get(Data.TableInfo);
             var typeContractName = context.Get(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var tableNamingPattern = context.Get(Data.TableNamingPattern);
+            
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
@@ -20,9 +22,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.AppendLine($"public GenericResponse<List<{typeContractName}>> Select()");
             sb.OpenBracket();
 
-            sb.AppendLine($"var sqlInfo = {context.Get(Data.SharedRepositoryClassName)}.Select();");
+            sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Select();");
 
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(NamingPattern.Id).RepositoryNamespace}.{context.Get(Data.RepositoryClassName)}.Select\", sqlInfo, ReadContract);");
+            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(Data.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Select\", sqlInfo, ReadContract);");
 
             sb.CloseBracket();
         }

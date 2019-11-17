@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BOA.DataFlow;
+using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
@@ -15,11 +16,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             var sb        = context.Get(BoaRepositoryFile);
             var tableInfo = context.Get(TableInfo);
             var deleteByKeyInfo = DeleteInfoCreator.Create(tableInfo);
+            var tableNamingPattern = context.Get(Data.TableNamingPattern);
+            
+            
 
             var sqlParameters     = deleteByKeyInfo.SqlParameters;
             var schemaName = context.Get(SchemaName);
 
-            var businessClassNamespace = context.Get(NamingPattern.Id).RepositoryNamespace;
+            var businessClassNamespace = context.Get(Data.NamingPattern).RepositoryNamespace;
 
             var tableName         = tableInfo.TableName;
 
@@ -34,9 +38,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             sb.PaddingCount++;
 
             
-            sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.Delete({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+            sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Delete({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteNonQuery(this, \"{businessClassNamespace}.{context.Get(RepositoryClassName)}.Delete\", sqlInfo);");
+            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteNonQuery(this, \"{businessClassNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Delete\", sqlInfo);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

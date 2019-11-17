@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         {
             var schemaName            = context.Get(Data.SchemaName);
             var allInOneSourceCode    = context.Get(Data.BoaRepositoryFile).ToString();
-            var namingPattern = context.Get(NamingPattern.Id);
+            var namingPattern = context.Get(Data.NamingPattern);
             
             var ProjectExportLocation = context.GetRepositoryProjectDirectory();
 

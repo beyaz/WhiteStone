@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #region Public Methods
         public static void ExportTypeDll(IDataContext context)
         {
-            var namingPattern = context.Get(NamingPattern.Id);
+            var namingPattern = context.Get(Data.NamingPattern);
 
             var projectDirectory = context.GetEntityProjectDirectory();
 

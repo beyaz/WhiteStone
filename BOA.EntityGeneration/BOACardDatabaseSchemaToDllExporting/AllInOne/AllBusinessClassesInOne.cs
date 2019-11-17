@@ -16,7 +16,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne
         public static void BeginNamespace(IDataContext context)
         {
             var sb         = context.Get(Data.BoaRepositoryFile);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var namingPattern = context.Get(Data.NamingPattern);
             
             var config     = context.Get(Data.Config);
 

@@ -37,7 +37,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         {
             var sb = context.Get(File);
 
-            sb.BeginNamespace(context.Get(NamingPattern.Id).RepositoryNamespace + ".Shared");
+            sb.BeginNamespace(context.Get(Data.NamingPattern).RepositoryNamespace + ".Shared");
         }
 
         static void ClearOutput(IDataContext context)
@@ -58,7 +58,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         static void ExportFileToDirectory(IDataContext context)
         {
             var allInOneSourceCode = context.Get(File).ToString();
-            var namingPattern      = context.Get(NamingPattern.Id);
+            var namingPattern      = context.Get(Data.NamingPattern);
 
             FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Shared.cs", allInOneSourceCode);
         }
@@ -72,8 +72,9 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         {
             var sb        = context.Get(File);
             var tableInfo = context.Get(TableInfo);
+            var tableNamingPattern = context.Get(Data.TableNamingPattern);
 
-            sb.AppendLine($"public sealed class {context.Get(SharedRepositoryClassName)}");
+            sb.AppendLine($"public sealed class {tableNamingPattern.SharedRepositoryClassName}");
             sb.OpenBracket();
 
             if (tableInfo.IsSupportSelectByKey)
@@ -121,7 +122,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         {
             var sb = context.Get(File);
 
-            foreach (var line in context.Get(NamingPattern.Id).SharedRepositoryUsingLines)
+            foreach (var line in context.Get(Data.NamingPattern).SharedRepositoryUsingLines)
             {
                 sb.AppendLine(line);
             }

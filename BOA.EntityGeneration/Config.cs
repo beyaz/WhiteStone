@@ -96,8 +96,9 @@ namespace BOA.EntityGeneration
         
         
 
-        public string SharedRepositoryClassNameFormat { get; set; } = "{TableName}Shared";
+        
         public IReadOnlyDictionary<string, string> NamingPattern { get; set; }
+        public IReadOnlyDictionary<string, string> TableNamingPattern { get; set; }
         #endregion
     }
 

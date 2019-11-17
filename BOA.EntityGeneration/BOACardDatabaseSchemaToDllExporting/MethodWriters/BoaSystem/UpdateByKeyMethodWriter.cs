@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.DataFlow;
+using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
@@ -24,7 +25,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
             var sb        = context.Get(BoaRepositoryFile);
             var tableInfo = context.Get(TableInfo);
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
-            var businessClassNamespace = context.Get(NamingPattern.Id).RepositoryNamespace;
+            var businessClassNamespace = context.Get(Data.NamingPattern).RepositoryNamespace;
            
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
@@ -90,9 +91,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
 
             }
 
-            sb.AppendLine($"var sqlInfo = {context.Get(SharedRepositoryClassName)}.Update({contractParameterName});");
+            var tableNamingPattern = context.Get(Data.TableNamingPattern);
+            
+            
 
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteNonQuery(this, \"{businessClassNamespace}.{context.Get(RepositoryClassName)}.Update\", sqlInfo);");
+            sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Update({contractParameterName});");
+
+            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteNonQuery(this, \"{businessClassNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Update\", sqlInfo);");
 
 
 
