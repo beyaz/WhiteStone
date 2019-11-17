@@ -79,7 +79,7 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\BusinessProjectExporter.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\InsertInfoCreator.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\DataContextCreator.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\TypesProjectExporter.cs" />
+    <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\EntityCsprojFileExporter.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="DataFlow\Data.cs" />
     <Compile Include="BoaRepositoryFileExporting\BoaRepositoryFileExporter.cs" />

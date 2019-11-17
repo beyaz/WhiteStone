@@ -4,26 +4,18 @@ using BOA.Tasks;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
-    class TypesProjectExporter
+    class EntityCsprojFileExporter
     {
         #region Public Methods
-        public static void ExportTypeDll(IDataContext context)
+        public static void Export(IDataContext context)
         {
             var namingPattern = context.Get(Data.NamingPattern);
 
             var projectDirectory = namingPattern.EntityProjectDirectory;
 
-
-
-
             var ns = namingPattern.EntityNamespace;
 
-
-
-
             var csprojFilePath = $"{projectDirectory}{ns}.csproj";
-
-
 
             var content = $@"
 

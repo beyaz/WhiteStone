@@ -71,8 +71,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, Events.OnSchemaStartedToExport);
             
 
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, TypesProjectExporter.ExportTypeDll);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BusinessProjectExporter.Export);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, EntityCsprojFileExporter.Export);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, BusinessProjectExporter.Export);
 
 
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, MsBuildQueue.Build);
