@@ -1,11 +1,10 @@
 ﻿using System.Data;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared
+namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
     static class ReadContractMethodWriter
     {

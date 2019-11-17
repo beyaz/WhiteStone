@@ -1,9 +1,8 @@
 ﻿using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared
+namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
     static class SelectAllMethodWriter
     {

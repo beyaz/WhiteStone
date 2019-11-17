@@ -1,12 +1,13 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters;
 using static BOA.EntityGeneration.DataFlow.Data;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
+namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 {
     class SharedFileExporter
     {

@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared
+namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
     static class DeleteByKeyMethodWriter
     {
