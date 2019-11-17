@@ -1,4 +1,5 @@
-﻿using BOA.DataFlow;
+﻿using BOA.Common.Helpers;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
@@ -10,6 +11,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
     /// </summary>
     public static class GeneratorOfTypeClass
     {
+
+        
         #region Public Methods
         /// <summary>
         ///     Begins the namespace.

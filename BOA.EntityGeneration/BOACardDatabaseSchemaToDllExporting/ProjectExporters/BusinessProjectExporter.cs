@@ -30,7 +30,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
             var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
             var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
 
-            const string allInOneFileName = "All";
 
             var content = $@"
 
