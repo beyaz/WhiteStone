@@ -10,9 +10,39 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 {
     class SharedFileExporter
     {
+        public static void AttachEvents(IDataContext context)
+        {
+            context.AttachEvent(DataEvent.StartToExportSchema, InitializeOutput);
+            context.AttachEvent(DataEvent.StartToExportSchema, WriteUsingList);
+            context.AttachEvent(DataEvent.StartToExportSchema, EmptyLine);
+            context.AttachEvent(DataEvent.StartToExportSchema, BeginNamespace);
+            context.AttachEvent(DataEvent.StartToExportSchema, EndNamespace);
+
+            context.AttachEvent(DataEvent.StartToExportTable, Write);
+
+            context.AttachEvent(DataEvent.FinishingExportingSchema, ExportFileToDirectory);
+            context.AttachEvent(DataEvent.FinishingExportingSchema, ClearOutput);
+        }
+
+        static void ClearOutput(IDataContext context)
+        {
+            context.Remove(File);
+        }
+        static void InitializeOutput(IDataContext context)
+        {
+            context.Add(File, new PaddedStringBuilder());
+        }
+
+
         internal static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
 
-        public static void ExportFile(IDataContext context)
+
+        static void EmptyLine(IDataContext context)
+        {
+            context.Get(File).AppendLine();
+        }
+
+        public static void ExportFileToDirectory(IDataContext context)
         {
             var allInOneSourceCode    = context.Get(File).ToString();
             var namingPattern = context.Get(NamingPattern.Id);
@@ -93,6 +123,19 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
            SharedFileExporter.WriteEmbeddedClasses(context);
         }
+
+        static void BeginNamespace(IDataContext context)
+        {
+            var sb = context.Get(File);
+            
+            sb.BeginNamespace(context.Get(NamingPattern.Id).RepositoryNamespace+".Shared");
+           
+
+            SharedFileExporter.WriteEmbeddedClasses(context);
+        }
+
+      
+
 
         public static void EndNamespace(IDataContext context)
         {
