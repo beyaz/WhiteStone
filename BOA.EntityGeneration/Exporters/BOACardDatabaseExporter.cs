@@ -1,7 +1,7 @@
 ﻿using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
+namespace BOA.EntityGeneration.Exporters
 {
     public class BOACardDatabaseExporter
     {

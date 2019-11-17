@@ -6,7 +6,7 @@ using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
-using InsertInfoCreator = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess.InsertInfoCreator;
+using InsertInfoCreator = BOA.EntityGeneration.DataAccess.InsertInfoCreator;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {

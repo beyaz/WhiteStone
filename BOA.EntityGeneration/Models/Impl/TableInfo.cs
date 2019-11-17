@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
 using BOA.EntityGeneration.DbModel.Interfaces;
-using ITableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces.ITableInfo;
+using BOA.EntityGeneration.Models.Interfaces;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl
+namespace BOA.EntityGeneration.Models.Impl
 {
     /// <summary>
     ///     The generator data
     /// </summary>
     [Serializable]
-    public class TableInfo : DbModel.Types.TableInfo, ITableInfo
+    public class TableInfo : DbModel.Types.TableInfo, Interfaces.ITableInfo
     {
         #region Public Properties
 

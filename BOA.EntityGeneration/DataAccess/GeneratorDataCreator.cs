@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.DbModel.Types;
+using BOA.EntityGeneration.Models.Impl;
 using WhiteStone.Helpers;
-using ITableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces.ITableInfo;
-using TableInfo = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl.TableInfo;
+using ITableInfo = BOA.EntityGeneration.Models.Interfaces.ITableInfo;
+using TableInfo = BOA.EntityGeneration.Models.Impl.TableInfo;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
+namespace BOA.EntityGeneration.DataAccess
 {
     /// <summary>
     ///     The generator data creator

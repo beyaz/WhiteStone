@@ -3,7 +3,7 @@ using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+namespace BOA.EntityGeneration.Naming
 {
     static class TableNamingPatternInitializer
     {

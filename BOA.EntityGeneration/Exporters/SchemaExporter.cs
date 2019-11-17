@@ -1,9 +1,10 @@
-﻿using BOA.DataFlow;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BoaRepositoryFileExporting;
 using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.Naming;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
+namespace BOA.EntityGeneration.Exporters
 {
     /// <summary>
     ///     The schema exporter

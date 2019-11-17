@@ -2,7 +2,7 @@
 using System.Linq;
 using BOA.EntityGeneration.DbModel.Interfaces;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
+namespace BOA.EntityGeneration.DataAccess
 {
     /// <summary>
     ///     The insert information creator

@@ -3,7 +3,7 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess
+namespace BOA.EntityGeneration.DataAccess
 {
     public static class Events
     {

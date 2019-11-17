@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting
+namespace BOA.EntityGeneration.Naming
 {
     class NamingPattern
     {

@@ -1,7 +1,7 @@
 ﻿using System;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
+using BOA.EntityGeneration.Models.Interfaces;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Impl
+namespace BOA.EntityGeneration.Models.Impl
 {
     /// <summary>
     ///     The sequence information

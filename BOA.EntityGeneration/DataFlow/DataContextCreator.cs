@@ -2,15 +2,15 @@
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.BoaRepositoryFileExporting;
-using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.CsprojFileExporters;
+using BOA.EntityGeneration.DataAccess;
+using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.SharedRepositoryFileExporting;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
+namespace BOA.EntityGeneration.DataFlow
 {
     public class DataContextCreator
     {

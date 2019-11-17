@@ -2,8 +2,9 @@
 using BOA.DatabaseAccess;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.Models.Interfaces;
+using BOA.EntityGeneration.Naming;
 
 namespace BOA.EntityGeneration.DataFlow
 {
@@ -34,8 +35,8 @@ namespace BOA.EntityGeneration.DataFlow
     /// </summary>
      static class Data
     {
-        internal static readonly IDataConstant<NamingPattern> NamingPattern = DataConstant.Create<NamingPattern>(nameof(BOACardDatabaseSchemaToDllExporting.NamingPattern));
-        internal static readonly IDataConstant<TableNamingPattern> TableNamingPattern = DataConstant.Create<TableNamingPattern>(nameof(BOACardDatabaseSchemaToDllExporting.TableNamingPattern));
+        internal static readonly IDataConstant<NamingPattern> NamingPattern = DataConstant.Create<NamingPattern>(nameof(Naming.NamingPattern));
+        internal static readonly IDataConstant<TableNamingPattern> TableNamingPattern = DataConstant.Create<TableNamingPattern>(nameof(Naming.TableNamingPattern));
 
         #region Static Fields
         internal static readonly IDataConstant<ConfigContract> Config               = DataConstant.Create<ConfigContract>();

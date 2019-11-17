@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BOA.EntityGeneration.DbModel.Interfaces;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Models.Interfaces
+namespace BOA.EntityGeneration.Models.Interfaces
 {
     /// <summary>
     ///     The table information

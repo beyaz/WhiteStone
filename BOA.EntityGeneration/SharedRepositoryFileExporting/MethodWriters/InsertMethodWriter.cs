@@ -2,6 +2,7 @@
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using BOA.EntityGeneration.Util;
 using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters

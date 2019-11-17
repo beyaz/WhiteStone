@@ -1,8 +1,9 @@
 ﻿using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.DataFlow;
 using BOA.Tasks;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
+namespace BOA.EntityGeneration.CsprojFileExporters
 {
     class EntityCsprojFileExporter
     {
