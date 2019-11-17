@@ -2,21 +2,7 @@
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses
 {
-    static class SqlInfoClassWriter
-    {
-        #region Public Methods
-        public static void Write(PaddedStringBuilder sb,ConfigContract config)
-        {
-            var path = config.EmbeddedClassesDirectoryPath;
-
-            var code = FileHelper.ReadFile(path + "SqlInfo.txt");
-
-            sb.AppendAll(code);
-
-            sb.AppendLine();
-        }
-        #endregion
-    }
+    
 
 
     static class ObjectHelperSqlUtilClassWriter

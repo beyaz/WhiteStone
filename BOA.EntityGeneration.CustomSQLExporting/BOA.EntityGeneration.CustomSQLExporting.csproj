@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Exporters\BoaRepositoryFileEmbeddedCodes.txt" />
-    <Content Include="Exporters\SharedRepositoryEmbeddedCodes.txt">
+    <Content Include="Exporters\SharedRepositoryFileEmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

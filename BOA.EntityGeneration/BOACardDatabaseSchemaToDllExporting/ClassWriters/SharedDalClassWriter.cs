@@ -1,8 +1,8 @@
-﻿using BOA.DataFlow;
+﻿using System.IO;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.Shared;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.SharedClasses;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
 using static BOA.EntityGeneration.DataFlow.Data;
 
@@ -19,6 +19,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
             FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory+"Shared.cs", allInOneSourceCode);
         }
+
+        static void WriteEmbeddedClasses(IDataContext context)
+        {
+            var sb = context.Get(SharedRepositoryFile);
+
+            var path = Path.GetDirectoryName(typeof(SharedDalClassWriter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryFileEmbeddedCodes.txt";
+
+            sb.AppendAll(System.IO.File.ReadAllText(path));
+            sb.AppendLine();
+        }
+
         public static void Write(IDataContext context)
         {
             var sb = context.Get(SharedRepositoryFile);
@@ -76,7 +87,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
            sb.AppendLine();
 
            sb.BeginNamespace(context.Get(NamingPattern.Id).RepositoryNamespace+".Shared");
-           SqlInfoClassWriter.Write(sb,config);
+           
+
+           SharedDalClassWriter.WriteEmbeddedClasses(context);
         }
 
         public static void EndNamespace(IDataContext context)

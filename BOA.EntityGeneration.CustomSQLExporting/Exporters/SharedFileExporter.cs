@@ -61,7 +61,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb            = context.Get(File);
 
-            var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryEmbeddedCodes.txt";
+            var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryFileEmbeddedCodes.txt";
 
             sb.AppendAll(System.IO.File.ReadAllText(path));
             sb.AppendLine();

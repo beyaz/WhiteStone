@@ -50,8 +50,8 @@
     "SharedRepositoryUsingLines": "using System;|using System.Data;|using System.Data.SqlClient;|using System.Collections.Generic;|using BOA.Base;|using BOA.Base.Data;|using BOA.Common.Types;|using $(EntityNamespace);"
   },
   "EntityContractBase": "CardContractBase",
-  
+
   "ReadLineCharToBool": "{Contract}.{PropertyName} = SQLDBHelper.GetStringValue(reader[\"{ColumnName}\"]) == \"1\";",
-  "ReadLineCharToBoolNullable": "{Contract}.{PropertyName} = Util.ReadNullableFlag(SQLDBHelper.GetStringValue(reader[\"{ColumnName}\"]));",
-  "ReadLineDefault": "{Contract}.{PropertyName} = SQLDBHelper.{SqlReaderMethod}(reader[\"{ColumnName}\"]);"
+  "ReadLineCharToBoolNullable": "{Contract}.{PropertyName} = GetBooleanNullableValueFromChar(reader, \"{ColumnName}\");",
+  "ReadLineDefault": "{Contract}.{PropertyName} = {SqlReaderMethod}(reader,\"{ColumnName}\");"
 }

@@ -106,6 +106,9 @@
   <ItemGroup>
     <Content Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\ObjectHelperSqlUtil.txt" />
     <Content Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\SqlInfo.txt" />
+    <Content Include="BOACardDatabaseSchemaToDllExporting\SharedRepositoryFileEmbeddedCodes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="EmbeddedUtilizationClassForDao.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
