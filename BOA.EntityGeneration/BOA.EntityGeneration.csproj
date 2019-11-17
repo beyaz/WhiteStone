@@ -56,7 +56,6 @@
     <Compile Include="BOACardDatabaseSchemaToDllExporting\NamingPattern.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\NamingPatternInitializer.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\ProjectExporters\Extensions.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\AllInOne\AllBusinessClassesInOne.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TableNamingPattern.cs" />
     <Compile Include="BOACardDatabaseSchemaToDllExporting\TableNamingPatternInitializer.cs" />
     <Compile Include="SharedRepositoryFileExporting\SharedFileExporter.cs" />
@@ -107,6 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BOACardDatabaseSchemaToDllExporting\SharedClasses\ObjectHelperSqlUtil.txt" />
+    <Content Include="BoaRepositoryFileExporting\BoaRepositoryFileEmbeddedCodes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="SharedRepositoryFileExporting\SharedRepositoryFileEmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb               = context.Get(Data.BoaRepositoryFile);
+            var sb               = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo        = context.Get(Data.TableInfo);
             var typeContractName = context.Get(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
             var tableNamingPattern = context.Get(Data.TableNamingPattern);

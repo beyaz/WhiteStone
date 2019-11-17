@@ -1,6 +1,7 @@
 ﻿using BOA.DataFlow;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
+using BOA.EntityGeneration.BoaRepositoryFileExporting;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.SharedRepositoryFileExporting;
 
@@ -18,14 +19,14 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         public static void Export(IDataContext context, string schemaName)
         {
             context.Add(Data.SchemaName, schemaName);
-            context.Add(Data.BoaRepositoryFile, new PaddedStringBuilder());
+            context.Add(BoaRepositoryFileExporter.File, new PaddedStringBuilder());
 
             NamingPatternInitializer.Initialize(context);
 
             context.FireEvent(SchemaExportingEvent.SchemaExportStarted);
             context.FireEvent(SchemaExportingEvent.SchemaExportFinished);
 
-            context.Remove(Data.BoaRepositoryFile);
+            context.Remove(BoaRepositoryFileExporter.File);
             context.Remove(Data.SchemaName);
             NamingPatternInitializer.Remove(context);
         }

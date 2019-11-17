@@ -61,7 +61,7 @@ namespace BOA.EntityGeneration.DataFlow
         #region Files
         
         
-        internal static readonly IDataConstant<PaddedStringBuilder> BoaRepositoryFile    = DataConstant.Create<PaddedStringBuilder>(nameof(BoaRepositoryFile));
+        
         #endregion
     }
 }

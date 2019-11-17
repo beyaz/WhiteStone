@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb        = context.Get(BoaRepositoryFile);
+            var sb        = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo = context.Get(TableInfo);
             var deleteByKeyInfo = DeleteInfoCreator.Create(tableInfo);
             var tableNamingPattern = context.Get(Data.TableNamingPattern);
