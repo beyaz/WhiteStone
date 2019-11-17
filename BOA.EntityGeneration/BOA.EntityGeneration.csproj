@@ -53,10 +53,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\NamingPattern.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\NamingPatternInitializer.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\TableNamingPattern.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\TableNamingPatternInitializer.cs" />
+    <Compile Include="Naming\NamingPattern.cs" />
+    <Compile Include="Naming\NamingPatternInitializer.cs" />
+    <Compile Include="Naming\TableNamingPattern.cs" />
+    <Compile Include="Naming\TableNamingPatternInitializer.cs" />
     <Compile Include="SharedRepositoryFileExporting\SharedFileExporter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\SelectAllByValidFlagMethodWriter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\SelectAllMethodWriter.cs" />
@@ -77,20 +77,20 @@
     <Compile Include="Models\Impl\SequenceInfo.cs" />
     <Compile Include="Models\Interfaces\ISequenceInfo.cs" />
     <Compile Include="CsprojFileExporters\RepositoryCsprojFileExporter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\InsertInfoCreator.cs" />
+    <Compile Include="DataAccess\InsertInfoCreator.cs" />
     <Compile Include="DataFlow\DataContextCreator.cs" />
     <Compile Include="CsprojFileExporters\EntityCsprojFileExporter.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="DataFlow\Data.cs" />
     <Compile Include="BoaRepositoryFileExporting\BoaRepositoryFileExporter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\BOACardDatabaseExporter.cs" />
+    <Compile Include="Exporters\BOACardDatabaseExporter.cs" />
     <Compile Include="EntityFileExporter.cs" />
     <Compile Include="Models\Impl\TableInfo.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\GeneratorDataCreator.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\Util\ParameterHelper.cs" />
+    <Compile Include="DataAccess\GeneratorDataCreator.cs" />
+    <Compile Include="Util\ParameterHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\Exporters\SchemaExporter.cs" />
-    <Compile Include="BOACardDatabaseSchemaToDllExporting\DataAccess\SchemaExporterDataPreparer.cs" />
+    <Compile Include="Exporters\SchemaExporter.cs" />
+    <Compile Include="DataAccess\SchemaExporterDataPreparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
