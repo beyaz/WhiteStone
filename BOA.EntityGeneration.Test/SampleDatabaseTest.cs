@@ -66,7 +66,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         static void HoldSomeDataForCheckingTestResults(IDataContext context)
         {
             // TODO:fixme: context.Add(EntityFileTemp, context.Get(EntityFileExporter.File));
-            context.Add(SharedRepositoryFileTemp, context.Get(SharedRepositoryFile));
+            context.Add(SharedRepositoryFileTemp, context.Get(SharedFileExporter.SharedRepositoryFile));
         }
         #endregion
     }

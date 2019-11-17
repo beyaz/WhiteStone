@@ -24,15 +24,15 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             {
                 context.AttachEvent(StartToExportTable, Naming.PushNamesRelatedWithTable);
                 context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.WriteClass);
-                context.AttachEvent(StartToExportTable, SharedDalClassWriter.Write);
+                context.AttachEvent(StartToExportTable, SharedFileExporter.Write);
                 
                 context.AttachEvent(StartToExportTable, Naming.RemoveNamesRelatedWithTable);
 
-                context.AttachEvent(StartToExportSchema, SharedDalClassWriter.WriteUsingList);
+                context.AttachEvent(StartToExportSchema, SharedFileExporter.WriteUsingList);
                 context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.WriteUsingList);
                 context.AttachEvent(StartToExportSchema, AllBusinessClassesInOne.BeginNamespace);
                 context.AttachEvent(StartToExportSchema, Events.OnSchemaStartedToExport);
-                context.AttachEvent(StartToExportSchema, SharedDalClassWriter.EndNamespace);
+                context.AttachEvent(StartToExportSchema, SharedFileExporter.EndNamespace);
                 context.AttachEvent(StartToExportSchema, GeneratorOfBusinessClass.EndNamespace);
 
 

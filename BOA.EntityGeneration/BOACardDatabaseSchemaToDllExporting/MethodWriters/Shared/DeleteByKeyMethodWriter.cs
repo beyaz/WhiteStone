@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
 
@@ -10,7 +11,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb         = context.Get(SharedRepositoryFile);
+            var sb         = context.Get(SharedFileExporter.SharedRepositoryFile);
             var tableInfo  = context.Get(TableInfo);
             var deleteInfo = DeleteInfoCreator.Create(tableInfo);
 

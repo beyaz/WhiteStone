@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
@@ -13,7 +14,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb         = context.Get(SharedRepositoryFile);
+            var sb         = context.Get(SharedFileExporter.SharedRepositoryFile);
             var tableInfo  = context.Get(TableInfo);
             var config = context.Get(Config);
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);

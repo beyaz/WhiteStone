@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
@@ -13,7 +14,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb        = context.Get(Data.SharedRepositoryFile);
+            var sb        = context.Get(SharedFileExporter.SharedRepositoryFile);
             var tableInfo = context.Get(Data.TableInfo);
 
             var allIndexes = new List<IIndexInfo>();
