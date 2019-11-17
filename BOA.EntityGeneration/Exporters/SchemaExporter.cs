@@ -1,6 +1,4 @@
-﻿using BOA.Common.Helpers;
-using BOA.DataFlow;
-using BOA.EntityGeneration.BoaRepositoryFileExporting;
+﻿using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.Naming;
 
@@ -18,14 +16,12 @@ namespace BOA.EntityGeneration.Exporters
         public static void Export(IDataContext context, string schemaName)
         {
             context.Add(Data.SchemaName, schemaName);
-            context.Add(BoaRepositoryFileExporter.File, new PaddedStringBuilder());
 
             NamingPatternInitializer.Initialize(context);
 
             context.FireEvent(SchemaExportingEvent.SchemaExportStarted);
             context.FireEvent(SchemaExportingEvent.SchemaExportFinished);
 
-            context.Remove(BoaRepositoryFileExporter.File);
             context.Remove(Data.SchemaName);
             NamingPatternInitializer.Remove(context);
         }

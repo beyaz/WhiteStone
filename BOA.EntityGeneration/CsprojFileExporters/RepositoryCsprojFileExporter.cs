@@ -1,6 +1,5 @@
 ﻿using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BoaRepositoryFileExporting;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.Naming;
 using BOA.Tasks;
@@ -13,12 +12,10 @@ namespace BOA.EntityGeneration.CsprojFileExporters
         public static void Export(IDataContext context)
         {
             var schemaName            = context.Get(Data.SchemaName);
-            var allInOneSourceCode    = context.Get(BoaRepositoryFileExporter.File).ToString();
             var namingPattern = context.Get(NamingPatternContract.NamingPattern);
             
             var ProjectExportLocation = namingPattern.RepositoryProjectDirectory;
 
-            FileSystem.WriteAllText(context, ProjectExportLocation + "Boa.cs", allInOneSourceCode);
 
             var progress = context.Get(Data.SchemaGenerationProcess);
 
