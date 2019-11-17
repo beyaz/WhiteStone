@@ -63,17 +63,17 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             
 
             
-            context.AttachEvent(TableExportingEvent.TableExportStarted, GeneratorOfBusinessClass.WriteClass);
+            context.AttachEvent(TableExportingEvent.TableExportStarted, BoaRepositoryFileExporter.WriteClass);
 
             context.AttachEvent(TableExportingEvent.TableExportFinished, TableNamingPatternInitializer.Remove);
 
             
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, GeneratorOfBusinessClass.WriteUsingList);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BoaRepositoryFileExporter.WriteUsingList);
             
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, AllBusinessClassesInOne.BeginNamespace);
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, Events.OnSchemaStartedToExport);
             
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, GeneratorOfBusinessClass.EndNamespace);
+            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BoaRepositoryFileExporter.EndNamespace);
 
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, TypesProjectExporter.ExportTypeDll);
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BusinessProjectExporter.Export);

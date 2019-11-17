@@ -9,10 +9,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
 
     
 
-    /// <summary>
-    ///     The generator of business class
-    /// </summary>
-    public class GeneratorOfBusinessClass
+    class BoaRepositoryFileExporter
     {
 
         public static void EndNamespace(IDataContext context)
