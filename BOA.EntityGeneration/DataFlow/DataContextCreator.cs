@@ -12,33 +12,12 @@ using BOA.EntityGeneration.SharedRepositoryFileExporting;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 {
-    public class DataContextCreatorBase
+    public class DataContextCreator
     {
         #region Public Properties
         public string ConfigFilePath { get; set; }
         #endregion
 
-        #region Public Methods
-        public void InitializeServices(IDataContext context)
-        {
-            if (ConfigFilePath == null)
-            {
-                ConfigFilePath = Path.GetDirectoryName(typeof(DataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
-            }
-
-            context.Add(Data.Config, JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath)));
-            context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
-            context.Add(MsBuildQueue.MsBuildQueueId, new MsBuildQueue());
-
-            context.Add(Data.AllSchemaGenerationProcess, new ProcessContract());
-            context.Add(Data.SchemaGenerationProcess, new ProcessContract());
-            
-        }
-        #endregion
-    }
-
-    public class DataContextCreator : DataContextCreatorBase
-    {
         #region Public Methods
         public IDataContext Create()
         {
@@ -60,22 +39,29 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
             SharedFileExporter.AttachEvents(context);
             BoaRepositoryFileExporter.AttachEvents(context);
 
-            
-
-            
-
             context.AttachEvent(TableExportingEvent.TableExportFinished, TableNamingPatternInitializer.Remove);
 
-            
-            
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, Events.OnSchemaStartedToExport);
-            
 
             context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, EntityCsprojFileExporter.Export);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, BusinessProjectExporter.Export);
-
+            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, RepositoryCsprojFileExporter.Export);
 
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, MsBuildQueue.Build);
+        }
+
+        void InitializeServices(IDataContext context)
+        {
+            if (ConfigFilePath == null)
+            {
+                ConfigFilePath = Path.GetDirectoryName(typeof(DataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
+            }
+
+            context.Add(Data.Config, JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath)));
+            context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
+            context.Add(MsBuildQueue.MsBuildQueueId, new MsBuildQueue());
+
+            context.Add(Data.AllSchemaGenerationProcess, new ProcessContract());
+            context.Add(Data.SchemaGenerationProcess, new ProcessContract());
         }
         #endregion
     }

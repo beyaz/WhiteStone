@@ -6,10 +6,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
     public class BOACardDatabaseExporter
     {
         #region Public Methods
-        public static void Export(IDataContext context, string schemaName)
-        {
-            SchemaExporter.Export(context, schemaName);
-        }
+        
 
         public static void Export(IDataContext context)
         {

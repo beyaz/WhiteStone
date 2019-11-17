@@ -5,7 +5,7 @@ using BOA.Tasks;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
-    class BusinessProjectExporter
+    class RepositoryCsprojFileExporter
     {
         #region Public Methods
         public static void Export(IDataContext context)

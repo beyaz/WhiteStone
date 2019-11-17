@@ -101,7 +101,7 @@ namespace BOA.EntityGeneration.UI.MainForm
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,true);
             context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted,true);
 
-            BOACardDatabaseExporter.Export(context, Model.SchemaName);
+            SchemaExporter.Export(context, Model.SchemaName);
 
             context.Remove(FileSystem.CheckinComment);
             context.Remove(FileSystem.IntegrateWithTFSAndCheckInAutomatically);
