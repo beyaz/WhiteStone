@@ -25,7 +25,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             context.AttachEvent(DataEvent.StartToExportSchema, WriteEmbeddedClasses);
             context.AttachEvent(DataEvent.StartToExportSchema, EndNamespace);
 
-            context.AttachEvent(DataEvent.StartToExportTable, WriteClass);
+            context.AttachEvent(TableExportingEvent.TableExportStarted, WriteClass);
 
             context.AttachEvent(DataEvent.FinishingExportingSchema, ExportFileToDirectory);
             context.AttachEvent(DataEvent.FinishingExportingSchema, ClearOutput);

@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             context.AttachEvent(DataEvent.StartToExportSchema, BeginNamespace);
             context.AttachEvent(DataEvent.StartToExportSchema, EndNamespace);
 
-            context.AttachEvent(DataEvent.StartToExportTable, WriteClass);
+            context.AttachEvent(TableExportingEvent.TableExportStarted, WriteClass);
 
             context.AttachEvent(DataEvent.FinishingExportingSchema, ExportFileToDirectory);
             context.AttachEvent(DataEvent.FinishingExportingSchema, ClearOutput);

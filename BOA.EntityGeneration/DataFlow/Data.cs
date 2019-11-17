@@ -9,8 +9,11 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 namespace BOA.EntityGeneration.DataFlow
 {
 
-  
 
+    static class TableExportingEvent
+    {
+        public static readonly IEvent TableExportStarted = new Event {Name = nameof(TableExportStarted)};
+    }
    
 
      static class DataEvent
@@ -19,7 +22,6 @@ namespace BOA.EntityGeneration.DataFlow
         public static readonly IEvent AfterFetchedAllTableNamesInSchema = new Event {Name = nameof(AfterFetchedAllTableNamesInSchema)};
         public static readonly IEvent StartToExportSchema               = new Event {Name = nameof(StartToExportSchema)};
         public static readonly IEvent FinishingExportingSchema = new Event {Name = nameof(FinishingExportingSchema)};
-        public static readonly IEvent StartToExportTable                = new Event {Name = nameof(StartToExportTable)};
         #endregion
     }
 

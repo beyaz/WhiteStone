@@ -3,6 +3,7 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.AllInOne;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.SharedRepositoryFileExporting;
 using static BOA.EntityGeneration.DataFlow.Data;
 using static BOA.EntityGeneration.DataFlow.DataEvent;
@@ -24,7 +25,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             protected override void AttachEvents(IDataContext context)
             {
                 
-                context.AttachEvent(StartToExportTable, GeneratorOfBusinessClass.WriteClass);
+                context.AttachEvent(TableExportingEvent.TableExportStarted, GeneratorOfBusinessClass.WriteClass);
                 
                 
 
