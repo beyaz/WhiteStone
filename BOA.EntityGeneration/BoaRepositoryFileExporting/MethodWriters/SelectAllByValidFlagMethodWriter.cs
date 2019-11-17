@@ -2,7 +2,7 @@
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.BoaSystem
+namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
     static class SelectAllByValidFlagMethodWriter
     {

@@ -7,6 +7,7 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.BoaRepositoryFileExporting;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.SharedRepositoryFileExporting;
 using static BOA.EntityGeneration.DataFlow.DataEvent;

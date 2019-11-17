@@ -5,7 +5,7 @@ using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.BoaSystem
+namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
     static class SelectByUniqueIndexMethodWriter
     {

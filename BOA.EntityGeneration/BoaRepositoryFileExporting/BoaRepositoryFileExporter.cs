@@ -1,10 +1,10 @@
 ﻿using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.BoaSystem;
+using BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters;
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
+namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 {
 
     
@@ -79,7 +79,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             if (tableInfo.IsSupportSelectByKey)
             {
                 sb.AppendLine();
-                MethodWriters.BoaSystem.DeleteByKeyMethodWriter.Write(context);
+                DeleteByKeyMethodWriter.Write(context);
             }
             #endregion
 
@@ -90,7 +90,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             if (tableInfo.IsSupportSelectByKey)
             {
                 sb.AppendLine();
-                MethodWriters.BoaSystem.UpdateByKeyMethodWriter.Write(context);
+                UpdateByKeyMethodWriter.Write(context);
 
             }
             #endregion
@@ -100,7 +100,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ClassWriters
             {
 
                 sb.AppendLine();
-                MethodWriters.BoaSystem.SelectByKeyMethodWriter.Write(context);
+                SelectByKeyMethodWriter.Write(context);
             }
             #endregion
 

@@ -8,7 +8,7 @@ using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
 using InsertInfoCreator = BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.DataAccess.InsertInfoCreator;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.MethodWriters.BoaSystem
+namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
     static class InsertMethodWriter
     {
