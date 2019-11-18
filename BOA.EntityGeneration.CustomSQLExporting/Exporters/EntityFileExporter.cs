@@ -29,14 +29,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
 
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
 
             sb.AppendLine();
-            sb.AppendLine($"namespace {namingPattern.EntityNamespace}");
+            sb.AppendLine($"namespace {profileNamingPattern.EntityNamespace}");
             sb.OpenBracket();
 
             sb.AppendLine("/// <summary>");
@@ -62,13 +62,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
 
             var processInfo = context.Get(ProcessInfo);
 
             processInfo.Text = "Exporting Entity classes.";
 
-            var filePath = namingPattern.EntityProjectDirectory + "All.cs";
+            var filePath = profileNamingPattern.EntityProjectDirectory + "All.cs";
 
             FileSystem.WriteAllText(context, filePath, sb.ToString());
         }

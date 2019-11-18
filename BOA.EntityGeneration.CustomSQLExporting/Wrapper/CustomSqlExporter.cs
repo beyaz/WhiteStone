@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             context.Add(ProfileName, profileId);
             context.Add(ProcessedCustomSqlInfoListInProfile, new List<CustomSqlInfo>());
-            NamingPattern.Initialize(context);
+            ProfileNamingPatternInitializer.Initialize(context);
 
             InitializeProfileInfo(context);
             ProcessCustomSQLsInProfile(context);
@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             context.Remove(ProcessedCustomSqlInfoListInProfile);
             context.Remove(ProfileName);
-            NamingPattern.Remove(context);
+            ProfileNamingPatternInitializer.Remove(context);
 
             var processInfo = context.Get(ProcessInfo);
             processInfo.Text = "Finished Successfully.";

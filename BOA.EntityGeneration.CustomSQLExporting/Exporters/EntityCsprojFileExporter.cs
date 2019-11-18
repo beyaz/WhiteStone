@@ -15,10 +15,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void Export(IDataContext context)
         {
-            var namingPattern = context.Get(NamingPattern.Id);
+            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
 
-            var ns               = namingPattern.EntityNamespace;
-            var projectDirectory = namingPattern.EntityProjectDirectory;
+            var ns               = profileNamingPattern.EntityNamespace;
+            var projectDirectory = profileNamingPattern.EntityProjectDirectory;
 
             var csprojFilePath = $"{projectDirectory}{ns}.csproj";
 

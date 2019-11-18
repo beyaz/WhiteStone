@@ -15,10 +15,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         public static void Export(IDataContext context)
         {
-            var namingPattern = context.Get(NamingPattern.Id);
+            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
 
-            var ns               = namingPattern.RepositoryNamespace;
-            var projectDirectory = namingPattern.RepositoryProjectDirectory;
+            var ns               = profileNamingPattern.RepositoryNamespace;
+            var projectDirectory = profileNamingPattern.RepositoryProjectDirectory;
 
             var csprojFilePath = $"{projectDirectory}{ns}.csproj";
 
@@ -67,8 +67,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     <Reference Include=""BOA.Common"">
       <HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath>
     </Reference>
-    <Reference Include=""{namingPattern.EntityNamespace}"">
-      <HintPath>D:\BOA\Server\bin\{namingPattern.EntityNamespace}.dll</HintPath>
+    <Reference Include=""{profileNamingPattern.EntityNamespace}"">
+      <HintPath>D:\BOA\Server\bin\{profileNamingPattern.EntityNamespace}.dll</HintPath>
     </Reference>
     <Reference Include=""BOA.Types.Kernel.Card"">
       <HintPath>d:\boa\server\bin\BOA.Types.Kernel.Card.dll</HintPath>

@@ -50,10 +50,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
 
 
-            sb.AppendLine($"namespace {namingPattern.RepositoryNamespace}.Shared");
+            sb.AppendLine($"namespace {profileNamingPattern.RepositoryNamespace}.Shared");
             sb.OpenBracket();
         }
 
@@ -124,11 +124,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb            = context.Get(File);
             var processInfo   = context.Get(ProcessInfo);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
 
             processInfo.Text = "Exporting Shared repository.";
 
-            var filePath = namingPattern.RepositoryProjectDirectory + "Shared.cs";
+            var filePath = profileNamingPattern.RepositoryProjectDirectory + "Shared.cs";
 
             FileSystem.WriteAllText(context, filePath, sb.ToString());
         }
@@ -177,13 +177,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteUsingList(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
 
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Data;");
             sb.AppendLine("using System.Data.SqlClient;");
             sb.AppendLine("using System.Collections.Generic;");
-            sb.AppendLine($"using {namingPattern.EntityNamespace};");
+            sb.AppendLine($"using {profileNamingPattern.EntityNamespace};");
         }
         #endregion
     }

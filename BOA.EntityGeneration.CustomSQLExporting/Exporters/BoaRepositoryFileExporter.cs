@@ -35,9 +35,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var profileNamingPattern= context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
 
-            sb.BeginNamespace(namingPattern.RepositoryNamespace);
+            sb.BeginNamespace(profileNamingPattern.RepositoryNamespace);
         }
 
         static void ClearOutput(IDataContext context)
@@ -59,13 +59,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
 
             var processInfo = context.Get(ProcessInfo);
 
             processInfo.Text = "Exporting BOA repository.";
 
-            var filePath = namingPattern.RepositoryProjectDirectory + "Boa.cs";
+            var filePath = profileNamingPattern.RepositoryProjectDirectory + "Boa.cs";
 
             FileSystem.WriteAllText(context, filePath, sb.ToString());
         }
@@ -78,9 +78,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void UsingList(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
 
-            foreach (var line in namingPattern.BoaRepositoryUsingLines)
+            foreach (var line in profileNamingPattern.BoaRepositoryUsingLines)
             {
                 sb.AppendLine(line);
             }
@@ -89,7 +89,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteBoaRepositoryClass(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPattern.Id);
+            var namingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
             var customSqlInfo          = context.Get(CustomSqlInfo);
 
             var key = $"{namingPattern.RepositoryNamespace}.{customSqlInfo.BusinessClassName}.Execute";
