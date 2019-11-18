@@ -62,12 +62,14 @@ namespace BOA.OneDesigner.CodeGeneration
             }
 
 
-
-
             sb.AppendLine("context = {context}/>");
 
             sb.PaddingCount--;
 
+            writerContext.Support_excelRead();
+
         }
+
+       
     }
 }

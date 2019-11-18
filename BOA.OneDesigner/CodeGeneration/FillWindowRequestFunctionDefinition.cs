@@ -97,13 +97,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (data is ComponentGetValueInfoExcelBrowser excelBrowser)
                 {
-                    sb.AppendLine("{");
-                    sb.PaddingCount++;
 
                     excelBrowser.Write(sb);
 
-                    sb.PaddingCount--;
-                    sb.AppendLine("}");
                     continue;
                 }
 

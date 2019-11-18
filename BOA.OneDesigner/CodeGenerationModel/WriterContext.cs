@@ -103,6 +103,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
         }
 
 
+        #region Support_syncCardComponent
         const string syncCardComponent = @"syncCardComponent(creditCardComponent: any, clearCardNumber: any)
 {
     if (creditCardComponent == null)
@@ -124,7 +125,7 @@ namespace BOA.OneDesigner.CodeGenerationModel
 }";
         public void Support_syncCardComponent()
         {
-            if (_classBody.Any(x=>x.Code == syncCardComponent))
+            if (_classBody.Any(x => x.Code == syncCardComponent))
             {
                 return;
             }
@@ -137,7 +138,63 @@ namespace BOA.OneDesigner.CodeGenerationModel
 
             _classBody.Add(memberInfo);
             _classBody.Sort(TypeScriptMemberInfo.Compare);
+        } 
+        #endregion
+
+        #region excelRead
+        const string excelRead = @"readExcel(excelBrowser: any)
+{
+    if (excelBrowser === null)
+    {
+        return null;
+    }
+
+    const excelData = excelBrowser.getInstance().getValue();
+
+    const $excelData: any = [];
+
+    for (let i = 0; i < excelData.length; i++)
+    {
+        const excelRow = excelData[i];
+
+        const record = [];
+
+        let columnIndex = 0;
+        while (true)
+        {
+            const cellValue = excelRow[columnIndex];
+            if (cellValue === undefined)
+            {
+                break;
+            }
+
+            record.push(cellValue);
+
+            columnIndex++;
         }
+
+        $excelData.push(record);
+    }
+    
+    return $excelData;
+}";
+        public void Support_excelRead()
+        {
+            if (_classBody.Any(x => x.Code == excelRead))
+            {
+                return;
+            }
+
+            var memberInfo = new TypeScriptMemberInfo
+            {
+                IsMethod = true,
+                Code     = excelRead
+            };
+
+            _classBody.Add(memberInfo);
+            _classBody.Sort(TypeScriptMemberInfo.Compare);
+        } 
+        #endregion
 
         public void AddClassBody(TypeScriptMemberInfo info)
         {
