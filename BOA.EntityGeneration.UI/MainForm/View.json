@@ -17,6 +17,7 @@
           {
             "view": "Textbox",
             "Text": "{Binding SchemaName}",
+            "IntellisenseSource": "{Binding SchemaNames}",
             "Label": "Schema"
           },
           {

@@ -84,12 +84,12 @@ namespace BOA.EntityGeneration.DataAccess
                 if (item.IsNullable)
                 {
                     item.DotNetType      = DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
-                    item.SqlReaderMethod = SqlReaderMethods.GetBooleanNullableValue;
+                    item.SqlReaderMethod = SqlReaderMethods.GetBooleanNullableValueFromChar;
                 }
                 else
                 {
                     item.DotNetType      = DotNetTypeName.DotNetBool;
-                    item.SqlReaderMethod = SqlReaderMethods.GetBooleanValue;
+                    item.SqlReaderMethod = SqlReaderMethods.GetBooleanValueFromChar;
                 }
             }
 

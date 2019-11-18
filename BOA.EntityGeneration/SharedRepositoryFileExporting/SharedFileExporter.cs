@@ -61,6 +61,10 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             var allInOneSourceCode = context.Get(File).ToString();
             var namingPattern      = context.Get(NamingPatternContract.NamingPattern);
 
+            var processInfo = context.Get(SchemaGenerationProcess);
+
+            processInfo.Text = "Exporting Shared repository...";
+
             FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Shared.cs", allInOneSourceCode);
         }
 

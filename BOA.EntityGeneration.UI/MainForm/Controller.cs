@@ -70,8 +70,11 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         public override void OnViewLoaded()
         {
+            var schemaNames = new DataContextCreator().Create().Get(Data.Config).SchemaNamesToBeExport;
+
             Model = new Model
             {
+                SchemaNames = schemaNames,
                 SchemaGenerationProcess = new ProcessContract
                 {
                     Text = "Ready"

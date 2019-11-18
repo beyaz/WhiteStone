@@ -63,6 +63,9 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         {
             var allInOneSourceCode = context.Get(File).ToString();
             var namingPattern      = context.Get(NamingPattern);
+            var processInfo        = context.Get(SchemaGenerationProcess);
+
+            processInfo.Text = "Exporting Boa repository...";
 
             FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Boa.cs", allInOneSourceCode);
         }
@@ -74,12 +77,9 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
         static void WriteClass(IDataContext context)
         {
-            var sb        = context.Get(File);
-            var tableInfo = context.Get(TableInfo);
+            var sb                 = context.Get(File);
+            var tableInfo          = context.Get(TableInfo);
             var tableNamingPattern = context.Get(TableNamingPattern);
-            var namingPattern = context.Get( NamingPattern);
-
-            
 
             ContractCommentInfoCreator.Write(sb, tableInfo);
             sb.AppendLine($"public sealed class {tableNamingPattern.BoaRepositoryClassName} : ObjectHelper");

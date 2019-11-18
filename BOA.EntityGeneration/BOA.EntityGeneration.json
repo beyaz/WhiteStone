@@ -33,7 +33,8 @@
     "TRN",
     "VIS",
     "EMB",
-    "SYSOP"
+    "SYSOP",
+    "*"
   ],
   "SqlSequenceInformationOfTable": "select  DISTINCT(columnname) AS TargetColumnName , (schemaname +'.' + sequencename) AS Name from BOACard.dbo.tablesequences WHERE schemaname = @schema AND tablename = @tableName",
 
