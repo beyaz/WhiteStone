@@ -149,9 +149,9 @@ namespace BOA.OneDesigner.CodeGenerationModel
         return null;
     }
 
-    const excelData = excelBrowser.getInstance().getValue();
-
     const $excelData: any = [];
+
+    const excelData = excelBrowser.getInstance().getValue();    
 
     for (let i = 0; i < excelData.length; i++)
     {

@@ -28,6 +28,8 @@ namespace BOA.OneDesigner.CodeGeneration
                 SnapName = data.SnapName
             });
 
+            writerContext.AddToBeforeSetStateOnProxyDidResponse(GetValueCorrection(data.SnapName, data.ValueBindingPathInTypeScript));
+
             writerContext.Imports.Add("import { BExcelBrowser } from \"b-excel-browser\"");
 
             sb.AppendLine("<BExcelBrowser");
@@ -68,6 +70,24 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.Support_excelRead();
 
+        }
+
+        static string GetValueCorrection(string snapName, string bindingPathInJs)
+        {
+            bindingPathInJs = RenderHelper.ConvertBindingPathToIncomingRequest(bindingPathInJs);
+
+            var sb = new PaddedStringBuilder();
+
+            sb.AppendLine($"if (this.snaps.{snapName} &&  this.readExcel(this.snaps.{snapName}).length !== ({bindingPathInJs}||[]).length)");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+
+            sb.AppendLine($"this.snaps.{snapName}.resetValue();");
+
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+
+            return sb.ToString();
         }
 
        
