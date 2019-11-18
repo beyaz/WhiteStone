@@ -78,13 +78,28 @@ namespace BOA.OneDesigner.CodeGeneration
                 writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("dataSource", RenderHelper.ConvertBindingPathToIncomingRequest(dataSourceBindingPathInTypeScript));
                 writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("columns", $"this.{methodNameOfGridColumns}({Config.IncomingRequestVariableName})");
 
+
+                
+
                 if (data.SelectedRowDataBindingPath.HasValue())
                 {
+                    if (data.SelectableIsSingle)
+                    {
+                        throw Error.InvalidOperation($"SelectableIsSingle değeri ve SelectedRowDataBindingPath aynı anda seçilemez. @SelectedRowDataBindingPath:"+data.SelectedRowDataBindingPath);
+                    }
+
                     var isCollection = SelectedRowDataBindingPathIsConnectedToCollection(writerContext, data);
                     if (isCollection == false)
                     {
                         writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("selectable", "\"single\"");    
-                    }    
+                    }
+                }
+                else
+                {
+                    if (data.SelectableIsSingle)
+                    {
+                        writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("selectable", "\"single\"");    
+                    }
                 }
 
                 if (totalSummaryList.Any())
@@ -113,11 +128,23 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (data.SelectedRowDataBindingPath.HasValue())
             {
+                if (data.SelectableIsSingle)
+                {
+                    throw Error.InvalidOperation($"SelectableIsSingle değeri ve SelectedRowDataBindingPath aynı anda seçilemez. @SelectedRowDataBindingPath:"+data.SelectedRowDataBindingPath);
+                }
+
                 var isCollection = SelectedRowDataBindingPathIsConnectedToCollection(writerContext, data);
                 if (isCollection)
                 {
                     writeSelectableIsSingle = false;
                 }    
+            }
+            else
+            {
+                if (data.SelectableIsSingle)
+                {
+                    writeSelectableIsSingle = true;
+                }
             }
 
             if (writeSelectableIsSingle)

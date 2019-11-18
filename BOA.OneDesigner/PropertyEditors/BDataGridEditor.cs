@@ -57,6 +57,12 @@ namespace BOA.OneDesigner.PropertyEditors
                 rows:
                 [
                     {
+                        ui:'CheckBox', 
+                        IsChecked:'{Binding " + nameof(BDataGrid.SelectableIsSingle) + @"}', 
+                        Content:'Selectable Is Single'
+                    }
+                    ,
+                    {
                         ui:'RequestIntellisenseTextBox', 
                         Text:'{Binding " + nameof(BDataGrid.SelectedRowDataBindingPath) + @"}', 
                         Label:'Binding Path' 

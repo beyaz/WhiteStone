@@ -38,6 +38,8 @@ namespace BOA.OneDesigner.JsxElementModel
         /// </summary>
         public string SelectedRowDataBindingPath { get; set; }
 
+        public bool SelectableIsSingle { get; set; }
+
         /// <summary>
         ///     Gets or sets the size information.
         /// </summary>
