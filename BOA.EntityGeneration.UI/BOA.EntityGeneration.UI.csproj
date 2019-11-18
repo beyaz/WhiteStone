@@ -130,4 +130,7 @@
   <PropertyGroup>
     <PostBuildEvent>D:\github\WhiteStone\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>copy /y  "$(SolutionDir)BOA.EntityGeneration\bin\Debug\*.txt"  "$(TargetDir)"</PreBuildEvent>
+  </PropertyGroup>
 </Project>

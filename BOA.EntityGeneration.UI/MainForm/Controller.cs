@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using BOA.DataFlow;
 using BOA.Common.Helpers;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.DataFlow;
@@ -14,7 +14,11 @@ namespace BOA.EntityGeneration.UI.MainForm
     public class Controller : ControllerBase<Model>
     {
         #region Static Fields
-        static bool   IsFinished;
+        static bool IsFinished;
+        #endregion
+
+        #region Fields
+        IDataContext context;
         #endregion
 
         #region Public Methods
@@ -51,8 +55,7 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         public void GetCapture()
         {
-            
-            Model.SchemaGenerationProcess    = context?.TryGet(Data.SchemaGenerationProcess) ?? Model.SchemaGenerationProcess;
+            Model.SchemaGenerationProcess = context?.TryGet(Data.SchemaGenerationProcess) ?? Model.SchemaGenerationProcess;
 
             Model.AllSchemaGenerationProcess = context?.TryGet(Data.AllSchemaGenerationProcess) ?? Model.AllSchemaGenerationProcess;
 
@@ -91,15 +94,13 @@ namespace BOA.EntityGeneration.UI.MainForm
         #endregion
 
         #region Methods
-
-        IDataContext context;
         void Start()
         {
             context = new DataContextCreator().Create();
 
-            context.Add(FileSystem.CheckinComment,Model.CheckInComment);
-            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,true);
-            context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted,true);
+            context.Add(FileSystem.CheckinComment, Model.CheckInComment);
+            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
+            context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted, true);
 
             SchemaExporter.Export(context, Model.SchemaName);
 
@@ -109,14 +110,13 @@ namespace BOA.EntityGeneration.UI.MainForm
 
             IsFinished = true;
         }
-        
 
         void StartAll()
         {
-            context = new DataContextCreator ().Create();
+            context = new DataContextCreator().Create();
 
-            context.Add(FileSystem.CheckinComment,Model.CheckInComment);
-            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,true);
+            context.Add(FileSystem.CheckinComment, Model.CheckInComment);
+            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
 
             BOACardDatabaseExporter.Export(context);
 
