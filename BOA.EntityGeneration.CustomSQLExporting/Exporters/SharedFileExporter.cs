@@ -6,6 +6,7 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
+using static BOA.EntityGeneration.CustomSQLExporting.CustomSqlNamingPatternContract;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
@@ -42,8 +43,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb   = context.Get(File);
             var data = context.Get(CustomSqlInfo);
+            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
 
-            sb.AppendLine($"public static class {data.BusinessClassName}");
+            sb.AppendLine($"public static class {customSqlNamingPattern.RepositoryClassName}");
             sb.OpenBracket();
         }
 
@@ -76,8 +78,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb            = context.Get(File);
             var customSqlInfo = context.Get(CustomSqlInfo);
+            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+            
 
-            sb.AppendLine($"public static SqlInfo CreateSqlInfo({customSqlInfo.ParameterContractName} request)");
+            sb.AppendLine($"public static SqlInfo CreateSqlInfo({customSqlNamingPattern.InputClassName} request)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -142,6 +146,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb   = context.Get(File);
             var customSqlInfo = context.Get(CustomSqlInfo);
+            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+            
 
             if (customSqlInfo.ResultContractIsReferencedToEntity)
             {
@@ -151,7 +157,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public static void ReadContract(IDataRecord reader, {customSqlInfo.ResultContractName} contract)");
+            sb.AppendLine($"public static void ReadContract(IDataRecord reader, {customSqlNamingPattern.ResultClassName} contract)");
             sb.OpenBracket();
 
             foreach (var item in customSqlInfo.ResultColumns)

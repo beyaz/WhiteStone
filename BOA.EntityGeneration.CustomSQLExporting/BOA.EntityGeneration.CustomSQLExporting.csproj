@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationContract.cs" />
+    <Compile Include="CustomSqlNamingPatternContract.cs" />
     <Compile Include="Exporters\BoaRepositoryFileExporter.cs" />
     <Compile Include="Exporters\CustomSqlDataContextCreator.cs" />
     <Compile Include="Exporters\SharedFileExporter.cs" />

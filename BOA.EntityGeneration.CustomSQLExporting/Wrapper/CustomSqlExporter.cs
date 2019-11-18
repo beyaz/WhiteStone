@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
@@ -65,6 +66,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var switchCaseIndex = 0;
             foreach (var objectId in customSqlNamesInfProfile)
             {
+
                 processInfo.Text    = $"Processing '{objectId}'";
                 processInfo.Current = switchCaseIndex;
 
@@ -73,9 +75,38 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 context.Get(ProcessedCustomSqlInfoListInProfile).Add(customSqlInfo);
 
                 context.Add(CustomSqlInfo, customSqlInfo);
+                CustomSqlNamingPatternInitializer.Initialize(context);
+
+                ReferencedEntityAccessPathInitialize(context);
                 context.FireEvent(OnCustomSqlInfoInitialized);
                 context.Remove(CustomSqlInfo);
+                CustomSqlNamingPatternInitializer.Remove(context);
+                ReferencedEntityAccessPathRemove(context);
+
             }
+        }
+
+        static void ReferencedEntityAccessPathInitialize(IDataContext context)
+        {
+            var config = context.Get(Config);
+            var customSqlInfo = context.Get(CustomSqlInfo);
+
+            string referencedEntityAccessPath = null;
+
+             var entityReferencedResultColumn = customSqlInfo.ResultColumns.FirstOrDefault(x=>x.IsReferenceToEntity);
+
+                if (entityReferencedResultColumn != null)
+                {
+                    referencedEntityAccessPath = config.ReferencedEntityAccessPath.Replace("$(SchemaName)", customSqlInfo.SchemaName)
+                                                           .Replace("$(CamelCasedResultName)", entityReferencedResultColumn.Name.ToContractName());
+                }
+
+
+                context.Add(ReferencedEntityAccessPath,referencedEntityAccessPath);
+        }
+        static void ReferencedEntityAccessPathRemove(IDataContext context)
+        {
+            context.Remove(ReferencedEntityAccessPath);
         }
 
         static void RemoveProfileInfo(IDataContext context)
@@ -99,6 +130,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public static readonly IDataConstant<List<CustomSqlInfo>> ProcessedCustomSqlInfoListInProfile = DataConstant.Create<List<CustomSqlInfo>>();
 
         public static readonly IDataConstant<string>        ProfileName   = DataConstant.Create<string>(nameof(ProfileName));
+        public static readonly IDataConstant<string> ReferencedEntityAccessPath = DataConstant.Create<string>(nameof(ReferencedEntityAccessPath));
+        
+        
         public static readonly IDataConstant<CustomSqlInfo> CustomSqlInfo = DataConstant.Create<CustomSqlInfo>();
 
         public static readonly IDataConstant<ConfigurationContract> Config = DataConstant.Create<ConfigurationContract>(nameof(Config));

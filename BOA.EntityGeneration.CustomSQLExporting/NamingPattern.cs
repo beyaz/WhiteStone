@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
+using static BOA.EntityGeneration.CustomSQLExporting.ProfileNamingPatternContract;
+using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting
 {
-
     static class ProfileNamingPatternInitializer
     {
+        #region Public Methods
         public static void Initialize(IDataContext context)
         {
-            var config = context.Get(CustomSqlExporter.Config);
+            var config = context.Get(Config);
 
             var initialValues = new Dictionary<string, string>
             {
-                {nameof(CustomSqlExporter.ProfileName), context.Get(CustomSqlExporter.ProfileName)},
-                
+                {nameof(ProfileName), context.Get(ProfileName)}
             };
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, initialValues);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(config.ProfileNamingPattern, initialValues);
 
-            context.Add(ProfileNamingPatternContract.ProfileNamingPattern, new ProfileNamingPatternContract
+            context.Add(ProfileNamingPattern, new ProfileNamingPatternContract
             {
                 SlnDirectoryPath           = dictionary[nameof(ProfileNamingPatternContract.SlnDirectoryPath)],
                 EntityNamespace            = dictionary[nameof(ProfileNamingPatternContract.EntityNamespace)],
@@ -34,8 +34,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting
 
         public static void Remove(IDataContext context)
         {
-            context.Remove(ProfileNamingPatternContract.ProfileNamingPattern);
+            context.Remove(ProfileNamingPattern);
         }
+        #endregion
     }
 
     class ProfileNamingPatternContract
@@ -52,10 +53,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         public string                RepositoryNamespace        { get; set; }
         public string                RepositoryProjectDirectory { get; set; }
         public string                SlnDirectoryPath           { get; set; }
-        #endregion
-
-        #region Public Methods
-        
         #endregion
     }
 }

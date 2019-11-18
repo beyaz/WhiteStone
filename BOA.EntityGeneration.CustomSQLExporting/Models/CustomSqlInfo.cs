@@ -10,20 +10,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
     public class CustomSqlInfo
     {
         #region Public Properties
-        /// <summary>
-        ///     Gets the name of the business class.
-        /// </summary>
-        public string BusinessClassName => Name.ToContractName();
-
+   
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>
         public string Name { get; set; }
 
-        /// <summary>
-        ///     Gets the name of the parameter contract.
-        /// </summary>
-        public string ParameterContractName => Name.ToContractName() + "Request";
+       
 
         /// <summary>
         ///     Gets or sets the parameters.
@@ -40,10 +33,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         /// </summary>
         public IReadOnlyList<CustomSqlInfoResult> ResultColumns { get; set; }
 
-        /// <summary>
-        ///     Gets the name of the result contract.
-        /// </summary>
-        public string ResultContractName => Name.ToContractName() + "Contract";
+       
 
         /// <summary>
         ///     Gets or sets the name of the schema.

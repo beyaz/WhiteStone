@@ -2,6 +2,7 @@
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
+using static BOA.EntityGeneration.CustomSQLExporting.CustomSqlNamingPatternContract;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
@@ -82,8 +83,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb   = context.Get(File);
             var customSqlInfo = context.Get(CustomSqlInfo);
+            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+            
 
-            var resultContractName = customSqlInfo.ResultContractName;
+            var resultContractName = customSqlNamingPattern.ResultClassName;
 
             if (!customSqlInfo.ResultContractIsReferencedToEntity)
             {
@@ -106,8 +109,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             }
             else
             {
-                // todo naming from config pattern
-                resultContractName = customSqlInfo.SchemaName + "."+ customSqlInfo.ResultColumns[0].Name.ToContractName() + "Contract";    
+                resultContractName = context.Get(ReferencedEntityAccessPath);
             }
 
             
@@ -123,7 +125,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine($"///     Parameter class of '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
             sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public sealed class {customSqlInfo.ParameterContractName} : {interfaceName}");
+            sb.AppendLine($"public sealed class {customSqlNamingPattern.InputClassName} : {interfaceName}");
 
             sb.AppendLine("{");
             sb.PaddingCount++;

@@ -3,6 +3,8 @@ using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.ScriptModel;
+using static BOA.EntityGeneration.CustomSQLExporting.CustomSqlNamingPatternContract;
+using static BOA.EntityGeneration.CustomSQLExporting.ProfileNamingPatternContract;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
@@ -35,7 +37,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb            = context.Get(File);
-            var profileNamingPattern= context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var profileNamingPattern= context.Get(ProfileNamingPattern);
 
             sb.BeginNamespace(profileNamingPattern.RepositoryNamespace);
         }
@@ -59,7 +61,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb            = context.Get(File);
-            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             var processInfo = context.Get(ProcessInfo);
 
@@ -78,7 +80,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void UsingList(IDataContext context)
         {
             var sb            = context.Get(File);
-            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             foreach (var line in profileNamingPattern.BoaRepositoryUsingLines)
             {
@@ -89,17 +91,18 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteBoaRepositoryClass(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var namingPattern = context.Get(ProfileNamingPattern);
             var customSqlInfo          = context.Get(CustomSqlInfo);
+            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
 
-            var key = $"{namingPattern.RepositoryNamespace}.{customSqlInfo.BusinessClassName}.Execute";
+            var key = $"{namingPattern.RepositoryNamespace}.{customSqlNamingPattern.RepositoryClassName}.Execute";
 
-            var sharedRepositoryClassAccessPath = $"Shared.{customSqlInfo.BusinessClassName}";
+            var sharedRepositoryClassAccessPath = $"Shared.{customSqlNamingPattern.RepositoryClassName}";
 
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Data access part of '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public sealed class {customSqlInfo.BusinessClassName} : ObjectHelper");
+            sb.AppendLine($"public sealed class {customSqlNamingPattern.RepositoryClassName} : ObjectHelper");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -107,27 +110,28 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Data access part of '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public {customSqlInfo.BusinessClassName}(ExecutionDataContext context) : base(context) {{}}");
+            sb.AppendLine($"public {customSqlNamingPattern.RepositoryClassName}(ExecutionDataContext context) : base(context) {{}}");
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Data access part of '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
 
-            var resultContractName = customSqlInfo.ResultContractName;
+            var resultContractName = customSqlNamingPattern.ResultClassName;
             var readContractMethodPath = $"{sharedRepositoryClassAccessPath}.ReadContract";
 
             if (customSqlInfo.ResultContractIsReferencedToEntity)
             {
                 // todo naming from config pattern
-                resultContractName = customSqlInfo.SchemaName + "."+ customSqlInfo.ResultColumns[0].Name.ToContractName() + "Contract";
+                resultContractName = context.Get(ReferencedEntityAccessPath);
+                
                 readContractMethodPath = customSqlInfo.SchemaName + ".Shared." + customSqlInfo.ResultColumns[0].Name.ToContractName() + ".ReadContract";
             }
 
 
             if (customSqlInfo.SqlResultIsCollection)
             {
-                sb.AppendLine($"public GenericResponse<List<{resultContractName}>> Execute({customSqlInfo.ParameterContractName} request)");
+                sb.AppendLine($"public GenericResponse<List<{resultContractName}>> Execute({customSqlNamingPattern.InputClassName} request)");
                 sb.OpenBracket();
                 sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
                 sb.AppendLine();
@@ -138,7 +142,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             }
             else
             {
-                sb.AppendLine($"public GenericResponse<{resultContractName}> Execute({customSqlInfo.ParameterContractName} request)");
+                sb.AppendLine($"public GenericResponse<{resultContractName}> Execute({customSqlNamingPattern.InputClassName} request)");
                 sb.OpenBracket();
                 sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
                 sb.AppendLine();
@@ -168,6 +172,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb             = context.Get(File);
             var customSqlInfos = context.Get(ProcessedCustomSqlInfoListInProfile);
+            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
 
             sb.AppendLine("public static class CustomSql");
             sb.OpenBracket();
@@ -182,7 +187,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             {
                 sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");
                 sb.OpenBracket();
-                sb.AppendLine($"return (TOutput) (object) new {customSqlInfo.BusinessClassName}(objectHelper.Context).Execute(({customSqlInfo.ParameterContractName})(object) input);");
+                sb.AppendLine($"return (TOutput) (object) new {customSqlNamingPattern.RepositoryClassName}(objectHelper.Context).Execute(({customSqlNamingPattern.InputClassName})(object) input);");
                 sb.CloseBracket();
             }
 
