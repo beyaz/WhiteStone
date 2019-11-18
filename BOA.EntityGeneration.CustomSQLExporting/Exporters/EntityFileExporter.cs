@@ -81,43 +81,54 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteSqlInputOutputTypes(IDataContext context)
         {
             var sb   = context.Get(File);
-            var data = context.Get(CustomSqlInfo);
+            var customSqlInfo = context.Get(CustomSqlInfo);
+
+            var resultContractName = customSqlInfo.ResultContractName;
+
+            if (!customSqlInfo.ResultContractIsReferencedToEntity)
+            {
+                sb.AppendLine();
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"///     Result class of '{customSqlInfo.Name}' sql.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine("[Serializable]");
+                sb.AppendLine($"public sealed class {resultContractName} : CardContractBase");
+                sb.AppendLine("{");
+                sb.PaddingCount++;
+
+                foreach (var item in customSqlInfo.ResultColumns)
+                {
+                    sb.AppendLine($"public {item.DataTypeInDotnet} {item.NameInDotnet} {{get; set;}}");
+                }
+
+                sb.PaddingCount--;
+                sb.AppendLine("}");
+            }
+            else
+            {
+                // todo naming from config pattern
+                resultContractName = customSqlInfo.SchemaName + "."+ customSqlInfo.ResultColumns[0].Name.ToContractName() + "Contract";    
+            }
+
+            
+
+            var interfaceName = $"ICustomSqlProxy<GenericResponse<{resultContractName}>, {resultContractName}>";
+            if (customSqlInfo.SqlResultIsCollection)
+            {
+                interfaceName = $"ICustomSqlProxy<GenericResponse<List<{resultContractName}>>, List<{resultContractName}>>";
+            }
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///     Result class of '{data.Name}' sql.");
+            sb.AppendLine($"///     Parameter class of '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
             sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public sealed class {data.ResultContractName} : CardContractBase");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
-            foreach (var item in data.ResultColumns)
-            {
-                sb.AppendLine($"public {item.DataTypeInDotnet} {item.NameInDotnet} {{get; set;}}");
-            }
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-
-            var interfaceName = $"ICustomSqlProxy<GenericResponse<{data.ResultContractName}>, {data.ResultContractName}>";
-            if (data.SqlResultIsCollection)
-            {
-                interfaceName = $"ICustomSqlProxy<GenericResponse<List<{data.ResultContractName}>>, List<{data.ResultContractName}>>";
-            }
-
-            sb.AppendLine();
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///     Parameter class of '{data.Name}' sql.");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine("[Serializable]");
-
-            sb.AppendLine($"public sealed class {data.ParameterContractName} : {interfaceName}");
+            sb.AppendLine($"public sealed class {customSqlInfo.ParameterContractName} : {interfaceName}");
 
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            foreach (var item in data.Parameters)
+            foreach (var item in customSqlInfo.Parameters)
             {
                 sb.AppendLine($"public {item.CSharpPropertyTypeName} {item.CSharpPropertyName} {{ get; set; }}");
             }
@@ -125,7 +136,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine();
             sb.AppendLine($"int {interfaceName}.Index");
             sb.AppendLine("{");
-            sb.AppendLine($"    get {{ return {data.SwitchCaseIndex}; }}");
+            sb.AppendLine($"    get {{ return {customSqlInfo.SwitchCaseIndex}; }}");
             sb.AppendLine("}");
 
             sb.PaddingCount--;

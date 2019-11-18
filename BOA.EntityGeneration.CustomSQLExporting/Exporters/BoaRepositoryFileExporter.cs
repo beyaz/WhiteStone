@@ -90,49 +90,61 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb            = context.Get(File);
             var namingPattern = context.Get(NamingPattern.Id);
-            var data          = context.Get(CustomSqlInfo);
+            var customSqlInfo          = context.Get(CustomSqlInfo);
 
-            var key = $"{namingPattern.RepositoryNamespace}.{data.BusinessClassName}.Execute";
+            var key = $"{namingPattern.RepositoryNamespace}.{customSqlInfo.BusinessClassName}.Execute";
 
-            var sharedRepositoryClassAccessPath = $"Shared.{data.BusinessClassName}";
+            var sharedRepositoryClassAccessPath = $"Shared.{customSqlInfo.BusinessClassName}";
 
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Data access part of '{data.Name}' sql.");
+            sb.AppendLine($"///{Padding.ForComment}Data access part of '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public sealed class {data.BusinessClassName} : ObjectHelper");
+            sb.AppendLine($"public sealed class {customSqlInfo.BusinessClassName} : ObjectHelper");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Data access part of '{data.Name}' sql.");
+            sb.AppendLine($"///{Padding.ForComment}Data access part of '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public {data.BusinessClassName}(ExecutionDataContext context) : base(context) {{}}");
+            sb.AppendLine($"public {customSqlInfo.BusinessClassName}(ExecutionDataContext context) : base(context) {{}}");
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Data access part of '{data.Name}' sql.");
+            sb.AppendLine($"///{Padding.ForComment}Data access part of '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            if (data.SqlResultIsCollection)
+
+            var resultContractName = customSqlInfo.ResultContractName;
+            var readContractMethodPath = $"{sharedRepositoryClassAccessPath}.ReadContract";
+
+            if (customSqlInfo.ResultContractIsReferencedToEntity)
             {
-                sb.AppendLine($"public GenericResponse<List<{data.ResultContractName}>> Execute({data.ParameterContractName} request)");
+                // todo naming from config pattern
+                resultContractName = customSqlInfo.SchemaName + "."+ customSqlInfo.ResultColumns[0].Name.ToContractName() + "Contract";
+                readContractMethodPath = customSqlInfo.SchemaName + ".Shared." + customSqlInfo.ResultColumns[0].Name.ToContractName() + ".ReadContract";
+            }
+
+
+            if (customSqlInfo.SqlResultIsCollection)
+            {
+                sb.AppendLine($"public GenericResponse<List<{resultContractName}>> Execute({customSqlInfo.ParameterContractName} request)");
                 sb.OpenBracket();
                 sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
                 sb.AppendLine();
                 sb.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
                 sb.AppendLine();
-                sb.AppendLine($"return this.ExecuteReaderToList<{data.ResultContractName}>(CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
+                sb.AppendLine($"return this.ExecuteReaderToList<{resultContractName}>(CallerMemberPath, sqlInfo, {readContractMethodPath});");
                 sb.CloseBracket();
             }
             else
             {
-                sb.AppendLine($"public GenericResponse<{data.ResultContractName}> Execute({data.ParameterContractName} request)");
+                sb.AppendLine($"public GenericResponse<{resultContractName}> Execute({customSqlInfo.ParameterContractName} request)");
                 sb.OpenBracket();
                 sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
                 sb.AppendLine();
                 sb.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
                 sb.AppendLine();
-                sb.AppendLine($"return this.ExecuteReaderToContract<{data.ResultContractName}>(CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
+                sb.AppendLine($"return this.ExecuteReaderToContract<{resultContractName}>(CallerMemberPath, sqlInfo, {readContractMethodPath});");
 
                 sb.CloseBracket();
             }

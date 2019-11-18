@@ -141,15 +141,20 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteReadContract(IDataContext context)
         {
             var sb   = context.Get(File);
-            var data = context.Get(CustomSqlInfo);
+            var customSqlInfo = context.Get(CustomSqlInfo);
+
+            if (customSqlInfo.ResultContractIsReferencedToEntity)
+            {
+                return;
+            }
 
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{data.Name}' sql.");
+            sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public static void ReadContract(IDataRecord reader, {data.ResultContractName} contract)");
+            sb.AppendLine($"public static void ReadContract(IDataRecord reader, {customSqlInfo.ResultContractName} contract)");
             sb.OpenBracket();
 
-            foreach (var item in data.ResultColumns)
+            foreach (var item in customSqlInfo.ResultColumns)
             {
                 var readerMethodName = item.SqlReaderMethod.ToString();
                 if (item.SqlReaderMethod == SqlReaderMethods.GetGUIDValue)

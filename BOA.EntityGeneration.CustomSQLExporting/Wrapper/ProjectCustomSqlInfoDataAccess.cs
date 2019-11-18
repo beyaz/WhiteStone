@@ -5,9 +5,7 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
-using BOA.EntityGeneration.DataAccess;
 using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
@@ -45,7 +43,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             customSqlInfo.ResultColumns = ReadResultColumns(customSqlInfo, database);
 
-            Fill(customSqlInfo, config, database);
+            if (customSqlInfo.ResultColumns.Any(item=>item.DataType.Equals("object", StringComparison.OrdinalIgnoreCase)))
+            {
+                if (customSqlInfo.ResultColumns.Count>1)
+                {
+                    throw new InvalidOperationException("ResultColumns içinde object tipinde sadece 1 tane kayıt olabilir.");
+                }
+
+                customSqlInfo.ResultContractIsReferencedToEntity = true;
+            }
+
+            Fill(customSqlInfo);
 
             customSqlInfo.SwitchCaseIndex = switchCaseIndex;
 
@@ -75,40 +83,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         /// <summary>
         ///     Fills the specified custom SQL information.
         /// </summary>
-        static void Fill(CustomSqlInfo customSqlInfo, ConfigurationContract config, IDatabase database)
+        static void Fill(CustomSqlInfo customSqlInfo)
         {
-            var tableInfoDao = new TableInfoDao {Database = database, IndexInfoAccess = new IndexInfoAccess {Database = database}};
 
-            if (customSqlInfo.ResultColumns.Any(x => x.DataType.Equals("object", StringComparison.OrdinalIgnoreCase)))
+            if (customSqlInfo.ResultContractIsReferencedToEntity)
             {
-                var customSqlInfoResults = new List<CustomSqlInfoResult>();
-
-                foreach (var item in customSqlInfo.ResultColumns)
-                {
-                    if (item.DataType.Equals("object", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var tableInfo = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfoDao.GetInfo("BOACard", customSqlInfo.SchemaName, item.Name));
-
-                        customSqlInfoResults.AddRange(from columnInfo in tableInfo.Columns
-                                                      select new CustomSqlInfoResult
-                                                      {
-                                                          Name             = columnInfo.ColumnName,
-                                                          DataType         = columnInfo.DataType,
-                                                          IsNullable       = columnInfo.IsNullable,
-                                                          DataTypeInDotnet = columnInfo.DotNetType,
-                                                          NameInDotnet     = columnInfo.ColumnName.ToContractName(),
-                                                          SqlReaderMethod  = columnInfo.SqlReaderMethod
-                                                      });
-
-                        continue;
-                    }
-
-                    Fill(item);
-                    customSqlInfoResults.Add(item);
-                }
-
-                customSqlInfo.ResultColumns = customSqlInfoResults;
-
                 return;
             }
 

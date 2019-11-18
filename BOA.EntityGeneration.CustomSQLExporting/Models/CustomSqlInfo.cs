@@ -64,6 +64,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         ///     Gets or sets the index of the switch case.
         /// </summary>
         public int SwitchCaseIndex { get; set; }
+
+        public bool ResultContractIsReferencedToEntity { get; set; }
         #endregion
     }
 }
