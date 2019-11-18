@@ -10,8 +10,6 @@
         "$(SolutionDir)WhiteStone\\bin\\Debug\\WhiteStone.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\BOA.OneDesigner.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\BOAPlugins.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\BOA.CodeGeneration.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\BOA.EntityGeneration.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\BOA.TfsAccess.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\WhiteStone.UI.Container.exe.config",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\CustomUIMarkupLanguage.dll",
@@ -24,7 +22,6 @@
         "$(SolutionDir)WhiteStone.UI.Container\\bin\\Debug\\Notifications.Wpf.dll",
 
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Newtonsoft.Json.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Ninject.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.Mdb.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.Pdb.dll",
