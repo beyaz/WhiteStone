@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using BOA.DataFlow;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
@@ -8,7 +7,7 @@ using static BOA.EntityGeneration.DataFlow.Data;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
-    static class SelectByUniqueIndexMethodWriter
+    static class SelectByIndexMethodWriter
     {
 
         #region Public Methods
@@ -38,8 +37,10 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
 
                 sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
-
-                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, \"{context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByKey\", sqlInfo, ReadContract);");
+                sb.AppendLine();
+                sb.AppendLine($"const string CallerMemberPath = \"{context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.{methodName}\";");
+                sb.AppendLine();
+                sb.AppendLine($"return this.ExecuteReaderToContract<{typeContractName}>( CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
 
                 sb.CloseBracket();
             }
@@ -64,7 +65,10 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
                 sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-                sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByKey\", sqlInfo, ReadContract);");
+                sb.AppendLine();
+                sb.AppendLine($"const string CallerMemberPath = \"{context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.{methodName}\";");
+                sb.AppendLine();
+                sb.AppendLine($"return this.ExecuteReaderToList<{typeContractName}>(CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
 
                 sb.CloseBracket();
             }

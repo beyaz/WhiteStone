@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using BOA.DataFlow;
-using BOA.EntityGeneration.DataFlow;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.Naming.NamingPatternContract;
+using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
@@ -17,16 +17,16 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             var sb        = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo = context.Get(TableInfo);
             var deleteByKeyInfo = DeleteInfoCreator.Create(tableInfo);
-            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
+            var tableNamingPattern = context.Get(TableNamingPattern);
             
             
 
             var sqlParameters     = deleteByKeyInfo.SqlParameters;
             var schemaName = context.Get(SchemaName);
 
-            var businessClassNamespace = context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace;
 
             var tableName         = tableInfo.TableName;
+            var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Delete";
 
             var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
@@ -40,8 +40,10 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
             
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Delete({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
-
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteNonQuery(this, \"{businessClassNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Delete\", sqlInfo);");
+            sb.AppendLine();
+            sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            sb.AppendLine();
+            sb.AppendLine($"return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

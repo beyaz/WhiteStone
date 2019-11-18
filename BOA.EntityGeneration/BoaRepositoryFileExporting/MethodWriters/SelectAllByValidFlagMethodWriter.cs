@@ -2,6 +2,8 @@
 using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
+using static BOA.EntityGeneration.Naming.NamingPatternContract;
+using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
@@ -13,8 +15,8 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             var sb               = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo        = context.Get(Data.TableInfo);
             var typeContractName = context.Get(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
-            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
-            
+            var tableNamingPattern = context.Get(TableNamingPattern);
+            var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByValidFlag";
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
@@ -24,8 +26,10 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.OpenBracket();
 
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.SelectByValidFlag();");
-
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, CallerMemberPrefix + nameof(SelectByValidFlag), sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
+            sb.AppendLine();
+            sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            sb.AppendLine();
+            sb.AppendLine($"return this.ExecuteReaderToList<{typeContractName}>(CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
 
             sb.CloseBracket();
         }

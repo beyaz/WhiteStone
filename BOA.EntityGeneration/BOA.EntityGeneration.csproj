@@ -66,7 +66,7 @@
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\SelectByKeyMethodWriter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\InsertMethodWriter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\UpdateByKeyMethodWriter.cs" />
-    <Compile Include="BoaRepositoryFileExporting\MethodWriters\SelectByUniqueIndexMethodWriter.cs" />
+    <Compile Include="BoaRepositoryFileExporting\MethodWriters\SelectByIndexMethodWriter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\DeleteByKeyMethodWriter.cs" />
     <Compile Include="SharedRepositoryFileExporting\MethodWriters\ReadContractMethodWriter.cs" />
     <Compile Include="SharedRepositoryFileExporting\MethodWriters\SelectAllByValidFlagMethodWriter.cs" />

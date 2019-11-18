@@ -8,6 +8,9 @@ using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.Naming.NamingPatternContract;
+using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
+
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
@@ -26,20 +29,23 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             var sb        = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo = context.Get(TableInfo);
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
-            var businessClassNamespace = context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace;
-           
+            var businessClassNamespace = context.Get(NamingPattern).RepositoryNamespace;
+            var tableNamingPattern = context.Get(TableNamingPattern);
+            var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Update";
+
+
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment} Updates only one record by primary keys.");
             sb.AppendLine("/// </summary>");
             sb.AppendLine($"public GenericResponse<int> Update({typeContractName} {contractParameterName})");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-
+            sb.OpenBracket();
+            sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            sb.AppendLine();
             sb.AppendLine("if (contract == null)");
             sb.AppendLine("{");
-            sb.AppendLine("    return this.ContractCannotBeNull();");
+            sb.AppendLine("    return this.ContractCannotBeNull(CallerMemberPath);");
             sb.AppendLine("}");
 
 
@@ -92,18 +98,17 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
             }
 
-            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
             
             
 
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Update({contractParameterName});");
+            sb.AppendLine();
+            
+            sb.AppendLine("return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
 
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteNonQuery(this, \"{businessClassNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Update\", sqlInfo);");
 
 
-
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            sb.CloseBracket();
 
 
 

@@ -86,8 +86,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            sb.AppendLine($"const string CallerMemberPrefix = \"{namingPattern.RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.\";");
-
             ContractCommentInfoCreator.Write(sb, tableInfo);
             sb.AppendLine($"public {tableNamingPattern.BoaRepositoryClassName}(ExecutionDataContext context) : base(context) {{ }}");
 
@@ -117,7 +115,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
             }
             #endregion
 
-            SelectByUniqueIndexMethodWriter.Write(context);
+            SelectByIndexMethodWriter.Write(context);
 
             var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
 

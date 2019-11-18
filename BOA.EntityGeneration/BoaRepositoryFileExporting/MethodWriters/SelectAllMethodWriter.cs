@@ -1,7 +1,8 @@
 ﻿using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
+using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
+using static BOA.EntityGeneration.Naming.NamingPatternContract;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
@@ -13,8 +14,9 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             var sb               = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo        = context.Get(Data.TableInfo);
             var typeContractName = context.Get(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
-            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
-            
+            var tableNamingPattern = context.Get(TableNamingPattern);
+            var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Select";
+
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
@@ -24,8 +26,10 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.OpenBracket();
 
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Select();");
-
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToList<{typeContractName}>(this, \"{context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Select\", sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
+            sb.AppendLine();
+            sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            sb.AppendLine();
+            sb.AppendLine($"return this.ExecuteReaderToList<{typeContractName}>(CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
 
             sb.CloseBracket();
         }

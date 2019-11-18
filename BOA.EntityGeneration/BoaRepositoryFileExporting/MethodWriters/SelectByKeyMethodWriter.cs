@@ -5,6 +5,8 @@ using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.Naming.NamingPatternContract;
+using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
@@ -20,7 +22,8 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             var tableName        = tableInfo.TableName;
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
             var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
-
+            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
+            var callerMemberPath   = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByKey";
 
             var parameterPart = string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
@@ -32,12 +35,14 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
+      
             
 
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.SelectByKey({string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
-
-            sb.AppendLine($"return ObjectHelperSqlUtil.ExecuteReaderToContract<{typeContractName}>(this, CallerMemberPrefix + nameof(SelectByKey), sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
+            sb.AppendLine();
+            sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            sb.AppendLine();
+            sb.AppendLine($"return this.ExecuteReaderToContract<{typeContractName}>(CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");

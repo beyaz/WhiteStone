@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.DataFlow;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
 using InsertInfoCreator = BOA.EntityGeneration.DataAccess.InsertInfoCreator;
+using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
+using static BOA.EntityGeneration.Naming.NamingPatternContract;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
@@ -26,7 +26,9 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             var sb        = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo = context.Get(TableInfo);
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var tableNamingPattern = context.Get(TableNamingPattern);
        
+            var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Insert";
            
             var insertInfo = new InsertInfoCreator().Create(tableInfo);
 
@@ -39,12 +41,13 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
             sb.AppendLine("/// </summary>");
             sb.AppendLine($"public GenericResponse<int> Insert({typeContractName} {contractParameterName})");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            sb.OpenBracket();
+            sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            sb.AppendLine();
 
             sb.AppendLine("if (contract == null)");
             sb.AppendLine("{");
-            sb.AppendLine("    return this.ContractCannotBeNull();");
+            sb.AppendLine("    return this.ContractCannotBeNull(CallerMemberPath);");
             sb.AppendLine("}");
 
             foreach (var sequenceInfo in tableInfo.SequenceList)
@@ -58,10 +61,13 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
                 sb.AppendLine();
                 sb.AppendLine($"const string sqlNextSequence = @\"SELECT NEXT VALUE FOR {sequenceInfo.Name}\";");
                 sb.AppendLine();
-                sb.AppendLine("var responseSequence = this.ExecuteScalar<object>(CallerMemberPrefix + nameof(sqlNextSequence), new SqlInfo {CommandText = sqlNextSequence});");
+                sb.AppendLine($"const string callerMemberPath = \"{callerMemberPath} -> sqlNextSequence -> {sequenceInfo.Name}\";");
+                sb.AppendLine();
+
+                sb.AppendLine("var responseSequence = this.ExecuteScalar<object>(callerMemberPath, new SqlInfo {CommandText = sqlNextSequence});");
                 sb.AppendLine("if (!responseSequence.Success)");
                 sb.AppendLine("{");
-                sb.AppendLine("    return this.SequenceFetchError(responseSequence);");
+                sb.AppendLine("    return this.SequenceFetchError(responseSequence, callerMemberPath);");
                 sb.AppendLine("}");
                 sb.AppendLine();
 
@@ -133,11 +139,12 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
                 
             }
-            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
+            
             
 
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Insert({contractParameterName});");
-
+            sb.AppendLine();
+            
             
 
 
@@ -146,7 +153,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.AppendLine();
             if (tableInfo.HasIdentityColumn)
             {
-                sb.AppendLine("var response = this.ExecuteScalar<int>(CallerMemberPrefix + nameof(Insert), sqlInfo);");
+                sb.AppendLine("var response = this.ExecuteScalar<int>(CallerMemberPath, sqlInfo);");
                 sb.AppendLine();
                 sb.AppendLine($"{contractParameterName}.{tableInfo.IdentityColumn.ColumnName.ToContractName()} = response.Value;");
                 sb.AppendLine();
@@ -154,7 +161,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             }
             else
             {
-                sb.AppendLine($"return this.ExecuteNonQuery(CallerMemberPrefix + nameof(Insert), sqlInfo);");
+                sb.AppendLine($"return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
             }
 
             sb.PaddingCount--;
