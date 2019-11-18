@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
             var tableInfo = context.Get(Data.TableInfo);
             var sql       = SelectAllInfoCreator.Create(tableInfo).Sql;
 
-            sb.AppendLine($"public static SqlInfo SelectByValidFlag()");
+            sb.AppendLine("public static SqlInfo SelectByValidFlag()");
             sb.OpenBracket();
 
             sb.AppendLine("const string sql = @\"");

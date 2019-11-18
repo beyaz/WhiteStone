@@ -117,7 +117,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
             SelectByIndexMethodWriter.Write(context);
 
-            var selectAllInfo = SelectAllInfoCreator.Create(tableInfo);
+           
 
             SelectAllMethodWriter.Write(context);
 

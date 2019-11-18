@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.DataFlow;
+using BOA.EntityGeneration.DataAccess;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
-using InsertInfoCreator = BOA.EntityGeneration.DataAccess.InsertInfoCreator;
 using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 using static BOA.EntityGeneration.Naming.NamingPatternContract;
 
@@ -161,7 +161,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             }
             else
             {
-                sb.AppendLine($"return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
+                sb.AppendLine("return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
             }
 
             sb.PaddingCount--;

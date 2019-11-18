@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BOA.DataFlow;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
@@ -29,7 +27,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             var sb        = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo = context.Get(TableInfo);
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
-            var businessClassNamespace = context.Get(NamingPattern).RepositoryNamespace;
             var tableNamingPattern = context.Get(TableNamingPattern);
             var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Update";
 

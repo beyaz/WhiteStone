@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using BOA.DataFlow;
-using BOA.EntityGeneration.DataFlow;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
@@ -18,11 +16,9 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
         {
             var sb               = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo        = context.Get(TableInfo);
-            var schemaName       = context.Get(SchemaName);
-            var tableName        = tableInfo.TableName;
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
             var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
-            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
+            var tableNamingPattern = context.Get(TableNamingPattern);
             var callerMemberPath   = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByKey";
 
             var parameterPart = string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));

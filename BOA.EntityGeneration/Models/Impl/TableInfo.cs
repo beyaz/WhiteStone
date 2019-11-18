@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.Models.Interfaces;
+using ITableInfo = BOA.EntityGeneration.Models.Interfaces.ITableInfo;
 
 namespace BOA.EntityGeneration.Models.Impl
 {
@@ -9,7 +10,7 @@ namespace BOA.EntityGeneration.Models.Impl
     ///     The generator data
     /// </summary>
     [Serializable]
-    public class TableInfo : DbModel.Types.TableInfo, Interfaces.ITableInfo
+    public class TableInfo : DbModel.Types.TableInfo, ITableInfo
     {
         #region Public Properties
 

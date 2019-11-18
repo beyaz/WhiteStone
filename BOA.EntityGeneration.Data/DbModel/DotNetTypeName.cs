@@ -32,9 +32,9 @@ namespace BOA.EntityGeneration.DbModel
                 throw new ArgumentNullException(nameof(dotNetType));
             }
 
-            if (dotNetType.Equals( DotNetTypeName.DotNetByteArray,StringComparison.OrdinalIgnoreCase) ||
-                dotNetType.Equals( DotNetTypeName.DotNetStringName ,StringComparison.OrdinalIgnoreCase)||
-                dotNetType.Equals( DotNetTypeName.DotNetObject,StringComparison.OrdinalIgnoreCase) ||
+            if (dotNetType.Equals( DotNetByteArray,StringComparison.OrdinalIgnoreCase) ||
+                dotNetType.Equals( DotNetStringName ,StringComparison.OrdinalIgnoreCase)||
+                dotNetType.Equals( DotNetObject,StringComparison.OrdinalIgnoreCase) ||
                 dotNetType.EndsWith("?",StringComparison.OrdinalIgnoreCase))
             {
                 return dotNetType;

@@ -1,6 +1,5 @@
 ﻿using BOA.DataFlow;
 using BOA.EntityGeneration.DataFlow;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.Naming.NamingPatternContract;
 using static BOA.EntityGeneration.Naming.TableNamingPatternContract;

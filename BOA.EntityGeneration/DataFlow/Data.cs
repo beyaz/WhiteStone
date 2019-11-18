@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using BOA.DatabaseAccess;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.Models.Interfaces;
-using BOA.EntityGeneration.Naming;
 
 namespace BOA.EntityGeneration.DataFlow
 {

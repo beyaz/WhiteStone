@@ -43,7 +43,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.AppendLine();
             sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
             sb.AppendLine();
-            sb.AppendLine($"return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
+            sb.AppendLine("return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
 
             sb.PaddingCount--;
             sb.AppendLine("}");
