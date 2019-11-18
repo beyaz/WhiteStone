@@ -280,6 +280,11 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("{");
             sb.AppendLine("    return;");
             sb.AppendLine("}");
+            sb.AppendLine();
+            sb.AppendLine("if (this.state.windowRequest.errorTexts[bindingPath] == null");
+            sb.AppendLine("{");
+            sb.AppendLine("    return;");
+            sb.AppendLine("}");
 
             sb.AppendLine();
             sb.AppendLine("const clonedWindowRequest: any = Object.assign({}, this.state.windowRequest);");
