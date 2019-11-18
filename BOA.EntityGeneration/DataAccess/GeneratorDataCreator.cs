@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.DataAccess
             var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).ToList();
 
             var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
-            var isSupportSelectByUniqueIndex = uniqueIndexIdentifiers.Any();
+            
             var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
 
             var SequenceList = new List<SequenceInfo>();
@@ -61,7 +61,6 @@ namespace BOA.EntityGeneration.DataAccess
                 NonUniqueIndexInfoList       = nonUniqueIndexIdentifiers,
                 IsSupportSelectByKey         = isSupportSelectByKey,
                 IsSupportSelectByIndex       = isSupportSelectByIndex,
-                IsSupportSelectByUniqueIndex = isSupportSelectByUniqueIndex,
                 DatabaseEnumName             = DatabaseEnumName,
                 SequenceList                 = SequenceList
             };

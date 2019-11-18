@@ -89,11 +89,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
                 UpdateByPrimaryKeyMethodWriter.Write(context);
             }
 
-            if (tableInfo.IsSupportSelectByUniqueIndex)
-            {
-                sb.AppendLine();
-                SelectByIndexMethodWriter.Write(context);
-            }
+            SelectByIndexMethodWriter.Write(context);
 
             SelectAllMethodWriter.Write(context);
 

@@ -28,10 +28,7 @@ namespace BOA.EntityGeneration.Models.Impl
         /// </summary>
         public bool IsSupportSelectByKey { get; set; }
 
-        /// <summary>
-        ///     Gets or sets a value indicating whether this instance is support select by unique index.
-        /// </summary>
-        public bool IsSupportSelectByUniqueIndex { get; set; }
+       
 
         /// <summary>
         ///     Gets or sets the non unique index information list.

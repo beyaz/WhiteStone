@@ -24,10 +24,7 @@ namespace BOA.EntityGeneration.Models.Interfaces
         /// </summary>
         bool IsSupportSelectByKey { get; }
 
-        /// <summary>
-        ///     Gets or sets a value indicating whether this instance is support select by unique index.
-        /// </summary>
-        bool IsSupportSelectByUniqueIndex { get; } // TODO remove
+       
 
         /// <summary>
         ///     Gets or sets the non unique index information list.
