@@ -61,9 +61,15 @@ namespace BOA.EntityGeneration.Exporters
             context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
             context.Add(MsBuildQueue.MsBuildQueueId, new MsBuildQueue());
 
+
             context.Add(Data.AllSchemaGenerationProcess, new ProcessContract());
-            context.Add(Data.SchemaGenerationProcess, new ProcessContract());
+
+            var processContract = new ProcessContract();
+            context.Add(Data.SchemaGenerationProcess, processContract);
+            context.Add(MsBuildQueue.ProcessInfo, processContract);
         }
+
+
         #endregion
     }
 }

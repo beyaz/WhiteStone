@@ -99,7 +99,7 @@ namespace BOA.EntityGeneration.UI.MainForm
             context = new DataContextCreator().Create();
 
             context.Add(FileSystem.CheckinComment, Model.CheckInComment);
-            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
+            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
             context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted, true);
 
             SchemaExporter.Export(context, Model.SchemaName);
