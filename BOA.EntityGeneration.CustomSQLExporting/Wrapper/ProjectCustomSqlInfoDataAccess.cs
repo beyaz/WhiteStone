@@ -43,14 +43,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             customSqlInfo.ResultColumns = ReadResultColumns(customSqlInfo, database);
 
-            if (customSqlInfo.ResultColumns.Any(item=>item.DataType.Equals("object", StringComparison.OrdinalIgnoreCase)))
+            if (customSqlInfo.ResultColumns.Any(item=>item.IsReferenceToEntity) &&
+                customSqlInfo.ResultColumns.Count==1)
             {
-                if (customSqlInfo.ResultColumns.Count>1)
-                {
-                    throw new InvalidOperationException("ResultColumns içinde object tipinde sadece 1 tane kayıt olabilir.");
-                }
-
-                customSqlInfo.ResultContractIsReferencedToEntity = true;
+               customSqlInfo.ResultContractIsReferencedToEntity = true;
             }
 
             Fill(customSqlInfo);
@@ -86,13 +82,18 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         static void Fill(CustomSqlInfo customSqlInfo)
         {
 
-            if (customSqlInfo.ResultContractIsReferencedToEntity)
-            {
-                return;
-            }
+           
 
             foreach (var item in customSqlInfo.ResultColumns)
             {
+                if (item.IsReferenceToEntity)
+                {
+                    item.NameInDotnet = item.Name.ToContractName();
+                    item.DataTypeInDotnet = $"{customSqlInfo.SchemaName}.{item.Name.ToContractName()}Contract";
+
+                    continue;
+                }
+
                 Fill(item);
             }
         }

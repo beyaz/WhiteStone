@@ -15,6 +15,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         /// </summary>
         public string DataType { get; set; }
 
+        public bool IsReferenceToEntity => DataType?.Equals("object", StringComparison.OrdinalIgnoreCase) == true;
+
         /// <summary>
         ///     Gets or sets the data type in dotnet.
         /// </summary>

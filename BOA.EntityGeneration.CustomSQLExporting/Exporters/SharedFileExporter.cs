@@ -156,6 +156,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             foreach (var item in customSqlInfo.ResultColumns)
             {
+
+                if (item.IsReferenceToEntity)
+                {
+                    sb.AppendLine($"contract.{item.NameInDotnet} = {customSqlInfo.SchemaName}.Shared.{item.Name.ToContractName()}.ReadContract(reader,new {customSqlInfo.SchemaName}.{item.Name.ToContractName()}Contract())");
+                    continue;
+                }
+
                 var readerMethodName = item.SqlReaderMethod.ToString();
                 if (item.SqlReaderMethod == SqlReaderMethods.GetGUIDValue)
                 {
