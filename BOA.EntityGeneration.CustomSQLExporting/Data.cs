@@ -12,6 +12,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting
 {
     static class Data
     {
+        public static readonly IDataConstant<string> ProfileName = DataConstant.Create<string>(nameof(ProfileName));
+
+        public static readonly IDataConstant<CustomSqlInfo> CustomSqlInfo = DataConstant.Create<CustomSqlInfo>();
+
+        public static readonly IDataConstant<ConfigurationContract> Config = DataConstant.Create<ConfigurationContract>(nameof(Config));
+
+        public static readonly IDataConstant<List<string>> CustomSqlNamesInfProfile = DataConstant.Create<List<string>>(nameof(CustomSqlNamesInfProfile));
+
+        public static readonly IDataConstant<IDatabase> Database = DataConstant.Create<IDatabase>();
+        public static readonly IDataConstant<ProcessContract> ProcessInfo = DataConstant.Create<ProcessContract>(nameof(ProcessInfo));
+
         public static readonly IDataConstant<List<string>> RepositoryAssemblyReferences = DataConstant.Create<List<string>>(nameof(RepositoryAssemblyReferences));
         public static readonly IDataConstant<List<string>> EntityAssemblyReferences = DataConstant.Create<List<string>>(nameof(EntityAssemblyReferences));
         public static readonly IDataConstant<ProfileNamingPatternContract> ProfileNamingPattern = DataConstant.Create<ProfileNamingPatternContract>(nameof(ProfileNamingPatternContract));

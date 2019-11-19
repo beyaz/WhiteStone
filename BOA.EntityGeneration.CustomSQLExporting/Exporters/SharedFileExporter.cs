@@ -44,7 +44,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginClass(IDataContext context)
         {
             var sb   = context.Get(File);
-            var data = context.Get(CustomSqlInfo);
+            var data = context.Get(Data.CustomSqlInfo);
             var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
 
             sb.AppendLine($"public static class {customSqlNamingPattern.RepositoryClassName}");
@@ -76,7 +76,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void CreateSqlInfo(IDataContext context)
         {
             var sb            = context.Get(File);
-            var customSqlInfo = context.Get(CustomSqlInfo);
+            var customSqlInfo = context.Get(Data.CustomSqlInfo);
             var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
             
 
@@ -126,7 +126,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb            = context.Get(File);
-            var processInfo   = context.Get(ProcessInfo);
+            var processInfo   = context.Get(Data.ProcessInfo);
             var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
             processInfo.Text = "Exporting Shared repository.";
@@ -144,7 +144,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteReadContract(IDataContext context)
         {
             var sb   = context.Get(File);
-            var customSqlInfo = context.Get(CustomSqlInfo);
+            var customSqlInfo = context.Get(Data.CustomSqlInfo);
             var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
             
 

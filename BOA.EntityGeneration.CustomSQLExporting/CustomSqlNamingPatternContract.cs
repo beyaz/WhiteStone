@@ -27,13 +27,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         #region Public Methods
         public static void Initialize(IDataContext context)
         {
-            var config        = Config[context];
-            var customSqlInfo = CustomSqlInfo[context];
-            var profileName   = ProfileName[context];
+            var config        = Data.Config[context];
+            var customSqlInfo = Data.CustomSqlInfo[context];
+            var profileName   = Data.ProfileName[context];
 
             var initialValues = new Dictionary<string, string>
             {
-                {nameof(ProfileName), profileName},
+                {nameof(Data.ProfileName), profileName},
                 {"CamelCasedCustomSqlName", customSqlInfo.Name.ToContractName()}
             };
 

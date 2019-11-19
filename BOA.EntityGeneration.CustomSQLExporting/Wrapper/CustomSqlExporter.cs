@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             context.OpenBracket();
 
-            context.Add(ProfileName, profileId);
+            context.Add(Data.ProfileName, profileId);
             ProfileNamingPatternInitializer.Initialize(context);
 
             InitializeProfileInfo(context);
@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             context.CloseBracket();
 
-            var processInfo = context.Get(ProcessInfo);
+            var processInfo = context.Get(Data.ProcessInfo);
             processInfo.Text = "Finished Successfully.";
             WaitTwoSecondForUserCanSeeSuccessMessage();
         }
@@ -39,24 +39,24 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #region Methods
         static void InitializeProfileInfo(IDataContext context)
         {
-            var database    = context.Get(Database);
-            var profileName = context.Get(ProfileName);
-            var config      = context.Get(Config);
+            var database    = context.Get(Data.Database);
+            var profileName = context.Get(Data.ProfileName);
+            var config      = context.Get(Data.Config);
 
-            context.Get(ProcessInfo).Text = "Fetching profile informations...";
-            context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config));
+            context.Get(Data.ProcessInfo).Text = "Fetching profile informations...";
+            context.Add(Data.CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config));
 
             context.FireEvent(OnProfileInfoInitialized);
         }
 
         static void ProcessCustomSQLsInProfile(IDataContext context)
         {
-            var customSqlNamesInfProfile = context.Get(CustomSqlNamesInfProfile);
-            var processInfo              = context.Get(ProcessInfo);
+            var customSqlNamesInfProfile = context.Get(Data.CustomSqlNamesInfProfile);
+            var processInfo              = context.Get(Data.ProcessInfo);
 
-            var config      = context.Get(Config);
-            var database    = context.Get(Database);
-            var profileName = context.Get(ProfileName);
+            var config      = context.Get(Data.Config);
+            var database    = context.Get(Data.Database);
+            var profileName = context.Get(Data.ProfileName);
 
             processInfo.Total = customSqlNamesInfProfile.Count;
 
@@ -69,7 +69,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 var customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileName, objectId, config, switchCaseIndex++);
 
                 context.OpenBracket();
-                context.Add(CustomSqlInfo, customSqlInfo);
+                context.Add(Data.CustomSqlInfo, customSqlInfo);
                 CustomSqlNamingPatternInitializer.Initialize(context);
 
                 context.FireEvent(OnCustomSqlInfoInitialized);
@@ -93,16 +93,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #endregion
 
         #region Data
-        public static readonly IDataConstant<string> ProfileName = DataConstant.Create<string>(nameof(ProfileName));
-
-        public static readonly IDataConstant<CustomSqlInfo> CustomSqlInfo = DataConstant.Create<CustomSqlInfo>();
-
-        public static readonly IDataConstant<ConfigurationContract> Config = DataConstant.Create<ConfigurationContract>(nameof(Config));
-
-        public static readonly IDataConstant<List<string>> CustomSqlNamesInfProfile = DataConstant.Create<List<string>>(nameof(CustomSqlNamesInfProfile));
-
-        public static readonly IDataConstant<IDatabase>       Database    = DataConstant.Create<IDatabase>();
-        public static readonly IDataConstant<ProcessContract> ProcessInfo = DataConstant.Create<ProcessContract>(nameof(ProcessInfo));
+        
         #endregion
     }
 }

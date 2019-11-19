@@ -13,11 +13,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         #region Public Methods
         public static void Initialize(IDataContext context)
         {
-            var config = context.Get(Config);
+            var config = context.Get(Data.Config);
 
             var initialValues = new Dictionary<string, string>
             {
-                {nameof(ProfileName), context.Get(ProfileName)}
+                {nameof(Data.ProfileName), context.Get(Data.ProfileName)}
             };
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.ProfileNamingPattern, initialValues);

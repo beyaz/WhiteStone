@@ -61,7 +61,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             var sb                   = context.Get(File);
             var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
-            var processInfo = context.Get(ProcessInfo);
+            var processInfo = context.Get(Data.ProcessInfo);
 
             processInfo.Text = "Exporting Entity classes.";
 
@@ -79,7 +79,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteSqlInputOutputTypes(IDataContext context)
         {
             var sb                     = context.Get(File);
-            var customSqlInfo          = context.Get(CustomSqlInfo);
+            var customSqlInfo          = context.Get(Data.CustomSqlInfo);
             var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
 
             if (customSqlInfo.ResultColumns.Any(r => r.IsReferenceToEntity))

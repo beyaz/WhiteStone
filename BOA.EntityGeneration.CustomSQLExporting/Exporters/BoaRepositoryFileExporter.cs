@@ -70,7 +70,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             var sb            = context.Get(File);
             var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
-            var processInfo = context.Get(ProcessInfo);
+            var processInfo = context.Get(Data.ProcessInfo);
 
             processInfo.Text = "Exporting BOA repository.";
 
@@ -99,7 +99,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb            = context.Get(File);
             var namingPattern = context.Get(Data.ProfileNamingPattern);
-            var customSqlInfo          = context.Get(CustomSqlInfo);
+            var customSqlInfo          = context.Get(Data.CustomSqlInfo);
             var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
 
             var key = $"{namingPattern.RepositoryNamespace}.{customSqlNamingPattern.RepositoryClassName}.Execute";
@@ -202,7 +202,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteSwitchCaseCondition(IDataContext context)
         {
             var sb                     = context.Get(Text);
-            var customSqlInfo = context.Get(CustomSqlInfo);
+            var customSqlInfo = context.Get(Data.CustomSqlInfo);
             var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
 
             sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");

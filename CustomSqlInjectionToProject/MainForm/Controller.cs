@@ -7,6 +7,7 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using WhiteStone.UI.Container.Mvc;
+using static BOA.EntityGeneration.CustomSQLExporting.Data;
 
 namespace CustomSqlInjectionToProject.MainForm
 {
@@ -43,7 +44,7 @@ namespace CustomSqlInjectionToProject.MainForm
 
         public void GetCapture()
         {
-            Model.CustomSqlGenerationOfProfileIdProcess = context?.TryGet(CustomSqlExporter.ProcessInfo) ?? Model.CustomSqlGenerationOfProfileIdProcess;
+            Model.CustomSqlGenerationOfProfileIdProcess = context?.TryGet(ProcessInfo) ?? Model.CustomSqlGenerationOfProfileIdProcess;
 
             if (IsFinished)
             {

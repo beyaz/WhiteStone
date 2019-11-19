@@ -40,19 +40,19 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void InitializeConfig(IDataContext context)
         {
             var configFilePath = Path.GetDirectoryName(typeof(CustomSqlDataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
-            context.Add(Config, JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(configFilePath)));
+            context.Add(Data.Config, JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(configFilePath)));
         }
 
         static void InitializeDatabaseConnection(DataContext context)
         {
-            context.Add(CustomSqlExporter.Database, new SqlDatabase(context.Get(Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
+            context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
         }
 
         static void InitProcessInfo(IDataContext context)
         {
             var processContract = new ProcessContract();
 
-            context.Add(ProcessInfo, processContract);
+            context.Add(Data.ProcessInfo, processContract);
             context.Add(MsBuildQueue.ProcessInfo, processContract);
         }
         #endregion
