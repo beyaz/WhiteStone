@@ -1,28 +1,41 @@
-﻿using BOA.DataFlow;
+﻿using System;
+using System.Collections.Generic;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.Tasks;
+using static BOA.EntityGeneration.CustomSQLExporting.ProfileNamingPatternContract;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     public class RepositoryCsprojFileExporter
     {
+        public static readonly IDataConstant<List<string>> AssemblyReferences = DataConstant.Create<List<string>>(nameof(AssemblyReferences));
+
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
+            context.AttachEvent(OnProfileInfoInitialized,InitializeAssemblyReferences);
             context.AttachEvent(OnProfileInfoRemove, Export);
+        }
+
+        static void InitializeAssemblyReferences(IDataContext context)
+        {
+            AssemblyReferences[context] = new List<string>();
+            AssemblyReferences[context].AddRange(ProfileNamingPattern[context].RepositoryAssemblyReferences);
         }
 
         public static void Export(IDataContext context)
         {
-            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             var ns               = profileNamingPattern.RepositoryNamespace;
             var projectDirectory = profileNamingPattern.RepositoryProjectDirectory;
+            var references = string.Join(Environment.NewLine,AssemblyReferences[context]);
 
             var csprojFilePath = $"{projectDirectory}{ns}.csproj";
 
-           var content = $@"
+            var content = $@"
 
 <?xml version=""1.0"" encoding=""utf-8""?>
 <Project ToolsVersion=""15.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
@@ -61,21 +74,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include=""BOA.Base"">
-      <HintPath>D:\BOA\Server\bin\BOA.Base.dll</HintPath>
-    </Reference>
-    <Reference Include=""BOA.Common"">
-      <HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath>
-    </Reference>
-    <Reference Include=""{profileNamingPattern.EntityNamespace}"">
-      <HintPath>D:\BOA\Server\bin\{profileNamingPattern.EntityNamespace}.dll</HintPath>
-    </Reference>
-    <Reference Include=""BOA.Types.Kernel.Card"">
-      <HintPath>d:\boa\server\bin\BOA.Types.Kernel.Card.dll</HintPath>
-    </Reference>    
-    <Reference Include=""System"" />
-    <Reference Include=""System.Core"" />
-    <Reference Include=""System.Data"" />
+"+references+@"    
   </ItemGroup>
   <ItemGroup>
     <Compile Include=""Properties\AssemblyInfo.cs"" />
@@ -90,7 +89,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 </Project>
 
 ";
-
 
             FileSystem.WriteAllText(context, csprojFilePath, content.Trim());
 

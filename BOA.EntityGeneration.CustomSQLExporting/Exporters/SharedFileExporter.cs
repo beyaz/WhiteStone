@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
@@ -14,6 +15,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     {
         #region Static Fields
         static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
+        
         #endregion
 
         #region Public Methods

@@ -26,7 +26,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
 
             
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,false);
-            context.AttachEvent(DataEvent.AfterFetchedAllTableNamesInSchema, SelectFirstTenTable);
+            // context.AttachEvent(DataEvent.AfterFetchedAllTableNamesInSchema, SelectFirstTenTable);
 
             SchemaExporter.Export(context, "CRD");
         }

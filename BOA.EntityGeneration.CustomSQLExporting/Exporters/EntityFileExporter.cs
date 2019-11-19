@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 using static BOA.EntityGeneration.CustomSQLExporting.CustomSqlNamingPatternContract;
+using static BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityCsprojFileExporter;
 using static BOA.EntityGeneration.CustomSQLExporting.ProfileNamingPatternContract;
-
+    
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     static class EntityFileExporter
     {
         #region Static Fields
-        public static readonly IDataConstant<List<string>>        AssemblyReferences = DataConstant.Create<List<string>>(nameof(AssemblyReferences));
+        
         static readonly        IDataConstant<PaddedStringBuilder> File               = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
         #endregion
 
@@ -75,8 +75,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void InitializeOutput(IDataContext context)
         {
             File[context]               = new PaddedStringBuilder();
-            AssemblyReferences[context] = new List<string>();
-            AssemblyReferences[context].AddRange(ProfileNamingPattern[context].AssemblyReferences);
+           
         }
 
         static void WriteSqlInputOutputTypes(IDataContext context)
@@ -87,7 +86,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             if (customSqlInfo.ResultColumns.Any(r => r.IsReferenceToEntity))
             {
-                AssemblyReferences[context].Add(customSqlNamingPattern.ReferencedEntityAccessPath);
+                AssemblyReferences[context].Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
             }
 
             var resultContractName = customSqlNamingPattern.ResultClassName;

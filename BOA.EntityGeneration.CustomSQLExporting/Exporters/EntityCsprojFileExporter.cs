@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.Tasks;
 using static BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporter;
+using static BOA.EntityGeneration.CustomSQLExporting.ProfileNamingPatternContract;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     class EntityCsprojFileExporter
     {
+        public static readonly IDataConstant<List<string>> AssemblyReferences = DataConstant.Create<List<string>>(nameof(AssemblyReferences));
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
@@ -16,10 +19,16 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         }
         #endregion
 
+
+        static void Initialize(IDataContext context)
+        {
+            AssemblyReferences[context] = new List<string>();
+            AssemblyReferences[context].AddRange(ProfileNamingPattern[context].EntityAssemblyReferences);
+        }
         #region Methods
         static void Export(IDataContext context)
         {
-            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             var assemblyReferences = string.Join(Environment.NewLine, AssemblyReferences[context]);
 
