@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     public static class BoaRepositoryFileExporter
     {
         #region Static Fields
-        public static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(BoaRepositoryFileExporter) + "->" + nameof(File));
+        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(BoaRepositoryFileExporter) + "->" + nameof(File));
         
         #endregion
 

@@ -3,7 +3,6 @@ using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
-using static BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityCsprojFileExporter;
     
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
