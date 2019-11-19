@@ -1,15 +1,19 @@
-﻿using BOA.Common.Helpers;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 using static BOA.EntityGeneration.CustomSQLExporting.CustomSqlNamingPatternContract;
+using static BOA.EntityGeneration.CustomSQLExporting.ProfileNamingPatternContract;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    public static class EntityFileExporter
+    static class EntityFileExporter
     {
         #region Static Fields
-        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
+        public static readonly IDataConstant<List<string>>        AssemblyReferences = DataConstant.Create<List<string>>(nameof(AssemblyReferences));
+        static readonly        IDataConstant<PaddedStringBuilder> File               = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
         #endregion
 
         #region Public Methods
@@ -22,15 +26,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             context.AttachEvent(OnProfileInfoRemove, EndNamespace);
             context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
-            
         }
         #endregion
 
         #region Methods
         static void BeginNamespace(IDataContext context)
         {
-            var sb            = context.Get(File);
-            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var sb                   = context.Get(File);
+            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using System;");
@@ -49,8 +52,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("}");
         }
 
-        
-
         static void EndNamespace(IDataContext context)
         {
             var sb = context.Get(File);
@@ -59,8 +60,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb            = context.Get(File);
-            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var sb                   = context.Get(File);
+            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             var processInfo = context.Get(ProcessInfo);
 
@@ -73,15 +74,21 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void InitializeOutput(IDataContext context)
         {
-            context.Add(File, new PaddedStringBuilder());
+            File[context]               = new PaddedStringBuilder();
+            AssemblyReferences[context] = new List<string>();
+            AssemblyReferences[context].AddRange(ProfileNamingPattern[context].AssemblyReferences);
         }
 
         static void WriteSqlInputOutputTypes(IDataContext context)
         {
-            var sb   = context.Get(File);
-            var customSqlInfo = context.Get(CustomSqlInfo);
+            var sb                     = context.Get(File);
+            var customSqlInfo          = context.Get(CustomSqlInfo);
             var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
-            
+
+            if (customSqlInfo.ResultColumns.Any(r => r.IsReferenceToEntity))
+            {
+                AssemblyReferences[context].Add(customSqlNamingPattern.ReferencedEntityAccessPath);
+            }
 
             var resultContractName = customSqlNamingPattern.ResultClassName;
 
@@ -108,8 +115,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             {
                 resultContractName = customSqlNamingPattern.ReferencedEntityAccessPath;
             }
-
-            
 
             var interfaceName = $"ICustomSqlProxy<GenericResponse<{resultContractName}>, {resultContractName}>";
             if (customSqlInfo.SqlResultIsCollection)

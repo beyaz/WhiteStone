@@ -1,21 +1,27 @@
-﻿using BOA.DataFlow;
+﻿using System;
+using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.Tasks;
+using static BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporter;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    public class EntityCsprojFileExporter
+    class EntityCsprojFileExporter
     {
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
             context.AttachEvent(OnProfileInfoRemove, Export);
         }
+        #endregion
 
+        #region Methods
         static void Export(IDataContext context)
         {
             var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+
+            var assemblyReferences = string.Join(Environment.NewLine, AssemblyReferences[context]);
 
             var ns               = profileNamingPattern.EntityNamespace;
             var projectDirectory = profileNamingPattern.EntityProjectDirectory;
@@ -60,9 +66,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <ItemGroup>    
-    <Reference Include=""BOA.Common"">
-      <HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath>
-    </Reference>
+    " + assemblyReferences + @"
     <Reference Include=""System"" />
     <Reference Include=""System.Core"" />
   </ItemGroup>

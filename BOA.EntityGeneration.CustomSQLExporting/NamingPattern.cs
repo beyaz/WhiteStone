@@ -29,6 +29,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting
                 RepositoryProjectDirectory = dictionary[nameof(ProfileNamingPatternContract.RepositoryProjectDirectory)],
                 BoaRepositoryUsingLines    = dictionary[nameof(ProfileNamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
                 EntityUsingLines           = dictionary[nameof(ProfileNamingPatternContract.EntityUsingLines)].Split('|')
+                AssemblyReferences           = dictionary[nameof(ProfileNamingPatternContract.AssemblyReferences)].Split('|')
+                
             });
         }
 
@@ -47,6 +49,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         public string                EntityNamespace            { get; set; }
         public string                EntityProjectDirectory     { get; set; }
         public IReadOnlyList<string> EntityUsingLines           { get; set; }
+        public IReadOnlyList<string> AssemblyReferences { get; set; }
+        
+
+
         public string                RepositoryNamespace        { get; set; }
         public string                RepositoryProjectDirectory { get; set; }
         public string                SlnDirectoryPath           { get; set; }
