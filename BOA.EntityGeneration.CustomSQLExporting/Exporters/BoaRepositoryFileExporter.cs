@@ -127,8 +127,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             if (customSqlInfo.ResultContractIsReferencedToEntity)
             {
-                // todo naming from config pattern
-                resultContractName = context.Get(ReferencedEntityAccessPath);
+                resultContractName = customSqlNamingPattern.ReferencedEntityAccessPath;
                 
                 readContractMethodPath = customSqlInfo.SchemaName + ".Shared." + customSqlInfo.ResultColumns[0].Name.ToContractName() + ".ReadContract";
             }

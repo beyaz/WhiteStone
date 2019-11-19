@@ -9,8 +9,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting
     [Serializable]
     public class ConfigurationContract
     {
-
-        public string ReferencedEntityAccessPath { get; set; }
         #region Public Properties
         /// <summary>
         ///     Gets or sets the connection string.

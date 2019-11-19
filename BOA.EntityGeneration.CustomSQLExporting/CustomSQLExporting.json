@@ -28,11 +28,11 @@
 
     "InputClassName": "$(CamelCasedCustomSqlName)Request",
     "ResultClassName": "$(CamelCasedCustomSqlName)Contract",
-    "RepositoryClassName": "$(CamelCasedCustomSqlName)"
+    "RepositoryClassName": "$(CamelCasedCustomSqlName)",
+    "ReferencedEntityAccessPath": "$(SchemaName).$(CamelCasedResultName)Contract"
 
-
-  },
-  "ReferencedEntityAccessPath": "$(SchemaName).$(CamelCasedResultName)Contract"
+  }
+  
 
 
 }

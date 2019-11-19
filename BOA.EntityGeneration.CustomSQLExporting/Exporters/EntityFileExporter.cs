@@ -106,7 +106,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             }
             else
             {
-                resultContractName = context.Get(ReferencedEntityAccessPath);
+                resultContractName = customSqlNamingPattern.ReferencedEntityAccessPath;
             }
 
             

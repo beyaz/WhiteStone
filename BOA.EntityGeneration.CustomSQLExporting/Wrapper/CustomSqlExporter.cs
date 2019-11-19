@@ -76,30 +76,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 context.Add(CustomSqlInfo, customSqlInfo);
                 CustomSqlNamingPatternInitializer.Initialize(context);
 
-                ReferencedEntityAccessPathInitialize(context);
                 context.FireEvent(OnCustomSqlInfoInitialized);
 
                 context.CloseBracket();
             }
         }
 
-        static void ReferencedEntityAccessPathInitialize(IDataContext context)
-        {
-            var config        = context.Get(Config);
-            var customSqlInfo = context.Get(CustomSqlInfo);
-
-            string referencedEntityAccessPath = null;
-
-            var entityReferencedResultColumn = customSqlInfo.ResultColumns.FirstOrDefault(x => x.IsReferenceToEntity);
-
-            if (entityReferencedResultColumn != null)
-            {
-                referencedEntityAccessPath = config.ReferencedEntityAccessPath.Replace("$(SchemaName)", customSqlInfo.SchemaName)
-                                                   .Replace("$(CamelCasedResultName)", entityReferencedResultColumn.Name.ToContractName());
-            }
-
-            context.Add(ReferencedEntityAccessPath, referencedEntityAccessPath);
-        }
+       
 
         
 
@@ -121,7 +104,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         #region Data
         public static readonly IDataConstant<string> ProfileName                = DataConstant.Create<string>(nameof(ProfileName));
-        public static readonly IDataConstant<string> ReferencedEntityAccessPath = DataConstant.Create<string>(nameof(ReferencedEntityAccessPath));
 
         public static readonly IDataConstant<CustomSqlInfo> CustomSqlInfo = DataConstant.Create<CustomSqlInfo>();
 

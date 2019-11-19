@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using static BOA.EntityGeneration.CustomSQLExporting.CustomSqlNamingPatternContract;
@@ -13,36 +14,46 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         #endregion
 
         #region Public Properties
-        public string ResultClassName { get; set; }
-        public string RepositoryClassName { get; set; }
-        public string InputClassName { get; set; }
-        
+        public string InputClassName             { get; set; }
+        public string ReferencedEntityAccessPath { get; set; }
+        public string RepositoryClassName        { get; set; }
+        public string ResultClassName            { get; set; }
         #endregion
     }
 
     static class CustomSqlNamingPatternInitializer
     {
+        #region Public Methods
         public static void Initialize(IDataContext context)
         {
-            var config = context.Get(Config);
-            var customSqlInfo = context.Get(CustomSqlInfo);
+            var config        = Config[context];
+            var customSqlInfo = CustomSqlInfo[context];
+            var profileName   = ProfileName[context];
 
             var initialValues = new Dictionary<string, string>
             {
-                {nameof(ProfileName), context.Get(ProfileName)},
+                {nameof(ProfileName), profileName},
                 {"CamelCasedCustomSqlName", customSqlInfo.Name.ToContractName()}
             };
+
+            var entityReferencedResultColumn = customSqlInfo.ResultColumns.FirstOrDefault(x => x.IsReferenceToEntity);
+
+            if (entityReferencedResultColumn != null)
+            {
+                initialValues[nameof(customSqlInfo.SchemaName)] = customSqlInfo.SchemaName;
+                initialValues["CamelCasedResultName"]           = entityReferencedResultColumn.Name.ToContractName();
+            }
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.CustomSqlNamingPattern, initialValues);
 
             context.Add(CustomSqlNamingPattern, new CustomSqlNamingPatternContract
             {
-                ResultClassName = dictionary[nameof(CustomSqlNamingPatternContract.ResultClassName)],
-                RepositoryClassName = dictionary[nameof(CustomSqlNamingPatternContract.RepositoryClassName)],
-                InputClassName = dictionary[nameof(CustomSqlNamingPatternContract.InputClassName)]
+                ResultClassName            = dictionary[nameof(CustomSqlNamingPatternContract.ResultClassName)],
+                RepositoryClassName        = dictionary[nameof(CustomSqlNamingPatternContract.RepositoryClassName)],
+                InputClassName             = dictionary[nameof(CustomSqlNamingPatternContract.InputClassName)],
+                ReferencedEntityAccessPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAccessPath)]
             });
         }
-
-        
+        #endregion
     }
 }
