@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.Tasks;
-using static BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporter;
-using static BOA.EntityGeneration.CustomSQLExporting.ProfileNamingPatternContract;
+using static BOA.EntityGeneration.CustomSQLExporting.Data;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
@@ -14,22 +13,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
+            context.AttachEvent(OnProfileInfoInitialized, InitializeAssemblyReferences);
             context.AttachEvent(OnProfileInfoRemove, Export);
         }
         #endregion
 
-
-        static void Initialize(IDataContext context)
-        {
-            Data.EntityAssemblyReferences[context] = new List<string>();
-            Data.EntityAssemblyReferences[context].AddRange(Data.ProfileNamingPattern[context].EntityAssemblyReferences);
-        }
         #region Methods
         static void Export(IDataContext context)
         {
-            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
+            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
-            var assemblyReferences = string.Join(Environment.NewLine, Data.EntityAssemblyReferences[context]);
+            var assemblyReferences = string.Join(Environment.NewLine, EntityAssemblyReferences[context]);
 
             var ns               = profileNamingPattern.EntityNamespace;
             var projectDirectory = profileNamingPattern.EntityProjectDirectory;
@@ -118,6 +112,12 @@ using System.Runtime.InteropServices;
             FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
 
             context.Get(MsBuildQueue.MsBuildQueueId).Push(new MSBuildData {ProjectFilePath = csprojFilePath});
+        }
+
+        static void InitializeAssemblyReferences(IDataContext context)
+        {
+            EntityAssemblyReferences[context] = new List<string>();
+            EntityAssemblyReferences[context].AddRange(ProfileNamingPattern[context].EntityAssemblyReferences);
         }
         #endregion
     }

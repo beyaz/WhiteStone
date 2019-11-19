@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.Tasks;
-using static BOA.EntityGeneration.CustomSQLExporting.ProfileNamingPatternContract;
+using static BOA.EntityGeneration.CustomSQLExporting.Data;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
@@ -19,17 +19,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void InitializeAssemblyReferences(IDataContext context)
         {
-            Data.RepositoryAssemblyReferences[context] = new List<string>();
-            Data.RepositoryAssemblyReferences[context].AddRange(Data.ProfileNamingPattern[context].RepositoryAssemblyReferences);
+            RepositoryAssemblyReferences[context] = new List<string>();
+            RepositoryAssemblyReferences[context].AddRange(ProfileNamingPattern[context].RepositoryAssemblyReferences);
         }
 
         public static void Export(IDataContext context)
         {
-            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
+            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             var ns               = profileNamingPattern.RepositoryNamespace;
             var projectDirectory = profileNamingPattern.RepositoryProjectDirectory;
-            var references = string.Join(Environment.NewLine, Data.RepositoryAssemblyReferences[context]);
+            var assemblyReferences = string.Join(Environment.NewLine, RepositoryAssemblyReferences[context]);
 
             var csprojFilePath = $"{projectDirectory}{ns}.csproj";
 
@@ -72,7 +72,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-"+references+@"    
+"+assemblyReferences+@"    
   </ItemGroup>
   <ItemGroup>
     <Compile Include=""Properties\AssemblyInfo.cs"" />
