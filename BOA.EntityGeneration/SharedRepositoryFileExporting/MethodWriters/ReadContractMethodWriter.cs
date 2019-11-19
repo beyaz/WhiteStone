@@ -1,4 +1,5 @@
 ﻿using BOA.DataFlow;
+using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
 
@@ -26,11 +27,18 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 
             foreach (var columnInfo in tableInfo.Columns)
             {
+
+                var readerMethodName = columnInfo.SqlReaderMethod.ToString();
+                if (columnInfo.SqlReaderMethod == SqlReaderMethods.GetGUIDValue)
+                {
+                    readerMethodName = "GetGuidValue";
+                }
+
                 var contractReadLine = config.ContractReadLine
                                              .Replace("$(Contract)", contractParameterName)
                                              .Replace("$(PropertyName)", columnInfo.ColumnName.ToContractName())
                                              .Replace("$(ColumnName)", columnInfo.ColumnName)
-                                             .Replace("$(SqlReaderMethod)", columnInfo.SqlReaderMethod.ToString());
+                                             .Replace("$(SqlReaderMethod)", readerMethodName);
 
                 sb.AppendLine(contractReadLine);
             }

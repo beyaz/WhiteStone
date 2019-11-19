@@ -158,7 +158,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{customSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public static void ReadContract(IDataRecord reader, {customSqlNamingPattern.ResultClassName} contract)");
+            sb.AppendLine($"public static void ReadContract(IDataReader reader, {customSqlNamingPattern.ResultClassName} contract)");
             sb.OpenBracket();
 
             foreach (var item in customSqlInfo.ResultColumns)
@@ -167,8 +167,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
                 if (item.IsReferenceToEntity)
                 {
                     repositoryAssemblyReferenceList.Add(customSqlNamingPattern.ReferencedRepositoryAssemblyPath);
+                    repositoryAssemblyReferenceList.Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
+
                     sb.AppendLine($"contract.{item.NameInDotnet} = new {customSqlNamingPattern.ReferencedEntityAccessPath}();");
-                    sb.AppendLine($"{customSqlNamingPattern.ReferencedEntityReaderMethodPathPath}(reader, contract.{item.NameInDotnet});");
+                    sb.AppendLine($"{customSqlNamingPattern.ReferencedEntityReaderMethodPath}(reader, contract.{item.NameInDotnet});");
                     continue;
                 }
 

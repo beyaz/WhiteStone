@@ -130,8 +130,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             if (customSqlInfo.ResultContractIsReferencedToEntity)
             {
                 resultContractName = customSqlNamingPattern.ReferencedEntityAccessPath;
-                
-                readContractMethodPath = customSqlInfo.SchemaName + ".Shared." + customSqlInfo.ResultColumns[0].Name.ToContractName() + ".ReadContract";
+                readContractMethodPath = customSqlNamingPattern.ReferencedEntityReaderMethodPath;
+
+                Data.RepositoryAssemblyReferences[context].Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
+                Data.RepositoryAssemblyReferences[context].Add(customSqlNamingPattern.ReferencedRepositoryAssemblyPath);
             }
 
 
@@ -246,7 +248,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.CloseBracket(); // end of switch
 
             sb.AppendLine();
-            sb.AppendLine("throw new System.InvalidOperationException(input.GetType().FullName);");
+            sb.AppendLine("throw new InvalidOperationException(input.GetType().FullName);");
 
             sb.CloseBracket(); // end of method
 

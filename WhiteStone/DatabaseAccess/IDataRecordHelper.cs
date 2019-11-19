@@ -299,6 +299,20 @@ namespace BOA.DatabaseAccess
 
             return Convert.ToString(value);
         }
+
+        /// <summary>
+        ///     Gets the time span value.
+        /// </summary>
+        public static TimeSpan GetTimeSpanValue(this IDataRecord reader, string columnName)
+        {
+            var value = reader[columnName];
+            if (value == DBNull.Value)
+            {
+                return default(TimeSpan);
+            }
+
+            return (TimeSpan) value;
+        }
         #endregion
     }
 }

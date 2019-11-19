@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.Tasks;
@@ -29,7 +30,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var ns               = profileNamingPattern.RepositoryNamespace;
             var projectDirectory = profileNamingPattern.RepositoryProjectDirectory;
-            var assemblyReferences = string.Join(Environment.NewLine, RepositoryAssemblyReferences[context]);
+            var assemblyReferences = string.Join(Environment.NewLine, RepositoryAssemblyReferences[context].Distinct());
 
             var csprojFilePath = $"{projectDirectory}{ns}.csproj";
 

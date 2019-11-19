@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.Tasks;
@@ -23,7 +24,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var profileNamingPattern = context.Get(ProfileNamingPattern);
 
-            var assemblyReferences = string.Join(Environment.NewLine, EntityAssemblyReferences[context]);
+            var assemblyReferences = string.Join(Environment.NewLine, EntityAssemblyReferences[context].Distinct());
 
             var ns               = profileNamingPattern.EntityNamespace;
             var projectDirectory = profileNamingPattern.EntityProjectDirectory;

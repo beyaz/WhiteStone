@@ -36,7 +36,7 @@
     "ReferencedEntityAccessPath": "Types.Kernel.Card.$(SchemaName).$(CamelCasedResultName)Contract",
 
 
-    "ReferencedEntityReaderMethodPathPath": "$(SchemaName).Shared.$(CamelCasedResultName).ReadContract",
+    "ReferencedEntityReaderMethodPath": "$(SchemaName).Shared.$(CamelCasedResultName).ReadContract",
     "ReferencedEntityAssemblyPath": "<Reference Include=\"BOA.Types.Kernel.Card.$(SchemaName)\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Types.Kernel.Card.$(SchemaName).dll</HintPath></Reference>",
     "ReferencedRepositoryAssemblyPath": "<Reference Include=\"BOA.Business.Kernel.Card.$(SchemaName)\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Business.Kernel.Card.$(SchemaName).dll</HintPath></Reference>"
 

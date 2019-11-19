@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         public string RepositoryClassName        { get; set; }
         public string ResultClassName            { get; set; }
         public string ReferencedEntityAssemblyPath { get; set; }
-        public string ReferencedEntityReaderMethodPathPath { get; set; }
+        public string ReferencedEntityReaderMethodPath { get; set; }
         public string ReferencedRepositoryAssemblyPath { get; set; }
         #endregion
     }
@@ -56,7 +56,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
                 InputClassName             = dictionary[nameof(CustomSqlNamingPatternContract.InputClassName)],
                 ReferencedEntityAccessPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAccessPath)],
                 ReferencedEntityAssemblyPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAssemblyPath)],
-                ReferencedEntityReaderMethodPathPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityReaderMethodPathPath)],
+                ReferencedEntityReaderMethodPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityReaderMethodPath)],
                 ReferencedRepositoryAssemblyPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedRepositoryAssemblyPath)],
             });
         }
