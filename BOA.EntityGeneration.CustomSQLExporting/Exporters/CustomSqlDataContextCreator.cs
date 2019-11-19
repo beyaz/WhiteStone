@@ -4,8 +4,8 @@ using BOA.DatabaseAccess;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
-using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
+using static BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters.MsBuildQueue;
+using static BOA.EntityGeneration.CustomSQLExporting.Data;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             InitProcessInfo(context);
             InitializeConfig(context);
             InitializeDatabaseConnection(context);
-            context.Add(MsBuildQueue.MsBuildQueueId, new MsBuildQueue());
+            context.Add(MsBuildQueueId, new MsBuildQueue());
 
             AttachEvents(context);
 
@@ -40,20 +40,23 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void InitializeConfig(IDataContext context)
         {
             var configFilePath = Path.GetDirectoryName(typeof(CustomSqlDataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
-            context.Add(Data.Config, JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(configFilePath)));
+
+            Config[context] = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(configFilePath));
         }
 
-        static void InitializeDatabaseConnection(DataContext context)
+        static void InitializeDatabaseConnection(IDataContext context)
         {
-            context.Add(Data.Database, new SqlDatabase(context.Get(Data.Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
+            var connectionString = Config[context].ConnectionString;
+
+            Data.Database[context] = new SqlDatabase(connectionString) {CommandTimeout = 1000 * 60 * 60};
         }
 
         static void InitProcessInfo(IDataContext context)
         {
             var processContract = new ProcessContract();
 
-            context.Add(Data.ProcessInfo, processContract);
-            context.Add(MsBuildQueue.ProcessInfo, processContract);
+            Data.ProcessInfo[context]         = processContract;
+            MsBuildQueue.ProcessInfo[context] = processContract;
         }
         #endregion
     }

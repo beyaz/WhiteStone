@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsprojFileGenerator.cs" />
     <Compile Include="DbModel\DotNetTypeName.cs" />
     <Compile Include="DbModel\Interfaces\IColumnInfo.cs" />
     <Compile Include="DbModel\Interfaces\IIndexInfo.cs" />
