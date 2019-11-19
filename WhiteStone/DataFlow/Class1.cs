@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace BOA.DataFlow
 {
@@ -28,6 +29,9 @@ namespace BOA.DataFlow
     [SuppressMessage("ReSharper", "UnusedTypeParameter")]
     public interface IDataConstant<TValueType> : IDataConstant
     {
+        #region Public Indexers
+        TValueType this[IDataContext context] { get; set; }
+        #endregion
     }
 
     /// <summary>
@@ -84,6 +88,14 @@ namespace BOA.DataFlow
         public string Name { get; }
         #endregion
 
+        #region Public Indexers
+        public TValueType this[IDataContext context]
+        {
+            get { return context.Get(this); }
+            set { context.Add(this, value); }
+        }
+        #endregion
+
         #region Public Methods
         /// <summary>
         ///     Returns a <see cref="System.String" /> that represents this instance.
@@ -128,6 +140,8 @@ namespace BOA.DataFlow
     /// </summary>
     public interface IDataContext
     {
+        void OpenBracket();
+        void CloseBracket();
         #region Public Properties
         /// <summary>
         ///     Gets a value indicating whether this instance is empty.
@@ -228,12 +242,14 @@ namespace BOA.DataFlow
         /// <summary>
         ///     The dictionary
         /// </summary>
-        readonly Dictionary<string, object> dictionary = new Dictionary<string, object>();
+        readonly Dictionary<string, Pair> dictionary = new Dictionary<string, Pair>();
 
         /// <summary>
         ///     The subscribers
         /// </summary>
         readonly Dictionary<string, List<Action<IDataContext>>> Subscribers = new Dictionary<string, List<Action<IDataContext>>>();
+
+        int bracketIndex;
         #endregion
 
         #region Public Properties
@@ -252,13 +268,13 @@ namespace BOA.DataFlow
         /// </summary>
         public void Add<T>(IDataConstant dataConstant, T value)
         {
-            object val = null;
-            if (dictionary.TryGetValue(dataConstant.Id, out val))
+            Pair pair = null;
+            if (dictionary.TryGetValue(dataConstant.Id, out pair))
             {
                 throw new DataShouldRemoveBeforeSetException(dataConstant);
             }
 
-            dictionary[dataConstant.Id] = value;
+            dictionary[dataConstant.Id] = new Pair(dataConstant.Id, bracketIndex, value);
         }
 
         /// <summary>
@@ -275,6 +291,23 @@ namespace BOA.DataFlow
             }
 
             Subscribers[@event.Name] = new List<Action<IDataContext>> {action};
+        }
+
+        public void CloseBracket()
+        {
+            if (bracketIndex<0)
+            {
+                throw new InvalidOperationException("There is no bracket to close.");
+            }
+
+            var removeList = dictionary.Values.Where(p => p.bracketIndex == bracketIndex).Select(p => p.key).ToList();
+
+            foreach (var key in removeList)
+            {
+                dictionary.Remove(key);
+            }
+
+            bracketIndex--;
         }
 
         /// <summary>
@@ -315,13 +348,18 @@ namespace BOA.DataFlow
         /// </summary>
         public T Get<T>(IDataConstant<T> dataConstant)
         {
-            object value = null;
-            if (dictionary.TryGetValue(dataConstant.Id, out value))
+            Pair pair = null;
+            if (dictionary.TryGetValue(dataConstant.Id, out pair))
             {
-                return (T) value;
+                return (T) pair.value;
             }
 
             throw new DataNotFoundException(dataConstant);
+        }
+
+        public void OpenBracket()
+        {
+            bracketIndex++;
         }
 
         /// <summary>
@@ -343,14 +381,32 @@ namespace BOA.DataFlow
         /// </summary>
         public T TryGet<T>(IDataConstant<T> dataConstant)
         {
-            object value = null;
-            if (dictionary.TryGetValue(dataConstant.Id, out value))
+            Pair pair = null;
+            if (dictionary.TryGetValue(dataConstant.Id, out pair))
             {
-                return (T) value;
+                return (T) pair.value;
             }
 
             return default(T);
         }
         #endregion
+
+        class Pair
+        {
+            #region Fields
+            public readonly int    bracketIndex;
+            public readonly string key;
+            public readonly object value;
+            #endregion
+
+            #region Constructors
+            public Pair(string key, int bracketIndex, object value)
+            {
+                this.key          = key;
+                this.bracketIndex = bracketIndex;
+                this.value        = value;
+            }
+            #endregion
+        }
     }
 }

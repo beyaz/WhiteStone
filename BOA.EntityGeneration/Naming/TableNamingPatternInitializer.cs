@@ -46,11 +46,7 @@ namespace BOA.EntityGeneration.Naming
 
         }
 
-        public static void Remove(IDataContext context)
-        {
-            context.Remove(TableNamingPatternContract.TableNamingPattern);
-            context.Remove(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
-        }
+        
         #endregion
     }
 }

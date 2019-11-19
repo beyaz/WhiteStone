@@ -29,10 +29,7 @@ namespace BOA.EntityGeneration.Naming
             });
         }
 
-        public static void Remove(IDataContext context)
-        {
-            context.Remove(NamingPatternContract.NamingPattern);
-        }
+      
         #endregion
     }
 }

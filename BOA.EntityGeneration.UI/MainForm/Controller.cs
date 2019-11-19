@@ -101,15 +101,15 @@ namespace BOA.EntityGeneration.UI.MainForm
         {
             context = new DataContextCreator().Create();
 
+            context.OpenBracket();
+
             context.Add(FileSystem.CheckinComment, Model.CheckInComment);
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
             context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted, true);
 
             SchemaExporter.Export(context, Model.SchemaName);
 
-            context.Remove(FileSystem.CheckinComment);
-            context.Remove(FileSystem.IntegrateWithTFSAndCheckInAutomatically);
-            context.Remove(MsBuildQueue.BuildAfterCodeGenerationIsCompleted);
+            context.CloseBracket();
 
             IsFinished = true;
         }
@@ -118,13 +118,14 @@ namespace BOA.EntityGeneration.UI.MainForm
         {
             context = new DataContextCreator().Create();
 
+            context.OpenBracket();
+
             context.Add(FileSystem.CheckinComment, Model.CheckInComment);
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
 
             BOACardDatabaseExporter.Export(context);
 
-            context.Remove(FileSystem.CheckinComment);
-            context.Remove(FileSystem.IntegrateWithTFSAndCheckInAutomatically);
+            context.CloseBracket();
         }
         #endregion
     }

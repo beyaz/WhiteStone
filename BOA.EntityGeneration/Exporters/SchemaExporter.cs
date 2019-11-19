@@ -15,6 +15,8 @@ namespace BOA.EntityGeneration.Exporters
         /// </summary>
         public static void Export(IDataContext context, string schemaName)
         {
+            context.OpenBracket();
+
             context.Add(Data.SchemaName, schemaName);
 
             NamingPatternInitializer.Initialize(context);
@@ -22,8 +24,7 @@ namespace BOA.EntityGeneration.Exporters
             context.FireEvent(SchemaExportingEvent.SchemaExportStarted);
             context.FireEvent(SchemaExportingEvent.SchemaExportFinished);
 
-            context.Remove(Data.SchemaName);
-            NamingPatternInitializer.Remove(context);
+            context.CloseBracket();
         }
         #endregion
     }

@@ -34,7 +34,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             context.AttachEvent(OnProfileInfoRemove, EndNamespace);
             context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
-            context.AttachEvent(OnProfileInfoRemove, ClearOutput);
+            
         }
         #endregion
 
@@ -69,10 +69,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine();
         }
 
-        static void ClearOutput(IDataContext context)
-        {
-            context.Remove(File);
-        }
+       
 
         static void CreateSqlInfo(IDataContext context)
         {
@@ -139,7 +136,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void InitializeOutput(IDataContext context)
         {
-            context.Add(File, new PaddedStringBuilder());
+            File[context] = new PaddedStringBuilder();
         }
 
         static void WriteReadContract(IDataContext context)

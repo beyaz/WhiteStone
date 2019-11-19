@@ -11,6 +11,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         {
             "USER_NAME".ToContractName().Should().Be("UserName");
             "HATTORI_HANZO".ToContractName().Should().Be("HattoriHanzo");
+            "STATUS".ToContractName().Should().Be("Status");
             "UserName".ToContractName().Should().Be("UserName");
             "UserName3".ToContractName().Should().Be("UserName3");
             "User_name".ToContractName().Should().Be("UserName");

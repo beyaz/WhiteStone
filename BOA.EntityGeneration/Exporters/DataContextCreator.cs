@@ -40,7 +40,7 @@ namespace BOA.EntityGeneration.Exporters
             SharedFileExporter.AttachEvents(context);
             BoaRepositoryFileExporter.AttachEvents(context);
 
-            context.AttachEvent(TableExportingEvent.TableExportFinished, TableNamingPatternInitializer.Remove);
+            
 
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, Events.OnSchemaStartedToExport);
 

@@ -18,6 +18,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
+            context.AttachEvent(OnProfileInfoInitialized, CustomSqlClassGenerator.InitializeText);
+            
+            CustomSqlClassGenerator.AttachEvents(context);
+
             context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
             context.AttachEvent(OnProfileInfoInitialized, UsingList);
             context.AttachEvent(OnProfileInfoInitialized, EmptyLine);
@@ -29,7 +33,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             context.AttachEvent(OnProfileInfoRemove, WriteProxyClass);
             context.AttachEvent(OnProfileInfoRemove, EndNamespace);
             context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
-            context.AttachEvent(OnProfileInfoRemove, ClearOutput);
+
+            
+
+
+            
         }
         #endregion
 
@@ -42,10 +50,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.BeginNamespace(profileNamingPattern.RepositoryNamespace);
         }
 
-        static void ClearOutput(IDataContext context)
-        {
-            context.Remove(File);
-        }
+       
 
         static void EmptyLine(IDataContext context)
         {
@@ -171,8 +176,52 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteProxyClass(IDataContext context)
         {
             var sb             = context.Get(File);
-            var customSqlInfos = context.Get(ProcessedCustomSqlInfoListInProfile);
+
+            var proxyClass = context.Get(CustomSqlClassGenerator.Text).ToString();
+            sb.AppendAll(proxyClass);
+            sb.AppendLine();
+        }
+        #endregion
+    }
+
+    class CustomSqlClassGenerator
+    {
+        public static readonly IDataConstant<PaddedStringBuilder> Text = DataConstant.Create<PaddedStringBuilder>(nameof(CustomSqlClassGenerator) + "->" + nameof(Text));
+
+        public static void AttachEvents(IDataContext context)
+        {
+            context.AttachEvent(OnProfileInfoInitialized, Begin);
+
+            context.AttachEvent(OnCustomSqlInfoInitialized, WriteSwitchCaseCondition);
+
+            context.AttachEvent(OnProfileInfoRemove, End);
+        }
+
+
+        static void WriteSwitchCaseCondition(IDataContext context)
+        {
+            var sb                     = context.Get(Text);
+            var customSqlInfo = context.Get(CustomSqlInfo);
             var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+
+            sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");
+            sb.OpenBracket();
+            sb.AppendLine($"return (TOutput) (object) new {customSqlNamingPattern.RepositoryClassName}(objectHelper.Context).Execute(({customSqlNamingPattern.InputClassName})(object) input);");
+            sb.CloseBracket();
+
+           
+        }
+
+        public static void InitializeText(IDataContext context)
+        {
+            context.Add(Text,new PaddedStringBuilder());
+        }
+        
+        static void Begin(IDataContext context)
+        {
+            
+
+            var sb                     = context.Get(Text);
 
             sb.AppendLine("public static class CustomSql");
             sb.OpenBracket();
@@ -183,13 +232,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("switch (input.Index)");
             sb.OpenBracket();
 
-            foreach (var customSqlInfo in customSqlInfos)
-            {
-                sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");
-                sb.OpenBracket();
-                sb.AppendLine($"return (TOutput) (object) new {customSqlNamingPattern.RepositoryClassName}(objectHelper.Context).Execute(({customSqlNamingPattern.InputClassName})(object) input);");
-                sb.CloseBracket();
-            }
+           
+        }
+
+        static void End(IDataContext context)
+        {
+            var sb                     = context.Get(Text);
+            
+
+           
 
             sb.CloseBracket(); // end of switch
 
@@ -200,6 +251,5 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             sb.CloseBracket(); // end of class
         }
-        #endregion
     }
 }

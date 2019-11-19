@@ -92,10 +92,8 @@ namespace CustomSqlInjectionToProject.MainForm
 
             CustomSqlExporter.Export(context, Model.ProfileId.Trim());
 
-            context.Remove(FileSystem.CheckinComment);
-            context.Remove(FileSystem.IntegrateWithTFSAndCheckInAutomatically);
-            context.Remove(MsBuildQueue.BuildAfterCodeGenerationIsCompleted);
-
+            context.CloseBracket();
+            
             IsFinished = true;
 
             context = null;

@@ -43,9 +43,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting
             });
         }
 
-        public static void Remove(IDataContext context)
-        {
-            context.Remove(CustomSqlNamingPattern);
-        }
+        
     }
 }

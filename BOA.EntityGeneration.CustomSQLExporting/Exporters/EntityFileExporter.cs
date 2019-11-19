@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             context.AttachEvent(OnProfileInfoRemove, EndNamespace);
             context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
-            context.AttachEvent(OnProfileInfoRemove, ClearOutput);
+            
         }
         #endregion
 
@@ -49,10 +49,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("}");
         }
 
-        static void ClearOutput(IDataContext context)
-        {
-            context.Remove(File);
-        }
+        
 
         static void EndNamespace(IDataContext context)
         {

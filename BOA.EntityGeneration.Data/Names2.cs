@@ -66,7 +66,12 @@ namespace BOA.EntityGeneration
             {
                 if (IsCamelCase(names[0]))
                 {
-                    return names[0];    
+
+                    if (names[0].Any(char.IsLower))
+                    {
+                        return names[0]; 
+                    }
+                      
                 }
                 
             }

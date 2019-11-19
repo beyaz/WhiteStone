@@ -29,7 +29,6 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 
             context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, EndNamespace);
             context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, ExportFileToDirectory);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, ClearOutput);
         }
         #endregion
 
@@ -41,10 +40,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             sb.BeginNamespace(context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace + ".Shared");
         }
 
-        static void ClearOutput(IDataContext context)
-        {
-            context.Remove(File);
-        }
+        
 
         static void EmptyLine(IDataContext context)
         {

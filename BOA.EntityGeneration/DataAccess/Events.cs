@@ -17,13 +17,14 @@ namespace BOA.EntityGeneration.DataAccess
 
             var tableNames = SchemaInfo.GetAllTableNamesInSchema(database, schemaName).ToList();
 
+            context.OpenBracket();
             context.Add(Data.TableNamesInSchema, tableNames);
 
             context.FireEvent(DataEvent.AfterFetchedAllTableNamesInSchema);
 
             tableNames = context.Get(Data.TableNamesInSchema);
 
-            context.Remove(Data.TableNamesInSchema);
+            context.CloseBracket();
 
             tableNames = tableNames.Where(x => IsReadyToExport(schemaName, x, config)).ToList();
 
@@ -41,10 +42,11 @@ namespace BOA.EntityGeneration.DataAccess
 
                 var generatorData = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable,config.DatabaseEnumName,database,tableInfo);
 
+                context.OpenBracket();
                 context.Add(Data.TableInfo, generatorData);
                 context.FireEvent(TableExportingEvent.TableExportStarted);
                 context.FireEvent(TableExportingEvent.TableExportFinished);
-                context.Remove(Data.TableInfo);
+                context.CloseBracket();
             }
         }
         #endregion

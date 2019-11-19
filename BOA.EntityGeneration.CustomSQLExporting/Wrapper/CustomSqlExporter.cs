@@ -21,17 +21,16 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #region Public Methods
         public static void Export(IDataContext context, string profileId)
         {
+            context.OpenBracket();
+
             context.Add(ProfileName, profileId);
-            context.Add(ProcessedCustomSqlInfoListInProfile, new List<CustomSqlInfo>());
             ProfileNamingPatternInitializer.Initialize(context);
 
             InitializeProfileInfo(context);
             ProcessCustomSQLsInProfile(context);
             RemoveProfileInfo(context);
 
-            context.Remove(ProcessedCustomSqlInfoListInProfile);
-            context.Remove(ProfileName);
-            ProfileNamingPatternInitializer.Remove(context);
+            context.CloseBracket();
 
             var processInfo = context.Get(ProcessInfo);
             processInfo.Text = "Finished Successfully.";
@@ -42,9 +41,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #region Methods
         static void InitializeProfileInfo(IDataContext context)
         {
-            var database  = context.Get(Database);
+            var database    = context.Get(Database);
             var profileName = context.Get(ProfileName);
-            var config    = context.Get(Config);
+            var config      = context.Get(Config);
 
             context.Get(ProcessInfo).Text = "Fetching profile informations...";
             context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config));
@@ -57,62 +56,56 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var customSqlNamesInfProfile = context.Get(CustomSqlNamesInfProfile);
             var processInfo              = context.Get(ProcessInfo);
 
-            var config    = context.Get(Config);
-            var database  = context.Get(Database);
+            var config      = context.Get(Config);
+            var database    = context.Get(Database);
             var profileName = context.Get(ProfileName);
+
+            
 
             processInfo.Total = customSqlNamesInfProfile.Count;
 
             var switchCaseIndex = 0;
             foreach (var objectId in customSqlNamesInfProfile)
             {
-
                 processInfo.Text    = $"Processing '{objectId}'";
                 processInfo.Current = switchCaseIndex;
 
                 var customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileName, objectId, config, switchCaseIndex++);
 
-                context.Get(ProcessedCustomSqlInfoListInProfile).Add(customSqlInfo);
-
+                context.OpenBracket();
                 context.Add(CustomSqlInfo, customSqlInfo);
                 CustomSqlNamingPatternInitializer.Initialize(context);
 
                 ReferencedEntityAccessPathInitialize(context);
                 context.FireEvent(OnCustomSqlInfoInitialized);
-                context.Remove(CustomSqlInfo);
-                CustomSqlNamingPatternInitializer.Remove(context);
-                ReferencedEntityAccessPathRemove(context);
 
+                context.CloseBracket();
             }
         }
 
         static void ReferencedEntityAccessPathInitialize(IDataContext context)
         {
-            var config = context.Get(Config);
+            var config        = context.Get(Config);
             var customSqlInfo = context.Get(CustomSqlInfo);
 
             string referencedEntityAccessPath = null;
 
-             var entityReferencedResultColumn = customSqlInfo.ResultColumns.FirstOrDefault(x=>x.IsReferenceToEntity);
+            var entityReferencedResultColumn = customSqlInfo.ResultColumns.FirstOrDefault(x => x.IsReferenceToEntity);
 
-                if (entityReferencedResultColumn != null)
-                {
-                    referencedEntityAccessPath = config.ReferencedEntityAccessPath.Replace("$(SchemaName)", customSqlInfo.SchemaName)
-                                                           .Replace("$(CamelCasedResultName)", entityReferencedResultColumn.Name.ToContractName());
-                }
+            if (entityReferencedResultColumn != null)
+            {
+                referencedEntityAccessPath = config.ReferencedEntityAccessPath.Replace("$(SchemaName)", customSqlInfo.SchemaName)
+                                                   .Replace("$(CamelCasedResultName)", entityReferencedResultColumn.Name.ToContractName());
+            }
 
-
-                context.Add(ReferencedEntityAccessPath,referencedEntityAccessPath);
+            context.Add(ReferencedEntityAccessPath, referencedEntityAccessPath);
         }
-        static void ReferencedEntityAccessPathRemove(IDataContext context)
-        {
-            context.Remove(ReferencedEntityAccessPath);
-        }
+
+        
 
         static void RemoveProfileInfo(IDataContext context)
         {
             context.FireEvent(OnProfileInfoRemove);
-            context.Remove(CustomSqlNamesInfProfile);
         }
 
         static void WaitTwoSecondForUserCanSeeSuccessMessage()
@@ -127,12 +120,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #endregion
 
         #region Data
-        public static readonly IDataConstant<List<CustomSqlInfo>> ProcessedCustomSqlInfoListInProfile = DataConstant.Create<List<CustomSqlInfo>>();
-
-        public static readonly IDataConstant<string>        ProfileName   = DataConstant.Create<string>(nameof(ProfileName));
+        public static readonly IDataConstant<string> ProfileName                = DataConstant.Create<string>(nameof(ProfileName));
         public static readonly IDataConstant<string> ReferencedEntityAccessPath = DataConstant.Create<string>(nameof(ReferencedEntityAccessPath));
-        
-        
+
         public static readonly IDataConstant<CustomSqlInfo> CustomSqlInfo = DataConstant.Create<CustomSqlInfo>();
 
         public static readonly IDataConstant<ConfigurationContract> Config = DataConstant.Create<ConfigurationContract>(nameof(Config));
