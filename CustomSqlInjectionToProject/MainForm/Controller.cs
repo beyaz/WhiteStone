@@ -53,13 +53,10 @@ namespace CustomSqlInjectionToProject.MainForm
             }
         }
 
-     
         public override void OnViewLoaded()
         {
-
-
             var ctx = new CustomSqlDataContextCreator().Create();
-            
+
             Model = new Model
             {
                 ProfileId = Injection.ProfileId,
@@ -68,7 +65,7 @@ namespace CustomSqlInjectionToProject.MainForm
                     Text = "Ready"
                 },
                 CheckInComment = CheckInCommentAccess.GetCheckInComment(),
-                ProfileIdList =  ctx.GetProfileNames(),
+                ProfileIdList  = ctx.GetProfileNames(),
 
                 ActionButtons = new List<ActionButtonInfo>
                 {
@@ -87,14 +84,31 @@ namespace CustomSqlInjectionToProject.MainForm
         {
             context = new CustomSqlDataContextCreator().Create();
 
-            context.Add(FileSystem.CheckinComment,Model.CheckInComment);
-            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,true);
-            context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted,true);
+            context.Add(FileSystem.CheckinComment, Model.CheckInComment);
+            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
+            context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted, true);
 
-            CustomSqlExporter.Export(context, Model.ProfileId.Trim());
+            var profileId = Model.ProfileId.Trim();
+
+            if (profileId == "*")
+            {
+                foreach (var profileName in context.GetProfileNames())
+                {
+                    if (profileName == "*")
+                    {
+                        continue;
+                    }
+
+                    CustomSqlExporter.Export(context, profileName);
+                }
+            }
+            else
+            {
+                CustomSqlExporter.Export(context, profileId);
+            }
 
             context.CloseBracket();
-            
+
             IsFinished = true;
 
             context = null;

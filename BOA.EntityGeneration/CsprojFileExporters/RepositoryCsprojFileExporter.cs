@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.CsprojFileExporters
 
             var ns = namingPattern.RepositoryNamespace;
 
-            var projectDirectory = $"{ProjectExportLocation}{ns}\\";
+            var projectDirectory = $"{ProjectExportLocation}\\";
 
             var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
             var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
