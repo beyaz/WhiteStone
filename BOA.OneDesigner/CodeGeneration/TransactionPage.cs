@@ -281,7 +281,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine("    return;");
             sb.AppendLine("}");
             sb.AppendLine();
-            sb.AppendLine("if (this.state.windowRequest.errorTexts[bindingPath] == null");
+            sb.AppendLine("if (this.state.windowRequest.errorTexts[bindingPath] == null)");
             sb.AppendLine("{");
             sb.AppendLine("    return;");
             sb.AppendLine("}");
