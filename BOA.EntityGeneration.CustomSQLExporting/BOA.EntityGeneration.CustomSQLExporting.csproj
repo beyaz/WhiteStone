@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ConfigurationContract.cs" />
     <Compile Include="CustomSqlNamingPatternContract.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="Exporters\BoaRepositoryFileExporter.cs" />
     <Compile Include="Exporters\CustomSqlDataContextCreator.cs" />
     <Compile Include="Exporters\SharedFileExporter.cs" />
@@ -82,5 +83,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

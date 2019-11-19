@@ -10,8 +10,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     public class RepositoryCsprojFileExporter
     {
-        public static readonly IDataConstant<List<string>> AssemblyReferences = DataConstant.Create<List<string>>(nameof(AssemblyReferences));
-
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
@@ -21,17 +19,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void InitializeAssemblyReferences(IDataContext context)
         {
-            AssemblyReferences[context] = new List<string>();
-            AssemblyReferences[context].AddRange(ProfileNamingPattern[context].RepositoryAssemblyReferences);
+            Data.RepositoryAssemblyReferences[context] = new List<string>();
+            Data.RepositoryAssemblyReferences[context].AddRange(Data.ProfileNamingPattern[context].RepositoryAssemblyReferences);
         }
 
         public static void Export(IDataContext context)
         {
-            var profileNamingPattern = context.Get(ProfileNamingPattern);
+            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
             var ns               = profileNamingPattern.RepositoryNamespace;
             var projectDirectory = profileNamingPattern.RepositoryProjectDirectory;
-            var references = string.Join(Environment.NewLine,AssemblyReferences[context]);
+            var references = string.Join(Environment.NewLine, Data.RepositoryAssemblyReferences[context]);
 
             var csprojFilePath = $"{projectDirectory}{ns}.csproj";
 

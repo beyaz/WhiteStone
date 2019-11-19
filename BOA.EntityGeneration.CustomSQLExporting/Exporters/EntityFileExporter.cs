@@ -3,9 +3,7 @@ using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
-using static BOA.EntityGeneration.CustomSQLExporting.CustomSqlNamingPatternContract;
 using static BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityCsprojFileExporter;
-using static BOA.EntityGeneration.CustomSQLExporting.ProfileNamingPatternContract;
     
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
@@ -33,7 +31,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb                   = context.Get(File);
-            var profileNamingPattern = context.Get(ProfileNamingPattern);
+            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using System;");
@@ -61,7 +59,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb                   = context.Get(File);
-            var profileNamingPattern = context.Get(ProfileNamingPattern);
+            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
             var processInfo = context.Get(ProcessInfo);
 
@@ -82,11 +80,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb                     = context.Get(File);
             var customSqlInfo          = context.Get(CustomSqlInfo);
-            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+            var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
 
             if (customSqlInfo.ResultColumns.Any(r => r.IsReferenceToEntity))
             {
-                AssemblyReferences[context].Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
+                Data.EntityAssemblyReferences[context].Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
             }
 
             var resultContractName = customSqlNamingPattern.ResultClassName;

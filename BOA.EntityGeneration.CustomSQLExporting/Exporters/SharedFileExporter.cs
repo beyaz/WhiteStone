@@ -45,7 +45,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb   = context.Get(File);
             var data = context.Get(CustomSqlInfo);
-            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+            var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
 
             sb.AppendLine($"public static class {customSqlNamingPattern.RepositoryClassName}");
             sb.OpenBracket();
@@ -54,7 +54,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb            = context.Get(File);
-            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
 
             sb.AppendLine($"namespace {profileNamingPattern.RepositoryNamespace}.Shared");
@@ -77,7 +77,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb            = context.Get(File);
             var customSqlInfo = context.Get(CustomSqlInfo);
-            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+            var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
             
 
             sb.AppendLine($"public static SqlInfo CreateSqlInfo({customSqlNamingPattern.InputClassName} request)");
@@ -127,7 +127,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb            = context.Get(File);
             var processInfo   = context.Get(ProcessInfo);
-            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
             processInfo.Text = "Exporting Shared repository.";
 
@@ -145,7 +145,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb   = context.Get(File);
             var customSqlInfo = context.Get(CustomSqlInfo);
-            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+            var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
             
 
             if (customSqlInfo.ResultContractIsReferencedToEntity)
@@ -182,7 +182,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteUsingList(IDataContext context)
         {
             var sb            = context.Get(File);
-            var profileNamingPattern = context.Get(ProfileNamingPatternContract.ProfileNamingPattern);
+            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Data;");

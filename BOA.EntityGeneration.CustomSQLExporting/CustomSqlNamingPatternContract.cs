@@ -10,7 +10,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
     class CustomSqlNamingPatternContract
     {
         #region Static Fields
-        internal static readonly IDataConstant<CustomSqlNamingPatternContract> CustomSqlNamingPattern = DataConstant.Create<CustomSqlNamingPatternContract>(nameof(CustomSqlNamingPattern));
+        
         #endregion
 
         #region Public Properties
@@ -47,7 +47,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.CustomSqlNamingPattern, initialValues);
 
-            context.Add(CustomSqlNamingPattern, new CustomSqlNamingPatternContract
+            context.Add(Data.CustomSqlNamingPattern, new CustomSqlNamingPatternContract
             {
                 ResultClassName            = dictionary[nameof(CustomSqlNamingPatternContract.ResultClassName)],
                 RepositoryClassName        = dictionary[nameof(CustomSqlNamingPatternContract.RepositoryClassName)],

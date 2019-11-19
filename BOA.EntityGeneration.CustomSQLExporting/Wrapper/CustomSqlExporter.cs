@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
@@ -60,8 +58,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var database    = context.Get(Database);
             var profileName = context.Get(ProfileName);
 
-            
-
             processInfo.Total = customSqlNamesInfProfile.Count;
 
             var switchCaseIndex = 0;
@@ -82,10 +78,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             }
         }
 
-       
-
-        
-
         static void RemoveProfileInfo(IDataContext context)
         {
             context.FireEvent(OnProfileInfoRemove);
@@ -98,12 +90,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #endregion
 
         #region Output Strings
-        public static readonly IDataConstant<PaddedStringBuilder> SharedDalFile = DataConstant.Create<PaddedStringBuilder>(nameof(SharedDalFile));
-        public static readonly IDataConstant<PaddedStringBuilder> BoaDalFile    = DataConstant.Create<PaddedStringBuilder>(nameof(BoaDalFile));
         #endregion
 
         #region Data
-        public static readonly IDataConstant<string> ProfileName                = DataConstant.Create<string>(nameof(ProfileName));
+        public static readonly IDataConstant<string> ProfileName = DataConstant.Create<string>(nameof(ProfileName));
 
         public static readonly IDataConstant<CustomSqlInfo> CustomSqlInfo = DataConstant.Create<CustomSqlInfo>();
 

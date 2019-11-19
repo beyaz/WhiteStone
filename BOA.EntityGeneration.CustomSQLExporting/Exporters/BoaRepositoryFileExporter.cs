@@ -47,7 +47,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void BeginNamespace(IDataContext context)
         {
             var sb            = context.Get(File);
-            var profileNamingPattern= context.Get(ProfileNamingPattern);
+            var profileNamingPattern= context.Get(Data.ProfileNamingPattern);
 
             sb.BeginNamespace(profileNamingPattern.RepositoryNamespace);
         }
@@ -68,7 +68,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void ExportFileToDirectory(IDataContext context)
         {
             var sb            = context.Get(File);
-            var profileNamingPattern = context.Get(ProfileNamingPattern);
+            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
             var processInfo = context.Get(ProcessInfo);
 
@@ -87,7 +87,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void UsingList(IDataContext context)
         {
             var sb            = context.Get(File);
-            var profileNamingPattern = context.Get(ProfileNamingPattern);
+            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
             foreach (var line in profileNamingPattern.BoaRepositoryUsingLines)
             {
@@ -98,9 +98,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         static void WriteBoaRepositoryClass(IDataContext context)
         {
             var sb            = context.Get(File);
-            var namingPattern = context.Get(ProfileNamingPattern);
+            var namingPattern = context.Get(Data.ProfileNamingPattern);
             var customSqlInfo          = context.Get(CustomSqlInfo);
-            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+            var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
 
             var key = $"{namingPattern.RepositoryNamespace}.{customSqlNamingPattern.RepositoryClassName}.Execute";
 
@@ -203,7 +203,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var sb                     = context.Get(Text);
             var customSqlInfo = context.Get(CustomSqlInfo);
-            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+            var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
 
             sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");
             sb.OpenBracket();

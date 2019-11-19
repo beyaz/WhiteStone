@@ -11,7 +11,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     class EntityCsprojFileExporter
     {
-        public static readonly IDataConstant<List<string>> AssemblyReferences = DataConstant.Create<List<string>>(nameof(AssemblyReferences));
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
@@ -22,15 +21,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void Initialize(IDataContext context)
         {
-            AssemblyReferences[context] = new List<string>();
-            AssemblyReferences[context].AddRange(ProfileNamingPattern[context].EntityAssemblyReferences);
+            Data.EntityAssemblyReferences[context] = new List<string>();
+            Data.EntityAssemblyReferences[context].AddRange(Data.ProfileNamingPattern[context].EntityAssemblyReferences);
         }
         #region Methods
         static void Export(IDataContext context)
         {
-            var profileNamingPattern = context.Get(ProfileNamingPattern);
+            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
-            var assemblyReferences = string.Join(Environment.NewLine, AssemblyReferences[context]);
+            var assemblyReferences = string.Join(Environment.NewLine, Data.EntityAssemblyReferences[context]);
 
             var ns               = profileNamingPattern.EntityNamespace;
             var projectDirectory = profileNamingPattern.EntityProjectDirectory;

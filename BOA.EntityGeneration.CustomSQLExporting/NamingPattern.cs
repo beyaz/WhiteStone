@@ -6,6 +6,8 @@ using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting
 {
+
+   
     static class ProfileNamingPatternInitializer
     {
         #region Public Methods
@@ -20,7 +22,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.ProfileNamingPattern, initialValues);
 
-            context.Add(ProfileNamingPattern, new ProfileNamingPatternContract
+            context.Add(Data.ProfileNamingPattern, new ProfileNamingPatternContract
             {
                 SlnDirectoryPath           = dictionary[nameof(ProfileNamingPatternContract.SlnDirectoryPath)],
                 EntityNamespace            = dictionary[nameof(ProfileNamingPatternContract.EntityNamespace)],
@@ -42,7 +44,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
     class ProfileNamingPatternContract
     {
         #region Static Fields
-        internal static readonly IDataConstant<ProfileNamingPatternContract> ProfileNamingPattern = DataConstant.Create<ProfileNamingPatternContract>(nameof(ProfileNamingPatternContract));
+        
         #endregion
 
         #region Public Properties
