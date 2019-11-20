@@ -24,7 +24,6 @@ namespace BOA.EntityGeneration.UI.Container
         public MainWindow()
         {
             InitializeComponent();
-            myS.Provider = new SuggestionProvider((filter)=>new List<string>(){"araba","araba3","araba345"});
         }
     }
 }

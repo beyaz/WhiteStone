@@ -7,10 +7,11 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
                       xmlns:wpf="http://wpfcontrols.com/"
+                      xmlns:components = "clr-namespace:BOA.EntityGeneration.UI.Container.Components"
 
                       Title="MainWindow" Height="450" Width="800">
     <Grid Margin="0,238,249,0">
 
-        <wpf:AutoCompleteTextBox Margin="0,0,0,138"  Name="myS" />
+        <components:SchemaNameComponent Margin="0,0,0,138"   />
     </Grid>
 </Controls:MetroWindow>

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
+using BOA.DataFlow;
 
 namespace BOA.EntityGeneration.UI.Container
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+
+    static class Data
     {
+        public static IDataConstant<List<string>> SchemaNames = DataConstant.Create<List<string>>(nameof(SchemaNames));
+    }
+
+    public partial class App 
+    {
+        public static IDataContext Context = new DataContextCreator().Create();
     }
 }
