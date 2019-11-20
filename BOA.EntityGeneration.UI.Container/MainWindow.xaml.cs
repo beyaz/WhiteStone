@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfControls;
 
 namespace BOA.EntityGeneration.UI.Container
 {
@@ -23,6 +24,7 @@ namespace BOA.EntityGeneration.UI.Container
         public MainWindow()
         {
             InitializeComponent();
+            myS.Provider = new SuggestionProvider((filter)=>new List<string>(){"araba","araba3","araba345"});
         }
     }
 }
