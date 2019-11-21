@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using BOA.DataFlow;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using static BOA.EntityGeneration.BoaRepositoryFileExporting.BoaRepositoryFileExporter;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.Naming.NamingPatternContract;
+using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
@@ -12,9 +14,11 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb               = context.Get(BoaRepositoryFileExporter.File);
-            var tableInfo        = TableInfo[context];
-            var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles[context];
+            var file               = File[context];
+            var tableInfo          = TableInfo[context];
+            var typeContractName   = TableEntityClassNameForMethodParametersInRepositoryFiles[context];
+            var tableNamingPattern = context.Get(TableNamingPattern);
+            var namingPattern      = context.Get(NamingPattern);
 
             foreach (var indexIdentifier in tableInfo.UniqueIndexInfoList)
             {
@@ -24,22 +28,20 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
                 var methodName = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
-                sb.AppendLine();
-                sb.AppendLine("/// <summary>");
-                sb.AppendLine($"///{Padding.ForComment} Selects records by given parameters.");
-                sb.AppendLine("/// </summary>");
-                sb.AppendLine($"public GenericResponse<{typeContractName}> {methodName}({parameterPart})");
-                sb.OpenBracket();
+                file.AppendLine();
+                file.AppendLine("/// <summary>");
+                file.AppendLine($"///{Padding.ForComment} Selects records by given parameters.");
+                file.AppendLine("/// </summary>");
+                file.AppendLine($"public GenericResponse<{typeContractName}> {methodName}({parameterPart})");
+                file.OpenBracket();
 
-                var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
+                file.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+                file.AppendLine();
+                file.AppendLine($"const string CallerMemberPath = \"{namingPattern.RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.{methodName}\";");
+                file.AppendLine();
+                file.AppendLine($"return this.ExecuteReaderToContract<{typeContractName}>( CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
 
-                sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
-                sb.AppendLine();
-                sb.AppendLine($"const string CallerMemberPath = \"{context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.{methodName}\";");
-                sb.AppendLine();
-                sb.AppendLine($"return this.ExecuteReaderToContract<{typeContractName}>( CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
-
-                sb.CloseBracket();
+                file.CloseBracket();
             }
 
             foreach (var indexIdentifier in tableInfo.NonUniqueIndexInfoList)
@@ -50,23 +52,21 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
                 var methodName = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
-                sb.AppendLine();
-                sb.AppendLine("/// <summary>");
-                sb.AppendLine($"///{Padding.ForComment} Selects records by given parameters.");
-                sb.AppendLine("/// </summary>");
-                sb.AppendLine($"public GenericResponse<List<{typeContractName}>> {methodName}({parameterPart})");
-                sb.OpenBracket();
+                file.AppendLine();
+                file.AppendLine("/// <summary>");
+                file.AppendLine($"///{Padding.ForComment} Selects records by given parameters.");
+                file.AppendLine("/// </summary>");
+                file.AppendLine($"public GenericResponse<List<{typeContractName}>> {methodName}({parameterPart})");
+                file.OpenBracket();
 
-                var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
+                file.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
-                sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+                file.AppendLine();
+                file.AppendLine($"const string CallerMemberPath = \"{namingPattern.RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.{methodName}\";");
+                file.AppendLine();
+                file.AppendLine($"return this.ExecuteReaderToList<{typeContractName}>(CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
 
-                sb.AppendLine();
-                sb.AppendLine($"const string CallerMemberPath = \"{context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.{methodName}\";");
-                sb.AppendLine();
-                sb.AppendLine($"return this.ExecuteReaderToList<{typeContractName}>(CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
-
-                sb.CloseBracket();
+                file.CloseBracket();
             }
         }
         #endregion

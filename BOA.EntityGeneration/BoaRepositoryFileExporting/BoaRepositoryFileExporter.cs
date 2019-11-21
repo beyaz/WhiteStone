@@ -3,9 +3,10 @@ using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
+using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 using static BOA.EntityGeneration.Naming.NamingPatternContract;
 using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
@@ -20,48 +21,47 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, InitializeOutput);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, WriteUsingList);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, EmptyLine);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BeginNamespace);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, WriteEmbeddedClasses);
+            context.AttachEvent(SchemaExportStarted, InitializeOutput);
+            context.AttachEvent(SchemaExportStarted, WriteUsingList);
+            context.AttachEvent(SchemaExportStarted, EmptyLine);
+            context.AttachEvent(SchemaExportStarted, BeginNamespace);
+            context.AttachEvent(SchemaExportStarted, WriteEmbeddedClasses);
 
-            context.AttachEvent(TableExportingEvent.TableExportStarted, WriteClass);
+            context.AttachEvent(TableExportStarted, WriteClass);
 
-            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, EndNamespace);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, ExportFileToDirectory);
+            context.AttachEvent(SchemaExportFinished, EndNamespace);
+            context.AttachEvent(SchemaExportFinished, ExportFileToDirectory);
         }
         #endregion
 
         #region Methods
         static void BeginNamespace(IDataContext context)
         {
-            var sb            = File[context];
-            var namingPattern = context.Get(NamingPattern);
+            var file          = File[context];
+            var namingPattern = NamingPattern[context];
 
-            sb.BeginNamespace(namingPattern.RepositoryNamespace);
+            file.BeginNamespace(namingPattern.RepositoryNamespace);
         }
 
         static void EmptyLine(IDataContext context)
         {
-            context.Get(File).AppendLine();
+            File[context].AppendLine();
         }
 
         static void EndNamespace(IDataContext context)
         {
-            var sb = File[context];
-            sb.EndNamespace();
+            File[context].EndNamespace();
         }
 
         static void ExportFileToDirectory(IDataContext context)
         {
-            var allInOneSourceCode = context.Get(File).ToString();
-            var namingPattern      = context.Get(NamingPattern);
-            var processInfo        = SchemaGenerationProcess[context];
+            var sourceCode    = File[context].ToString();
+            var namingPattern = NamingPattern[context];
+            var processInfo   = SchemaGenerationProcess[context];
 
             processInfo.Text = "Exporting Boa repository...";
 
-            FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Boa.cs", allInOneSourceCode);
+            FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Boa.cs", sourceCode);
         }
 
         static void InitializeOutput(IDataContext context)
@@ -71,22 +71,22 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
         static void WriteClass(IDataContext context)
         {
-            var sb                 = File[context];
+            var file               = File[context];
             var tableInfo          = TableInfo[context];
-            var tableNamingPattern = context.Get(TableNamingPattern);
+            var tableNamingPattern = TableNamingPattern[context];
 
-            ContractCommentInfoCreator.Write(sb, tableInfo);
-            sb.AppendLine($"public sealed class {tableNamingPattern.BoaRepositoryClassName} : ObjectHelper");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            ContractCommentInfoCreator.Write(file, tableInfo);
+            file.AppendLine($"public sealed class {tableNamingPattern.BoaRepositoryClassName} : ObjectHelper");
+            file.AppendLine("{");
+            file.PaddingCount++;
 
-            ContractCommentInfoCreator.Write(sb, tableInfo);
-            sb.AppendLine($"public {tableNamingPattern.BoaRepositoryClassName}(ExecutionDataContext context) : base(context) {{ }}");
+            ContractCommentInfoCreator.Write(file, tableInfo);
+            file.AppendLine($"public {tableNamingPattern.BoaRepositoryClassName}(ExecutionDataContext context) : base(context) {{ }}");
 
             #region Delete
             if (tableInfo.IsSupportSelectByKey)
             {
-                sb.AppendLine();
+                file.AppendLine();
                 DeleteByKeyMethodWriter.Write(context);
             }
             #endregion
@@ -96,7 +96,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
             #region Update
             if (tableInfo.IsSupportSelectByKey)
             {
-                sb.AppendLine();
+                file.AppendLine();
                 UpdateByKeyMethodWriter.Write(context);
             }
             #endregion
@@ -104,7 +104,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
             #region SelectByKey
             if (tableInfo.IsSupportSelectByKey)
             {
-                sb.AppendLine();
+                file.AppendLine();
                 SelectByKeyMethodWriter.Write(context);
             }
             #endregion
@@ -118,28 +118,28 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
                 SelectAllByValidFlagMethodWriter.Write(context);
             }
 
-            sb.CloseBracket();
+            file.CloseBracket();
         }
 
         static void WriteEmbeddedClasses(IDataContext context)
         {
-            var sb = File[context];
+            var file = File[context];
 
             var path = Path.GetDirectoryName(typeof(BoaRepositoryFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BoaRepositoryFileEmbeddedCodes.txt";
 
-            sb.AppendAll(System.IO.File.ReadAllText(path));
-            sb.AppendLine();
+            file.AppendAll(System.IO.File.ReadAllText(path));
+            file.AppendLine();
         }
 
         static void WriteUsingList(IDataContext context)
         {
-            var sb = File[context];
+            var file = File[context];
 
-            var namingPattern = context.Get(NamingPattern);
+            var namingPattern = NamingPattern[context];
 
             foreach (var line in namingPattern.BoaRepositoryUsingLines)
             {
-                sb.AppendLine(line);
+                file.AppendLine(line);
             }
         }
         #endregion

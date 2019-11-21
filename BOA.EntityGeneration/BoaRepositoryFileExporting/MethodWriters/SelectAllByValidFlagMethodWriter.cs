@@ -1,6 +1,7 @@
 ﻿using BOA.DataFlow;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
+using static BOA.EntityGeneration.BoaRepositoryFileExporting.BoaRepositoryFileExporter;
+using static BOA.EntityGeneration.DataFlow.Data;
 using static BOA.EntityGeneration.Naming.NamingPatternContract;
 using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
@@ -11,26 +12,28 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb                 = context.Get(BoaRepositoryFileExporter.File);
-            var tableInfo          = context.Get(Data.TableInfo);
-            var typeContractName   = context.Get(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
-            var tableNamingPattern = context.Get(TableNamingPattern);
-            var callerMemberPath   = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByValidFlag";
+            var file               = File[context];
+            var tableInfo          = TableInfo[context];
+            var typeContractName   = TableEntityClassNameForMethodParametersInRepositoryFiles[context];
+            var tableNamingPattern = TableNamingPattern[context];
+            var namingPattern      = context.Get(NamingPattern);
 
-            sb.AppendLine();
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName} where ValidFlag is true.");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public GenericResponse<List<{typeContractName}>> SelectByValidFlag()");
-            sb.OpenBracket();
+            var callerMemberPath = $"{namingPattern.RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByValidFlag";
 
-            sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.SelectByValidFlag();");
-            sb.AppendLine();
-            sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
-            sb.AppendLine();
-            sb.AppendLine($"return this.ExecuteReaderToList<{typeContractName}>(CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
+            file.AppendLine();
+            file.AppendLine("/// <summary>");
+            file.AppendLine($"///{Padding.ForComment} Selects all records in table {tableInfo.SchemaName}{tableInfo.TableName} where ValidFlag is true.");
+            file.AppendLine("/// </summary>");
+            file.AppendLine($"public GenericResponse<List<{typeContractName}>> SelectByValidFlag()");
+            file.OpenBracket();
 
-            sb.CloseBracket();
+            file.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.SelectByValidFlag();");
+            file.AppendLine();
+            file.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            file.AppendLine();
+            file.AppendLine($"return this.ExecuteReaderToList<{typeContractName}>(CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
+
+            file.CloseBracket();
         }
         #endregion
     }

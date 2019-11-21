@@ -5,6 +5,7 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using static BOA.EntityGeneration.BoaRepositoryFileExporting.BoaRepositoryFileExporter;
 using static BOA.EntityGeneration.DataFlow.Data;
 using static BOA.EntityGeneration.Naming.NamingPatternContract;
 using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
@@ -15,37 +16,34 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
     {
         #region Constants
         const string contractParameterName = "contract";
-
-        /// <summary>
-        ///     The parameter identifier
-        /// </summary>
-        const string ParameterIdentifier = "@";
         #endregion
 
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb                 = context.Get(BoaRepositoryFileExporter.File);
+            var file               = File[context];
             var tableInfo          = TableInfo[context];
             var typeContractName   = TableEntityClassNameForMethodParametersInRepositoryFiles[context];
-            var tableNamingPattern = context.Get(TableNamingPattern);
-            var callerMemberPath   = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Update";
+            var tableNamingPattern = TableNamingPattern[context];
+            var namingPattern      = NamingPattern[context];
+
+            var callerMemberPath = $"{namingPattern.RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Update";
 
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment} Updates only one record by primary keys.");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public GenericResponse<int> Update({typeContractName} {contractParameterName})");
-            sb.OpenBracket();
-            sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
-            sb.AppendLine();
-            sb.AppendLine("if (contract == null)");
-            sb.AppendLine("{");
-            sb.AppendLine("    return this.ContractCannotBeNull(CallerMemberPath);");
-            sb.AppendLine("}");
+            file.AppendLine("/// <summary>");
+            file.AppendLine($"///{Padding.ForComment} Updates only one record by primary keys.");
+            file.AppendLine("/// </summary>");
+            file.AppendLine($"public GenericResponse<int> Update({typeContractName} {contractParameterName})");
+            file.OpenBracket();
+            file.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            file.AppendLine();
+            file.AppendLine("if (contract == null)");
+            file.AppendLine("{");
+            file.AppendLine("    return this.ContractCannotBeNull(CallerMemberPath);");
+            file.AppendLine("}");
 
-            sb.AppendLine();
+            file.AppendLine();
 
             if (updateInfo.SqlParameters.Any())
             {
@@ -81,20 +79,20 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
                 if (contractInitializations.Any())
                 {
-                    sb.AppendLine();
+                    file.AppendLine();
                     foreach (var item in contractInitializations)
                     {
-                        sb.AppendLine(item);
+                        file.AppendLine(item);
                     }
                 }
             }
 
-            sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Update({contractParameterName});");
-            sb.AppendLine();
+            file.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Update({contractParameterName});");
+            file.AppendLine();
 
-            sb.AppendLine("return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
+            file.AppendLine("return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
 
-            sb.CloseBracket();
+            file.CloseBracket();
         }
         #endregion
     }

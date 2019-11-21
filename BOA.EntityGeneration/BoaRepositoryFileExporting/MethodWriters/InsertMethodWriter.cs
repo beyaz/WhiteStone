@@ -5,6 +5,7 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.DataAccess;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
+using static BOA.EntityGeneration.BoaRepositoryFileExporting.BoaRepositoryFileExporter;
 using static BOA.EntityGeneration.DataFlow.Data;
 using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 using static BOA.EntityGeneration.Naming.NamingPatternContract;
@@ -15,22 +16,18 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
     {
         #region Constants
         const string contractParameterName = "contract";
-
-        /// <summary>
-        ///     The parameter identifier
-        /// </summary>
-        const string ParameterIdentifier = "@";
         #endregion
 
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb                 = context.Get(BoaRepositoryFileExporter.File);
+            var sb                 = File[context];
             var tableInfo          = TableInfo[context];
             var typeContractName   = TableEntityClassNameForMethodParametersInRepositoryFiles[context];
-            var tableNamingPattern = context.Get(TableNamingPattern);
+            var tableNamingPattern = TableNamingPattern[context];
+            var namingPattern      = context.Get(NamingPattern);
 
-            var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Insert";
+            var callerMemberPath = $"{namingPattern.RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Insert";
 
             var insertInfo = new InsertInfoCreator().Create(tableInfo);
 
