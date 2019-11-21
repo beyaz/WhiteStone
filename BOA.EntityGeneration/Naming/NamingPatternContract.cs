@@ -5,7 +5,9 @@ namespace BOA.EntityGeneration.Naming
 {
     class NamingPatternContract
     {
+        #region Static Fields
         internal static readonly IDataConstant<NamingPatternContract> NamingPattern = DataConstant.Create<NamingPatternContract>(nameof(NamingPatternContract));
+        #endregion
 
         #region Public Properties
         public IReadOnlyList<string> BoaRepositoryUsingLines    { get; set; }

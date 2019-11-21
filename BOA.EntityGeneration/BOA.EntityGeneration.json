@@ -4,7 +4,7 @@
 
   "TableCatalog": "BOACard",
   "DatabaseEnumName": "BOACard",
-  "NotExportableTables": [ "MRC.SENDING_REPORT_PARAMS_", "POS.POS_INVENTORY_", "STM.BUCKET_CLOSE_DETAIL" ],
+  "NotExportableTables": ["MRC.SENDING_REPORT_PARAMS_", "POS.POS_INVENTORY_", "STM.BUCKET_CLOSE_DETAIL"],
   "SchemaNamesToBeExport": [
     "BKM",
     "BNS",

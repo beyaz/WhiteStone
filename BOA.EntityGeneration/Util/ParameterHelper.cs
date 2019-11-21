@@ -14,9 +14,8 @@ namespace BOA.EntityGeneration.Util
             //    return $"{@"Guid.NewGuid().ToString().ToUpper(new System.Globalization.CultureInfo(""en-US"", false))"}";
             //}
 
-            
             if (columnInfo.SqlDbType == SqlDbType.Char &&
-                columnInfo.DotNetType == DotNetTypeName.DotNetBool )
+                columnInfo.DotNetType == DotNetTypeName.DotNetBool)
             {
                 return $"{contractVariableName}.{columnInfo.ColumnName.ToContractName()} ? \"1\" : \"0\"";
             }
@@ -48,7 +47,7 @@ namespace BOA.EntityGeneration.Util
         public static string GetValueForSqlUpdate(IColumnInfo columnInfo, string contractVariableName = "contract")
         {
             if (columnInfo.SqlDbType == SqlDbType.Char &&
-                columnInfo.DotNetType == DotNetTypeName.DotNetBool )
+                columnInfo.DotNetType == DotNetTypeName.DotNetBool)
             {
                 return $"{contractVariableName}.{columnInfo.ColumnName.ToContractName()} ? \"1\" : \"0\"";
             }

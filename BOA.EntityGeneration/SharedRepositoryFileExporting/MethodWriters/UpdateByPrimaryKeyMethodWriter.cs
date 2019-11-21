@@ -8,13 +8,15 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
     static class UpdateByPrimaryKeyMethodWriter
     {
+        #region Constants
         const string contractParameterName = "contract";
+        #endregion
 
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb                     = context.Get(SharedFileExporter.File);
-            var tableInfo              = TableInfo[context];
+            var sb               = context.Get(SharedFileExporter.File);
+            var tableInfo        = TableInfo[context];
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
 
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);

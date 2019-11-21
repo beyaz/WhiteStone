@@ -27,10 +27,8 @@ namespace BOA.EntityGeneration.Naming
                 SharedRepositoryClassName                    = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassName)],
                 BoaRepositoryClassName                       = dictionary[nameof(TableNamingPatternContract.BoaRepositoryClassName)],
                 SharedRepositoryClassNameInBoaRepositoryFile = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassNameInBoaRepositoryFile)]
-                
             };
             context.Add(TableNamingPatternContract.TableNamingPattern, tableNamingPattern);
-
 
             // TODO: move to usings
             var typeContractName = tableNamingPattern.EntityClassName;
@@ -40,13 +38,8 @@ namespace BOA.EntityGeneration.Naming
                 typeContractName = $"{context.Get(NamingPatternContract.NamingPattern).EntityNamespace}.{typeContractName}";
             }
 
-            context.Add(Data.TableEntityClassNameForMethodParametersInRepositoryFiles,typeContractName);
-
-
-
+            context.Add(Data.TableEntityClassNameForMethodParametersInRepositoryFiles, typeContractName);
         }
-
-        
         #endregion
     }
 }

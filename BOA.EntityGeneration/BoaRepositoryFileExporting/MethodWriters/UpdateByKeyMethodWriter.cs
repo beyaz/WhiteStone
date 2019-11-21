@@ -9,27 +9,27 @@ using static BOA.EntityGeneration.DataFlow.Data;
 using static BOA.EntityGeneration.Naming.NamingPatternContract;
 using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
-
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
     static class UpdateByKeyMethodWriter
     {
+        #region Constants
         const string contractParameterName = "contract";
 
         /// <summary>
         ///     The parameter identifier
         /// </summary>
         const string ParameterIdentifier = "@";
+        #endregion
 
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb        = context.Get(BoaRepositoryFileExporter.File);
-            var tableInfo = TableInfo[context];
-            var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var sb                 = context.Get(BoaRepositoryFileExporter.File);
+            var tableInfo          = TableInfo[context];
+            var typeContractName   = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
             var tableNamingPattern = context.Get(TableNamingPattern);
-            var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Update";
-
+            var callerMemberPath   = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Update";
 
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
@@ -45,12 +45,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.AppendLine("    return this.ContractCannotBeNull(CallerMemberPath);");
             sb.AppendLine("}");
 
-
             sb.AppendLine();
-
-           
-
-         
 
             if (updateInfo.SqlParameters.Any())
             {
@@ -92,26 +87,15 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
                         sb.AppendLine(item);
                     }
                 }
-
             }
-
-            
-            
 
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Update({contractParameterName});");
             sb.AppendLine();
-            
+
             sb.AppendLine("return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
 
-
-
             sb.CloseBracket();
-
-
-
         }
-
-      
         #endregion
     }
 }

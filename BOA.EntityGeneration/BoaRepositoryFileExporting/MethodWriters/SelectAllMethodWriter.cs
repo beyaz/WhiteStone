@@ -11,12 +11,11 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb               = context.Get(BoaRepositoryFileExporter.File);
-            var tableInfo        = context.Get(Data.TableInfo);
-            var typeContractName = context.Get(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var sb                 = context.Get(BoaRepositoryFileExporter.File);
+            var tableInfo          = context.Get(Data.TableInfo);
+            var typeContractName   = context.Get(Data.TableEntityClassNameForMethodParametersInRepositoryFiles);
             var tableNamingPattern = context.Get(TableNamingPattern);
-            var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Select";
-
+            var callerMemberPath   = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Select";
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");

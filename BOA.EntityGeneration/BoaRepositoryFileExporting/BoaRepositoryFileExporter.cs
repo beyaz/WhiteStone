@@ -30,7 +30,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
             context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, EndNamespace);
             context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, ExportFileToDirectory);
-            
         }
         #endregion
 
@@ -42,8 +41,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
             sb.BeginNamespace(namingPattern.RepositoryNamespace);
         }
-
-        
 
         static void EmptyLine(IDataContext context)
         {
@@ -113,8 +110,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
             #endregion
 
             SelectByIndexMethodWriter.Write(context);
-
-           
 
             SelectAllMethodWriter.Write(context);
 

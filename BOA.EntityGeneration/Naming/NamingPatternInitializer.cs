@@ -28,8 +28,6 @@ namespace BOA.EntityGeneration.Naming
                 SharedRepositoryUsingLines = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].Split('|')
             });
         }
-
-      
         #endregion
     }
 }

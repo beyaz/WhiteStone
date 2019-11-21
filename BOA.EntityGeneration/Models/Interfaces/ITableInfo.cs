@@ -24,8 +24,6 @@ namespace BOA.EntityGeneration.Models.Interfaces
         /// </summary>
         bool IsSupportSelectByKey { get; }
 
-       
-
         /// <summary>
         ///     Gets or sets the non unique index information list.
         /// </summary>

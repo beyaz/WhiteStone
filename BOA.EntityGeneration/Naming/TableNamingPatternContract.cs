@@ -4,11 +4,16 @@ namespace BOA.EntityGeneration.Naming
 {
     class TableNamingPatternContract
     {
+        #region Static Fields
         internal static readonly IDataConstant<TableNamingPatternContract> TableNamingPattern = DataConstant.Create<TableNamingPatternContract>(nameof(TableNamingPatternContract));
+        #endregion
 
-        public string EntityClassName           { get; set; }
-        public string SharedRepositoryClassName { get; set; }
-        public string BoaRepositoryClassName    { get; set; }
+        #region Public Properties
+        public string BoaRepositoryClassName { get; set; }
+
+        public string EntityClassName                              { get; set; }
+        public string SharedRepositoryClassName                    { get; set; }
         public string SharedRepositoryClassNameInBoaRepositoryFile { get; set; }
+        #endregion
     }
 }

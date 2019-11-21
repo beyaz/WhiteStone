@@ -13,7 +13,6 @@ namespace BOA.EntityGeneration.Models.Impl
     public class TableInfo : DbModel.Types.TableInfo, ITableInfo
     {
         #region Public Properties
-
         /// <summary>
         ///     Gets or sets the name of the database enum.
         /// </summary>
@@ -28,8 +27,6 @@ namespace BOA.EntityGeneration.Models.Impl
         ///     Gets or sets a value indicating whether this instance is support select by key.
         /// </summary>
         public bool IsSupportSelectByKey { get; set; }
-
-       
 
         /// <summary>
         ///     Gets or sets the non unique index information list.

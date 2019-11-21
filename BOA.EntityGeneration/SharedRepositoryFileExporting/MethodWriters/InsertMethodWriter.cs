@@ -8,19 +8,20 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
     static class InsertMethodWriter
     {
+        #region Constants
         const string contractParameterName = "contract";
+        #endregion
 
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb                     = context.Get(SharedFileExporter.File);
-            var tableInfo              = TableInfo[context];
+            var sb               = context.Get(SharedFileExporter.File);
+            var tableInfo        = TableInfo[context];
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
 
             var insertInfo = new InsertInfoCreator().Create(tableInfo);
 
             var sqlParameters = insertInfo.SqlParameters;
-            
 
             sb.AppendLine($"public static SqlInfo Insert({typeContractName} {contractParameterName})");
             sb.OpenBracket();
@@ -32,6 +33,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
             {
                 sb.AppendLine("SELECT CAST(SCOPE_IDENTITY() AS INT)");
             }
+
             sb.AppendLine("\";");
             sb.AppendLine();
 

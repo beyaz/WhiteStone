@@ -10,22 +10,18 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
     static class DeleteByKeyMethodWriter
     {
-
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb        = context.Get(BoaRepositoryFileExporter.File);
-            var tableInfo = TableInfo[context];
-            var deleteByKeyInfo = DeleteInfoCreator.Create(tableInfo);
+            var sb                 = context.Get(BoaRepositoryFileExporter.File);
+            var tableInfo          = TableInfo[context];
+            var deleteByKeyInfo    = DeleteInfoCreator.Create(tableInfo);
             var tableNamingPattern = context.Get(TableNamingPattern);
-            
-            
 
-            var sqlParameters     = deleteByKeyInfo.SqlParameters;
-            var schemaName = context.Get(SchemaName);
+            var sqlParameters = deleteByKeyInfo.SqlParameters;
+            var schemaName    = context.Get(SchemaName);
 
-
-            var tableName         = tableInfo.TableName;
+            var tableName        = tableInfo.TableName;
             var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Delete";
 
             var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
@@ -38,7 +34,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Delete({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
             sb.AppendLine();
             sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
@@ -48,8 +43,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.PaddingCount--;
             sb.AppendLine("}");
         }
-
-        
         #endregion
     }
 }

@@ -7,16 +7,18 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
     static class ReadContractMethodWriter
     {
+        #region Constants
         const string contractParameterName = "contract";
+        #endregion
 
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb         = context.Get(SharedFileExporter.File);
-            var tableInfo  = TableInfo[context];
-            var config = Config[context];
+            var sb               = context.Get(SharedFileExporter.File);
+            var tableInfo        = TableInfo[context];
+            var config           = Config[context];
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
-           
+
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment} Reads one record from reader");
@@ -27,7 +29,6 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 
             foreach (var columnInfo in tableInfo.Columns)
             {
-
                 var readerMethodName = columnInfo.SqlReaderMethod.ToString();
                 if (columnInfo.SqlReaderMethod == SqlReaderMethods.GetGUIDValue)
                 {

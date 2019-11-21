@@ -10,16 +10,15 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
     static class SelectByKeyMethodWriter
     {
-
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb               = context.Get(BoaRepositoryFileExporter.File);
-            var tableInfo        = TableInfo[context];
-            var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var sb                     = context.Get(BoaRepositoryFileExporter.File);
+            var tableInfo              = TableInfo[context];
+            var typeContractName       = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
             var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
-            var tableNamingPattern = context.Get(TableNamingPattern);
-            var callerMemberPath   = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByKey";
+            var tableNamingPattern     = context.Get(TableNamingPattern);
+            var callerMemberPath       = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByKey";
 
             var parameterPart = string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
@@ -31,9 +30,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-      
-            
-
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.SelectByKey({string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
             sb.AppendLine();
             sb.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
@@ -43,8 +39,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
             sb.PaddingCount--;
             sb.AppendLine("}");
         }
-
-       
         #endregion
     }
 }

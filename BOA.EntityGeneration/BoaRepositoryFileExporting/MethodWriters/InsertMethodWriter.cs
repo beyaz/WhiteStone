@@ -13,23 +13,25 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
     static class InsertMethodWriter
     {
+        #region Constants
         const string contractParameterName = "contract";
 
         /// <summary>
         ///     The parameter identifier
         /// </summary>
         const string ParameterIdentifier = "@";
+        #endregion
 
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb        = context.Get(BoaRepositoryFileExporter.File);
-            var tableInfo = TableInfo[context];
-            var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var sb                 = context.Get(BoaRepositoryFileExporter.File);
+            var tableInfo          = TableInfo[context];
+            var typeContractName   = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
             var tableNamingPattern = context.Get(TableNamingPattern);
-       
+
             var callerMemberPath = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Insert";
-           
+
             var insertInfo = new InsertInfoCreator().Create(tableInfo);
 
             sb.AppendLine("/// <summary>");
@@ -89,8 +91,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
                 sb.AppendLine("}");
             }
 
-           
-
             if (insertInfo.SqlParameters.Any())
             {
                 var contractInitializations = new List<string>();
@@ -136,19 +136,10 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
                         sb.AppendLine(item);
                     }
                 }
-
-                
             }
-            
-            
 
             sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Insert({contractParameterName});");
             sb.AppendLine();
-            
-            
-
-
-
 
             sb.AppendLine();
             if (tableInfo.HasIdentityColumn)
@@ -166,11 +157,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
             sb.PaddingCount--;
             sb.AppendLine("}");
-
-
         }
-
-      
         #endregion
     }
 }

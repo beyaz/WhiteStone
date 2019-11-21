@@ -11,11 +11,10 @@ namespace BOA.EntityGeneration.CsprojFileExporters
         #region Public Methods
         public static void Export(IDataContext context)
         {
-            var schemaName            = context.Get(Data.SchemaName);
+            var schemaName    = context.Get(Data.SchemaName);
             var namingPattern = context.Get(NamingPatternContract.NamingPattern);
-            
-            var ProjectExportLocation = namingPattern.RepositoryProjectDirectory;
 
+            var ProjectExportLocation = namingPattern.RepositoryProjectDirectory;
 
             var progress = context.Get(Data.SchemaGenerationProcess);
 
@@ -25,7 +24,6 @@ namespace BOA.EntityGeneration.CsprojFileExporters
 
             var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
             var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
-
 
             var content = $@"
 

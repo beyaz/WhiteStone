@@ -9,14 +9,13 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 {
     static class SelectByIndexMethodWriter
     {
-
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb        = context.Get(BoaRepositoryFileExporter.File);
-            var tableInfo = TableInfo[context];
+            var sb               = context.Get(BoaRepositoryFileExporter.File);
+            var tableInfo        = TableInfo[context];
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
-           
+
             foreach (var indexIdentifier in tableInfo.UniqueIndexInfoList)
             {
                 var indexInfo = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
@@ -33,8 +32,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
                 sb.OpenBracket();
 
                 var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
-                
-
 
                 sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
                 sb.AppendLine();
@@ -61,7 +58,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
                 sb.OpenBracket();
 
                 var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
-                
 
                 sb.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.{methodName}({string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
 
@@ -72,12 +68,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
 
                 sb.CloseBracket();
             }
-
-
-
         }
-
-      
         #endregion
     }
 }

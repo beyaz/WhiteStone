@@ -40,7 +40,7 @@ namespace BOA.EntityGeneration.DataAccess
 
                 var tableInfo = tableInfoDao.GetInfo(config.TableCatalog, schemaName, tableName);
 
-                var generatorData = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable,config.DatabaseEnumName,database,tableInfo);
+                var generatorData = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfo);
 
                 context.OpenBracket();
                 context.Add(Data.TableInfo, generatorData);

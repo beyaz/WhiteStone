@@ -22,16 +22,15 @@ namespace BOA.EntityGeneration.DataAccess
         /// <summary>
         ///     Creates the specified table information.
         /// </summary>
-        public static ITableInfo Create( string SqlSequenceInformationOfTable,string DatabaseEnumName,  IDatabase database,  DbModel.Interfaces.ITableInfo tableInfo)
+        public static ITableInfo Create(string SqlSequenceInformationOfTable, string DatabaseEnumName, IDatabase database, DbModel.Interfaces.ITableInfo tableInfo)
         {
-
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 
             var nonUniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && !x.IsUnique).ToList();
 
-            var isSupportSelectByKey         = tableInfo.PrimaryKeyColumns.Any();
-            
-            var isSupportSelectByIndex       = nonUniqueIndexIdentifiers.Any();
+            var isSupportSelectByKey = tableInfo.PrimaryKeyColumns.Any();
+
+            var isSupportSelectByIndex = nonUniqueIndexIdentifiers.Any();
 
             var SequenceList = new List<SequenceInfo>();
             if (SqlSequenceInformationOfTable == null)
@@ -49,20 +48,20 @@ namespace BOA.EntityGeneration.DataAccess
 
             var data = new TableInfo
             {
-                CatalogName                  = tableInfo.CatalogName,
-                Columns                      = tableInfo.Columns.ToList().ConvertAll(ReEvaluate),
-                HasIdentityColumn            = tableInfo.HasIdentityColumn,
-                IdentityColumn               = tableInfo.IdentityColumn,
-                IndexInfoList                = tableInfo.IndexInfoList,
-                PrimaryKeyColumns            = tableInfo.PrimaryKeyColumns,
-                SchemaName                   = tableInfo.SchemaName,
-                TableName                    = tableInfo.TableName,
-                UniqueIndexInfoList          = uniqueIndexIdentifiers,
-                NonUniqueIndexInfoList       = nonUniqueIndexIdentifiers,
-                IsSupportSelectByKey         = isSupportSelectByKey,
-                IsSupportSelectByIndex       = isSupportSelectByIndex,
-                DatabaseEnumName             = DatabaseEnumName,
-                SequenceList                 = SequenceList
+                CatalogName            = tableInfo.CatalogName,
+                Columns                = tableInfo.Columns.ToList().ConvertAll(ReEvaluate),
+                HasIdentityColumn      = tableInfo.HasIdentityColumn,
+                IdentityColumn         = tableInfo.IdentityColumn,
+                IndexInfoList          = tableInfo.IndexInfoList,
+                PrimaryKeyColumns      = tableInfo.PrimaryKeyColumns,
+                SchemaName             = tableInfo.SchemaName,
+                TableName              = tableInfo.TableName,
+                UniqueIndexInfoList    = uniqueIndexIdentifiers,
+                NonUniqueIndexInfoList = nonUniqueIndexIdentifiers,
+                IsSupportSelectByKey   = isSupportSelectByKey,
+                IsSupportSelectByIndex = isSupportSelectByIndex,
+                DatabaseEnumName       = DatabaseEnumName,
+                SequenceList           = SequenceList
             };
 
             if (tableInfo.Columns.Any(x => x.ColumnName.Equals("VALID_FLAG", StringComparison.OrdinalIgnoreCase) && x.SqlDbType == SqlDbType.Char))

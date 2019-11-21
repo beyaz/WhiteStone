@@ -23,7 +23,6 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, EmptyLine);
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BeginNamespace);
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, WriteEmbeddedClasses);
-            
 
             context.AttachEvent(TableExportingEvent.TableExportStarted, WriteClass);
 
@@ -39,8 +38,6 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 
             sb.BeginNamespace(context.Get(NamingPatternContract.NamingPattern).RepositoryNamespace + ".Shared");
         }
-
-        
 
         static void EmptyLine(IDataContext context)
         {
@@ -71,8 +68,8 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 
         static void WriteClass(IDataContext context)
         {
-            var sb        = context.Get(File);
-            var tableInfo = TableInfo[context];
+            var sb                 = context.Get(File);
+            var tableInfo          = TableInfo[context];
             var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
 
             sb.AppendLine($"public sealed class {tableNamingPattern.SharedRepositoryClassName}");
