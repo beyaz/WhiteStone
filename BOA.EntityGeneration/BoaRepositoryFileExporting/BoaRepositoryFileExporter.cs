@@ -66,7 +66,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
         static void InitializeOutput(IDataContext context)
         {
-            context.Add(File, new PaddedStringBuilder());
+            File[context] = new PaddedStringBuilder();
         }
 
         static void WriteClass(IDataContext context)

@@ -1,6 +1,7 @@
 ﻿using BOA.DataFlow;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.SharedRepositoryFileExporting.SharedFileExporter;
 
 namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
@@ -9,21 +10,22 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb        = context.Get(SharedFileExporter.File);
-            var tableInfo = context.Get(Data.TableInfo);
-            var sql       = SelectAllInfoCreator.Create(tableInfo).Sql;
+            var file      = File[context];
+            var tableInfo = TableInfo[context];
 
-            sb.AppendLine("public static SqlInfo Select()");
-            sb.OpenBracket();
+            var sql = SelectAllInfoCreator.Create(tableInfo).Sql;
 
-            sb.AppendLine("const string sql = @\"");
-            sb.AppendAll(sql);
-            sb.AppendLine();
-            sb.AppendLine("\";");
-            sb.AppendLine();
+            file.AppendLine("public static SqlInfo Select()");
+            file.OpenBracket();
 
-            sb.AppendLine("return new SqlInfo { CommandText = sql };");
-            sb.CloseBracket();
+            file.AppendLine("const string sql = @\"");
+            file.AppendAll(sql);
+            file.AppendLine();
+            file.AppendLine("\";");
+            file.AppendLine();
+
+            file.AppendLine("return new SqlInfo { CommandText = sql };");
+            file.CloseBracket();
         }
         #endregion
     }

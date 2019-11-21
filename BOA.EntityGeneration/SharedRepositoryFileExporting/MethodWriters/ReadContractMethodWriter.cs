@@ -2,6 +2,7 @@
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.SharedRepositoryFileExporting.SharedFileExporter;
 
 namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
@@ -14,18 +15,18 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb               = context.Get(SharedFileExporter.File);
+            var file = File[context];
             var tableInfo        = TableInfo[context];
             var config           = Config[context];
-            var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles[context];
 
-            sb.AppendLine();
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment} Reads one record from reader");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public static void ReadContract(IDataReader reader, {typeContractName} {contractParameterName})");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            file.AppendLine();
+            file.AppendLine("/// <summary>");
+            file.AppendLine($"///{Padding.ForComment} Reads one record from reader");
+            file.AppendLine("/// </summary>");
+            file.AppendLine($"public static void ReadContract(IDataReader reader, {typeContractName} {contractParameterName})");
+            file.AppendLine("{");
+            file.PaddingCount++;
 
             foreach (var columnInfo in tableInfo.Columns)
             {
@@ -41,11 +42,11 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
                                              .Replace("$(ColumnName)", columnInfo.ColumnName)
                                              .Replace("$(SqlReaderMethod)", readerMethodName);
 
-                sb.AppendLine(contractReadLine);
+                file.AppendLine(contractReadLine);
             }
 
-            sb.PaddingCount--;
-            sb.AppendLine("}");
+            file.PaddingCount--;
+            file.AppendLine("}");
         }
         #endregion
     }

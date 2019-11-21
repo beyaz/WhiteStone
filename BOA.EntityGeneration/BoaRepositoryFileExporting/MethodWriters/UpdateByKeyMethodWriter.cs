@@ -27,7 +27,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
         {
             var sb                 = context.Get(BoaRepositoryFileExporter.File);
             var tableInfo          = TableInfo[context];
-            var typeContractName   = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var typeContractName   = TableEntityClassNameForMethodParametersInRepositoryFiles[context];
             var tableNamingPattern = context.Get(TableNamingPattern);
             var callerMemberPath   = $"{context.Get(NamingPattern).RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.Update";
 

@@ -2,6 +2,7 @@
 using BOA.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.SharedRepositoryFileExporting.SharedFileExporter;
 
 namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
@@ -10,7 +11,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb         = context.Get(SharedFileExporter.File);
+            var file       = File[context];
             var tableInfo  = TableInfo[context];
             var deleteInfo = DeleteInfoCreator.Create(tableInfo);
 
@@ -18,27 +19,27 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 
             var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-            sb.AppendLine($"public static SqlInfo Delete({parameterPart})");
-            sb.OpenBracket();
+            file.AppendLine($"public static SqlInfo Delete({parameterPart})");
+            file.OpenBracket();
 
-            sb.AppendLine($"const string sql = \"{deleteInfo.Sql}\";");
-            sb.AppendLine();
+            file.AppendLine($"const string sql = \"{deleteInfo.Sql}\";");
+            file.AppendLine();
 
-            sb.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
+            file.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
 
             if (sqlParameters.Any())
             {
-                sb.AppendLine();
+                file.AppendLine();
                 foreach (var columnInfo in sqlParameters)
                 {
-                    sb.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                    file.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
                 }
             }
 
-            sb.AppendLine();
-            sb.AppendLine("return sqlInfo;");
+            file.AppendLine();
+            file.AppendLine("return sqlInfo;");
 
-            sb.CloseBracket();
+            file.CloseBracket();
         }
         #endregion
     }

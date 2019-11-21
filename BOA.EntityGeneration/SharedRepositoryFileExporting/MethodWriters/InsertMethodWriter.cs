@@ -3,55 +3,52 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using BOA.EntityGeneration.Util;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.SharedRepositoryFileExporting.SharedFileExporter;
 
 namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
     static class InsertMethodWriter
     {
-        #region Constants
-        const string contractParameterName = "contract";
-        #endregion
-
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb               = context.Get(SharedFileExporter.File);
+            var file             = File[context];
             var tableInfo        = TableInfo[context];
-            var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
+            var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles[context];
 
             var insertInfo = new InsertInfoCreator().Create(tableInfo);
 
             var sqlParameters = insertInfo.SqlParameters;
 
-            sb.AppendLine($"public static SqlInfo Insert({typeContractName} {contractParameterName})");
-            sb.OpenBracket();
+            file.AppendLine($"public static SqlInfo Insert({typeContractName} contract)");
+            file.OpenBracket();
 
-            sb.AppendLine("const string sql = @\"");
-            sb.AppendAll(insertInfo.Sql);
-            sb.AppendLine();
+            file.AppendLine("const string sql = @\"");
+            file.AppendAll(insertInfo.Sql);
+            file.AppendLine();
             if (tableInfo.HasIdentityColumn)
             {
-                sb.AppendLine("SELECT CAST(SCOPE_IDENTITY() AS INT)");
+                file.AppendLine("SELECT CAST(SCOPE_IDENTITY() AS INT)");
             }
 
-            sb.AppendLine("\";");
-            sb.AppendLine();
+            file.AppendLine("\";");
+            file.AppendLine();
 
-            sb.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
+            file.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
 
             if (sqlParameters.Any())
             {
-                sb.AppendLine();
+                file.AppendLine();
                 foreach (var columnInfo in sqlParameters)
                 {
-                    sb.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlInsert(columnInfo)});");
+                    file.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlInsert(columnInfo)});");
                 }
             }
 
-            sb.AppendLine();
-            sb.AppendLine("return sqlInfo;");
+            file.AppendLine();
+            file.AppendLine("return sqlInfo;");
 
-            sb.CloseBracket();
+            file.CloseBracket();
         }
         #endregion
     }
