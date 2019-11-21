@@ -71,6 +71,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EntityGeneration\Components\Container.xaml.cs">
+      <DependentUpon>Container.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EntityGeneration\Components\SchemaGenerationProcess.xaml.cs">
+      <DependentUpon>SchemaGenerationProcess.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIRefresher.cs" />
+    <Page Include="EntityGeneration\Components\Container.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EntityGeneration\Components\SchemaGenerationProcess.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -113,6 +128,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BOA.EntityGeneration.Data\BOA.EntityGeneration.Data.csproj">
+      <Project>{2ce3e1b8-6f47-4f70-8f67-372d02d3ebc3}</Project>
+      <Name>BOA.EntityGeneration.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
+      <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
+      <Name>BOA.EntityGeneration</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

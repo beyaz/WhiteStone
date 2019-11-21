@@ -6,24 +6,17 @@
                       xmlns:local="clr-namespace:BOA.EntityGeneration.UI.Container"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
-                      xmlns:wpf="http://wpfcontrols.com/"
-                      xmlns:components = "clr-namespace:BOA.EntityGeneration.UI.Container.Components"
+                      xmlns:components = "clr-namespace:BOA.EntityGeneration.UI.Container.EntityGeneration.Components"
                       x:Name="CodeBehind"
-                      DataContext="{Binding ElementName=CodeBehind}"
-                      Title="Code Generation" Height="300" Width="400">
-    <TabControl>
+                      SizeToContent="WidthAndHeight"
+                      WindowStartupLocation="CenterScreen"
+                      d:DataContext="{d:DesignInstance local:MainWindowModel, IsDesignTimeCreatable=True}"
+                      Title="Code Generation" MaxHeight="600" Width="400"  >
+    <TabControl Height="Auto">
 
-        <TabItem Header="Entity">
-            <StackPanel Margin="5">
-                <Label FontWeight="Bold">Schema Name</Label>
-                <components:SchemaNameComponent    />
-                <Button Margin="0,10,0,0" Click="ButtonBase_OnClick" > Generate </Button>
-                <StackPanel Margin="0,10,0,0">
-                    <Label FontWeight="Bold" Content="{Binding Model.SchemaGenerationProcessText}" ></Label>
-                    <ProgressBar ></ProgressBar>
-                </StackPanel>
-                
-            </StackPanel>
+        <TabItem Header="Entity" >
+            <components:Container Margin="10" ></components:Container>
+            
           
         </TabItem>
 

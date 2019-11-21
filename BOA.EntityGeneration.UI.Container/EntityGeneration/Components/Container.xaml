@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="BOA.EntityGeneration.UI.Container.EntityGeneration.Components.Container"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BOA.EntityGeneration.UI.Container.EntityGeneration.Components"
+             xmlns:components = "clr-namespace:BOA.EntityGeneration.UI.Container.Components"
+             mc:Ignorable="d" 
+             
+             d:DataContext="{d:DesignInstance local:ContainerModel, IsDesignTimeCreatable=True}"
+              >
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+        <StackPanel  >
+            <Label FontWeight="Bold">Schema Name</Label>
+            <components:SchemaNameComponent SelectedItem="{Binding SelectedSchemaName,Mode=TwoWay}"   />
+            <Button Margin="0,10,0,0" Click="OnGenerateClicked" >Generate</Button>
+            <StackPanel Name="processContainer">
+            </StackPanel>
+
+        </StackPanel>
+
+    </ScrollViewer>
+</UserControl>

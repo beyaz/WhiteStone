@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="BOA.EntityGeneration.UI.Container.EntityGeneration.Components.SchemaGenerationProcess"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BOA.EntityGeneration.UI.Container.EntityGeneration.Components"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance local:SchemaGenerationProcessModel, IsDesignTimeCreatable=True}"
+             d:DesignHeight="100" >
+    <GroupBox Header="{Binding SchemaName}">
+        <StackPanel Margin="10">
+            <Label FontWeight="Bold" Content="{Binding ProcessText}" ></Label>
+            <ProgressBar Minimum="0" Maximum="{Binding ProgressMaximum}" Value="{Binding ProgressCurrent}" ></ProgressBar>
+        </StackPanel>
+    </GroupBox>
+</UserControl>
