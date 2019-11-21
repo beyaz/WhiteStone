@@ -11,8 +11,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
             return Database.ExecuteScalar() != null;
         }
-
-        
         #endregion
     }
 }

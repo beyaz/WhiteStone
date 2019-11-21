@@ -7,19 +7,31 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 {
     public class MsBuildQueue
     {
-        public static readonly IDataConstant<MsBuildQueue> MsBuildQueueId = DataConstant.Create<MsBuildQueue>();
-        public static readonly IDataConstant<bool> BuildAfterCodeGenerationIsCompleted = DataConstant.Create<bool>(nameof(BuildAfterCodeGenerationIsCompleted));
-        public static readonly IDataConstant<ProcessContract> ProcessInfo = DataConstant.Create<ProcessContract>(nameof(ProcessInfo));
+        #region Static Fields
+        public static readonly IDataConstant<bool>            BuildAfterCodeGenerationIsCompleted = DataConstant.Create<bool>(nameof(BuildAfterCodeGenerationIsCompleted));
+        public static readonly IDataConstant<MsBuildQueue>    MsBuildQueueId                      = DataConstant.Create<MsBuildQueue>();
+        public static readonly IDataConstant<ProcessContract> ProcessInfo                         = DataConstant.Create<ProcessContract>(nameof(ProcessInfo));
+        #endregion
 
         #region Fields
         readonly List<MSBuildData> Queue = new List<MSBuildData>();
         #endregion
 
         #region Public Methods
-         void BuildInternal(IDataContext context)
+        public static void Build(IDataContext context)
         {
-      
+            context.Get(MsBuildQueueId).BuildInternal(context);
+        }
 
+        public void Push(MSBuildData data)
+        {
+            Queue.Add(data);
+        }
+        #endregion
+
+        #region Methods
+        void BuildInternal(IDataContext context)
+        {
             if (!context.TryGet(BuildAfterCodeGenerationIsCompleted))
             {
                 return;
@@ -33,16 +45,6 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
                 MSBuild.Build(data);
                 progress.Text = "Compile finished." + data.ProjectFilePath;
             }
-        }
-
-        public void Push(MSBuildData data)
-        {
-            Queue.Add(data);
-        }
-
-        public static void Build(IDataContext context)
-        {
-            context.Get<MsBuildQueue>(MsBuildQueueId).BuildInternal(context);
         }
         #endregion
     }

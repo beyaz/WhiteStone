@@ -10,13 +10,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
     public class CustomSqlInfo
     {
         #region Public Properties
-   
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>
         public string Name { get; set; }
-
-       
 
         /// <summary>
         ///     Gets or sets the parameters.
@@ -33,7 +30,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         /// </summary>
         public IReadOnlyList<CustomSqlInfoResult> ResultColumns { get; set; }
 
-       
+        public bool ResultContractIsReferencedToEntity { get; set; }
 
         /// <summary>
         ///     Gets or sets the name of the schema.
@@ -54,8 +51,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         ///     Gets or sets the index of the switch case.
         /// </summary>
         public int SwitchCaseIndex { get; set; }
-
-        public bool ResultContractIsReferencedToEntity { get; set; }
         #endregion
     }
 }

@@ -9,15 +9,14 @@ namespace CustomSqlInjectionToProject.MainForm
     public class Model : ModelBase
     {
         #region Public Properties
-        public string CheckInComment        { get; set; }
-        public bool   FinishTimer           { get; set; }
-        public string ProfileId            { get; set; }
-        public bool   StartTimer            { get; set; }
+        public string CheckInComment { get; set; }
 
         public ProcessContract CustomSqlGenerationOfProfileIdProcess { get; set; }
-
+        public bool            FinishTimer                           { get; set; }
+        public string          ProfileId                             { get; set; }
 
         public IReadOnlyList<string> ProfileIdList { get; set; }
+        public bool                  StartTimer    { get; set; }
         #endregion
     }
 }

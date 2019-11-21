@@ -9,15 +9,17 @@ namespace BOA.EntityGeneration.ScriptModel
     /// </summary>
     public interface ISelectByPrimaryKeyInfo
     {
+        #region Public Properties
         /// <summary>
         ///     Gets or sets the SQL.
         /// </summary>
-        string Sql { get;  }
+        string Sql { get; }
 
         /// <summary>
         ///     Gets or sets the SQL parameters.
         /// </summary>
-        IReadOnlyList<IColumnInfo> SqlParameters { get;  }
+        IReadOnlyList<IColumnInfo> SqlParameters { get; }
+        #endregion
     }
 
     /// <summary>

@@ -6,6 +6,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
     [TestClass]
     public class NamingTest
     {
+        #region Public Methods
         [TestMethod]
         public void Support_BIGGER_AND_SEPARATED_NAMING()
         {
@@ -16,5 +17,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             "UserName3".ToContractName().Should().Be("UserName3");
             "User_name".ToContractName().Should().Be("UserName");
         }
+        #endregion
     }
 }

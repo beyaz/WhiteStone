@@ -21,18 +21,19 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
 
             return new SelectByPrimaryKeyInfo
             {
-                Sql           = GetSql(tableInfo,parameters),
+                Sql           = GetSql(tableInfo, parameters),
                 SqlParameters = parameters
             };
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         ///     Gets the SQL.
         /// </summary>
         static string GetSql(ITableInfo tableInfo, IReadOnlyList<IColumnInfo> parameters)
         {
             var sb = new PaddedStringBuilder();
-
 
             sb.AppendLine("SELECT");
             sb.PaddingCount++;
@@ -49,10 +50,8 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
 
             sb.PaddingCount--;
 
-
             return sb.ToString();
         }
-
         #endregion
     }
 }

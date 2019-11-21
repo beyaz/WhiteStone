@@ -3,14 +3,13 @@ using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
-    
+
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     static class EntityFileExporter
     {
         #region Static Fields
-        
-        static readonly        IDataConstant<PaddedStringBuilder> File               = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
+        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
         #endregion
 
         #region Public Methods
@@ -71,8 +70,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void InitializeOutput(IDataContext context)
         {
-            File[context]               = new PaddedStringBuilder();
-           
+            File[context] = new PaddedStringBuilder();
         }
 
         static void WriteSqlInputOutputTypes(IDataContext context)

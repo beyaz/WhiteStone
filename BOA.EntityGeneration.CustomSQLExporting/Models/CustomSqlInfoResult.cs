@@ -15,8 +15,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         /// </summary>
         public string DataType { get; set; }
 
-        public bool IsReferenceToEntity => DataType?.Equals("object", StringComparison.OrdinalIgnoreCase) == true;
-
         /// <summary>
         ///     Gets or sets the data type in dotnet.
         /// </summary>
@@ -26,6 +24,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         ///     Gets or sets a value indicating whether this instance is nullable.
         /// </summary>
         public bool IsNullable { get; set; }
+
+        public bool IsReferenceToEntity => DataType?.Equals("object", StringComparison.OrdinalIgnoreCase) == true;
 
         /// <summary>
         ///     Gets or sets the name.

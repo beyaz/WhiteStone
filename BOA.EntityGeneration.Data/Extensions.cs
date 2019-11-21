@@ -9,6 +9,25 @@ namespace BOA.EntityGeneration
     /// </summary>
     public static class Extensions
     {
+        #region Public Methods
+        public static void BeginNamespace(this PaddedStringBuilder sb, string namespaceName)
+        {
+            sb.AppendLine($"namespace {namespaceName}");
+            sb.AppendLine("{");
+            sb.PaddingCount++;
+        }
+
+        public static void CloseBracket(this PaddedStringBuilder sb)
+        {
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+        }
+
+        public static void EndNamespace(this PaddedStringBuilder sb)
+        {
+            sb.PaddingCount--;
+            sb.AppendLine("}");
+        }
 
         /// <summary>
         ///     Determines whether the specified database type is equal.
@@ -16,6 +35,12 @@ namespace BOA.EntityGeneration
         public static bool IsEqual(this string dataType, SqlDbType dbType)
         {
             return dbType.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static void OpenBracket(this PaddedStringBuilder sb)
+        {
+            sb.AppendLine("{");
+            sb.PaddingCount++;
         }
 
         /// <summary>
@@ -26,32 +51,10 @@ namespace BOA.EntityGeneration
             return dbType.ToString().Equals(dataType, comparison);
         }
 
-        public static void BeginNamespace(this PaddedStringBuilder sb,string namespaceName)
-        {
-            sb.AppendLine($"namespace {namespaceName}");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-        }
-        public static void OpenBracket(this PaddedStringBuilder sb)
-        {
-            sb.AppendLine("{");
-            sb.PaddingCount++;
-        }
-        public static void CloseBracket(this PaddedStringBuilder sb)
-        {
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-            
-        }
-        public static void EndNamespace(this PaddedStringBuilder sb)
-        {
-            sb.PaddingCount--;
-            sb.AppendLine("}");
-        }
-
         public static void UsingNamespace(this PaddedStringBuilder sb, string namespaceName)
         {
             sb.AppendLine($"using {namespaceName};");
         }
+        #endregion
     }
 }

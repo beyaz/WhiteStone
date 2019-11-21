@@ -41,7 +41,6 @@
     "ReferencedRepositoryAssemblyPath": "<Reference Include=\"BOA.Business.Kernel.Card.$(SchemaName)\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Business.Kernel.Card.$(SchemaName).dll</HintPath></Reference>"
 
   }
-  
 
 
 }

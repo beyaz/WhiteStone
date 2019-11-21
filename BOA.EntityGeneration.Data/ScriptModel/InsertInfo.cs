@@ -8,7 +8,7 @@ namespace BOA.EntityGeneration.ScriptModel
     public class InsertInfo
     {
         #region Public Properties
-        public string                    Sql           { get; set; }
+        public string                     Sql           { get; set; }
         public IReadOnlyList<IColumnInfo> SqlParameters { get; set; }
         #endregion
     }

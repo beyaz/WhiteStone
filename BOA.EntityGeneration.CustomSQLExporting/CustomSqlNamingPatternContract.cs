@@ -2,25 +2,19 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using static BOA.EntityGeneration.CustomSQLExporting.CustomSqlNamingPatternContract;
-using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting
 {
     class CustomSqlNamingPatternContract
     {
-        #region Static Fields
-        
-        #endregion
-
         #region Public Properties
-        public string InputClassName             { get; set; }
-        public string ReferencedEntityAccessPath { get; set; }
-        public string RepositoryClassName        { get; set; }
-        public string ResultClassName            { get; set; }
-        public string ReferencedEntityAssemblyPath { get; set; }
+        public string InputClassName                   { get; set; }
+        public string ReferencedEntityAccessPath       { get; set; }
+        public string ReferencedEntityAssemblyPath     { get; set; }
         public string ReferencedEntityReaderMethodPath { get; set; }
         public string ReferencedRepositoryAssemblyPath { get; set; }
+        public string RepositoryClassName              { get; set; }
+        public string ResultClassName                  { get; set; }
         #endregion
     }
 
@@ -51,13 +45,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting
 
             context.Add(Data.CustomSqlNamingPattern, new CustomSqlNamingPatternContract
             {
-                ResultClassName            = dictionary[nameof(CustomSqlNamingPatternContract.ResultClassName)],
-                RepositoryClassName        = dictionary[nameof(CustomSqlNamingPatternContract.RepositoryClassName)],
-                InputClassName             = dictionary[nameof(CustomSqlNamingPatternContract.InputClassName)],
-                ReferencedEntityAccessPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAccessPath)],
-                ReferencedEntityAssemblyPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAssemblyPath)],
+                ResultClassName                  = dictionary[nameof(CustomSqlNamingPatternContract.ResultClassName)],
+                RepositoryClassName              = dictionary[nameof(CustomSqlNamingPatternContract.RepositoryClassName)],
+                InputClassName                   = dictionary[nameof(CustomSqlNamingPatternContract.InputClassName)],
+                ReferencedEntityAccessPath       = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAccessPath)],
+                ReferencedEntityAssemblyPath     = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAssemblyPath)],
                 ReferencedEntityReaderMethodPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityReaderMethodPath)],
-                ReferencedRepositoryAssemblyPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedRepositoryAssemblyPath)],
+                ReferencedRepositoryAssemblyPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedRepositoryAssemblyPath)]
             });
         }
         #endregion

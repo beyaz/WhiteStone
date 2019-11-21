@@ -10,8 +10,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         {
             var sb = new PaddedStringBuilder();
 
-            Write(sb,tableInfo);
-
+            Write(sb, tableInfo);
 
             return new ContractCommentInfo
             {

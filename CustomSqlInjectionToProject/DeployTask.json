@@ -8,10 +8,8 @@
       "InputFilePaths": [
         "D:\\github\\WhiteStone\\WhiteStone.Updater\\bin\\Debug\\WhiteStone.Updater.exe",
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\WhiteStone.Updater.exe.config",
-
         "D:\\github\\WhiteStone\\BOA.EntityGeneration\\BOA.EntityGeneration.json",
         "D:\\github\\WhiteStone\\BOA.EntityGeneration\\EmbeddedUtilizationClassForDao.txt",
-
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\CustomSqlInjectionToProject.exe",
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\BOA.EntityGeneration.dll",
         "D:\\github\\WhiteStone\\CustomSqlInjectionToProject\\bin\\Debug\\BOA.TfsAccess.dll",

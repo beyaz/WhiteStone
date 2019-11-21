@@ -15,7 +15,6 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         #endregion
     }
 
-    
     public partial class SchemaGenerationProcess
     {
         #region Fields
@@ -56,8 +55,6 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         #region Methods
         void GenerateSchema()
         {
-            
-
             var context = new EntityGenerationDataContextCreator().Create();
 
             context.OpenBracket();
@@ -66,12 +63,11 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
             context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted, true);
 
-            model.Process = BOA.EntityGeneration.DataFlow.Data.SchemaGenerationProcess[context];
+            model.Process = DataFlow.Data.SchemaGenerationProcess[context];
 
             SchemaExporter.Export(context, model.SchemaName);
 
             context.CloseBracket();
-
         }
         #endregion
     }

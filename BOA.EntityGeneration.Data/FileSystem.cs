@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #endregion
 
         #region Public Methods
-        public static  void WriteAllText(IDataContext context, string path, string content)
+        public static void WriteAllText(IDataContext context, string path, string content)
         {
             FileAccessWriteResult fileAccessWriteResult = null;
 

@@ -4,17 +4,21 @@ using BOA.EntityGeneration.UI.MainForm;
 
 namespace BOA.EntityGeneration.UI.Container
 {
-
     static class Data
     {
-        public static IDataConstant<List<string>> SchemaNames = DataConstant.Create<List<string>>(nameof(SchemaNames));
-        public static IDataConstant<MainWindowModel> Model = DataConstant.Create<MainWindowModel>(nameof(Model));
+        #region Static Fields
+        public static IDataConstant<MainWindowModel> Model       = DataConstant.Create<MainWindowModel>(nameof(Model));
+        public static IDataConstant<List<string>>    SchemaNames = DataConstant.Create<List<string>>(nameof(SchemaNames));
+        #endregion
     }
 
     public partial class App
     {
+        #region Static Fields
         public static readonly IDataContext Context;
+        #endregion
 
+        #region Constructors
         static App()
         {
             var context = new DataContext();
@@ -53,10 +57,6 @@ namespace BOA.EntityGeneration.UI.Container
                 "*"
             };
 
-
-
-
-
             Data.Model[context] = new MainWindowModel
             {
                 CheckinComment = CheckInCommentAccess.GetCheckInComment()
@@ -64,7 +64,10 @@ namespace BOA.EntityGeneration.UI.Container
 
             Context = context;
         }
+        #endregion
 
+        #region Public Properties
         public static string CheckInComment => Data.Model[Context].CheckinComment;
+        #endregion
     }
 }

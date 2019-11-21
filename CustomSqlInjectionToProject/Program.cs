@@ -9,12 +9,10 @@ namespace CustomSqlInjectionToProject
         [STAThread]
         static void Main(string[] args)
         {
-            Log.Push(args,nameof(args));
+            Log.Push(args, nameof(args));
 
             // TODO  remove
             args = new[] {"CC_OPERATIONS"};
-
-            
 
             Injection.Inject(args);
         }

@@ -14,7 +14,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         #region Constructors
         public View()
         {
-            this.LoadJson(EmbeddedResourceHelper.ReadFile("BOA.EntityGeneration.UI",nameof(MainForm),nameof(View) + ".json"));
+            this.LoadJson(EmbeddedResourceHelper.ReadFile("BOA.EntityGeneration.UI", nameof(MainForm), nameof(View) + ".json"));
         }
         #endregion
 
@@ -40,17 +40,13 @@ namespace BOA.EntityGeneration.UI.MainForm
             timer         =  new Timer(100);
             timer.Elapsed += OnTimedEvent;
             timer.Start();
-            
         }
         #endregion
 
         #region Methods
         void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            Dispatcher.Invoke(() =>
-            {
-                FireAction("GetCapture");           
-            });
+            Dispatcher.Invoke(() => { FireAction("GetCapture"); });
         }
         #endregion
     }

@@ -1,10 +1,6 @@
 ﻿using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.Exporters;
-using BOA.EntityGeneration.SharedRepositoryFileExporting;
 using static BOA.EntityGeneration.DataFlow.Data;
-using static BOA.EntityGeneration.DataFlow.DataEvent;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
@@ -15,23 +11,19 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             #region Constructors
             public TestEntityGenerationDataContextCreator()
             {
-                ConfigFilePath      = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
+                ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
             }
             #endregion
 
             #region Methods
             protected override void AttachEvents(IDataContext context)
             {
-                
                 //context.AttachEvent(TableExportingEvent.TableExportStarted, BoaRepositoryFileExporter.WriteClass);
-                
-                
 
                 //context.AttachEvent(SchemaExportStarted, BoaRepositoryFileExporter.WriteUsingList);
                 //context.AttachEvent(SchemaExportStarted, AllBusinessClassesInOne.BeginNamespace);
                 //context.AttachEvent(SchemaExportStarted, Events.OnSchemaStartedToExport);
                 //context.AttachEvent(SchemaExportStarted, BoaRepositoryFileExporter.EndNamespace);
-
 
                 //context.AttachEvent(SchemaExportStarted, HoldSomeDataForCheckingTestResults);
             }
@@ -41,7 +33,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
     static class SampleDatabaseTestExtensions
     {
-
         #region Public Methods
         public static void CreateTables(this IDataContext context)
         {
@@ -141,7 +132,6 @@ CREATE TABLE ERP.SAMPLE_TABLE2
 ";
 
             database.ExecuteNonQuery();
-
         }
         #endregion
     }

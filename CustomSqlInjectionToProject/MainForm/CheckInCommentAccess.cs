@@ -1,15 +1,18 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using BOA.Common.Helpers;
 
 namespace CustomSqlInjectionToProject.MainForm
 {
     class CheckInCommentAccess
     {
-        static string TempFile => Path.GetTempPath() +  System.AppDomain.CurrentDomain.FriendlyName.Replace(".exe",".txt");
+        #region Properties
+        static string TempFile => Path.GetTempPath() + AppDomain.CurrentDomain.FriendlyName.Replace(".exe", ".txt");
+        #endregion
 
+        #region Public Methods
         public static string GetCheckInComment()
         {
-
             var comment = "";
             if (File.Exists(TempFile))
             {
@@ -24,12 +27,10 @@ namespace CustomSqlInjectionToProject.MainForm
             return comment;
         }
 
-        
         public static void SaveCheckInComment(string comment)
         {
-
-            File.WriteAllText(TempFile,comment);
-            
+            File.WriteAllText(TempFile, comment);
         }
+        #endregion
     }
 }

@@ -9,10 +9,6 @@ namespace BOA.EntityGeneration.DbModel
     public static class SqlDbTypeMap
     {
         #region Static Fields
-        
-
-       
-
         static readonly Dictionary<Type, SqlReaderMethods> SqlReaderMethodCache = new Dictionary<Type, SqlReaderMethods>
         {
             {typeof(string), SqlReaderMethods.GetStringValue},
@@ -285,14 +281,12 @@ namespace BOA.EntityGeneration.DbModel
         {
             try
             {
-                return (SqlDbType)Enum.Parse(typeof(SqlDbType), dataType, true);
+                return (SqlDbType) Enum.Parse(typeof(SqlDbType), dataType, true);
             }
             catch (Exception)
             {
                 // ignored
             }
-
-           
 
             if (dataType.StartsWith("VARCHAR", StringComparison.OrdinalIgnoreCase))
             {
@@ -332,8 +326,6 @@ namespace BOA.EntityGeneration.DbModel
             throw new ArgumentException(dataType);
         }
 
-        
-
         public static SqlReaderMethods GetSqlReaderMethod(string dataType, bool isNullable)
         {
             if (dataType.IsEqual(SqlDbType.Timestamp))
@@ -342,13 +334,13 @@ namespace BOA.EntityGeneration.DbModel
             }
 
             if (dataType.IsEqual(SqlDbType.VarBinary) ||
-                dataType.IsEqual(SqlDbType . Binary) ||
+                dataType.IsEqual(SqlDbType.Binary) ||
                 dataType.IsEqual(SqlDbType.Image))
             {
                 return SqlReaderMethods.GetBinaryValue;
             }
 
-            if (dataType.IsEqual(SqlDbType. Float))
+            if (dataType.IsEqual(SqlDbType.Float))
             {
                 return isNullable ? SqlReaderMethods.GetSingleNullableValue : SqlReaderMethods.GetSingleValue;
             }
@@ -363,8 +355,8 @@ namespace BOA.EntityGeneration.DbModel
                 return isNullable ? SqlReaderMethods.GetByteNullableValue : SqlReaderMethods.GetByteValue;
             }
 
-            if (dataType.IsEqual(SqlDbType.SmallInt)||
-                dataType.Equals(typeof(short).Name,StringComparison.OrdinalIgnoreCase))
+            if (dataType.IsEqual(SqlDbType.SmallInt) ||
+                dataType.Equals(typeof(short).Name, StringComparison.OrdinalIgnoreCase))
             {
                 return isNullable ? SqlReaderMethods.GetInt16NullableValue : SqlReaderMethods.GetInt16Value;
             }
@@ -384,13 +376,13 @@ namespace BOA.EntityGeneration.DbModel
                 return SqlReaderMethods.GetGUIDValue;
             }
 
-            if (dataType.IsEqual(SqlDbType.BigInt)||
+            if (dataType.IsEqual(SqlDbType.BigInt) ||
                 dataType.Equals("LONG", StringComparison.OrdinalIgnoreCase))
             {
                 return isNullable ? SqlReaderMethods.GetInt64NullableValue : SqlReaderMethods.GetInt64Value;
             }
 
-            if (dataType.IsEqual(SqlDbType.DateTime )||
+            if (dataType.IsEqual(SqlDbType.DateTime) ||
                 dataType.IsEqual(SqlDbType.SmallDateTime) ||
                 dataType.IsEqual(SqlDbType.Date))
             {
@@ -409,7 +401,7 @@ namespace BOA.EntityGeneration.DbModel
             }
 
             if (dataType.Equals("char", StringComparison.OrdinalIgnoreCase) ||
-                dataType.Equals("STRING",StringComparison.OrdinalIgnoreCase))
+                dataType.Equals("STRING", StringComparison.OrdinalIgnoreCase))
             {
                 return SqlReaderMethods.GetStringValue;
             }
@@ -419,9 +411,9 @@ namespace BOA.EntityGeneration.DbModel
                 return isNullable ? SqlReaderMethods.GetBooleanNullableValue : SqlReaderMethods.GetBooleanValue;
             }
 
-            if (dataType.StartsWith("NUMERIC", StringComparison.OrdinalIgnoreCase) || 
+            if (dataType.StartsWith("NUMERIC", StringComparison.OrdinalIgnoreCase) ||
                 dataType.StartsWith("MONEY", StringComparison.OrdinalIgnoreCase) ||
-                dataType.IsEqual(SqlDbType.SmallMoney)||
+                dataType.IsEqual(SqlDbType.SmallMoney) ||
                 dataType.IsEqual(SqlDbType.Decimal))
             {
                 return isNullable ? SqlReaderMethods.GetDecimalNullableValue : SqlReaderMethods.GetDecimalValue;

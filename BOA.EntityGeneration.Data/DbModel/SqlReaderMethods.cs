@@ -7,7 +7,7 @@
         GetDecimalNullableValue,
         GetBooleanValue,
         GetBooleanNullableValue,
-        
+
         GetDateTimeValue,
         GetDateTimeNullableValue,
         GetInt64Value,

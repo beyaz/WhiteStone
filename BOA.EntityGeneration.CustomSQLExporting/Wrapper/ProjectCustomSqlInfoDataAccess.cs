@@ -43,10 +43,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             customSqlInfo.ResultColumns = ReadResultColumns(customSqlInfo, database);
 
-            if (customSqlInfo.ResultColumns.Any(item=>item.IsReferenceToEntity) &&
-                customSqlInfo.ResultColumns.Count==1)
+            if (customSqlInfo.ResultColumns.Any(item => item.IsReferenceToEntity) &&
+                customSqlInfo.ResultColumns.Count == 1)
             {
-               customSqlInfo.ResultContractIsReferencedToEntity = true;
+                customSqlInfo.ResultContractIsReferencedToEntity = true;
             }
 
             Fill(customSqlInfo);
@@ -81,14 +81,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         /// </summary>
         static void Fill(CustomSqlInfo customSqlInfo)
         {
-
-           
-
             foreach (var item in customSqlInfo.ResultColumns)
             {
                 if (item.IsReferenceToEntity)
                 {
-                    item.NameInDotnet = item.Name.ToContractName();
+                    item.NameInDotnet     = item.Name.ToContractName();
                     item.DataTypeInDotnet = $"{customSqlInfo.SchemaName}.{item.Name.ToContractName()}Contract";
 
                     continue;

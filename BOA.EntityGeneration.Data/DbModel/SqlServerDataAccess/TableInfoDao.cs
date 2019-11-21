@@ -11,9 +11,35 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     public class TableInfoDao
     {
+        #region Static Fields
+        static readonly SqlDbType[] AlreadySame =
+        {
+            SqlDbType.SmallDateTime,
+            SqlDbType.TinyInt,
+            SqlDbType.DateTime,
+            SqlDbType.Date,
+            SqlDbType.SmallInt,
+            SqlDbType.Int,
+            SqlDbType.Bit,
+            SqlDbType.BigInt,
+            SqlDbType.Money,
+            SqlDbType.UniqueIdentifier,
+            SqlDbType.Float,
+            SqlDbType.SmallMoney,
+            SqlDbType.Image,
+            SqlDbType.VarBinary,
+            SqlDbType.Binary,
+            SqlDbType.Real,
+            SqlDbType.NText,
+            SqlDbType.Text,
+            SqlDbType.Time,
+            SqlDbType.Xml,
+            SqlDbType.Timestamp
+        };
+        #endregion
 
         #region Public Properties
-        public IDatabase Database { get; set; }
+        public IDatabase       Database        { get; set; }
         public IndexInfoAccess IndexInfoAccess { get; set; }
         #endregion
 
@@ -48,9 +74,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
                 c.Comment = GetColumnComment(schema, tableName, c.ColumnName);
             }
 
-           
-           
-
             return new TableInfo
             {
                 CatalogName       = tableCatalog,
@@ -70,7 +93,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         {
             var columnName = row["COLUMN_NAME"].ToString();
 
-            #region  var dataType = row["DATA_TYPE"
+            #region var dataType = row["DATA_TYPE"
             var dataType = row["DATA_TYPE"].ToString().ToUpperEN();
 
             dataType = ReadDataType(row, dataType, columnName);
@@ -82,40 +105,30 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
             return new ColumnInfo
             {
-                ColumnName          = columnName,
-                DataType            = dataType,
-                IsIdentity          = isIdentity,
-                IsNullable          = isNullable,
-                SqlDbType = SqlDbTypeMap.GetSqlDbType(dataType),
-                DotNetType          = SqlDbTypeMap.GetDotNetType(dataType, isNullable),
-                SqlReaderMethod     = SqlDbTypeMap.GetSqlReaderMethod(dataType, isNullable)
+                ColumnName      = columnName,
+                DataType        = dataType,
+                IsIdentity      = isIdentity,
+                IsNullable      = isNullable,
+                SqlDbType       = SqlDbTypeMap.GetSqlDbType(dataType),
+                DotNetType      = SqlDbTypeMap.GetDotNetType(dataType, isNullable),
+                SqlReaderMethod = SqlDbTypeMap.GetSqlReaderMethod(dataType, isNullable)
             };
         }
 
-        static readonly SqlDbType[] AlreadySame = new[]
+        static IReadOnlyList<ColumnInfo> CreateColumns(DataTable table)
         {
-            SqlDbType.SmallDateTime,
-            SqlDbType.TinyInt,
-            SqlDbType.DateTime,
-            SqlDbType.Date,
-            SqlDbType.SmallInt,
-            SqlDbType.Int,
-            SqlDbType.Bit,
-            SqlDbType.BigInt,
-            SqlDbType.Money,
-            SqlDbType.UniqueIdentifier,
-            SqlDbType.Float,
-            SqlDbType.SmallMoney,
-            SqlDbType.Image,
-            SqlDbType.VarBinary,
-            SqlDbType.Binary,
-            SqlDbType.Real,
-            SqlDbType.NText,
-            SqlDbType.Text,
-            SqlDbType.Time,
-            SqlDbType.Xml,
-            SqlDbType.Timestamp
-        };
+            var items = new List<ColumnInfo>();
+
+            for (var i = 0; i < table.Rows.Count; i++)
+            {
+                var row = table.Rows[i];
+
+                items.Add(CreateColumn(row));
+            }
+
+            return items;
+        }
+
         static string ReadDataType(DataRow row, string dataType, string columnName)
         {
             if (dataType == "DATETIME2")
@@ -133,7 +146,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
                 dataType = dataType + "(" + characterLength + ")";
             }
-            else if ( AlreadySame.Any(x=>x.ToString().Equals(dataType,StringComparison.OrdinalIgnoreCase)))
+            else if (AlreadySame.Any(x => x.ToString().Equals(dataType, StringComparison.OrdinalIgnoreCase)))
             {
             }
             else if (dataType == "NUMERIC")
@@ -178,20 +191,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             }
 
             return dataType;
-        }
-
-        static IReadOnlyList<ColumnInfo> CreateColumns(DataTable table)
-        {
-            var items = new List<ColumnInfo>();
-
-            for (var i = 0; i < table.Rows.Count; i++)
-            {
-                var row = table.Rows[i];
-
-                items.Add(CreateColumn(row));
-            }
-
-            return items;
         }
 
         string GetColumnComment(string schemaName, string tableName, string columnName)

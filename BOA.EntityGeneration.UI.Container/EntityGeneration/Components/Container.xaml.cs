@@ -41,7 +41,6 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             {
                 MessageBox.Show("Tfs Check-in comment girilmelidir.");
                 return;
-
             }
 
             var ui = SchemaGenerationProcess.Create(model.SelectedSchemaName);

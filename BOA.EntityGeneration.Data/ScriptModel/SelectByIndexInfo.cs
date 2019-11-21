@@ -8,11 +8,8 @@ namespace BOA.EntityGeneration.ScriptModel
     public class SelectByIndexInfo
     {
         #region Public Properties
-        public string                    Sql           { get; set; }
+        public string                     Sql           { get; set; }
         public IReadOnlyList<IColumnInfo> SqlParameters { get; set; }
         #endregion
     }
-
-
-
 }

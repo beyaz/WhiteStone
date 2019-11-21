@@ -43,7 +43,6 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         {
             var sb = new PaddedStringBuilder();
 
-
             sb.AppendLine($"UPDATE [{tableInfo.SchemaName}].[{tableInfo.TableName}] SET");
             sb.PaddingCount++;
 
@@ -58,7 +57,6 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             sb.AppendLine();
 
             sb.PaddingCount--;
-
 
             return sb.ToString();
         }

@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using BOA.DataFlow;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters;
+using BOA.DataFlow;
 using BOA.EntityGeneration.Exporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,7 +22,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
         #region Fields
         IDataContext context;
-        #endregion 
+        #endregion
 
         #region Public Methods
         [TestMethod]
@@ -40,7 +39,6 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         {
             var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Business.Kernel.Card.ERP\Shared.cs.txt");
             var value    = context.Get(SharedRepositoryFileTemp).ToString();
-
 
             StringHelper.IsEqualAsData(value, expected).Should().BeTrue();
         }
