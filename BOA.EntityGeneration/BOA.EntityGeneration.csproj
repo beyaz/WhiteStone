@@ -86,7 +86,6 @@
     <Compile Include="ConfigContract.cs" />
     <Compile Include="DataFlow\Data.cs" />
     <Compile Include="BoaRepositoryFileExporting\BoaRepositoryFileExporter.cs" />
-    <Compile Include="Exporters\BOACardDatabaseExporter.cs" />
     <Compile Include="EntityFileExporter.cs" />
     <Compile Include="Models\Impl\TableInfo.cs" />
     <Compile Include="DataAccess\GeneratorDataCreator.cs" />

@@ -57,7 +57,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         {
             Model.SchemaGenerationProcess = context?.TryGet(Data.SchemaGenerationProcess) ?? Model.SchemaGenerationProcess;
 
-            Model.AllSchemaGenerationProcess = context?.TryGet(Data.AllSchemaGenerationProcess) ?? Model.AllSchemaGenerationProcess;
+            //Model.AllSchemaGenerationProcess = context?.TryGet(Data.AllSchemaGenerationProcess) ?? Model.AllSchemaGenerationProcess;
 
             if (IsFinished)
             {
@@ -116,16 +116,16 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         void StartAll()
         {
-            context = new EntityGenerationDataContextCreator().Create();
+            //context = new EntityGenerationDataContextCreator().Create();
 
-            context.OpenBracket();
+            //context.OpenBracket();
 
-            context.Add(FileSystem.CheckinComment, Model.CheckInComment);
-            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
+            //context.Add(FileSystem.CheckinComment, Model.CheckInComment);
+            //context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
 
-            BOACardDatabaseExporter.Export(context);
+            //BOACardDatabaseExporter.Export(context);
 
-            context.CloseBracket();
+            //context.CloseBracket();
         }
         #endregion
     }

@@ -6,17 +6,27 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     partial class SampleDatabaseTest
     {
-        class TestEntityGenerationDataContextCreator : EntityGenerationDataContextCreator
+        class TestEntityGenerationDataContextCreator 
         {
             #region Constructors
             public TestEntityGenerationDataContextCreator()
             {
-                ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
+                // ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
             }
             #endregion
 
+
+            public IDataContext Create()
+            {
+                var context = new DataContext();
+
+               
+
+                return context;
+            }
+
             #region Methods
-            protected override void AttachEvents(IDataContext context)
+            protected  void AttachEvents(IDataContext context)
             {
                 //context.AttachEvent(TableExportingEvent.TableExportStarted, BoaRepositoryFileExporter.WriteClass);
 
