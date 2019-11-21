@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BOA.DataFlow;
+using BOA.EntityGeneration.UI.MainForm;
 using static BOA.EntityGeneration.UI.Container.Data;
 
 namespace BOA.EntityGeneration.UI.Container
@@ -45,7 +46,14 @@ namespace BOA.EntityGeneration.UI.Container
                 "*"
             };
 
-            Model[context] = new MainWindowModel();
+
+
+
+
+            Model[context] = new MainWindowModel
+            {
+                CheckinComment = CheckInCommentAccess.GetCheckInComment()
+            };
 
             return context;
         }

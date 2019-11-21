@@ -12,21 +12,30 @@
                       WindowStartupLocation="CenterScreen"
                       d:DataContext="{d:DesignInstance local:MainWindowModel, IsDesignTimeCreatable=True}"
                       Title="Code Generation" MaxHeight="600" Width="400"  >
-    <TabControl Height="Auto">
+    <StackPanel Margin="10">
 
-        <TabItem Header="Entity" >
-            <components:Container Margin="10" ></components:Container>
-            
-          
-        </TabItem>
+        <GroupBox Header="Check-in Comment" Margin="0,0,0,10">
+            <StackPanel >
+                <TextBox FontWeight="Bold" Text="{Binding CheckinComment}" />
+            </StackPanel>
+        </GroupBox>
 
-        <TabItem Header="Custom SQL">
-            
-        </TabItem>
+        <TabControl>
 
-        <TabItem Header="Constant">
+            <TabItem Header="Entity" >
+                <components:Container Margin="5" ></components:Container>
+            </TabItem>
 
-        </TabItem>
+            <TabItem Header="Custom SQL">
 
-    </TabControl>
+            </TabItem>
+
+            <TabItem Header="Constant">
+
+            </TabItem>
+
+        </TabControl>
+
+    </StackPanel>
+   
 </Controls:MetroWindow>

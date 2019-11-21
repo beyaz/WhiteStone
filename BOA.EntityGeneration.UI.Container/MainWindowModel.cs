@@ -6,6 +6,12 @@ namespace BOA.EntityGeneration.UI.Container
     [Serializable]
     public class MainWindowModel
     {
+
+
+        public string CheckinComment { get; set; }
+
+
+
         public EntityGenerationModel EntityGeneration { get; set; } = new EntityGenerationModel();
 
         public string SchemaGenerationProcessText { get; set; }

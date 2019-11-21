@@ -1,59 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 
 namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 {
-
     [Serializable]
     public class SchemaGenerationProcessModel
     {
-        public string SchemaName { get; set; }
-
-        public string ProcessText { get; set; }
-        public int ProgressMaximum { get; set; }
-        public int ProgressCurrent { get; set; }
+        #region Public Properties
+        public ProcessContract Process    { get; set; }
+        public string          SchemaName { get; set; }
+        #endregion
     }
-    /// <summary>
-    /// Interaction logic for SchemaGenerationProcess.xaml
-    /// </summary>
+
+    
     public partial class SchemaGenerationProcess
     {
+        #region Fields
         SchemaGenerationProcessModel model;
+        #endregion
 
+        #region Constructors
+        public SchemaGenerationProcess()
+        {
+            InitializeComponent();
+        }
+        #endregion
+
+        #region Public Methods
         public static SchemaGenerationProcess Create(string schemaName)
         {
             var model = new SchemaGenerationProcessModel
             {
-                SchemaName = schemaName
+                SchemaName = schemaName,
+                Process    = new ProcessContract()
             };
 
-            var ui= new SchemaGenerationProcess
+            return new SchemaGenerationProcess
             {
-                DataContext = model
+                DataContext = model,
+                model       = model
             };
-
-            ui.model = model;
-
-            return ui;
-        }
-
-        public SchemaGenerationProcess()
-        {
-            InitializeComponent();
         }
 
         public void Start()
@@ -62,25 +49,23 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 
             new Thread(GenerateSchema).Start();
         }
+        #endregion
 
-        
-
+        #region Methods
         void GenerateSchema()
         {
             // var context = new DataContextCreator().Create();
 
-
-
-            model.ProgressMaximum = 19;
+            model.Process.Total = 19;
 
             for (var i = 0; i < 20; i++)
             {
-                model.ProcessText = "a" + i;
-                model.ProgressCurrent = i;
+                model.Process.Text    = "a" + i;
+                model.Process.Current = i;
 
                 Thread.Sleep(1000);
             }
-
         }
+        #endregion
     }
 }

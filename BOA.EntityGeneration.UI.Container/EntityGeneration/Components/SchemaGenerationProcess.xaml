@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:BOA.EntityGeneration.UI.Container.EntityGeneration.Components"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:SchemaGenerationProcessModel, IsDesignTimeCreatable=True}"
-             d:DesignHeight="100" >
+              d:DesignWidth="300" >
     <GroupBox Header="{Binding SchemaName}">
         <StackPanel Margin="10">
-            <Label FontWeight="Bold" Content="{Binding ProcessText}" ></Label>
-            <ProgressBar Minimum="0" Maximum="{Binding ProgressMaximum}" Value="{Binding ProgressCurrent}" ></ProgressBar>
+            <Label FontWeight="Bold" Content="{Binding Process.Text}" ></Label>
+            <ProgressBar Minimum="0" Maximum="{Binding Process.Total}" Value="{Binding Process.Current}" ></ProgressBar>
         </StackPanel>
     </GroupBox>
 </UserControl>
