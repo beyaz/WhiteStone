@@ -16,12 +16,8 @@ using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 
 namespace BOA.EntityGeneration.Exporters
 {
-    public sealed class EntityGenerationDataContextCreator
+    public  class EntityGenerationDataContextCreator
     {
-        #region Public Properties
-        public string ConfigFilePath { get; set; }
-        #endregion
-
         #region Public Methods
         public IDataContext Create()
         {
@@ -52,21 +48,41 @@ namespace BOA.EntityGeneration.Exporters
             context.AttachEvent(SchemaExportStarted, MsBuildQueue.Build);
         }
 
-        void InitializeServices(IDataContext context)
+        static void InitializeBuildQueue(IDataContext context)
         {
-            if (ConfigFilePath == null)
+            context.Add(MsBuildQueue.MsBuildQueueId, new MsBuildQueue());
+        }
+
+        static void InitializeConfig(IDataContext context, string configFilePath = null)
+        {
+            if (configFilePath == null)
             {
-                ConfigFilePath = Path.GetDirectoryName(typeof(EntityGenerationDataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
+                configFilePath = Path.GetDirectoryName(typeof(EntityGenerationDataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
             }
 
-            context.Add(Config, JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath)));
-            context.Add(Data.Database, new SqlDatabase(context.Get(Config).ConnectionString) {CommandTimeout = 1000 * 60 * 60});
-            context.Add(MsBuildQueue.MsBuildQueueId, new MsBuildQueue());
+            context.Add(Config, JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(configFilePath)));
+        }
 
+        static void InitializeDatabase(IDataContext context)
+        {
+            var config = Config[context];
 
+            context.Add(Data.Database, new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60});
+        }
+
+        static void InitializeProcessInfo(IDataContext context)
+        {
             var processContract = new ProcessContract();
             context.Add(ProcessInfo, processContract);
             context.Add(MsBuildQueue.ProcessInfo, processContract);
+        }
+
+        static void InitializeServices(IDataContext context)
+        {
+            InitializeConfig(context);
+            InitializeDatabase(context);
+            InitializeProcessInfo(context);
+            InitializeBuildQueue(context);
         }
         #endregion
     }
