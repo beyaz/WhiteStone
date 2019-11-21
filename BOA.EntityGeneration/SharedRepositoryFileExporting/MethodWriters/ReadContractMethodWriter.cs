@@ -13,8 +13,8 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
         public static void Write(IDataContext context)
         {
             var sb         = context.Get(SharedFileExporter.File);
-            var tableInfo  = context.Get(TableInfo);
-            var config = context.Get(Config);
+            var tableInfo  = TableInfo[context];
+            var config = Config[context];
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
            
             sb.AppendLine();

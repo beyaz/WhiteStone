@@ -75,7 +75,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         static void WriteClass(IDataContext context)
         {
             var sb                 = context.Get(File);
-            var tableInfo          = context.Get(TableInfo);
+            var tableInfo          = TableInfo[context];
             var tableNamingPattern = context.Get(TableNamingPattern);
 
             ContractCommentInfoCreator.Write(sb, tableInfo);

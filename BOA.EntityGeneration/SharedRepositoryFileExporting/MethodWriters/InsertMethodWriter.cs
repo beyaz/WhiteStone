@@ -14,7 +14,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
         public static void Write(IDataContext context)
         {
             var sb                     = context.Get(SharedFileExporter.File);
-            var tableInfo              = context.Get(TableInfo);
+            var tableInfo              = TableInfo[context];
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
 
             var insertInfo = new InsertInfoCreator().Create(tableInfo);

@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
         public static void Write(IDataContext context)
         {
             var sb               = context.Get(BoaRepositoryFileExporter.File);
-            var tableInfo        = context.Get(TableInfo);
+            var tableInfo        = TableInfo[context];
             var typeContractName = context.Get(TableEntityClassNameForMethodParametersInRepositoryFiles);
             var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
             var tableNamingPattern = context.Get(TableNamingPattern);

@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
         public static void Write(IDataContext context)
         {
             var sb         = context.Get(SharedFileExporter.File);
-            var tableInfo  = context.Get(TableInfo);
+            var tableInfo  = TableInfo[context];
             var deleteInfo = DeleteInfoCreator.Create(tableInfo);
 
             var sqlParameters = deleteInfo.SqlParameters;

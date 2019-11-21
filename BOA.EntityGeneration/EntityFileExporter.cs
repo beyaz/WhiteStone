@@ -2,10 +2,10 @@
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.DataFlow;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
 using static BOA.EntityGeneration.Naming.NamingPatternContract;
+using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
 namespace BOA.EntityGeneration
 {
@@ -33,10 +33,10 @@ namespace BOA.EntityGeneration
         #region Methods
         static void BeginNamespace(IDataContext context)
         {
-            var sb            = File[context];
+            var file          = File[context];
             var namingPattern = NamingPattern[context];
 
-            sb.BeginNamespace(namingPattern.EntityNamespace);
+            file.BeginNamespace(namingPattern.EntityNamespace);
         }
 
         static void EmptyLine(IDataContext context)
@@ -51,7 +51,7 @@ namespace BOA.EntityGeneration
 
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb            = File[context];
+            var file          = File[context];
             var namingPattern = NamingPattern[context];
             var processInfo   = SchemaGenerationProcess[context];
 
@@ -59,22 +59,22 @@ namespace BOA.EntityGeneration
 
             var filePath = namingPattern.EntityProjectDirectory + "All.cs";
 
-            FileSystem.WriteAllText(context, filePath, sb.ToString());
+            FileSystem.WriteAllText(context, filePath, file.ToString());
         }
 
         static void InitializeOutput(IDataContext context)
         {
-            context.Add(File, new PaddedStringBuilder());
+            File[context] = new PaddedStringBuilder();
         }
 
         static void WriteClass(IDataContext context)
         {
-            var sb                 = File[context];
-            var config             = context.Get(Config);
-            var tableInfo          = context.Get(TableInfo);
-            var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
+            var file               = File[context];
+            var config             = Config[context];
+            var tableInfo          = TableInfo[context];
+            var tableNamingPattern = TableNamingPattern[context];
 
-            ContractCommentInfoCreator.Write(sb, tableInfo);
+            ContractCommentInfoCreator.Write(file, tableInfo);
 
             var inheritancePart = string.Empty;
 
@@ -83,33 +83,31 @@ namespace BOA.EntityGeneration
                 inheritancePart = ": " + config.EntityContractBase;
             }
 
-            sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public sealed class {tableNamingPattern.EntityClassName} {inheritancePart}");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            file.AppendLine("[Serializable]");
+            file.AppendLine($"public sealed class {tableNamingPattern.EntityClassName} {inheritancePart}");
+            file.OpenBracket();
 
-            ContractCommentInfoCreator.Write(sb, tableInfo);
-            sb.AppendLine("// ReSharper disable once EmptyConstructor");
-            sb.AppendLine($"public {tableInfo.TableName.ToContractName()}Contract()");
-            sb.AppendLine("{");
-            sb.AppendLine("}");
-            sb.AppendLine();
+            ContractCommentInfoCreator.Write(file, tableInfo);
+            file.AppendLine("// ReSharper disable once EmptyConstructor");
+            file.AppendLine($"public {tableInfo.TableName.ToContractName()}Contract()");
+            file.OpenBracket();
+            file.CloseBracket();
+            file.AppendLine();
 
-            sb.AppendAll(ContractBodyDbMembersCreator.Create(tableInfo).PropertyDefinitions);
-            sb.AppendLine();
+            file.AppendAll(ContractBodyDbMembersCreator.Create(tableInfo).PropertyDefinitions);
+            file.AppendLine();
 
-            sb.PaddingCount--;
-            sb.AppendLine("}"); // end of class
+            file.CloseBracket(); // end of class
         }
 
         static void WriteUsingList(IDataContext context)
         {
-            var sb            = File[context];
+            var file          = File[context];
             var namingPattern = NamingPattern[context];
 
             foreach (var line in namingPattern.EntityUsingLines)
             {
-                sb.AppendLine(line);
+                file.AppendLine(line);
             }
         }
         #endregion
