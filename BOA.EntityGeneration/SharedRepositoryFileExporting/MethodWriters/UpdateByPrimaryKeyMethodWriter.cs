@@ -3,19 +3,16 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using BOA.EntityGeneration.Util;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.SharedRepositoryFileExporting.SharedFileExporter;
 
 namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
     static class UpdateByPrimaryKeyMethodWriter
     {
-        #region Constants
-        const string contractParameterName = "contract";
-        #endregion
-
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb               = context.Get(SharedFileExporter.File);
+            var file             = File[context];
             var tableInfo        = TableInfo[context];
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles[context];
 
@@ -23,30 +20,30 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 
             var sqlParameters = updateInfo.SqlParameters;
 
-            sb.AppendLine($"public static SqlInfo Update({typeContractName} {contractParameterName})");
-            sb.OpenBracket();
+            file.AppendLine($"public static SqlInfo Update({typeContractName} contract)");
+            file.OpenBracket();
 
-            sb.AppendLine("const string sql = @\"");
-            sb.AppendAll(updateInfo.Sql);
-            sb.AppendLine();
-            sb.AppendLine("\";");
-            sb.AppendLine();
+            file.AppendLine("const string sql = @\"");
+            file.AppendAll(updateInfo.Sql);
+            file.AppendLine();
+            file.AppendLine("\";");
+            file.AppendLine();
 
-            sb.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
+            file.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
 
             if (sqlParameters.Any())
             {
-                sb.AppendLine();
+                file.AppendLine();
                 foreach (var columnInfo in sqlParameters)
                 {
-                    sb.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlUpdate(columnInfo)});");
+                    file.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlUpdate(columnInfo)});");
                 }
             }
 
-            sb.AppendLine();
-            sb.AppendLine("return sqlInfo;");
+            file.AppendLine();
+            file.AppendLine("return sqlInfo;");
 
-            sb.CloseBracket();
+            file.CloseBracket();
         }
         #endregion
     }

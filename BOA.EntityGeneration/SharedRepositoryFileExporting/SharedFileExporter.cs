@@ -36,9 +36,10 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         #region Methods
         static void BeginNamespace(IDataContext context)
         {
-            var file = File[context];
+            var file          = File[context];
+            var namingPattern = NamingPattern[context];
 
-            file.BeginNamespace(NamingPattern[context].RepositoryNamespace + ".Shared");
+            file.BeginNamespace(namingPattern.RepositoryNamespace + ".Shared");
         }
 
         static void EmptyLine(IDataContext context)

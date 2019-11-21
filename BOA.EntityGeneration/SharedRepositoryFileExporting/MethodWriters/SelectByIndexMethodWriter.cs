@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BOA.DataFlow;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.SharedRepositoryFileExporting.SharedFileExporter;
 
 namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
 {
@@ -13,8 +14,8 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
         #region Public Methods
         public static void Write(IDataContext context)
         {
-            var sb        = context.Get(SharedFileExporter.File);
-            var tableInfo = context.Get(Data.TableInfo);
+            var file      = File[context];
+            var tableInfo = TableInfo[context];
 
             var allIndexes = new List<IIndexInfo>();
             allIndexes.AddRange(tableInfo.NonUniqueIndexInfoList);
@@ -26,33 +27,33 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
                 var methodName    = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
                 var parameterPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-                sb.AppendLine();
-                sb.AppendLine("/// <summary>");
-                sb.AppendLine($"///{Padding.ForComment} Selects records by given parameters.");
-                sb.AppendLine("/// </summary>");
-                sb.AppendLine($"public static SqlInfo {methodName}({parameterPart})");
-                sb.OpenBracket();
+                file.AppendLine();
+                file.AppendLine("/// <summary>");
+                file.AppendLine($"///{Padding.ForComment} Selects records by given parameters.");
+                file.AppendLine("/// </summary>");
+                file.AppendLine($"public static SqlInfo {methodName}({parameterPart})");
+                file.OpenBracket();
 
-                sb.AppendLine("const string sql = @\"");
-                sb.AppendAll(indexInfo.Sql);
-                sb.AppendLine();
-                sb.AppendLine("\";");
-                sb.AppendLine();
-                sb.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
+                file.AppendLine("const string sql = @\"");
+                file.AppendAll(indexInfo.Sql);
+                file.AppendLine();
+                file.AppendLine("\";");
+                file.AppendLine();
+                file.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
 
                 if (indexInfo.SqlParameters.Any())
                 {
-                    sb.AppendLine();
+                    file.AppendLine();
                     foreach (var columnInfo in indexInfo.SqlParameters)
                     {
-                        sb.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                        file.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
                     }
                 }
 
-                sb.AppendLine();
-                sb.AppendLine("return sqlInfo;");
+                file.AppendLine();
+                file.AppendLine("return sqlInfo;");
 
-                sb.CloseBracket();
+                file.CloseBracket();
             }
         }
         #endregion
