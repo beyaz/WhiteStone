@@ -70,7 +70,7 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         public override void OnViewLoaded()
         {
-            var schemaNames = new EntityGenerationDataContextCreator().Create().Get(Data.Config).SchemaNamesToBeExport;
+            var schemaNames = EntityGenerationDataContextCreator.Create().Get(Data.Config).SchemaNamesToBeExport;
 
             Model = new Model
             {
@@ -99,7 +99,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         #region Methods
         void Start()
         {
-            context = new EntityGenerationDataContextCreator().Create();
+            context = EntityGenerationDataContextCreator.Create();
 
             context.OpenBracket();
 

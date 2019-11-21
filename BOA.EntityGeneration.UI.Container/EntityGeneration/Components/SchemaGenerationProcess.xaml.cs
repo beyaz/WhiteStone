@@ -55,7 +55,7 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         #region Methods
         void GenerateSchema()
         {
-            var context = new EntityGenerationDataContextCreator().Create();
+            var context = EntityGenerationDataContextCreator.Create();
 
             context.OpenBracket();
 

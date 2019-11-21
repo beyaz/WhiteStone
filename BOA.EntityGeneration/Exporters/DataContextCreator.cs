@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration.Exporters
     public  class EntityGenerationDataContextCreator
     {
         #region Public Methods
-        public IDataContext Create()
+        public static IDataContext Create()
         {
             var context = new DataContext();
 
