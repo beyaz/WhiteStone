@@ -8,6 +8,7 @@ namespace BOA.EntityGeneration.UI.Container
     static class Data
     {
         public static IDataConstant<List<string>> SchemaNames = DataConstant.Create<List<string>>(nameof(SchemaNames));
+        public static IDataConstant<MainWindowModel> Model = DataConstant.Create<MainWindowModel>(nameof(Model));
     }
 
     public partial class App 

@@ -9,9 +9,9 @@ namespace BOA.EntityGeneration.UI.Container
         #region Public Methods
         public IDataContext Create()
         {
-            var dataContext = new DataContext();
+            var context = new DataContext();
 
-            SchemaNames[dataContext] = new List<string>
+            SchemaNames[context] = new List<string>
             {
                 "BKM",
                 "BNS",
@@ -45,7 +45,9 @@ namespace BOA.EntityGeneration.UI.Container
                 "*"
             };
 
-            return dataContext;
+            Model[context] = new MainWindowModel();
+
+            return context;
         }
         #endregion
     }

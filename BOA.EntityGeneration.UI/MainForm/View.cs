@@ -8,7 +8,7 @@ namespace BOA.EntityGeneration.UI.MainForm
     public class View : WindowBase<Model, Controller>
     {
         #region Fields
-        Timer _timer = new Timer();
+        Timer timer = new Timer();
         #endregion
 
         #region Constructors
@@ -31,15 +31,15 @@ namespace BOA.EntityGeneration.UI.MainForm
 
             if (Model.FinishTimer)
             {
-                _timer.Stop();
+                timer.Stop();
             }
         }
 
         public void StartTimer()
         {
-            _timer         =  new Timer(100);
-            _timer.Elapsed += OnTimedEvent;
-            _timer.Start();
+            timer         =  new Timer(100);
+            timer.Elapsed += OnTimedEvent;
+            timer.Start();
             
         }
         #endregion
