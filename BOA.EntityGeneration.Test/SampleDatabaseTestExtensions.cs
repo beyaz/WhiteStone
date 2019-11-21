@@ -10,10 +10,10 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
     partial class SampleDatabaseTest
     {
-        class TestDataContextCreator : DataContextCreator
+        class TestEntityGenerationDataContextCreator : EntityGenerationDataContextCreator
         {
             #region Constructors
-            public TestDataContextCreator()
+            public TestEntityGenerationDataContextCreator()
             {
                 ConfigFilePath      = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
             }

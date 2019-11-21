@@ -13,7 +13,7 @@ using BOA.EntityGeneration.SharedRepositoryFileExporting;
 
 namespace BOA.EntityGeneration.Exporters
 {
-    public class DataContextCreator
+    public class EntityGenerationDataContextCreator
     {
         #region Public Properties
         public string ConfigFilePath { get; set; }
@@ -54,7 +54,7 @@ namespace BOA.EntityGeneration.Exporters
         {
             if (ConfigFilePath == null)
             {
-                ConfigFilePath = Path.GetDirectoryName(typeof(DataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
+                ConfigFilePath = Path.GetDirectoryName(typeof(EntityGenerationDataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
             }
 
             context.Add(Data.Config, JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath)));

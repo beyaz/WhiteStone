@@ -54,7 +54,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         [TestInitialize]
         public void Initialize()
         {
-            context = new TestDataContextCreator().Create();
+            context = new TestEntityGenerationDataContextCreator().Create();
 
             context.CreateTables();
 

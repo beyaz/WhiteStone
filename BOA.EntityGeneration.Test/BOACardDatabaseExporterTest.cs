@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         [TestMethod]
         public void ExportPRM()
         {
-            var context = new DataContextCreator().Create();
+            var context = new EntityGenerationDataContextCreator().Create();
 
             
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically,false);
