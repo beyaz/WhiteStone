@@ -38,7 +38,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Methods
         static void BeginNamespace(IDataContext context)
         {
-            var sb                   = context.Get(File);
+            var sb                   = File[context];
             var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             sb.BeginNamespace(profileNamingPattern.RepositoryNamespace);
@@ -56,7 +56,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb                   = context.Get(File);
+            var sb                   = File[context];
             var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             var processInfo = context.Get(ProcessInfo);
@@ -75,7 +75,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void UsingList(IDataContext context)
         {
-            var sb                   = context.Get(File);
+            var sb                   = File[context];
             var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             foreach (var line in profileNamingPattern.BoaRepositoryUsingLines)
@@ -86,7 +86,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void WriteBoaRepositoryClass(IDataContext context)
         {
-            var sb                     = context.Get(File);
+            var sb                     = File[context];
             var namingPattern          = context.Get(ProfileNamingPattern);
             var customSqlInfo          = context.Get(CustomSqlInfo);
             var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
@@ -156,7 +156,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void WriteEmbeddedClasses(IDataContext context)
         {
-            var sb = context.Get(File);
+            var sb = File[context];
 
             var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BoaRepositoryFileEmbeddedCodes.txt";
 
@@ -166,7 +166,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void WriteProxyClass(IDataContext context)
         {
-            var sb = context.Get(File);
+            var sb = File[context];
 
             var proxyClass = context.Get(CustomSqlClassGenerator.Text).ToString();
             sb.AppendAll(proxyClass);

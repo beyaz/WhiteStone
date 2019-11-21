@@ -36,7 +36,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         #region Methods
         static void BeginNamespace(IDataContext context)
         {
-            var sb            = context.Get(File);
+            var sb            = File[context];
             var namingPattern = context.Get(NamingPattern);
 
             sb.BeginNamespace(namingPattern.RepositoryNamespace);
@@ -49,7 +49,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
         static void EndNamespace(IDataContext context)
         {
-            var sb = context.Get(File);
+            var sb = File[context];
             sb.EndNamespace();
         }
 
@@ -57,7 +57,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         {
             var allInOneSourceCode = context.Get(File).ToString();
             var namingPattern      = context.Get(NamingPattern);
-            var processInfo        = context.Get(SchemaGenerationProcess);
+            var processInfo        = SchemaGenerationProcess[context];
 
             processInfo.Text = "Exporting Boa repository...";
 
@@ -71,7 +71,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
         static void WriteClass(IDataContext context)
         {
-            var sb                 = context.Get(File);
+            var sb                 = File[context];
             var tableInfo          = TableInfo[context];
             var tableNamingPattern = context.Get(TableNamingPattern);
 
@@ -123,7 +123,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
         static void WriteEmbeddedClasses(IDataContext context)
         {
-            var sb = context.Get(File);
+            var sb = File[context];
 
             var path = Path.GetDirectoryName(typeof(BoaRepositoryFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BoaRepositoryFileEmbeddedCodes.txt";
 
@@ -133,7 +133,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
         static void WriteUsingList(IDataContext context)
         {
-            var sb = context.Get(File);
+            var sb = File[context];
 
             var namingPattern = context.Get(NamingPattern);
 

@@ -28,7 +28,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Methods
         static void BeginNamespace(IDataContext context)
         {
-            var sb                   = context.Get(File);
+            var sb                   = File[context];
             var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
             sb.AppendLine("using BOA.Common.Types;");
@@ -50,13 +50,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void EndNamespace(IDataContext context)
         {
-            var sb = context.Get(File);
+            var sb = File[context];
             sb.CloseBracket();
         }
 
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb                   = context.Get(File);
+            var sb                   = File[context];
             var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
 
             var processInfo = context.Get(Data.ProcessInfo);
@@ -75,7 +75,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void WriteSqlInputOutputTypes(IDataContext context)
         {
-            var sb                     = context.Get(File);
+            var sb                     = File[context];
             var customSqlInfo          = context.Get(Data.CustomSqlInfo);
             var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
 

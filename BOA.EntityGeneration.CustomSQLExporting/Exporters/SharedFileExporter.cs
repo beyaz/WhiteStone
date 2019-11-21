@@ -40,7 +40,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Methods
         static void BeginClass(IDataContext context)
         {
-            var sb                     = context.Get(File);
+            var sb                     = File[context];
             var data                   = context.Get(CustomSqlInfo);
             var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
 
@@ -50,7 +50,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void BeginNamespace(IDataContext context)
         {
-            var sb                   = context.Get(File);
+            var sb                   = File[context];
             var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             sb.AppendLine($"namespace {profileNamingPattern.RepositoryNamespace}.Shared");
@@ -59,7 +59,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void CreateSqlInfo(IDataContext context)
         {
-            var sb                     = context.Get(File);
+            var sb                     = File[context];
             var customSqlInfo          = context.Get(CustomSqlInfo);
             var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
 
@@ -102,13 +102,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void EndNamespace(IDataContext context)
         {
-            var sb = context.Get(File);
+            var sb = File[context];
             sb.CloseBracket();
         }
 
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb                   = context.Get(File);
+            var sb                   = File[context];
             var processInfo          = context.Get(ProcessInfo);
             var profileNamingPattern = context.Get(ProfileNamingPattern);
 
@@ -126,7 +126,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void WriteEmbeddedClasses(IDataContext context)
         {
-            var sb = context.Get(File);
+            var sb = File[context];
 
             var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryFileEmbeddedCodes.txt";
 
@@ -136,7 +136,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void WriteReadContract(IDataContext context)
         {
-            var sb                              = context.Get(File);
+            var sb                              = File[context];
             var customSqlInfo                   = context.Get(CustomSqlInfo);
             var customSqlNamingPattern          = context.Get(CustomSqlNamingPattern);
             var repositoryAssemblyReferenceList = RepositoryAssemblyReferences[context];
@@ -178,7 +178,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void WriteUsingList(IDataContext context)
         {
-            var sb                   = context.Get(File);
+            var sb                   = File[context];
             var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             sb.AppendLine("using System;");
