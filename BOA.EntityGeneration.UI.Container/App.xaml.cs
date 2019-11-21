@@ -64,5 +64,7 @@ namespace BOA.EntityGeneration.UI.Container
 
             Context = context;
         }
+
+        public static string CheckInComment => Data.Model[Context].CheckinComment;
     }
 }
