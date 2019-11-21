@@ -65,7 +65,7 @@ namespace BOA.EntityGeneration.Exporters
 
 
             var processContract = new ProcessContract();
-            context.Add(SchemaGenerationProcess, processContract);
+            context.Add(ProcessInfo, processContract);
             context.Add(MsBuildQueue.ProcessInfo, processContract);
         }
         #endregion

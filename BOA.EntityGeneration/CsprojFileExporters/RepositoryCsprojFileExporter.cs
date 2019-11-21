@@ -16,7 +16,7 @@ namespace BOA.EntityGeneration.CsprojFileExporters
 
             var ProjectExportLocation = namingPattern.RepositoryProjectDirectory;
 
-            var progress = context.Get(Data.SchemaGenerationProcess);
+            var progress = context.Get(Data.ProcessInfo);
 
             var ns = namingPattern.RepositoryNamespace;
 

@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.DataAccess
         public static void OnSchemaStartedToExport(IDataContext context)
         {
             var database   = context.Get(Data.Database);
-            var progress   = context.Get(Data.SchemaGenerationProcess);
+            var progress   = context.Get(Data.ProcessInfo);
             var schemaName = context.Get(Data.SchemaName);
             var config     = context.Get(Data.Config);
 

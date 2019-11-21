@@ -57,7 +57,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         {
             var sourceCode    = File[context].ToString();
             var namingPattern = NamingPattern[context];
-            var processInfo   = SchemaGenerationProcess[context];
+            var processInfo   = ProcessInfo[context];
 
             processInfo.Text = "Exporting Boa repository...";
 

@@ -54,7 +54,7 @@ namespace BOA.EntityGeneration
         {
             var file          = File[context];
             var namingPattern = NamingPattern[context];
-            var processInfo   = SchemaGenerationProcess[context];
+            var processInfo   = ProcessInfo[context];
 
             processInfo.Text = "Exporting Entity classes.";
 

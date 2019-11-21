@@ -56,7 +56,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         {
             var sourceCode    = File[context].ToString();
             var namingPattern = NamingPattern[context];
-            var processInfo   = SchemaGenerationProcess[context];
+            var processInfo   = ProcessInfo[context];
 
             processInfo.Text = "Exporting Shared repository...";
 
