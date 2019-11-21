@@ -18,9 +18,6 @@ namespace BOA.CodeGeneration.Generators
 {
     public class CustomExecutionCs : WriterBase
     {
-
-
-
         #region Fields
         readonly BOAProcedureCommentParser BOAProcedureCommentParser;
         #endregion
@@ -275,8 +272,6 @@ namespace BOA.CodeGeneration.Generators
                     WriteLine("var listOfDataContract = new {0}();", GenericResponseMethodReturnType);
                 }
 
-                
-                
                 WriteLine("while (reader.Read())");
                 WriteLine("{");
                 Padding++;
@@ -359,7 +354,7 @@ namespace BOA.CodeGeneration.Generators
 
                 var ci = ProcedureInfoReturnColumns.First();
 
-                var readerMethod = SqlDbTypeMap.GetSqlReaderMethod(ci.DataType.Name,true).ToString();
+                var readerMethod = SqlDbTypeMap.GetSqlReaderMethod(ci.DataType.Name, true).ToString();
 
                 WriteLine(@"list.Add(SQLDBHelper.{0}(reader[{1}]));", readerMethod, '"' + ci.ColumnName + '"');
 
@@ -387,6 +382,24 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Methods
+        static string GetProcedureDefinition(IDatabase Database, string schemaName, string procedureName)
+        {
+            var sql =
+                @"
+SELECT sm.definition
+	  FROM sys.sql_modules sm WITH(NOLOCK) 
+INNER JOIN sys.objects      o WITH(NOLOCK) ON sm.object_id = o.object_id  
+     WHERE o.name = @procedureName
+       AND SCHEMA_NAME(O.schema_id) = @schemaName
+";
+
+            Database.CommandText      = sql;
+            Database["procedureName"] = procedureName;
+            Database["schemaName"]    = schemaName;
+
+            return Cast.To<string>(Database.ExecuteScalar());
+        }
+
         /// <summary>
         ///     Gets the method parameters part.
         /// </summary>
@@ -425,11 +438,10 @@ namespace BOA.CodeGeneration.Generators
         /// <exception cref="System.NotImplementedException">ProcedureNotFound: " + schemaName + "." + procedureName</exception>
         string GetProcedureDefinitionScript()
         {
-
             var schemaName    = Model.ProcedureFullName.Split('.')[0];
             var procedureName = Model.ProcedureFullName.Split('.')[1];
 
-            var definition = GetProcedureDefinition(Model.Database,schemaName, procedureName);
+            var definition = GetProcedureDefinition(Model.Database, schemaName, procedureName);
 
             if (definition.IsNullOrEmpty())
             {
@@ -437,24 +449,6 @@ namespace BOA.CodeGeneration.Generators
             }
 
             return definition;
-        }
-
-        static string GetProcedureDefinition(IDatabase Database , string schemaName, string procedureName)
-        {
-            var sql =
-                @"
-SELECT sm.definition
-	  FROM sys.sql_modules sm WITH(NOLOCK) 
-INNER JOIN sys.objects      o WITH(NOLOCK) ON sm.object_id = o.object_id  
-     WHERE o.name = @procedureName
-       AND SCHEMA_NAME(O.schema_id) = @schemaName
-";
-
-            Database.CommandText      = sql;
-            Database["procedureName"] = procedureName;
-            Database["schemaName"]    = schemaName;
-
-            return Cast.To<string>(Database.ExecuteScalar());
         }
 
         /// <summary>

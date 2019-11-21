@@ -36,7 +36,7 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Properties
-        bool       ColumnIsString  => ParameterColumn.DotNetType == DotNetTypeName.DotNetStringName;
+        bool        ColumnIsString  => ParameterColumn.DotNetType == DotNetTypeName.DotNetStringName;
         IColumnInfo ParameterColumn => Context.Table.Columns.First(c => c.ColumnName == GetColumnName());
 
         string ParameterType

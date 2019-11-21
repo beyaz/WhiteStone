@@ -8,8 +8,6 @@ namespace BOA.CodeGeneration.Generators
 {
     public class ContractBodyGenerator : WriterBaseBase
     {
-        public bool MarkAsNonSerializableSecurePropertiesForBOAOne { get; set; }
-
         #region Fields
         readonly bool simplePropertyDeclaration;
         #endregion
@@ -22,9 +20,10 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Public Properties
-        public IReadOnlyList<IColumnInfo> Columns                         { get; set; }
-        public string                    PrefixOfFieldOfContractProperty { get; set; }
-        public string                    RegionText                      { get; set; }
+        public IReadOnlyList<IColumnInfo> Columns                                        { get; set; }
+        public bool                       MarkAsNonSerializableSecurePropertiesForBOAOne { get; set; }
+        public string                     PrefixOfFieldOfContractProperty                { get; set; }
+        public string                     RegionText                                     { get; set; }
         #endregion
 
         #region Properties
@@ -69,7 +68,7 @@ namespace BOA.CodeGeneration.Generators
 
         public void WriteProperty(string typeName, string propertyName, string comment)
         {
-            WriteProperty(GetPropertyFieldName(propertyName), "\"" + propertyName + "\"", typeName, propertyName, comment, simplePropertyDeclaration,MarkAsNonSerializableSecurePropertiesForBOAOne);
+            WriteProperty(GetPropertyFieldName(propertyName), "\"" + propertyName + "\"", typeName, propertyName, comment, simplePropertyDeclaration, MarkAsNonSerializableSecurePropertiesForBOAOne);
         }
         #endregion
 
@@ -122,9 +121,9 @@ namespace BOA.CodeGeneration.Generators
 
             var bodyGenerator = new ContractBodyGenerator(Context.Config.PropertyDeclarationIsSimple)
             {
-                Columns                         = Context.Table.Columns,
-                Padding                         = Padding,
-                PrefixOfFieldOfContractProperty = Context.Config.PrefixOfFieldOfContractProperty,
+                Columns                                        = Context.Table.Columns,
+                Padding                                        = Padding,
+                PrefixOfFieldOfContractProperty                = Context.Config.PrefixOfFieldOfContractProperty,
                 MarkAsNonSerializableSecurePropertiesForBOAOne = Context.Config.MarkAsNonSerializableSecurePropertiesForBOAOne
             };
             bodyGenerator.GenerateDatabaseColumns();

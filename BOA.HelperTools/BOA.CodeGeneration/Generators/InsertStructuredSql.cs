@@ -40,7 +40,7 @@ namespace BOA.CodeGeneration.Generators
 
         string NameOfSqlProceduresWillBeRunCatalogName => Context.Naming.NameOfSqlProceduresWillBeRunCatalogName;
 
-        string ParameterTypeName => Context.Config.TablePathForSqlScript.RemoveFromEnd("]") + TableType+"]";
+        string ParameterTypeName => Context.Config.TablePathForSqlScript.RemoveFromEnd("]") + TableType + "]";
         #endregion
 
         #region Public Methods

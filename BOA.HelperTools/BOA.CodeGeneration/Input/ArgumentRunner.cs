@@ -23,9 +23,6 @@ namespace BOA.CodeGeneration.Input
         #region Public Properties
         public IReadOnlyList<TableConfig> TableConfigs { get; set; }
         #endregion
-
-        #region Public Methods
-        #endregion
     }
 
     public class ArgumentRunner

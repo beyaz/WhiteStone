@@ -77,7 +77,7 @@ namespace BOA.CodeGeneration.Generators
 
                 var inputValue = "contract." + c.ColumnName;
 
-                if (c.DataType.IsEqual(SqlDbType.VarBinary )&&
+                if (c.DataType.IsEqual(SqlDbType.VarBinary) &&
                     DoCompressionForVarBinaryColumns)
                 {
                     inputValue = "CompressionHelper.CompressBuffer(" + inputValue + ")";

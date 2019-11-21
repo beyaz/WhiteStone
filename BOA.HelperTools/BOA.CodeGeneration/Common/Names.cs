@@ -1,7 +1,4 @@
-﻿
-
-
-namespace BOA.CodeGeneration.Common
+﻿namespace BOA.CodeGeneration.Common
 {
     public static class Names2
     {
@@ -11,11 +8,9 @@ namespace BOA.CodeGeneration.Common
         public const string ChannelId          = "ChannelId";
         public const string ChannelIdValue     = "Context.ApplicationContext.Authentication.Channel";
 
-        public const string Contains              = "Contains";
+        public const string Contains = "Contains";
 
-        
-
-        public const string EndsWith              = "EndsWith";
+        public const string EndsWith = "EndsWith";
 
         public const string HostIP        = "HostIP";
         public const string HostIPValue   = "Context.ApplicationContext.Authentication.IPAddress";

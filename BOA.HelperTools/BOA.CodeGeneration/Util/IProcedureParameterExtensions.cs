@@ -73,9 +73,6 @@ namespace BOA.CodeGeneration.Util
 
         public static string GetDotNetType(this IProcedureParameter procedureParameter)
         {
-              
-
-
             return SqlDbTypeMap.GetDotNetType(procedureParameter.SqlDataType, procedureParameter.IsNullable);
         }
         #endregion

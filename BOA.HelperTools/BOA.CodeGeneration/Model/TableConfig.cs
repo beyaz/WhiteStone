@@ -11,10 +11,6 @@ namespace BOA.CodeGeneration.Model
 {
     public class TableConfig : ContractBase
     {
-        public bool PropertyDeclarationIsSimple { get; set; }
-
-        public bool MarkAsNonSerializableSecurePropertiesForBOAOne { get; set; }
-
         #region Static Fields
         static Confiuration _confiuration;
         #endregion
@@ -67,8 +63,6 @@ namespace BOA.CodeGeneration.Model
 
         public string ContractName { get; set; }
 
-        public string PrefixOfFieldOfContractProperty { get; set; } = "_";
-
         public IReadOnlyList<CustomMethod> CustomExecutions { get; set; }
 
         public IReadOnlyList<CustomSelectMethod> CustomExists { get; set; }
@@ -114,6 +108,8 @@ namespace BOA.CodeGeneration.Model
 
         public bool InsertMethodMustBePrivate { get; set; }
 
+        public bool MarkAsNonSerializableSecurePropertiesForBOAOne { get; set; }
+
         public string MethodParameterCannotBeNullMessage { get; set; }
 
         public string NamespaceName { get; set; }
@@ -126,6 +122,9 @@ namespace BOA.CodeGeneration.Model
 
         public Action<List<string>> OnUsingNamespacesWillbeGenerateInBusinessClassDesignerFile { get; set; }
 
+        public string PrefixOfFieldOfContractProperty { get; set; } = "_";
+        public bool   PropertyDeclarationIsSimple     { get; set; }
+
         public Dictionary<string, SqlReaderMethods> ReadContractSpecificReads { get; set; }
 
         /// <summary>
@@ -137,7 +136,7 @@ namespace BOA.CodeGeneration.Model
 
         public List<string> SecureColumns { get; set; }
 
-        [Obsolete("Use NameOfDotNetMethodSelectByKeyList",true)]
+        [Obsolete("Use NameOfDotNetMethodSelectByKeyList", true)]
         public string SelectByKeyListMethodName { get; set; }
 
         public bool SelectByKeyMustBeReturnReadonlyContract { get; set; }
@@ -166,7 +165,7 @@ namespace BOA.CodeGeneration.Model
                     return $"[{SchemaName}].[{TableName}]";
                 }
 
-                return ServerName + "." + DatabaseName + "." + SchemaName + ".[" + TableName+"]";
+                return ServerName + "." + DatabaseName + "." + SchemaName + ".[" + TableName + "]";
             }
         }
 
@@ -215,8 +214,8 @@ namespace BOA.CodeGeneration.Model
     public class CustomReadValueFromIDataReaderInput
     {
         #region Public Properties
-        public string PropertyName       { get; set; }
-        public string ReaderArgumentName { get; set; }
+        public string           PropertyName       { get; set; }
+        public string           ReaderArgumentName { get; set; }
         public SqlReaderMethods ReaderMethodName   { get; set; }
         #endregion
     }

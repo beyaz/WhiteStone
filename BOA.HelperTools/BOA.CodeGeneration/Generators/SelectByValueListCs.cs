@@ -62,7 +62,7 @@ namespace BOA.CodeGeneration.Generators
             WriteLine("#region Fill from SqlDataReader to List<" + ContractName + ">");
             WriteLine("var listOfDataContract = new List<{0}>();", ContractName);
             WriteLine();
-            
+
             WriteLine("while (reader.Read())");
             WriteLine("{");
             Padding++;

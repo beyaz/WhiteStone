@@ -47,8 +47,8 @@ namespace BOA.CodeGeneration.Generators
 
             var useGenericCollections = Config.CustomSelects.Any() || Config.CanGenerateSelectByKeyList || Config.CanGenerateInsertStructured;
 
-            var useLinq = Config.CustomSelects.Any(cs => cs.MustBeReturnFirstContract) || Config.CanGenerateSelectByKeyList||
-                          Config.CustomSelects.Any(cs => cs.Parameters?.Any(p=>p.IN != null) == true)
+            var useLinq = Config.CustomSelects.Any(cs => cs.MustBeReturnFirstContract) || Config.CanGenerateSelectByKeyList ||
+                          Config.CustomSelects.Any(cs => cs.Parameters?.Any(p => p.IN != null) == true)
                 ;
 
             var usingList = new List<string>

@@ -7,7 +7,6 @@ using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
-using Names2 = BOA.CodeGeneration.Common.Names2;
 
 namespace BOA.CodeGeneration.Generators
 {
@@ -270,7 +269,7 @@ namespace BOA.CodeGeneration.Generators
             WriteLine("return returnObject.Add(sp);");
             Padding--;
             WriteLine("}");
-            
+
             ProcessReturnValues();
 
             WriteLine("return returnObject;");

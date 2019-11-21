@@ -92,7 +92,6 @@ namespace BOA.CodeGeneration.Generators
 
                 if (c.IsNullable)
                 {
-                    
                     WriteLine("dt.Columns.Add(new DataColumn(" + dataColumnName + ", typeof(" + c.DotNetType.RemoveFromEnd("?") + ")) { AllowDBNull = true});");
                 }
                 else
@@ -111,7 +110,7 @@ namespace BOA.CodeGeneration.Generators
 
             foreach (var c in columns)
             {
-                var propertyName = c.ColumnName;
+                var propertyName   = c.ColumnName;
                 var dataColumnName = $"nameof({Context.Naming.ContractName}.{c.ColumnName})";
 
                 if (c.IsNullable)

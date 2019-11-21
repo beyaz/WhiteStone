@@ -5,8 +5,6 @@ namespace BOA.CodeGeneration.Model
 {
     public class WriterContext
     {
-        
-
         #region Public Properties
         public TableConfig Config { get; set; }
 

@@ -91,7 +91,7 @@ namespace BOA.CodeGeneration.Generators
             WriteLine();
 
             WriteLine("#region Fill from SqlDataReader to DataContract");
-          
+
             WriteLine("{0} dataContract = null;", ContractName);
             WriteLine();
             WriteLine("while (reader.Read())");

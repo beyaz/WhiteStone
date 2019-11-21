@@ -45,7 +45,7 @@ namespace BOA.CodeGeneration.Generators
                 var propertyName = r.ColumnName;
                 var readerMethod = GetReaderMethod(r);
 
-                if (r.DataType.IsEqual(SqlDbType.VarBinary )&& DoCompressionForVarBinaryColumns)
+                if (r.DataType.IsEqual(SqlDbType.VarBinary) && DoCompressionForVarBinaryColumns)
                 {
                     WriteLine("contract." + propertyName + " = CompressionHelper.DecompressBuffer(SQLDBHelper." + readerMethod + "(reader[" + "\"" + propertyName + "\"]));");
                 }

@@ -13,29 +13,6 @@ namespace BOA.CodeGeneration.Generators
 {
     public class WriterBaseBase : ContractBase
     {
-        static void WriteLinesWithComma(Action<string> writeLine, IReadOnlyList<string> lines)
-        {
-            if (lines.Count == 0)
-            {
-                return;
-            }
-            const string Comma = ",";
-
-            var end = lines.Count - 1;
-
-            for (var i = 0; i < end; i++)
-            {
-                writeLine(lines[i] + Comma);
-            }
-
-            writeLine(lines[end]);
-        }
-
-        protected void WriteLinesWithComma( IReadOnlyList<string> lines)
-        {
-            WriteLinesWithComma(WriteLine,lines);
-        }
-
         #region Constants
         protected const int PaddingLength = 4;
         #endregion
@@ -53,25 +30,23 @@ namespace BOA.CodeGeneration.Generators
         #endregion
 
         #region Public Properties
-        public string GeneratedString => _output.ToString();
+        public static string PaddingForComment => "     ";
+        public        string GeneratedString   => _output.ToString();
 
         public int Padding { get; set; }
         #endregion
 
         #region Properties
-        public static string PaddingForComment => "     ";
-
         protected static int PaddingForMethodDeclaration => 2;
         #endregion
 
         #region Public Methods
-        public void WriteProperty(string propName, string propertyChangedString, string dotNetType, string propertyName, string comment,bool simplePropertyDeclaration,bool MarkAsNonSerializableSecurePropertiesForBOAOne)
+        public void WriteProperty(string propName, string propertyChangedString, string dotNetType, string propertyName, string comment, bool simplePropertyDeclaration, bool MarkAsNonSerializableSecurePropertiesForBOAOne)
         {
             propName = CheckName(propName);
 
             if (simplePropertyDeclaration)
             {
-                
             }
             else
             {
@@ -79,8 +54,6 @@ namespace BOA.CodeGeneration.Generators
                 WriteLine(dotNetType + " " + propName + ";");
             }
 
-
-            
             if (comment != null)
             {
                 WriteLine(@"/// <summary>");
@@ -102,25 +75,23 @@ namespace BOA.CodeGeneration.Generators
                 WriteLine(@"/// </summary>");
             }
 
-
             if (MarkAsNonSerializableSecurePropertiesForBOAOne)
             {
-                var isOneSecureProperty = propertyName.Equals(Names2.UpdateHostName, StringComparison.OrdinalIgnoreCase)||
-                                          propertyName.Equals(Names2.UpdateHostIP, StringComparison.OrdinalIgnoreCase)||
-                                          propertyName.Equals(Names2.UpdateUserName, StringComparison.OrdinalIgnoreCase)||
-                                          propertyName.Equals(Names2.HostName, StringComparison.OrdinalIgnoreCase)||
-                                          propertyName.Equals(Names2.HostIP, StringComparison.OrdinalIgnoreCase)||
+                var isOneSecureProperty = propertyName.Equals(Names2.UpdateHostName, StringComparison.OrdinalIgnoreCase) ||
+                                          propertyName.Equals(Names2.UpdateHostIP, StringComparison.OrdinalIgnoreCase) ||
+                                          propertyName.Equals(Names2.UpdateUserName, StringComparison.OrdinalIgnoreCase) ||
+                                          propertyName.Equals(Names2.HostName, StringComparison.OrdinalIgnoreCase) ||
+                                          propertyName.Equals(Names2.HostIP, StringComparison.OrdinalIgnoreCase) ||
                                           propertyName.Equals(Names2.UserName, StringComparison.OrdinalIgnoreCase);
                 if (isOneSecureProperty)
                 {
-                    WriteLine("[Newtonsoft.Json.JsonIgnore]");    
+                    WriteLine("[Newtonsoft.Json.JsonIgnore]");
                 }
-                
             }
 
             if (simplePropertyDeclaration)
             {
-                WriteLine("public " + dotNetType + " " + propertyName+ " { get; set; }");
+                WriteLine("public " + dotNetType + " " + propertyName + " { get; set; }");
                 return;
             }
 
@@ -200,6 +171,11 @@ namespace BOA.CodeGeneration.Generators
             AppendLine();
         }
 
+        protected void WriteLinesWithComma(IReadOnlyList<string> lines)
+        {
+            WriteLinesWithComma(WriteLine, lines);
+        }
+
         protected void WritePadding()
         {
             if (Padding > 0)
@@ -216,6 +192,25 @@ namespace BOA.CodeGeneration.Generators
             }
 
             return propName;
+        }
+
+        static void WriteLinesWithComma(Action<string> writeLine, IReadOnlyList<string> lines)
+        {
+            if (lines.Count == 0)
+            {
+                return;
+            }
+
+            const string Comma = ",";
+
+            var end = lines.Count - 1;
+
+            for (var i = 0; i < end; i++)
+            {
+                writeLine(lines[i] + Comma);
+            }
+
+            writeLine(lines[end]);
         }
 
         void Append(string value)
