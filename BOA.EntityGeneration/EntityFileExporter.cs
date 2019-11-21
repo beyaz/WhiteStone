@@ -1,9 +1,10 @@
 ﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
+using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 using static BOA.EntityGeneration.Naming.NamingPatternContract;
 using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
@@ -18,15 +19,15 @@ namespace BOA.EntityGeneration
         #region Public Methods
         public static void AttachEvents(IDataContext context)
         {
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, InitializeOutput);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, WriteUsingList);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, EmptyLine);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BeginNamespace);
+            context.AttachEvent(SchemaExportStarted, InitializeOutput);
+            context.AttachEvent(SchemaExportStarted, WriteUsingList);
+            context.AttachEvent(SchemaExportStarted, EmptyLine);
+            context.AttachEvent(SchemaExportStarted, BeginNamespace);
 
-            context.AttachEvent(TableExportingEvent.TableExportStarted, WriteClass);
+            context.AttachEvent(TableExportStarted, WriteClass);
 
-            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, EndNamespace);
-            context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, ExportFileToDirectory);
+            context.AttachEvent(SchemaExportFinished, EndNamespace);
+            context.AttachEvent(SchemaExportFinished, ExportFileToDirectory);
         }
         #endregion
 
