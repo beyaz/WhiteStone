@@ -96,7 +96,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Components\SchemaNameComponent.cs" />
-    <Compile Include="DataContextCreator.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

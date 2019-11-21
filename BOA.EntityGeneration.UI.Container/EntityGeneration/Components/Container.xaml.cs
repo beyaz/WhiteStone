@@ -1,38 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 {
-
     [Serializable]
     public class ContainerModel
     {
+        #region Public Properties
         public string SelectedSchemaName { get; set; }
+        #endregion
     }
 
     public partial class Container
     {
+        #region Fields
         readonly ContainerModel model;
+        #endregion
 
+        #region Constructors
         public Container()
         {
             DataContext = model = new ContainerModel();
-            
+
             InitializeComponent();
         }
+        #endregion
 
+        #region Methods
         void OnGenerateClicked(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(model.SelectedSchemaName))
@@ -41,13 +35,23 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
                 return;
             }
 
+            var checkinComment = Data.Model[App.Context].CheckinComment;
+
+            if (string.IsNullOrWhiteSpace(checkinComment))
+            {
+                MessageBox.Show("Tfs Check-in comment girilmelidir.");
+                return;
+
+            }
+
             var ui = SchemaGenerationProcess.Create(model.SelectedSchemaName);
 
-            ui.Margin = new Thickness(0,10,0,0);
+            ui.Margin = new Thickness(0, 10, 0, 0);
 
             processContainer.Children.Add(ui);
 
             ui.Start();
         }
+        #endregion
     }
 }
