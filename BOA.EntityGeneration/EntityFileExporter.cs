@@ -5,6 +5,7 @@ using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
+using static BOA.EntityGeneration.Naming.NamingPatternContract;
 
 namespace BOA.EntityGeneration
 {
@@ -22,8 +23,6 @@ namespace BOA.EntityGeneration
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, EmptyLine);
             context.AttachEvent(SchemaExportingEvent.SchemaExportStarted, BeginNamespace);
 
-            
-
             context.AttachEvent(TableExportingEvent.TableExportStarted, WriteClass);
 
             context.AttachEvent(SchemaExportingEvent.SchemaExportFinished, EndNamespace);
@@ -34,30 +33,27 @@ namespace BOA.EntityGeneration
         #region Methods
         static void BeginNamespace(IDataContext context)
         {
-            var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPatternContract.NamingPattern);
+            var sb            = File[context];
+            var namingPattern = NamingPattern[context];
 
             sb.BeginNamespace(namingPattern.EntityNamespace);
         }
 
-        
-
         static void EmptyLine(IDataContext context)
         {
-            context.Get(File).AppendLine();
+            File[context].AppendLine();
         }
 
         static void EndNamespace(IDataContext context)
         {
-            var sb = context.Get(File);
-            sb.EndNamespace();
+            File[context].EndNamespace();
         }
 
         static void ExportFileToDirectory(IDataContext context)
         {
-            var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPatternContract.NamingPattern);
-            var processInfo   = context.Get(SchemaGenerationProcess);
+            var sb            = File[context];
+            var namingPattern = NamingPattern[context];
+            var processInfo   = SchemaGenerationProcess[context];
 
             processInfo.Text = "Exporting Entity classes.";
 
@@ -73,9 +69,9 @@ namespace BOA.EntityGeneration
 
         static void WriteClass(IDataContext context)
         {
-            var sb        = context.Get(File);
-            var config    = context.Get(Config);
-            var tableInfo = context.Get(TableInfo);
+            var sb                 = File[context];
+            var config             = context.Get(Config);
+            var tableInfo          = context.Get(TableInfo);
             var tableNamingPattern = context.Get(TableNamingPatternContract.TableNamingPattern);
 
             ContractCommentInfoCreator.Write(sb, tableInfo);
@@ -108,8 +104,8 @@ namespace BOA.EntityGeneration
 
         static void WriteUsingList(IDataContext context)
         {
-            var sb            = context.Get(File);
-            var namingPattern = context.Get(NamingPatternContract.NamingPattern);
+            var sb            = File[context];
+            var namingPattern = NamingPattern[context];
 
             foreach (var line in namingPattern.EntityUsingLines)
             {
