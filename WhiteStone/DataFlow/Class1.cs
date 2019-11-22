@@ -196,6 +196,7 @@ namespace BOA.DataFlow
     public class ContextContainer:IContextContainer
     {
         public IDataContext Context { get; set; }
+
         public T Create<T>() where T : IContextContainer, new()
         {
             return new T {Context = this.Context};
@@ -204,13 +205,9 @@ namespace BOA.DataFlow
 
         protected void AttachEvent(IEvent @event, Action action)
         {
-            Context.AttachEvent(@event,(c)=>c.OpenBracket());
+            Context.AttachEvent(@event,(c)=>action());
         }
 
-        /// <summary>
-        ///     Detaches the event.
-        /// </summary>
-        // void DetachEvent(IEvent @event, Action<IDataContext> action);
     }
 
 
