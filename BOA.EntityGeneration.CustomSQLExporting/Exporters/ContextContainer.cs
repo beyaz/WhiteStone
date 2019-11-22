@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
 
@@ -14,6 +15,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         protected ProfileNamingPatternContract   profileNamingPattern     => Data.ProfileNamingPattern[Context];
 
         protected List<string> repositoryAssemblyReferenceList => Data.RepositoryAssemblyReferences[Context];
+
+        protected List<string> repositoryAssemblyReferences => Data.RepositoryAssemblyReferences[Context];
+
+
+        protected MsBuildQueue MsBuildQueue => Context.Get(BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters.MsBuildQueue.MsBuildQueueId);
+
+        protected List<string> repositoryAssemblyReference => Data.RepositoryAssemblyReferences[Context];
+
         #endregion
     }
 }

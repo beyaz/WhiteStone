@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading;
 using BOA.DataFlow;
+using ContextContainer = BOA.EntityGeneration.CustomSQLExporting.Exporters.ContextContainer;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
-    public static class CustomSqlExporter
+     class CustomSqlExporter:ContextContainer
     {
         #region Static Fields
         public static readonly IEvent OnCustomSqlInfoInitialized = new Event {Name = nameof(OnCustomSqlInfoInitialized)};

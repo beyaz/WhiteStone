@@ -6,20 +6,18 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    public class CsprojFileGenerator
+    public class CsprojFileGenerator:ContextContainer
     {
         #region Public Properties
         public IReadOnlyList<string> FileNames { get; set; }
-
         public bool   IsClientDll   { get; set; }
         public string NamespaceName { get; set; }
-
         public string                ProjectDirectory { get; set; }
         public IReadOnlyList<string> References       { get; set; }
         #endregion
 
         #region Public Methods
-        public string Generate(IDataContext context)
+        public string Generate()
         {
             var csprojFilePath = $"{ProjectDirectory}{NamespaceName}.csproj";
 
@@ -89,7 +87,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
 ";
 
-            FileSystem.WriteAllText(context, csprojFilePath, content.Trim());
+            FileSystem.WriteAllText(Context, csprojFilePath, content.Trim());
 
             var assemblyInfoContent = $@"
 using System.Reflection;
@@ -109,7 +107,7 @@ using System.Runtime.InteropServices;
 ";
 
             var assemblyInfoFilePath = $"{ProjectDirectory}\\Properties\\AssemblyInfo.cs";
-            FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
+            FileSystem.WriteAllText(Context, assemblyInfoFilePath, assemblyInfoContent.Trim());
 
             return csprojFilePath;
         }

@@ -3,80 +3,76 @@ using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.ScriptModel;
-using static BOA.EntityGeneration.CustomSQLExporting.Data;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    public static class BoaRepositoryFileExporter
+     class BoaRepositoryFileExporter:ContextContainer
     {
+        PaddedStringBuilder sb => File[Context];
+
         #region Static Fields
         static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(BoaRepositoryFileExporter) + "->" + nameof(File));
         #endregion
 
         #region Public Methods
-        public static void AttachEvents(IDataContext context)
+        public  void AttachEvents()
         {
-            context.AttachEvent(OnProfileInfoInitialized, CustomSqlClassGenerator.InitializeText);
+            var customSqlClassGenerator = Create<CustomSqlClassGenerator>();
 
-            CustomSqlClassGenerator.AttachEvents(context);
+            AttachEvent(OnProfileInfoInitialized, customSqlClassGenerator.InitializeText);
 
-            context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
-            context.AttachEvent(OnProfileInfoInitialized, UsingList);
-            context.AttachEvent(OnProfileInfoInitialized, EmptyLine);
-            context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
-            context.AttachEvent(OnProfileInfoInitialized, WriteEmbeddedClasses);
+            customSqlClassGenerator.AttachEvents();
 
-            context.AttachEvent(OnCustomSqlInfoInitialized, WriteBoaRepositoryClass);
+            AttachEvent(OnProfileInfoInitialized, InitializeOutput);
+            AttachEvent(OnProfileInfoInitialized, UsingList);
+            AttachEvent(OnProfileInfoInitialized, EmptyLine);
+            AttachEvent(OnProfileInfoInitialized, BeginNamespace);
+            AttachEvent(OnProfileInfoInitialized, WriteEmbeddedClasses);
 
-            context.AttachEvent(OnProfileInfoRemove, WriteProxyClass);
-            context.AttachEvent(OnProfileInfoRemove, EndNamespace);
-            context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
+            AttachEvent(OnCustomSqlInfoInitialized, WriteBoaRepositoryClass);
+
+            AttachEvent(OnProfileInfoRemove, WriteProxyClass);
+            AttachEvent(OnProfileInfoRemove, EndNamespace);
+            AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
         }
         #endregion
 
         #region Methods
-        static void BeginNamespace(IDataContext context)
+        void BeginNamespace()
         {
-            var sb                   = File[context];
-            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             sb.BeginNamespace(profileNamingPattern.RepositoryNamespace);
         }
 
-        static void EmptyLine(IDataContext context)
+        void EmptyLine()
         {
-            File[context].AppendLine();
+            sb.AppendLine();
         }
 
-        static void EndNamespace(IDataContext context)
+        void EndNamespace()
         {
-            File[context].CloseBracket();
+            sb.CloseBracket();
         }
 
-        static void ExportFileToDirectory(IDataContext context)
+        void ExportFileToDirectory()
         {
-            var sb                   = File[context];
-            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
-            var processInfo = context.Get(ProcessInfo);
 
             processInfo.Text = "Exporting BOA repository.";
 
             var filePath = profileNamingPattern.RepositoryProjectDirectory + "Boa.cs";
 
-            FileSystem.WriteAllText(context, filePath, sb.ToString());
+            FileSystem.WriteAllText(Context, filePath, sb.ToString());
         }
 
-        static void InitializeOutput(IDataContext context)
+        void InitializeOutput()
         {
-            File[context] = new PaddedStringBuilder();
+            File[Context] = new PaddedStringBuilder();
         }
 
-        static void UsingList(IDataContext context)
+        void UsingList()
         {
-            var sb                   = File[context];
-            var profileNamingPattern = context.Get(ProfileNamingPattern);
 
             foreach (var line in profileNamingPattern.BoaRepositoryUsingLines)
             {
@@ -84,12 +80,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             }
         }
 
-        static void WriteBoaRepositoryClass(IDataContext context)
+        void WriteBoaRepositoryClass()
         {
-            var sb                     = File[context];
-            var namingPattern          = context.Get(ProfileNamingPattern);
-            var customSqlInfo          = context.Get(CustomSqlInfo);
-            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
+            var namingPattern = profileNamingPattern;
 
             var key = $"{namingPattern.RepositoryNamespace}.{customSqlNamingPattern.RepositoryClassName}.Execute";
 
@@ -121,8 +114,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
                 resultContractName     = customSqlNamingPattern.ReferencedEntityAccessPath;
                 readContractMethodPath = customSqlNamingPattern.ReferencedEntityReaderMethodPath;
 
-                RepositoryAssemblyReferences[context].Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
-                RepositoryAssemblyReferences[context].Add(customSqlNamingPattern.ReferencedRepositoryAssemblyPath);
+                repositoryAssemblyReferenceList.Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
+                repositoryAssemblyReferenceList.Add(customSqlNamingPattern.ReferencedRepositoryAssemblyPath);
             }
 
             if (customSqlInfo.SqlResultIsCollection)
@@ -154,9 +147,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.CloseBracket();
         }
 
-        static void WriteEmbeddedClasses(IDataContext context)
+        void WriteEmbeddedClasses()
         {
-            var sb = File[context];
 
             var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BoaRepositoryFileEmbeddedCodes.txt";
 
@@ -164,43 +156,44 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine();
         }
 
-        static void WriteProxyClass(IDataContext context)
+        void WriteProxyClass()
         {
-            var sb = File[context];
 
-            var proxyClass = context.Get(CustomSqlClassGenerator.Text).ToString();
+            var proxyClass = Context.Get(CustomSqlClassGenerator.Text).ToString();
             sb.AppendAll(proxyClass);
             sb.AppendLine();
         }
         #endregion
     }
 
-    class CustomSqlClassGenerator
+    class CustomSqlClassGenerator:ContextContainer
     {
+
+        PaddedStringBuilder sb => Text[Context];
+
         #region Static Fields
         public static readonly IDataConstant<PaddedStringBuilder> Text = DataConstant.Create<PaddedStringBuilder>(nameof(CustomSqlClassGenerator) + "->" + nameof(Text));
         #endregion
 
         #region Public Methods
-        public static void AttachEvents(IDataContext context)
+        public  void AttachEvents()
         {
-            context.AttachEvent(OnProfileInfoInitialized, Begin);
+            AttachEvent(OnProfileInfoInitialized, Begin);
 
-            context.AttachEvent(OnCustomSqlInfoInitialized, WriteSwitchCaseCondition);
+            AttachEvent(OnCustomSqlInfoInitialized, WriteSwitchCaseCondition);
 
-            context.AttachEvent(OnProfileInfoRemove, End);
+            AttachEvent(OnProfileInfoRemove, End);
         }
 
-        public static void InitializeText(IDataContext context)
+         public void InitializeText()
         {
-            context.Add(Text, new PaddedStringBuilder());
+            Context.Add(Text, new PaddedStringBuilder());
         }
         #endregion
 
         #region Methods
-        static void Begin(IDataContext context)
+         void Begin()
         {
-            var sb = context.Get(Text);
 
             sb.AppendLine("public static class CustomSql");
             sb.OpenBracket();
@@ -212,9 +205,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.OpenBracket();
         }
 
-        static void End(IDataContext context)
+         void End()
         {
-            var sb = context.Get(Text);
 
             sb.CloseBracket(); // end of switch
 
@@ -226,11 +218,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.CloseBracket(); // end of class
         }
 
-        static void WriteSwitchCaseCondition(IDataContext context)
+         void WriteSwitchCaseCondition()
         {
-            var sb                     = context.Get(Text);
-            var customSqlInfo          = context.Get(CustomSqlInfo);
-            var customSqlNamingPattern = context.Get(CustomSqlNamingPattern);
 
             sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");
             sb.OpenBracket();

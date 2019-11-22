@@ -7,39 +7,39 @@ using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    class EntityCsprojFileExporter
+    class EntityCsprojFileExporter:ContextContainer
     {
         #region Public Methods
-        public static void AttachEvents(IDataContext context)
+        public  void AttachEvents()
         {
-            context.AttachEvent(OnProfileInfoInitialized, InitializeAssemblyReferences);
-            context.AttachEvent(OnProfileInfoRemove, Export);
+            AttachEvent(OnProfileInfoInitialized, InitializeAssemblyReferences);
+            AttachEvent(OnProfileInfoRemove, Export);
         }
         #endregion
 
         #region Methods
-        static void Export(IDataContext context)
+         void Export()
         {
-            var profileNamingPattern = ProfileNamingPattern[context];
 
             var csprojFileGenerator = new CsprojFileGenerator
             {
+                Context=Context,
                 FileNames        = new List<string> {"All.cs"},
                 NamespaceName    = profileNamingPattern.EntityNamespace,
                 IsClientDll      = true,
                 ProjectDirectory = profileNamingPattern.EntityProjectDirectory,
-                References       = EntityAssemblyReferences[context]
+                References       = entityAssemblyReferences
             };
 
-            var csprojFilePath = csprojFileGenerator.Generate(context);
+            var csprojFilePath = csprojFileGenerator.Generate();
 
-            context.Get(MsBuildQueue.MsBuildQueueId).Push(new MSBuildData {ProjectFilePath = csprojFilePath});
+            MsBuildQueue.Push(new MSBuildData {ProjectFilePath = csprojFilePath});
         }
 
-        static void InitializeAssemblyReferences(IDataContext context)
+         void InitializeAssemblyReferences()
         {
-            EntityAssemblyReferences[context] = new List<string>();
-            EntityAssemblyReferences[context].AddRange(ProfileNamingPattern[context].EntityAssemblyReferences);
+            EntityAssemblyReferences[Context] = new List<string>();
+            EntityAssemblyReferences[Context].AddRange(profileNamingPattern.EntityAssemblyReferences);
         }
         #endregion
     }
