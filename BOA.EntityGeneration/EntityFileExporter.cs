@@ -16,10 +16,11 @@ namespace BOA.EntityGeneration
     class ContextContainer : BOA.DataFlow.ContextContainer
     {
         #region Properties
-        protected ConfigContract        config        => Config[Context];
-        protected NamingPatternContract namingPattern => NamingPattern[Context];
-        protected ProcessContract processInfo => ProcessInfo[Context];
-        protected ITableInfo tableInfo => TableInfo[Context];
+        protected ConfigContract             config             => Config[Context];
+        protected NamingPatternContract      namingPattern      => NamingPattern[Context];
+        protected ProcessContract            processInfo        => ProcessInfo[Context];
+        protected ITableInfo                 tableInfo          => TableInfo[Context];
+        protected TableNamingPatternContract tableNamingPattern => TableNamingPattern[Context];
         #endregion
     }
 
@@ -34,64 +35,52 @@ namespace BOA.EntityGeneration
         #endregion
 
         #region Public Methods
-        public static void AttachEvents(IDataContext context)
+        public void AttachEvents()
         {
-            context.AttachEvent(SchemaExportStarted, InitializeOutput);
-            context.AttachEvent(SchemaExportStarted, WriteUsingList);
-            context.AttachEvent(SchemaExportStarted, EmptyLine);
-            context.AttachEvent(SchemaExportStarted, BeginNamespace);
+            AttachEvent(SchemaExportStarted, InitializeOutput);
+            AttachEvent(SchemaExportStarted, WriteUsingList);
+            AttachEvent(SchemaExportStarted, EmptyLine);
+            AttachEvent(SchemaExportStarted, BeginNamespace);
 
-            context.AttachEvent(TableExportStarted, WriteClass);
+            AttachEvent(TableExportStarted, WriteClass);
 
-            context.AttachEvent(SchemaExportFinished, EndNamespace);
-            context.AttachEvent(SchemaExportFinished, ExportFileToDirectory);
+            AttachEvent(SchemaExportFinished, EndNamespace);
+            AttachEvent(SchemaExportFinished, ExportFileToDirectory);
         }
         #endregion
 
         #region Methods
-        static void BeginNamespace(IDataContext context)
+        void BeginNamespace()
         {
-            var file          = File[context];
-            var namingPattern = NamingPattern[context];
-
             file.BeginNamespace(namingPattern.EntityNamespace);
         }
 
-        static void EmptyLine(IDataContext context)
+        void EmptyLine()
         {
-            File[context].AppendLine();
+            file.AppendLine();
         }
 
-        static void EndNamespace(IDataContext context)
+        void EndNamespace()
         {
-            File[context].EndNamespace();
+            file.EndNamespace();
         }
 
-        static void ExportFileToDirectory(IDataContext context)
+        void ExportFileToDirectory()
         {
-            var file          = File[context];
-            var namingPattern = NamingPattern[context];
-            var processInfo   = ProcessInfo[context];
-
             processInfo.Text = "Exporting Entity classes.";
 
             var filePath = namingPattern.EntityProjectDirectory + "All.cs";
 
-            FileSystem.WriteAllText(context, filePath, file.ToString());
+            FileSystem.WriteAllText(Context, filePath, file.ToString());
         }
 
-        static void InitializeOutput(IDataContext context)
+        void InitializeOutput()
         {
-            File[context] = new PaddedStringBuilder();
+            File[Context] = new PaddedStringBuilder();
         }
 
-        static void WriteClass(IDataContext context)
+        void WriteClass()
         {
-            var file               = File[context];
-            var config             = Config[context];
-            var tableInfo          = TableInfo[context];
-            var tableNamingPattern = TableNamingPattern[context];
-
             ContractCommentInfoCreator.Write(file, tableInfo);
 
             var inheritancePart = string.Empty;
@@ -118,11 +107,8 @@ namespace BOA.EntityGeneration
             file.CloseBracket(); // end of class
         }
 
-        static void WriteUsingList(IDataContext context)
+        void WriteUsingList()
         {
-            var file          = File[context];
-            var namingPattern = NamingPattern[context];
-
             foreach (var line in namingPattern.EntityUsingLines)
             {
                 file.AppendLine(line);

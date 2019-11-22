@@ -1,15 +1,33 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.CustomSQLExporting.Models;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    static class EntityFileExporter
+    class ContextContainer : BOA.DataFlow.ContextContainer
+    {
+        #region Properties
+        protected CustomSqlInfo                  customSqlInfo            => Data.CustomSqlInfo[Context];
+        protected CustomSqlNamingPatternContract customSqlNamingPattern   => Data.CustomSqlNamingPattern[Context];
+        protected List<string>                   entityAssemblyReferences => Data.EntityAssemblyReferences[Context];
+        protected ProcessContract                processInfo              => Data.ProcessInfo[Context];
+        protected ProfileNamingPatternContract   profileNamingPattern     => Data.ProfileNamingPattern[Context];
+        #endregion
+    }
+
+    class EntityFileExporter : ContextContainer
     {
         #region Static Fields
         static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
+        #endregion
+
+        #region Properties
+        PaddedStringBuilder sb => File[Context];
         #endregion
 
         #region Public Methods
