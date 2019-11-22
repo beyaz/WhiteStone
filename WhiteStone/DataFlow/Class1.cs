@@ -187,6 +187,33 @@ namespace BOA.DataFlow
         #endregion
     }
 
+    public interface IContextContainer
+    {
+        IDataContext Context { get; set; }
+        T Create<T>() where T : IContextContainer, new();
+
+    }
+    public class ContextContainer:IContextContainer
+    {
+        public IDataContext Context { get; set; }
+        public T Create<T>() where T : IContextContainer, new()
+        {
+            return new T {Context = this.Context};
+        }
+
+
+        protected void AttachEvent(IEvent @event, Action action)
+        {
+            Context.AttachEvent(@event,(c)=>c.OpenBracket());
+        }
+
+        /// <summary>
+        ///     Detaches the event.
+        /// </summary>
+        // void DetachEvent(IEvent @event, Action<IDataContext> action);
+    }
+
+
     /// <summary>
     ///     The data not found exception
     /// </summary>

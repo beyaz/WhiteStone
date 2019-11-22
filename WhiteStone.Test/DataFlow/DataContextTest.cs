@@ -4,20 +4,56 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.DataFlow
 {
+    class Container_0:ContextContainer
+    {
+        public string data_bracket_0_0 => Context.Get(DataContextTest.data_bracket_0_0);
+    }
+
+    class Container_1:Container_0
+    {
+        public string data_bracket_1_0 => Context.Get(DataContextTest.data_bracket_1_0);
+        public string data_bracket_1_1 => Context.Get(DataContextTest.data_bracket_1_1);
+    }
+
     [TestClass]
     public class DataContextTest
     {
         #region Public Methods
 
-        static readonly IDataConstant<string> data_bracket_0_0 = DataConstant.Create<string>();
+        public static readonly IDataConstant<string> data_bracket_0_0 = DataConstant.Create<string>();
 
-        static readonly IDataConstant<string> data_bracket_1_0 = DataConstant.Create<string>();
-        static readonly IDataConstant<string> data_bracket_1_1 = DataConstant.Create<string>();
+        public static readonly IDataConstant<string> data_bracket_1_0 = DataConstant.Create<string>();
+        public static readonly IDataConstant<string> data_bracket_1_1 = DataConstant.Create<string>();
 
-        static readonly IDataConstant<string> data_bracket_2_0 = DataConstant.Create<string>();
-        static readonly IDataConstant<string> data_bracket_2_1 = DataConstant.Create<string>();
-        static readonly IDataConstant<string> data_bracket_2_2 = DataConstant.Create<string>();
+        public static readonly IDataConstant<string> data_bracket_2_0 = DataConstant.Create<string>();
+        public static readonly IDataConstant<string> data_bracket_2_1 = DataConstant.Create<string>();
+        public static readonly IDataConstant<string> data_bracket_2_2 = DataConstant.Create<string>();
 
+        public static readonly IEvent Started = new Event {Name = nameof(Started)};
+        public static readonly IEvent Finished = new Event {Name = nameof(Finished)};
+
+       
+        [TestMethod]
+        public void Should_transfer_context()
+        {
+            IDataContext context = new DataContext();
+
+            data_bracket_0_0[context] = "A";
+
+            context.OpenBracket();
+            data_bracket_1_0[context] = "B";
+            data_bracket_1_1[context] = "C";
+
+            data_bracket_0_0[context].Should().Be("A");
+            data_bracket_1_0[context].Should().Be("B");
+            data_bracket_1_1[context].Should().Be("C");
+
+            var container0 = new Container_0 {Context = context};
+            container0.Create<Container_1>().data_bracket_0_0.Should().Be("A");
+            container0.Create<Container_1>().data_bracket_1_0.Should().Be("B");
+            container0.Create<Container_1>().data_bracket_1_1.Should().Be("C");
+
+        }
         
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]

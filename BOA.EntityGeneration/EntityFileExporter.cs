@@ -1,6 +1,9 @@
 ﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.Models.Interfaces;
+using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using static BOA.EntityGeneration.DataFlow.Data;
 using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
@@ -10,10 +13,24 @@ using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
 namespace BOA.EntityGeneration
 {
-    static class EntityFileExporter
+    class ContextContainer : BOA.DataFlow.ContextContainer
+    {
+        #region Properties
+        protected ConfigContract        config        => Config[Context];
+        protected NamingPatternContract namingPattern => NamingPattern[Context];
+        protected ProcessContract processInfo => ProcessInfo[Context];
+        protected ITableInfo tableInfo => TableInfo[Context];
+        #endregion
+    }
+
+    class EntityFileExporter : ContextContainer
     {
         #region Static Fields
         static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
+        #endregion
+
+        #region Properties
+        PaddedStringBuilder file => File[Context];
         #endregion
 
         #region Public Methods
