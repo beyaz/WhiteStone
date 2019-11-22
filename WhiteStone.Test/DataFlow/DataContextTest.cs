@@ -53,6 +53,8 @@ namespace BOA.DataFlow
             container0.Create<Container_1>().data_bracket_1_0.Should().Be("B");
             container0.Create<Container_1>().data_bracket_1_1.Should().Be("C");
 
+            
+
         }
         
         [TestMethod]
