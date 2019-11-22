@@ -1,25 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.CustomSQLExporting.Models;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    class ContextContainer : BOA.DataFlow.ContextContainer
-    {
-        #region Properties
-        protected CustomSqlInfo                  customSqlInfo            => Data.CustomSqlInfo[Context];
-        protected CustomSqlNamingPatternContract customSqlNamingPattern   => Data.CustomSqlNamingPattern[Context];
-        protected List<string>                   entityAssemblyReferences => Data.EntityAssemblyReferences[Context];
-        protected ProcessContract                processInfo              => Data.ProcessInfo[Context];
-        protected ProfileNamingPatternContract   profileNamingPattern     => Data.ProfileNamingPattern[Context];
-        #endregion
-    }
-
     class EntityFileExporter : ContextContainer
     {
         #region Static Fields
@@ -31,24 +17,21 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #endregion
 
         #region Public Methods
-        public static void AttachEvents(IDataContext context)
+        public void AttachEvents()
         {
-            context.AttachEvent(OnProfileInfoInitialized, InitializeOutput);
-            context.AttachEvent(OnProfileInfoInitialized, BeginNamespace);
+            AttachEvent(OnProfileInfoInitialized, InitializeOutput);
+            AttachEvent(OnProfileInfoInitialized, BeginNamespace);
 
-            context.AttachEvent(OnCustomSqlInfoInitialized, WriteSqlInputOutputTypes);
+            AttachEvent(OnCustomSqlInfoInitialized, WriteSqlInputOutputTypes);
 
-            context.AttachEvent(OnProfileInfoRemove, EndNamespace);
-            context.AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
+            AttachEvent(OnProfileInfoRemove, EndNamespace);
+            AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
         }
         #endregion
 
         #region Methods
-        static void BeginNamespace(IDataContext context)
+        void BeginNamespace()
         {
-            var sb                   = File[context];
-            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
-
             sb.AppendLine("using BOA.Common.Types;");
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
@@ -66,40 +49,30 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("}");
         }
 
-        static void EndNamespace(IDataContext context)
+        void EndNamespace()
         {
-            var sb = File[context];
             sb.CloseBracket();
         }
 
-        static void ExportFileToDirectory(IDataContext context)
+        void ExportFileToDirectory()
         {
-            var sb                   = File[context];
-            var profileNamingPattern = context.Get(Data.ProfileNamingPattern);
-
-            var processInfo = context.Get(Data.ProcessInfo);
-
             processInfo.Text = "Exporting Entity classes.";
 
             var filePath = profileNamingPattern.EntityProjectDirectory + "All.cs";
 
-            FileSystem.WriteAllText(context, filePath, sb.ToString());
+            FileSystem.WriteAllText(Context, filePath, sb.ToString());
         }
 
-        static void InitializeOutput(IDataContext context)
+        void InitializeOutput()
         {
-            File[context] = new PaddedStringBuilder();
+            File[Context] = new PaddedStringBuilder();
         }
 
-        static void WriteSqlInputOutputTypes(IDataContext context)
+        void WriteSqlInputOutputTypes()
         {
-            var sb                     = File[context];
-            var customSqlInfo          = context.Get(Data.CustomSqlInfo);
-            var customSqlNamingPattern = context.Get(Data.CustomSqlNamingPattern);
-
             if (customSqlInfo.ResultColumns.Any(r => r.IsReferenceToEntity))
             {
-                Data.EntityAssemblyReferences[context].Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
+                entityAssemblyReferences.Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
             }
 
             var resultContractName = customSqlNamingPattern.ResultClassName;

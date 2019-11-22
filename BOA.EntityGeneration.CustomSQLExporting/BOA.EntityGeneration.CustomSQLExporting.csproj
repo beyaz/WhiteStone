@@ -48,6 +48,7 @@
     <Compile Include="CustomSqlNamingPatternContract.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="Exporters\BoaRepositoryFileExporter.cs" />
+    <Compile Include="Exporters\ContextContainer.cs" />
     <Compile Include="Exporters\CustomSqlDataContextCreator.cs" />
     <Compile Include="Exporters\SharedFileExporter.cs" />
     <Compile Include="Exporters\EntityFileExporter.cs" />

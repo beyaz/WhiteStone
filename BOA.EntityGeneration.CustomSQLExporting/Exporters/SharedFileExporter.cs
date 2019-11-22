@@ -10,7 +10,7 @@ using static BOA.EntityGeneration.CustomSQLExporting.Data;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    public static class SharedFileExporter
+     class SharedFileExporter:ContextContainer
     {
         #region Static Fields
         static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
