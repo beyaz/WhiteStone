@@ -63,7 +63,6 @@
     <Compile Include="SharedRepositoryFileExporting\SharedFileExporter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\SelectAllByValidFlagMethodWriter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\SelectAllMethodWriter.cs" />
-    <Compile Include="BoaRepositoryFileExporting\MethodWriters\SelectByKeyMethodWriter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\InsertMethodWriter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\UpdateByKeyMethodWriter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\SelectByIndexMethodWriter.cs" />

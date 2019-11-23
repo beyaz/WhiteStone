@@ -14,6 +14,33 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
     class BoaRepositoryFileExporter:ContextContainer
     {
 
+        void WriteSelectByKeyMethod()
+        {
+            var typeContractName = tableEntityClassNameForMethodParametersInRepositoryFiles;
+            var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
+
+            var callerMemberPath = $"{namingPattern.RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByKey";
+
+            var parameterPart = string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+
+            file.AppendLine();
+            file.AppendLine("/// <summary>");
+            file.AppendLine($"///{Padding.ForComment} Selects record by primary keys.");
+            file.AppendLine("/// </summary>");
+            file.AppendLine($"public GenericResponse<{typeContractName}> SelectByKey({parameterPart})");
+            file.AppendLine("{");
+            file.PaddingCount++;
+
+            file.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.SelectByKey({string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+            file.AppendLine();
+            file.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            file.AppendLine();
+            file.AppendLine($"return this.ExecuteReaderToContract<{typeContractName}>(CallerMemberPath, sqlInfo, {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.ReadContract);");
+
+            file.PaddingCount--;
+            file.AppendLine("}");
+        }
+
 
         void WriteDeleteByKeyMethod()
         {
@@ -141,7 +168,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
             if (tableInfo.IsSupportSelectByKey)
             {
                 file.AppendLine();
-                SelectByKeyMethodWriter.Write(context);
+                WriteSelectByKeyMethod();
             }
             #endregion
 
