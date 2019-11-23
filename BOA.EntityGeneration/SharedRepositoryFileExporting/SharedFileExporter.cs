@@ -6,6 +6,7 @@ using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters;
+using BOA.EntityGeneration.Util;
 using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
 using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 
@@ -66,6 +67,40 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             File[Context] = new PaddedStringBuilder();
         }
 
+
+         void WriteUpdateByPrimaryKeyMethod()
+         {
+             var typeContractName = tableEntityClassNameForMethodParametersInRepositoryFiles;
+
+            var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
+
+            var sqlParameters = updateInfo.SqlParameters;
+
+            file.AppendLine($"public static SqlInfo Update({typeContractName} contract)");
+            file.OpenBracket();
+
+            file.AppendLine("const string sql = @\"");
+            file.AppendAll(updateInfo.Sql);
+            file.AppendLine();
+            file.AppendLine("\";");
+            file.AppendLine();
+
+            file.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
+
+            if (sqlParameters.Any())
+            {
+                file.AppendLine();
+                foreach (var columnInfo in sqlParameters)
+                {
+                    file.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlUpdate(columnInfo)});");
+                }
+            }
+
+            file.AppendLine();
+            file.AppendLine("return sqlInfo;");
+
+            file.CloseBracket();
+        }
         void WriteClass()
         {
 
@@ -80,7 +115,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
                 file.AppendLine();
                 WriteSelectByKeyMethod();
 
-                UpdateByPrimaryKeyMethodWriter.Write(Context);
+                WriteUpdateByPrimaryKeyMethod();
             }
 
             SelectByIndexMethodWriter.Write(Context);

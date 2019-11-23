@@ -21,6 +21,8 @@ namespace BOA.EntityGeneration
         protected ProcessContract            processInfo        => ProcessInfo[Context];
         protected ITableInfo                 tableInfo          => TableInfo[Context];
         protected TableNamingPatternContract tableNamingPattern => TableNamingPattern[Context];
+        protected string tableEntityClassNameForMethodParametersInRepositoryFiles => TableEntityClassNameForMethodParametersInRepositoryFiles[Context];
+        
         #endregion
     }
 
