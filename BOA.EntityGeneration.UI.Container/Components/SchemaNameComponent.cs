@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Windows;
 using WpfControls;
 using static BOA.EntityGeneration.UI.Container.App;
 using static BOA.EntityGeneration.UI.Container.Data;
@@ -12,6 +13,7 @@ namespace BOA.EntityGeneration.UI.Container.Components
         #region Constructors
         public SchemaNameComponent()
         {
+            
             Provider = new SuggestionProvider();
         }
         #endregion
