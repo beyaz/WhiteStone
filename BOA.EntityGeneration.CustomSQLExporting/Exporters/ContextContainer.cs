@@ -5,7 +5,7 @@ using BOA.EntityGeneration.CustomSQLExporting.Models;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-     class ContextContainer : BOA.DataFlow.ContextContainer
+    class ContextContainer : BOA.DataFlow.ContextContainer
     {
         #region Properties
         protected CustomSqlInfo customSqlInfo
@@ -13,20 +13,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             get { return Data.CustomSqlInfo[Context]; }
             set { Data.CustomSqlInfo[Context] = value; }
         }
-        protected CustomSqlNamingPatternContract customSqlNamingPattern   => Data.CustomSqlNamingPattern[Context];
-        protected List<string>                   entityAssemblyReferences => Data.EntityAssemblyReferences[Context];
-        protected ProcessContract                processInfo              => Data.ProcessInfo[Context];
-        protected ProfileNamingPatternContract   profileNamingPattern     => Data.ProfileNamingPattern[Context];
 
-        protected List<string> repositoryAssemblyReferenceList => Data.RepositoryAssemblyReferences[Context];
-
-        protected List<string> repositoryAssemblyReferences => Data.RepositoryAssemblyReferences[Context];
-
-
-        protected MsBuildQueue MsBuildQueue => Context.Get(BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters.MsBuildQueue.MsBuildQueueId);
-
-        protected List<string> repositoryAssemblyReference => Data.RepositoryAssemblyReferences[Context];
-
+        protected CustomSqlNamingPatternContract customSqlNamingPattern          => Data.CustomSqlNamingPattern[Context];
+        protected List<string>                   entityAssemblyReferences        => Data.EntityAssemblyReferences[Context];
+        protected MsBuildQueue                   MsBuildQueue                    => Context.Get(MsBuildQueue.MsBuildQueueId);
+        protected ProcessContract                processInfo                     => Data.ProcessInfo[Context];
+        protected ProfileNamingPatternContract   profileNamingPattern            => Data.ProfileNamingPattern[Context];
+        protected List<string>                   repositoryAssemblyReference     => Data.RepositoryAssemblyReferences[Context];
+        protected List<string>                   repositoryAssemblyReferenceList => Data.RepositoryAssemblyReferences[Context];
+        protected List<string>                   repositoryAssemblyReferences    => Data.RepositoryAssemblyReferences[Context];
         #endregion
     }
 }

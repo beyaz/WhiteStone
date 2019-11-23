@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.CsprojFileExporters
     class RepositoryCsprojFileExporter
     {
         #region Public Methods
-        public static void Export(IDataContext context)
+        public static void Export(IContext context)
         {
             var schemaName    = context.Get(Data.SchemaName);
             var namingPattern = context.Get(NamingPatternContract.NamingPattern);

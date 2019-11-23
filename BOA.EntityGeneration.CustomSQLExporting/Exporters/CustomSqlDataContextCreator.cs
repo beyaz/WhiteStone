@@ -12,9 +12,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     public sealed class CustomSqlDataContextCreator
     {
         #region Public Methods
-        public IDataContext Create()
+        public IContext Create()
         {
-            var context = new DataContext();
+            var context = new Context();
 
             InitProcessInfo(context);
             InitializeConfig(context);
@@ -28,7 +28,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #endregion
 
         #region Methods
-        static void AttachEvents(IDataContext context)
+        static void AttachEvents(IContext context)
         {
             new EntityFileExporter {Context = context}.AttachEvents();
             new SharedFileExporter {Context = context}.AttachEvents();
@@ -37,21 +37,21 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             new RepositoryCsprojFileExporter {Context = context}.AttachEvents();
         }
 
-        static void InitializeConfig(IDataContext context)
+        static void InitializeConfig(IContext context)
         {
             var configFilePath = Path.GetDirectoryName(typeof(CustomSqlDataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
 
             Config[context] = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(configFilePath));
         }
 
-        static void InitializeDatabaseConnection(IDataContext context)
+        static void InitializeDatabaseConnection(IContext context)
         {
             var connectionString = Config[context].ConnectionString;
 
             Data.Database[context] = new SqlDatabase(connectionString) {CommandTimeout = 1000 * 60 * 60};
         }
 
-        static void InitProcessInfo(IDataContext context)
+        static void InitProcessInfo(IContext context)
         {
             var processContract = new ProcessContract();
 

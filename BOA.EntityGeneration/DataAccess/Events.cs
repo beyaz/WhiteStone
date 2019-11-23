@@ -8,7 +8,7 @@ namespace BOA.EntityGeneration.DataAccess
     public static class Events
     {
         #region Public Methods
-        public static void OnSchemaStartedToExport(IDataContext context)
+        public static void OnSchemaStartedToExport(IContext context)
         {
             var database   = context.Get(Data.Database);
             var progress   = context.Get(Data.ProcessInfo);

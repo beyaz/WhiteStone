@@ -16,12 +16,12 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         #endregion
 
         #region Static Fields
-        static readonly IDataConstant<PaddedStringBuilder> EntityFileTemp           = DataConstant.Create<PaddedStringBuilder>();
-        static readonly IDataConstant<PaddedStringBuilder> SharedRepositoryFileTemp = DataConstant.Create<PaddedStringBuilder>();
+        static readonly IProperty<PaddedStringBuilder> EntityFileTemp           = Property.Create<PaddedStringBuilder>();
+        static readonly IProperty<PaddedStringBuilder> SharedRepositoryFileTemp = Property.Create<PaddedStringBuilder>();
         #endregion
 
         #region Fields
-        IDataContext context;
+        IContext context;
         #endregion
 
         #region Public Methods
@@ -61,7 +61,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         #endregion
 
         #region Methods
-        static void HoldSomeDataForCheckingTestResults(IDataContext context)
+        static void HoldSomeDataForCheckingTestResults(IContext context)
         {
             // TODO:fixme: context.Add(EntityFileTemp, context.Get(EntityFileExporter.File));
             // context.Add(SharedRepositoryFileTemp, context.Get(SharedFileExporter.File));

@@ -20,14 +20,14 @@ namespace BOA.DataFlow
     {
         #region Public Methods
 
-        public static readonly IDataConstant<string> data_bracket_0_0 = DataConstant.Create<string>();
+        public static readonly IProperty<string> data_bracket_0_0 = Property.Create<string>();
 
-        public static readonly IDataConstant<string> data_bracket_1_0 = DataConstant.Create<string>();
-        public static readonly IDataConstant<string> data_bracket_1_1 = DataConstant.Create<string>();
+        public static readonly IProperty<string> data_bracket_1_0 = Property.Create<string>();
+        public static readonly IProperty<string> data_bracket_1_1 = Property.Create<string>();
 
-        public static readonly IDataConstant<string> data_bracket_2_0 = DataConstant.Create<string>();
-        public static readonly IDataConstant<string> data_bracket_2_1 = DataConstant.Create<string>();
-        public static readonly IDataConstant<string> data_bracket_2_2 = DataConstant.Create<string>();
+        public static readonly IProperty<string> data_bracket_2_0 = Property.Create<string>();
+        public static readonly IProperty<string> data_bracket_2_1 = Property.Create<string>();
+        public static readonly IProperty<string> data_bracket_2_2 = Property.Create<string>();
 
         public static readonly IEvent Started = new Event {Name = nameof(Started)};
         public static readonly IEvent Finished = new Event {Name = nameof(Finished)};
@@ -36,7 +36,7 @@ namespace BOA.DataFlow
         [TestMethod]
         public void Should_transfer_context()
         {
-            IDataContext context = new DataContext();
+            IContext context = new Context();
 
             data_bracket_0_0[context] = "A";
 
@@ -61,7 +61,7 @@ namespace BOA.DataFlow
         [ExpectedException(typeof(InvalidOperationException))]
         public void Throw_Error_When_Brackets_Is_Not_Matched()
         {
-            IDataContext context = new DataContext();
+            IContext context = new Context();
             context.OpenBracket();
             context.OpenBracket();
             context.OpenBracket();
@@ -77,7 +77,7 @@ namespace BOA.DataFlow
         [TestMethod]
         public void Brackets_Should_Match()
         {
-            IDataContext context = new DataContext();
+            IContext context = new Context();
             context.OpenBracket();
             context.OpenBracket();
             context.OpenBracket();
@@ -93,7 +93,7 @@ namespace BOA.DataFlow
         {
             
 
-            IDataContext context = new DataContext();
+            IContext context = new Context();
 
             data_bracket_0_0[context] = "A";
 

@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.UI.MainForm
         #endregion
 
         #region Fields
-        IDataContext context;
+        IContext context;
         #endregion
 
         #region Public Methods

@@ -19,9 +19,9 @@ namespace BOA.EntityGeneration.Exporters
     public  class EntityGenerationDataContextCreator
     {
         #region Public Methods
-        public static IDataContext Create()
+        public static IContext Create()
         {
-            var context = new DataContext();
+            var context = new Context();
 
             InitializeServices(context);
 
@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.Exporters
         #endregion
 
         #region Methods
-        static void AttachEvents(IDataContext context)
+        static void AttachEvents(IContext context)
         {
             context.AttachEvent(TableExportStarted, TableNamingPatternInitializer.Initialize);
 
@@ -48,12 +48,12 @@ namespace BOA.EntityGeneration.Exporters
             context.AttachEvent(SchemaExportStarted, MsBuildQueue.Build);
         }
 
-        static void InitializeBuildQueue(IDataContext context)
+        static void InitializeBuildQueue(IContext context)
         {
             context.Add(MsBuildQueue.MsBuildQueueId, new MsBuildQueue());
         }
 
-        static void InitializeConfig(IDataContext context, string configFilePath = null)
+        static void InitializeConfig(IContext context, string configFilePath = null)
         {
             if (configFilePath == null)
             {
@@ -63,21 +63,21 @@ namespace BOA.EntityGeneration.Exporters
             context.Add(Config, JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(configFilePath)));
         }
 
-        static void InitializeDatabase(IDataContext context)
+        static void InitializeDatabase(IContext context)
         {
             var config = Config[context];
 
             context.Add(Data.Database, new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60});
         }
 
-        static void InitializeProcessInfo(IDataContext context)
+        static void InitializeProcessInfo(IContext context)
         {
             var processContract = new ProcessContract();
             context.Add(ProcessInfo, processContract);
             context.Add(MsBuildQueue.ProcessInfo, processContract);
         }
 
-        static void InitializeServices(IDataContext context)
+        static void InitializeServices(IContext context)
         {
             InitializeConfig(context);
             InitializeDatabase(context);

@@ -7,21 +7,21 @@ namespace BOA.EntityGeneration.UI.Container
     static class Data
     {
         #region Static Fields
-        public static IDataConstant<MainWindowModel> Model       = DataConstant.Create<MainWindowModel>(nameof(Model));
-        public static IDataConstant<List<string>>    SchemaNames = DataConstant.Create<List<string>>(nameof(SchemaNames));
+        public static IProperty<MainWindowModel> Model       = Property.Create<MainWindowModel>(nameof(Model));
+        public static IProperty<List<string>>    SchemaNames = Property.Create<List<string>>(nameof(SchemaNames));
         #endregion
     }
 
     public partial class App
     {
         #region Static Fields
-        public static readonly IDataContext Context;
+        public static readonly IContext Context;
         #endregion
 
         #region Constructors
         static App()
         {
-            var context = new DataContext();
+            var context = new Context();
 
             Data.SchemaNames[context] = new List<string>
             {

@@ -12,7 +12,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         PaddedStringBuilder sb => File[Context];
 
         #region Static Fields
-        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(BoaRepositoryFileExporter) + "->" + nameof(File));
+        static readonly IProperty<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(BoaRepositoryFileExporter) + "->" + nameof(File));
         #endregion
 
         #region Public Methods
@@ -172,7 +172,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         PaddedStringBuilder sb => Text[Context];
 
         #region Static Fields
-        public static readonly IDataConstant<PaddedStringBuilder> Text = DataConstant.Create<PaddedStringBuilder>(nameof(CustomSqlClassGenerator) + "->" + nameof(Text));
+        public static readonly IProperty<PaddedStringBuilder> Text = Property.Create<PaddedStringBuilder>(nameof(CustomSqlClassGenerator) + "->" + nameof(Text));
         #endregion
 
         #region Public Methods

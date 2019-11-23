@@ -14,7 +14,7 @@ namespace CustomSqlInjectionToProject.MainForm
     public class Controller : ControllerBase<Model>
     {
         #region Static Fields
-        static IDataContext context;
+        static IContext context;
         static bool         IsFinished;
         #endregion
 

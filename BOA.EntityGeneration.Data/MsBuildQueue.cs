@@ -8,9 +8,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     public class MsBuildQueue
     {
         #region Static Fields
-        public static readonly IDataConstant<bool>            BuildAfterCodeGenerationIsCompleted = DataConstant.Create<bool>(nameof(BuildAfterCodeGenerationIsCompleted));
-        public static readonly IDataConstant<MsBuildQueue>    MsBuildQueueId                      = DataConstant.Create<MsBuildQueue>();
-        public static readonly IDataConstant<ProcessContract> ProcessInfo                         = DataConstant.Create<ProcessContract>(nameof(ProcessInfo));
+        public static readonly IProperty<bool>            BuildAfterCodeGenerationIsCompleted = Property.Create<bool>(nameof(BuildAfterCodeGenerationIsCompleted));
+        public static readonly IProperty<MsBuildQueue>    MsBuildQueueId                      = Property.Create<MsBuildQueue>();
+        public static readonly IProperty<ProcessContract> ProcessInfo                         = Property.Create<ProcessContract>(nameof(ProcessInfo));
         #endregion
 
         #region Fields
@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #endregion
 
         #region Public Methods
-        public static void Build(IDataContext context)
+        public static void Build(IContext context)
         {
             context.Get(MsBuildQueueId).BuildInternal(context);
         }
@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #endregion
 
         #region Methods
-        void BuildInternal(IDataContext context)
+        void BuildInternal(IContext context)
         {
             if (!context.TryGet(BuildAfterCodeGenerationIsCompleted))
             {

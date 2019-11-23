@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.Exporters
         /// <summary>
         ///     Exports the specified schema name.
         /// </summary>
-        public static void Export(IDataContext context, string schemaName)
+        public static void Export(IContext context, string schemaName)
         {
             context.OpenBracket();
 

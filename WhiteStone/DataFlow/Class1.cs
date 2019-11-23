@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace BOA.DataFlow
 {
+   
+
     /// <summary>
     ///     The data constant
     /// </summary>
-    public interface IDataConstant
+    public interface IProperty<TValueType> 
     {
-        #region Public Properties
         /// <summary>
         ///     Gets the identifier.
         /// </summary>
@@ -20,17 +20,9 @@ namespace BOA.DataFlow
         ///     Gets the name.
         /// </summary>
         string Name { get; }
-        #endregion
-    }
 
-    /// <summary>
-    ///     The data constant
-    /// </summary>
-    [SuppressMessage("ReSharper", "UnusedTypeParameter")]
-    public interface IDataConstant<TValueType> : IDataConstant
-    {
         #region Public Indexers
-        TValueType this[IDataContext context] { get; set; }
+        TValueType this[IContext context] { get; set; }
         #endregion
     }
 
@@ -63,13 +55,13 @@ namespace BOA.DataFlow
     /// <summary>
     ///     The data constant
     /// </summary>
-    public class DataConstant<TValueType> : IDataConstant<TValueType>
+    public class Property<TValueType> : IProperty<TValueType>
     {
         #region Constructors
         /// <summary>
-        ///     Initializes a new instance of the <see cref="DataConstant{TValueType}" /> class.
+        ///     Initializes a new instance of the <see cref="Property" /> class.
         /// </summary>
-        internal DataConstant(int id, string name)
+        internal Property(int id, string name)
         {
             Name = name;
             Id   = id.ToString();
@@ -89,7 +81,7 @@ namespace BOA.DataFlow
         #endregion
 
         #region Public Indexers
-        public TValueType this[IDataContext context]
+        public TValueType this[IContext context]
         {
             get { return context.Get(this); }
             set { context.Add(this, value); }
@@ -115,7 +107,7 @@ namespace BOA.DataFlow
     /// <summary>
     ///     The data constant
     /// </summary>
-    public static class DataConstant
+    public static class Property
     {
         #region Static Fields
         /// <summary>
@@ -128,9 +120,9 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Creates this instance.
         /// </summary>
-        public static DataConstant<TValueType> Create<TValueType>(string name = null)
+        public static Property<TValueType> Create<TValueType>(string name = null)
         {
-            return new DataConstant<TValueType>(Id++, name);
+            return new Property<TValueType>(Id++, name);
         }
         #endregion
     }
@@ -138,7 +130,7 @@ namespace BOA.DataFlow
     /// <summary>
     ///     The data context
     /// </summary>
-    public interface IDataContext
+    public interface IContext
     {
         void OpenBracket();
         void CloseBracket();
@@ -153,17 +145,17 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Adds the specified data constant.
         /// </summary>
-        void Add<T>(IDataConstant<T> dataConstant, T value);
+        void Add<T>(IProperty<T> property, T value);
 
         /// <summary>
         ///     Attaches the event.
         /// </summary>
-        void AttachEvent(IEvent @event, Action<IDataContext> action);
+        void AttachEvent(IEvent @event, Action<IContext> action);
 
         /// <summary>
         ///     Detaches the event.
         /// </summary>
-        void DetachEvent(IEvent @event, Action<IDataContext> action);
+        void DetachEvent(IEvent @event, Action<IContext> action);
 
         /// <summary>
         ///     Fires the event.
@@ -173,29 +165,29 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Gets the specified data constant.
         /// </summary>
-        T Get<T>(IDataConstant<T> dataConstant);
+        T Get<T>(IProperty<T> property);
 
         /// <summary>
         ///     Removes the specified data constant.
         /// </summary>
-        void Remove(IDataConstant dataConstant);
+        void Remove<T>(IProperty<T> property);
 
         /// <summary>
         ///     Tries the get.
         /// </summary>
-        T TryGet<T>(IDataConstant<T> dataConstant);
+        T TryGet<T>(IProperty<T> property);
         #endregion
     }
 
     public interface IContextContainer
     {
-        IDataContext Context { get; set; }
+        IContext Context { get; set; }
         T Create<T>() where T : IContextContainer, new();
 
     }
     public class ContextContainer:IContextContainer
     {
-        public IDataContext Context { get; set; }
+        public IContext Context { get; set; }
 
         public T Create<T>() where T : IContextContainer, new()
         {
@@ -220,17 +212,13 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Initializes a new instance of the <see cref="DataNotFoundException" /> class.
         /// </summary>
-        public DataNotFoundException(IDataConstant dataConstant) : base(dataConstant.ToString())
+        public DataNotFoundException(string message) : base(message)
         {
-            DataConstant = dataConstant;
         }
         #endregion
 
         #region Public Properties
-        /// <summary>
-        ///     Gets the data constant.
-        /// </summary>
-        public IDataConstant DataConstant { get; }
+       
         #endregion
     }
 
@@ -243,24 +231,20 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Initializes a new instance of the <see cref="DataShouldRemoveBeforeSetException" /> class.
         /// </summary>
-        public DataShouldRemoveBeforeSetException(IDataConstant dataConstant) : base(dataConstant.Id)
+        public DataShouldRemoveBeforeSetException(string message) : base(message)
         {
-            DataConstant = dataConstant;
         }
         #endregion
 
         #region Public Properties
-        /// <summary>
-        ///     Gets the data constant.
-        /// </summary>
-        public IDataConstant DataConstant { get; }
+        
         #endregion
     }
 
     /// <summary>
     ///     The data context
     /// </summary>
-    public class DataContext : IDataContext
+    public class Context : IContext
     {
         #region Fields
         /// <summary>
@@ -271,7 +255,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     The subscribers
         /// </summary>
-        readonly Dictionary<string, List<Action<IDataContext>>> Subscribers = new Dictionary<string, List<Action<IDataContext>>>();
+        readonly Dictionary<string, List<Action<IContext>>> Subscribers = new Dictionary<string, List<Action<IContext>>>();
 
         int bracketIndex;
         #endregion
@@ -290,23 +274,23 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Adds the specified data constant.
         /// </summary>
-        public void Add<T>(IDataConstant<T> dataConstant, T value)
+        public void Add<T>(IProperty<T> property, T value)
         {
             Pair pair = null;
-            if (dictionary.TryGetValue(dataConstant.Id, out pair))
+            if (dictionary.TryGetValue(property.Id, out pair))
             {
-                throw new DataShouldRemoveBeforeSetException(dataConstant);
+                throw new DataShouldRemoveBeforeSetException(property.ToString());
             }
 
-            dictionary[dataConstant.Id] = new Pair(dataConstant.Id, bracketIndex, value);
+            dictionary[property.Id] = new Pair(property.Id, bracketIndex, value);
         }
 
         /// <summary>
         ///     Attaches the event.
         /// </summary>
-        public void AttachEvent(IEvent @event, Action<IDataContext> action)
+        public void AttachEvent(IEvent @event, Action<IContext> action)
         {
-            List<Action<IDataContext>> actions = null;
+            List<Action<IContext>> actions = null;
 
             if (Subscribers.TryGetValue(@event.Name, out actions))
             {
@@ -314,7 +298,7 @@ namespace BOA.DataFlow
                 return;
             }
 
-            Subscribers[@event.Name] = new List<Action<IDataContext>> {action};
+            Subscribers[@event.Name] = new List<Action<IContext>> {action};
         }
 
         public void CloseBracket()
@@ -337,9 +321,9 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Detaches the event.
         /// </summary>
-        public void DetachEvent(IEvent @event, Action<IDataContext> action)
+        public void DetachEvent(IEvent @event, Action<IContext> action)
         {
-            List<Action<IDataContext>> actions = null;
+            List<Action<IContext>> actions = null;
 
             if (!Subscribers.TryGetValue(@event.Name, out actions))
             {
@@ -354,7 +338,7 @@ namespace BOA.DataFlow
         /// </summary>
         public void FireEvent(IEvent @event)
         {
-            List<Action<IDataContext>> actions = null;
+            List<Action<IContext>> actions = null;
 
             if (!Subscribers.TryGetValue(@event.Name, out actions))
             {
@@ -370,15 +354,15 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Gets the specified data constant.
         /// </summary>
-        public T Get<T>(IDataConstant<T> dataConstant)
+        public T Get<T>(IProperty<T> property)
         {
             Pair pair = null;
-            if (dictionary.TryGetValue(dataConstant.Id, out pair))
+            if (dictionary.TryGetValue(property.Id, out pair))
             {
                 return (T) pair.value;
             }
 
-            throw new DataNotFoundException(dataConstant);
+            throw new DataNotFoundException(property.ToString());
         }
 
         public void OpenBracket()
@@ -389,24 +373,24 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Removes the specified data constant.
         /// </summary>
-        public void Remove(IDataConstant dataConstant)
+        public void Remove<T>(IProperty<T> property)
         {
-            if (dictionary.ContainsKey(dataConstant.Id))
+            if (dictionary.ContainsKey(property.Id))
             {
-                dictionary.Remove(dataConstant.Id);
+                dictionary.Remove(property.Id);
                 return;
             }
 
-            throw new DataNotFoundException(dataConstant);
+            throw new DataNotFoundException(property.ToString());
         }
 
         /// <summary>
         ///     Tries the get.
         /// </summary>
-        public T TryGet<T>(IDataConstant<T> dataConstant)
+        public T TryGet<T>(IProperty<T> property)
         {
             Pair pair = null;
-            if (dictionary.TryGetValue(dataConstant.Id, out pair))
+            if (dictionary.TryGetValue(property.Id, out pair))
             {
                 return (T) pair.value;
             }

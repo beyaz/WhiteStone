@@ -10,7 +10,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters
     static class UpdateByPrimaryKeyMethodWriter
     {
         #region Public Methods
-        public static void Write(IDataContext context)
+        public static void Write(IContext context)
         {
             var file             = File[context];
             var tableInfo        = TableInfo[context];

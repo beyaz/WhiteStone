@@ -6,12 +6,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     public static class FileSystem
     {
         #region Static Fields
-        public static IDataConstant<string> CheckinComment                          = DataConstant.Create<string>();
-        public static IDataConstant<bool>   IntegrateWithTFSAndCheckInAutomatically = DataConstant.Create<bool>();
+        public static IProperty<string> CheckinComment                          = Property.Create<string>();
+        public static IProperty<bool>   IntegrateWithTFSAndCheckInAutomatically = Property.Create<bool>();
         #endregion
 
         #region Public Methods
-        public static void WriteAllText(IDataContext context, string path, string content)
+        public static void WriteAllText(IContext context, string path, string content)
         {
             FileAccessWriteResult fileAccessWriteResult = null;
 

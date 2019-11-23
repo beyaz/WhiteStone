@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
         #endregion
 
         #region Public Methods
-        public static void Write(IDataContext context)
+        public static void Write(IContext context)
         {
             var file               = File[context];
             var tableInfo          = TableInfo[context];

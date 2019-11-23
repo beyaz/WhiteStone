@@ -14,11 +14,11 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
     class SharedFileExporter
     {
         #region Static Fields
-        internal static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
+        internal static readonly IProperty<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(File));
         #endregion
 
         #region Public Methods
-        public static void AttachEvents(IDataContext context)
+        public static void AttachEvents(IContext context)
         {
             context.AttachEvent(SchemaExportStarted, InitializeOutput);
             context.AttachEvent(SchemaExportStarted, WriteUsingList);
@@ -34,7 +34,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         #endregion
 
         #region Methods
-        static void BeginNamespace(IDataContext context)
+        static void BeginNamespace(IContext context)
         {
             var file          = File[context];
             var namingPattern = NamingPattern[context];
@@ -42,17 +42,17 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             file.BeginNamespace(namingPattern.RepositoryNamespace + ".Shared");
         }
 
-        static void EmptyLine(IDataContext context)
+        static void EmptyLine(IContext context)
         {
             File[context].AppendLine();
         }
 
-        static void EndNamespace(IDataContext context)
+        static void EndNamespace(IContext context)
         {
             File[context].EndNamespace();
         }
 
-        static void ExportFileToDirectory(IDataContext context)
+        static void ExportFileToDirectory(IContext context)
         {
             var sourceCode    = File[context].ToString();
             var namingPattern = NamingPattern[context];
@@ -63,12 +63,12 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
         }
 
-        static void InitializeOutput(IDataContext context)
+        static void InitializeOutput(IContext context)
         {
             File[context] = new PaddedStringBuilder();
         }
 
-        static void WriteClass(IDataContext context)
+        static void WriteClass(IContext context)
         {
             var file               = File[context];
             var tableInfo          = TableInfo[context];
@@ -104,7 +104,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             file.CloseBracket();
         }
 
-        static void WriteEmbeddedClasses(IDataContext context)
+        static void WriteEmbeddedClasses(IContext context)
         {
             var file = File[context];
 
@@ -114,7 +114,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             file.AppendLine();
         }
 
-        static void WriteUsingList(IDataContext context)
+        static void WriteUsingList(IContext context)
         {
             var file          = File[context];
             var namingPattern = NamingPattern[context];

@@ -27,7 +27,7 @@ namespace BOA.EntityGeneration
     class EntityFileExporter : ContextContainer
     {
         #region Static Fields
-        static readonly IDataConstant<PaddedStringBuilder> File = DataConstant.Create<PaddedStringBuilder>(nameof(File));
+        static readonly IProperty<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(File));
         #endregion
 
         #region Properties
