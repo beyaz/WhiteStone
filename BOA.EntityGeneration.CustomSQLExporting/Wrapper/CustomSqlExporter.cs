@@ -5,7 +5,7 @@ using ContextContainer = BOA.EntityGeneration.CustomSQLExporting.Exporters.Conte
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
-     class CustomSqlExporter:ContextContainer
+    class CustomSqlExporter : ContextContainer
     {
         #region Static Fields
         public static readonly IEvent OnCustomSqlInfoInitialized = new Event {Name = nameof(OnCustomSqlInfoInitialized)};
@@ -14,7 +14,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #endregion
 
         #region Public Methods
-        public  void Export( string profileId)
+        public void Export(string profileId)
         {
             var context = Context;
             context.OpenBracket();
@@ -34,7 +34,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #endregion
 
         #region Methods
-         void InitializeProfileInfo()
+        void InitializeProfileInfo()
         {
             var database    = Context.Get(Data.Database);
             var profileName = Context.Get(Data.ProfileName);
@@ -46,7 +46,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             Context.FireEvent(OnProfileInfoInitialized);
         }
 
-         void ProcessCustomSQLsInProfile()
+        void ProcessCustomSQLsInProfile()
         {
             var customSqlNamesInfProfile = Context.Get(Data.CustomSqlNamesInfProfile);
 
@@ -74,12 +74,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             }
         }
 
-         void RemoveProfileInfo()
+        void RemoveProfileInfo()
         {
             Context.FireEvent(OnProfileInfoRemove);
         }
 
-         void WaitTwoSecondForUserCanSeeSuccessMessage()
+        void WaitTwoSecondForUserCanSeeSuccessMessage()
         {
             Thread.Sleep(TimeSpan.FromSeconds(2));
         }
