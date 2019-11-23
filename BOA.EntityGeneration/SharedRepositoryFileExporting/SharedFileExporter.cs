@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.DbModel.Interfaces;
+using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters;
 using BOA.EntityGeneration.Util;
@@ -101,6 +104,52 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 
             file.CloseBracket();
         }
+
+         void WriteSelectByIndexMethods()
+        {
+
+            var allIndexes = new List<IIndexInfo>();
+            allIndexes.AddRange(tableInfo.NonUniqueIndexInfoList);
+            allIndexes.AddRange(tableInfo.UniqueIndexInfoList);
+
+            foreach (var indexIdentifier in allIndexes)
+            {
+                var indexInfo     = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
+                var methodName    = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+                var parameterPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+
+                file.AppendLine();
+                file.AppendLine("/// <summary>");
+                file.AppendLine($"///{Padding.ForComment} Selects records by given parameters.");
+                file.AppendLine("/// </summary>");
+                file.AppendLine($"public static SqlInfo {methodName}({parameterPart})");
+                file.OpenBracket();
+
+                file.AppendLine("const string sql = @\"");
+                file.AppendAll(indexInfo.Sql);
+                file.AppendLine();
+                file.AppendLine("\";");
+                file.AppendLine();
+                file.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
+
+                if (indexInfo.SqlParameters.Any())
+                {
+                    file.AppendLine();
+                    foreach (var columnInfo in indexInfo.SqlParameters)
+                    {
+                        file.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                    }
+                }
+
+                file.AppendLine();
+                file.AppendLine("return sqlInfo;");
+
+                file.CloseBracket();
+            }
+        }
+
+
+
         void WriteClass()
         {
 
@@ -118,7 +167,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
                 WriteUpdateByPrimaryKeyMethod();
             }
 
-            SelectByIndexMethodWriter.Write(Context);
+            WriteSelectByIndexMethods();
 
             SelectAllMethodWriter.Write(Context);
 
