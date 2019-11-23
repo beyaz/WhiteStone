@@ -38,7 +38,7 @@ namespace BOA.EntityGeneration.Exporters
 
             new EntityFileExporter{Context = context}.AttachEvents();
             new SharedFileExporter{Context = context}.AttachEvents();
-            BoaRepositoryFileExporter.AttachEvents(context);
+            new BoaRepositoryFileExporter{Context = context}.AttachEvents();
 
             context.AttachEvent(SchemaExportStarted, Events.OnSchemaStartedToExport);
 
