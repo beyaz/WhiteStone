@@ -5,12 +5,10 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
-using BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters;
 using BOA.EntityGeneration.Util;
 using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
 using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
@@ -20,7 +18,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
     class SharedFileExporter: ContextContainer
     {
         #region Static Fields
-        internal static readonly Property<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(File));
+        static readonly Property<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(File));
         #endregion
 
         PaddedStringBuilder file => File[Context];
@@ -211,13 +209,51 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
                 WriteSelectAllByValidFlagMethod();
             }
 
-            InsertMethodWriter.Write(Context);
+            WriteInsertMethod();
 
             WriteReadContractMethod();
 
             file.CloseBracket();
         }
 
+          void WriteInsertMethod( )
+          {
+              var typeContractName = tableEntityClassNameForMethodParametersInRepositoryFiles;
+
+              var insertInfo = new InsertInfoCreator().Create(tableInfo);
+
+              var sqlParameters = insertInfo.SqlParameters;
+
+              file.AppendLine($"public static SqlInfo Insert({typeContractName} contract)");
+              file.OpenBracket();
+
+              file.AppendLine("const string sql = @\"");
+              file.AppendAll(insertInfo.Sql);
+              file.AppendLine();
+              if (tableInfo.HasIdentityColumn)
+              {
+                  file.AppendLine("SELECT CAST(SCOPE_IDENTITY() AS INT)");
+              }
+
+              file.AppendLine("\";");
+              file.AppendLine();
+
+              file.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
+
+              if (sqlParameters.Any())
+              {
+                  file.AppendLine();
+                  foreach (var columnInfo in sqlParameters)
+                  {
+                      file.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {ParameterHelper.GetValueForSqlInsert(columnInfo)});");
+                  }
+              }
+
+              file.AppendLine();
+              file.AppendLine("return sqlInfo;");
+
+              file.CloseBracket();
+          }
 
           void WriteReadContractMethod()
           {
