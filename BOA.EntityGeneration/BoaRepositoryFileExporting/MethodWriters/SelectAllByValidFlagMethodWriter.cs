@@ -10,7 +10,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting.MethodWriters
     static class SelectAllByValidFlagMethodWriter
     {
         #region Public Methods
-        public static void Write(IContext context)
+        public static void Write(Context context)
         {
             var file               = File[context];
             var tableInfo          = TableInfo[context];

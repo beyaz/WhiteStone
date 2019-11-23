@@ -36,7 +36,7 @@ namespace BOA.DataFlow
         [TestMethod]
         public void Should_transfer_context()
         {
-            IContext context = new Context();
+            var context = new Context();
 
             data_bracket_0_0[context] = "A";
 
@@ -61,7 +61,7 @@ namespace BOA.DataFlow
         [ExpectedException(typeof(InvalidOperationException))]
         public void Throw_Error_When_Brackets_Is_Not_Matched()
         {
-            IContext context = new Context();
+            var context = new Context();
             context.OpenBracket();
             context.OpenBracket();
             context.OpenBracket();
@@ -77,7 +77,7 @@ namespace BOA.DataFlow
         [TestMethod]
         public void Brackets_Should_Match()
         {
-            IContext context = new Context();
+            Context context = new Context();
             context.OpenBracket();
             context.OpenBracket();
             context.OpenBracket();
@@ -93,7 +93,7 @@ namespace BOA.DataFlow
         {
             
 
-            IContext context = new Context();
+            var context = new Context();
 
             data_bracket_0_0[context] = "A";
 

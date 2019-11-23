@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.UI.Container
     public partial class App
     {
         #region Static Fields
-        public static readonly IContext Context;
+        public static readonly Context Context;
         #endregion
 
         #region Constructors

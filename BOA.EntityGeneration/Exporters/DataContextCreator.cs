@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration.Exporters
     public  class EntityGenerationDataContextCreator
     {
         #region Public Methods
-        public static IContext Create()
+        public static Context Create()
         {
             var context = new Context();
 
@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.Exporters
         #endregion
 
         #region Methods
-        static void AttachEvents(IContext context)
+        static void AttachEvents(Context context)
         {
             context.AttachEvent(TableExportStarted, TableNamingPatternInitializer.Initialize);
 
@@ -48,12 +48,12 @@ namespace BOA.EntityGeneration.Exporters
             context.AttachEvent(SchemaExportStarted, MsBuildQueue.Build);
         }
 
-        static void InitializeBuildQueue(IContext context)
+        static void InitializeBuildQueue(Context context)
         {
             context.Add(MsBuildQueue.MsBuildQueueId, new MsBuildQueue());
         }
 
-        static void InitializeConfig(IContext context, string configFilePath = null)
+        static void InitializeConfig(Context context, string configFilePath = null)
         {
             if (configFilePath == null)
             {
@@ -63,21 +63,21 @@ namespace BOA.EntityGeneration.Exporters
             context.Add(Config, JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(configFilePath)));
         }
 
-        static void InitializeDatabase(IContext context)
+        static void InitializeDatabase(Context context)
         {
             var config = Config[context];
 
             context.Add(Data.Database, new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60});
         }
 
-        static void InitializeProcessInfo(IContext context)
+        static void InitializeProcessInfo(Context context)
         {
             var processContract = new ProcessContract();
             context.Add(ProcessInfo, processContract);
             context.Add(MsBuildQueue.ProcessInfo, processContract);
         }
 
-        static void InitializeServices(IContext context)
+        static void InitializeServices(Context context)
         {
             InitializeConfig(context);
             InitializeDatabase(context);

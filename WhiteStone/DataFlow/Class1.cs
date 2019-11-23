@@ -17,7 +17,15 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; internal set; }
+
+        public static Event Create(string name)
+        {
+            return new Event
+            {
+                Name = name
+            };
+        }
         #endregion
     }
 
@@ -50,7 +58,7 @@ namespace BOA.DataFlow
         #endregion
 
         #region Public Indexers
-        public TValueType this[IContext context]
+        public TValueType this[Context context]
         {
             get { return context.Get(this); }
             set { context.Add(this, value); }
@@ -96,71 +104,16 @@ namespace BOA.DataFlow
         #endregion
     }
 
-    /// <summary>
-    ///     The data context
-    /// </summary>
-    public interface IContext
+    
+
+   
+    public class ContextContainer
     {
-        void OpenBracket();
-        void CloseBracket();
-        #region Public Properties
-        /// <summary>
-        ///     Gets a value indicating whether this instance is empty.
-        /// </summary>
-        bool IsEmpty { get; }
-        #endregion
+        public Context Context { get; set; }
 
-        #region Public Methods
-        /// <summary>
-        ///     Adds the specified data constant.
-        /// </summary>
-        void Add<T>(Property<T> property, T value);
-
-        /// <summary>
-        ///     Attaches the event.
-        /// </summary>
-        void AttachEvent(Event @event, Action<IContext> action);
-
-        /// <summary>
-        ///     Detaches the event.
-        /// </summary>
-        void DetachEvent(Event @event, Action<IContext> action);
-
-        /// <summary>
-        ///     Fires the event.
-        /// </summary>
-        void FireEvent(Event @event);
-
-        /// <summary>
-        ///     Gets the specified data constant.
-        /// </summary>
-        T Get<T>(Property<T> property);
-
-        /// <summary>
-        ///     Removes the specified data constant.
-        /// </summary>
-        void Remove<T>(Property<T> property);
-
-        /// <summary>
-        ///     Tries the get.
-        /// </summary>
-        T TryGet<T>(Property<T> property);
-        #endregion
-    }
-
-    public interface IContextContainer
-    {
-        IContext Context { get; set; }
-        T Create<T>() where T : IContextContainer, new();
-
-    }
-    public class ContextContainer:IContextContainer
-    {
-        public IContext Context { get; set; }
-
-        public T Create<T>() where T : IContextContainer, new()
+        public T Create<T>() where T : ContextContainer, new()
         {
-            return new T {Context = this.Context};
+            return new T {Context = Context};
         }
 
 
@@ -213,7 +166,7 @@ namespace BOA.DataFlow
     /// <summary>
     ///     The data context
     /// </summary>
-    public class Context : IContext
+    public class Context 
     {
         #region Fields
         /// <summary>
@@ -224,7 +177,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     The subscribers
         /// </summary>
-        readonly Dictionary<string, List<Action<IContext>>> Subscribers = new Dictionary<string, List<Action<IContext>>>();
+        readonly Dictionary<string, List<Action<Context>>> Subscribers = new Dictionary<string, List<Action<Context>>>();
 
         int bracketIndex;
         #endregion
@@ -257,9 +210,9 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Attaches the event.
         /// </summary>
-        public void AttachEvent(Event @event, Action<IContext> action)
+        public void AttachEvent(Event @event, Action<Context> action)
         {
-            List<Action<IContext>> actions = null;
+            List<Action<Context>> actions = null;
 
             if (Subscribers.TryGetValue(@event.Name, out actions))
             {
@@ -267,7 +220,7 @@ namespace BOA.DataFlow
                 return;
             }
 
-            Subscribers[@event.Name] = new List<Action<IContext>> {action};
+            Subscribers[@event.Name] = new List<Action<Context>> {action};
         }
 
         public void CloseBracket()
@@ -290,9 +243,9 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Detaches the event.
         /// </summary>
-        public void DetachEvent(Event @event, Action<IContext> action)
+        public void DetachEvent(Event @event, Action<Context> action)
         {
-            List<Action<IContext>> actions = null;
+            List<Action<Context>> actions = null;
 
             if (!Subscribers.TryGetValue(@event.Name, out actions))
             {
@@ -307,7 +260,7 @@ namespace BOA.DataFlow
         /// </summary>
         public void FireEvent(Event @event)
         {
-            List<Action<IContext>> actions = null;
+            List<Action<Context>> actions = null;
 
             if (!Subscribers.TryGetValue(@event.Name, out actions))
             {

@@ -8,7 +8,7 @@ namespace BOA.EntityGeneration.CsprojFileExporters
     class EntityCsprojFileExporter
     {
         #region Public Methods
-        public static void Export(IContext context)
+        public static void Export(Context context)
         {
             var namingPattern = context.Get(NamingPatternContract.NamingPattern);
 

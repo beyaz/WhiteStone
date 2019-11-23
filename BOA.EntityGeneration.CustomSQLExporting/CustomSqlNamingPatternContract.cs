@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
     static class CustomSqlNamingPatternInitializer
     {
         #region Public Methods
-        public static void Initialize(IContext context)
+        public static void Initialize(Context context)
         {
             var config        = Data.Config[context];
             var customSqlInfo = Data.CustomSqlInfo[context];

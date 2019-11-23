@@ -8,9 +8,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     class CustomSqlExporter : ContextContainer
     {
         #region Static Fields
-        public static readonly Event OnCustomSqlInfoInitialized = new Event {Name = nameof(OnCustomSqlInfoInitialized)};
-        public static readonly Event OnProfileInfoInitialized   = new Event {Name = nameof(OnProfileInfoInitialized)};
-        public static readonly Event OnProfileInfoRemove        = new Event {Name = nameof(OnProfileInfoRemove)};
+        public static readonly Event OnCustomSqlInfoInitialized = Event.Create( nameof(OnCustomSqlInfoInitialized));
+        public static readonly Event OnProfileInfoInitialized   = Event.Create( nameof(OnProfileInfoInitialized));
+        public static readonly Event OnProfileInfoRemove        = Event.Create( nameof(OnProfileInfoRemove));
         #endregion
 
         #region Public Methods

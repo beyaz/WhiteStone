@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
     static class ProfileNamingPatternInitializer
     {
         #region Public Methods
-        public static void Initialize(IContext context)
+        public static void Initialize(Context context)
         {
             var config = context.Get(Data.Config);
 

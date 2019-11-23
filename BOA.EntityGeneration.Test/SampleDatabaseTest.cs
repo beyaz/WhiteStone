@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         #endregion
 
         #region Fields
-        IContext context;
+        BOA.DataFlow.Context context;
         #endregion
 
         #region Public Methods
@@ -61,7 +61,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         #endregion
 
         #region Methods
-        static void HoldSomeDataForCheckingTestResults(IContext context)
+        static void HoldSomeDataForCheckingTestResults(Context context)
         {
             // TODO:fixme: context.Add(EntityFileTemp, context.Get(EntityFileExporter.File));
             // context.Add(SharedRepositoryFileTemp, context.Get(SharedFileExporter.File));

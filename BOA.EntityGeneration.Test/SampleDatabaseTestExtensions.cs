@@ -16,7 +16,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             #endregion
 
 
-            public IContext Create()
+            public Context Create()
             {
                 var context = new Context();
 
@@ -26,7 +26,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
             }
 
             #region Methods
-            protected  void AttachEvents(IContext context)
+            protected  void AttachEvents(Context context)
             {
                 //context.AttachEvent(TableExportingEvent.TableExportStarted, BoaRepositoryFileExporter.WriteClass);
 
@@ -44,7 +44,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
     static class SampleDatabaseTestExtensions
     {
         #region Public Methods
-        public static void CreateTables(this IContext context)
+        public static void CreateTables(this Context context)
         {
             var database = context.Get(Database);
 

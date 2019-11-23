@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #endregion
 
         #region Public Methods
-        public static void Build(IContext context)
+        public static void Build(Context context)
         {
             context.Get(MsBuildQueueId).BuildInternal(context);
         }
@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #endregion
 
         #region Methods
-        void BuildInternal(IContext context)
+        void BuildInternal(Context context)
         {
             if (!context.TryGet(BuildAfterCodeGenerationIsCompleted))
             {

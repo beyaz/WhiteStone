@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         #endregion
 
         #region Methods
-        static void SelectFirstTenTable(IContext context)
+        static void SelectFirstTenTable(Context context)
         {
             var       list  = context.Get(Data.TableNamesInSchema);
             const int count = 5;

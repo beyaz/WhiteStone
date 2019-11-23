@@ -6,7 +6,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     public static class Extensions
     {
         #region Public Methods
-        public static IReadOnlyList<string> GetProfileNames(this IContext context)
+        public static IReadOnlyList<string> GetProfileNames(this Context context)
         {
             var profileIdList = new List<string>();
             var database      = context.Get(Data.Database);

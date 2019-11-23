@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         #endregion
 
         #region Public Methods
-        public static void AttachEvents(IContext context)
+        public static void AttachEvents(Context context)
         {
             context.AttachEvent(SchemaExportStarted, InitializeOutput);
             context.AttachEvent(SchemaExportStarted, WriteUsingList);
@@ -35,7 +35,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         #endregion
 
         #region Methods
-        static void BeginNamespace(IContext context)
+        static void BeginNamespace(Context context)
         {
             var file          = File[context];
             var namingPattern = NamingPattern[context];
@@ -43,17 +43,17 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
             file.BeginNamespace(namingPattern.RepositoryNamespace);
         }
 
-        static void EmptyLine(IContext context)
+        static void EmptyLine(Context context)
         {
             File[context].AppendLine();
         }
 
-        static void EndNamespace(IContext context)
+        static void EndNamespace(Context context)
         {
             File[context].EndNamespace();
         }
 
-        static void ExportFileToDirectory(IContext context)
+        static void ExportFileToDirectory(Context context)
         {
             var sourceCode    = File[context].ToString();
             var namingPattern = NamingPattern[context];
@@ -64,12 +64,12 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
             FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Boa.cs", sourceCode);
         }
 
-        static void InitializeOutput(IContext context)
+        static void InitializeOutput(Context context)
         {
             File[context] = new PaddedStringBuilder();
         }
 
-        static void WriteClass(IContext context)
+        static void WriteClass(Context context)
         {
             var file               = File[context];
             var tableInfo          = TableInfo[context];
@@ -121,7 +121,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
             file.CloseBracket();
         }
 
-        static void WriteEmbeddedClasses(IContext context)
+        static void WriteEmbeddedClasses(Context context)
         {
             var file = File[context];
 
@@ -131,7 +131,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
             file.AppendLine();
         }
 
-        static void WriteUsingList(IContext context)
+        static void WriteUsingList(Context context)
         {
             var file = File[context];
 
