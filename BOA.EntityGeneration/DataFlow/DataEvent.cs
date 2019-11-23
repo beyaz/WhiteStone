@@ -5,7 +5,7 @@ namespace BOA.EntityGeneration.DataFlow
     static class DataEvent
     {
         #region Static Fields
-        public static readonly IEvent AfterFetchedAllTableNamesInSchema = new Event {Name = nameof(AfterFetchedAllTableNamesInSchema)};
+        public static readonly Event AfterFetchedAllTableNamesInSchema = new Event {Name = nameof(AfterFetchedAllTableNamesInSchema)};
         #endregion
     }
 }

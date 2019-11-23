@@ -29,20 +29,7 @@ namespace BOA.DataFlow
     /// <summary>
     ///     The event
     /// </summary>
-    public interface IEvent
-    {
-        #region Public Properties
-        /// <summary>
-        ///     Gets the name.
-        /// </summary>
-        string Name { get; }
-        #endregion
-    }
-
-    /// <summary>
-    ///     The event
-    /// </summary>
-    public class Event : IEvent
+    public class Event
     {
         #region Public Properties
         /// <summary>
@@ -150,17 +137,17 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Attaches the event.
         /// </summary>
-        void AttachEvent(IEvent @event, Action<IContext> action);
+        void AttachEvent(Event @event, Action<IContext> action);
 
         /// <summary>
         ///     Detaches the event.
         /// </summary>
-        void DetachEvent(IEvent @event, Action<IContext> action);
+        void DetachEvent(Event @event, Action<IContext> action);
 
         /// <summary>
         ///     Fires the event.
         /// </summary>
-        void FireEvent(IEvent @event);
+        void FireEvent(Event @event);
 
         /// <summary>
         ///     Gets the specified data constant.
@@ -195,7 +182,7 @@ namespace BOA.DataFlow
         }
 
 
-        protected void AttachEvent(IEvent @event, Action action)
+        protected void AttachEvent(Event @event, Action action)
         {
             Context.AttachEvent(@event,(c)=>action());
         }
@@ -288,7 +275,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Attaches the event.
         /// </summary>
-        public void AttachEvent(IEvent @event, Action<IContext> action)
+        public void AttachEvent(Event @event, Action<IContext> action)
         {
             List<Action<IContext>> actions = null;
 
@@ -321,7 +308,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Detaches the event.
         /// </summary>
-        public void DetachEvent(IEvent @event, Action<IContext> action)
+        public void DetachEvent(Event @event, Action<IContext> action)
         {
             List<Action<IContext>> actions = null;
 
@@ -336,7 +323,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Fires the event.
         /// </summary>
-        public void FireEvent(IEvent @event)
+        public void FireEvent(Event @event)
         {
             List<Action<IContext>> actions = null;
 

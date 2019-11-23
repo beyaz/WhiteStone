@@ -29,8 +29,8 @@ namespace BOA.DataFlow
         public static readonly IProperty<string> data_bracket_2_1 = Property.Create<string>();
         public static readonly IProperty<string> data_bracket_2_2 = Property.Create<string>();
 
-        public static readonly IEvent Started = new Event {Name = nameof(Started)};
-        public static readonly IEvent Finished = new Event {Name = nameof(Finished)};
+        public static readonly Event Started = new Event {Name = nameof(Started)};
+        public static readonly Event Finished = new Event {Name = nameof(Finished)};
 
        
         [TestMethod]
