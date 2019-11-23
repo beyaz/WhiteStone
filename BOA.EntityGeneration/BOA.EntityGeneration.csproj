@@ -73,7 +73,6 @@
     <Compile Include="SharedRepositoryFileExporting\MethodWriters\SelectAllMethodWriter.cs" />
     <Compile Include="SharedRepositoryFileExporting\MethodWriters\InsertMethodWriter.cs" />
     <Compile Include="SharedRepositoryFileExporting\MethodWriters\UpdateByPrimaryKeyMethodWriter.cs" />
-    <Compile Include="SharedRepositoryFileExporting\MethodWriters\SelectByKeyMethodWriter.cs" />
     <Compile Include="SharedRepositoryFileExporting\MethodWriters\SelectByIndexMethodWriter.cs" />
     <Compile Include="Models\Interfaces\ITableInfo.cs" />
     <Compile Include="Models\Impl\SequenceInfo.cs" />

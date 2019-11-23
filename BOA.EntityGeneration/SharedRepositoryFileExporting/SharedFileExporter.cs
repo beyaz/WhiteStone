@@ -78,7 +78,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
                 WriteDeleteByKeyMethod();
 
                 file.AppendLine();
-                SelectByKeyMethodWriter.Write(Context);
+                WriteSelectByKeyMethod();
 
                 UpdateByPrimaryKeyMethodWriter.Write(Context);
             }
@@ -98,6 +98,39 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 
             file.CloseBracket();
         }
+          void WriteSelectByKeyMethod()
+        {
+            var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
+
+            var sqlParameters = selectByPrimaryKeyInfo.SqlParameters;
+            var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+
+            file.AppendLine($"public static SqlInfo SelectByKey({parameterPart})");
+            file.OpenBracket();
+
+            file.AppendLine("const string sql = @\"");
+            file.AppendAll(selectByPrimaryKeyInfo.Sql);
+            file.AppendLine();
+            file.AppendLine("\";");
+            file.AppendLine();
+
+            file.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
+
+            if (sqlParameters.Any())
+            {
+                file.AppendLine();
+                foreach (var columnInfo in sqlParameters)
+                {
+                    file.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                }
+            }
+
+            file.AppendLine();
+            file.AppendLine("return sqlInfo;");
+
+            file.CloseBracket();
+        }
+
 
         void WriteDeleteByKeyMethod()
         {
