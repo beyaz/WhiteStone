@@ -6,6 +6,7 @@ using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
@@ -167,7 +168,24 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
              file.CloseBracket();
          }
 
-         void WriteClass()
+          void WriteSelectAllByValidFlagMethod()
+          {
+              var sql       = SelectAllInfoCreator.Create(tableInfo).Sql;
+
+              file.AppendLine("public static SqlInfo SelectByValidFlag()");
+              file.OpenBracket();
+
+              file.AppendLine("const string sql = @\"");
+              file.AppendAll(sql + " WHERE [VALID_FLAG] = '1'");
+              file.AppendLine();
+              file.AppendLine("\";");
+              file.AppendLine();
+
+              file.AppendLine("return new SqlInfo { CommandText = sql };");
+              file.CloseBracket();
+          }
+
+          void WriteClass()
         {
 
             file.AppendLine($"public sealed class {tableNamingPattern.SharedRepositoryClassName}");
@@ -190,15 +208,54 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 
             if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
             {
-                SelectAllByValidFlagMethodWriter.Write(Context);
+                WriteSelectAllByValidFlagMethod();
             }
 
             InsertMethodWriter.Write(Context);
 
-            ReadContractMethodWriter.Write(Context);
+            WriteReadContractMethod();
 
             file.CloseBracket();
         }
+
+
+          void WriteReadContractMethod()
+          {
+
+              const string contractParameterName = "contract";
+
+              var typeContractName = tableEntityClassNameForMethodParametersInRepositoryFiles;
+
+              file.AppendLine();
+              file.AppendLine("/// <summary>");
+              file.AppendLine($"///{Padding.ForComment} Reads one record from reader");
+              file.AppendLine("/// </summary>");
+              file.AppendLine($"public static void ReadContract(IDataReader reader, {typeContractName} {contractParameterName})");
+              file.AppendLine("{");
+              file.PaddingCount++;
+
+              foreach (var columnInfo in tableInfo.Columns)
+              {
+                  var readerMethodName = columnInfo.SqlReaderMethod.ToString();
+                  if (columnInfo.SqlReaderMethod == SqlReaderMethods.GetGUIDValue)
+                  {
+                      readerMethodName = "GetGuidValue";
+                  }
+
+                  var contractReadLine = config.ContractReadLine
+                                               .Replace("$(Contract)", contractParameterName)
+                                               .Replace("$(PropertyName)", columnInfo.ColumnName.ToContractName())
+                                               .Replace("$(ColumnName)", columnInfo.ColumnName)
+                                               .Replace("$(SqlReaderMethod)", readerMethodName);
+
+                  file.AppendLine(contractReadLine);
+              }
+
+              file.PaddingCount--;
+              file.AppendLine("}");
+          }
+
+
           void WriteSelectByKeyMethod()
         {
             var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
