@@ -1,13 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.ScriptModel.Creators;
 using BOA.EntityGeneration.SharedRepositoryFileExporting.MethodWriters;
-using static BOA.EntityGeneration.DataFlow.Data;
 using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
 using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
-using static BOA.EntityGeneration.Naming.NamingPatternContract;
-using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
 namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 {
@@ -75,7 +75,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             if (tableInfo.IsSupportSelectByKey)
             {
                 file.AppendLine();
-                DeleteByKeyMethodWriter.Write(Context);
+                WriteDeleteByKeyMethod();
 
                 file.AppendLine();
                 SelectByKeyMethodWriter.Write(Context);
@@ -95,6 +95,37 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             InsertMethodWriter.Write(Context);
 
             ReadContractMethodWriter.Write(Context);
+
+            file.CloseBracket();
+        }
+
+        void WriteDeleteByKeyMethod()
+        {
+            var deleteInfo = DeleteInfoCreator.Create(tableInfo);
+
+            var sqlParameters = deleteInfo.SqlParameters;
+
+            var parameterPart = String.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+
+            file.AppendLine($"public static SqlInfo Delete({parameterPart})");
+            file.OpenBracket();
+
+            file.AppendLine($"const string sql = \"{deleteInfo.Sql}\";");
+            file.AppendLine();
+
+            file.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
+
+            if (sqlParameters.Any())
+            {
+                file.AppendLine();
+                foreach (var columnInfo in sqlParameters)
+                {
+                    file.AppendLine($"sqlInfo.AddInParameter(\"@{columnInfo.ColumnName}\", SqlDbType.{columnInfo.SqlDbType}, {columnInfo.ColumnName.AsMethodParameter()});");
+                }
+            }
+
+            file.AppendLine();
+            file.AppendLine("return sqlInfo;");
 
             file.CloseBracket();
         }
