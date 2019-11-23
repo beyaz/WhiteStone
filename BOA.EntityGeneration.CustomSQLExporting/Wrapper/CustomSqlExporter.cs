@@ -22,39 +22,37 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             context.Add(Data.ProfileName, profileId);
             ProfileNamingPatternInitializer.Initialize(context);
 
-            InitializeProfileInfo(context);
-            ProcessCustomSQLsInProfile(context);
-            RemoveProfileInfo(context);
+            InitializeProfileInfo();
+            ProcessCustomSQLsInProfile();
+            RemoveProfileInfo();
 
             context.CloseBracket();
 
-            var processInfo = context.Get(Data.ProcessInfo);
             processInfo.Text = "Finished Successfully.";
             WaitTwoSecondForUserCanSeeSuccessMessage();
         }
         #endregion
 
         #region Methods
-        static void InitializeProfileInfo(IDataContext context)
+         void InitializeProfileInfo()
         {
-            var database    = context.Get(Data.Database);
-            var profileName = context.Get(Data.ProfileName);
-            var config      = context.Get(Data.Config);
+            var database    = Context.Get(Data.Database);
+            var profileName = Context.Get(Data.ProfileName);
+            var config      = Context.Get(Data.Config);
 
-            context.Get(Data.ProcessInfo).Text = "Fetching profile informations...";
-            context.Add(Data.CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config));
+            processInfo.Text = "Fetching profile informations...";
+            Context.Add(Data.CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config));
 
-            context.FireEvent(OnProfileInfoInitialized);
+            Context.FireEvent(OnProfileInfoInitialized);
         }
 
-        static void ProcessCustomSQLsInProfile(IDataContext context)
+         void ProcessCustomSQLsInProfile()
         {
-            var customSqlNamesInfProfile = context.Get(Data.CustomSqlNamesInfProfile);
-            var processInfo              = context.Get(Data.ProcessInfo);
+            var customSqlNamesInfProfile = Context.Get(Data.CustomSqlNamesInfProfile);
 
-            var config      = context.Get(Data.Config);
-            var database    = context.Get(Data.Database);
-            var profileName = context.Get(Data.ProfileName);
+            var config      = Context.Get(Data.Config);
+            var database    = Context.Get(Data.Database);
+            var profileName = Context.Get(Data.ProfileName);
 
             processInfo.Total = customSqlNamesInfProfile.Count;
 
@@ -64,24 +62,24 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 processInfo.Text    = $"Processing '{objectId}'";
                 processInfo.Current = switchCaseIndex;
 
-                var customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileName, objectId, config, switchCaseIndex++);
+                customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileName, objectId, config, switchCaseIndex++);
 
-                context.OpenBracket();
-                context.Add(Data.CustomSqlInfo, customSqlInfo);
-                CustomSqlNamingPatternInitializer.Initialize(context);
+                Context.OpenBracket();
+                Context.Add(Data.CustomSqlInfo, customSqlInfo);
+                CustomSqlNamingPatternInitializer.Initialize(Context);
 
-                context.FireEvent(OnCustomSqlInfoInitialized);
+                Context.FireEvent(OnCustomSqlInfoInitialized);
 
-                context.CloseBracket();
+                Context.CloseBracket();
             }
         }
 
-        static void RemoveProfileInfo(IDataContext context)
+         void RemoveProfileInfo()
         {
-            context.FireEvent(OnProfileInfoRemove);
+            Context.FireEvent(OnProfileInfoRemove);
         }
 
-        static void WaitTwoSecondForUserCanSeeSuccessMessage()
+         void WaitTwoSecondForUserCanSeeSuccessMessage()
         {
             Thread.Sleep(TimeSpan.FromSeconds(2));
         }

@@ -8,7 +8,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
      class ContextContainer : BOA.DataFlow.ContextContainer
     {
         #region Properties
-        protected CustomSqlInfo                  customSqlInfo            => Data.CustomSqlInfo[Context];
+        protected CustomSqlInfo customSqlInfo
+        {
+            get { return Data.CustomSqlInfo[Context]; }
+            set { Data.CustomSqlInfo[Context] = value; }
+        }
         protected CustomSqlNamingPatternContract customSqlNamingPattern   => Data.CustomSqlNamingPattern[Context];
         protected List<string>                   entityAssemblyReferences => Data.EntityAssemblyReferences[Context];
         protected ProcessContract                processInfo              => Data.ProcessInfo[Context];
