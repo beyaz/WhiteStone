@@ -70,7 +70,6 @@
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\DeleteByKeyMethodWriter.cs" />
     <Compile Include="SharedRepositoryFileExporting\MethodWriters\ReadContractMethodWriter.cs" />
     <Compile Include="SharedRepositoryFileExporting\MethodWriters\SelectAllByValidFlagMethodWriter.cs" />
-    <Compile Include="SharedRepositoryFileExporting\MethodWriters\SelectAllMethodWriter.cs" />
     <Compile Include="SharedRepositoryFileExporting\MethodWriters\InsertMethodWriter.cs" />
     <Compile Include="Models\Interfaces\ITableInfo.cs" />
     <Compile Include="Models\Impl\SequenceInfo.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
@@ -115,8 +116,8 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             foreach (var indexIdentifier in allIndexes)
             {
                 var indexInfo     = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
-                var methodName    = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
-                var parameterPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+                var methodName    = "SelectBy" + String.Join(String.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+                var parameterPart = String.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
                 file.AppendLine();
                 file.AppendLine("/// <summary>");
@@ -148,9 +149,25 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             }
         }
 
+          void WriteSelectAllMethod()
+         {
 
+             var sql = SelectAllInfoCreator.Create(tableInfo).Sql;
 
-        void WriteClass()
+             file.AppendLine("public static SqlInfo Select()");
+             file.OpenBracket();
+
+             file.AppendLine("const string sql = @\"");
+             file.AppendAll(sql);
+             file.AppendLine();
+             file.AppendLine("\";");
+             file.AppendLine();
+
+             file.AppendLine("return new SqlInfo { CommandText = sql };");
+             file.CloseBracket();
+         }
+
+         void WriteClass()
         {
 
             file.AppendLine($"public sealed class {tableNamingPattern.SharedRepositoryClassName}");
@@ -169,7 +186,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 
             WriteSelectByIndexMethods();
 
-            SelectAllMethodWriter.Write(Context);
+            WriteSelectAllMethod();
 
             if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
             {
@@ -187,7 +204,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
 
             var sqlParameters = selectByPrimaryKeyInfo.SqlParameters;
-            var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+            var parameterPart = String.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
             file.AppendLine($"public static SqlInfo SelectByKey({parameterPart})");
             file.OpenBracket();
