@@ -153,7 +153,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Adds the specified data constant.
         /// </summary>
-        void Add<T>(IDataConstant dataConstant, T value);
+        void Add<T>(IDataConstant<T> dataConstant, T value);
 
         /// <summary>
         ///     Attaches the event.
@@ -290,7 +290,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Adds the specified data constant.
         /// </summary>
-        public void Add<T>(IDataConstant dataConstant, T value)
+        public void Add<T>(IDataConstant<T> dataConstant, T value)
         {
             Pair pair = null;
             if (dictionary.TryGetValue(dataConstant.Id, out pair))

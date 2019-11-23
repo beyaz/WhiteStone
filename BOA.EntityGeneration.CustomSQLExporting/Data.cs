@@ -25,7 +25,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         /// <summary>
         ///     The custom SQL names inf profile
         /// </summary>
-        public static readonly IDataConstant<List<string>> CustomSqlNamesInfProfile = DataConstant.Create<List<string>>(nameof(CustomSqlNamesInfProfile));
+        public static readonly IDataConstant<IReadOnlyList<string>> CustomSqlNamesInfProfile = DataConstant.Create<IReadOnlyList<string>>(nameof(CustomSqlNamesInfProfile));
 
         /// <summary>
         ///     The database
