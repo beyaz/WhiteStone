@@ -9,10 +9,10 @@ using static BOA.EntityGeneration.CustomSQLExporting.Data;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    public sealed class CustomSqlDataContextCreator
+    public sealed class CustomSqlExporterContextBuilder
     {
         #region Public Methods
-        public Context Create()
+        public Context Build()
         {
             var context = new Context();
 
@@ -39,7 +39,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         static void InitializeConfig(Context context)
         {
-            var configFilePath = Path.GetDirectoryName(typeof(CustomSqlDataContextCreator).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
+            var configFilePath = Path.GetDirectoryName(typeof(CustomSqlExporterContextBuilder).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
 
             Config[context] = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(configFilePath));
         }

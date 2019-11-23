@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using BOA.DataFlow;
+using static BOA.EntityGeneration.CustomSQLExporting.Data;
 using ContextContainer = BOA.EntityGeneration.CustomSQLExporting.Exporters.ContextContainer;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
@@ -8,18 +9,22 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     class CustomSqlExporter : ContextContainer
     {
         #region Static Fields
-        public static readonly Event OnCustomSqlInfoInitialized = Event.Create( nameof(OnCustomSqlInfoInitialized));
-        public static readonly Event OnProfileInfoInitialized   = Event.Create( nameof(OnProfileInfoInitialized));
-        public static readonly Event OnProfileInfoRemove        = Event.Create( nameof(OnProfileInfoRemove));
+        public static readonly Event OnCustomSqlInfoInitialized = Event.Create(nameof(OnCustomSqlInfoInitialized));
+        public static readonly Event OnProfileInfoInitialized   = Event.Create(nameof(OnProfileInfoInitialized));
+        public static readonly Event OnProfileInfoRemove        = Event.Create(nameof(OnProfileInfoRemove));
         #endregion
 
         #region Public Methods
         public void Export(string profileId)
         {
             var context = Context;
+
             context.OpenBracket();
 
-            context.Add(Data.ProfileName, profileId);
+
+
+            profileName = profileId;
+
             ProfileNamingPatternInitializer.Initialize(context);
 
             InitializeProfileInfo();
@@ -34,25 +39,30 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #endregion
 
         #region Methods
+        static void WaitTwoSecondForUserCanSeeSuccessMessage()
+        {
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+        }
+
         void InitializeProfileInfo()
         {
-            var database    = Context.Get(Data.Database);
-            var profileName = Context.Get(Data.ProfileName);
-            var config      = Context.Get(Data.Config);
+            var database    = Context.Get(Database);
+            var profileName = Context.Get(ProfileName);
+            var config      = Context.Get(Config);
 
             processInfo.Text = "Fetching profile informations...";
-            Context.Add(Data.CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config));
+            Context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config));
 
             Context.FireEvent(OnProfileInfoInitialized);
         }
 
         void ProcessCustomSQLsInProfile()
         {
-            var customSqlNamesInfProfile = Context.Get(Data.CustomSqlNamesInfProfile);
+            var customSqlNamesInfProfile = Context.Get(CustomSqlNamesInfProfile);
 
-            var config      = Context.Get(Data.Config);
-            var database    = Context.Get(Data.Database);
-            var profileName = Context.Get(Data.ProfileName);
+            var config      = Context.Get(Config);
+            var database    = Context.Get(Database);
+            var profileName = Context.Get(ProfileName);
 
             processInfo.Total = customSqlNamesInfProfile.Count;
 
@@ -65,7 +75,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileName, objectId, config, switchCaseIndex++);
 
                 Context.OpenBracket();
-                Context.Add(Data.CustomSqlInfo, customSqlInfo);
+                Context.Add(CustomSqlInfo, customSqlInfo);
                 CustomSqlNamingPatternInitializer.Initialize(Context);
 
                 Context.FireEvent(OnCustomSqlInfoInitialized);
@@ -78,17 +88,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             Context.FireEvent(OnProfileInfoRemove);
         }
-
-        void WaitTwoSecondForUserCanSeeSuccessMessage()
-        {
-            Thread.Sleep(TimeSpan.FromSeconds(2));
-        }
         #endregion
 
-        #region Output Strings
-        #endregion
-
-        #region Data
-        #endregion
+       
     }
 }

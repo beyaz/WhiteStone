@@ -49,7 +49,7 @@
     <Compile Include="Data.cs" />
     <Compile Include="Exporters\BoaRepositoryFileExporter.cs" />
     <Compile Include="Exporters\ContextContainer.cs" />
-    <Compile Include="Exporters\CustomSqlDataContextCreator.cs" />
+    <Compile Include="Exporters\CustomSqlExporterContextBuilder.cs" />
     <Compile Include="Exporters\SharedFileExporter.cs" />
     <Compile Include="Exporters\EntityFileExporter.cs" />
     <Compile Include="Exporters\RepositoryCsprojFileExporter.cs" />

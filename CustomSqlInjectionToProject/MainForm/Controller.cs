@@ -55,7 +55,7 @@ namespace CustomSqlInjectionToProject.MainForm
 
         public override void OnViewLoaded()
         {
-            var ctx = new CustomSqlDataContextCreator().Create();
+            var ctx = new CustomSqlExporterContextBuilder().Build();
 
             Model = new Model
             {
@@ -82,7 +82,7 @@ namespace CustomSqlInjectionToProject.MainForm
         #region Methods
         void Start()
         {
-            context = new CustomSqlDataContextCreator().Create();
+            context = new CustomSqlExporterContextBuilder().Build();
 
             context.Add(FileSystem.CheckinComment, Model.CheckInComment);
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);

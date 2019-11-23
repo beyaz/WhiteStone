@@ -14,6 +14,16 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             set { Data.CustomSqlInfo[Context] = value; }
         }
 
+
+        protected string profileName
+        {
+            get { return Data.ProfileName[Context];}
+            set
+            {
+                Context.Add(Data.ProfileName, value);
+            }
+        }
+
         protected CustomSqlNamingPatternContract customSqlNamingPattern          => Data.CustomSqlNamingPattern[Context];
         protected List<string>                   entityAssemblyReferences        => Data.EntityAssemblyReferences[Context];
         protected MsBuildQueue                   MsBuildQueue                    => Context.Get(MsBuildQueue.MsBuildQueueId);
