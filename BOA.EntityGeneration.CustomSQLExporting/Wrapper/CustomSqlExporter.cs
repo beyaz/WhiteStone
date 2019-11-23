@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using static BOA.EntityGeneration.CustomSQLExporting.Data;
 using ContextContainer = BOA.EntityGeneration.CustomSQLExporting.Exporters.ContextContainer;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
@@ -19,29 +19,54 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #region Public Methods
         public void Export(string profileId)
         {
-            var context = Context;
+            Context.OpenBracket();
 
-            context.OpenBracket();
+            profileName          = profileId;
+            profileNamingPattern = CreateProfileNamingPattern();
 
-            profileName = profileId;
+            processInfo.Text = "Fetching profile informations...";
 
-            InitializeProfileNamingPattern();
+            var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config);
 
-            InitializeProfileInfo();
-            ProcessCustomSQLsInProfile();
-            RemoveProfileInfo();
+            Context.FireEvent(OnProfileInfoInitialized);
 
-            context.CloseBracket();
+            processInfo.Total = customSqlNamesInfProfile.Count;
+
+            var switchCaseIndex = 0;
+            foreach (var objectId in customSqlNamesInfProfile)
+            {
+                processInfo.Text    = $"Processing '{objectId}'";
+                processInfo.Current = switchCaseIndex;
+
+                Context.OpenBracket();
+
+                customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileName, objectId, config, switchCaseIndex++);
+
+                InitializeCustomSqlNamingPattern();
+
+                Context.FireEvent(OnCustomSqlInfoInitialized);
+
+                Context.CloseBracket();
+            }
+
+            Context.FireEvent(OnProfileInfoRemove);
+
+            Context.CloseBracket();
 
             processInfo.Text = "Finished Successfully.";
+
             WaitTwoSecondForUserCanSeeSuccessMessage();
         }
         #endregion
 
-
-        void InitializeProfileNamingPattern()
+        #region Methods
+        static void WaitTwoSecondForUserCanSeeSuccessMessage()
         {
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+        }
 
+        ProfileNamingPatternContract CreateProfileNamingPattern()
+        {
             var initialValues = new Dictionary<string, string>
             {
                 {nameof(Data.ProfileName), profileName}
@@ -49,7 +74,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.ProfileNamingPattern, initialValues);
 
-            profileNamingPattern = new ProfileNamingPatternContract
+            return new ProfileNamingPatternContract
             {
                 SlnDirectoryPath             = dictionary[nameof(ProfileNamingPatternContract.SlnDirectoryPath)],
                 EntityNamespace              = dictionary[nameof(ProfileNamingPatternContract.EntityNamespace)],
@@ -62,52 +87,36 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 RepositoryAssemblyReferences = dictionary[nameof(ProfileNamingPatternContract.RepositoryAssemblyReferences)].Split('|')
             };
         }
-        #region Methods
-        static void WaitTwoSecondForUserCanSeeSuccessMessage()
+
+        void InitializeCustomSqlNamingPattern()
         {
-            Thread.Sleep(TimeSpan.FromSeconds(2));
-        }
-
-        void InitializeProfileInfo()
-        {
-
-            processInfo.Text = "Fetching profile informations...";
-            Context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config));
-
-            Context.FireEvent(OnProfileInfoInitialized);
-        }
-
-        void ProcessCustomSQLsInProfile()
-        {
-            var customSqlNamesInfProfile = Context.Get(CustomSqlNamesInfProfile);
-
-
-            processInfo.Total = customSqlNamesInfProfile.Count;
-
-            var switchCaseIndex = 0;
-            foreach (var objectId in customSqlNamesInfProfile)
+            var initialValues = new Dictionary<string, string>
             {
-                processInfo.Text    = $"Processing '{objectId}'";
-                processInfo.Current = switchCaseIndex;
+                {nameof(Data.ProfileName), profileName},
+                {"CamelCasedCustomSqlName", customSqlInfo.Name.ToContractName()}
+            };
 
-                customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileName, objectId, config, switchCaseIndex++);
+            var entityReferencedResultColumn = customSqlInfo.ResultColumns.FirstOrDefault(x => x.IsReferenceToEntity);
 
-                Context.OpenBracket();
-                Context.Add(CustomSqlInfo, customSqlInfo);
-                CustomSqlNamingPatternInitializer.Initialize(Context);
-
-                Context.FireEvent(OnCustomSqlInfoInitialized);
-
-                Context.CloseBracket();
+            if (entityReferencedResultColumn != null)
+            {
+                initialValues[nameof(customSqlInfo.SchemaName)] = customSqlInfo.SchemaName;
+                initialValues["CamelCasedResultName"]           = entityReferencedResultColumn.Name.ToContractName();
             }
-        }
 
-        void RemoveProfileInfo()
-        {
-            Context.FireEvent(OnProfileInfoRemove);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(config.CustomSqlNamingPattern, initialValues);
+
+            customSqlNamingPattern = new CustomSqlNamingPatternContract
+            {
+                ResultClassName                  = dictionary[nameof(CustomSqlNamingPatternContract.ResultClassName)],
+                RepositoryClassName              = dictionary[nameof(CustomSqlNamingPatternContract.RepositoryClassName)],
+                InputClassName                   = dictionary[nameof(CustomSqlNamingPatternContract.InputClassName)],
+                ReferencedEntityAccessPath       = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAccessPath)],
+                ReferencedEntityAssemblyPath     = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAssemblyPath)],
+                ReferencedEntityReaderMethodPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityReaderMethodPath)],
+                ReferencedRepositoryAssemblyPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedRepositoryAssemblyPath)]
+            };
         }
         #endregion
-
-       
     }
 }

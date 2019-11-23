@@ -22,10 +22,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         /// </summary>
         public static readonly Property<CustomSqlInfo> CustomSqlInfo = Property.Create<CustomSqlInfo>();
 
-        /// <summary>
-        ///     The custom SQL names inf profile
-        /// </summary>
-        public static readonly Property<IReadOnlyList<string>> CustomSqlNamesInfProfile = Property.Create<IReadOnlyList<string>>(nameof(CustomSqlNamesInfProfile));
+        
 
         /// <summary>
         ///     The database

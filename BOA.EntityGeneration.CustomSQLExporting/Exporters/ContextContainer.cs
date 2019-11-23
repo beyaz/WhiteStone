@@ -45,7 +45,16 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         }
 
 
-        protected CustomSqlNamingPatternContract customSqlNamingPattern          => Data.CustomSqlNamingPattern[Context];
+        protected CustomSqlNamingPatternContract customSqlNamingPattern
+        {
+            get => Data.CustomSqlNamingPattern[Context];
+            set => Data.CustomSqlNamingPattern[Context] = value;
+        }
+
+
+
+
+
         protected List<string>                   entityAssemblyReferences        => Data.EntityAssemblyReferences[Context];
         protected MsBuildQueue                   MsBuildQueue                    => Context.Get(MsBuildQueue.MsBuildQueueId);
         protected ProcessContract                processInfo                     => Data.ProcessInfo[Context];
