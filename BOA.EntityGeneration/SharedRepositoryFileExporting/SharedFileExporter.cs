@@ -11,7 +11,7 @@ using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
 namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 {
-    class SharedFileExporter
+    class SharedFileExporter: ContextContainer
     {
         #region Static Fields
         internal static readonly Property<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(File));
