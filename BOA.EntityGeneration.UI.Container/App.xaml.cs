@@ -7,8 +7,8 @@ namespace BOA.EntityGeneration.UI.Container
     static class Data
     {
         #region Static Fields
-        public static IProperty<MainWindowModel> Model       = Property.Create<MainWindowModel>(nameof(Model));
-        public static IProperty<List<string>>    SchemaNames = Property.Create<List<string>>(nameof(SchemaNames));
+        public static Property<MainWindowModel> Model       = Property.Create<MainWindowModel>(nameof(Model));
+        public static Property<List<string>>    SchemaNames = Property.Create<List<string>>(nameof(SchemaNames));
         #endregion
     }
 

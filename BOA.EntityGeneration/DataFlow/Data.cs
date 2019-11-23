@@ -12,21 +12,21 @@ namespace BOA.EntityGeneration.DataFlow
     static class Data
     {
         #region Static Fields
-        internal static readonly IProperty<ConfigContract> Config = Property.Create<ConfigContract>();
+        internal static readonly Property<ConfigContract> Config = Property.Create<ConfigContract>();
 
-        internal static readonly IProperty<IDatabase> Database = Property.Create<IDatabase>();
+        internal static readonly Property<IDatabase> Database = Property.Create<IDatabase>();
 
-        internal static readonly IProperty<ITableInfo>   TableInfo          = Property.Create<ITableInfo>();
-        internal static readonly IProperty<List<string>> TableNamesInSchema = Property.Create<List<string>>();
+        internal static readonly Property<ITableInfo>   TableInfo          = Property.Create<ITableInfo>();
+        internal static readonly Property<List<string>> TableNamesInSchema = Property.Create<List<string>>();
         #endregion
 
         #region Naming
-        internal static readonly IProperty<string> SchemaName                                               = Property.Create<string>(nameof(SchemaName));
-        internal static readonly IProperty<string> TableEntityClassNameForMethodParametersInRepositoryFiles = Property.Create<string>(nameof(TableEntityClassNameForMethodParametersInRepositoryFiles));
+        internal static readonly Property<string> SchemaName                                               = Property.Create<string>(nameof(SchemaName));
+        internal static readonly Property<string> TableEntityClassNameForMethodParametersInRepositoryFiles = Property.Create<string>(nameof(TableEntityClassNameForMethodParametersInRepositoryFiles));
         #endregion
 
         #region Process Indicators
-        internal static readonly IProperty<ProcessContract> ProcessInfo    = Property.Create<ProcessContract>(nameof(ProcessInfo));
+        internal static readonly Property<ProcessContract> ProcessInfo    = Property.Create<ProcessContract>(nameof(ProcessInfo));
         #endregion
 
         #region Files

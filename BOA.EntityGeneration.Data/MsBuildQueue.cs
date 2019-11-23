@@ -8,9 +8,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     public class MsBuildQueue
     {
         #region Static Fields
-        public static readonly IProperty<bool>            BuildAfterCodeGenerationIsCompleted = Property.Create<bool>(nameof(BuildAfterCodeGenerationIsCompleted));
-        public static readonly IProperty<MsBuildQueue>    MsBuildQueueId                      = Property.Create<MsBuildQueue>();
-        public static readonly IProperty<ProcessContract> ProcessInfo                         = Property.Create<ProcessContract>(nameof(ProcessInfo));
+        public static readonly Property<bool>            BuildAfterCodeGenerationIsCompleted = Property.Create<bool>(nameof(BuildAfterCodeGenerationIsCompleted));
+        public static readonly Property<MsBuildQueue>    MsBuildQueueId                      = Property.Create<MsBuildQueue>();
+        public static readonly Property<ProcessContract> ProcessInfo                         = Property.Create<ProcessContract>(nameof(ProcessInfo));
         #endregion
 
         #region Fields

@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
     class BoaRepositoryFileExporter
     {
         #region Static Fields
-        internal static readonly IProperty<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(File));
+        internal static readonly Property<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(File));
         #endregion
 
         #region Public Methods

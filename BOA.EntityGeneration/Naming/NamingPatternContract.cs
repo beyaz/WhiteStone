@@ -6,7 +6,7 @@ namespace BOA.EntityGeneration.Naming
     class NamingPatternContract
     {
         #region Static Fields
-        internal static readonly IProperty<NamingPatternContract> NamingPattern = Property.Create<NamingPatternContract>(nameof(NamingPatternContract));
+        internal static readonly Property<NamingPatternContract> NamingPattern = Property.Create<NamingPatternContract>(nameof(NamingPatternContract));
         #endregion
 
         #region Public Properties

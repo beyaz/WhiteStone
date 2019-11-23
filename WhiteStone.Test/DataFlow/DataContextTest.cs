@@ -20,14 +20,14 @@ namespace BOA.DataFlow
     {
         #region Public Methods
 
-        public static readonly IProperty<string> data_bracket_0_0 = Property.Create<string>();
+        public static readonly Property<string> data_bracket_0_0 = Property.Create<string>();
 
-        public static readonly IProperty<string> data_bracket_1_0 = Property.Create<string>();
-        public static readonly IProperty<string> data_bracket_1_1 = Property.Create<string>();
+        public static readonly Property<string> data_bracket_1_0 = Property.Create<string>();
+        public static readonly Property<string> data_bracket_1_1 = Property.Create<string>();
 
-        public static readonly IProperty<string> data_bracket_2_0 = Property.Create<string>();
-        public static readonly IProperty<string> data_bracket_2_1 = Property.Create<string>();
-        public static readonly IProperty<string> data_bracket_2_2 = Property.Create<string>();
+        public static readonly Property<string> data_bracket_2_0 = Property.Create<string>();
+        public static readonly Property<string> data_bracket_2_1 = Property.Create<string>();
+        public static readonly Property<string> data_bracket_2_2 = Property.Create<string>();
 
         public static readonly Event Started = new Event {Name = nameof(Started)};
         public static readonly Event Finished = new Event {Name = nameof(Finished)};

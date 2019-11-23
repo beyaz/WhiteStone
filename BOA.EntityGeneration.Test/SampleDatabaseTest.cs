@@ -16,8 +16,8 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         #endregion
 
         #region Static Fields
-        static readonly IProperty<PaddedStringBuilder> EntityFileTemp           = Property.Create<PaddedStringBuilder>();
-        static readonly IProperty<PaddedStringBuilder> SharedRepositoryFileTemp = Property.Create<PaddedStringBuilder>();
+        static readonly Property<PaddedStringBuilder> EntityFileTemp           = Property.Create<PaddedStringBuilder>();
+        static readonly Property<PaddedStringBuilder> SharedRepositoryFileTemp = Property.Create<PaddedStringBuilder>();
         #endregion
 
         #region Fields

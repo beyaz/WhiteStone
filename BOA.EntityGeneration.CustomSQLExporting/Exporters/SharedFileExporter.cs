@@ -12,7 +12,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
     class SharedFileExporter : ContextContainer
     {
         #region Static Fields
-        static readonly IProperty<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
+        static readonly Property<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
         #endregion
 
         #region Properties

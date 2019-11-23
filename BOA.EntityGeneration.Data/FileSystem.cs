@@ -6,8 +6,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
     public static class FileSystem
     {
         #region Static Fields
-        public static IProperty<string> CheckinComment                          = Property.Create<string>();
-        public static IProperty<bool>   IntegrateWithTFSAndCheckInAutomatically = Property.Create<bool>();
+        public static Property<string> CheckinComment                          = Property.Create<string>();
+        public static Property<bool>   IntegrateWithTFSAndCheckInAutomatically = Property.Create<bool>();
         #endregion
 
         #region Public Methods

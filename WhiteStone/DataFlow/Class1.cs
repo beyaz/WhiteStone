@@ -6,25 +6,7 @@ namespace BOA.DataFlow
 {
    
 
-    /// <summary>
-    ///     The data constant
-    /// </summary>
-    public interface IProperty<TValueType> 
-    {
-        /// <summary>
-        ///     Gets the identifier.
-        /// </summary>
-        string Id { get; }
-
-        /// <summary>
-        ///     Gets the name.
-        /// </summary>
-        string Name { get; }
-
-        #region Public Indexers
-        TValueType this[IContext context] { get; set; }
-        #endregion
-    }
+  
 
     /// <summary>
     ///     The event
@@ -42,7 +24,7 @@ namespace BOA.DataFlow
     /// <summary>
     ///     The data constant
     /// </summary>
-    public class Property<TValueType> : IProperty<TValueType>
+    public class Property<TValueType> 
     {
         #region Constructors
         /// <summary>
@@ -132,7 +114,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Adds the specified data constant.
         /// </summary>
-        void Add<T>(IProperty<T> property, T value);
+        void Add<T>(Property<T> property, T value);
 
         /// <summary>
         ///     Attaches the event.
@@ -152,17 +134,17 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Gets the specified data constant.
         /// </summary>
-        T Get<T>(IProperty<T> property);
+        T Get<T>(Property<T> property);
 
         /// <summary>
         ///     Removes the specified data constant.
         /// </summary>
-        void Remove<T>(IProperty<T> property);
+        void Remove<T>(Property<T> property);
 
         /// <summary>
         ///     Tries the get.
         /// </summary>
-        T TryGet<T>(IProperty<T> property);
+        T TryGet<T>(Property<T> property);
         #endregion
     }
 
@@ -261,7 +243,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Adds the specified data constant.
         /// </summary>
-        public void Add<T>(IProperty<T> property, T value)
+        public void Add<T>(Property<T> property, T value)
         {
             Pair pair = null;
             if (dictionary.TryGetValue(property.Id, out pair))
@@ -341,7 +323,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Gets the specified data constant.
         /// </summary>
-        public T Get<T>(IProperty<T> property)
+        public T Get<T>(Property<T> property)
         {
             Pair pair = null;
             if (dictionary.TryGetValue(property.Id, out pair))
@@ -360,7 +342,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Removes the specified data constant.
         /// </summary>
-        public void Remove<T>(IProperty<T> property)
+        public void Remove<T>(Property<T> property)
         {
             if (dictionary.ContainsKey(property.Id))
             {
@@ -374,7 +356,7 @@ namespace BOA.DataFlow
         /// <summary>
         ///     Tries the get.
         /// </summary>
-        public T TryGet<T>(IProperty<T> property)
+        public T TryGet<T>(Property<T> property)
         {
             Pair pair = null;
             if (dictionary.TryGetValue(property.Id, out pair))
