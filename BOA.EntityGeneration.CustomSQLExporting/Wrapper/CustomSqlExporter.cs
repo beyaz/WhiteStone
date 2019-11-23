@@ -14,8 +14,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #endregion
 
         #region Public Methods
-        public static void Export(IDataContext context, string profileId)
+        public  void Export( string profileId)
         {
+            var context = Context;
             context.OpenBracket();
 
             context.Add(Data.ProfileName, profileId);

@@ -99,12 +99,12 @@ namespace CustomSqlInjectionToProject.MainForm
                         continue;
                     }
 
-                    CustomSqlExporter.Export(context, profileName);
+                    //CustomSqlExporter.Export(context, profileName);
                 }
             }
             else
             {
-                CustomSqlExporter.Export(context, profileId);
+                //CustomSqlExporter.Export(context, profileId);
             }
 
             context.CloseBracket();
