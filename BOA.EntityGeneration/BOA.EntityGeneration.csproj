@@ -67,7 +67,6 @@
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\InsertMethodWriter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\UpdateByKeyMethodWriter.cs" />
     <Compile Include="BoaRepositoryFileExporting\MethodWriters\SelectByIndexMethodWriter.cs" />
-    <Compile Include="BoaRepositoryFileExporting\MethodWriters\DeleteByKeyMethodWriter.cs" />
     <Compile Include="Models\Interfaces\ITableInfo.cs" />
     <Compile Include="Models\Impl\SequenceInfo.cs" />
     <Compile Include="Models\Interfaces\ISequenceInfo.cs" />

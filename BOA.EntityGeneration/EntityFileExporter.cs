@@ -22,6 +22,7 @@ namespace BOA.EntityGeneration
         protected ITableInfo                 tableInfo          => TableInfo[Context];
         protected TableNamingPatternContract tableNamingPattern => TableNamingPattern[Context];
         protected string tableEntityClassNameForMethodParametersInRepositoryFiles => TableEntityClassNameForMethodParametersInRepositoryFiles[Context];
+        protected string schemaName => SchemaName[Context];
         
         #endregion
     }
