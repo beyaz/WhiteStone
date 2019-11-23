@@ -55,7 +55,7 @@ namespace CustomSqlInjectionToProject.MainForm
 
         public override void OnViewLoaded()
         {
-            var ctx = new CustomSqlExporterContextBuilder().Build();
+            //var ctx = new CustomSqlExporterContextBuilder().Build();
 
             Model = new Model
             {
@@ -65,7 +65,7 @@ namespace CustomSqlInjectionToProject.MainForm
                     Text = "Ready"
                 },
                 CheckInComment = CheckInCommentAccess.GetCheckInComment(),
-                ProfileIdList  = ctx.GetProfileNames(),
+                //ProfileIdList  = ctx.GetProfileNames(),
 
                 ActionButtons = new List<ActionButtonInfo>
                 {
@@ -82,7 +82,7 @@ namespace CustomSqlInjectionToProject.MainForm
         #region Methods
         void Start()
         {
-            context = new CustomSqlExporterContextBuilder().Build();
+            //context = new CustomSqlExporterContextBuilder().Build();
 
             context.Add(FileSystem.CheckinComment, Model.CheckInComment);
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
@@ -92,15 +92,15 @@ namespace CustomSqlInjectionToProject.MainForm
 
             if (profileId == "*")
             {
-                foreach (var profileName in context.GetProfileNames())
-                {
-                    if (profileName == "*")
-                    {
-                        continue;
-                    }
+                //foreach (var profileName in context.GetProfileNames())
+                //{
+                //    if (profileName == "*")
+                //    {
+                //        continue;
+                //    }
 
-                    //CustomSqlExporter.Export(context, profileName);
-                }
+                //    //CustomSqlExporter.Export(context, profileName);
+                //}
             }
             else
             {

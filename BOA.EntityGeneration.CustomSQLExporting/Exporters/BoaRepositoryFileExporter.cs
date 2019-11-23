@@ -7,16 +7,18 @@ using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-     class BoaRepositoryFileExporter:ContextContainer
+    class BoaRepositoryFileExporter : ContextContainer
     {
-        PaddedStringBuilder sb => File[Context];
-
         #region Static Fields
         static readonly Property<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(BoaRepositoryFileExporter) + "->" + nameof(File));
         #endregion
 
+        #region Properties
+        PaddedStringBuilder sb => File[Context];
+        #endregion
+
         #region Public Methods
-        public  void AttachEvents()
+        public void AttachEvents()
         {
             var customSqlClassGenerator = Create<CustomSqlClassGenerator>();
 
@@ -41,7 +43,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Methods
         void BeginNamespace()
         {
-
             sb.BeginNamespace(profileNamingPattern.RepositoryNamespace);
         }
 
@@ -57,8 +58,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         void ExportFileToDirectory()
         {
-
-
             processInfo.Text = "Exporting BOA repository.";
 
             var filePath = profileNamingPattern.RepositoryProjectDirectory + "Boa.cs";
@@ -73,7 +72,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         void UsingList()
         {
-
             foreach (var line in profileNamingPattern.BoaRepositoryUsingLines)
             {
                 sb.AppendLine(line);
@@ -149,7 +147,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         void WriteEmbeddedClasses()
         {
-
             var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BoaRepositoryFileEmbeddedCodes.txt";
 
             sb.AppendAll(System.IO.File.ReadAllText(path));
@@ -158,73 +155,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         void WriteProxyClass()
         {
-
             var proxyClass = Context.Get(CustomSqlClassGenerator.Text).ToString();
             sb.AppendAll(proxyClass);
             sb.AppendLine();
-        }
-        #endregion
-    }
-
-    class CustomSqlClassGenerator:ContextContainer
-    {
-
-        PaddedStringBuilder sb => Text[Context];
-
-        #region Static Fields
-        public static readonly Property<PaddedStringBuilder> Text = Property.Create<PaddedStringBuilder>(nameof(CustomSqlClassGenerator) + "->" + nameof(Text));
-        #endregion
-
-        #region Public Methods
-        public  void AttachEvents()
-        {
-            AttachEvent(OnProfileInfoInitialized, Begin);
-
-            AttachEvent(OnCustomSqlInfoInitialized, WriteSwitchCaseCondition);
-
-            AttachEvent(OnProfileInfoRemove, End);
-        }
-
-         public void InitializeText()
-        {
-            Context.Add(Text, new PaddedStringBuilder());
-        }
-        #endregion
-
-        #region Methods
-         void Begin()
-        {
-
-            sb.AppendLine("public static class CustomSql");
-            sb.OpenBracket();
-
-            sb.AppendLine("public static TOutput Execute<TOutput, T>(ObjectHelper objectHelper, ICustomSqlProxy<TOutput, T> input) where TOutput : GenericResponse<T>");
-            sb.OpenBracket();
-
-            sb.AppendLine("switch (input.Index)");
-            sb.OpenBracket();
-        }
-
-         void End()
-        {
-
-            sb.CloseBracket(); // end of switch
-
-            sb.AppendLine();
-            sb.AppendLine("throw new InvalidOperationException(input.GetType().FullName);");
-
-            sb.CloseBracket(); // end of method
-
-            sb.CloseBracket(); // end of class
-        }
-
-         void WriteSwitchCaseCondition()
-        {
-
-            sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");
-            sb.OpenBracket();
-            sb.AppendLine($"return (TOutput) (object) new {customSqlNamingPattern.RepositoryClassName}(objectHelper.Context).Execute(({customSqlNamingPattern.InputClassName})(object) input);");
-            sb.CloseBracket();
         }
         #endregion
     }

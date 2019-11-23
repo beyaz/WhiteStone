@@ -139,7 +139,9 @@
       <Name>BOA.EntityGeneration</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CustomSqlGeneration\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy /y  "$(SolutionDir)BOA.EntityGeneration\bin\Debug\*.txt"  "$(TargetDir)"</PreBuildEvent>

@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using BOA.Common.Helpers;
+using BOA.DatabaseAccess;
 using BOA.DataFlow;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.CustomSQLExporting.Exporters;
+using BOA.EntityGeneration.CustomSQLExporting.Models;
 using ContextContainer = BOA.EntityGeneration.CustomSQLExporting.Exporters.ContextContainer;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
@@ -14,6 +20,24 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public static readonly Event OnCustomSqlInfoInitialized = Event.Create(nameof(OnCustomSqlInfoInitialized));
         public static readonly Event OnProfileInfoInitialized   = Event.Create(nameof(OnProfileInfoInitialized));
         public static readonly Event OnProfileInfoRemove        = Event.Create(nameof(OnProfileInfoRemove));
+        #endregion
+
+        #region Constructors
+        public CustomSqlExporter()
+        {
+            Context = new Context();
+            InitProcessInfo();
+            InitializeConfig();
+            InitializeDatabaseConnection();
+            MsBuildQueue = new MsBuildQueue();
+
+            // attach events
+            Create<EntityFileExporter>().AttachEvents();
+            Create<SharedFileExporter>().AttachEvents();
+            Create<BoaRepositoryFileExporter>().AttachEvents();
+            Create<EntityCsprojFileExporter>().AttachEvents();
+            Create<RepositoryCsprojFileExporter>().AttachEvents();
+        }
         #endregion
 
         #region Public Methods
@@ -57,6 +81,24 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             WaitTwoSecondForUserCanSeeSuccessMessage();
         }
+
+        public IReadOnlyList<string> GetProfileNames()
+        {
+            var profileIdList = new List<string>();
+
+            database.CommandText = config.SQL_GetProfileIdList;
+            var reader = database.ExecuteReader();
+            while (reader.Read())
+            {
+                profileIdList.Add(reader["ProfileId"].ToString());
+            }
+
+            reader.Close();
+
+            profileIdList.Add("*");
+
+            return profileIdList;
+        }
         #endregion
 
         #region Methods
@@ -88,6 +130,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             };
         }
 
+        void InitializeConfig()
+        {
+            var configFilePath = Path.GetDirectoryName(typeof(CustomSqlExporter).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
+
+            config = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(configFilePath));
+        }
+
         void InitializeCustomSqlNamingPattern()
         {
             var initialValues = new Dictionary<string, string>
@@ -116,6 +165,21 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 ReferencedEntityReaderMethodPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityReaderMethodPath)],
                 ReferencedRepositoryAssemblyPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedRepositoryAssemblyPath)]
             };
+        }
+
+        void InitializeDatabaseConnection()
+        {
+            var connectionString = config.ConnectionString;
+
+            database = new SqlDatabase(connectionString) {CommandTimeout = 1000 * 60 * 60};
+        }
+
+        void InitProcessInfo()
+        {
+            var processContract = new ProcessContract();
+
+            Data.ProcessInfo[Context]         = processContract;
+            MsBuildQueue.ProcessInfo[Context] = processContract;
         }
         #endregion
     }

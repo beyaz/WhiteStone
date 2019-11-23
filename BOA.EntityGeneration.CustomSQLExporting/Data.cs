@@ -22,8 +22,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         /// </summary>
         public static readonly Property<CustomSqlInfo> CustomSqlInfo = Property.Create<CustomSqlInfo>();
 
-        
-
         /// <summary>
         ///     The database
         /// </summary>

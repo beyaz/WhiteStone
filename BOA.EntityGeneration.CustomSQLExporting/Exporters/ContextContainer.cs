@@ -6,44 +6,20 @@ using BOA.EntityGeneration.CustomSQLExporting.Models;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    class ContextContainer : BOA.DataFlow.ContextContainer
+    class ContextContainer : DataFlow.ContextContainer
     {
         #region Properties
+        protected ConfigurationContract config
+        {
+            get { return Data.Config[Context]; }
+            set { Context.Add(Data.Config, value); }
+        }
+
         protected CustomSqlInfo customSqlInfo
         {
             get { return Data.CustomSqlInfo[Context]; }
             set { Data.CustomSqlInfo[Context] = value; }
         }
-
-
-        protected string profileName
-        {
-            get { return Data.ProfileName[Context];}
-            set
-            {
-                Context.Add(Data.ProfileName, value);
-            }
-        }
-
-
-        protected IDatabase database
-        {
-            get { return Data.Database[Context];}
-            set
-            {
-                Context.Add(Data.Database, value);
-            }
-        }
-
-        protected ConfigurationContract config
-        {
-            get { return Data.Config[Context];}
-            set
-            {
-                Context.Add(Data.Config, value);
-            }
-        }
-
 
         protected CustomSqlNamingPatternContract customSqlNamingPattern
         {
@@ -51,13 +27,27 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             set => Data.CustomSqlNamingPattern[Context] = value;
         }
 
+        protected IDatabase database
+        {
+            get { return Data.Database[Context]; }
+            set { Context.Add(Data.Database, value); }
+        }
 
+        protected List<string> entityAssemblyReferences => Data.EntityAssemblyReferences[Context];
 
+        protected MsBuildQueue MsBuildQueue
+        {
+            get => Context.Get(MsBuildQueue.MsBuildQueueId);
+            set => Context.Add(MsBuildQueue.MsBuildQueueId, value);
+        }
 
+        protected ProcessContract processInfo => Data.ProcessInfo[Context];
 
-        protected List<string>                   entityAssemblyReferences        => Data.EntityAssemblyReferences[Context];
-        protected MsBuildQueue                   MsBuildQueue                    => Context.Get(MsBuildQueue.MsBuildQueueId);
-        protected ProcessContract                processInfo                     => Data.ProcessInfo[Context];
+        protected string profileName
+        {
+            get { return Data.ProfileName[Context]; }
+            set { Context.Add(Data.ProfileName, value); }
+        }
 
         protected ProfileNamingPatternContract profileNamingPattern
         {
@@ -65,9 +55,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             set => Data.ProfileNamingPattern[Context] = value;
         }
 
-        protected List<string>                   repositoryAssemblyReference     => Data.RepositoryAssemblyReferences[Context];
-        protected List<string>                   repositoryAssemblyReferenceList => Data.RepositoryAssemblyReferences[Context];
-        protected List<string>                   repositoryAssemblyReferences    => Data.RepositoryAssemblyReferences[Context];
+        protected List<string> repositoryAssemblyReference     => Data.RepositoryAssemblyReferences[Context];
+        protected List<string> repositoryAssemblyReferenceList => Data.RepositoryAssemblyReferences[Context];
+        protected List<string> repositoryAssemblyReferences    => Data.RepositoryAssemblyReferences[Context];
         #endregion
     }
 }

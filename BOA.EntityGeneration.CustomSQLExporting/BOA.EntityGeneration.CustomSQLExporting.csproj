@@ -44,12 +44,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationContract.cs" />
-    <Compile Include="CustomSqlNamingPatternContract.cs" />
+    <Compile Include="Exporters\CustomSqlClassGenerator.cs" />
+    <Compile Include="Models\ConfigurationContract.cs" />
+    <Compile Include="Models\CustomSqlNamingPatternContract.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="Exporters\BoaRepositoryFileExporter.cs" />
     <Compile Include="Exporters\ContextContainer.cs" />
-    <Compile Include="Exporters\CustomSqlExporterContextBuilder.cs" />
     <Compile Include="Exporters\SharedFileExporter.cs" />
     <Compile Include="Exporters\EntityFileExporter.cs" />
     <Compile Include="Exporters\RepositoryCsprojFileExporter.cs" />
@@ -57,9 +57,8 @@
     <Compile Include="Models\CustomSqlInfo.cs" />
     <Compile Include="Models\CustomSqlInfoParameter.cs" />
     <Compile Include="Models\CustomSqlInfoResult.cs" />
-    <Compile Include="NamingPattern.cs" />
+    <Compile Include="Models\ProfileNamingPatternContract.cs" />
     <Compile Include="Wrapper\CustomSqlExporter.cs" />
-    <Compile Include="Wrapper\Extensions.cs" />
     <Compile Include="Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
