@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
+using BOA.Common.Helpers;
 using BOA.DataFlow;
 using static BOA.EntityGeneration.CustomSQLExporting.Data;
 using ContextContainer = BOA.EntityGeneration.CustomSQLExporting.Exporters.ContextContainer;
@@ -21,11 +23,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             context.OpenBracket();
 
-
-
             profileName = profileId;
 
-            ProfileNamingPatternInitializer.Initialize(context);
+            InitializeProfileNamingPattern();
 
             InitializeProfileInfo();
             ProcessCustomSQLsInProfile();
@@ -38,6 +38,30 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         }
         #endregion
 
+
+        void InitializeProfileNamingPattern()
+        {
+
+            var initialValues = new Dictionary<string, string>
+            {
+                {nameof(Data.ProfileName), profileName}
+            };
+
+            var dictionary = ConfigurationDictionaryCompiler.Compile(config.ProfileNamingPattern, initialValues);
+
+            profileNamingPattern = new ProfileNamingPatternContract
+            {
+                SlnDirectoryPath             = dictionary[nameof(ProfileNamingPatternContract.SlnDirectoryPath)],
+                EntityNamespace              = dictionary[nameof(ProfileNamingPatternContract.EntityNamespace)],
+                RepositoryNamespace          = dictionary[nameof(ProfileNamingPatternContract.RepositoryNamespace)],
+                EntityProjectDirectory       = dictionary[nameof(ProfileNamingPatternContract.EntityProjectDirectory)],
+                RepositoryProjectDirectory   = dictionary[nameof(ProfileNamingPatternContract.RepositoryProjectDirectory)],
+                BoaRepositoryUsingLines      = dictionary[nameof(ProfileNamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
+                EntityUsingLines             = dictionary[nameof(ProfileNamingPatternContract.EntityUsingLines)].Split('|'),
+                EntityAssemblyReferences     = dictionary[nameof(ProfileNamingPatternContract.EntityAssemblyReferences)].Split('|'),
+                RepositoryAssemblyReferences = dictionary[nameof(ProfileNamingPatternContract.RepositoryAssemblyReferences)].Split('|')
+            };
+        }
         #region Methods
         static void WaitTwoSecondForUserCanSeeSuccessMessage()
         {
@@ -46,9 +70,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         void InitializeProfileInfo()
         {
-            var database    = Context.Get(Database);
-            var profileName = Context.Get(ProfileName);
-            var config      = Context.Get(Config);
 
             processInfo.Text = "Fetching profile informations...";
             Context.Add(CustomSqlNamesInfProfile, ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config));
@@ -60,9 +81,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             var customSqlNamesInfProfile = Context.Get(CustomSqlNamesInfProfile);
 
-            var config      = Context.Get(Config);
-            var database    = Context.Get(Database);
-            var profileName = Context.Get(ProfileName);
 
             processInfo.Total = customSqlNamesInfProfile.Count;
 
