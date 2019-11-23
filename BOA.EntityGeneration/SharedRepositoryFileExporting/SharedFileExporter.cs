@@ -17,62 +17,57 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         internal static readonly Property<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(File));
         #endregion
 
+        PaddedStringBuilder file => File[Context];
+
         #region Public Methods
-        public static void AttachEvents(Context context)
+        public void AttachEvents()
         {
-            context.AttachEvent(SchemaExportStarted, InitializeOutput);
-            context.AttachEvent(SchemaExportStarted, WriteUsingList);
-            context.AttachEvent(SchemaExportStarted, EmptyLine);
-            context.AttachEvent(SchemaExportStarted, BeginNamespace);
-            context.AttachEvent(SchemaExportStarted, WriteEmbeddedClasses);
+            AttachEvent(SchemaExportStarted, InitializeOutput);
+            AttachEvent(SchemaExportStarted, WriteUsingList);
+            AttachEvent(SchemaExportStarted, EmptyLine);
+            AttachEvent(SchemaExportStarted, BeginNamespace);
+            AttachEvent(SchemaExportStarted, WriteEmbeddedClasses);
 
-            context.AttachEvent(TableExportStarted, WriteClass);
+            AttachEvent(TableExportStarted, WriteClass);
 
-            context.AttachEvent(SchemaExportFinished, EndNamespace);
-            context.AttachEvent(SchemaExportFinished, ExportFileToDirectory);
+            AttachEvent(SchemaExportFinished, EndNamespace);
+            AttachEvent(SchemaExportFinished, ExportFileToDirectory);
         }
         #endregion
 
         #region Methods
-        static void BeginNamespace(Context context)
+        void BeginNamespace()
         {
-            var file          = File[context];
-            var namingPattern = NamingPattern[context];
 
             file.BeginNamespace(namingPattern.RepositoryNamespace + ".Shared");
         }
 
-        static void EmptyLine(Context context)
+        void EmptyLine()
         {
-            File[context].AppendLine();
+            file.AppendLine();
         }
 
-        static void EndNamespace(Context context)
+        void EndNamespace()
         {
-            File[context].EndNamespace();
+            file.EndNamespace();
         }
 
-        static void ExportFileToDirectory(Context context)
+        void ExportFileToDirectory()
         {
-            var sourceCode    = File[context].ToString();
-            var namingPattern = NamingPattern[context];
-            var processInfo   = ProcessInfo[context];
+            var sourceCode    = file.ToString();
 
             processInfo.Text = "Exporting Shared repository...";
 
-            FileSystem.WriteAllText(context, namingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
+            FileSystem.WriteAllText(Context, namingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
         }
 
-        static void InitializeOutput(Context context)
+        void InitializeOutput()
         {
-            File[context] = new PaddedStringBuilder();
+            File[Context] = new PaddedStringBuilder();
         }
 
-        static void WriteClass(Context context)
+        void WriteClass()
         {
-            var file               = File[context];
-            var tableInfo          = TableInfo[context];
-            var tableNamingPattern = TableNamingPattern[context];
 
             file.AppendLine($"public sealed class {tableNamingPattern.SharedRepositoryClassName}");
             file.OpenBracket();
@@ -80,33 +75,32 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             if (tableInfo.IsSupportSelectByKey)
             {
                 file.AppendLine();
-                DeleteByKeyMethodWriter.Write(context);
+                DeleteByKeyMethodWriter.Write(Context);
 
                 file.AppendLine();
-                SelectByKeyMethodWriter.Write(context);
+                SelectByKeyMethodWriter.Write(Context);
 
-                UpdateByPrimaryKeyMethodWriter.Write(context);
+                UpdateByPrimaryKeyMethodWriter.Write(Context);
             }
 
-            SelectByIndexMethodWriter.Write(context);
+            SelectByIndexMethodWriter.Write(Context);
 
-            SelectAllMethodWriter.Write(context);
+            SelectAllMethodWriter.Write(Context);
 
             if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
             {
-                SelectAllByValidFlagMethodWriter.Write(context);
+                SelectAllByValidFlagMethodWriter.Write(Context);
             }
 
-            InsertMethodWriter.Write(context);
+            InsertMethodWriter.Write(Context);
 
-            ReadContractMethodWriter.Write(context);
+            ReadContractMethodWriter.Write(Context);
 
             file.CloseBracket();
         }
 
-        static void WriteEmbeddedClasses(Context context)
+        void WriteEmbeddedClasses()
         {
-            var file = File[context];
 
             var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryFileEmbeddedCodes.txt";
 
@@ -114,10 +108,8 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
             file.AppendLine();
         }
 
-        static void WriteUsingList(Context context)
+        void WriteUsingList()
         {
-            var file          = File[context];
-            var namingPattern = NamingPattern[context];
 
             foreach (var line in namingPattern.SharedRepositoryUsingLines)
             {
