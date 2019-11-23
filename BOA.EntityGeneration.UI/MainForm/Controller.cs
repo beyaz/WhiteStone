@@ -70,11 +70,11 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         public override void OnViewLoaded()
         {
-            var schemaNames = EntityGenerationDataContextCreator.Create().Get(Data.Config).SchemaNamesToBeExport;
+            //var schemaNames = EntityGenerationDataContextCreator.Create().Get(Data.Config).SchemaNamesToBeExport;
 
             Model = new Model
             {
-                SchemaNames = schemaNames,
+                // SchemaNames = schemaNames,
                 SchemaGenerationProcess = new ProcessContract
                 {
                     Text = "Ready"
@@ -99,19 +99,19 @@ namespace BOA.EntityGeneration.UI.MainForm
         #region Methods
         void Start()
         {
-            context = EntityGenerationDataContextCreator.Create();
+            //context = EntityGenerationDataContextCreator.Create();
 
-            context.OpenBracket();
+            //context.OpenBracket();
 
-            context.Add(FileSystem.CheckinComment, Model.CheckInComment);
-            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
-            context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted, true);
+            //context.Add(FileSystem.CheckinComment, Model.CheckInComment);
+            //context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
+            //context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted, true);
 
-            SchemaExporter.Export(context, Model.SchemaName);
+            //SchemaExporter.Export(context, Model.SchemaName);
 
-            context.CloseBracket();
+            //context.CloseBracket();
 
-            IsFinished = true;
+            //IsFinished = true;
         }
 
         void StartAll()

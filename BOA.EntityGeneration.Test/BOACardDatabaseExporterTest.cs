@@ -22,12 +22,12 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         [TestMethod]
         public void ExportPRM()
         {
-            var context = EntityGenerationDataContextCreator.Create();
+            //var context = EntityGenerationDataContextCreator.Create();
 
-            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
+            //context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
             // context.AttachEvent(DataEvent.AfterFetchedAllTableNamesInSchema, SelectFirstTenTable);
 
-            SchemaExporter.Export(context, "CRD");
+            new SchemaExporter().Export("CRD");
         }
         #endregion
 

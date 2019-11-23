@@ -1,7 +1,4 @@
-﻿using static BOA.EntityGeneration.UI.Container.App;
-using static BOA.EntityGeneration.UI.Container.Data;
-
-namespace BOA.EntityGeneration.UI.Container
+﻿namespace BOA.EntityGeneration.UI.Container
 {
     public partial class MainWindow
     {
@@ -9,7 +6,8 @@ namespace BOA.EntityGeneration.UI.Container
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = Model[Context];
+
+            DataContext = App.Model;
         }
         #endregion
     }

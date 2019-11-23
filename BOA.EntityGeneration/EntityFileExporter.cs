@@ -1,32 +1,12 @@
 ﻿using BOA.Common.Helpers;
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.Models.Interfaces;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.ScriptModel.Creators;
-using static BOA.EntityGeneration.DataFlow.Data;
 using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
 using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
-using static BOA.EntityGeneration.Naming.NamingPatternContract;
-using static BOA.EntityGeneration.Naming.TableNamingPatternContract;
 
 namespace BOA.EntityGeneration
 {
-    class ContextContainer : BOA.DataFlow.ContextContainer
-    {
-        #region Properties
-        protected ConfigContract             config             => Config[Context];
-        protected NamingPatternContract      namingPattern      => NamingPattern[Context];
-        protected ProcessContract            processInfo        => ProcessInfo[Context];
-        protected ITableInfo                 tableInfo          => TableInfo[Context];
-        protected TableNamingPatternContract tableNamingPattern => TableNamingPattern[Context];
-        protected string tableEntityClassNameForMethodParametersInRepositoryFiles => TableEntityClassNameForMethodParametersInRepositoryFiles[Context];
-        protected string schemaName => SchemaName[Context];
-        
-        #endregion
-    }
-
     class EntityFileExporter : ContextContainer
     {
         #region Static Fields

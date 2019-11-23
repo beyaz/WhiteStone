@@ -13,6 +13,7 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 
     public partial class Container
     {
+
         #region Fields
         readonly ContainerModel model;
         #endregion
@@ -26,6 +27,8 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         }
         #endregion
 
+        
+
         #region Methods
         void OnGenerateClicked(object sender, RoutedEventArgs e)
         {
@@ -35,7 +38,8 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
                 return;
             }
 
-            var checkinComment = Data.Model[App.Context].CheckinComment;
+
+            var checkinComment = App.Model.CheckinComment;
 
             if (string.IsNullOrWhiteSpace(checkinComment))
             {

@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextContainer.cs" />
     <Compile Include="DataFlow\DataEvent.cs" />
     <Compile Include="DataFlow\SchemaExportingEvent.cs" />
     <Compile Include="DataFlow\TableExportingEvent.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Models\Interfaces\ISequenceInfo.cs" />
     <Compile Include="CsprojFileExporters\RepositoryCsprojFileExporter.cs" />
     <Compile Include="DataAccess\InsertInfoCreator.cs" />
-    <Compile Include="Exporters\DataContextCreator.cs" />
     <Compile Include="CsprojFileExporters\EntityCsprojFileExporter.cs" />
     <Compile Include="ConfigContract.cs" />
     <Compile Include="DataFlow\Data.cs" />
