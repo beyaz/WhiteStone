@@ -68,10 +68,6 @@
       <Project>{2ce3e1b8-6f47-4f70-8f67-372d02d3ebc3}</Project>
       <Name>BOA.EntityGeneration.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
-      <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
-      <Name>BOA.EntityGeneration</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="CustomSQLExporting.json">
