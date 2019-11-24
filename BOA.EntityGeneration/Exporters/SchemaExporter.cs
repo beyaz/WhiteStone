@@ -17,13 +17,13 @@ using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
 using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 
 
-//namespace BOA.EntityGeneration
-//{
-//    class Context : BOA.DataFlow.Context
-//    {
+namespace BOA.EntityGeneration
+{
+    class Context : BOA.DataFlow.Context
+    {
 
-//    }
-//}
+    }
+}
 
 
 namespace BOA.EntityGeneration.Exporters
@@ -74,7 +74,7 @@ namespace BOA.EntityGeneration.Exporters
         void AttachEvents()
         {
             var context = Context;
-            AttachEvent(TableExportStarted, InitializeTableNamingPattern);
+            OnTableExportStarted+=InitializeTableNamingPattern;
 
             new EntityFileExporter {Context = context}.AttachEvents();
             new SharedFileExporter {Context = context}.AttachEvents();
