@@ -5,12 +5,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     class CustomSqlClassGenerator : ContextContainer
     {
-        #region Static Fields
-        public static readonly Property<PaddedStringBuilder> Text = Property.Create<PaddedStringBuilder>(nameof(CustomSqlClassGenerator) + "->" + nameof(Text));
-        #endregion
+       
 
         #region Properties
-        PaddedStringBuilder sb => Text[Context];
+        public readonly PaddedStringBuilder sb =new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
@@ -23,10 +21,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             Context.ProfileInfoRemove += End;
         }
 
-        public void InitializeText()
-        {
-            Context.Add(Text, new PaddedStringBuilder());
-        }
+       
         #endregion
 
         #region Methods

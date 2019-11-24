@@ -9,18 +9,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     class SharedFileExporter : ContextContainer
     {
-        #region Static Fields
-        static readonly Property<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(EntityFileExporter) + "->" + nameof(File));
-        #endregion
+        
 
         #region Properties
-        PaddedStringBuilder sb => File[Context];
+        readonly PaddedStringBuilder sb =new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
         public void AttachEvents()
         {
-            Context.ProfileInfoInitialized += InitializeOutput;
             Context.ProfileInfoInitialized += WriteUsingList;
             Context.ProfileInfoInitialized += EmptyLine;
             Context.ProfileInfoInitialized += BeginNamespace;
@@ -104,10 +101,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             FileSystem.WriteAllText(filePath, sb.ToString());
         }
 
-        void InitializeOutput()
-        {
-            File[Context] = new PaddedStringBuilder();
-        }
+       
 
         void WriteEmbeddedClasses()
         {

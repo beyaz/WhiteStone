@@ -1,18 +1,15 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
-using BOA.DataFlow;
 using BOA.EntityGeneration.ScriptModel;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     class BoaRepositoryFileExporter : ContextContainer
     {
-        #region Static Fields
-        static readonly Property<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(BoaRepositoryFileExporter) + "->" + nameof(File));
-        #endregion
+       
 
         #region Properties
-        PaddedStringBuilder sb => File[Context];
+        readonly PaddedStringBuilder sb =new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
@@ -20,11 +17,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var customSqlClassGenerator = Create<CustomSqlClassGenerator>();
 
-            Context.ProfileInfoInitialized += customSqlClassGenerator.InitializeText;
 
             customSqlClassGenerator.AttachEvents();
 
-            Context.ProfileInfoInitialized += InitializeOutput;
             Context.ProfileInfoInitialized += UsingList;
             Context.ProfileInfoInitialized += EmptyLine;
             Context.ProfileInfoInitialized += BeginNamespace;
@@ -32,7 +27,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             Context.CustomSqlInfoInitialized += WriteBoaRepositoryClass;
 
-            Context.ProfileInfoRemove += WriteProxyClass;
+            Context.ProfileInfoRemove += () =>
+            {
+                var proxyClass = customSqlClassGenerator.sb.ToString();
+                sb.AppendAll(proxyClass);
+                sb.AppendLine();
+            };
             Context.ProfileInfoRemove += EndNamespace;
             Context.ProfileInfoRemove += ExportFileToDirectory;
         }
@@ -63,10 +63,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             FileSystem.WriteAllText(filePath, sb.ToString());
         }
 
-        void InitializeOutput()
-        {
-            File[Context] = new PaddedStringBuilder();
-        }
+        
 
         void UsingList()
         {
@@ -151,12 +148,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine();
         }
 
-        void WriteProxyClass()
-        {
-            var proxyClass = Context.Get(CustomSqlClassGenerator.Text).ToString();
-            sb.AppendAll(proxyClass);
-            sb.AppendLine();
-        }
+       
         #endregion
     }
 }
