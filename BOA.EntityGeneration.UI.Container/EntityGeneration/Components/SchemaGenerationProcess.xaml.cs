@@ -58,6 +58,7 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         void GenerateSchema()
         {
             var schemaExporter = new SchemaExporter();
+            schemaExporter.InitializeContext();
 
             var context = schemaExporter.Context;
 

@@ -16,6 +16,16 @@ using BOA.EntityGeneration.SharedRepositoryFileExporting;
 using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
 using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 
+
+//namespace BOA.EntityGeneration
+//{
+//    class Context : BOA.DataFlow.Context
+//    {
+
+//    }
+//}
+
+
 namespace BOA.EntityGeneration.Exporters
 {
     /// <summary>
@@ -23,9 +33,145 @@ namespace BOA.EntityGeneration.Exporters
     /// </summary>
     class SchemaExporter : ContextContainer
     {
-        void ProcessAllTablesInSchema( )
-        {
+        #region Public Properties
+        public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(SchemaExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
+        #endregion
 
+        #region Public Methods
+        /// <summary>
+        ///     Exports the specified schema name.
+        /// </summary>
+        public void Export(string schemaNametodo)
+        {
+            var context = Context;
+
+            context.OpenBracket();
+
+            schemaName = schemaNametodo;
+
+            InitializeNamingPattern();
+
+            context.FireEvent(SchemaExportStarted);
+            context.FireEvent(SchemaExportFinished);
+
+            context.CloseBracket();
+        }
+
+        public void InitializeContext()
+        {
+            Context = new Context();
+
+            InitializeConfig();
+            InitializeDatabase();
+            InitializeProcessInfo();
+            MsBuildQueue = new MsBuildQueue();
+
+            AttachEvents();
+        }
+        #endregion
+
+        #region Methods
+        void AttachEvents()
+        {
+            var context = Context;
+            AttachEvent(TableExportStarted, InitializeTableNamingPattern);
+
+            new EntityFileExporter {Context = context}.AttachEvents();
+            new SharedFileExporter {Context = context}.AttachEvents();
+            new BoaRepositoryFileExporter {Context = context}.AttachEvents();
+
+            OnSchemaExportStarted += ProcessAllTablesInSchema;
+
+            Create<EntityCsprojFileExporter>().AttachEvents();
+
+            context.AttachEvent(SchemaExportFinished, RepositoryCsprojFileExporter.Export);
+
+            context.AttachEvent(SchemaExportStarted, MsBuildQueue.Build);
+        }
+
+        void InitializeConfig()
+        {
+            config = JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath));
+        }
+
+        void InitializeDatabase()
+        {
+            database = new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
+        }
+
+        void InitializeNamingPattern()
+        {
+            var initialValues = new Dictionary<string, string> {{nameof(Data.SchemaName), schemaName}};
+
+            var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, initialValues);
+
+            namingPattern = new NamingPatternContract
+            {
+                SlnDirectoryPath           = dictionary[nameof(NamingPatternContract.SlnDirectoryPath)],
+                EntityNamespace            = dictionary[nameof(NamingPatternContract.EntityNamespace)],
+                RepositoryNamespace        = dictionary[nameof(NamingPatternContract.RepositoryNamespace)],
+                EntityProjectDirectory     = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
+                RepositoryProjectDirectory = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
+                BoaRepositoryUsingLines    = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
+                EntityUsingLines           = dictionary[nameof(NamingPatternContract.EntityUsingLines)].Split('|'),
+                SharedRepositoryUsingLines = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].Split('|'),
+                EntityAssemblyReferences = dictionary[nameof(NamingPatternContract.EntityAssemblyReferences)].Split('|')
+            };
+        }
+
+        void InitializeProcessInfo()
+        {
+            var processContract = new ProcessContract();
+
+            processInfo = processContract;
+
+            Context.Add(MsBuildQueue.ProcessInfo, processContract);
+        }
+
+        void InitializeTableNamingPattern()
+        {
+            var initialValues = new Dictionary<string, string>
+            {
+                {nameof(Data.SchemaName), schemaName},
+                {"CamelCasedTableName", tableInfo.TableName.ToContractName()}
+            };
+
+            var dictionary = ConfigurationDictionaryCompiler.Compile(config.TableNamingPattern, initialValues);
+
+            tableNamingPattern = new TableNamingPatternContract
+            {
+                EntityClassName                              = dictionary[nameof(TableNamingPatternContract.EntityClassName)],
+                SharedRepositoryClassName                    = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassName)],
+                BoaRepositoryClassName                       = dictionary[nameof(TableNamingPatternContract.BoaRepositoryClassName)],
+                SharedRepositoryClassNameInBoaRepositoryFile = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassNameInBoaRepositoryFile)]
+            };
+
+            // TODO: move to usings
+            var typeContractName = tableNamingPattern.EntityClassName;
+            if (typeContractName == "TransactionLogContract" ||
+                typeContractName == "BoaUserContract") // resolve conflig
+            {
+                typeContractName = $"{namingPattern.EntityNamespace}.{typeContractName}";
+            }
+
+            tableEntityClassNameForMethodParametersInRepositoryFiles = typeContractName;
+        }
+
+        bool IsReadyToExport(string tableName)
+        {
+            var fullTableName = $"{schemaName}.{tableName}";
+
+            var isNotExportable = config.NotExportableTables.Contains(fullTableName);
+            if (isNotExportable)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        void ProcessAllTablesInSchema()
+        {
             var tableNames = SchemaInfo.GetAllTableNamesInSchema(database, schemaName).ToList();
 
             tableNames = tableNames.Where(IsReadyToExport).ToList();
@@ -46,154 +192,10 @@ namespace BOA.EntityGeneration.Exporters
 
                 Context.OpenBracket();
 
-                Context.FireEvent(TableExportingEvent.TableExportStarted);
-                Context.FireEvent(TableExportingEvent.TableExportFinished);
+                Context.FireEvent(TableExportStarted);
+                Context.FireEvent(TableExportFinished);
                 Context.CloseBracket();
             }
-        }
-
-         bool IsReadyToExport( string tableName)
-        {
-            var fullTableName = $"{schemaName}.{tableName}";
-
-            var isNotExportable = config.NotExportableTables.Contains(fullTableName);
-            if (isNotExportable)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-
-
-
-
-
-
-
-        #region Constructors
-        public SchemaExporter()
-        {
-            Context = new Context();
-
-            InitializeConfig();
-            InitializeDatabase();
-            InitializeProcessInfo();
-            MsBuildQueue = new MsBuildQueue();
-
-            AttachEvents();
-        }
-        #endregion
-
-        #region Public Properties
-        public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(SchemaExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
-        #endregion
-
-        #region Public Methods
-        /// <summary>
-        ///     Exports the specified schema name.
-        /// </summary>
-        public void Export(string schemaNametodo)
-        {
-            var context = Context;
-
-            context.OpenBracket();
-
-            this.schemaName = schemaNametodo;
-
-            InitializeNamingPattern();
-
-            context.FireEvent(SchemaExportStarted);
-            context.FireEvent(SchemaExportFinished);
-
-            context.CloseBracket();
-        }
-        #endregion
-         void InitializeNamingPattern( )
-        {
-
-            var initialValues = new Dictionary<string, string> {{nameof(Data.SchemaName), schemaName}};
-
-            var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, initialValues);
-
-            namingPattern= new NamingPatternContract
-            {
-                SlnDirectoryPath           = dictionary[nameof(NamingPatternContract.SlnDirectoryPath)],
-                EntityNamespace            = dictionary[nameof(NamingPatternContract.EntityNamespace)],
-                RepositoryNamespace        = dictionary[nameof(NamingPatternContract.RepositoryNamespace)],
-                EntityProjectDirectory     = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
-                RepositoryProjectDirectory = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
-                BoaRepositoryUsingLines    = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
-                EntityUsingLines           = dictionary[nameof(NamingPatternContract.EntityUsingLines)].Split('|'),
-                SharedRepositoryUsingLines = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].Split('|')
-            };
-        }
-        #region Methods
-         void AttachEvents( )
-         {
-             var context = Context;
-            AttachEvent(TableExportStarted, InitializeTableNamingPattern);
-
-            new EntityFileExporter {Context = context}.AttachEvents();
-            new SharedFileExporter {Context = context}.AttachEvents();
-            new BoaRepositoryFileExporter {Context = context}.AttachEvents();
-
-            OnSchemaExportStarted+= ProcessAllTablesInSchema;
-
-            context.AttachEvent(SchemaExportFinished, EntityCsprojFileExporter.Export);
-            context.AttachEvent(SchemaExportFinished, RepositoryCsprojFileExporter.Export);
-
-            context.AttachEvent(SchemaExportStarted, MsBuildQueue.Build);
-        }
-         void InitializeTableNamingPattern()
-         {
-
-             var initialValues = new Dictionary<string, string>
-             {
-                 {nameof(Data.SchemaName), schemaName},
-                 {"CamelCasedTableName", tableInfo.TableName.ToContractName()}
-             };
-
-             var dictionary = ConfigurationDictionaryCompiler.Compile(config.TableNamingPattern, initialValues);
-
-             tableNamingPattern = new TableNamingPatternContract
-             {
-                 EntityClassName                              = dictionary[nameof(TableNamingPatternContract.EntityClassName)],
-                 SharedRepositoryClassName                    = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassName)],
-                 BoaRepositoryClassName                       = dictionary[nameof(TableNamingPatternContract.BoaRepositoryClassName)],
-                 SharedRepositoryClassNameInBoaRepositoryFile = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassNameInBoaRepositoryFile)]
-             };
-
-             // TODO: move to usings
-             var typeContractName = tableNamingPattern.EntityClassName;
-             if (typeContractName == "TransactionLogContract" ||
-                 typeContractName == "BoaUserContract") // resolve conflig
-             {
-                 typeContractName = $"{namingPattern.EntityNamespace}.{typeContractName}";
-             }
-
-             tableEntityClassNameForMethodParametersInRepositoryFiles= typeContractName;
-         }
-        
-
-        void InitializeConfig()
-        {
-            config = JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath));
-        }
-
-        void InitializeDatabase()
-        {
-            database = new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
-        }
-
-        void InitializeProcessInfo()
-        {
-            var processContract = new ProcessContract();
-
-            processInfo = processContract;
-
-            Context.Add(MsBuildQueue.ProcessInfo, processContract);
         }
         #endregion
     }
