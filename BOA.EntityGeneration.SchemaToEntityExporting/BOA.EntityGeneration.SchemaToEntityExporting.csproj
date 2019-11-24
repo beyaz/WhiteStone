@@ -54,19 +54,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextContainer.cs" />
-    <Compile Include="Exporters\Context.cs" />
-    <Compile Include="Naming\NamingPatternContract.cs" />
-    <Compile Include="Naming\TableNamingPatternContract.cs" />
-    <Compile Include="SharedRepositoryFileExporting\SharedFileExporter.cs" />
+    <Compile Include="Context.cs" />
+    <Compile Include="Models\NamingModel\NamingPatternContract.cs" />
+    <Compile Include="Models\NamingModel\TableNamingPatternContract.cs" />
+    <Compile Include="FileExporters\SharedFileExporter.cs" />
     <Compile Include="Models\Interfaces\ITableInfo.cs" />
     <Compile Include="Models\Impl\SequenceInfo.cs" />
     <Compile Include="Models\Interfaces\ISequenceInfo.cs" />
     <Compile Include="CsprojFileExporters\RepositoryCsprojFileExporter.cs" />
     <Compile Include="DataAccess\InsertInfoCreator.cs" />
     <Compile Include="CsprojFileExporters\EntityCsprojFileExporter.cs" />
-    <Compile Include="ConfigContract.cs" />
-    <Compile Include="BoaRepositoryFileExporting\BoaRepositoryFileExporter.cs" />
-    <Compile Include="EntityFileExporter.cs" />
+    <Compile Include="Models\ConfigContract.cs" />
+    <Compile Include="FileExporters\BoaRepositoryFileExporter.cs" />
+    <Compile Include="FileExporters\EntityFileExporter.cs" />
     <Compile Include="Models\Impl\TableInfo.cs" />
     <Compile Include="DataAccess\GeneratorDataCreator.cs" />
     <Compile Include="Util\ParameterHelper.cs" />
@@ -100,5 +100,6 @@
       <Name>BOA.EntityGeneration</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
