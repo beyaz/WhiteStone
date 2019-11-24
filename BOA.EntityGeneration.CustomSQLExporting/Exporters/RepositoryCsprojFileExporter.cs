@@ -10,7 +10,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(OnProfileInfoInitialized, InitializeAssemblyReferences);
             AttachEvent(OnProfileInfoRemove, Export);
         }
         #endregion
@@ -25,19 +24,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
                 NamespaceName    = profileNamingPattern.RepositoryNamespace,
                 IsClientDll      = false,
                 ProjectDirectory = profileNamingPattern.RepositoryProjectDirectory,
-                References       = repositoryAssemblyReference
+                References       =  repositoryAssemblyReferences
             };
 
             var csprojFilePath = csprojFileGenerator.Generate();
 
-            MsBuildQueue.Push(new MSBuildData {ProjectFilePath = csprojFilePath});
+            MsBuildQueue.Push(csprojFilePath);
         }
 
-        void InitializeAssemblyReferences()
-        {
-            RepositoryAssemblyReferences[Context] = new List<string>();
-            repositoryAssemblyReferences.AddRange(profileNamingPattern.RepositoryAssemblyReferences);
-        }
+        
         #endregion
     }
 }

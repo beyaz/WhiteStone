@@ -10,7 +10,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(OnProfileInfoInitialized, InitializeAssemblyReferences);
             AttachEvent(OnProfileInfoRemove, Export);
         }
         #endregion
@@ -30,14 +29,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var csprojFilePath = csprojFileGenerator.Generate();
 
-            MsBuildQueue.Push(new MSBuildData {ProjectFilePath = csprojFilePath});
+            MsBuildQueue.Push(csprojFilePath);
         }
 
-        void InitializeAssemblyReferences()
-        {
-            EntityAssemblyReferences[Context] = new List<string>();
-            EntityAssemblyReferences[Context].AddRange(profileNamingPattern.EntityAssemblyReferences);
-        }
+        
         #endregion
     }
 }

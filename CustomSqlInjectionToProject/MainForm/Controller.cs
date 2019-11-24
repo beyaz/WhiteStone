@@ -44,13 +44,13 @@ namespace CustomSqlInjectionToProject.MainForm
 
         public void GetCapture()
         {
-            Model.CustomSqlGenerationOfProfileIdProcess = context?.TryGet(ProcessInfo) ?? Model.CustomSqlGenerationOfProfileIdProcess;
+            //Model.CustomSqlGenerationOfProfileIdProcess = context?.TryGet(ProcessInfo) ?? Model.CustomSqlGenerationOfProfileIdProcess;
 
-            if (IsFinished)
-            {
-                Model.FinishTimer       = true;
-                Model.ViewShouldBeClose = true;
-            }
+            //if (IsFinished)
+            //{
+            //    Model.FinishTimer       = true;
+            //    Model.ViewShouldBeClose = true;
+            //}
         }
 
         public override void OnViewLoaded()
@@ -92,14 +92,14 @@ namespace CustomSqlInjectionToProject.MainForm
 
             if (profileId == "*")
             {
-                //foreach (var profileName in context.GetProfileNames())
+                //foreach (var ProfileName in context.GetProfileNames())
                 //{
-                //    if (profileName == "*")
+                //    if (ProfileName == "*")
                 //    {
                 //        continue;
                 //    }
 
-                //    //CustomSqlExporter.Export(context, profileName);
+                //    //CustomSqlExporter.Export(context, ProfileName);
                 //}
             }
             else

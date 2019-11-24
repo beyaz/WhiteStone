@@ -12,6 +12,7 @@ using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
 using ContextContainer = BOA.EntityGeneration.CustomSQLExporting.Exporters.ContextContainer;
 
+
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     class CustomSqlExporter : ContextContainer
@@ -27,10 +28,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public void InitializeContext()
         {
             Context = new Context();
-            InitProcessInfo();
             InitializeConfig();
             InitializeDatabaseConnection();
-            MsBuildQueue = new MsBuildQueue_old();
 
             // attach events
             Create<EntityFileExporter>().AttachEvents();
@@ -45,12 +44,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public void Export(string profileId)
         {
 
-            profileName          = profileId;
-            profileNamingPattern = CreateProfileNamingPattern();
+            Context.profileName          = profileId;
+            Context.profileNamingPattern = CreateProfileNamingPattern();
 
             processInfo.Text = "Fetching profile informations...";
 
-            var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, profileName, config);
+            var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, ProfileName, config);
 
             Context.FireEvent(OnProfileInfoInitialized);
 
@@ -63,7 +62,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 processInfo.Current = switchCaseIndex;
 
 
-                customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileName, objectId, config, switchCaseIndex++);
+                Context.customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, ProfileName, objectId, config, switchCaseIndex++);
 
                 InitializeCustomSqlNamingPattern();
 
@@ -108,7 +107,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             var initialValues = new Dictionary<string, string>
             {
-                {nameof(Data.ProfileName), profileName}
+                {nameof(ProfileName), ProfileName}
             };
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.ProfileNamingPattern, initialValues);
@@ -122,22 +121,22 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 RepositoryProjectDirectory   = dictionary[nameof(ProfileNamingPatternContract.RepositoryProjectDirectory)],
                 BoaRepositoryUsingLines      = dictionary[nameof(ProfileNamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
                 EntityUsingLines             = dictionary[nameof(ProfileNamingPatternContract.EntityUsingLines)].Split('|'),
-                EntityAssemblyReferences     = dictionary[nameof(ProfileNamingPatternContract.EntityAssemblyReferences)].Split('|'),
-                RepositoryAssemblyReferences = dictionary[nameof(ProfileNamingPatternContract.RepositoryAssemblyReferences)].Split('|')
+                EntityAssemblyReferences     = dictionary[nameof(ProfileNamingPatternContract.EntityAssemblyReferences)].Split('|').ToList(),
+                RepositoryAssemblyReferences = dictionary[nameof(ProfileNamingPatternContract.RepositoryAssemblyReferences)].Split('|').ToList()
             };
         }
 
         public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(CustomSqlExporter).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
         void InitializeConfig()
         {
-            config = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(ConfigFilePath));
+            Context.config = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(ConfigFilePath));
         }
 
         void InitializeCustomSqlNamingPattern()
         {
             var initialValues = new Dictionary<string, string>
             {
-                {nameof(Data.ProfileName), profileName},
+                {nameof(ProfileName), ProfileName},
                 {"CamelCasedCustomSqlName", customSqlInfo.Name.ToContractName()}
             };
 
@@ -151,7 +150,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.CustomSqlNamingPattern, initialValues);
 
-            customSqlNamingPattern = new CustomSqlNamingPatternContract
+            Context.customSqlNamingPattern = new CustomSqlNamingPatternContract
             {
                 ResultClassName                  = dictionary[nameof(CustomSqlNamingPatternContract.ResultClassName)],
                 RepositoryClassName              = dictionary[nameof(CustomSqlNamingPatternContract.RepositoryClassName)],
@@ -165,16 +164,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         void InitializeDatabaseConnection()
         {
-            database = new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
+            Context.database = new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
 
-        void InitProcessInfo()
-        {
-            var processContract = new ProcessContract();
-
-            processInfo         = processContract;
-            MsBuildQueueProcess = processContract;
-        }
+        
         #endregion
     }
 }
