@@ -4,7 +4,7 @@ using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
+namespace BOA.EntityGeneration.SchemaToEntityExporting
 {
     [TestClass]
     public class SampleDatabaseTest

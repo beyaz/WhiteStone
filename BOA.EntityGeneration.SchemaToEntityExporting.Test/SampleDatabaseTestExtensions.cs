@@ -1,6 +1,6 @@
 ﻿using BOA.DatabaseAccess;
 
-namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
+namespace BOA.EntityGeneration.SchemaToEntityExporting
 {
     static class SampleDatabaseTestExtensions
     {

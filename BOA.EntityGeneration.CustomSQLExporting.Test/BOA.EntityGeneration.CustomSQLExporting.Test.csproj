@@ -8,7 +8,7 @@
     <ProjectGuid>{074AC9D0-29CB-48E7-A6CA-3C0D7CBC5475}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BOA.EntityGeneration.CustomSQLExporting.Test</RootNamespace>
+    <RootNamespace>BOA.EntityGeneration.CustomSQLExporting</RootNamespace>
     <AssemblyName>BOA.EntityGeneration.CustomSQLExporting.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -61,7 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProjectInjectorDebug.cs" />
+    <Compile Include="CustomSqlExporterDebug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

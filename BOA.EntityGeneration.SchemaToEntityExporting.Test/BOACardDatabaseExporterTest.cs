@@ -4,7 +4,7 @@ using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
+namespace BOA.EntityGeneration.SchemaToEntityExporting
 {
     [TestClass]
     public class BOACardDatabaseExporterTest

@@ -1,7 +1,7 @@
 ﻿using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
+namespace BOA.EntityGeneration.CustomSQLExporting
 {
     [TestClass]
     public class CustomSqlExporterDebug
