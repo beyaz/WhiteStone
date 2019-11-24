@@ -4,10 +4,7 @@ using BOA.EntityGeneration.DbModel.Interfaces;
 
 namespace BOA.EntityGeneration.DataAccess
 {
-    /// <summary>
-    ///     The insert information creator
-    /// </summary>
-    public class InsertInfoCreator : ScriptModel.Creators.InsertInfoCreator
+   class InsertInfoCreator : ScriptModel.Creators.InsertInfoCreator
     {
         #region Methods
         /// <summary>
