@@ -1,7 +1,7 @@
 ﻿using System;
-using BOA.EntityGeneration.Models.Interfaces;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models.Interfaces;
 
-namespace BOA.EntityGeneration.Models.Impl
+namespace BOA.EntityGeneration.SchemaToEntityExporting.Models.Impl
 {
     /// <summary>
     ///     The sequence information

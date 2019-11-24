@@ -1,4 +1,4 @@
-﻿namespace BOA.EntityGeneration.Models.Interfaces
+﻿namespace BOA.EntityGeneration.SchemaToEntityExporting.Models.Interfaces
 {
     /// <summary>
     ///     The sequence information

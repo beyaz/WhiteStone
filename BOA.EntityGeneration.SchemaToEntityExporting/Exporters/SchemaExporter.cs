@@ -4,10 +4,11 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
-using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.SchemaToEntityExporting.CsprojFileExporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.DataAccess;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models.NamingModel;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 {

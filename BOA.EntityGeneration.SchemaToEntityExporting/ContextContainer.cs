@@ -2,8 +2,9 @@
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.Models.Interfaces;
-using BOA.EntityGeneration.Naming;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models.Interfaces;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models.NamingModel;
 
 namespace BOA.EntityGeneration
 {

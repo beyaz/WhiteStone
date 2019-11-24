@@ -6,10 +6,10 @@ using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.DbModel.Types;
-using BOA.EntityGeneration.Models.Impl;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models.Impl;
 using WhiteStone.Helpers;
-using ITableInfo = BOA.EntityGeneration.Models.Interfaces.ITableInfo;
-using TableInfo = BOA.EntityGeneration.Models.Impl.TableInfo;
+using ITableInfo = BOA.EntityGeneration.SchemaToEntityExporting.Models.Interfaces.ITableInfo;
+using TableInfo = BOA.EntityGeneration.SchemaToEntityExporting.Models.Impl.TableInfo;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.DataAccess
 {

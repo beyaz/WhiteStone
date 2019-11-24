@@ -1,4 +1,4 @@
-﻿namespace BOA.EntityGeneration.Naming
+﻿namespace BOA.EntityGeneration.SchemaToEntityExporting.Models.NamingModel
 {
     class TableNamingPatternContract
     {
