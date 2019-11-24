@@ -16,12 +16,12 @@ namespace BOA.EntityGeneration
         #region Schema Exporting Events
         protected event Action OnSchemaExportStarted
         {
-            add{ AttachEvent(SchemaExportingEvent.SchemaExportStarted, value);}
+            add => AttachEvent(SchemaExportingEvent.SchemaExportStarted, value);
             remove => throw new NotImplementedException();
         }
         protected event Action OnSchemaExportFinished
         {
-            add{ AttachEvent(SchemaExportingEvent.SchemaExportFinished, value);}
+            add => AttachEvent(SchemaExportingEvent.SchemaExportFinished, value);
             remove => throw new NotImplementedException();
         }
         #endregion
@@ -29,13 +29,13 @@ namespace BOA.EntityGeneration
         #region Table Exporting Events
         protected event Action OnTableExportFinished
         {
-            add{ AttachEvent(TableExportingEvent.TableExportFinished, value);}
+            add => AttachEvent(TableExportingEvent.TableExportFinished, value);
             remove => throw new NotImplementedException();
         }
 
         protected event Action OnTableExportStarted
         {
-            add{ AttachEvent(TableExportingEvent.TableExportStarted, value);}
+            add => AttachEvent(TableExportingEvent.TableExportStarted, value);
             remove => throw new NotImplementedException();
         }
         #endregion 
@@ -70,8 +70,12 @@ namespace BOA.EntityGeneration
             get => NamingPatternContract.NamingPattern[Context];
             set => NamingPatternContract.NamingPattern[Context]=value;
         }
-        
-        protected ITableInfo                 tableInfo                                                => Data.TableInfo[Context];
+
+        protected ITableInfo tableInfo
+        {
+            get=> Data.TableInfo[Context];
+            set=> Data.TableInfo[Context]=value;
+        }
 
         protected string tableEntityClassNameForMethodParametersInRepositoryFiles
         {

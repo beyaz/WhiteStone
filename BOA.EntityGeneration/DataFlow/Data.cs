@@ -17,7 +17,6 @@ namespace BOA.EntityGeneration.DataFlow
         internal static readonly Property<IDatabase> Database = Property.Create<IDatabase>();
 
         internal static readonly Property<ITableInfo>   TableInfo          = Property.Create<ITableInfo>();
-        internal static readonly Property<List<string>> TableNamesInSchema = Property.Create<List<string>>();
         #endregion
 
         #region Naming

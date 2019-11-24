@@ -28,16 +28,7 @@ namespace BOA.EntityGeneration.Exporters
 
             var tableNames = SchemaInfo.GetAllTableNamesInSchema(database, schemaName).ToList();
 
-            Context.OpenBracket();
-            Context.Add(Data.TableNamesInSchema, tableNames);
-
-            Context.FireEvent(DataEvent.AfterFetchedAllTableNamesInSchema);
-
-            tableNames = Context.Get(Data.TableNamesInSchema);
-
-            Context.CloseBracket();
-
-            tableNames = tableNames.Where(x => IsReadyToExport(schemaName, x, config)).ToList();
+            tableNames = tableNames.Where(IsReadyToExport).ToList();
 
             processInfo.Total   = tableNames.Count;
             processInfo.Current = 0;
@@ -49,19 +40,19 @@ namespace BOA.EntityGeneration.Exporters
 
                 var tableInfoDao = new TableInfoDao {Database = database, IndexInfoAccess = new IndexInfoAccess {Database = database}};
 
-                var tableInfo = tableInfoDao.GetInfo(config.TableCatalog, schemaName, tableName);
+                var tableInfoTemp = tableInfoDao.GetInfo(config.TableCatalog, schemaName, tableName);
 
-                var generatorData = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfo);
+                tableInfo = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfoTemp);
 
                 Context.OpenBracket();
-                Context.Add(Data.TableInfo, generatorData);
+
                 Context.FireEvent(TableExportingEvent.TableExportStarted);
                 Context.FireEvent(TableExportingEvent.TableExportFinished);
                 Context.CloseBracket();
             }
         }
 
-        static bool IsReadyToExport(string schemaName, string tableName, ConfigContract config)
+         bool IsReadyToExport( string tableName)
         {
             var fullTableName = $"{schemaName}.{tableName}";
 

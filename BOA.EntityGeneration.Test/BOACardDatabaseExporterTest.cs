@@ -34,9 +34,9 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters
         #region Methods
         static void SelectFirstTenTable(Context context)
         {
-            var       list  = context.Get(Data.TableNamesInSchema);
-            const int count = 5;
-            list.RemoveRange(count, list.Count - count);
+            //var       list  = context.Get(Data.TableNamesInSchema);
+            //const int count = 5;
+            //list.RemoveRange(count, list.Count - count);
         }
         #endregion
     }
