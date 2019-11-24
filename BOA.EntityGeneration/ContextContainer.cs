@@ -10,6 +10,8 @@ namespace BOA.EntityGeneration
 {
     class ContextContainer : BOA.DataFlow.ContextContainer
     {
+        public new BOA.EntityGeneration.Context Context { get; set; }
+
         #region Events
         protected event Action OnSchemaExportFinished
         {
@@ -25,13 +27,13 @@ namespace BOA.EntityGeneration
 
         protected event Action OnTableExportFinished
         {
-            add => AttachEvent(TableExportingEvent.TableExportFinished, value);
+            add => Context.OnTableExportFinished+=value;
             remove => throw new NotImplementedException();
         }
 
         protected event Action OnTableExportStarted
         {
-            add => AttachEvent(TableExportingEvent.TableExportStarted, value);
+            add => Context.OnTableExportStarted += value;
             remove => throw new NotImplementedException();
         }
         #endregion

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
@@ -19,9 +20,21 @@ using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 
 namespace BOA.EntityGeneration
 {
-    class Context : BOA.DataFlow.Context
+     class Context : BOA.DataFlow.Context
     {
+        public event Action OnTableExportFinished;
 
+        public  event Action OnTableExportStarted;
+
+        public void FireOnTableExportStarted()
+        {
+            OnTableExportStarted?.Invoke();
+        }
+
+        public void FireOnTableExportFinished()
+        {
+            OnTableExportFinished?.Invoke();
+        }
     }
 }
 
@@ -193,8 +206,9 @@ namespace BOA.EntityGeneration.Exporters
 
                 Context.OpenBracket();
 
-                Context.FireEvent(TableExportStarted);
-                Context.FireEvent(TableExportFinished);
+                Context.FireOnTableExportStarted();
+                Context.FireOnTableExportFinished();
+
                 Context.CloseBracket();
             }
         }
