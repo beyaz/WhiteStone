@@ -27,15 +27,15 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         #region Public Methods
         public void AttachEvents()
         {
-            OnSchemaExportStarted+= WriteUsingList;
-            OnSchemaExportStarted+= EmptyLine;
-            OnSchemaExportStarted+= BeginNamespace;
-            OnSchemaExportStarted+= WriteEmbeddedClasses;
+            SchemaExportStarted+= WriteUsingList;
+            SchemaExportStarted+= EmptyLine;
+            SchemaExportStarted+= BeginNamespace;
+            SchemaExportStarted+= WriteEmbeddedClasses;
 
-            OnTableExportStarted+= WriteClass;
+            TableExportStarted+= WriteClass;
 
-            OnSchemaExportFinished+= EndNamespace;
-            OnSchemaExportFinished+= ExportFileToDirectory;
+            SchemaExportFinished+= EndNamespace;
+            SchemaExportFinished+= ExportFileToDirectory;
         }
         #endregion
 

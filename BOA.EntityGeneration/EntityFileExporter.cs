@@ -18,15 +18,15 @@ namespace BOA.EntityGeneration
         #region Public Methods
         public void AttachEvents()
         {
-            OnSchemaExportStarted+= InitializeOutput;
-            OnSchemaExportStarted+= WriteUsingList;
-            OnSchemaExportStarted+= EmptyLine;
-            OnSchemaExportStarted+= BeginNamespace;
+            SchemaExportStarted+= InitializeOutput;
+            SchemaExportStarted+= WriteUsingList;
+            SchemaExportStarted+= EmptyLine;
+            SchemaExportStarted+= BeginNamespace;
 
-            OnTableExportStarted+= WriteClass;
+            TableExportStarted+= WriteClass;
 
-           OnSchemaExportFinished+= EndNamespace;
-           OnSchemaExportFinished+= ExportFileToDirectory;
+           SchemaExportFinished+= EndNamespace;
+           SchemaExportFinished+= ExportFileToDirectory;
         }
         #endregion
 
@@ -52,7 +52,11 @@ namespace BOA.EntityGeneration
 
             var filePath = namingPattern.EntityProjectDirectory + "All.cs";
 
-            FileSystem.WriteAllText(Context, filePath, file.ToString());
+            var content = file.ToString();
+
+            Context.OnEntityFileContentCompleted(content);
+            
+            FileSystem.WriteAllText(Context, filePath, content);
         }
 
         void InitializeOutput()

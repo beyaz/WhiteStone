@@ -1,53 +1,12 @@
-﻿using BOA.DataFlow;
-using BOA.EntityGeneration.Exporters;
-using static BOA.EntityGeneration.DataFlow.Data;
+﻿using BOA.DatabaseAccess;
 
 namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 {
-    partial class SampleDatabaseTest
-    {
-        class TestEntityGenerationDataContextCreator 
-        {
-            #region Constructors
-            public TestEntityGenerationDataContextCreator()
-            {
-                // ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json";
-            }
-            #endregion
-
-
-            public Context Create()
-            {
-                var context = new Context();
-
-               
-
-                return context;
-            }
-
-            #region Methods
-            protected  void AttachEvents(Context context)
-            {
-                //context.AttachEvent(TableExportingEvent.TableExportStarted, BoaRepositoryFileExporter.WriteClass);
-
-                //context.AttachEvent(SchemaExportStarted, BoaRepositoryFileExporter.WriteUsingList);
-                //context.AttachEvent(SchemaExportStarted, AllBusinessClassesInOne.BeginNamespace);
-                //context.AttachEvent(SchemaExportStarted, Events.ProcessAllTablesInSchema);
-                //context.AttachEvent(SchemaExportStarted, BoaRepositoryFileExporter.EndNamespace);
-
-                //context.AttachEvent(SchemaExportStarted, HoldSomeDataForCheckingTestResults);
-            }
-            #endregion
-        }
-    }
-
     static class SampleDatabaseTestExtensions
     {
         #region Public Methods
-        public static void CreateTables(this BOA.DataFlow.Context context)
+        public static void CreateTables(this IDatabase database)
         {
-            var database = context.Get(Database);
-
             database.BeginTransaction();
 
             database.CommandText = "CREATE SCHEMA ERP";

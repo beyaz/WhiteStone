@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.CsprojFileExporters
         #region Public Methods
         public void AttachEvents()
         {
-            OnSchemaExportFinished += Export;
+            SchemaExportFinished += Export;
         }
         #endregion
 

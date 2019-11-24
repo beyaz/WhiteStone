@@ -64,18 +64,18 @@ namespace BOA.EntityGeneration.Exporters
         void AttachEvents()
         {
             var context = Context;
-            OnTableExportStarted+=InitializeTableNamingPattern;
+            TableExportStarted+=InitializeTableNamingPattern;
 
             new EntityFileExporter {Context = context}.AttachEvents();
             new SharedFileExporter {Context = context}.AttachEvents();
             new BoaRepositoryFileExporter {Context = context}.AttachEvents();
 
-            OnSchemaExportStarted += ProcessAllTablesInSchema;
+            SchemaExportStarted += ProcessAllTablesInSchema;
 
             Create<EntityCsprojFileExporter>().AttachEvents();
             Create<RepositoryCsprojFileExporter>().AttachEvents();
 
-            OnSchemaExportFinished += MsBuildQueue.Build;
+            SchemaExportFinished += MsBuildQueue.Build;
         }
 
         void InitializeConfig()

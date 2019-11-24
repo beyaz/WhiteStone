@@ -47,5 +47,25 @@ namespace BOA.EntityGeneration
             SchemaExportFinished?.Invoke();
         }
         #endregion
+
+
+        #region EntityFileContentCompleted
+        public event Action<string> EntityFileContentCompleted;
+
+        public void OnEntityFileContentCompleted(string entityFileContent)
+        {
+            EntityFileContentCompleted?.Invoke(entityFileContent);
+        }
+        #endregion
+
+
+        #region SharedRepositoryFileContentCompleted
+        public event Action<string> SharedRepositoryFileContentCompleted;
+
+        public void OnSharedRepositoryFileContentCompleted(string entityFileContent)
+        {
+            SharedRepositoryFileContentCompleted?.Invoke(entityFileContent);
+        }
+        #endregion
     }
 }
