@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.BoaRepositoryFileExporting;
@@ -15,7 +14,6 @@ using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.SharedRepositoryFileExporting;
 using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
-using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 
 
 namespace BOA.EntityGeneration
