@@ -27,8 +27,6 @@ namespace BOA.EntityGeneration.Exporters
         /// </summary>
         public void Export(string schemaName)
         {
-            var context = Context;
-
             Context.SchemaName = schemaName;
 
             InitializeNamingPattern();

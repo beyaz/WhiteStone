@@ -10,8 +10,8 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
     public class SampleDatabaseTest
     {
         #region Public Methods
-        [TestInitialize]
-        public void Initialize()
+        [TestMethod]
+        public void AllScenario()
         {
             var schemaExporter = new SchemaExporter
             {
