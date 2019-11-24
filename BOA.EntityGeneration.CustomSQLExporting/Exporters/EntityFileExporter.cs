@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
-using BOA.DataFlow;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {

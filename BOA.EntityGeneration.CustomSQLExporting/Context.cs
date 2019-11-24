@@ -6,7 +6,7 @@ using BOA.EntityGeneration.CustomSQLExporting.Models;
 
 namespace BOA.EntityGeneration.CustomSQLExporting
 {
-    class Context : DataFlow.Context
+    class Context 
     {
         #region Constructors
         public Context()
