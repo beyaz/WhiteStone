@@ -12,6 +12,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
     {
         #region Fields
         readonly List<string> _repositoryProjectSourceFileNames = new List<string>();
+        readonly List<string> _entityProjectSourceFileNames = new List<string>();
         #endregion
 
         #region Constructors
@@ -32,6 +33,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         public ProcessContract       processInfo   { get; }
 
         public IReadOnlyList<string>      RepositoryProjectSourceFileNames                             => _repositoryProjectSourceFileNames;
+        public IReadOnlyList<string> EntityProjectSourceFileNames => _entityProjectSourceFileNames;
+
         public string                     SchemaName                                               { get; set; }
         public string                     tableEntityClassNameForMethodParametersInRepositoryFiles { get; set; }
         public ITableInfo                 tableInfo                                                { get; set; }
@@ -42,6 +45,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         public void PushFileNameToRepositoryProjectSourceFileNames(string fileName)
         {
             _repositoryProjectSourceFileNames.Add(fileName);
+        }
+        public void PushFileNameToEntityProjectSourceFileNames(string fileName)
+        {
+            _entityProjectSourceFileNames.Add(fileName);
         }
         #endregion
 

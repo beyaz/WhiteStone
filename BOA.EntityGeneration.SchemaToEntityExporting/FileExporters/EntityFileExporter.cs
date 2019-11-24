@@ -1,5 +1,4 @@
 ﻿using BOA.Common.Helpers;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
@@ -44,7 +43,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         {
             processInfo.Text = "Exporting Entity classes.";
 
-            var filePath = namingPattern.EntityProjectDirectory + "All.cs";
+            const string fileName = "All.cs";
+
+            Context.PushFileNameToEntityProjectSourceFileNames(fileName);
+
+            var filePath = namingPattern.EntityProjectDirectory + fileName;
 
             var content = file.ToString();
 
