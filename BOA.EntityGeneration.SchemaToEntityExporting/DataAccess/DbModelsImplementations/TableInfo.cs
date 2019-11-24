@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using BOA.EntityGeneration.DbModel.Interfaces;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models.Interfaces;
+using BOA.EntityGeneration.SchemaToEntityExporting.DbModels;
+using ITableInfo = BOA.EntityGeneration.SchemaToEntityExporting.DbModels.ITableInfo;
 
-namespace BOA.EntityGeneration.SchemaToEntityExporting.Models.Impl
+namespace BOA.EntityGeneration.SchemaToEntityExporting.DataAccess.DbModelsImplementations
 {
     /// <summary>
     ///     The generator data
     /// </summary>
     [Serializable]
-    public class TableInfo : DbModel.Types.TableInfo, Interfaces.ITableInfo
+    public class TableInfo : DbModel.Types.TableInfo, ITableInfo
     {
         #region Public Properties
         /// <summary>

@@ -53,21 +53,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContextContainer.cs" />
-    <Compile Include="Context.cs" />
-    <Compile Include="Models\NamingModel\NamingPatternContract.cs" />
-    <Compile Include="Models\NamingModel\TableNamingPatternContract.cs" />
+    <Compile Include="FileExporters\ContextContainer.cs" />
+    <Compile Include="FileExporters\Context.cs" />
+    <Compile Include="Models\NamingPatternContract.cs" />
+    <Compile Include="Models\TableNamingPatternContract.cs" />
     <Compile Include="FileExporters\SharedFileExporter.cs" />
-    <Compile Include="Models\Interfaces\ITableInfo.cs" />
-    <Compile Include="Models\Impl\SequenceInfo.cs" />
-    <Compile Include="Models\Interfaces\ISequenceInfo.cs" />
-    <Compile Include="CsprojFileExporters\RepositoryCsprojFileExporter.cs" />
-    <Compile Include="DataAccess\InsertInfoCreator.cs" />
-    <Compile Include="CsprojFileExporters\EntityCsprojFileExporter.cs" />
+    <Compile Include="DbModels\ITableInfo.cs" />
+    <Compile Include="DataAccess\DbModelsImplementations\SequenceInfo.cs" />
+    <Compile Include="DbModels\ISequenceInfo.cs" />
+    <Compile Include="FileExporters\CsprojFileExporters\RepositoryCsprojFileExporter.cs" />
+    <Compile Include="FileExporters\BankingRepositoryFileExporting\InsertInfoCreator.cs" />
+    <Compile Include="FileExporters\CsprojFileExporters\EntityCsprojFileExporter.cs" />
     <Compile Include="Models\ConfigContract.cs" />
-    <Compile Include="FileExporters\BoaRepositoryFileExporter.cs" />
+    <Compile Include="FileExporters\BankingRepositoryFileExporting\BoaRepositoryFileExporter.cs" />
     <Compile Include="FileExporters\EntityFileExporter.cs" />
-    <Compile Include="Models\Impl\TableInfo.cs" />
+    <Compile Include="DataAccess\DbModelsImplementations\TableInfo.cs" />
     <Compile Include="DataAccess\GeneratorDataCreator.cs" />
     <Compile Include="Util\ParameterHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

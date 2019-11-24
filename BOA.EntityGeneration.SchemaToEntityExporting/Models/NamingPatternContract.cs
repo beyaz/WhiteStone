@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BOA.EntityGeneration.SchemaToEntityExporting.Models.NamingModel
+namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
 {
     class NamingPatternContract
     {

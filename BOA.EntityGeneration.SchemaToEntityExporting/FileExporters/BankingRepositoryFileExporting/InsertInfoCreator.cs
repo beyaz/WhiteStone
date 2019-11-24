@@ -2,7 +2,7 @@
 using System.Linq;
 using BOA.EntityGeneration.DbModel.Interfaces;
 
-namespace BOA.EntityGeneration.SchemaToEntityExporting.DataAccess
+namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting
 {
    class InsertInfoCreator : ScriptModel.Creators.InsertInfoCreator
     {

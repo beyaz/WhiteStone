@@ -1,4 +1,5 @@
 ﻿using BOA.Common.Helpers;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters

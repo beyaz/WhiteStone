@@ -1,24 +1,20 @@
-﻿using System;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models.Interfaces;
-
-namespace BOA.EntityGeneration.SchemaToEntityExporting.Models.Impl
+﻿namespace BOA.EntityGeneration.SchemaToEntityExporting.DbModels
 {
     /// <summary>
     ///     The sequence information
     /// </summary>
-    [Serializable]
-    public class SequenceInfo : ISequenceInfo
+    public interface ISequenceInfo
     {
         #region Public Properties
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>
-        public string Name { get; set; }
+        string Name { get; }
 
         /// <summary>
         ///     Gets or sets the name of the target column.
         /// </summary>
-        public string TargetColumnName { get; set; }
+        string TargetColumnName { get; }
         #endregion
     }
 }

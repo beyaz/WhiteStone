@@ -4,6 +4,7 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.SchemaToEntityExporting.Util;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;

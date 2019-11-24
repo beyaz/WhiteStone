@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
-using InsertInfoCreator = BOA.EntityGeneration.SchemaToEntityExporting.DataAccess.InsertInfoCreator;
 
-namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
+namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting
 {
     class BoaRepositoryFileExporter : ContextContainer
     {
