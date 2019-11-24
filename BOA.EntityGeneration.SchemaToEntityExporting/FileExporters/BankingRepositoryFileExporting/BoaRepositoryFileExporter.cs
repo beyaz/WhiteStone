@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
@@ -56,11 +55,16 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
         void ExportFileToDirectory()
         {
+            const string fileName = "Boa.cs";
+
             var sourceCode = file.ToString();
 
             processInfo.Text = "Exporting Boa repository...";
 
-            FileSystem.WriteAllText(namingPattern.RepositoryProjectDirectory + "Boa.cs", sourceCode);
+            Context.PushFileNameToRepositoryProjectSourceFileNames(fileName);
+
+            
+            FileSystem.WriteAllText(namingPattern.RepositoryProjectDirectory + fileName, sourceCode);
         }
 
         void WriteClass()

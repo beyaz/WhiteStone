@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
@@ -9,6 +10,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
     class Context
     {
+        #region Fields
+        readonly List<string> _repositoryProjectSourceFileNames = new List<string>();
+        #endregion
+
         #region Constructors
         public Context()
         {
@@ -19,16 +24,25 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         #endregion
 
         #region Public Properties
-        public ConfigContract             config                                                   { get; set; }
-        public IDatabase                  database                                                 { get; set; }
-        public FileSystem                 FileSystem                                               { get; }
-        public MsBuildQueue               MsBuildQueue                                             { get; }
-        public NamingPatternContract      namingPattern                                            { get; set; }
-        public ProcessContract            processInfo                                              { get; }
+        public ConfigContract        config        { get; set; }
+        public IDatabase             database      { get; set; }
+        public FileSystem            FileSystem    { get; }
+        public MsBuildQueue          MsBuildQueue  { get; }
+        public NamingPatternContract namingPattern { get; set; }
+        public ProcessContract       processInfo   { get; }
+
+        public IReadOnlyList<string>      RepositoryProjectSourceFileNames                             => _repositoryProjectSourceFileNames;
         public string                     SchemaName                                               { get; set; }
         public string                     tableEntityClassNameForMethodParametersInRepositoryFiles { get; set; }
         public ITableInfo                 tableInfo                                                { get; set; }
         public TableNamingPatternContract tableNamingPattern                                       { get; set; }
+        #endregion
+
+        #region Public Methods
+        public void PushFileNameToRepositoryProjectSourceFileNames(string fileName)
+        {
+            _repositoryProjectSourceFileNames.Add(fileName);
+        }
         #endregion
 
         #region TableExportFinished

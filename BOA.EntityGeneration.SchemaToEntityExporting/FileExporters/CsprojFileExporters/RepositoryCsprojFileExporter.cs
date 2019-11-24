@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileE
             var csprojFileGenerator = new CsprojFileGenerator
             {
                 FileSystem       = FileSystem,
-                FileNames        = new List<string> {"Shared.cs", "Boa.cs"},
+                FileNames        = Context.RepositoryProjectSourceFileNames,
                 NamespaceName    = namingPattern.RepositoryNamespace,
                 IsClientDll      = false,
                 ProjectDirectory = namingPattern.RepositoryProjectDirectory,

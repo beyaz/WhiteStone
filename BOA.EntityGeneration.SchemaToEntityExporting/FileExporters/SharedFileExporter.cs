@@ -57,11 +57,15 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void ExportFileToDirectory()
         {
+            const string fileName = "Shared.cs";
+
             var sourceCode = file.ToString();
 
             Context.OnSharedRepositoryFileContentCompleted(sourceCode);
 
             processInfo.Text = "Exporting Shared repository...";
+
+            Context.PushFileNameToRepositoryProjectSourceFileNames(fileName);
 
             FileSystem.WriteAllText(namingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
         }
