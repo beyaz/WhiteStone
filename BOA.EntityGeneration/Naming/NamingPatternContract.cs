@@ -18,6 +18,7 @@ namespace BOA.EntityGeneration.Naming
         public string                RepositoryProjectDirectory { get; set; }
         public IReadOnlyList<string> SharedRepositoryUsingLines { get; set; }
         public IReadOnlyList<string> EntityAssemblyReferences { get; set; }
+        public IReadOnlyList<string> RepositoryAssemblyReferences { get; set; }
         public string                SlnDirectoryPath           { get; set; }
         #endregion
     }

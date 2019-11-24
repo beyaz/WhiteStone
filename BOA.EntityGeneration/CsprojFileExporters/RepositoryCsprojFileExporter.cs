@@ -1,126 +1,34 @@
-﻿using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.DataFlow;
-using BOA.EntityGeneration.Naming;
+﻿using System.Collections.Generic;
+using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.Tasks;
 
 namespace BOA.EntityGeneration.CsprojFileExporters
 {
-    class RepositoryCsprojFileExporter
+    class RepositoryCsprojFileExporter : ContextContainer
     {
         #region Public Methods
-        public static void Export(Context context)
+        public void AttachEvents()
         {
-            var schemaName    = context.Get(Data.SchemaName);
-            var namingPattern = context.Get(NamingPatternContract.NamingPattern);
+            OnSchemaExportFinished += Export;
+        }
+        #endregion
 
-            var ProjectExportLocation = namingPattern.RepositoryProjectDirectory;
-
-            var progress = context.Get(Data.ProcessInfo);
-
-            var ns = namingPattern.RepositoryNamespace;
-
-            var projectDirectory = $"{ProjectExportLocation}\\";
-
-            var csprojFilePath       = $"{projectDirectory}{ns}.csproj";
-            var assemblyInfoFilePath = $"{projectDirectory}\\Properties\\AssemblyInfo.cs";
-
-            var content = $@"
-
-<?xml version=""1.0"" encoding=""utf-8""?>
-<Project ToolsVersion=""15.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
-  <Import Project=""$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"" Condition=""Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"" />
-  <PropertyGroup>
-    <Configuration Condition="" '$(Configuration)' == '' "">Debug</Configuration>
-    <Platform Condition="" '$(Platform)' == '' "">AnyCPU</Platform>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>{ns}</RootNamespace>
-    <AssemblyName>{ns}</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-  </PropertyGroup>
-  <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' "">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\{ns}.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' "">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>3</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include=""BOA.Base"">
-      <HintPath>D:\BOA\Server\bin\BOA.Base.dll</HintPath>
-    </Reference>
-    <Reference Include=""BOA.Common"">
-      <HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath>
-    </Reference>
-    <Reference Include=""BOA.Types.Kernel.Card.{schemaName}"">
-      <HintPath>D:\BOA\Server\bin\BOA.Types.Kernel.Card.{schemaName}.dll</HintPath>
-    </Reference>
-    <Reference Include=""BOA.Types.Kernel.Card"">
-      <HintPath>d:\boa\server\bin\BOA.Types.Kernel.Card.dll</HintPath>
-    </Reference>    
-    <Reference Include=""System"" />
-    <Reference Include=""System.Core"" />
-    <Reference Include=""System.Data"" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include=""Properties\AssemblyInfo.cs"" />
-    <Compile Include=""Boa.cs"" />
-    <Compile Include=""Shared.cs"" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project=""$(MSBuildToolsPath)\Microsoft.CSharp.targets"" />
-  <PropertyGroup>
-    <PostBuildEvent>copy /y ""$(TargetDir)$(TargetName).*"" ""d:\boa\server\bin\""</PostBuildEvent>
-  </PropertyGroup>
-</Project>
-
-";
-
-            FileSystem.WriteAllText(context, csprojFilePath, content.Trim());
-
-            var assemblyInfoContent = $@"
-using System.Reflection;
-using System.Runtime.InteropServices;
-
-[assembly: AssemblyTitle(""{ns}"")]
-[assembly: AssemblyDescription("""")]
-[assembly: AssemblyConfiguration("""")]
-[assembly: AssemblyCompany("""")]
-[assembly: AssemblyProduct(""{ns}"")]
-[assembly: AssemblyCopyright(""Copyright ©  2019"")]
-[assembly: AssemblyTrademark("""")]
-[assembly: AssemblyCulture("""")]
-[assembly: ComVisible(false)]
-[assembly: AssemblyVersion(""1.0.0.0"")]
-[assembly: AssemblyFileVersion(""1.0.0.0"")]
-";
-
-            FileSystem.WriteAllText(context, assemblyInfoFilePath, assemblyInfoContent.Trim());
-
-            progress.Text = "Compile started.";
-            context.Get(MsBuildQueue.MsBuildQueueId).Push(new MSBuildData
+        #region Methods
+        void Export()
+        {
+            var csprojFileGenerator = new CsprojFileGenerator
             {
-                ProjectFilePath = csprojFilePath
-            });
-            progress.Text = "Compile finished.";
+                Context          = Context,
+                FileNames        = new List<string> {"Shared.cs", "Boa.cs"},
+                NamespaceName    = namingPattern.RepositoryNamespace,
+                IsClientDll      = false,
+                ProjectDirectory = namingPattern.RepositoryProjectDirectory,
+                References       = namingPattern.RepositoryAssemblyReferences
+            };
+
+            var csprojFilePath = csprojFileGenerator.Generate();
+
+            MsBuildQueue.Push(new MSBuildData {ProjectFilePath = csprojFilePath});
         }
         #endregion
     }

@@ -83,8 +83,7 @@ namespace BOA.EntityGeneration.Exporters
             OnSchemaExportStarted += ProcessAllTablesInSchema;
 
             Create<EntityCsprojFileExporter>().AttachEvents();
-
-            context.AttachEvent(SchemaExportFinished, RepositoryCsprojFileExporter.Export);
+            Create<RepositoryCsprojFileExporter>().AttachEvents();
 
             context.AttachEvent(SchemaExportStarted, MsBuildQueue.Build);
         }
@@ -115,7 +114,9 @@ namespace BOA.EntityGeneration.Exporters
                 BoaRepositoryUsingLines    = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
                 EntityUsingLines           = dictionary[nameof(NamingPatternContract.EntityUsingLines)].Split('|'),
                 SharedRepositoryUsingLines = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].Split('|'),
-                EntityAssemblyReferences = dictionary[nameof(NamingPatternContract.EntityAssemblyReferences)].Split('|')
+                EntityAssemblyReferences = dictionary[nameof(NamingPatternContract.EntityAssemblyReferences)].Split('|'),
+                RepositoryAssemblyReferences = dictionary[nameof(NamingPatternContract.RepositoryAssemblyReferences)].Split('|'),
+        
             };
         }
 
