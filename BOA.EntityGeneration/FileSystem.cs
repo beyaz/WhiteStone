@@ -1,4 +1,7 @@
-﻿using BOA.TfsAccess;
+﻿using System.IO;
+using BOA.Common.Helpers;
+using BOA.TfsAccess;
+using FileAccess = BOA.TfsAccess.FileAccess;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
@@ -17,6 +20,8 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         ///     Gets or sets a value indicating whether [integrate with TFS and check in automatically].
         /// </summary>
         public bool IntegrateWithTFSAndCheckInAutomatically { get; set; }
+
+        public bool IntegrateWithTFS { get; set; }
         #endregion
 
         #region Public Methods
@@ -25,6 +30,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         /// </summary>
         public void WriteAllText(string path, string content)
         {
+
+            if (IntegrateWithTFS == false && IntegrateWithTFSAndCheckInAutomatically == false)
+            {
+                FileHelper.WriteAllText(path,content);
+                return;
+            }
+
             FileAccessWriteResult fileAccessWriteResult = null;
 
             if (IntegrateWithTFSAndCheckInAutomatically)

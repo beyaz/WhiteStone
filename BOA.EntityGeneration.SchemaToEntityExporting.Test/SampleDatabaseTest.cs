@@ -18,7 +18,8 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
                 ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.SchemaToEntityExporting.Test\BOA.EntityGeneration.json"
             };
             schemaExporter.InitializeContext();
-            AttachTests(schemaExporter);
+            
+            // AttachTests(schemaExporter);
 
             schemaExporter.database.CreateTables();
             schemaExporter.Export("ERP");
@@ -28,7 +29,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         #region Methods
         static void AttachTests(SchemaExporter schemaExporter)
         {
-            const string ExpectedResultsDirectory = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\SampleDatabaseTest.ExpectedResults\";
+            const string ExpectedResultsDirectory = @"D:\github\WhiteStone\BOA.EntityGeneration.SchemaToEntityExporting.Test\SampleDatabaseTest.ExpectedResults\";
             schemaExporter.Context.EntityFileContentCompleted += content =>
             {
                 var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
