@@ -8,8 +8,6 @@ using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using BOA.EntityGeneration.Util;
-using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
-using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 
 namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 {
@@ -29,15 +27,15 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(SchemaExportStarted, WriteUsingList);
-            AttachEvent(SchemaExportStarted, EmptyLine);
-            AttachEvent(SchemaExportStarted, BeginNamespace);
-            AttachEvent(SchemaExportStarted, WriteEmbeddedClasses);
+            OnSchemaExportStarted+= WriteUsingList;
+            OnSchemaExportStarted+= EmptyLine;
+            OnSchemaExportStarted+= BeginNamespace;
+            OnSchemaExportStarted+= WriteEmbeddedClasses;
 
-            AttachEvent(TableExportStarted, WriteClass);
-
-            AttachEvent(SchemaExportFinished, EndNamespace);
-            AttachEvent(SchemaExportFinished, ExportFileToDirectory);
+            OnTableExportStarted+= WriteClass;
+            
+            OnSchemaExportFinished+= EndNamespace;
+            OnSchemaExportFinished+= ExportFileToDirectory;
         }
         #endregion
 

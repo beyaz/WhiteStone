@@ -58,9 +58,7 @@
     <Compile Include="DataFlow\SchemaExportingEvent.cs" />
     <Compile Include="DataFlow\TableExportingEvent.cs" />
     <Compile Include="Naming\NamingPatternContract.cs" />
-    <Compile Include="Naming\NamingPatternInitializer.cs" />
     <Compile Include="Naming\TableNamingPatternContract.cs" />
-    <Compile Include="Naming\TableNamingPatternInitializer.cs" />
     <Compile Include="SharedRepositoryFileExporting\SharedFileExporter.cs" />
     <Compile Include="Models\Interfaces\ITableInfo.cs" />
     <Compile Include="Models\Impl\SequenceInfo.cs" />

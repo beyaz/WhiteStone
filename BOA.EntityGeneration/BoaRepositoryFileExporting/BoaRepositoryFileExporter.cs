@@ -7,8 +7,6 @@ using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
-using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
-using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 using InsertInfoCreator = BOA.EntityGeneration.DataAccess.InsertInfoCreator;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting
@@ -29,15 +27,15 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(SchemaExportStarted, WriteUsingList);
-            AttachEvent(SchemaExportStarted, EmptyLine);
-            AttachEvent(SchemaExportStarted, BeginNamespace);
-            AttachEvent(SchemaExportStarted, WriteEmbeddedClasses);
+            OnSchemaExportStarted+= WriteUsingList;
+            OnSchemaExportStarted+= EmptyLine;
+            OnSchemaExportStarted+= BeginNamespace;
+            OnSchemaExportStarted+= WriteEmbeddedClasses;
 
-            AttachEvent(TableExportStarted, WriteClass);
+            OnTableExportStarted+= WriteClass;
 
-            AttachEvent(SchemaExportFinished, EndNamespace);
-            AttachEvent(SchemaExportFinished, ExportFileToDirectory);
+            OnSchemaExportFinished+= EndNamespace;
+            OnSchemaExportFinished+= ExportFileToDirectory;
         }
         #endregion
 
@@ -68,7 +66,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
         void WriteClass()
         {
-            var context = Context;
 
             ContractCommentInfoCreator.Write(file, tableInfo);
             file.AppendLine($"public sealed class {tableNamingPattern.BoaRepositoryClassName} : ObjectHelper");

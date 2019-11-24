@@ -2,8 +2,6 @@
 using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.ScriptModel.Creators;
-using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
-using static BOA.EntityGeneration.DataFlow.TableExportingEvent;
 
 namespace BOA.EntityGeneration
 {
@@ -20,15 +18,15 @@ namespace BOA.EntityGeneration
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(SchemaExportStarted, InitializeOutput);
-            AttachEvent(SchemaExportStarted, WriteUsingList);
-            AttachEvent(SchemaExportStarted, EmptyLine);
-            AttachEvent(SchemaExportStarted, BeginNamespace);
+            OnSchemaExportStarted+= InitializeOutput;
+            OnSchemaExportStarted+= WriteUsingList;
+            OnSchemaExportStarted+= EmptyLine;
+            OnSchemaExportStarted+= BeginNamespace;
 
-            AttachEvent(TableExportStarted, WriteClass);
+            OnTableExportStarted+= WriteClass;
 
-            AttachEvent(SchemaExportFinished, EndNamespace);
-            AttachEvent(SchemaExportFinished, ExportFileToDirectory);
+           OnSchemaExportFinished+= EndNamespace;
+           OnSchemaExportFinished+= ExportFileToDirectory;
         }
         #endregion
 

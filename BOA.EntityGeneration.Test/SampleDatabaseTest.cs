@@ -56,7 +56,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
             context.CreateTables();
 
-            SchemaExporter.Export(context, "ERP");
+            new SchemaExporter().Export("ERP");
         }
         #endregion
 

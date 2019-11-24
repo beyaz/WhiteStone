@@ -23,7 +23,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #endregion
 
         #region Constructors
-        public CustomSqlExporter()
+       
+        public void InitializeContext()
         {
             Context = new Context();
             InitProcessInfo();
@@ -130,11 +131,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             };
         }
 
+        public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(CustomSqlExporter).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
         void InitializeConfig()
         {
-            var configFilePath = Path.GetDirectoryName(typeof(CustomSqlExporter).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
-
-            config = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(configFilePath));
+            config = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(ConfigFilePath));
         }
 
         void InitializeCustomSqlNamingPattern()
@@ -169,17 +169,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         void InitializeDatabaseConnection()
         {
-            var connectionString = config.ConnectionString;
-
-            database = new SqlDatabase(connectionString) {CommandTimeout = 1000 * 60 * 60};
+            database = new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
 
         void InitProcessInfo()
         {
             var processContract = new ProcessContract();
 
-            Data.ProcessInfo[Context]         = processContract;
-            MsBuildQueue.ProcessInfo[Context] = processContract;
+            processInfo         = processContract;
+            MsBuildQueueProcess = processContract;
         }
         #endregion
     }

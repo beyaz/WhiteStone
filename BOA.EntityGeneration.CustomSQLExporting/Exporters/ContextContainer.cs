@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
@@ -8,6 +9,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     class ContextContainer : DataFlow.ContextContainer
     {
+        
+
         #region Properties
         protected ConfigurationContract config
         {
@@ -41,8 +44,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             set => Context.Add(MsBuildQueue.MsBuildQueueId, value);
         }
 
-        protected ProcessContract processInfo => Data.ProcessInfo[Context];
-
+        protected ProcessContract processInfo
+        {
+            get=> Data.ProcessInfo[Context];
+            set=> Data.ProcessInfo[Context]=value;
+        }
+        protected ProcessContract MsBuildQueueProcess
+        {
+            set=> MsBuildQueue.ProcessInfo[Context]=value;
+        }
         protected string profileName
         {
             get { return Data.ProfileName[Context]; }
