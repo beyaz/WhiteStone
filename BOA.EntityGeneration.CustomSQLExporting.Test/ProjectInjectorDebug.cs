@@ -1,5 +1,4 @@
 ﻿using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
@@ -13,7 +12,7 @@ namespace BOA.EntityGeneration.BOACardCustomSqlIntoProjectInjection.Injectors
         {
             var customSqlExporter = new CustomSqlExporter();
             customSqlExporter.InitializeContext();
-            customSqlExporter.Export( "CC_OPERATIONS");
+            customSqlExporter.Export("CC_OPERATIONS");
         }
         #endregion
     }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
-using BOA.Tasks;
 
 namespace BOA.EntityGeneration.CsprojFileExporters
 {
@@ -18,7 +17,7 @@ namespace BOA.EntityGeneration.CsprojFileExporters
         {
             var csprojFileGenerator = new CsprojFileGenerator
             {
-                FileSystem = FileSystem,
+                FileSystem       = FileSystem,
                 FileNames        = new List<string> {"Shared.cs", "Boa.cs"},
                 NamespaceName    = namingPattern.RepositoryNamespace,
                 IsClientDll      = false,

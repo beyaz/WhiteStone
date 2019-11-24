@@ -6,16 +6,10 @@ using BOA.EntityGeneration.CustomSQLExporting.Models;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    class ContextContainer 
+    class ContextContainer
     {
-
-        protected T Create<T>() where T : ContextContainer, new()
-        {
-            return new T {Context = Context};
-        }
-
         #region Public Properties
-        public  Context Context { get; set; }
+        public Context Context { get; set; }
         #endregion
 
         #region Properties
@@ -30,6 +24,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         protected string                         ProfileName                  => Context.profileName;
         protected ProfileNamingPatternContract   profileNamingPattern         => Context.profileNamingPattern;
         protected List<string>                   repositoryAssemblyReferences => profileNamingPattern.RepositoryAssemblyReferences;
+        #endregion
+
+        #region Methods
+        protected T Create<T>() where T : ContextContainer, new()
+        {
+            return new T {Context = Context};
+        }
         #endregion
     }
 }

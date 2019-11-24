@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
@@ -19,13 +17,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public void AttachEvents()
         {
-            Context.ProfileInfoInitialized+=InitializeOutput;
-            Context.ProfileInfoInitialized+=BeginNamespace;
+            Context.ProfileInfoInitialized += InitializeOutput;
+            Context.ProfileInfoInitialized += BeginNamespace;
 
             Context.CustomSqlInfoInitialized += WriteSqlInputOutputTypes;
 
-            Context.ProfileInfoRemove+=EndNamespace;
-            Context.ProfileInfoRemove+=ExportFileToDirectory;
+            Context.ProfileInfoRemove += EndNamespace;
+            Context.ProfileInfoRemove += ExportFileToDirectory;
         }
         #endregion
 
@@ -60,7 +58,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var filePath = profileNamingPattern.EntityProjectDirectory + "All.cs";
 
-            FileSystem.WriteAllText( filePath, sb.ToString());
+            FileSystem.WriteAllText(filePath, sb.ToString());
         }
 
         void InitializeOutput()

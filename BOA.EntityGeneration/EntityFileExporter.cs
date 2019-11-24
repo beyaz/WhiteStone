@@ -5,23 +5,21 @@ namespace BOA.EntityGeneration
 {
     class EntityFileExporter : ContextContainer
     {
-       
-
-        #region Properties
-        readonly PaddedStringBuilder file =new PaddedStringBuilder();
+        #region Fields
+        readonly PaddedStringBuilder file = new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
         public void AttachEvents()
         {
-            SchemaExportStarted+= WriteUsingList;
-            SchemaExportStarted+= EmptyLine;
-            SchemaExportStarted+= BeginNamespace;
+            SchemaExportStarted += WriteUsingList;
+            SchemaExportStarted += EmptyLine;
+            SchemaExportStarted += BeginNamespace;
 
-            TableExportStarted+= WriteClass;
+            TableExportStarted += WriteClass;
 
-           SchemaExportFinished+= EndNamespace;
-           SchemaExportFinished+= ExportFileToDirectory;
+            SchemaExportFinished += EndNamespace;
+            SchemaExportFinished += ExportFileToDirectory;
         }
         #endregion
 
@@ -50,11 +48,9 @@ namespace BOA.EntityGeneration
             var content = file.ToString();
 
             Context.OnEntityFileContentCompleted(content);
-            
-            FileSystem.WriteAllText( filePath, content);
-        }
 
-        
+            FileSystem.WriteAllText(filePath, content);
+        }
 
         void WriteClass()
         {

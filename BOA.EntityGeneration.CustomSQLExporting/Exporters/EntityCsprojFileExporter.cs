@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using BOA.Tasks;
-using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
@@ -18,7 +16,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var csprojFileGenerator = new CsprojFileGenerator
             {
-                FileSystem = FileSystem,
+                FileSystem       = FileSystem,
                 FileNames        = new List<string> {"All.cs"},
                 NamespaceName    = profileNamingPattern.EntityNamespace,
                 IsClientDll      = true,
@@ -30,8 +28,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             MsBuildQueue.Push(csprojFilePath);
         }
-
-        
         #endregion
     }
 }

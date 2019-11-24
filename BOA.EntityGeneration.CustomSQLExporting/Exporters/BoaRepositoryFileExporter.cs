@@ -1,9 +1,7 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.ScriptModel;
-using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
@@ -22,21 +20,21 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var customSqlClassGenerator = Create<CustomSqlClassGenerator>();
 
-            Context.ProfileInfoInitialized+= customSqlClassGenerator.InitializeText;
+            Context.ProfileInfoInitialized += customSqlClassGenerator.InitializeText;
 
             customSqlClassGenerator.AttachEvents();
 
-            Context.ProfileInfoInitialized+=InitializeOutput;
-            Context.ProfileInfoInitialized+=UsingList;
-            Context.ProfileInfoInitialized+=EmptyLine;
-            Context.ProfileInfoInitialized+=BeginNamespace;
-            Context.ProfileInfoInitialized+=WriteEmbeddedClasses;
+            Context.ProfileInfoInitialized += InitializeOutput;
+            Context.ProfileInfoInitialized += UsingList;
+            Context.ProfileInfoInitialized += EmptyLine;
+            Context.ProfileInfoInitialized += BeginNamespace;
+            Context.ProfileInfoInitialized += WriteEmbeddedClasses;
 
-            Context.CustomSqlInfoInitialized+= WriteBoaRepositoryClass;
+            Context.CustomSqlInfoInitialized += WriteBoaRepositoryClass;
 
-            Context.ProfileInfoRemove+= WriteProxyClass;
-            Context.ProfileInfoRemove+=EndNamespace;
-            Context.ProfileInfoRemove+=ExportFileToDirectory;
+            Context.ProfileInfoRemove += WriteProxyClass;
+            Context.ProfileInfoRemove += EndNamespace;
+            Context.ProfileInfoRemove += ExportFileToDirectory;
         }
         #endregion
 
@@ -62,7 +60,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var filePath = profileNamingPattern.RepositoryProjectDirectory + "Boa.cs";
 
-            FileSystem.WriteAllText( filePath, sb.ToString());
+            FileSystem.WriteAllText(filePath, sb.ToString());
         }
 
         void InitializeOutput()

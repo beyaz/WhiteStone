@@ -65,7 +65,6 @@
     <Compile Include="DataAccess\InsertInfoCreator.cs" />
     <Compile Include="CsprojFileExporters\EntityCsprojFileExporter.cs" />
     <Compile Include="ConfigContract.cs" />
-    <Compile Include="DataFlow\Data.cs" />
     <Compile Include="BoaRepositoryFileExporting\BoaRepositoryFileExporter.cs" />
     <Compile Include="EntityFileExporter.cs" />
     <Compile Include="Models\Impl\TableInfo.cs" />

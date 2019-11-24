@@ -1,10 +1,7 @@
-﻿
-namespace BOA.EntityGeneration.Naming
+﻿namespace BOA.EntityGeneration.Naming
 {
     class TableNamingPatternContract
     {
-       
-
         #region Public Properties
         public string BoaRepositoryClassName { get; set; }
 

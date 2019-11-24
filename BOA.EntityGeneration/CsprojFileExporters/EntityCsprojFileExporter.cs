@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
-using BOA.Tasks;
 
 namespace BOA.EntityGeneration.CsprojFileExporters
 {
@@ -9,7 +8,7 @@ namespace BOA.EntityGeneration.CsprojFileExporters
         #region Public Methods
         public void AttachEvents()
         {
-            SchemaExportFinished+= Export;
+            SchemaExportFinished += Export;
         }
         #endregion
 
@@ -18,7 +17,7 @@ namespace BOA.EntityGeneration.CsprojFileExporters
         {
             var csprojFileGenerator = new CsprojFileGenerator
             {
-                FileSystem= FileSystem,
+                FileSystem       = FileSystem,
                 FileNames        = new List<string> {"All.cs"},
                 NamespaceName    = namingPattern.EntityNamespace,
                 IsClientDll      = true,

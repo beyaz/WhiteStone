@@ -7,22 +7,21 @@ using BOA.EntityGeneration.Naming;
 
 namespace BOA.EntityGeneration
 {
-    class Context 
+    class Context
     {
         #region Constructors
         public Context()
         {
             processInfo  = new ProcessContract();
             MsBuildQueue = new MsBuildQueue {Trace = trace => { processInfo.Text = trace; }};
-            FileSystem = new FileSystem();
+            FileSystem   = new FileSystem();
         }
         #endregion
-        public FileSystem FileSystem { get; }
-
 
         #region Public Properties
         public ConfigContract             config                                                   { get; set; }
         public IDatabase                  database                                                 { get; set; }
+        public FileSystem                 FileSystem                                               { get; }
         public MsBuildQueue               MsBuildQueue                                             { get; }
         public NamingPatternContract      namingPattern                                            { get; set; }
         public ProcessContract            processInfo                                              { get; }

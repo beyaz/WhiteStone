@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #endregion
 
         #region Public Properties
-        public bool           BuildAfterCodeGenerationIsCompleted { get; set; }
+        public bool BuildAfterCodeGenerationIsCompleted { get; set; } = true;
         public Action<string> Trace                               { get; set; }
         #endregion
 

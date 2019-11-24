@@ -7,14 +7,8 @@ using BOA.EntityGeneration.Naming;
 
 namespace BOA.EntityGeneration
 {
-    class ContextContainer 
+    class ContextContainer
     {
-        public Context Context { get; protected set; }
-        protected T Create<T>() where T : ContextContainer, new()
-        {
-            return new T {Context = Context};
-        }
-
         #region Events
         protected event Action SchemaExportFinished
         {
@@ -42,14 +36,14 @@ namespace BOA.EntityGeneration
         #endregion
 
         #region Public Properties
-       
-        public     IDatabase database => Context.database;
-        #endregion
-        protected FileSystem FileSystem => Context.FileSystem;
+        public Context Context { get; protected set; }
 
+        public IDatabase database => Context.database;
+        #endregion
 
         #region Properties
         protected ConfigContract             config                                                   => Context.config;
+        protected FileSystem                 FileSystem                                               => Context.FileSystem;
         protected MsBuildQueue               MsBuildQueue                                             => Context.MsBuildQueue;
         protected NamingPatternContract      namingPattern                                            => Context.namingPattern;
         protected ProcessContract            processInfo                                              => Context.processInfo;
@@ -57,6 +51,13 @@ namespace BOA.EntityGeneration
         protected string                     tableEntityClassNameForMethodParametersInRepositoryFiles => Context.tableEntityClassNameForMethodParametersInRepositoryFiles;
         protected ITableInfo                 tableInfo                                                => Context.tableInfo;
         protected TableNamingPatternContract tableNamingPattern                                       => Context.tableNamingPattern;
+        #endregion
+
+        #region Methods
+        protected T Create<T>() where T : ContextContainer, new()
+        {
+            return new T {Context = Context};
+        }
         #endregion
     }
 }

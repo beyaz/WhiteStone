@@ -2,10 +2,7 @@
 using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.CustomSQLExporting.Exporters;
-using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 using WhiteStone.UI.Container.Mvc;
 
 namespace CustomSqlInjectionToProject.MainForm
@@ -14,7 +11,7 @@ namespace CustomSqlInjectionToProject.MainForm
     {
         #region Static Fields
         static Context context;
-        static bool         IsFinished;
+        static bool    IsFinished;
         #endregion
 
         #region Public Methods
@@ -101,11 +98,6 @@ namespace CustomSqlInjectionToProject.MainForm
                 //    //CustomSqlExporter.Export(context, ProfileName);
                 //}
             }
-            else
-            {
-                //CustomSqlExporter.Export(context, profileId);
-            }
-
 
             IsFinished = true;
 

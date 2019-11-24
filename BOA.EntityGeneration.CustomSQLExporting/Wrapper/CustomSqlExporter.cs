@@ -5,39 +5,20 @@ using System.Linq;
 using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.DataFlow;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
-using ContextContainer = BOA.EntityGeneration.CustomSQLExporting.Exporters.ContextContainer;
-
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     class CustomSqlExporter : ContextContainer
     {
-       
-
-        #region Constructors
-       
-        public void InitializeContext()
-        {
-            Context = new Context();
-            InitializeConfig();
-            InitializeDatabaseConnection();
-
-            // attach events
-            Create<EntityFileExporter>().AttachEvents();
-            Create<SharedFileExporter>().AttachEvents();
-            Create<BoaRepositoryFileExporter>().AttachEvents();
-            Create<EntityCsprojFileExporter>().AttachEvents();
-            Create<RepositoryCsprojFileExporter>().AttachEvents();
-        }
+        #region Public Properties
+        public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(CustomSqlExporter).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
         #endregion
 
         #region Public Methods
         public void Export(string profileId)
         {
-
             Context.profileName          = profileId;
             Context.profileNamingPattern = CreateProfileNamingPattern();
 
@@ -55,17 +36,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 processInfo.Text    = $"Processing '{objectId}'";
                 processInfo.Current = switchCaseIndex;
 
-
                 Context.customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, ProfileName, objectId, config, switchCaseIndex++);
 
                 InitializeCustomSqlNamingPattern();
 
                 Context.OnCustomSqlInfoInitialized();
-
             }
 
             Context.OnProfileInfoRemove();
-
 
             processInfo.Text = "Finished Successfully.";
 
@@ -88,6 +66,20 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             profileIdList.Add("*");
 
             return profileIdList;
+        }
+
+        public void InitializeContext()
+        {
+            Context = new Context();
+            InitializeConfig();
+            InitializeDatabaseConnection();
+
+            // attach events
+            Create<EntityFileExporter>().AttachEvents();
+            Create<SharedFileExporter>().AttachEvents();
+            Create<BoaRepositoryFileExporter>().AttachEvents();
+            Create<EntityCsprojFileExporter>().AttachEvents();
+            Create<RepositoryCsprojFileExporter>().AttachEvents();
         }
         #endregion
 
@@ -120,7 +112,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             };
         }
 
-        public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(CustomSqlExporter).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
         void InitializeConfig()
         {
             Context.config = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(ConfigFilePath));
@@ -160,8 +151,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             Context.database = new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
-
-        
         #endregion
     }
 }

@@ -10,10 +10,6 @@ using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.SharedRepositoryFileExporting;
 
-
-
-
-
 namespace BOA.EntityGeneration.Exporters
 {
     /// <summary>
@@ -33,14 +29,12 @@ namespace BOA.EntityGeneration.Exporters
         {
             var context = Context;
 
-
             Context.SchemaName = schemaName;
 
             InitializeNamingPattern();
 
             Context.FireSchemaExportStarted();
             Context.OnSchemaExportFinished();
-
         }
 
         public void InitializeContext()
@@ -58,12 +52,11 @@ namespace BOA.EntityGeneration.Exporters
         void AttachEvents()
         {
             var context = Context;
-            TableExportStarted+=InitializeTableNamingPattern;
+            TableExportStarted += InitializeTableNamingPattern;
 
             Create<EntityFileExporter>().AttachEvents();
             Create<SharedFileExporter>().AttachEvents();
             Create<BoaRepositoryFileExporter>().AttachEvents();
-
 
             SchemaExportStarted += ProcessAllTablesInSchema;
 
@@ -91,21 +84,18 @@ namespace BOA.EntityGeneration.Exporters
 
             Context.namingPattern = new NamingPatternContract
             {
-                SlnDirectoryPath           = dictionary[nameof(NamingPatternContract.SlnDirectoryPath)],
-                EntityNamespace            = dictionary[nameof(NamingPatternContract.EntityNamespace)],
-                RepositoryNamespace        = dictionary[nameof(NamingPatternContract.RepositoryNamespace)],
-                EntityProjectDirectory     = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
-                RepositoryProjectDirectory = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
-                BoaRepositoryUsingLines    = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
-                EntityUsingLines           = dictionary[nameof(NamingPatternContract.EntityUsingLines)].Split('|'),
-                SharedRepositoryUsingLines = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].Split('|'),
-                EntityAssemblyReferences = dictionary[nameof(NamingPatternContract.EntityAssemblyReferences)].Split('|'),
-                RepositoryAssemblyReferences = dictionary[nameof(NamingPatternContract.RepositoryAssemblyReferences)].Split('|'),
-        
+                SlnDirectoryPath             = dictionary[nameof(NamingPatternContract.SlnDirectoryPath)],
+                EntityNamespace              = dictionary[nameof(NamingPatternContract.EntityNamespace)],
+                RepositoryNamespace          = dictionary[nameof(NamingPatternContract.RepositoryNamespace)],
+                EntityProjectDirectory       = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
+                RepositoryProjectDirectory   = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
+                BoaRepositoryUsingLines      = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
+                EntityUsingLines             = dictionary[nameof(NamingPatternContract.EntityUsingLines)].Split('|'),
+                SharedRepositoryUsingLines   = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].Split('|'),
+                EntityAssemblyReferences     = dictionary[nameof(NamingPatternContract.EntityAssemblyReferences)].Split('|'),
+                RepositoryAssemblyReferences = dictionary[nameof(NamingPatternContract.RepositoryAssemblyReferences)].Split('|')
             };
         }
-
-        
 
         void InitializeTableNamingPattern()
         {
@@ -169,10 +159,8 @@ namespace BOA.EntityGeneration.Exporters
 
                 Context.tableInfo = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfoTemp);
 
-
                 Context.OnTableExportStarted();
                 Context.OnTableExportFinished();
-
             }
         }
         #endregion

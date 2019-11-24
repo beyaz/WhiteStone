@@ -18,15 +18,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         #endregion
 
         #region Public Properties
-        public ConfigurationContract config       { get; set; }
-        public FileSystem            FileSystem   { get; }
-        public MsBuildQueue          MsBuildQueue { get; }
-        public ProcessContract       processInfo  { get; }
-        public string profileName { get; set; }
-        public CustomSqlInfo customSqlInfo { get; set; }
+        public ConfigurationContract          config                 { get; set; }
+        public CustomSqlInfo                  customSqlInfo          { get; set; }
         public CustomSqlNamingPatternContract customSqlNamingPattern { get; set; }
-        public SqlDatabase database { get; set; }
-        public ProfileNamingPatternContract profileNamingPattern { get; set; }
+        public SqlDatabase                    database               { get; set; }
+        public FileSystem                     FileSystem             { get; }
+        public MsBuildQueue                   MsBuildQueue           { get; }
+        public ProcessContract                processInfo            { get; }
+        public string                         profileName            { get; set; }
+        public ProfileNamingPatternContract   profileNamingPattern   { get; set; }
         #endregion
 
         #region CustomSqlInfoInitialized
@@ -37,9 +37,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
             CustomSqlInfoInitialized?.Invoke();
         }
         #endregion
-		
-		
-		
+
         #region ProfileInfoInitialized
         public event Action ProfileInfoInitialized;
 
@@ -48,6 +46,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
             ProfileInfoInitialized?.Invoke();
         }
         #endregion
+
         #region ProfileInfoRemove
         public event Action ProfileInfoRemove;
 
@@ -56,7 +55,5 @@ namespace BOA.EntityGeneration.CustomSQLExporting
             ProfileInfoRemove?.Invoke();
         }
         #endregion
-
-
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
@@ -27,15 +26,15 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
         #region Public Methods
         public void AttachEvents()
         {
-            SchemaExportStarted+= WriteUsingList;
-            SchemaExportStarted+= EmptyLine;
-            SchemaExportStarted+= BeginNamespace;
-            SchemaExportStarted+= WriteEmbeddedClasses;
+            SchemaExportStarted += WriteUsingList;
+            SchemaExportStarted += EmptyLine;
+            SchemaExportStarted += BeginNamespace;
+            SchemaExportStarted += WriteEmbeddedClasses;
 
-            TableExportStarted+= WriteClass;
+            TableExportStarted += WriteClass;
 
-            SchemaExportFinished+= EndNamespace;
-            SchemaExportFinished+= ExportFileToDirectory;
+            SchemaExportFinished += EndNamespace;
+            SchemaExportFinished += ExportFileToDirectory;
         }
         #endregion
 
@@ -66,7 +65,6 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
         void WriteClass()
         {
-
             ContractCommentInfoCreator.Write(file, tableInfo);
             file.AppendLine($"public sealed class {tableNamingPattern.BoaRepositoryClassName} : ObjectHelper");
             file.AppendLine("{");

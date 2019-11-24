@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
@@ -27,15 +26,15 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
         #region Public Methods
         public void AttachEvents()
         {
-            SchemaExportStarted+= WriteUsingList;
-            SchemaExportStarted+= EmptyLine;
-            SchemaExportStarted+= BeginNamespace;
-            SchemaExportStarted+= WriteEmbeddedClasses;
+            SchemaExportStarted += WriteUsingList;
+            SchemaExportStarted += EmptyLine;
+            SchemaExportStarted += BeginNamespace;
+            SchemaExportStarted += WriteEmbeddedClasses;
 
-            TableExportStarted+= WriteClass;
-            
-            SchemaExportFinished+= EndNamespace;
-            SchemaExportFinished+= ExportFileToDirectory;
+            TableExportStarted += WriteClass;
+
+            SchemaExportFinished += EndNamespace;
+            SchemaExportFinished += ExportFileToDirectory;
         }
         #endregion
 
@@ -63,7 +62,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 
             processInfo.Text = "Exporting Shared repository...";
 
-            FileSystem.WriteAllText( namingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
+            FileSystem.WriteAllText(namingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
         }
 
         void WriteClass()

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Windows;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.Exporters;
@@ -28,7 +27,6 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             InitializeComponent();
         }
         #endregion
-        
 
         #region Public Methods
         public static SchemaGenerationProcess Create(string schemaName)
@@ -64,15 +62,11 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 
             schemaExporter.Context.FileSystem.CheckinComment = App.Model.CheckinComment;
             // TODO open for prod schemaExporter.Context.FileSystem.IntegrateWithTFSAndCheckInAutomatically = true;
-            
-            context.Add(MsBuildQueue_old.BuildAfterCodeGenerationIsCompleted, true);
+
 
             model.Process = context.processInfo;
 
-            
-
-            schemaExporter.Export( model.SchemaName);
-
+            schemaExporter.Export(model.SchemaName);
         }
         #endregion
     }
