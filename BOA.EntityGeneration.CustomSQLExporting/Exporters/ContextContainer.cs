@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
     class ContextContainer : DataFlow.ContextContainer
     {
-        
+        protected FileSystem FileSystem = new FileSystem();
 
         #region Properties
         protected ConfigurationContract config

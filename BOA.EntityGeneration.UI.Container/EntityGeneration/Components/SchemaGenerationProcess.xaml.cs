@@ -62,9 +62,9 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 
             var context = schemaExporter.Context;
 
-
-            context.Add(FileSystem.CheckinComment, App.Model.CheckinComment);
-            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
+            schemaExporter.Context.FileSystem.CheckinComment = App.Model.CheckinComment;
+            // TODO open for prod schemaExporter.Context.FileSystem.IntegrateWithTFSAndCheckInAutomatically = true;
+            
             context.Add(MsBuildQueue_old.BuildAfterCodeGenerationIsCompleted, true);
 
             model.Process = context.processInfo;

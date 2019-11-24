@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var csprojFileGenerator = new CsprojFileGenerator
             {
-                Context          = Context,
+                FileSystem = FileSystem,
                 FileNames        = new List<string> {"All.cs"},
                 NamespaceName    = profileNamingPattern.EntityNamespace,
                 IsClientDll      = true,

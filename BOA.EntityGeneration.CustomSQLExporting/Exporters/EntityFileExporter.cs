@@ -60,7 +60,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
             var filePath = profileNamingPattern.EntityProjectDirectory + "All.cs";
 
-            FileSystem.WriteAllText(Context, filePath, sb.ToString());
+            FileSystem.WriteAllText( filePath, sb.ToString());
         }
 
         void InitializeOutput()

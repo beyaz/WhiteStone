@@ -84,9 +84,9 @@ namespace CustomSqlInjectionToProject.MainForm
         {
             //context = new CustomSqlExporterContextBuilder().Build();
 
-            context.Add(FileSystem.CheckinComment, Model.CheckInComment);
-            context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
-            context.Add(MsBuildQueue_old.BuildAfterCodeGenerationIsCompleted, true);
+            //context.Add(FileSystem.CheckinComment, Model.CheckInComment);
+            //context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
+            //context.Add(MsBuildQueue_old.BuildAfterCodeGenerationIsCompleted, true);
 
             var profileId = Model.ProfileId.Trim();
 
