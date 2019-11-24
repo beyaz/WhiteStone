@@ -7,30 +7,42 @@
     "ERP"
   ],
   "SqlSequenceInformationOfTable": null,
-  "EntityAssemblyNamespaceFormat": "BOA.Types.Kernel.Card.{SchemaName}",
-  "DaoAssemblyNamespaceFormat": "BOA.Business.Kernel.Card.{SchemaName}",
-  "SlnDirectoryPath": "D:\\Temp\\",
-  "IntegrateWithBOATfs": false,
-  "BuildAfterCodeGenerationIsCompleted": false,
-  "TypeUsingLines": [
-    "using BOA.Common.Types;"
-  ],
-  "DaoUsingLines": [
-    "using BOA.Base;",
-    "using BOA.Base.Data;",
-    "using BOA.Common.Types;",
-    "using BOA.Types.Kernel.Card.{SchemaName};",
-    "using BOA.Types.Kernel.Card.EntityConditions;"
-  ],
-  "TypeContractBase": "CardContractBase",
 
 
-  "FilePathForAllEntitiesInOneFile": "D:\\temp\\{SchemaName}\\BOA.Types.Kernel.Card.{SchemaName}\\All.cs",
-  "FilePathForAllDaoInOneFile": "D:\\temp\\{SchemaName}\\BOA.Business.Kernel.Card.{SchemaName}\\All.cs",
-  "EnableFullProjectExport": false,
 
-  "ReadLineCharToBool": "{Contract}.{PropertyName} = SQLDBHelper.GetStringValue(reader[\"{ColumnName}\"]) == \"1\";",
-  "ReadLineCharToBoolNullable": "{Contract}.{PropertyName} = Util.ReadNullableFlag(reader[\"{ColumnName}\"]);",
-  "ReadLineDefault": "{Contract}.{PropertyName} = SQLDBHelper.{SqlReaderMethod}(reader[\"{ColumnName}\"]);"
+  "NamingPattern": {
+    "SchemaName": "?",
+    "CamelCasedTableName": "?",
+    "SlnDirectoryPath": "D:\\Temp\\",
+    "EntityNamespace": "BOA.Types.Kernel.Card.$(SchemaName)",
+
+    "EntityClassName": "$(CamelCasedTableName)Contract",
+    "SharedRepositoryClassName": "$(CamelCasedTableName)",
+    "BoaRepositoryClassName": "$(CamelCasedTableName)",
+
+    "RepositoryNamespace": "BOA.Business.Kernel.Card.$(SchemaName)",
+    "EntityProjectDirectory": "$(SlnDirectoryPath)$(SchemaName)\\$(EntityNamespace)\\",
+    "RepositoryProjectDirectory": "$(SlnDirectoryPath)$(SchemaName)\\$(RepositoryNamespace)\\",
+    "BoaRepositoryUsingLines": "using System;|using System.Data;|using System.Data.SqlClient;|using System.Collections.Generic;|using BOA.Base;|using BOA.Base.Data;|using BOA.Common.Types;|using $(EntityNamespace);|using $(RepositoryNamespace).Shared;",
+    "EntityAssemblyReferences": "<Reference Include=\"BOA.Common\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Common.dll</HintPath></Reference>|<Reference Include=\"System\" />|<Reference Include=\"System.Core\" />|",
+    "RepositoryAssemblyReferences": "<Reference Include=\"BOA.Common\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Common.dll</HintPath></Reference>|<Reference Include=\"BOA.Base\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Base.dll</HintPath></Reference>|<Reference Include=\"$(RepositoryNamespace)\"><HintPath>D:\\BOA\\Server\\bin\\$(RepositoryNamespace).dll</HintPath></Reference>|<Reference Include=\"System\" />|<Reference Include=\"System.Core\" />|<Reference Include=\"System.Data\" />",
+    "EntityUsingLines": "using System;|using CardContractBase = BOA.Common.Types.CardContractBase;",
+    "SharedRepositoryUsingLines": "using System;|using System.Data;|using System.Data.SqlClient;|using System.Collections.Generic;|using $(EntityNamespace);"
+  },
+
+  "TableNamingPattern": {
+    "SchemaName": "?",
+    "CamelCasedTableName": "?",
+
+
+    "EntityClassName": "$(CamelCasedTableName)Contract",
+    "SharedRepositoryClassName": "$(CamelCasedTableName)",
+    "BoaRepositoryClassName": "$(CamelCasedTableName)",
+    "SharedRepositoryClassNameInBoaRepositoryFile": "Shared.$(CamelCasedTableName)"
+  },
+  "EntityContractBase": "CardContractBase",
+
+
+  "ContractReadLine": "$(Contract).$(PropertyName) = reader.$(SqlReaderMethod)(\"$(ColumnName)\");"
 
 }
