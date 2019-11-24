@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="FileExporters\ContextContainer.cs" />
     <Compile Include="FileExporters\Context.cs" />
+    <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFileExporter.cs" />
     <Compile Include="Models\NamingPatternContract.cs" />
     <Compile Include="Models\TableNamingPatternContract.cs" />
     <Compile Include="FileExporters\SharedFileExporter.cs" />

@@ -55,6 +55,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             Create<EntityFileExporter>().AttachEvents();
             Create<SharedFileExporter>().AttachEvents();
             Create<BoaRepositoryFileExporter>().AttachEvents();
+            Create<AllSchemaInOneClassRepositoryFileExporter>().AttachEvents();
 
             SchemaExportStarted += ProcessAllTablesInSchema;
 
@@ -88,6 +89,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
                 EntityProjectDirectory       = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
                 RepositoryProjectDirectory   = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
                 BoaRepositoryUsingLines      = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
+                AllSchemaInOneClassRepositoryUsingLines = dictionary[nameof(NamingPatternContract.AllSchemaInOneClassRepositoryUsingLines)].Split('|'),
                 EntityUsingLines             = dictionary[nameof(NamingPatternContract.EntityUsingLines)].Split('|'),
                 SharedRepositoryUsingLines   = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].Split('|'),
                 EntityAssemblyReferences     = dictionary[nameof(NamingPatternContract.EntityAssemblyReferences)].Split('|'),
