@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
     class SchemaExporter : ContextContainer
     {
         #region Public Properties
-        public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(SchemaExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.json";
+        public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(SchemaExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.SchemaToEntityExporting.json";
         #endregion
 
         #region Public Methods

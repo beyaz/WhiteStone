@@ -80,7 +80,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BOA.EntityGeneration.json" />
+    <None Include="BOA.EntityGeneration.SchemaToEntityExporting.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
