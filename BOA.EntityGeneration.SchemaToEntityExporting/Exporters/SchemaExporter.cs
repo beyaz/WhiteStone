@@ -4,10 +4,10 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BoaRepositoryFileExporting;
-using BOA.EntityGeneration.DataAccess;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.SchemaToEntityExporting.CsprojFileExporters;
+using BOA.EntityGeneration.SchemaToEntityExporting.DataAccess;
 using BOA.EntityGeneration.SharedRepositoryFileExporting;
 
 namespace BOA.EntityGeneration.Exporters

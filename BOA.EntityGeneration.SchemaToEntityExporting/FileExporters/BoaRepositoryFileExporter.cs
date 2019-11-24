@@ -6,7 +6,7 @@ using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
-using InsertInfoCreator = BOA.EntityGeneration.DataAccess.InsertInfoCreator;
+using InsertInfoCreator = BOA.EntityGeneration.SchemaToEntityExporting.DataAccess.InsertInfoCreator;
 
 namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 {

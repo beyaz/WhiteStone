@@ -11,7 +11,7 @@ using WhiteStone.Helpers;
 using ITableInfo = BOA.EntityGeneration.Models.Interfaces.ITableInfo;
 using TableInfo = BOA.EntityGeneration.Models.Impl.TableInfo;
 
-namespace BOA.EntityGeneration.DataAccess
+namespace BOA.EntityGeneration.SchemaToEntityExporting.DataAccess
 {
     /// <summary>
     ///     The generator data creator
