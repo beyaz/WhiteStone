@@ -9,7 +9,7 @@ using BOA.EntityGeneration.SchemaToEntityExporting.CsprojFileExporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.DataAccess;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters;
 
-namespace BOA.EntityGeneration.Exporters
+namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 {
     /// <summary>
     ///     The schema exporter

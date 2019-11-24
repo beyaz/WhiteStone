@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.Exporters;
+using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

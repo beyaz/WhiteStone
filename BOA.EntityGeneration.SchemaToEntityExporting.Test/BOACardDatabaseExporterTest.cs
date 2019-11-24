@@ -1,4 +1,4 @@
-﻿using BOA.EntityGeneration.Exporters;
+﻿using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Exporters

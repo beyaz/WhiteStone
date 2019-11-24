@@ -2,7 +2,7 @@
 using System.Threading;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.Exporters;
+using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 
 namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 {
