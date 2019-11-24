@@ -65,8 +65,8 @@ namespace BOA.Tasks
             {
                 throw new InvalidOperationException(nameof(process));
             }
-
-            process.WaitForExit();
+            
+            process.WaitForExit(3000);
 
             data.BuildOutput   = process.StandardOutput.ReadToEnd();
             data.StandardError = process.StandardError.ReadToEnd();

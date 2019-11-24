@@ -4,7 +4,7 @@
 
   "TableCatalog": "BOACard",
   "DatabaseEnumName": "BOACard",
-  "NotExportableTables": ["MRC.SENDING_REPORT_PARAMS_", "POS.POS_INVENTORY_", "STM.BUCKET_CLOSE_DETAIL"],
+  "NotExportableTables": [ "MRC.SENDING_REPORT_PARAMS_", "POS.POS_INVENTORY_", "STM.BUCKET_CLOSE_DETAIL" ],
   "SchemaNamesToBeExport": [
     "BKM",
     "BNS",
@@ -58,6 +58,29 @@
     "RepositoryAssemblyReferences": "<Reference Include=\"BOA.Common\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Common.dll</HintPath></Reference>|<Reference Include=\"BOA.Base\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Base.dll</HintPath></Reference>|<Reference Include=\"$(RepositoryNamespace)\"><HintPath>D:\\BOA\\Server\\bin\\$(RepositoryNamespace).dll</HintPath></Reference>|<Reference Include=\"System\" />|<Reference Include=\"System.Core\" />|<Reference Include=\"System.Data\" />",
     "EntityUsingLines": "using System;|using CardContractBase = BOA.Common.Types.CardContractBase;",
     "SharedRepositoryUsingLines": "using System;|using System.Data;|using System.Data.SqlClient;|using System.Collections.Generic;|using $(EntityNamespace);"
+
+  },
+
+  "DefaultValuesForUpdateByKeyMethod": {
+
+    "contractInstanceName": "?",
+    "contractInstancePropertyName": "?",
+
+    "UPDATE_DATE": "$(contractInstanceName).$(contractInstancePropertyName) = DateTime.Now;",
+    "UPDATE_USER_ID": "$(contractInstanceName).$(contractInstancePropertyName) = Context.ApplicationContext.Authentication.UserName;",
+    "string:UPDATE_TOKEN_ID": "$(contractInstanceName).$(contractInstancePropertyName) = Context.EngineContext.MainBusinessKey.ToString();",
+    "decimal:UPDATE_TOKEN_ID": "$(contractInstanceName).$(contractInstancePropertyName) = decimal.ToInt32(Context.EngineContext.MainBusinessKey);"
+  },
+  "DefaultValuesForInsertMethod": {
+
+    "contractInstanceName": "?",
+    "contractInstancePropertyName": "?",
+
+    "ROW_GUID": "$(contractInstanceName).$(contractInstancePropertyName) = Guid.NewGuid().ToString().ToUpper(new System.Globalization.CultureInfo(\"en-US\", false));",
+    "INSERT_DATE": "$(contractInstanceName).$(contractInstancePropertyName) = DateTime.Now;",
+    "INSERT_USER_ID": "$(contractInstanceName).$(contractInstancePropertyName) = Context.ApplicationContext.Authentication.UserName;",
+    "string:INSERT_TOKEN_ID": "$(contractInstanceName).$(contractInstancePropertyName) = Context.EngineContext.MainBusinessKey.ToString();",
+    "decimal:INSERT_TOKEN_ID": "$(contractInstanceName).$(contractInstancePropertyName) = decimal.ToInt32(Context.EngineContext.MainBusinessKey);"
   },
 
   "TableNamingPattern": {

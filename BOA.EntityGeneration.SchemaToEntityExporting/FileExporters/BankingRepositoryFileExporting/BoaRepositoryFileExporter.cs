@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
@@ -222,49 +221,51 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (insertInfo.SqlParameters.Any())
             {
-                var contractInitializations = new List<string>();
+                
 
-                if (insertInfo.SqlParameters.Any(c => c.ColumnName == Names2.ROW_GUID))
-                {
-                    contractInitializations.Add($"{contractParameterName}.{Names2.ROW_GUID.ToContractName()} = Guid.NewGuid().ToString().ToUpper(new System.Globalization.CultureInfo(\"en-US\", false));");
-                }
 
-                if (insertInfo.SqlParameters.Any(c => c.ColumnName == Names2.INSERT_DATE))
+                if (config.DefaultValuesForInsertMethod != null)
                 {
-                    contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_DATE.ToContractName()} = DateTime.Now;");
-                }
+                    var contractInitializations = new List<string>();
 
-                if (insertInfo.SqlParameters.Any(c => c.ColumnName == Names2.INSERT_USER_ID))
-                {
-                    contractInitializations.Add($"{contractParameterName}.{Names2.INSERT_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
-                }
-
-                var tokenIdColumn = insertInfo.SqlParameters.FirstOrDefault(c => c.ColumnName == Names2.INSERT_TOKEN_ID);
-                if (tokenIdColumn != null)
-                {
-                    if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32 ||
-                        tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32Nullable)
+                    foreach (var columnInfo in insertInfo.SqlParameters)
                     {
-                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = decimal.ToInt32(Context.EngineContext.MainBusinessKey);");
+                        var contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
+                        var contractInstanceName         = contractParameterName;
+
+                        var map = ConfigurationDictionaryCompiler.Compile(config.DefaultValuesForUpdateByKeyMethod, new Dictionary<string, string>
+                        {
+                            {nameof(contractInstanceName),contractInstanceName },
+                            { nameof(contractInstancePropertyName), contractInstancePropertyName}
+                        });
+
+                        var key = contractInstancePropertyName;
+                        if (map.ContainsKey(key))
+                        {
+                            contractInitializations.Add(map[key]);
+                            continue;
+                        }
+
+                        key = columnInfo.DotNetType + ":" + contractInstancePropertyName;
+                        if (map.ContainsKey(key))
+                        {
+                            contractInitializations.Add(map[key]);
+                        }
                     }
-                    else if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetStringName)
+
+                    if (contractInitializations.Any())
                     {
-                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = Context.EngineContext.MainBusinessKey.ToString();");
+                        file.AppendLine();
+                        foreach (var item in contractInitializations)
+                        {
+                            file.AppendLine(item);
+                        }
                     }
-                    else
-                    {
-                        throw new NotImplementedException(tokenIdColumn.DotNetType);
-                    }
+
                 }
 
-                if (contractInitializations.Any())
-                {
-                    file.AppendLine();
-                    foreach (var item in contractInitializations)
-                    {
-                        file.AppendLine(item);
-                    }
-                }
+
+                
             }
 
             file.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Insert({contractParameterName});");
@@ -439,44 +440,48 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (updateInfo.SqlParameters.Any())
             {
-                var contractInitializations = new List<string>();
+                
 
-                if (updateInfo.SqlParameters.Any(c => c.ColumnName == Names2.UPDATE_DATE))
+                if (config.DefaultValuesForUpdateByKeyMethod != null)
                 {
-                    contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_DATE.ToContractName()} = DateTime.Now;");
-                }
+                    var contractInitializations = new List<string>();
 
-                if (updateInfo.SqlParameters.Any(c => c.ColumnName == Names2.UPDATE_USER_ID))
-                {
-                    contractInitializations.Add($"{contractParameterName}.{Names2.UPDATE_USER_ID.ToContractName()} = Context.ApplicationContext.Authentication.UserName;");
-                }
+                    foreach (var columnInfo in updateInfo.SqlParameters)
+                    {
+                        var contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
+                        var contractInstanceName = contractParameterName;
 
-                var tokenIdColumn = updateInfo.SqlParameters.FirstOrDefault(c => c.ColumnName == Names2.UPDATE_TOKEN_ID);
-                if (tokenIdColumn != null)
-                {
-                    if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32 ||
-                        tokenIdColumn.DotNetType == DotNetTypeName.DotNetInt32Nullable)
-                    {
-                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = decimal.ToInt32(Context.EngineContext.MainBusinessKey);");
-                    }
-                    else if (tokenIdColumn.DotNetType == DotNetTypeName.DotNetStringName)
-                    {
-                        contractInitializations.Add($"{contractParameterName}.{tokenIdColumn.ColumnName.ToContractName()} = Context.EngineContext.MainBusinessKey.ToString();");
-                    }
-                    else
-                    {
-                        throw new NotImplementedException(tokenIdColumn.DotNetType);
-                    }
-                }
+                        var map = ConfigurationDictionaryCompiler.Compile(config.DefaultValuesForUpdateByKeyMethod, new Dictionary<string, string>
+                        {
+                            {nameof(contractInstanceName),contractInstanceName },
+                            { nameof(contractInstancePropertyName), contractInstancePropertyName}
+                        });
 
-                if (contractInitializations.Any())
-                {
-                    file.AppendLine();
-                    foreach (var item in contractInitializations)
+                        var key = contractInstancePropertyName;
+                        if (map.ContainsKey(key))
+                        {
+                            contractInitializations.Add(map[key]);
+                            continue;
+                        }
+
+                        key = columnInfo.DotNetType + ":" + contractInstancePropertyName;
+                        if (map.ContainsKey(key))
+                        {
+                            contractInitializations.Add(map[key]);
+                        }
+                    }
+
+                    if (contractInitializations.Any())
                     {
-                        file.AppendLine(item);
+                        file.AppendLine();
+                        foreach (var item in contractInitializations)
+                        {
+                            file.AppendLine(item);
+                        }
                     }
                 }
+                
+               
             }
 
             file.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Update({contractParameterName});");

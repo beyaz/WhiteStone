@@ -59,6 +59,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
         ///     Gets or sets the table naming pattern.
         /// </summary>
         public IReadOnlyDictionary<string, string> TableNamingPattern { get; set; }
+
+
+        public IReadOnlyDictionary<string, string> DefaultValuesForUpdateByKeyMethod { get; set; }
+        public IReadOnlyDictionary<string, string> DefaultValuesForInsertMethod { get; set; }
+        
         #endregion
     }
 }
