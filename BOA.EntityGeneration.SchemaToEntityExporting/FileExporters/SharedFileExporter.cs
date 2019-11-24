@@ -4,11 +4,11 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
+using BOA.EntityGeneration.SchemaToEntityExporting.Util;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
-using BOA.EntityGeneration.Util;
 
-namespace BOA.EntityGeneration.SharedRepositoryFileExporting
+namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
     class SharedFileExporter : ContextContainer
     {

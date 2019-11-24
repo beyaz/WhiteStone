@@ -1,7 +1,7 @@
 ﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
-namespace BOA.EntityGeneration
+namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
     class EntityFileExporter : ContextContainer
     {

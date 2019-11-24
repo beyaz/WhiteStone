@@ -2,7 +2,7 @@
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 
-namespace BOA.EntityGeneration.Util
+namespace BOA.EntityGeneration.SchemaToEntityExporting.Util
 {
     static class ParameterHelper
     {

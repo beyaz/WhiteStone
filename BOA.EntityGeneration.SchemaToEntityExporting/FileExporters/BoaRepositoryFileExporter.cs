@@ -8,7 +8,7 @@ using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using InsertInfoCreator = BOA.EntityGeneration.SchemaToEntityExporting.DataAccess.InsertInfoCreator;
 
-namespace BOA.EntityGeneration.BoaRepositoryFileExporting
+namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
     class BoaRepositoryFileExporter : ContextContainer
     {
