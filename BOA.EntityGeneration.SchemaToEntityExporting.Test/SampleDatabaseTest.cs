@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
         {
             var schemaExporter = new SchemaExporter
             {
-                ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.Test\BOA.EntityGeneration.json"
+                ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.SchemaToEntityExporting.Test\BOA.EntityGeneration.json"
             };
             schemaExporter.InitializeContext();
             AttachTests(schemaExporter);
