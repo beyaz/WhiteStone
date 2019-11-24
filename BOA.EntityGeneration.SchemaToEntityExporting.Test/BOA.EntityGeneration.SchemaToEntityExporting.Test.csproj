@@ -8,8 +8,8 @@
     <ProjectGuid>{A2C42C0F-4C12-4B7A-821B-D6581DED26FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BOA.EntityGeneration.Test</RootNamespace>
-    <AssemblyName>BOA.EntityGeneration.Test</AssemblyName>
+    <RootNamespace>BOA.EntityGeneration.SchemaToEntityExporting</RootNamespace>
+    <AssemblyName>BOA.EntityGeneration.SchemaToEntityExporting.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -37,6 +37,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BOA.TfsAccess">
@@ -85,13 +88,13 @@
       <Project>{e5e754ff-2406-43ac-8ad6-ec13038f1d6f}</Project>
       <Name>BOA.EntityGeneration.CustomSQLExporting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BOA.EntityGeneration.Data\BOA.EntityGeneration.Data.csproj">
-      <Project>{2ce3e1b8-6f47-4f70-8f67-372d02d3ebc3}</Project>
-      <Name>BOA.EntityGeneration.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.SchemaToEntityExporting.csproj">
+    <ProjectReference Include="..\BOA.EntityGeneration.SchemaToEntityExporting\BOA.EntityGeneration.SchemaToEntityExporting.csproj">
       <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
       <Name>BOA.EntityGeneration.SchemaToEntityExporting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
+      <Project>{2ce3e1b8-6f47-4f70-8f67-372d02d3ebc3}</Project>
+      <Name>BOA.EntityGeneration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
@@ -106,7 +109,7 @@
   </Target>
   <Import Project="..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>copy /y  "$(SolutionDir)BOA.EntityGeneration\bin\Debug\*.txt"  "$(TargetDir)"</PreBuildEvent>
+    <PreBuildEvent>copy /y  "$(SolutionDir)BOA.EntityGeneration.SchemaToEntityExporting\bin\Debug\*.txt"  "$(TargetDir)"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>

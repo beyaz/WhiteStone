@@ -130,13 +130,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BOA.EntityGeneration.Data\BOA.EntityGeneration.Data.csproj">
-      <Project>{2ce3e1b8-6f47-4f70-8f67-372d02d3ebc3}</Project>
-      <Name>BOA.EntityGeneration.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.SchemaToEntityExporting.csproj">
+    <ProjectReference Include="..\BOA.EntityGeneration.SchemaToEntityExporting\BOA.EntityGeneration.SchemaToEntityExporting.csproj">
       <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
       <Name>BOA.EntityGeneration.SchemaToEntityExporting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
+      <Project>{2ce3e1b8-6f47-4f70-8f67-372d02d3ebc3}</Project>
+      <Name>BOA.EntityGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BOA.HelperTools\BOA.CodeGeneration\BOA.CodeGeneration.csproj">
+      <Project>{a51d1954-365f-4f98-8492-f8841fbad5be}</Project>
+      <Name>BOA.CodeGeneration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +148,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy /y  "$(SolutionDir)BOA.EntityGeneration\bin\Debug\*.txt"  "$(TargetDir)"</PreBuildEvent>
+    <PreBuildEvent>copy /y  "$(SolutionDir)BOA.EntityGeneration.SchemaToEntityExporting\bin\Debug\*.txt"  "$(TargetDir)"</PreBuildEvent>
   </PropertyGroup>
 </Project>

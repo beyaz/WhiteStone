@@ -113,11 +113,14 @@ WhiteStone.Test/obj
 /BOAMessagingTooltip/src/bin/
 /BOAMessagingTooltip/src/obj/
 /BOAMessagingTooltip/_ReSharper.Caches/
-/BOA.EntityGeneration.Data/bin/
-/BOA.EntityGeneration.Data/obj
+
 /BOA.EntityGeneration.CustomSQLExporting/bin/
 /BOA.EntityGeneration.CustomSQLExporting/obj/
 /BOA.EntityGeneration.CustomSQLExporting.Test/obj/
 /BOA.EntityGeneration.CustomSQLExporting.Test/bin/
 /BOA.EntityGeneration.UI.Container/bin/
 /BOA.EntityGeneration.UI.Container/obj/
+/BOA.EntityGeneration.SchemaToEntityExporting/bin/
+/BOA.EntityGeneration.SchemaToEntityExporting/obj/
+/BOA.EntityGeneration.SchemaToEntityExporting.Test/bin/
+/BOA.EntityGeneration.SchemaToEntityExporting.Test/obj/
