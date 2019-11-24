@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.CodeGeneration", "BOA.HelperTools\BOA.CodeGeneration\BOA.CodeGeneration.csproj", "{A51D1954-365F-4F98-8492-F8841FBAD5BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.EntityGeneration", "BOA.EntityGeneration\BOA.EntityGeneration.csproj", "{CB6A81D7-D871-462C-93CC-DD037180BFB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.EntityGeneration.SchemaToEntityExporting", "BOA.EntityGeneration\BOA.EntityGeneration.SchemaToEntityExporting.csproj", "{CB6A81D7-D871-462C-93CC-DD037180BFB4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOA.EntityGeneration.Test", "BOA.EntityGeneration.Test\BOA.EntityGeneration.Test.csproj", "{A2C42C0F-4C12-4B7A-821B-D6581DED26FE}"
 EndProject

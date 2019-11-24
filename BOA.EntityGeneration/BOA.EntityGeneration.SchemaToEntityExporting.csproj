@@ -13,8 +13,8 @@
     <ProjectGuid>{CB6A81D7-D871-462C-93CC-DD037180BFB4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BOA.EntityGeneration</RootNamespace>
-    <AssemblyName>BOA.EntityGeneration</AssemblyName>
+    <RootNamespace>BOA.EntityGeneration.SchemaToEntityExporting</RootNamespace>
+    <AssemblyName>BOA.EntityGeneration.SchemaToEntityExporting</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -28,7 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\BOA.EntityGeneration.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\BOA.EntityGeneration.SchemaToEntityExporting.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,7 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\BOA.EntityGeneration.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\BOA.EntityGeneration.SchemaToEntityExporting.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BOA.TfsAccess">
