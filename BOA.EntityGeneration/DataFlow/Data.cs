@@ -18,7 +18,6 @@ namespace BOA.EntityGeneration.DataFlow
         #endregion
 
         #region Naming
-        internal static readonly Property<string> SchemaName                                               = Property.Create<string>(nameof(SchemaName));
         internal static readonly Property<string> TableEntityClassNameForMethodParametersInRepositoryFiles = Property.Create<string>(nameof(TableEntityClassNameForMethodParametersInRepositoryFiles));
         #endregion
 

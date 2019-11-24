@@ -90,7 +90,7 @@ namespace BOA.EntityGeneration.Exporters
 
         void InitializeNamingPattern()
         {
-            var initialValues = new Dictionary<string, string> {{nameof(Data.SchemaName), schemaName}};
+            var initialValues = new Dictionary<string, string> {{nameof(schemaName), schemaName}};
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, initialValues);
 
@@ -123,7 +123,7 @@ namespace BOA.EntityGeneration.Exporters
         {
             var initialValues = new Dictionary<string, string>
             {
-                {nameof(Data.SchemaName), schemaName},
+                {nameof(schemaName), schemaName},
                 {"CamelCasedTableName", tableInfo.TableName.ToContractName()}
             };
 

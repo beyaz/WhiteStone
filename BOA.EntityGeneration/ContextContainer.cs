@@ -46,11 +46,7 @@ namespace BOA.EntityGeneration
 
         protected MsBuildQueue MsBuildQueue => Context.MsBuildQueue;
 
-        protected NamingPatternContract namingPattern
-        {
-            get => NamingPatternContract.NamingPattern[Context];
-            set => NamingPatternContract.NamingPattern[Context] = value;
-        }
+        protected NamingPatternContract namingPattern {get; set;}
 
         protected ProcessContract processInfo
         {
@@ -58,11 +54,7 @@ namespace BOA.EntityGeneration
             set => Data.ProcessInfo[Context] = value;
         }
 
-        protected string schemaName
-        {
-            get => Data.SchemaName[Context];
-            set => Data.SchemaName[Context] = value;
-        }
+        protected string schemaName {get; set;}
 
         protected string tableEntityClassNameForMethodParametersInRepositoryFiles
         {
