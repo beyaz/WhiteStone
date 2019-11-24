@@ -7,8 +7,14 @@ using BOA.EntityGeneration.Naming;
 
 namespace BOA.EntityGeneration
 {
-    class ContextContainer : BOA.DataFlow.ContextContainer
+    class ContextContainer 
     {
+        public Context Context { get; set; }
+        public T Create<T>() where T : ContextContainer, new()
+        {
+            return new T {Context = Context};
+        }
+
         #region Events
         protected event Action SchemaExportFinished
         {
@@ -36,7 +42,7 @@ namespace BOA.EntityGeneration
         #endregion
 
         #region Public Properties
-        public new Context   Context  { get; set; }
+       
         public     IDatabase database => Context.database;
         #endregion
 
