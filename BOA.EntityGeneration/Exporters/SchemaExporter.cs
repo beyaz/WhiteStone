@@ -12,7 +12,6 @@ using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.SharedRepositoryFileExporting;
-using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
 
 
 
