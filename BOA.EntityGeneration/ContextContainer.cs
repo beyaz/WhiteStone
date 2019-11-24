@@ -9,8 +9,8 @@ namespace BOA.EntityGeneration
 {
     class ContextContainer 
     {
-        public Context Context { get; set; }
-        public T Create<T>() where T : ContextContainer, new()
+        public Context Context { get; protected set; }
+        protected T Create<T>() where T : ContextContainer, new()
         {
             return new T {Context = Context};
         }

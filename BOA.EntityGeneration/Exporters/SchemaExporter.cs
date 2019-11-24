@@ -60,9 +60,10 @@ namespace BOA.EntityGeneration.Exporters
             var context = Context;
             TableExportStarted+=InitializeTableNamingPattern;
 
-            new EntityFileExporter {Context = context}.AttachEvents();
-            new SharedFileExporter {Context = context}.AttachEvents();
-            new BoaRepositoryFileExporter {Context = context}.AttachEvents();
+            Create<EntityFileExporter>().AttachEvents();
+            Create<SharedFileExporter>().AttachEvents();
+            Create<BoaRepositoryFileExporter>().AttachEvents();
+
 
             SchemaExportStarted += ProcessAllTablesInSchema;
 
