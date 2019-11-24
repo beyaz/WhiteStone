@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(ProfileInfoRemove, Export);
+            Context.ProfileInfoRemove += Export;
         }
         #endregion
 

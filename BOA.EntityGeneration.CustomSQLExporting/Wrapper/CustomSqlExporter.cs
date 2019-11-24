@@ -15,11 +15,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     class CustomSqlExporter : ContextContainer
     {
-        #region Static Fields
-        public static readonly Event CustomSqlInfoInitialized = Event.Create(nameof(CustomSqlInfoInitialized));
-        public static readonly Event ProfileInfoInitialized   = Event.Create(nameof(ProfileInfoInitialized));
-        public static readonly Event ProfileInfoRemove        = Event.Create(nameof(ProfileInfoRemove));
-        #endregion
+       
 
         #region Constructors
        
@@ -49,7 +45,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, ProfileName, config);
 
-            Context.FireEvent(ProfileInfoInitialized);
+            Context.OnProfileInfoInitialized();
 
             processInfo.Total = customSqlNamesInfProfile.Count;
 
@@ -64,11 +60,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
                 InitializeCustomSqlNamingPattern();
 
-                Context.FireEvent(CustomSqlInfoInitialized);
+                Context.OnCustomSqlInfoInitialized();
 
             }
 
-            Context.FireEvent(ProfileInfoRemove);
+            Context.OnProfileInfoRemove();
 
 
             processInfo.Text = "Finished Successfully.";

@@ -1,4 +1,5 @@
-﻿using BOA.DatabaseAccess;
+﻿using System;
+using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
@@ -27,5 +28,35 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         public SqlDatabase database { get; set; }
         public ProfileNamingPatternContract profileNamingPattern { get; set; }
         #endregion
+
+        #region CustomSqlInfoInitialized
+        public event Action CustomSqlInfoInitialized;
+
+        public void OnCustomSqlInfoInitialized()
+        {
+            CustomSqlInfoInitialized?.Invoke();
+        }
+        #endregion
+		
+		
+		
+        #region ProfileInfoInitialized
+        public event Action ProfileInfoInitialized;
+
+        public void OnProfileInfoInitialized()
+        {
+            ProfileInfoInitialized?.Invoke();
+        }
+        #endregion
+        #region ProfileInfoRemove
+        public event Action ProfileInfoRemove;
+
+        public void OnProfileInfoRemove()
+        {
+            ProfileInfoRemove?.Invoke();
+        }
+        #endregion
+
+
     }
 }

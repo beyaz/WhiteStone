@@ -22,21 +22,21 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(ProfileInfoInitialized, InitializeOutput);
-            AttachEvent(ProfileInfoInitialized, WriteUsingList);
-            AttachEvent(ProfileInfoInitialized, EmptyLine);
-            AttachEvent(ProfileInfoInitialized, BeginNamespace);
-            AttachEvent(ProfileInfoInitialized, WriteEmbeddedClasses);
+            Context.ProfileInfoInitialized+=InitializeOutput;
+            Context.ProfileInfoInitialized+=WriteUsingList;
+            Context.ProfileInfoInitialized+=EmptyLine;
+            Context.ProfileInfoInitialized+=BeginNamespace;
+            Context.ProfileInfoInitialized+=WriteEmbeddedClasses;
 
-            AttachEvent(CustomSqlInfoInitialized, EmptyLine);
-            AttachEvent(CustomSqlInfoInitialized, BeginClass);
-            AttachEvent(CustomSqlInfoInitialized, CreateSqlInfo);
-            AttachEvent(CustomSqlInfoInitialized, EmptyLine);
-            AttachEvent(CustomSqlInfoInitialized, WriteReadContract);
-            AttachEvent(CustomSqlInfoInitialized, EndClass);
+            Context.CustomSqlInfoInitialized+=  EmptyLine;
+            Context.CustomSqlInfoInitialized+=  BeginClass;
+            Context.CustomSqlInfoInitialized+=  CreateSqlInfo;
+            Context.CustomSqlInfoInitialized+=  EmptyLine;
+            Context.CustomSqlInfoInitialized+=  WriteReadContract;
+            Context.CustomSqlInfoInitialized+=  EndClass;
 
-            AttachEvent(ProfileInfoRemove, EndNamespace);
-            AttachEvent(ProfileInfoRemove, ExportFileToDirectory);
+            Context.ProfileInfoRemove+= EndNamespace;
+            Context.ProfileInfoRemove+= ExportFileToDirectory;
         }
         #endregion
 
