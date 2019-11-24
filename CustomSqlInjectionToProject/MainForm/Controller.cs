@@ -107,7 +107,6 @@ namespace CustomSqlInjectionToProject.MainForm
                 //CustomSqlExporter.Export(context, profileId);
             }
 
-            context.CloseBracket();
 
             IsFinished = true;
 

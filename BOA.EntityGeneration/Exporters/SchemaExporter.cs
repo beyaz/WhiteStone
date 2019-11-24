@@ -3,12 +3,9 @@ using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.BoaRepositoryFileExporting;
 using BOA.EntityGeneration.CsprojFileExporters;
 using BOA.EntityGeneration.DataAccess;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.SharedRepositoryFileExporting;
@@ -32,20 +29,18 @@ namespace BOA.EntityGeneration.Exporters
         /// <summary>
         ///     Exports the specified schema name.
         /// </summary>
-        public void Export(string schemaNametodo)
+        public void Export(string schemaName)
         {
             var context = Context;
 
-            context.OpenBracket();
 
-            SchemaName = schemaNametodo;
+            Context.SchemaName = schemaName;
 
             InitializeNamingPattern();
 
             Context.FireSchemaExportStarted();
-            Context.FireSchemaExportFinished();
+            Context.OnSchemaExportFinished();
 
-            context.CloseBracket();
         }
 
         public void InitializeContext()
@@ -54,7 +49,6 @@ namespace BOA.EntityGeneration.Exporters
 
             InitializeConfig();
             InitializeDatabase();
-            InitializeProcessInfo();
 
             AttachEvents();
         }
@@ -80,12 +74,12 @@ namespace BOA.EntityGeneration.Exporters
 
         void InitializeConfig()
         {
-            config = JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath));
+            Context.config = JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath));
         }
 
         void InitializeDatabase()
         {
-            database = new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
+            Context.database = new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
 
         void InitializeNamingPattern()
@@ -94,7 +88,7 @@ namespace BOA.EntityGeneration.Exporters
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, initialValues);
 
-            namingPattern = new NamingPatternContract
+            Context.namingPattern = new NamingPatternContract
             {
                 SlnDirectoryPath           = dictionary[nameof(NamingPatternContract.SlnDirectoryPath)],
                 EntityNamespace            = dictionary[nameof(NamingPatternContract.EntityNamespace)],
@@ -110,14 +104,7 @@ namespace BOA.EntityGeneration.Exporters
             };
         }
 
-        void InitializeProcessInfo()
-        {
-            var processContract = new ProcessContract();
-
-            processInfo = processContract;
-
-            Context.Add(MsBuildQueue_old.ProcessInfo, processContract);
-        }
+        
 
         void InitializeTableNamingPattern()
         {
@@ -129,7 +116,7 @@ namespace BOA.EntityGeneration.Exporters
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.TableNamingPattern, initialValues);
 
-            tableNamingPattern = new TableNamingPatternContract
+            Context.tableNamingPattern = new TableNamingPatternContract
             {
                 EntityClassName                              = dictionary[nameof(TableNamingPatternContract.EntityClassName)],
                 SharedRepositoryClassName                    = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassName)],
@@ -145,7 +132,7 @@ namespace BOA.EntityGeneration.Exporters
                 typeContractName = $"{namingPattern.EntityNamespace}.{typeContractName}";
             }
 
-            tableEntityClassNameForMethodParametersInRepositoryFiles = typeContractName;
+            Context.tableEntityClassNameForMethodParametersInRepositoryFiles = typeContractName;
         }
 
         bool IsReadyToExport(string tableName)
@@ -179,14 +166,12 @@ namespace BOA.EntityGeneration.Exporters
 
                 var tableInfoTemp = tableInfoDao.GetInfo(config.TableCatalog, SchemaName, tableName);
 
-                tableInfo = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfoTemp);
+                Context.tableInfo = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfoTemp);
 
-                Context.OpenBracket();
 
-                Context.FireTableExportStarted();
-                Context.FireTableExportFinished();
+                Context.OnTableExportStarted();
+                Context.OnTableExportFinished();
 
-                Context.CloseBracket();
             }
         }
         #endregion

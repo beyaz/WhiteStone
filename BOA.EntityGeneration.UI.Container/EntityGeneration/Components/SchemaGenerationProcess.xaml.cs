@@ -62,19 +62,17 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 
             var context = schemaExporter.Context;
 
-            context.OpenBracket();
 
             context.Add(FileSystem.CheckinComment, App.Model.CheckinComment);
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
             context.Add(MsBuildQueue_old.BuildAfterCodeGenerationIsCompleted, true);
 
-            model.Process = DataFlow.Data.ProcessInfo[context];
+            model.Process = context.processInfo;
 
             
 
             schemaExporter.Export( model.SchemaName);
 
-            context.CloseBracket();
         }
         #endregion
     }

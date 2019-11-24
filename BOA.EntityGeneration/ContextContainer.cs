@@ -2,7 +2,6 @@
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.DataFlow;
 using BOA.EntityGeneration.Models.Interfaces;
 using BOA.EntityGeneration.Naming;
 
@@ -10,25 +9,22 @@ namespace BOA.EntityGeneration
 {
     class ContextContainer : BOA.DataFlow.ContextContainer
     {
-        public new BOA.EntityGeneration.Context Context { get; set; }
-
         #region Events
         protected event Action SchemaExportFinished
         {
-            add => Context.SchemaExportFinished+= value;
+            add => Context.SchemaExportFinished += value;
             remove => throw new NotImplementedException();
         }
 
         protected event Action SchemaExportStarted
         {
-            add => Context.SchemaExportStarted+= value;
+            add => Context.SchemaExportStarted += value;
             remove => throw new NotImplementedException();
         }
 
-
         protected event Action TableExportFinished
         {
-            add => Context.TableExportFinished+=value;
+            add => Context.TableExportFinished += value;
             remove => throw new NotImplementedException();
         }
 
@@ -39,31 +35,20 @@ namespace BOA.EntityGeneration
         }
         #endregion
 
+        #region Public Properties
+        public new Context   Context  { get; set; }
+        public     IDatabase database => Context.database;
+        #endregion
+
         #region Properties
-        protected ConfigContract config {get;  set;}
-
-        public IDatabase database{get;protected set;}
-
-        protected MsBuildQueue MsBuildQueue => Context.MsBuildQueue;
-
-        protected NamingPatternContract namingPattern {get; set;}
-
-        protected ProcessContract processInfo
-        {
-            get => Data.ProcessInfo[Context];
-            set => Data.ProcessInfo[Context] = value;
-        }
-
-        protected string SchemaName {get; set;}
-
-        protected string tableEntityClassNameForMethodParametersInRepositoryFiles {get; set;}
-
-        protected ITableInfo tableInfo {get; set;}
-        protected TableNamingPatternContract tableNamingPattern
-        {
-            get => TableNamingPatternContract.TableNamingPattern[Context];
-            set => TableNamingPatternContract.TableNamingPattern[Context] = value;
-        }
+        protected ConfigContract             config                                                   => Context.config;
+        protected MsBuildQueue               MsBuildQueue                                             => Context.MsBuildQueue;
+        protected NamingPatternContract      namingPattern                                            => Context.namingPattern;
+        protected ProcessContract            processInfo                                              => Context.processInfo;
+        protected string                     SchemaName                                               => Context.SchemaName;
+        protected string                     tableEntityClassNameForMethodParametersInRepositoryFiles => Context.tableEntityClassNameForMethodParametersInRepositoryFiles;
+        protected ITableInfo                 tableInfo                                                => Context.tableInfo;
+        protected TableNamingPatternContract tableNamingPattern                                       => Context.tableNamingPattern;
         #endregion
     }
 }

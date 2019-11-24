@@ -55,7 +55,7 @@ namespace BOA.EntityGeneration.UI.MainForm
 
         public void GetCapture()
         {
-            Model.SchemaGenerationProcess = context?.TryGet(Data.ProcessInfo) ?? Model.SchemaGenerationProcess;
+            Model.SchemaGenerationProcess = context?.processInfo ?? Model.SchemaGenerationProcess;
 
             //Model.AllSchemaGenerationProcess = context?.TryGet(Data.AllSchemaGenerationProcess) ?? Model.AllSchemaGenerationProcess;
 

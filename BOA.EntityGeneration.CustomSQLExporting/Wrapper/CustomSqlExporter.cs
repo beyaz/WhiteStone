@@ -44,7 +44,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #region Public Methods
         public void Export(string profileId)
         {
-            Context.OpenBracket();
 
             profileName          = profileId;
             profileNamingPattern = CreateProfileNamingPattern();
@@ -63,7 +62,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 processInfo.Text    = $"Processing '{objectId}'";
                 processInfo.Current = switchCaseIndex;
 
-                Context.OpenBracket();
 
                 customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, profileName, objectId, config, switchCaseIndex++);
 
@@ -71,12 +69,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
                 Context.FireEvent(OnCustomSqlInfoInitialized);
 
-                Context.CloseBracket();
             }
 
             Context.FireEvent(OnProfileInfoRemove);
 
-            Context.CloseBracket();
 
             processInfo.Text = "Finished Successfully.";
 

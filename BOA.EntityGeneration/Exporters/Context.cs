@@ -1,18 +1,38 @@
 ﻿using System;
+using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.Models.Interfaces;
+using BOA.EntityGeneration.Naming;
 
 namespace BOA.EntityGeneration
 {
     class Context : BOA.DataFlow.Context
     {
+        #region Constructors
+        public Context()
+        {
+            processInfo  = new ProcessContract();
+            MsBuildQueue = new MsBuildQueue {Trace = trace => { processInfo.Text = trace; }};
+        }
+        #endregion
+
         #region Public Properties
-        public MsBuildQueue MsBuildQueue { get; } = new MsBuildQueue();
+        public ConfigContract             config                                                   { get; set; }
+        public IDatabase                  database                                                 { get; set; }
+        public MsBuildQueue               MsBuildQueue                                             { get; }
+        public NamingPatternContract      namingPattern                                            { get; set; }
+        public ProcessContract            processInfo                                              { get; }
+        public string                     SchemaName                                               { get; set; }
+        public string                     tableEntityClassNameForMethodParametersInRepositoryFiles { get; set; }
+        public ITableInfo                 tableInfo                                                { get; set; }
+        public TableNamingPatternContract tableNamingPattern                                       { get; set; }
         #endregion
 
         #region TableExportFinished
         public event Action TableExportFinished;
 
-        public void FireTableExportFinished()
+        public void OnTableExportFinished()
         {
             TableExportFinished?.Invoke();
         }
@@ -21,12 +41,11 @@ namespace BOA.EntityGeneration
         #region TableExportStarted
         public event Action TableExportStarted;
 
-        public void FireTableExportStarted()
+        public void OnTableExportStarted()
         {
             TableExportStarted?.Invoke();
         }
         #endregion
-
 
         #region SchemaExportStarted
         public event Action SchemaExportStarted;
@@ -36,18 +55,15 @@ namespace BOA.EntityGeneration
             SchemaExportStarted?.Invoke();
         }
         #endregion
-		
-		
-		
+
         #region SchemaExportFinished
         public event Action SchemaExportFinished;
 
-        public void FireSchemaExportFinished()
+        public void OnSchemaExportFinished()
         {
             SchemaExportFinished?.Invoke();
         }
         #endregion
-
 
         #region EntityFileContentCompleted
         public event Action<string> EntityFileContentCompleted;
@@ -57,7 +73,6 @@ namespace BOA.EntityGeneration
             EntityFileContentCompleted?.Invoke(entityFileContent);
         }
         #endregion
-
 
         #region SharedRepositoryFileContentCompleted
         public event Action<string> SharedRepositoryFileContentCompleted;
