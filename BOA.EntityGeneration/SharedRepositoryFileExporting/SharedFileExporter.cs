@@ -63,7 +63,7 @@ namespace BOA.EntityGeneration.SharedRepositoryFileExporting
 
             processInfo.Text = "Exporting Shared repository...";
 
-            FileSystem.WriteAllText(Context, namingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
+            FileSystem.WriteAllText( namingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
         }
 
         void WriteClass()

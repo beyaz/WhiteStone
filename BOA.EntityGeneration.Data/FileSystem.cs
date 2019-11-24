@@ -1,23 +1,35 @@
-﻿using BOA.DataFlow;
-using BOA.TfsAccess;
+﻿using BOA.TfsAccess;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
 {
-    public static class FileSystem
+    /// <summary>
+    ///     The file system
+    /// </summary>
+    public sealed class FileSystem
     {
-        #region Static Fields
-        public static Property<string> CheckinComment                          = Property.Create<string>();
-        public static Property<bool>   IntegrateWithTFSAndCheckInAutomatically = Property.Create<bool>();
+        #region Public Properties
+        /// <summary>
+        ///     Gets or sets the checkin comment.
+        /// </summary>
+        public string CheckinComment { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether [integrate with TFS and check in automatically].
+        /// </summary>
+        public bool IntegrateWithTFSAndCheckInAutomatically { get; set; }
         #endregion
 
         #region Public Methods
-        public static void WriteAllText(Context context, string path, string content)
+        /// <summary>
+        ///     Writes all text.
+        /// </summary>
+        public void WriteAllText(string path, string content)
         {
             FileAccessWriteResult fileAccessWriteResult = null;
 
-            if (context.TryGet(IntegrateWithTFSAndCheckInAutomatically))
+            if (IntegrateWithTFSAndCheckInAutomatically)
             {
-                var fileAccessWithAutoCheckIn = new FileAccessWithAutoCheckIn {CheckInComment = context.Get(CheckinComment)};
+                var fileAccessWithAutoCheckIn = new FileAccessWithAutoCheckIn {CheckInComment = CheckinComment};
 
                 fileAccessWriteResult = fileAccessWithAutoCheckIn.WriteAllText(path, content);
             }

@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BOA.DataFlow;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    public class CsprojFileGenerator:ContextContainer
+    public class CsprojFileGenerator
     {
         #region Public Properties
-        public IReadOnlyList<string> FileNames { get; set; }
-        public bool   IsClientDll   { get; set; }
-        public string NamespaceName { get; set; }
+        public IReadOnlyList<string> FileNames        { get; set; }
+        public FileSystem            FileSystem       { get; set; }
+        public bool                  IsClientDll      { get; set; }
+        public string                NamespaceName    { get; set; }
         public string                ProjectDirectory { get; set; }
         public IReadOnlyList<string> References       { get; set; }
         #endregion
@@ -87,7 +87,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
 ";
 
-            FileSystem.WriteAllText(Context, csprojFilePath, content.Trim());
+            FileSystem.WriteAllText(csprojFilePath, content.Trim());
 
             var assemblyInfoContent = $@"
 using System.Reflection;
@@ -107,7 +107,7 @@ using System.Runtime.InteropServices;
 ";
 
             var assemblyInfoFilePath = $"{ProjectDirectory}\\Properties\\AssemblyInfo.cs";
-            FileSystem.WriteAllText(Context, assemblyInfoFilePath, assemblyInfoContent.Trim());
+            FileSystem.WriteAllText(assemblyInfoFilePath, assemblyInfoContent.Trim());
 
             return csprojFilePath;
         }

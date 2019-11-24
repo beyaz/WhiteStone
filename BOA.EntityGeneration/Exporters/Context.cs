@@ -14,8 +14,11 @@ namespace BOA.EntityGeneration
         {
             processInfo  = new ProcessContract();
             MsBuildQueue = new MsBuildQueue {Trace = trace => { processInfo.Text = trace; }};
+            FileSystem = new FileSystem();
         }
         #endregion
+        public FileSystem FileSystem { get; }
+
 
         #region Public Properties
         public ConfigContract             config                                                   { get; set; }

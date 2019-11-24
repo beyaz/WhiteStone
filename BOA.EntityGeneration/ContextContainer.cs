@@ -45,6 +45,8 @@ namespace BOA.EntityGeneration
        
         public     IDatabase database => Context.database;
         #endregion
+        protected FileSystem FileSystem => Context.FileSystem;
+
 
         #region Properties
         protected ConfigContract             config                                                   => Context.config;

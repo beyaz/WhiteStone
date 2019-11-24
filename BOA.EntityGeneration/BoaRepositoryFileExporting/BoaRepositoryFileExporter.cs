@@ -61,7 +61,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
             processInfo.Text = "Exporting Boa repository...";
 
-            FileSystem.WriteAllText(Context, namingPattern.RepositoryProjectDirectory + "Boa.cs", sourceCode);
+            FileSystem.WriteAllText(namingPattern.RepositoryProjectDirectory + "Boa.cs", sourceCode);
         }
 
         void WriteClass()

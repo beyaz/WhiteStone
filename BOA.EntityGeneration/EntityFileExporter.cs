@@ -56,7 +56,7 @@ namespace BOA.EntityGeneration
 
             Context.OnEntityFileContentCompleted(content);
             
-            FileSystem.WriteAllText(Context, filePath, content);
+            FileSystem.WriteAllText( filePath, content);
         }
 
         void InitializeOutput()
