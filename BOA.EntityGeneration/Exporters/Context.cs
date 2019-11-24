@@ -7,7 +7,7 @@ using BOA.EntityGeneration.Naming;
 
 namespace BOA.EntityGeneration
 {
-    class Context : BOA.DataFlow.Context
+    class Context 
     {
         #region Constructors
         public Context()

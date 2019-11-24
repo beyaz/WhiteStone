@@ -1,24 +1,19 @@
 ﻿using BOA.Common.Helpers;
-using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration
 {
     class EntityFileExporter : ContextContainer
     {
-        #region Static Fields
-        static readonly Property<PaddedStringBuilder> File = Property.Create<PaddedStringBuilder>(nameof(File));
-        #endregion
+       
 
         #region Properties
-        PaddedStringBuilder file => File[Context];
+        readonly PaddedStringBuilder file =new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
         public void AttachEvents()
         {
-            SchemaExportStarted+= InitializeOutput;
             SchemaExportStarted+= WriteUsingList;
             SchemaExportStarted+= EmptyLine;
             SchemaExportStarted+= BeginNamespace;
@@ -59,10 +54,7 @@ namespace BOA.EntityGeneration
             FileSystem.WriteAllText( filePath, content);
         }
 
-        void InitializeOutput()
-        {
-            File[Context] = new PaddedStringBuilder();
-        }
+        
 
         void WriteClass()
         {
