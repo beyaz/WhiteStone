@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.DataFlow;
@@ -9,6 +10,7 @@ using BOA.EntityGeneration.BoaRepositoryFileExporting;
 using BOA.EntityGeneration.CsprojFileExporters;
 using BOA.EntityGeneration.DataAccess;
 using BOA.EntityGeneration.DataFlow;
+using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using BOA.EntityGeneration.Naming;
 using BOA.EntityGeneration.SharedRepositoryFileExporting;
 using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
@@ -21,6 +23,64 @@ namespace BOA.EntityGeneration.Exporters
     /// </summary>
     class SchemaExporter : ContextContainer
     {
+        void ProcessAllTablesInSchema( )
+        {
+
+            var tableNames = SchemaInfo.GetAllTableNamesInSchema(database, schemaName).ToList();
+
+            Context.OpenBracket();
+            Context.Add(Data.TableNamesInSchema, tableNames);
+
+            Context.FireEvent(DataEvent.AfterFetchedAllTableNamesInSchema);
+
+            tableNames = Context.Get(Data.TableNamesInSchema);
+
+            Context.CloseBracket();
+
+            tableNames = tableNames.Where(x => IsReadyToExport(schemaName, x, config)).ToList();
+
+            processInfo.Total   = tableNames.Count;
+            processInfo.Current = 0;
+
+            foreach (var tableName in tableNames)
+            {
+                processInfo.Text = $"Generating codes for table '{tableName}'.";
+                processInfo.Current++;
+
+                var tableInfoDao = new TableInfoDao {Database = database, IndexInfoAccess = new IndexInfoAccess {Database = database}};
+
+                var tableInfo = tableInfoDao.GetInfo(config.TableCatalog, schemaName, tableName);
+
+                var generatorData = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfo);
+
+                Context.OpenBracket();
+                Context.Add(Data.TableInfo, generatorData);
+                Context.FireEvent(TableExportingEvent.TableExportStarted);
+                Context.FireEvent(TableExportingEvent.TableExportFinished);
+                Context.CloseBracket();
+            }
+        }
+
+        static bool IsReadyToExport(string schemaName, string tableName, ConfigContract config)
+        {
+            var fullTableName = $"{schemaName}.{tableName}";
+
+            var isNotExportable = config.NotExportableTables.Contains(fullTableName);
+            if (isNotExportable)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+
+
+
+
+
+
         #region Constructors
         public SchemaExporter()
         {
@@ -88,7 +148,7 @@ namespace BOA.EntityGeneration.Exporters
             new SharedFileExporter {Context = context}.AttachEvents();
             new BoaRepositoryFileExporter {Context = context}.AttachEvents();
 
-            context.AttachEvent(SchemaExportStarted, Events.OnSchemaStartedToExport);
+            OnSchemaExportStarted+= ProcessAllTablesInSchema;
 
             context.AttachEvent(SchemaExportFinished, EntityCsprojFileExporter.Export);
             context.AttachEvent(SchemaExportFinished, RepositoryCsprojFileExporter.Export);

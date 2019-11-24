@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
 
                 //context.AttachEvent(SchemaExportStarted, BoaRepositoryFileExporter.WriteUsingList);
                 //context.AttachEvent(SchemaExportStarted, AllBusinessClassesInOne.BeginNamespace);
-                //context.AttachEvent(SchemaExportStarted, Events.OnSchemaStartedToExport);
+                //context.AttachEvent(SchemaExportStarted, Events.ProcessAllTablesInSchema);
                 //context.AttachEvent(SchemaExportStarted, BoaRepositoryFileExporter.EndNamespace);
 
                 //context.AttachEvent(SchemaExportStarted, HoldSomeDataForCheckingTestResults);
