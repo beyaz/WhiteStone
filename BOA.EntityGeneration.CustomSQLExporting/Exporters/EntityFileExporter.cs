@@ -19,13 +19,13 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(OnProfileInfoInitialized, InitializeOutput);
-            AttachEvent(OnProfileInfoInitialized, BeginNamespace);
+            AttachEvent(ProfileInfoInitialized, InitializeOutput);
+            AttachEvent(ProfileInfoInitialized, BeginNamespace);
 
-            AttachEvent(OnCustomSqlInfoInitialized, WriteSqlInputOutputTypes);
+            AttachEvent(CustomSqlInfoInitialized, WriteSqlInputOutputTypes);
 
-            AttachEvent(OnProfileInfoRemove, EndNamespace);
-            AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
+            AttachEvent(ProfileInfoRemove, EndNamespace);
+            AttachEvent(ProfileInfoRemove, ExportFileToDirectory);
         }
         #endregion
 

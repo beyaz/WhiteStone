@@ -6,8 +6,6 @@ using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.DataFlow;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
 using ContextContainer = BOA.EntityGeneration.CustomSQLExporting.Exporters.ContextContainer;
@@ -18,9 +16,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     class CustomSqlExporter : ContextContainer
     {
         #region Static Fields
-        public static readonly Event OnCustomSqlInfoInitialized = Event.Create(nameof(OnCustomSqlInfoInitialized));
-        public static readonly Event OnProfileInfoInitialized   = Event.Create(nameof(OnProfileInfoInitialized));
-        public static readonly Event OnProfileInfoRemove        = Event.Create(nameof(OnProfileInfoRemove));
+        public static readonly Event CustomSqlInfoInitialized = Event.Create(nameof(CustomSqlInfoInitialized));
+        public static readonly Event ProfileInfoInitialized   = Event.Create(nameof(ProfileInfoInitialized));
+        public static readonly Event ProfileInfoRemove        = Event.Create(nameof(ProfileInfoRemove));
         #endregion
 
         #region Constructors
@@ -51,7 +49,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, ProfileName, config);
 
-            Context.FireEvent(OnProfileInfoInitialized);
+            Context.FireEvent(ProfileInfoInitialized);
 
             processInfo.Total = customSqlNamesInfProfile.Count;
 
@@ -66,11 +64,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
                 InitializeCustomSqlNamingPattern();
 
-                Context.FireEvent(OnCustomSqlInfoInitialized);
+                Context.FireEvent(CustomSqlInfoInitialized);
 
             }
 
-            Context.FireEvent(OnProfileInfoRemove);
+            Context.FireEvent(ProfileInfoRemove);
 
 
             processInfo.Text = "Finished Successfully.";

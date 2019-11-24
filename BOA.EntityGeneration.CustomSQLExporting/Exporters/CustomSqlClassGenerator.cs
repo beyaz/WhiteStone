@@ -17,11 +17,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(CustomSqlExporter.OnProfileInfoInitialized, Begin);
+            AttachEvent(CustomSqlExporter.ProfileInfoInitialized, Begin);
 
-            AttachEvent(CustomSqlExporter.OnCustomSqlInfoInitialized, WriteSwitchCaseCondition);
+            AttachEvent(CustomSqlExporter.CustomSqlInfoInitialized, WriteSwitchCaseCondition);
 
-            AttachEvent(CustomSqlExporter.OnProfileInfoRemove, End);
+            AttachEvent(CustomSqlExporter.ProfileInfoRemove, End);
         }
 
         public void InitializeText()

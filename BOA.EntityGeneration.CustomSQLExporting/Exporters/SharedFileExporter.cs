@@ -22,21 +22,21 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(OnProfileInfoInitialized, InitializeOutput);
-            AttachEvent(OnProfileInfoInitialized, WriteUsingList);
-            AttachEvent(OnProfileInfoInitialized, EmptyLine);
-            AttachEvent(OnProfileInfoInitialized, BeginNamespace);
-            AttachEvent(OnProfileInfoInitialized, WriteEmbeddedClasses);
+            AttachEvent(ProfileInfoInitialized, InitializeOutput);
+            AttachEvent(ProfileInfoInitialized, WriteUsingList);
+            AttachEvent(ProfileInfoInitialized, EmptyLine);
+            AttachEvent(ProfileInfoInitialized, BeginNamespace);
+            AttachEvent(ProfileInfoInitialized, WriteEmbeddedClasses);
 
-            AttachEvent(OnCustomSqlInfoInitialized, EmptyLine);
-            AttachEvent(OnCustomSqlInfoInitialized, BeginClass);
-            AttachEvent(OnCustomSqlInfoInitialized, CreateSqlInfo);
-            AttachEvent(OnCustomSqlInfoInitialized, EmptyLine);
-            AttachEvent(OnCustomSqlInfoInitialized, WriteReadContract);
-            AttachEvent(OnCustomSqlInfoInitialized, EndClass);
+            AttachEvent(CustomSqlInfoInitialized, EmptyLine);
+            AttachEvent(CustomSqlInfoInitialized, BeginClass);
+            AttachEvent(CustomSqlInfoInitialized, CreateSqlInfo);
+            AttachEvent(CustomSqlInfoInitialized, EmptyLine);
+            AttachEvent(CustomSqlInfoInitialized, WriteReadContract);
+            AttachEvent(CustomSqlInfoInitialized, EndClass);
 
-            AttachEvent(OnProfileInfoRemove, EndNamespace);
-            AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
+            AttachEvent(ProfileInfoRemove, EndNamespace);
+            AttachEvent(ProfileInfoRemove, ExportFileToDirectory);
         }
         #endregion
 

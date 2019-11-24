@@ -22,21 +22,21 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var customSqlClassGenerator = Create<CustomSqlClassGenerator>();
 
-            AttachEvent(OnProfileInfoInitialized, customSqlClassGenerator.InitializeText);
+            AttachEvent(ProfileInfoInitialized, customSqlClassGenerator.InitializeText);
 
             customSqlClassGenerator.AttachEvents();
 
-            AttachEvent(OnProfileInfoInitialized, InitializeOutput);
-            AttachEvent(OnProfileInfoInitialized, UsingList);
-            AttachEvent(OnProfileInfoInitialized, EmptyLine);
-            AttachEvent(OnProfileInfoInitialized, BeginNamespace);
-            AttachEvent(OnProfileInfoInitialized, WriteEmbeddedClasses);
+            AttachEvent(ProfileInfoInitialized, InitializeOutput);
+            AttachEvent(ProfileInfoInitialized, UsingList);
+            AttachEvent(ProfileInfoInitialized, EmptyLine);
+            AttachEvent(ProfileInfoInitialized, BeginNamespace);
+            AttachEvent(ProfileInfoInitialized, WriteEmbeddedClasses);
 
-            AttachEvent(OnCustomSqlInfoInitialized, WriteBoaRepositoryClass);
+            AttachEvent(CustomSqlInfoInitialized, WriteBoaRepositoryClass);
 
-            AttachEvent(OnProfileInfoRemove, WriteProxyClass);
-            AttachEvent(OnProfileInfoRemove, EndNamespace);
-            AttachEvent(OnProfileInfoRemove, ExportFileToDirectory);
+            AttachEvent(ProfileInfoRemove, WriteProxyClass);
+            AttachEvent(ProfileInfoRemove, EndNamespace);
+            AttachEvent(ProfileInfoRemove, ExportFileToDirectory);
         }
         #endregion
 

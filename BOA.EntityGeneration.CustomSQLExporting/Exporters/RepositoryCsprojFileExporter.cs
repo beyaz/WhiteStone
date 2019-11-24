@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BOA.Tasks;
-using static BOA.EntityGeneration.CustomSQLExporting.Data;
 using static BOA.EntityGeneration.CustomSQLExporting.Wrapper.CustomSqlExporter;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
@@ -10,7 +9,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public void AttachEvents()
         {
-            AttachEvent(OnProfileInfoRemove, Export);
+            AttachEvent(ProfileInfoRemove, Export);
         }
         #endregion
 
