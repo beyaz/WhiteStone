@@ -127,7 +127,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
             file.AppendLine();
             file.AppendLine("/// <summary>");
-            file.AppendLine($"///{Padding.ForComment}Deletes only one record from '{schemaName}.{tableName}' by using '{string.Join(" and ", sqlParameters.Select(x => x.ColumnName.AsMethodParameter()))}'");
+            file.AppendLine($"///{Padding.ForComment}Deletes only one record from '{SchemaName}.{tableName}' by using '{string.Join(" and ", sqlParameters.Select(x => x.ColumnName.AsMethodParameter()))}'");
             file.AppendLine("/// </summary>");
             file.AppendLine($"public GenericResponse<int> Delete({parameterPart})");
             file.AppendLine("{");
@@ -316,7 +316,7 @@ namespace BOA.EntityGeneration.BoaRepositoryFileExporting
 
             file.AppendLine();
             file.AppendLine("/// <summary>");
-            file.AppendLine($"///{Padding.ForComment} Selects all records from table '{schemaName}.{tableInfo.TableName}'.");
+            file.AppendLine($"///{Padding.ForComment} Selects all records from table '{SchemaName}.{tableInfo.TableName}'.");
             file.AppendLine("/// </summary>");
             file.AppendLine($"public GenericResponse<List<{typeContractName}>> Select()");
             file.OpenBracket();

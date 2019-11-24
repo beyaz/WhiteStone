@@ -54,20 +54,11 @@ namespace BOA.EntityGeneration
             set => Data.ProcessInfo[Context] = value;
         }
 
-        protected string schemaName {get; set;}
+        protected string SchemaName {get; set;}
 
-        protected string tableEntityClassNameForMethodParametersInRepositoryFiles
-        {
-            get => Data.TableEntityClassNameForMethodParametersInRepositoryFiles[Context];
-            set => Data.TableEntityClassNameForMethodParametersInRepositoryFiles[Context] = value;
-        }
+        protected string tableEntityClassNameForMethodParametersInRepositoryFiles {get; set;}
 
-        protected ITableInfo tableInfo
-        {
-            get => Data.TableInfo[Context];
-            set => Data.TableInfo[Context] = value;
-        }
-
+        protected ITableInfo tableInfo {get; set;}
         protected TableNamingPatternContract tableNamingPattern
         {
             get => TableNamingPatternContract.TableNamingPattern[Context];

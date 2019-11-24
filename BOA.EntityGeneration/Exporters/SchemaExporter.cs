@@ -38,7 +38,7 @@ namespace BOA.EntityGeneration.Exporters
 
             context.OpenBracket();
 
-            schemaName = schemaNametodo;
+            SchemaName = schemaNametodo;
 
             InitializeNamingPattern();
 
@@ -90,7 +90,7 @@ namespace BOA.EntityGeneration.Exporters
 
         void InitializeNamingPattern()
         {
-            var initialValues = new Dictionary<string, string> {{nameof(schemaName), schemaName}};
+            var initialValues = new Dictionary<string, string> {{nameof(SchemaName), SchemaName}};
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, initialValues);
 
@@ -123,7 +123,7 @@ namespace BOA.EntityGeneration.Exporters
         {
             var initialValues = new Dictionary<string, string>
             {
-                {nameof(schemaName), schemaName},
+                {nameof(SchemaName), SchemaName},
                 {"CamelCasedTableName", tableInfo.TableName.ToContractName()}
             };
 
@@ -150,7 +150,7 @@ namespace BOA.EntityGeneration.Exporters
 
         bool IsReadyToExport(string tableName)
         {
-            var fullTableName = $"{schemaName}.{tableName}";
+            var fullTableName = $"{SchemaName}.{tableName}";
 
             var isNotExportable = config.NotExportableTables.Contains(fullTableName);
             if (isNotExportable)
@@ -163,7 +163,7 @@ namespace BOA.EntityGeneration.Exporters
 
         void ProcessAllTablesInSchema()
         {
-            var tableNames = SchemaInfo.GetAllTableNamesInSchema(database, schemaName).ToList();
+            var tableNames = SchemaInfo.GetAllTableNamesInSchema(database, SchemaName).ToList();
 
             tableNames = tableNames.Where(IsReadyToExport).ToList();
 
@@ -177,7 +177,7 @@ namespace BOA.EntityGeneration.Exporters
 
                 var tableInfoDao = new TableInfoDao {Database = database, IndexInfoAccess = new IndexInfoAccess {Database = database}};
 
-                var tableInfoTemp = tableInfoDao.GetInfo(config.TableCatalog, schemaName, tableName);
+                var tableInfoTemp = tableInfoDao.GetInfo(config.TableCatalog, SchemaName, tableName);
 
                 tableInfo = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfoTemp);
 
