@@ -64,7 +64,6 @@
     <Compile Include="BOA.Office.Excel\CopyPasteStringHelperTest.cs" />
     <Compile Include="Common.Helpers\ZipHelperTest.cs" />
     <Compile Include="Configuration\PropertyFileTest.cs" />
-    <Compile Include="DataFlow\DataContextTest.cs" />
     <Compile Include="Helpers\ExpressionUtilityTest.cs" />
     <Compile Include="Common.Helpers\RandomValueTest.cs" />
     <Compile Include="Helpers\ReflectionUtilityTest.cs" />

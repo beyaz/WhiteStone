@@ -6,10 +6,16 @@ using BOA.EntityGeneration.CustomSQLExporting.Models;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
-    class ContextContainer : DataFlow.ContextContainer
+    class ContextContainer 
     {
+
+        protected T Create<T>() where T : ContextContainer, new()
+        {
+            return new T {Context = Context};
+        }
+
         #region Public Properties
-        public new Context Context { get; set; }
+        public  Context Context { get; set; }
         #endregion
 
         #region Properties
