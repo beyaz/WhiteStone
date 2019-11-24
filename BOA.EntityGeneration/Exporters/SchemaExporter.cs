@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
@@ -16,25 +15,7 @@ using BOA.EntityGeneration.SharedRepositoryFileExporting;
 using static BOA.EntityGeneration.DataFlow.SchemaExportingEvent;
 
 
-namespace BOA.EntityGeneration
-{
-     class Context : BOA.DataFlow.Context
-    {
-        public event Action OnTableExportFinished;
 
-        public  event Action OnTableExportStarted;
-
-        public void FireOnTableExportStarted()
-        {
-            OnTableExportStarted?.Invoke();
-        }
-
-        public void FireOnTableExportFinished()
-        {
-            OnTableExportFinished?.Invoke();
-        }
-    }
-}
 
 
 namespace BOA.EntityGeneration.Exporters
@@ -62,8 +43,8 @@ namespace BOA.EntityGeneration.Exporters
 
             InitializeNamingPattern();
 
-            context.FireEvent(SchemaExportStarted);
-            context.FireEvent(SchemaExportFinished);
+            Context.FireSchemaExportStarted();
+            Context.FireSchemaExportFinished();
 
             context.CloseBracket();
         }
@@ -75,7 +56,6 @@ namespace BOA.EntityGeneration.Exporters
             InitializeConfig();
             InitializeDatabase();
             InitializeProcessInfo();
-            MsBuildQueue = new MsBuildQueue();
 
             AttachEvents();
         }
@@ -96,7 +76,7 @@ namespace BOA.EntityGeneration.Exporters
             Create<EntityCsprojFileExporter>().AttachEvents();
             Create<RepositoryCsprojFileExporter>().AttachEvents();
 
-            context.AttachEvent(SchemaExportStarted, MsBuildQueue.Build);
+            OnSchemaExportFinished += MsBuildQueue.Build;
         }
 
         void InitializeConfig()
@@ -137,7 +117,7 @@ namespace BOA.EntityGeneration.Exporters
 
             processInfo = processContract;
 
-            Context.Add(MsBuildQueue.ProcessInfo, processContract);
+            Context.Add(MsBuildQueue_old.ProcessInfo, processContract);
         }
 
         void InitializeTableNamingPattern()
@@ -204,8 +184,8 @@ namespace BOA.EntityGeneration.Exporters
 
                 Context.OpenBracket();
 
-                Context.FireOnTableExportStarted();
-                Context.FireOnTableExportFinished();
+                Context.FireTableExportStarted();
+                Context.FireTableExportFinished();
 
                 Context.CloseBracket();
             }

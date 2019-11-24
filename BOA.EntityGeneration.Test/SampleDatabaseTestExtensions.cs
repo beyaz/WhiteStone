@@ -44,7 +44,7 @@ namespace BOA.EntityGeneration.DbModel.SqlServerDataAccess
     static class SampleDatabaseTestExtensions
     {
         #region Public Methods
-        public static void CreateTables(this Context context)
+        public static void CreateTables(this BOA.DataFlow.Context context)
         {
             var database = context.Get(Database);
 

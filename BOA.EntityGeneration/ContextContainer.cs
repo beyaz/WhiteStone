@@ -15,25 +15,26 @@ namespace BOA.EntityGeneration
         #region Events
         protected event Action OnSchemaExportFinished
         {
-            add => AttachEvent(SchemaExportingEvent.SchemaExportFinished, value);
+            add => Context.SchemaExportFinished+= value;
             remove => throw new NotImplementedException();
         }
 
         protected event Action OnSchemaExportStarted
         {
-            add => AttachEvent(SchemaExportingEvent.SchemaExportStarted, value);
+            add => Context.SchemaExportStarted+= value;
             remove => throw new NotImplementedException();
         }
 
+
         protected event Action OnTableExportFinished
         {
-            add => Context.OnTableExportFinished+=value;
+            add => Context.TableExportFinished+=value;
             remove => throw new NotImplementedException();
         }
 
         protected event Action OnTableExportStarted
         {
-            add => Context.OnTableExportStarted += value;
+            add => Context.TableExportStarted += value;
             remove => throw new NotImplementedException();
         }
         #endregion
@@ -51,11 +52,7 @@ namespace BOA.EntityGeneration
             set => Data.Database[Context] = value;
         }
 
-        protected MsBuildQueue MsBuildQueue
-        {
-            get => Context.Get(MsBuildQueue.MsBuildQueueId);
-            set => Context.Add(MsBuildQueue.MsBuildQueueId, value);
-        }
+        protected MsBuildQueue MsBuildQueue => Context.MsBuildQueue;
 
         protected NamingPatternContract namingPattern
         {

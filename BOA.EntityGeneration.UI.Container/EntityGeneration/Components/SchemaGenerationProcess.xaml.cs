@@ -66,7 +66,7 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 
             context.Add(FileSystem.CheckinComment, App.Model.CheckinComment);
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
-            context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted, true);
+            context.Add(MsBuildQueue_old.BuildAfterCodeGenerationIsCompleted, true);
 
             model.Process = DataFlow.Data.ProcessInfo[context];
 

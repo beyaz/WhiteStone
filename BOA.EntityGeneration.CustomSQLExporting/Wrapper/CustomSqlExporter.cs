@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             InitProcessInfo();
             InitializeConfig();
             InitializeDatabaseConnection();
-            MsBuildQueue = new MsBuildQueue();
+            MsBuildQueue = new MsBuildQueue_old();
 
             // attach events
             Create<EntityFileExporter>().AttachEvents();

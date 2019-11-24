@@ -38,10 +38,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         protected List<string> entityAssemblyReferences => Data.EntityAssemblyReferences[Context];
 
-        protected MsBuildQueue MsBuildQueue
+        protected MsBuildQueue_old MsBuildQueue
         {
-            get => Context.Get(MsBuildQueue.MsBuildQueueId);
-            set => Context.Add(MsBuildQueue.MsBuildQueueId, value);
+            get => Context.Get(MsBuildQueue_old.MsBuildQueueId);
+            set => Context.Add(MsBuildQueue_old.MsBuildQueueId, value);
         }
 
         protected ProcessContract processInfo
@@ -51,7 +51,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         }
         protected ProcessContract MsBuildQueueProcess
         {
-            set=> MsBuildQueue.ProcessInfo[Context]=value;
+            set=> MsBuildQueue_old.ProcessInfo[Context]=value;
         }
         protected string profileName
         {

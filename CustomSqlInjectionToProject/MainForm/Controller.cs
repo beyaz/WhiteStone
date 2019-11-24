@@ -86,7 +86,7 @@ namespace CustomSqlInjectionToProject.MainForm
 
             context.Add(FileSystem.CheckinComment, Model.CheckInComment);
             context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, true);
-            context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted, true);
+            context.Add(MsBuildQueue_old.BuildAfterCodeGenerationIsCompleted, true);
 
             var profileId = Model.ProfileId.Trim();
 

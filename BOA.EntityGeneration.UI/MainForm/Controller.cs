@@ -105,7 +105,7 @@ namespace BOA.EntityGeneration.UI.MainForm
 
             //context.Add(FileSystem.CheckinComment, Model.CheckInComment);
             //context.Add(FileSystem.IntegrateWithTFSAndCheckInAutomatically, false);
-            //context.Add(MsBuildQueue.BuildAfterCodeGenerationIsCompleted, true);
+            //context.Add(MsBuildQueue_old.BuildAfterCodeGenerationIsCompleted, true);
 
             //SchemaExporter.Export(context, Model.SchemaName);
 
