@@ -233,20 +233,20 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                         var contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
                         var contractInstanceName         = contractParameterName;
 
-                        var map = ConfigurationDictionaryCompiler.Compile(config.DefaultValuesForUpdateByKeyMethod, new Dictionary<string, string>
+                        var map = ConfigurationDictionaryCompiler.Compile(config.DefaultValuesForInsertMethod, new Dictionary<string, string>
                         {
                             {nameof(contractInstanceName),contractInstanceName },
                             { nameof(contractInstancePropertyName), contractInstancePropertyName}
                         });
 
-                        var key = contractInstancePropertyName;
+                        var key = columnInfo.ColumnName;
                         if (map.ContainsKey(key))
                         {
                             contractInitializations.Add(map[key]);
                             continue;
                         }
 
-                        key = columnInfo.DotNetType + ":" + contractInstancePropertyName;
+                        key = columnInfo.DotNetType + ":" + columnInfo.ColumnName;
                         if (map.ContainsKey(key))
                         {
                             contractInitializations.Add(map[key]);
@@ -268,6 +268,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                 
             }
 
+            file.AppendLine();
             file.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Insert({contractParameterName});");
             file.AppendLine();
 
@@ -436,7 +437,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             file.AppendLine("    return this.ContractCannotBeNull(CallerMemberPath);");
             file.AppendLine("}");
 
-            file.AppendLine();
+           
 
             if (updateInfo.SqlParameters.Any())
             {
@@ -457,14 +458,14 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                             { nameof(contractInstancePropertyName), contractInstancePropertyName}
                         });
 
-                        var key = contractInstancePropertyName;
+                        var key = columnInfo.ColumnName;
                         if (map.ContainsKey(key))
                         {
                             contractInitializations.Add(map[key]);
                             continue;
                         }
 
-                        key = columnInfo.DotNetType + ":" + contractInstancePropertyName;
+                        key = columnInfo.DotNetType + ":" + columnInfo.ColumnName;
                         if (map.ContainsKey(key))
                         {
                             contractInitializations.Add(map[key]);
@@ -484,6 +485,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                
             }
 
+            file.AppendLine();
             file.AppendLine($"var sqlInfo = {tableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Update({contractParameterName});");
             file.AppendLine();
 
