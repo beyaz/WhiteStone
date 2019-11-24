@@ -11,14 +11,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
     class BoaRepositoryFileExporter : ContextContainer
     {
         #region Fields
-        readonly PaddedStringBuilder file;
-        #endregion
-
-        #region Constructors
-        public BoaRepositoryFileExporter()
-        {
-            file = new PaddedStringBuilder();
-        }
+        readonly PaddedStringBuilder file = new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
@@ -62,7 +55,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             Context.PushFileNameToRepositoryProjectSourceFileNames(fileName);
 
-            
             FileSystem.WriteAllText(namingPattern.RepositoryProjectDirectory + fileName, sourceCode);
         }
 
@@ -70,52 +62,29 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         {
             ContractCommentInfoCreator.Write(file, tableInfo);
             file.AppendLine($"public sealed class {tableNamingPattern.BoaRepositoryClassName} : ObjectHelper");
-            file.AppendLine("{");
-            file.PaddingCount++;
+            file.OpenBracket();
 
             ContractCommentInfoCreator.Write(file, tableInfo);
             file.AppendLine($"public {tableNamingPattern.BoaRepositoryClassName}(ExecutionDataContext context) : base(context) {{ }}");
 
-            #region Delete
-            if (tableInfo.IsSupportSelectByKey)
-            {
-                file.AppendLine();
-                WriteDeleteByKeyMethod();
-            }
-            #endregion
-
             WriteInsertMethod();
-
-            #region Update
-            if (tableInfo.IsSupportSelectByKey)
-            {
-                file.AppendLine();
-                WriteUpdateByKeyMethod();
-            }
-            #endregion
-
-            #region SelectByKey
-            if (tableInfo.IsSupportSelectByKey)
-            {
-                file.AppendLine();
-                WriteSelectByKeyMethod();
-            }
-            #endregion
-
+            WriteSelectByKeyMethod();
             WriteSelectByIndexMethods();
-
             WriteSelectAllMethod();
-
-            if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
-            {
-                WriteSelectAllByValidFlagMethod();
-            }
+            WriteSelectAllByValidFlagMethod();
+            WriteUpdateByKeyMethod();
+            WriteDeleteByKeyMethod();
 
             file.CloseBracket();
         }
 
         void WriteDeleteByKeyMethod()
         {
+            if (!tableInfo.IsSupportSelectByKey)
+            {
+                return;
+            }
+
             var deleteByKeyInfo = DeleteInfoCreator.Create(tableInfo);
 
             var sqlParameters = deleteByKeyInfo.SqlParameters;
@@ -221,9 +190,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (insertInfo.SqlParameters.Any())
             {
-                
-
-
                 if (config.DefaultValuesForInsertMethod != null)
                 {
                     var contractInitializations = new List<string>();
@@ -235,8 +201,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
                         var map = ConfigurationDictionaryCompiler.Compile(config.DefaultValuesForInsertMethod, new Dictionary<string, string>
                         {
-                            {nameof(contractInstanceName),contractInstanceName },
-                            { nameof(contractInstancePropertyName), contractInstancePropertyName}
+                            {nameof(contractInstanceName), contractInstanceName},
+                            {nameof(contractInstancePropertyName), contractInstancePropertyName}
                         });
 
                         var key = columnInfo.ColumnName;
@@ -261,11 +227,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                             file.AppendLine(item);
                         }
                     }
-
                 }
-
-
-                
             }
 
             file.AppendLine();
@@ -292,6 +254,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
         void WriteSelectAllByValidFlagMethod()
         {
+            if (!tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
+            {
+                return;
+            }
+
             var typeContractName = tableEntityClassNameForMethodParametersInRepositoryFiles;
 
             var callerMemberPath = $"{namingPattern.RepositoryNamespace}.{tableNamingPattern.BoaRepositoryClassName}.SelectByValidFlag";
@@ -390,6 +357,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
         void WriteSelectByKeyMethod()
         {
+            if (!tableInfo.IsSupportSelectByKey)
+            {
+                return;
+            }
+
             var typeContractName       = tableEntityClassNameForMethodParametersInRepositoryFiles;
             var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
 
@@ -417,6 +389,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
         void WriteUpdateByKeyMethod()
         {
+            if (!tableInfo.IsSupportSelectByKey)
+            {
+                return;
+            }
+
             const string contractParameterName = "contract";
 
             var typeContractName = tableEntityClassNameForMethodParametersInRepositoryFiles;
@@ -425,6 +402,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
 
+            file.AppendLine();
             file.AppendLine("/// <summary>");
             file.AppendLine($"///{Padding.ForComment} Updates only one record by primary keys.");
             file.AppendLine("/// </summary>");
@@ -437,12 +415,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             file.AppendLine("    return this.ContractCannotBeNull(CallerMemberPath);");
             file.AppendLine("}");
 
-           
-
             if (updateInfo.SqlParameters.Any())
             {
-                
-
                 if (config.DefaultValuesForUpdateByKeyMethod != null)
                 {
                     var contractInitializations = new List<string>();
@@ -450,12 +424,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                     foreach (var columnInfo in updateInfo.SqlParameters)
                     {
                         var contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
-                        var contractInstanceName = contractParameterName;
+                        var contractInstanceName         = contractParameterName;
 
                         var map = ConfigurationDictionaryCompiler.Compile(config.DefaultValuesForUpdateByKeyMethod, new Dictionary<string, string>
                         {
-                            {nameof(contractInstanceName),contractInstanceName },
-                            { nameof(contractInstancePropertyName), contractInstancePropertyName}
+                            {nameof(contractInstanceName), contractInstanceName},
+                            {nameof(contractInstancePropertyName), contractInstancePropertyName}
                         });
 
                         var key = columnInfo.ColumnName;
@@ -481,8 +455,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                         }
                     }
                 }
-                
-               
             }
 
             file.AppendLine();
