@@ -62,7 +62,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             Create<EntityCsprojFileExporter>().AttachEvents();
             Create<RepositoryCsprojFileExporter>().AttachEvents();
 
-            SchemaExportFinished += MsBuildQueue.Build;
+            // SchemaExportFinished += MsBuildQueue.Build;
         }
 
         void InitializeConfig()

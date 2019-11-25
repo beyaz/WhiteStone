@@ -8,15 +8,15 @@
              mc:Ignorable = "d"
 
              d:DataContext = "{d:DesignInstance local:ContainerModel, IsDesignTimeCreatable=True}" >
-    <ScrollViewer VerticalScrollBarVisibility = "Auto" >
 
-        <StackPanel>
-            <Label FontWeight = "Bold" >Schema Name</Label>
-            <components:SchemaNameComponent SelectedItem = "{Binding SelectedSchemaName,Mode=TwoWay}" />
-            <Button Margin = "0,10,0,0" Click = "OnGenerateClicked" >Generate</Button>
-            <StackPanel Name = "processContainer" />
+    <StackPanel >
+        <Label FontWeight = "Bold" >Schema Name</Label>
+        <components:SchemaNameComponent SelectedItem = "{Binding SelectedSchemaName,Mode=TwoWay}" />
+        <Button Margin = "0,10,0,0" Click = "OnGenerateClicked" >Generate</Button>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Name = "processContainer" MaxHeight="600" />
+        </ScrollViewer>
+    </StackPanel>
 
-        </StackPanel>
 
-    </ScrollViewer>
 </UserControl>

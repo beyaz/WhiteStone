@@ -8,7 +8,7 @@
                       mc:Ignorable = "d"
                       xmlns:components = "clr-namespace:BOA.EntityGeneration.UI.Container.EntityGeneration.Components"
                       x:Name = "CodeBehind"
-                      SizeToContent = "WidthAndHeight"
+                      SizeToContent = "Height"
                       WindowStartupLocation = "CenterScreen"
                       d:DataContext = "{d:DesignInstance local:MainWindowModel, IsDesignTimeCreatable=True}"
                       Title = "Code Generation" MaxHeight = "600" Width = "500" MaxWidth="500" >
