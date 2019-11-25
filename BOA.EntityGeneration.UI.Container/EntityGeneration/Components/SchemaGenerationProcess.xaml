@@ -8,9 +8,11 @@
              d:DataContext = "{d:DesignInstance local:SchemaGenerationProcessModel, IsDesignTimeCreatable=True}"
              d:DesignWidth = "300" >
     <GroupBox Header = "{Binding SchemaName}" >
-        <StackPanel Margin = "10" >
-            <Label FontWeight = "Bold" Content = "{Binding Process.Text}" />
-            <ProgressBar Minimum = "0" Maximum = "{Binding Process.Total}" Value = "{Binding Process.Current}" />
-        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility = "Auto" >
+            <StackPanel Margin = "10" >
+                <TextBlock FontWeight = "Bold" Text = "{Binding Process.Text}"   TextWrapping="WrapWithOverflow" />
+                <ProgressBar Minimum = "0" Maximum = "{Binding Process.Total}" Value = "{Binding Process.Current}" />
+            </StackPanel>
+        </ScrollViewer>
     </GroupBox>
 </UserControl>

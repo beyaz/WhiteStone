@@ -13,18 +13,22 @@ namespace BOA.Tasks
     public class MSBuildData
     {
         #region Public Properties
+        public Exception BuildError { get; set; }
+
         /// <summary>
         ///     Gets the build output.
         /// </summary>
-        public string BuildOutput     { get; internal set; }
+        public string BuildOutput { get; internal set; }
+
         /// <summary>
         ///     Gets or sets the project file path.
         /// </summary>
         public string ProjectFilePath { get; set; }
+
         /// <summary>
         ///     Gets the standard error.
         /// </summary>
-        public string StandardError   { get; internal set; }
+        public string StandardError { get; internal set; }
         #endregion
     }
 
@@ -65,7 +69,7 @@ namespace BOA.Tasks
             {
                 throw new InvalidOperationException(nameof(process));
             }
-            
+
             process.WaitForExit(3000);
 
             data.BuildOutput   = process.StandardOutput.ReadToEnd();
@@ -74,7 +78,7 @@ namespace BOA.Tasks
             var hasError = process.ExitCode > 0;
             if (hasError)
             {
-                throw new InvalidOperationException(JsonHelper.Serialize(data));
+                data.BuildError = new InvalidOperationException(JsonHelper.Serialize(data));
             }
         }
 
@@ -85,7 +89,12 @@ namespace BOA.Tasks
         {
             var sb = new StringBuilder();
 
-            sb.AppendLine($"SET PATH={Path.GetDirectoryName(GetMsBuildExePath()) + Path.DirectorySeparatorChar}");
+            var msBuildExePath = GetMsBuildExePath();
+
+            // ReSharper disable once ExpressionIsAlwaysNull
+            var msBuildExeDirectory = Path.GetDirectoryName(msBuildExePath) + Path.DirectorySeparatorChar;
+
+            sb.AppendLine($"SET PATH={msBuildExeDirectory}");
 
             sb.AppendLine($@"SET SolutionPath={data.ProjectFilePath}");
 
