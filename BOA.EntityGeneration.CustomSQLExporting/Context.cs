@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
@@ -8,11 +9,27 @@ namespace BOA.EntityGeneration.CustomSQLExporting
 {
     class Context 
     {
+
+        #region Errors
+        readonly List<string> _errors = new List<string>();
+
+        public IReadOnlyList<string> Errors => _errors;
+
+        public void AddError(string errorMessage)
+        {
+            _errors.Add(errorMessage);
+        }
+        #endregion
+
         #region Constructors
         public Context()
         {
             processInfo  = new ProcessContract();
-            MsBuildQueue = new MsBuildQueue {Trace = trace => { processInfo.Text = trace; }};
+            MsBuildQueue = new MsBuildQueue
+            {
+                Trace = trace => { processInfo.Text = trace; },
+                OnError = error => { _errors.Add(error.ToString()); }
+            };
             FileSystem   = new FileSystem();
         }
         #endregion

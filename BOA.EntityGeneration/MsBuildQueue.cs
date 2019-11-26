@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BOA.Tasks;
 
 namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
@@ -13,6 +14,7 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
         #region Public Properties
         public bool           BuildAfterCodeGenerationIsCompleted { get; set; } = true;
         public Action<string> Trace                               { get; set; }
+        public Action<Exception> OnError { get; set; }
         #endregion
 
         #region Public Methods
@@ -29,11 +31,11 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
                 MSBuild.Build(data);
                 if (data.BuildError == null)
                 {
-                    Trace("Compile successfully finished.");
+                    Trace($"Compile successfully finished. {Path.GetFileName(data.ProjectFilePath)}");
                 }
                 else
                 {
-                    Trace("BuildError: " + data.BuildError);
+                    OnError(data.BuildError);
                 }
             }
         }
