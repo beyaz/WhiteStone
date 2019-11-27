@@ -32,6 +32,8 @@ namespace BOA.OneDesigner.JsxElementModel
 
         public string ValueChangedOrchestrationMethod { get; set; }
 
+        public ActionInfo ValueChangedAction { get; set; }
+
 
         public bool IsMultiSelect { get; set; }
 

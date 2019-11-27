@@ -19,6 +19,35 @@ namespace BOA.OneDesigner.JsxElementModel
         #endregion
 
         #region Methods
+
+        static void ComboBoxValueChangedAction(object component)
+        {
+            var ci = component as BComboBox;
+            if (ci == null)
+            {
+                return;
+            }
+
+            if (ci.ValueChangedAction != null)
+            {
+                if (ci.ValueChangedAction.OrchestrationMethodName.IsNullOrWhiteSpace() && ci.ValueChangedOrchestrationMethod.HasValue())
+                {
+                    ci.ValueChangedAction.OrchestrationMethodName = ci.ValueChangedOrchestrationMethod;
+
+                    ci.ValueChangedOrchestrationMethod = null;
+                }
+
+                return;
+            }
+
+            ci.ValueChangedAction = new ActionInfo
+            {
+                OrchestrationMethodName = ci.ValueChangedOrchestrationMethod
+            };
+
+            ci.ValueChangedOrchestrationMethod = null;
+        }
+
         static void DataGridRowSelectionChangeMethod(object component)
         {
             var ci = component as BDataGrid;
