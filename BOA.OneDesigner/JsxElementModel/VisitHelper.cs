@@ -10,6 +10,7 @@ namespace BOA.OneDesigner.JsxElementModel
         {
             ProcessButtonClick(component);
             DataGridRowSelectionChangeMethod(component);
+            ComboBoxValueChangedAction(component);
         }
 
         public static void VisitComponents(ScreenInfo instance, Action<object> on)

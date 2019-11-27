@@ -88,7 +88,7 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 sb.AppendLine($"value={{{fullBindingPathInJs}}}");
 
-                var shouldWriteOnSelectEvent = data.ValueChangedOrchestrationMethod.HasValue() || hasSupportErrorText;
+                var shouldWriteOnSelectEvent = data.ValueChangedAction.HasValue() || hasSupportErrorText;
                 if (shouldWriteOnSelectEvent)
                 {
                     sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
@@ -100,9 +100,18 @@ namespace BOA.OneDesigner.CodeGeneration
                         sb.AppendLine($"{Config.ClearErrorTextMethodPathInJs}(\"{fullBindingPathInJs}\");");
                     }
 
-                    if (data.ValueChangedOrchestrationMethod.HasValue())
+                    if (data.ValueChangedAction?.HasValue() == true)
                     {
-                        sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
+                        RenderHelper.InitLabelValues(writerContext, data.ValueChangedAction);
+
+                        var function = new ActionInfoFunction
+                        {
+                            Data          = data.ValueChangedAction,
+                            WriterContext = writerContext
+                        };
+
+                        sb.AppendAll(function.GetCode());
+                        sb.AppendLine();
                     }
 
                     sb.PaddingCount--;
@@ -113,7 +122,7 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 sb.AppendLine($"value={{[({fullBindingPathInJs} || \"\") + \"\"]}}");
 
-                var shouldWriteOnSelectEvent = data.ValueChangedOrchestrationMethod.HasValue() || hasSupportErrorText;
+                var shouldWriteOnSelectEvent = data.ValueChangedAction.HasValue() || hasSupportErrorText;
 
                 if (shouldWriteOnSelectEvent)
                 {
@@ -126,9 +135,18 @@ namespace BOA.OneDesigner.CodeGeneration
                         sb.AppendLine($"{Config.ClearErrorTextMethodPathInJs}(\"{fullBindingPathInJs}\");");
                     }
 
-                    if (data.ValueChangedOrchestrationMethod.HasValue())
+                    if (data.ValueChangedAction.HasValue())
                     {
-                        sb.AppendLine($"{writerContext.ExecuteWindowRequestFunctionAccessPath}(\"{data.ValueChangedOrchestrationMethod}\");");
+                        RenderHelper.InitLabelValues(writerContext, data.ValueChangedAction);
+
+                        var function = new ActionInfoFunction
+                        {
+                            Data          = data.ValueChangedAction,
+                            WriterContext = writerContext
+                        };
+
+                        sb.AppendAll(function.GetCode());
+                        sb.AppendLine();
                     }
 
                     sb.PaddingCount--;

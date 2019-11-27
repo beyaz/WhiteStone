@@ -14,10 +14,11 @@ namespace BOA.OneDesigner.PropertyEditors
         }
 
         #region Fields
-        public UIElement _valueChanged;
         public LabelEditor _labelEditor;
         public SizeEditor  _sizeEditor;
         public CheckBox _isMultiSelect;
+
+        public ActionInfoEditor _valueChangedActionInfoEditor;
         #endregion
 
         #region Constructors
@@ -98,12 +99,10 @@ namespace BOA.OneDesigner.PropertyEditors
                 Childs:
                 [   
                     {
-                        ui                          : 'RequestIntellisenseTextBox', 
-                        Margin                      : 5, 
-                        ShowOnlyOrchestrationMethods: true, 
-                        Name                        : '"+nameof(_valueChanged)+@"', 
-                        Text                        : '{Binding " + nameof(Model.ValueChangedOrchestrationMethod) + @"}', 
-                        Label                       : 'On Value Changed' 
+                        ui          : 'ActionInfoEditor',
+                        Header      : 'On Value Changed',
+                        Name        : '"+nameof(_valueChangedActionInfoEditor)+@"',
+                        Margin      : 5
                     }
                 ]
             }
@@ -118,10 +117,17 @@ namespace BOA.OneDesigner.PropertyEditors
 
 ");
 
+            
+
             Loaded += (s, e) =>
             {
                 _labelEditor.Host = Host;
                 _sizeEditor.Host  = Host;
+                if (Model.ValueChangedAction ==null)
+                {
+                    Model.ValueChangedAction = new ActionInfo();
+                }
+                _valueChangedActionInfoEditor.Load(Host,Model.ValueChangedAction);
 
             };
         }
