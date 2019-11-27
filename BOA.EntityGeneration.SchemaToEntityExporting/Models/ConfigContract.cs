@@ -55,6 +55,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
         /// </summary>
         public string TableCatalog { get; set; }
 
+        public bool IntegrateWithTFSAndCheckInAutomatically { get; set; }
+
         /// <summary>
         ///     Gets or sets the table naming pattern.
         /// </summary>

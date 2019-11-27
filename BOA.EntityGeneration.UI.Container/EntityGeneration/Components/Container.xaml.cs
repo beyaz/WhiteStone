@@ -1,38 +1,40 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
 namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 {
-    [Serializable]
-    public class ContainerModel
-    {
-        #region Public Properties
-        public string SelectedSchemaName { get; set; }
-        #endregion
-    }
-
     public partial class Container
     {
         #region Fields
-        readonly ContainerModel model;
+        readonly Queue<string> schemaGenerationQueue = new Queue<string>();
         #endregion
 
         #region Constructors
         public Container()
         {
-            DataContext = model = new ContainerModel();
-
             InitializeComponent();
         }
         #endregion
 
+        #region Public Properties
+        public string SelectedSchemaName { get; set; }
+        #endregion
+
         #region Methods
+        void ConsumeSchemaGenerationQueue()
+        {
+            if (!schemaGenerationQueue.Any())
+            {
+                return;
+            }
+
+            StartGeneration(schemaGenerationQueue.Dequeue());
+        }
+
         void OnGenerateClicked(object sender, RoutedEventArgs e)
         {
-            var schemaName = model.SelectedSchemaName;
+            var schemaName = SelectedSchemaName;
 
             if (string.IsNullOrWhiteSpace(schemaName))
             {
@@ -65,25 +67,12 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             StartGeneration(schemaName);
         }
 
-        readonly Queue<string> schemaGenerationQueue = new Queue<string>();
-
-        void ConsumeSchemaGenerationQueue()
-        {
-            if (!schemaGenerationQueue.Any())
-            {
-                return;
-            }
-
-            StartGeneration(schemaGenerationQueue.Dequeue());
-        }
-
-
         void StartGeneration(string schemaName)
         {
-            var ui = SchemaGenerationProcess.Create(schemaName);
-            ui.GenerationProcessCompletedSuccessfully += () =>
+            var ui = new SchemaGenerationProcess(schemaName);
+            ui.ProcessCompletedSuccessfully += () =>
             {
-                Dispatcher?.Invoke(()=>{processContainer.Children.Remove(ui);});
+                Dispatcher?.Invoke(() => { processContainer.Children.Remove(ui); });
                 Dispatcher?.Invoke(ConsumeSchemaGenerationQueue);
             };
 

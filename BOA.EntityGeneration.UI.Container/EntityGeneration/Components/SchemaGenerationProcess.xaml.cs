@@ -6,48 +6,28 @@ using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 
 namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 {
-    [Serializable]
-    public class SchemaGenerationProcessModel
+    public sealed partial class SchemaGenerationProcess
     {
-        #region Public Properties
-        public ProcessContract Process    { get; set; }
-        public string          SchemaName { get; set; }
-        #endregion
-    }
-
-    public partial class SchemaGenerationProcess
-    {
-        #region Fields
-        SchemaGenerationProcessModel model;
-        #endregion
-
         #region Constructors
-        public SchemaGenerationProcess()
+        public SchemaGenerationProcess(string schemaName)
         {
+            SchemaName = schemaName;
+            Process    = new ProcessContract();
+
             InitializeComponent();
         }
         #endregion
 
         #region Public Events
-        public event Action GenerationProcessCompletedSuccessfully;
+        public event Action ProcessCompletedSuccessfully;
+        #endregion
+
+        #region Public Properties
+        public ProcessContract Process    { get; set; }
+        public string          SchemaName { get; set; }
         #endregion
 
         #region Public Methods
-        public static SchemaGenerationProcess Create(string schemaName)
-        {
-            var model = new SchemaGenerationProcessModel
-            {
-                SchemaName = schemaName,
-                Process    = new ProcessContract()
-            };
-
-            return new SchemaGenerationProcess
-            {
-                DataContext = model,
-                model       = model
-            };
-        }
-
         public void Start()
         {
             new UIRefresher {Element = this}.Start();
@@ -57,24 +37,20 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         #endregion
 
         #region Methods
-        protected virtual void OnGenerationProcessCompletedSuccessfully()
-        {
-            GenerationProcessCompletedSuccessfully?.Invoke();
-        }
-
         void GenerateSchema()
         {
             var schemaExporter = new SchemaExporter();
+
             schemaExporter.InitializeContext();
 
             var context = schemaExporter.Context;
 
-            schemaExporter.Context.FileSystem.CheckinComment = App.Model.CheckinComment;
-            // TODO open for prod schemaExporter.Context.FileSystem.IntegrateWithTFSAndCheckInAutomatically = true;
+            Process = context.processInfo;
 
-            model.Process = context.processInfo;
+            schemaExporter.Context.FileSystem.CheckinComment                          = App.Model.CheckinComment;
+            schemaExporter.Context.FileSystem.IntegrateWithTFSAndCheckInAutomatically = context.config.IntegrateWithTFSAndCheckInAutomatically;
 
-            schemaExporter.Export(model.SchemaName);
+            schemaExporter.Export(SchemaName);
 
             if (context.Errors.Any())
             {
@@ -82,7 +58,12 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
                 return;
             }
 
-            OnGenerationProcessCompletedSuccessfully();
+            OnProcessCompletedSuccessfully();
+        }
+
+        void OnProcessCompletedSuccessfully()
+        {
+            ProcessCompletedSuccessfully?.Invoke();
         }
         #endregion
     }
