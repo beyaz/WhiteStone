@@ -23,9 +23,10 @@ namespace BOA.Tasks
             var sb = new StringBuilder();
             sb.AppendLine($"dotnet new sln --name {slnFileName}");
 
-            foreach (var csprojFile in Directory.GetFiles(directoryPath, "-.csproj", SearchOption.AllDirectories))
+            foreach (var csprojFile in Directory.GetFiles(directoryPath, "*.csproj", SearchOption.AllDirectories))
             {
                 var relativePath = csprojFile.RemoveFromStart(directoryPath);
+
                 sb.AppendLine($"dotnet sln \"{slnFileName}.sln\" add \"{relativePath}\"");
             }
 
@@ -33,6 +34,7 @@ namespace BOA.Tasks
 
             return sb.ToString();
         }
+
         #endregion
     }
 }
