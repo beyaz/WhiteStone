@@ -51,8 +51,8 @@
     "BoaRepositoryClassName": "$(CamelCasedTableName)",
 
     "RepositoryNamespace": "BOA.Business.Kernel.Card.$(SchemaName)",
-    "EntityProjectDirectory": "$(SlnDirectoryPath)$(SchemaName)\\$(EntityNamespace)\\",
-    "RepositoryProjectDirectory": "$(SlnDirectoryPath)$(SchemaName)\\$(RepositoryNamespace)\\",
+    "EntityProjectDirectory": "$(SlnDirectoryPath)Entity\\$(SchemaName)\\$(EntityNamespace)\\",
+    "RepositoryProjectDirectory": "$(SlnDirectoryPath)Entity\\$(SchemaName)\\$(RepositoryNamespace)\\",
     "BoaRepositoryUsingLines": "using System;|using System.Data;|using System.Data.SqlClient;|using System.Collections.Generic;|using BOA.Base;|using BOA.Base.Data;|using BOA.Common.Types;|using $(EntityNamespace);|using $(RepositoryNamespace).Shared;",
     "AllSchemaInOneClassRepositoryUsingLines": "using System;|using System.Data;|using System.Data.SqlClient;|using System.Collections.Generic;|using BOA.Base;|using BOA.Base.Data;|using BOA.Common.Types;|using $(EntityNamespace);|using $(RepositoryNamespace).Shared;",
     "EntityAssemblyReferences": "<Reference Include=\"BOA.Common\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Common.dll</HintPath></Reference>|<Reference Include=\"System\" />|<Reference Include=\"System.Core\" />|",

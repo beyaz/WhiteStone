@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
     public partial class Container
     {
         #region Fields
-        readonly Queue<string> schemaGenerationQueue = new Queue<string>();
+        readonly Queue<string> generationQueue = new Queue<string>();
         #endregion
 
         #region Constructors
@@ -22,14 +22,14 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         #endregion
 
         #region Methods
-        void ConsumeSchemaGenerationQueue()
+        void ConsumeGenerationQueue()
         {
-            if (!schemaGenerationQueue.Any())
+            if (!generationQueue.Any())
             {
                 return;
             }
 
-            StartGeneration(schemaGenerationQueue.Dequeue());
+            StartGeneration(generationQueue.Dequeue());
         }
 
         void OnGenerateClicked(object sender, RoutedEventArgs e)
@@ -54,13 +54,13 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             {
                 foreach (var item in App.Model.SchemaNames.Where(x => x != "*"))
                 {
-                    schemaGenerationQueue.Enqueue(item);
+                    generationQueue.Enqueue(item);
                 }
 
                 // Max three thread
-                ConsumeSchemaGenerationQueue();
-                ConsumeSchemaGenerationQueue();
-                ConsumeSchemaGenerationQueue();
+                ConsumeGenerationQueue();
+                ConsumeGenerationQueue();
+                ConsumeGenerationQueue();
                 return;
             }
 
@@ -73,7 +73,7 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             ui.ProcessCompletedSuccessfully += () =>
             {
                 Dispatcher?.Invoke(() => { processContainer.Children.Remove(ui); });
-                Dispatcher?.Invoke(ConsumeSchemaGenerationQueue);
+                Dispatcher?.Invoke(ConsumeGenerationQueue);
             };
 
             ui.Margin = new Thickness(0, 10, 0, 0);

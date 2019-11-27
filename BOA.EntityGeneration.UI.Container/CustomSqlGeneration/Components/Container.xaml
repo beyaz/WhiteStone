@@ -6,8 +6,8 @@
              DataContext="{Binding ElementName=CodeBehind}">
 
     <StackPanel>
-        <Label FontWeight = "Bold" >Schema Name</Label>
-        <components:SchemaNameComponent SelectedItem = "{Binding SelectedSchemaName,Mode=TwoWay}" />
+        <Label FontWeight = "Bold" >Profile Name</Label>
+        <components:ProfileNameComponent SelectedItem = "{Binding SelectedProfileName,Mode=TwoWay}" />
         <Button Margin = "0,10,0,0" Click = "OnGenerateClicked" >Generate</Button>
         <ScrollViewer VerticalScrollBarVisibility = "Auto" >
             <StackPanel Name = "processContainer" MaxHeight = "600" />

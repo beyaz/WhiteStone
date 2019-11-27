@@ -36,3 +36,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("CustomSqlInjectionToProject")]
 [assembly: InternalsVisibleTo("BOA.EntityGeneration.CustomSQLExporting.Test")]
+[assembly: InternalsVisibleTo("BOA.EntityGeneration.UI.Container")]

@@ -2,17 +2,17 @@
 using System.Linq;
 using System.Threading;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
+using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 
-namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
+namespace BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components
 {
-    public sealed partial class SchemaGenerationProcess
+    public sealed partial class ProfileGenerationProcess
     {
         #region Constructors
-        public SchemaGenerationProcess(string schemaName)
+        public ProfileGenerationProcess(string profileName)
         {
-            SchemaName = schemaName;
-            Process    = new ProcessContract();
+            ProfileName = profileName;
+            Process     = new ProcessContract();
 
             InitializeComponent();
         }
@@ -23,8 +23,8 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         #endregion
 
         #region Public Properties
-        public ProcessContract Process    { get; set; }
-        public string          SchemaName { get; set; }
+        public ProcessContract Process     { get; set; }
+        public string          ProfileName { get; set; }
         #endregion
 
         #region Public Methods
@@ -37,9 +37,14 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         #endregion
 
         #region Methods
+        void OnProcessCompletedSuccessfully()
+        {
+            ProcessCompletedSuccessfully?.Invoke();
+        }
+
         void Run()
         {
-            var exporter = new SchemaExporter();
+            var exporter = new CustomSqlExporter();
 
             exporter.InitializeContext();
 
@@ -50,7 +55,7 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             exporter.Context.FileSystem.CheckinComment                          = App.Model.CheckinComment;
             exporter.Context.FileSystem.IntegrateWithTFSAndCheckInAutomatically = context.config.IntegrateWithTFSAndCheckInAutomatically;
 
-            exporter.Export(SchemaName);
+            exporter.Export(ProfileName);
 
             if (context.Errors.Any())
             {
@@ -59,11 +64,6 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             }
 
             OnProcessCompletedSuccessfully();
-        }
-
-        void OnProcessCompletedSuccessfully()
-        {
-            ProcessCompletedSuccessfully?.Invoke();
         }
         #endregion
     }

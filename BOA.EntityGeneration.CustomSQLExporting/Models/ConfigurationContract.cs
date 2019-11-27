@@ -54,6 +54,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         ///     Gets or sets the SQL sequence information of table.
         /// </summary>
         public string SqlSequenceInformationOfTable { get; set; }
+
+        public bool IntegrateWithTFSAndCheckInAutomatically { get; set; }
         #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class = "BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components.SchemaGenerationProcess"
+﻿<UserControl x:Class = "BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components.ProfileGenerationProcess"
              xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,7 +8,7 @@
              x:Name="CodeBehind"
              DataContext="{Binding ElementName=CodeBehind}">
 
-    <GroupBox Header = "{Binding SchemaName}" >
+    <GroupBox Header = "{Binding ProfileName}" >
         <ScrollViewer VerticalScrollBarVisibility = "Auto" >
             <StackPanel Margin = "10" >
                 <TextBlock FontWeight = "Bold" Text = "{Binding Process.Text}"   TextWrapping="WrapWithOverflow" />

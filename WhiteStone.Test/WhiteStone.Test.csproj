@@ -80,6 +80,7 @@
     <Compile Include="ReflectionTests.cs" />
     <Compile Include="Services\JsonFileTest.cs" />
     <Compile Include="Services\ServiceManagerTest.cs" />
+    <Compile Include="Tasks\SlnFileGeneratorTest.cs" />
     <Compile Include="UI.Types\MyClass.cs" />
     <Compile Include="UI.Types\BindingPathExpressionHelperTest.cs" />
     <Compile Include="UI.Types\DataGridInfoTest.cs" />

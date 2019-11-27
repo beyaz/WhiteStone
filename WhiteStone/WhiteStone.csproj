@@ -170,6 +170,7 @@
     <Compile Include="System.Web\WhiteStoneExtensions.cs" />
     <Compile Include="System.Windows.Controls\Extensions.cs" />
     <Compile Include="Tasks\MSBuild.cs" />
+    <Compile Include="Tasks\SlnFileGenerator.cs" />
     <Compile Include="UI.Types\FormAssistant.cs" />
   </ItemGroup>
   <ItemGroup>

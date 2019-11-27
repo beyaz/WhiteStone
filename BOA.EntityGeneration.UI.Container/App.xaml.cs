@@ -48,6 +48,13 @@ namespace BOA.EntityGeneration.UI.Container
                     "SYSOP",
                     "DIS",
                     "*"
+                },
+                ProfileNames = new List<string>
+                {
+                    "CC_OPERATIONS",
+                    "CC_OPERATIONS_KERNEL",
+                    "DLV_COURIER",
+                    "*"
                 }
             };
         }

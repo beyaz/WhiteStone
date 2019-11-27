@@ -6,7 +6,8 @@
                       xmlns:local = "clr-namespace:BOA.EntityGeneration.UI.Container"
                       xmlns:Controls = "clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable = "d"
-                      xmlns:components = "clr-namespace:BOA.EntityGeneration.UI.Container.EntityGeneration.Components"
+                      xmlns:entityGenerationComponents = "clr-namespace:BOA.EntityGeneration.UI.Container.EntityGeneration.Components"
+                      xmlns:customSqlGenerationComponents = "clr-namespace:BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components"
                       x:Name = "CodeBehind"
                       SizeToContent = "Height"
                       WindowStartupLocation = "CenterScreen"
@@ -23,10 +24,12 @@
         <TabControl>
 
             <TabItem Header = "Entity" >
-                <components:Container Margin = "5" />
+                <entityGenerationComponents:Container Margin = "5" />
             </TabItem>
 
-            <TabItem Header = "Custom SQL" />
+            <TabItem Header = "Custom SQL">
+                <customSqlGenerationComponents:Container Margin = "5" />
+            </TabItem>
 
             <TabItem Header = "Constant" />
 

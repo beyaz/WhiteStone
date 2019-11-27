@@ -72,11 +72,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CheckInCommentAccess.cs" />
+    <Compile Include="Components\ProfileNameComponent.cs" />
     <Compile Include="CustomSqlGeneration\Components\Container.xaml.cs">
       <DependentUpon>Container.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomSqlGeneration\Components\SchemaGenerationProcess.xaml.cs">
-      <DependentUpon>SchemaGenerationProcess.xaml</DependentUpon>
+    <Compile Include="CustomSqlGeneration\Components\ProfileGenerationProcess.xaml.cs">
+      <DependentUpon>ProfileGenerationProcess.xaml</DependentUpon>
     </Compile>
     <Compile Include="EntityGeneration\Components\Container.xaml.cs">
       <DependentUpon>Container.xaml</DependentUpon>
@@ -89,7 +90,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="CustomSqlGeneration\Components\SchemaGenerationProcess.xaml">
+    <Page Include="CustomSqlGeneration\Components\ProfileGenerationProcess.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -144,6 +145,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BOA.EntityGeneration.CustomSQLExporting\BOA.EntityGeneration.CustomSQLExporting.csproj">
+      <Project>{E5E754FF-2406-43AC-8AD6-EC13038F1D6F}</Project>
+      <Name>BOA.EntityGeneration.CustomSQLExporting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BOA.EntityGeneration.SchemaToEntityExporting\BOA.EntityGeneration.SchemaToEntityExporting.csproj">
       <Project>{cb6a81d7-d871-462c-93cc-dd037180bfb4}</Project>
       <Name>BOA.EntityGeneration.SchemaToEntityExporting</Name>

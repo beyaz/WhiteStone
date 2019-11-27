@@ -2,6 +2,7 @@
   "ConnectionString": "Server=srvxdev\\zumrut;Database=BOACard;Trusted_Connection=True;",
   "TableCatalog": "BOACard",
   "DatabaseEnumName": "BOACard",
+  "IntegrateWithTFSAndCheckInAutomatically": false,
 
   "SqlSequenceInformationOfTable": "select  DISTINCT(columnname) AS TargetColumnName , (schemaname +'.' + sequencename) AS Name from BOACard.dbo.tablesequences WHERE schemaname = @schema AND tablename = @tableName",
 
