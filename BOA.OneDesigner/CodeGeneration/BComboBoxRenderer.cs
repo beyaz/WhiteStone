@@ -45,8 +45,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             var jsBindingPath = new JsBindingPathInfo(data.SelectedValueBindingPath)
             {
-                EvaluateInsStateVersion = true,
-                
+                EvaluateInsStateVersion = true
             };
             JsBindingPathCalculator.CalculateBindingPathInRenderMethod(jsBindingPath);
             writerContext.PushVariablesToRenderScope(jsBindingPath);
@@ -78,10 +77,9 @@ namespace BOA.OneDesigner.CodeGeneration
 
             writerContext.GrabValuesToRequest(new ComponentGetValueInfoComboBox
             {
-                JsBindingPath = fullBindingPathInJs,
-                SnapName      = data.SnapName,
+                JsBindingPath           = fullBindingPathInJs,
+                SnapName                = data.SnapName,
                 BindingPathPropertyInfo = bindingPathPropertyInfo
-                
             });
 
             var hasSupportErrorText = writerContext.HasSupportErrorText;
@@ -96,7 +94,6 @@ namespace BOA.OneDesigner.CodeGeneration
                     sb.AppendLine("onSelect={(selectedIndexes: any[], selectedItems: any[], selectedValues: any[]) =>");
                     sb.AppendLine("{");
                     sb.PaddingCount++;
-
 
                     if (hasSupportErrorText)
                     {
@@ -141,7 +138,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
             if (hasSupportErrorText)
             {
-                RenderHelper.WriteErrorTextProperty(sb,fullBindingPathInJs);
+                RenderHelper.WriteErrorTextProperty(sb, fullBindingPathInJs);
             }
 
             sb.AppendLine("ref = {(r: any) => this.snaps." + data.SnapName + " = r}");
@@ -162,8 +159,7 @@ namespace BOA.OneDesigner.CodeGeneration
             sb.AppendLine($"valueMemberPath=\"{valueMemberPath}\"");
             sb.AppendLine($"displayMemberPath=\"{displayMemberPath}\"");
 
-            
-            RenderHelper.WriteSize(data.SizeInfo,sb.AppendLine);
+            RenderHelper.WriteSize(data.SizeInfo, sb.AppendLine);
             RenderHelper.WriteIsVisible(writerContext, data.IsVisibleBindingPath, sb);
             RenderHelper.WriteIsDisabled(writerContext, data.IsDisabledBindingPath, sb);
 
@@ -199,6 +195,4 @@ namespace BOA.OneDesigner.CodeGeneration
         }
         #endregion
     }
-
-    
 }
