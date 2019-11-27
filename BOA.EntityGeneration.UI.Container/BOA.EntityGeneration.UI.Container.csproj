@@ -72,6 +72,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CheckInCommentAccess.cs" />
+    <Compile Include="CustomSqlGeneration\Components\Container.xaml.cs">
+      <DependentUpon>Container.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomSqlGeneration\Components\SchemaGenerationProcess.xaml.cs">
+      <DependentUpon>SchemaGenerationProcess.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EntityGeneration\Components\Container.xaml.cs">
       <DependentUpon>Container.xaml</DependentUpon>
     </Compile>
@@ -79,6 +85,14 @@
       <DependentUpon>SchemaGenerationProcess.xaml</DependentUpon>
     </Compile>
     <Compile Include="UIRefresher.cs" />
+    <Page Include="CustomSqlGeneration\Components\Container.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomSqlGeneration\Components\SchemaGenerationProcess.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="EntityGeneration\Components\Container.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -143,9 +157,7 @@
       <Name>BOA.CodeGeneration</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CustomSqlGeneration\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy /y  "$(SolutionDir)BOA.EntityGeneration.SchemaToEntityExporting\bin\Debug\*.txt"  "$(TargetDir)"</PreBuildEvent>
