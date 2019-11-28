@@ -1,25 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using BOA.Common.Helpers;
-using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
+using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using WhiteStone.Helpers;
 
 namespace BOA.EntityGeneration.ConstantsProjectGeneration
 {
     class Generator
     {
+        #region Constants
+        const string FileName = "AllEnums.cs";
+        #endregion
+
         #region Public Properties
         public Context Context { get; } = new Context();
         #endregion
 
         #region Properties
-        ConfigurationContract Config   => Context.Config;
-        PaddedStringBuilder   file     => Context.File;
+        ConfigurationContract Config      => Context.Config;
+        PaddedStringBuilder   File        => Context.File;
+        FileSystem            FileSystem  => Context.FileSystem;
+        ProcessContract       ProcessInfo => Context.ProcessInfo;
         #endregion
-         ProcessContract processInfo => Context.ProcessInfo;
-         protected FileSystem FileSystem => Context.FileSystem;
 
         #region Public Methods
         public void Generate()
@@ -27,65 +32,68 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
             InitEnumInformationList();
 
             WriteContent();
+
             ExportFile();
-        }
 
-        void ExportFile()
-        {
-            
-            processInfo.Text = "Exporting BOA repository.";
+            ExportCsProjFiles();
 
-            var filePath = Config.ProjectDirectory + "Boa.cs";
-
-            FileSystem.WriteAllText(filePath, file.ToString());
-        }
-
-        void WriteContent()
-        {
-            file.AppendLine("using BOA.Card.Definitions;");
-            file.AppendLine();
-            file.AppendLine($"namespace {Config.NamespaceName}");
-            file.OpenBracket();
-
-            foreach (var className in Context.EnumClassNameList)
-            {
-                file.AppendLine();
-                AppendEnumPropertyToClass(Context.EnumInfoList.Where(x => x.ClassName == className).ToList());
-            }
-
-            file.CloseBracket();
-        }
-
-        void AppendEnumPropertyToClass(IReadOnlyList<EnumInfo> propertyList)
-        {
-            var className = propertyList.First().ClassName.ToContractName();
-
-            file.AppendLine("[Serializable]");
-            file.AppendLine($"public class {className} : EnumBase<{className}, int>");
-            file.OpenBracket();
-
-            foreach (var item in propertyList)
-            {
-                file.AppendLine($"public static readonly {className} {item.PropertyName.ToContractName()} = new {className}(\"{item.StringValue}\", {item.NumberValue});");
-            }
-
-            file.AppendLine();
-            file.AppendLine($"public {className}(string name, int value) : base(name, value)");
-            file.OpenBracket();
-            file.CloseBracket();
-            file.AppendLine();
-            file.AppendLine($"public static explicit operator {className}(string value)");
-            file.OpenBracket();
-            file.AppendLine($"return Parse<{className}>(value);");
-            file.CloseBracket();
-
-            file.CloseBracket();
-
-            
+            Context.MsBuildQueue.Build();
         }
         #endregion
 
         #region Methods
+        void AppendEnumPropertyToClass(IReadOnlyList<EnumInfo> propertyList)
+        {
+            var className = propertyList.First().ClassName.ToContractName();
+
+            File.AppendLine("[Serializable]");
+            File.AppendLine($"public class {className} : EnumBase<{className}, int>");
+            File.OpenBracket();
+
+            foreach (var item in propertyList)
+            {
+                File.AppendLine($"public static readonly {className} {item.PropertyName.ToContractName()} = new {className}(\"{item.StringValue}\", {item.NumberValue});");
+            }
+
+            File.AppendLine();
+            File.AppendLine($"public {className}(string name, int value) : base(name, value)");
+            File.OpenBracket();
+            File.CloseBracket();
+            File.AppendLine();
+            File.AppendLine($"public static explicit operator {className}(string value)");
+            File.OpenBracket();
+            File.AppendLine($"return Parse<{className}>(value);");
+            File.CloseBracket();
+
+            File.CloseBracket();
+        }
+
+        void ExportCsProjFiles()
+        {
+            var csprojFileGenerator = new CsprojFileGenerator
+            {
+                FileSystem       = FileSystem,
+                FileNames        = new List<string> {FileName},
+                NamespaceName    = Config.NamespaceName,
+                IsClientDll      = true,
+                ProjectDirectory = Config.ProjectDirectory,
+                References       = new[] {"<Reference Include=\"BOA.Card.Definitions\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Card.Definitions.dll</HintPath></Reference>"}
+            };
+
+            var csprojFilePath = csprojFileGenerator.Generate();
+
+            Context.MsBuildQueue.Push(csprojFilePath);
+        }
+
+        void ExportFile()
+        {
+            ProcessInfo.Text = "Writing files.";
+
+            var filePath = Config.ProjectDirectory + FileName;
+
+            FileSystem.WriteAllText(filePath, File.ToString());
+        }
+
         void InitEnumInformationList()
         {
             var database = Context.Database;
@@ -120,6 +128,30 @@ END
 ";
             Context.EnumInfoList      = database.ExecuteReader().ToList<EnumInfo>();
             Context.EnumClassNameList = Context.EnumInfoList.OrderBy(x => x.ClassName).GroupBy(x => x.ClassName).Select(x => x.Key).ToList();
+        }
+
+        void WriteContent()
+        {
+            File.AppendLine("using BOA.Card.Definitions;");
+            File.AppendLine();
+            File.AppendLine($"namespace {Config.NamespaceName}");
+            File.OpenBracket();
+
+            ProcessInfo.Total   = Context.EnumClassNameList.Count;
+            ProcessInfo.Current = 0;
+
+            foreach (var className in Context.EnumClassNameList)
+            {
+                ProcessInfo.Text = $"Exporting class: {className}";
+                Thread.Sleep(10);
+
+                File.AppendLine();
+                AppendEnumPropertyToClass(Context.EnumInfoList.Where(x => x.ClassName == className).ToList());
+
+                ProcessInfo.Current++;
+            }
+
+            File.CloseBracket();
         }
         #endregion
     }
