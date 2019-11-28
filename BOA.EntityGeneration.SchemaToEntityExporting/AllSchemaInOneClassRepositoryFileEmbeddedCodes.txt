@@ -1,75 +1,21 @@
 ﻿/// <summary>
-///     The object helper SQL utility
+///     The unit of work SQL utility
 /// </summary>
-static class ObjectHelperSqlUtil
+static class UnitOfWorkSqlUtil
 {
-	public static GenericResponse<int> SequenceFetchError(this ObjectHelper objectHelper, ResponseBase response, string callerMemberPath)
-	{
-		var returnObject = objectHelper.InitializeGenericResponse<int>(callerMemberPath);
-
-		returnObject.Results.AddRange(response.Results);
-
-		return returnObject;
-	}	
-
-	public static GenericResponse<int> ContractCannotBeNull(this ObjectHelper objectHelper, string callerMemberPath)
-	{
-		var returnObject = objectHelper.InitializeGenericResponse<int>(callerMemberPath);
-
-		const string errorMessage = "'contract' parameter cannot be null.";
-
-		returnObject.Results.Add(new Result {ErrorMessage = errorMessage});
-
-		return returnObject;
-	}
-
     #region Public Methods
-    /// <summary>
-    ///     Executes the non query.
-    /// </summary>
-    public static GenericResponse<int> ExecuteNonQuery(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo)
-    {
-        var returnObject = objectHelper.InitializeGenericResponse<int>(methodFullPath);
-
-        var dbLayer = objectHelper.Context.DBLayer;
-
-        var command = dbLayer.GetDBCommand(Databases.BOACard, sqlInfo.CommandText, null, CommandType.Text);
-
-        AddParameters(objectHelper, command, sqlInfo);
-
-        var valueResponse = dbLayer.ExecuteNonQuery(command);
-        if (!valueResponse.Success)
-        {
-            returnObject.Results.AddRange(valueResponse.Results);
-            return returnObject;
-        }
-
-        returnObject.Value = valueResponse.Value;
-
-        return returnObject;
-    }
-
     /// <summary>
     ///     Executes the reader to contract.
     /// </summary>
-    public static GenericResponse<TResultContractType> ExecuteReaderToContract<TResultContractType>(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract) where TResultContractType : new()
+    public static TResultContractType ExecuteReaderToContract<TResultContractType>(this IUnitOfWork unitOfWork, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract) where TResultContractType : new()
     {
-        var returnObject = objectHelper.InitializeGenericResponse<TResultContractType>(methodFullPath);
+        var localConnection = false;
 
-        var dbLayer = objectHelper.Context.DBLayer;
+        var command = InitializeCommand(unitOfWork, sqlInfo.CommandText, ref localConnection);
 
-        var command = dbLayer.GetDBCommand(Databases.BOACard, sqlInfo.CommandText, null, CommandType.Text);
+        AddParameters(command, sqlInfo);
 
-        AddParameters(objectHelper, command, sqlInfo);
-
-        var readerResponse = dbLayer.ExecuteReader(command);
-        if (!readerResponse.Success)
-        {
-            returnObject.Results.AddRange(readerResponse.Results);
-            return returnObject;
-        }
-
-        var reader = readerResponse.Value;
+        var reader = command.ExecuteReader();
 
         var dataContract = default(TResultContractType);
 
@@ -84,61 +30,56 @@ static class ObjectHelperSqlUtil
 
         reader.Close();
 
-        returnObject.Value = dataContract;
+        if (localConnection && unitOfWork.State == State.ConnectionOpen)
+        {
+            unitOfWork.CloseConnection();
+        }
 
-        return returnObject;
+        return dataContract;
     }
 
     /// <summary>
     ///     Executes the reader to list.
     /// </summary>
-    public static GenericResponse<List<TResultContractType>> ExecuteReaderToList<TResultContractType>(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract) where TResultContractType : new()
+    public static List<TResultContractType> ExecuteReaderToList<TResultContractType>(this IUnitOfWork unitOfWork, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract) where TResultContractType : new()
     {
-        var returnObject = objectHelper.InitializeGenericResponse<List<TResultContractType>>(methodFullPath);
+        var localConnection = false;
 
-        var dbLayer = objectHelper.Context.DBLayer;
+        var command = InitializeCommand(unitOfWork, sqlInfo.CommandText, ref localConnection);
 
-        var command = dbLayer.GetDBCommand(Databases.BOACard, sqlInfo.CommandText, null, CommandType.Text);
+        AddParameters(command, sqlInfo);
 
-        AddParameters(objectHelper, command, sqlInfo);
+        var reader = command.ExecuteReader();
 
-        var readerResponse = dbLayer.ExecuteReader(command);
-        if (!readerResponse.Success)
+        var returnValue = reader.ReadToList(readContract);
+
+        if (localConnection && unitOfWork.State == State.ConnectionOpen)
         {
-            returnObject.Results.AddRange(readerResponse.Results);
-            return returnObject;
+            unitOfWork.CloseConnection();
         }
 
-        var reader = readerResponse.Value;
-
-        returnObject.Value = reader.ReadToList(readContract);
-
-        return returnObject;
+        return returnValue;
     }
 
     /// <summary>
     ///     Executes the scalar.
     /// </summary>
-    public static GenericResponse<TReturnValueType> ExecuteScalar<TReturnValueType>(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo)
+    public static TReturnValueType ExecuteScalar<TReturnValueType>(this IUnitOfWork unitOfWork, string methodFullPath, SqlInfo sqlInfo)
     {
-        var returnObject = objectHelper.InitializeGenericResponse<TReturnValueType>(methodFullPath);
+        var localConnection = false;
 
-        var dbLayer = objectHelper.Context.DBLayer;
+        var command = InitializeCommand(unitOfWork, sqlInfo.CommandText, ref localConnection);
 
-        var command = dbLayer.GetDBCommand(Databases.BOACard, sqlInfo.CommandText, null, CommandType.Text);
+        AddParameters(command, sqlInfo);
 
-        AddParameters(objectHelper, command, sqlInfo);
+        var returnValue = (TReturnValueType) command.ExecuteScalar();
 
-        var valueResponse = dbLayer.ExecuteScalar<TReturnValueType>(command);
-        if (!valueResponse.Success)
+        if (localConnection && unitOfWork.State == State.ConnectionOpen)
         {
-            returnObject.Results.AddRange(valueResponse.Results);
-            return returnObject;
+            unitOfWork.CloseConnection();
         }
 
-        returnObject.Value = valueResponse.Value;
-
-        return returnObject;
+        return returnValue;
     }
     #endregion
 
@@ -146,14 +87,57 @@ static class ObjectHelperSqlUtil
     /// <summary>
     ///     Adds the parameters.
     /// </summary>
-    static void AddParameters(ObjectHelper objectHelper, SqlCommand command, SqlInfo sqlInfo)
+    static void AddParameters(SqlCommand command, SqlInfo sqlInfo)
     {
+        if (sqlInfo.Parameters == null)
+        {
+            return;
+        }
+
         foreach (var parameter in sqlInfo.Parameters)
         {
-            var dbLayer = objectHelper.DBLayer;
-
-            dbLayer.AddInParameter(command, parameter.ParameterName, parameter.SqlDbType, parameter.Value);
+            command.Parameters.Add(parameter);
         }
+    }
+
+    /// <summary>
+    ///     Initializes the command.
+    /// </summary>
+    static SqlCommand InitializeCommand(IUnitOfWork unitOfWork, string commandText, ref bool localConnection)
+    {
+        localConnection = false;
+
+        var command = new SqlCommand(commandText);
+
+        if (unitOfWork.IsDistributed)
+        {
+            if (null == unitOfWork.ConnectionObject)
+            {
+                unitOfWork.OpenConnection();
+            }
+
+            command.Connection = (SqlConnection) unitOfWork.ConnectionObject;
+        }
+        else
+        {
+            localConnection = null == unitOfWork.TransactionObject
+                                || null == unitOfWork.ConnectionObject
+                                || ((SqlConnection) unitOfWork.ConnectionObject).State == ConnectionState.Closed;
+
+            if (localConnection)
+            {
+                unitOfWork.OpenConnection();
+            }
+            else
+            {
+                var transactionObject = unitOfWork.TransactionObject as IDbTransaction;
+                command.Transaction = (SqlTransaction) transactionObject;
+            }
+
+            command.Connection = (SqlConnection) unitOfWork.ConnectionObject;
+        }
+
+        return command;
     }
 
     /// <summary>

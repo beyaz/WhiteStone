@@ -44,7 +44,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
             file.AppendLine($"public sealed class {AllSchemaInOneClassRepositoryNamingPattern.ClassName}");
             file.OpenBracket();
 
-            file.AppendLine("readonly IUnitOfWork unitOfWork");
+            file.AppendLine("readonly IUnitOfWork unitOfWork;");
             file.AppendLine();
             file.AppendLine($"public {AllSchemaInOneClassRepositoryNamingPattern.ClassName}(IUnitOfWork unitOfWork)");
             file.OpenBracket();

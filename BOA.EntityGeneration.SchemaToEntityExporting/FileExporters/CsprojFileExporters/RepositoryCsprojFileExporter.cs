@@ -29,6 +29,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileE
             var csprojFilePath = csprojFileGenerator.Generate();
 
             MsBuildQueue.Push(csprojFilePath);
+
+            
         }
         #endregion
     }

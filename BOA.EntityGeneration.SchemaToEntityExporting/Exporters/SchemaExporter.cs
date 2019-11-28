@@ -62,7 +62,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             Create<EntityCsprojFileExporter>().AttachEvents();
             Create<RepositoryCsprojFileExporter>().AttachEvents();
 
-            // SchemaExportFinished += MsBuildQueue.Build;
+            SchemaExportFinished += MsBuildQueue.Build;
         }
 
         void InitializeConfig()
@@ -96,7 +96,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             };
 
 
-            dictionary = ConfigurationDictionaryCompiler.Compile(Config.AllSchemaInOneClassRepositoryNamingPattern, initialValues);
+            dictionary = ConfigurationDictionaryCompiler.Compile(Config.AllSchemaInOneClassRepositoryNamingPattern, dictionary);
 
             Context.AllSchemaInOneClassRepositoryNamingPattern = new AllSchemaInOneClassRepositoryNamingPatternContract()
             {
