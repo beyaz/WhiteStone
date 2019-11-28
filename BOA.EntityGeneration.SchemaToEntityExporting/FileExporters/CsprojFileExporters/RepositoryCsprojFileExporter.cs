@@ -19,10 +19,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileE
             {
                 FileSystem       = FileSystem,
                 FileNames        = Context.RepositoryProjectSourceFileNames,
-                NamespaceName    = namingPattern.RepositoryNamespace,
+                NamespaceName    = NamingPattern.RepositoryNamespace,
                 IsClientDll      = false,
-                ProjectDirectory = namingPattern.RepositoryProjectDirectory,
-                References       = namingPattern.RepositoryAssemblyReferences
+                ProjectDirectory = NamingPattern.RepositoryProjectDirectory,
+                References       = NamingPattern.RepositoryAssemblyReferences
             };
 
             var csprojFilePath = csprojFileGenerator.Generate();

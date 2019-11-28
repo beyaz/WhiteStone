@@ -26,7 +26,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         #region Methods
         void BeginNamespace()
         {
-            file.BeginNamespace(namingPattern.EntityNamespace);
+            file.BeginNamespace(NamingPattern.EntityNamespace);
         }
 
         void EmptyLine()
@@ -41,13 +41,13 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void ExportFileToDirectory()
         {
-            processInfo.Text = "Exporting Entity classes.";
+            ProcessInfo.Text = "Exporting Entity classes.";
 
             const string fileName = "All.cs";
 
             Context.PushFileNameToEntityProjectSourceFileNames(fileName);
 
-            var filePath = namingPattern.EntityProjectDirectory + fileName;
+            var filePath = NamingPattern.EntityProjectDirectory + fileName;
 
             var content = file.ToString();
 
@@ -58,27 +58,27 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteClass()
         {
-            ContractCommentInfoCreator.Write(file, tableInfo);
+            ContractCommentInfoCreator.Write(file, TableInfo);
 
             var inheritancePart = string.Empty;
 
-            if (config.EntityContractBase != null)
+            if (Config.EntityContractBase != null)
             {
-                inheritancePart = ": " + config.EntityContractBase;
+                inheritancePart = ": " + Config.EntityContractBase;
             }
 
             file.AppendLine("[Serializable]");
-            file.AppendLine($"public sealed class {tableNamingPattern.EntityClassName} {inheritancePart}");
+            file.AppendLine($"public sealed class {TableNamingPattern.EntityClassName} {inheritancePart}");
             file.OpenBracket();
 
-            ContractCommentInfoCreator.Write(file, tableInfo);
+            ContractCommentInfoCreator.Write(file, TableInfo);
             file.AppendLine("// ReSharper disable once EmptyConstructor");
-            file.AppendLine($"public {tableInfo.TableName.ToContractName()}Contract()");
+            file.AppendLine($"public {TableInfo.TableName.ToContractName()}Contract()");
             file.OpenBracket();
             file.CloseBracket();
             file.AppendLine();
 
-            file.AppendAll(ContractBodyDbMembersCreator.Create(tableInfo).PropertyDefinitions);
+            file.AppendAll(ContractBodyDbMembersCreator.Create(TableInfo).PropertyDefinitions);
             file.AppendLine();
 
             file.CloseBracket(); // end of class
@@ -86,7 +86,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteUsingList()
         {
-            foreach (var line in namingPattern.EntityUsingLines)
+            foreach (var line in NamingPattern.EntityUsingLines)
             {
                 file.AppendLine(line);
             }

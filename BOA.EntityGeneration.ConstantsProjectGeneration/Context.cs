@@ -2,16 +2,19 @@
 using System.IO;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 
 namespace BOA.EntityGeneration.ConstantsProjectGeneration
 {
     public class Context
     {
+        public FileSystem FileSystem { get; } = new FileSystem();
         #region Fields
         public   ConfigurationContract Config;
         internal SqlDatabase           Database;
         #endregion
-
+        public ProcessContract processInfo { get; } = new ProcessContract();
         #region Constructors
         public Context()
         {

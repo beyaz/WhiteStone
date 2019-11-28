@@ -72,14 +72,14 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
         void InitializeDatabase()
         {
-            Context.database = new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
+            Context.database = new SqlDatabase(Config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
 
         void InitializeNamingPattern()
         {
             var initialValues = new Dictionary<string, string> {{nameof(SchemaName), SchemaName}};
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(config.NamingPattern, initialValues);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.NamingPattern, initialValues);
 
             Context.namingPattern = new NamingPatternContract
             {
@@ -102,10 +102,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             var initialValues = new Dictionary<string, string>
             {
                 {nameof(SchemaName), SchemaName},
-                {"CamelCasedTableName", tableInfo.TableName.ToContractName()}
+                {"CamelCasedTableName", TableInfo.TableName.ToContractName()}
             };
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(config.TableNamingPattern, initialValues);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.TableNamingPattern, initialValues);
 
             Context.tableNamingPattern = new TableNamingPatternContract
             {
@@ -116,11 +116,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             };
 
             // TODO: move to usings
-            var typeContractName = tableNamingPattern.EntityClassName;
+            var typeContractName = TableNamingPattern.EntityClassName;
             if (typeContractName == "TransactionLogContract" ||
                 typeContractName == "BoaUserContract") // resolve conflig
             {
-                typeContractName = $"{namingPattern.EntityNamespace}.{typeContractName}";
+                typeContractName = $"{NamingPattern.EntityNamespace}.{typeContractName}";
             }
 
             Context.tableEntityClassNameForMethodParametersInRepositoryFiles = typeContractName;
@@ -130,7 +130,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         {
             var fullTableName = $"{SchemaName}.{tableName}";
 
-            var isNotExportable = config.NotExportableTables.Contains(fullTableName);
+            var isNotExportable = Config.NotExportableTables.Contains(fullTableName);
             if (isNotExportable)
             {
                 return false;
@@ -141,23 +141,23 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
         void ProcessAllTablesInSchema()
         {
-            var tableNames = SchemaInfo.GetAllTableNamesInSchema(database, SchemaName).ToList();
+            var tableNames = SchemaInfo.GetAllTableNamesInSchema(Database, SchemaName).ToList();
 
             tableNames = tableNames.Where(IsReadyToExport).ToList();
 
-            processInfo.Total   = tableNames.Count;
-            processInfo.Current = 0;
+            ProcessInfo.Total   = tableNames.Count;
+            ProcessInfo.Current = 0;
 
             foreach (var tableName in tableNames)
             {
-                processInfo.Text = $"Generating codes for table '{tableName}'.";
-                processInfo.Current++;
+                ProcessInfo.Text = $"Generating codes for table '{tableName}'.";
+                ProcessInfo.Current++;
 
-                var tableInfoDao = new TableInfoDao {Database = database, IndexInfoAccess = new IndexInfoAccess {Database = database}};
+                var tableInfoDao = new TableInfoDao {Database = Database, IndexInfoAccess = new IndexInfoAccess {Database = Database}};
 
-                var tableInfoTemp = tableInfoDao.GetInfo(config.TableCatalog, SchemaName, tableName);
+                var tableInfoTemp = tableInfoDao.GetInfo(Config.TableCatalog, SchemaName, tableName);
 
-                Context.tableInfo = GeneratorDataCreator.Create(config.SqlSequenceInformationOfTable, config.DatabaseEnumName, database, tableInfoTemp);
+                Context.tableInfo = GeneratorDataCreator.Create(Config.SqlSequenceInformationOfTable, Config.DatabaseEnumName, Database, tableInfoTemp);
 
                 Context.OnTableExportStarted();
                 Context.OnTableExportFinished();

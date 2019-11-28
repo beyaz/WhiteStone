@@ -19,24 +19,24 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         #region Public Methods
         public void Export(string profileId)
         {
-            Context.profileName          = profileId;
-            Context.profileNamingPattern = CreateProfileNamingPattern();
+            Context.ProfileName          = profileId;
+            Context.ProfileNamingPattern = CreateProfileNamingPattern();
 
-            processInfo.Text = "Fetching profile informations...";
+            ProcessInfo.Text = "Fetching profile informations...";
 
-            var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(database, ProfileName, config);
+            var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(Database, ProfileName, Config);
 
             Context.OnProfileInfoInitialized();
 
-            processInfo.Total = customSqlNamesInfProfile.Count;
+            ProcessInfo.Total = customSqlNamesInfProfile.Count;
 
             var switchCaseIndex = 0;
             foreach (var objectId in customSqlNamesInfProfile)
             {
-                processInfo.Text    = $"Processing '{objectId}'";
-                processInfo.Current = switchCaseIndex;
+                ProcessInfo.Text    = $"Processing '{objectId}'";
+                ProcessInfo.Current = switchCaseIndex;
 
-                Context.customSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(database, ProfileName, objectId, config, switchCaseIndex++);
+                Context.CustomSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(Database, ProfileName, objectId, Config, switchCaseIndex++);
 
                 InitializeCustomSqlNamingPattern();
 
@@ -45,7 +45,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             Context.OnProfileInfoRemove();
 
-            processInfo.Text = "Finished Successfully.";
+            ProcessInfo.Text = "Finished Successfully.";
 
             WaitTwoSecondForUserCanSeeSuccessMessage();
         }
@@ -54,8 +54,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             var profileIdList = new List<string>();
 
-            database.CommandText = config.SQL_GetProfileIdList;
-            var reader = database.ExecuteReader();
+            Database.CommandText = Config.SQL_GetProfileIdList;
+            var reader = Database.ExecuteReader();
             while (reader.Read())
             {
                 profileIdList.Add(reader["ProfileId"].ToString());
@@ -96,7 +96,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 {nameof(ProfileName), ProfileName}
             };
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(config.ProfileNamingPattern, initialValues);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.ProfileNamingPattern, initialValues);
 
             return new ProfileNamingPatternContract
             {
@@ -114,7 +114,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         void InitializeConfig()
         {
-            Context.config = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(ConfigFilePath));
+            Context.Config = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(ConfigFilePath));
         }
 
         void InitializeCustomSqlNamingPattern()
@@ -122,20 +122,20 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             var initialValues = new Dictionary<string, string>
             {
                 {nameof(ProfileName), ProfileName},
-                {"CamelCasedCustomSqlName", customSqlInfo.Name.ToContractName()}
+                {"CamelCasedCustomSqlName", CustomSqlInfo.Name.ToContractName()}
             };
 
-            var entityReferencedResultColumn = customSqlInfo.ResultColumns.FirstOrDefault(x => x.IsReferenceToEntity);
+            var entityReferencedResultColumn = CustomSqlInfo.ResultColumns.FirstOrDefault(x => x.IsReferenceToEntity);
 
             if (entityReferencedResultColumn != null)
             {
-                initialValues[nameof(customSqlInfo.SchemaName)] = customSqlInfo.SchemaName;
+                initialValues[nameof(CustomSqlInfo.SchemaName)] = CustomSqlInfo.SchemaName;
                 initialValues["CamelCasedResultName"]           = entityReferencedResultColumn.Name.ToContractName();
             }
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(config.CustomSqlNamingPattern, initialValues);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.CustomSqlNamingPattern, initialValues);
 
-            Context.customSqlNamingPattern = new CustomSqlNamingPatternContract
+            Context.CustomSqlNamingPattern = new CustomSqlNamingPatternContract
             {
                 ResultClassName                  = dictionary[nameof(CustomSqlNamingPatternContract.ResultClassName)],
                 RepositoryClassName              = dictionary[nameof(CustomSqlNamingPatternContract.RepositoryClassName)],
@@ -149,7 +149,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         void InitializeDatabaseConnection()
         {
-            Context.database = new SqlDatabase(config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
+            Context.Database = new SqlDatabase(Config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
         #endregion
     }

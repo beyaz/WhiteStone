@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
          void WriteUsingList()
         {
-            foreach (var line in namingPattern.AllSchemaInOneClassRepositoryUsingLines)
+            foreach (var line in NamingPattern.AllSchemaInOneClassRepositoryUsingLines)
             {
                 file.AppendLine(line);
             }

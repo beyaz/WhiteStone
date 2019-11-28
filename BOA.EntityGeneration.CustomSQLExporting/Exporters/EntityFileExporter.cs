@@ -31,7 +31,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("using System.Collections.Generic;");
 
             sb.AppendLine();
-            sb.AppendLine($"namespace {profileNamingPattern.EntityNamespace}");
+            sb.AppendLine($"namespace {ProfileNamingPattern.EntityNamespace}");
             sb.OpenBracket();
 
             sb.AppendLine("/// <summary>");
@@ -50,9 +50,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         void ExportFileToDirectory()
         {
-            processInfo.Text = "Exporting Entity classes.";
+            ProcessInfo.Text = "Exporting Entity classes.";
 
-            var filePath = profileNamingPattern.EntityProjectDirectory + "All.cs";
+            var filePath = ProfileNamingPattern.EntityProjectDirectory + "All.cs";
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }
@@ -61,25 +61,25 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         void WriteSqlInputOutputTypes()
         {
-            if (customSqlInfo.ResultColumns.Any(r => r.IsReferenceToEntity))
+            if (CustomSqlInfo.ResultColumns.Any(r => r.IsReferenceToEntity))
             {
-                entityAssemblyReferences.Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
+                EntityAssemblyReferences.Add(CustomSqlNamingPattern.ReferencedEntityAssemblyPath);
             }
 
-            var resultContractName = customSqlNamingPattern.ResultClassName;
+            var resultContractName = CustomSqlNamingPattern.ResultClassName;
 
-            if (!customSqlInfo.ResultContractIsReferencedToEntity)
+            if (!CustomSqlInfo.ResultContractIsReferencedToEntity)
             {
                 sb.AppendLine();
                 sb.AppendLine("/// <summary>");
-                sb.AppendLine($"///     Result class of '{customSqlInfo.Name}' sql.");
+                sb.AppendLine($"///     Result class of '{CustomSqlInfo.Name}' sql.");
                 sb.AppendLine("/// </summary>");
                 sb.AppendLine("[Serializable]");
                 sb.AppendLine($"public sealed class {resultContractName} : CardContractBase");
                 sb.AppendLine("{");
                 sb.PaddingCount++;
 
-                foreach (var item in customSqlInfo.ResultColumns)
+                foreach (var item in CustomSqlInfo.ResultColumns)
                 {
                     sb.AppendLine($"public {item.DataTypeInDotnet} {item.NameInDotnet} {{get; set;}}");
                 }
@@ -89,26 +89,26 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             }
             else
             {
-                resultContractName = customSqlNamingPattern.ReferencedEntityAccessPath;
+                resultContractName = CustomSqlNamingPattern.ReferencedEntityAccessPath;
             }
 
             var interfaceName = $"ICustomSqlProxy<GenericResponse<{resultContractName}>, {resultContractName}>";
-            if (customSqlInfo.SqlResultIsCollection)
+            if (CustomSqlInfo.SqlResultIsCollection)
             {
                 interfaceName = $"ICustomSqlProxy<GenericResponse<List<{resultContractName}>>, List<{resultContractName}>>";
             }
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///     Parameter class of '{customSqlInfo.Name}' sql.");
+            sb.AppendLine($"///     Parameter class of '{CustomSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
             sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public sealed class {customSqlNamingPattern.InputClassName} : {interfaceName}");
+            sb.AppendLine($"public sealed class {CustomSqlNamingPattern.InputClassName} : {interfaceName}");
 
             sb.AppendLine("{");
             sb.PaddingCount++;
 
-            foreach (var item in customSqlInfo.Parameters)
+            foreach (var item in CustomSqlInfo.Parameters)
             {
                 sb.AppendLine($"public {item.CSharpPropertyTypeName} {item.CSharpPropertyName} {{ get; set; }}");
             }
@@ -116,7 +116,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine();
             sb.AppendLine($"int {interfaceName}.Index");
             sb.AppendLine("{");
-            sb.AppendLine($"    get {{ return {customSqlInfo.SwitchCaseIndex}; }}");
+            sb.AppendLine($"    get {{ return {CustomSqlInfo.SwitchCaseIndex}; }}");
             sb.AppendLine("}");
 
             sb.PaddingCount--;

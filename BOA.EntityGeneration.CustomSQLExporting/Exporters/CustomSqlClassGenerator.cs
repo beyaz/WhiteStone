@@ -50,9 +50,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         void WriteSwitchCaseCondition()
         {
-            sb.AppendLine($"case {customSqlInfo.SwitchCaseIndex}:");
+            sb.AppendLine($"case {CustomSqlInfo.SwitchCaseIndex}:");
             sb.OpenBracket();
-            sb.AppendLine($"return (TOutput) (object) new {customSqlNamingPattern.RepositoryClassName}(objectHelper.Context).Execute(({customSqlNamingPattern.InputClassName})(object) input);");
+            sb.AppendLine($"return (TOutput) (object) new {CustomSqlNamingPattern.RepositoryClassName}(objectHelper.Context).Execute(({CustomSqlNamingPattern.InputClassName})(object) input);");
             sb.CloseBracket();
         }
         #endregion

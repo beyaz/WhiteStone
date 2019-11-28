@@ -37,33 +37,33 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Methods
         void BeginClass()
         {
-            sb.AppendLine($"public static class {customSqlNamingPattern.RepositoryClassName}");
+            sb.AppendLine($"public static class {CustomSqlNamingPattern.RepositoryClassName}");
             sb.OpenBracket();
         }
 
         void BeginNamespace()
         {
-            sb.AppendLine($"namespace {profileNamingPattern.RepositoryNamespace}.Shared");
+            sb.AppendLine($"namespace {ProfileNamingPattern.RepositoryNamespace}.Shared");
             sb.OpenBracket();
         }
 
         void CreateSqlInfo()
         {
-            sb.AppendLine($"public static SqlInfo CreateSqlInfo({customSqlNamingPattern.InputClassName} request)");
+            sb.AppendLine($"public static SqlInfo CreateSqlInfo({CustomSqlNamingPattern.InputClassName} request)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
             sb.AppendLine("const string sql = @\"");
-            sb.AppendAll(customSqlInfo.Sql);
+            sb.AppendAll(CustomSqlInfo.Sql);
             sb.AppendLine();
             sb.AppendLine("\";");
             sb.AppendLine();
             sb.AppendLine("var sqlInfo = new SqlInfo { CommandText = sql };");
 
-            if (customSqlInfo.Parameters.Any())
+            if (CustomSqlInfo.Parameters.Any())
             {
                 sb.AppendLine();
-                foreach (var item in customSqlInfo.Parameters)
+                foreach (var item in CustomSqlInfo.Parameters)
                 {
                     sb.AppendLine($"sqlInfo.AddInParameter(\"@{item.Name}\", SqlDbType.{item.SqlDbTypeName}, request.{item.ValueAccessPathForAddInParameter});");
                 }
@@ -93,9 +93,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         void ExportFileToDirectory()
         {
-            processInfo.Text = "Exporting Shared repository.";
+            ProcessInfo.Text = "Exporting Shared repository.";
 
-            var filePath = profileNamingPattern.RepositoryProjectDirectory + "Shared.cs";
+            var filePath = ProfileNamingPattern.RepositoryProjectDirectory + "Shared.cs";
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }
@@ -112,26 +112,26 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         void WriteReadContract()
         {
-            if (customSqlInfo.ResultContractIsReferencedToEntity)
+            if (CustomSqlInfo.ResultContractIsReferencedToEntity)
             {
                 return;
             }
 
             sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{customSqlInfo.Name}' sql.");
+            sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{CustomSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public void ReadContract(IDataReader reader, {customSqlNamingPattern.ResultClassName} contract)");
+            sb.AppendLine($"public void ReadContract(IDataReader reader, {CustomSqlNamingPattern.ResultClassName} contract)");
             sb.OpenBracket();
 
-            foreach (var item in customSqlInfo.ResultColumns)
+            foreach (var item in CustomSqlInfo.ResultColumns)
             {
                 if (item.IsReferenceToEntity)
                 {
-                    repositoryAssemblyReferences.Add(customSqlNamingPattern.ReferencedRepositoryAssemblyPath);
-                    repositoryAssemblyReferences.Add(customSqlNamingPattern.ReferencedEntityAssemblyPath);
+                    RepositoryAssemblyReferences.Add(CustomSqlNamingPattern.ReferencedRepositoryAssemblyPath);
+                    RepositoryAssemblyReferences.Add(CustomSqlNamingPattern.ReferencedEntityAssemblyPath);
 
-                    sb.AppendLine($"contract.{item.NameInDotnet} = new {customSqlNamingPattern.ReferencedEntityAccessPath}();");
-                    sb.AppendLine($"{customSqlNamingPattern.ReferencedEntityReaderMethodPath}(reader, contract.{item.NameInDotnet});");
+                    sb.AppendLine($"contract.{item.NameInDotnet} = new {CustomSqlNamingPattern.ReferencedEntityAccessPath}();");
+                    sb.AppendLine($"{CustomSqlNamingPattern.ReferencedEntityReaderMethodPath}(reader, contract.{item.NameInDotnet});");
                     continue;
                 }
 
@@ -153,7 +153,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             sb.AppendLine("using System.Data;");
             sb.AppendLine("using System.Data.SqlClient;");
             sb.AppendLine("using System.Collections.Generic;");
-            sb.AppendLine($"using {profileNamingPattern.EntityNamespace};");
+            sb.AppendLine($"using {ProfileNamingPattern.EntityNamespace};");
         }
         #endregion
     }

@@ -18,10 +18,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
             {
                 FileSystem       = FileSystem,
                 FileNames        = new List<string> {"All.cs"},
-                NamespaceName    = profileNamingPattern.EntityNamespace,
+                NamespaceName    = ProfileNamingPattern.EntityNamespace,
                 IsClientDll      = true,
-                ProjectDirectory = profileNamingPattern.EntityProjectDirectory,
-                References       = entityAssemblyReferences
+                ProjectDirectory = ProfileNamingPattern.EntityProjectDirectory,
+                References       = EntityAssemblyReferences
             };
 
             var csprojFilePath = csprojFileGenerator.Generate();

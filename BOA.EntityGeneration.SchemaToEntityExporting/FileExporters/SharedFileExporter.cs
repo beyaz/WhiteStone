@@ -42,7 +42,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         #region Methods
         void BeginNamespace()
         {
-            file.BeginNamespace(namingPattern.RepositoryNamespace + ".Shared");
+            file.BeginNamespace(NamingPattern.RepositoryNamespace + ".Shared");
         }
 
         void EmptyLine()
@@ -63,19 +63,19 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
             Context.OnSharedRepositoryFileContentCompleted(sourceCode);
 
-            processInfo.Text = "Exporting Shared repository...";
+            ProcessInfo.Text = "Exporting Shared repository...";
 
             Context.PushFileNameToRepositoryProjectSourceFileNames(fileName);
 
-            FileSystem.WriteAllText(namingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
+            FileSystem.WriteAllText(NamingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
         }
 
         void WriteClass()
         {
-            file.AppendLine($"public sealed class {tableNamingPattern.SharedRepositoryClassName}");
+            file.AppendLine($"public sealed class {TableNamingPattern.SharedRepositoryClassName}");
             file.OpenBracket();
 
-            if (tableInfo.IsSupportSelectByKey)
+            if (TableInfo.IsSupportSelectByKey)
             {
                 file.AppendLine();
                 WriteDeleteByKeyMethod();
@@ -90,7 +90,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
             WriteSelectAllMethod();
 
-            if (tableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
+            if (TableInfo.ShouldGenerateSelectAllByValidFlagMethodInBusinessClass)
             {
                 WriteSelectAllByValidFlagMethod();
             }
@@ -104,7 +104,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteDeleteByKeyMethod()
         {
-            var deleteInfo = DeleteInfoCreator.Create(tableInfo);
+            var deleteInfo = DeleteInfoCreator.Create(TableInfo);
 
             var sqlParameters = deleteInfo.SqlParameters;
 
@@ -143,9 +143,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteInsertMethod()
         {
-            var typeContractName = tableEntityClassNameForMethodParametersInRepositoryFiles;
+            var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
-            var insertInfo = new InsertInfoCreator().Create(tableInfo);
+            var insertInfo = new InsertInfoCreator().Create(TableInfo);
 
             var sqlParameters = insertInfo.SqlParameters;
 
@@ -155,7 +155,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
             file.AppendLine("const string sql = @\"");
             file.AppendAll(insertInfo.Sql);
             file.AppendLine();
-            if (tableInfo.HasIdentityColumn)
+            if (TableInfo.HasIdentityColumn)
             {
                 file.AppendLine("SELECT CAST(SCOPE_IDENTITY() AS INT)");
             }
@@ -184,7 +184,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         {
             const string contractParameterName = "contract";
 
-            var typeContractName = tableEntityClassNameForMethodParametersInRepositoryFiles;
+            var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
             file.AppendLine();
             file.AppendLine("/// <summary>");
@@ -194,7 +194,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
             file.AppendLine("{");
             file.PaddingCount++;
 
-            foreach (var columnInfo in tableInfo.Columns)
+            foreach (var columnInfo in TableInfo.Columns)
             {
                 var readerMethodName = columnInfo.SqlReaderMethod.ToString();
                 if (columnInfo.SqlReaderMethod == SqlReaderMethods.GetGUIDValue)
@@ -202,7 +202,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
                     readerMethodName = "GetGuidValue";
                 }
 
-                var contractReadLine = config.ContractReadLine
+                var contractReadLine = Config.ContractReadLine
                                              .Replace("$(Contract)", contractParameterName)
                                              .Replace("$(PropertyName)", columnInfo.ColumnName.ToContractName())
                                              .Replace("$(ColumnName)", columnInfo.ColumnName)
@@ -217,7 +217,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteSelectAllByValidFlagMethod()
         {
-            var sql = SelectAllInfoCreator.Create(tableInfo).Sql;
+            var sql = SelectAllInfoCreator.Create(TableInfo).Sql;
 
             file.AppendLine("public static SqlInfo SelectByValidFlag()");
             file.OpenBracket();
@@ -234,7 +234,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteSelectAllMethod()
         {
-            var sql = SelectAllInfoCreator.Create(tableInfo).Sql;
+            var sql = SelectAllInfoCreator.Create(TableInfo).Sql;
 
             file.AppendLine("public static SqlInfo Select()");
             file.OpenBracket();
@@ -252,12 +252,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         void WriteSelectByIndexMethods()
         {
             var allIndexes = new List<IIndexInfo>();
-            allIndexes.AddRange(tableInfo.NonUniqueIndexInfoList);
-            allIndexes.AddRange(tableInfo.UniqueIndexInfoList);
+            allIndexes.AddRange(TableInfo.NonUniqueIndexInfoList);
+            allIndexes.AddRange(TableInfo.UniqueIndexInfoList);
 
             foreach (var indexIdentifier in allIndexes)
             {
-                var indexInfo     = SelectByIndexInfoCreator.Create(tableInfo, indexIdentifier);
+                var indexInfo     = SelectByIndexInfoCreator.Create(TableInfo, indexIdentifier);
                 var methodName    = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
                 var parameterPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
@@ -293,7 +293,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteSelectByKeyMethod()
         {
-            var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(tableInfo);
+            var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(TableInfo);
 
             var sqlParameters = selectByPrimaryKeyInfo.SqlParameters;
             var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
@@ -326,9 +326,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteUpdateByPrimaryKeyMethod()
         {
-            var typeContractName = tableEntityClassNameForMethodParametersInRepositoryFiles;
+            var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
-            var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(tableInfo);
+            var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(TableInfo);
 
             var sqlParameters = updateInfo.SqlParameters;
 
@@ -360,7 +360,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteUsingList()
         {
-            foreach (var line in namingPattern.SharedRepositoryUsingLines)
+            foreach (var line in NamingPattern.SharedRepositoryUsingLines)
             {
                 file.AppendLine(line);
             }

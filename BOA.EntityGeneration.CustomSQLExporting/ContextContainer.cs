@@ -13,17 +13,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #endregion
 
         #region Properties
-        protected ConfigurationContract          config                       => Context.config;
-        protected CustomSqlInfo                  customSqlInfo                => Context.customSqlInfo;
-        protected CustomSqlNamingPatternContract customSqlNamingPattern       => Context.customSqlNamingPattern;
-        protected IDatabase                      database                     => Context.database;
-        protected List<string>                   entityAssemblyReferences     => profileNamingPattern.EntityAssemblyReferences;
+        protected ConfigurationContract          Config                       => Context.Config;
+        protected CustomSqlInfo                  CustomSqlInfo                => Context.CustomSqlInfo;
+        protected CustomSqlNamingPatternContract CustomSqlNamingPattern       => Context.CustomSqlNamingPattern;
+        protected IDatabase                      Database                     => Context.Database;
+        protected List<string>                   EntityAssemblyReferences     => ProfileNamingPattern.EntityAssemblyReferences;
         protected FileSystem                     FileSystem                   => Context.FileSystem;
         protected MsBuildQueue                   MsBuildQueue                 => Context.MsBuildQueue;
-        protected ProcessContract                processInfo                  => Context.processInfo;
-        protected string                         ProfileName                  => Context.profileName;
-        protected ProfileNamingPatternContract   profileNamingPattern         => Context.profileNamingPattern;
-        protected List<string>                   repositoryAssemblyReferences => profileNamingPattern.RepositoryAssemblyReferences;
+        protected ProcessContract                ProcessInfo                  => Context.ProcessInfo;
+        protected string                         ProfileName                  => Context.ProfileName;
+        protected ProfileNamingPatternContract   ProfileNamingPattern         => Context.ProfileNamingPattern;
+        protected List<string>                   RepositoryAssemblyReferences => ProfileNamingPattern.RepositoryAssemblyReferences;
         #endregion
 
         #region Methods

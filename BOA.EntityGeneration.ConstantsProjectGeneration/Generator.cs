@@ -2,6 +2,8 @@
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
+using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using WhiteStone.Helpers;
 
 namespace BOA.EntityGeneration.ConstantsProjectGeneration
@@ -17,15 +19,33 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
         IDatabase             Database => Context.Database;
         PaddedStringBuilder   file     => Context.File;
         #endregion
-
-
+         ProcessContract processInfo => Context.processInfo;
+         protected FileSystem FileSystem => Context.FileSystem;
 
         #region Public Methods
         public void Generate()
         {
             InitEnumInformationList();
 
-            file.AppendLine("namespace BOA.Types.Kernel.Card.Constants");
+            WriteContent();
+            ExportFile();
+        }
+
+        void ExportFile()
+        {
+            
+            processInfo.Text = "Exporting BOA repository.";
+
+            var filePath = Config.ProjectDirectory + "Boa.cs";
+
+            FileSystem.WriteAllText(filePath, sb.ToString());
+        }
+
+        void WriteContent()
+        {
+            file.AppendLine("using BOA.Card.Definitions;");
+            file.AppendLine();
+            file.AppendLine($"namespace {Config.NamespaceName}");
             file.OpenBracket();
 
             foreach (var className in Context.EnumClassNameList)
@@ -35,7 +55,6 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
             }
 
             file.CloseBracket();
-            
         }
 
         void AppendEnumPropertyToClass(IReadOnlyList<EnumInfo> propertyList)

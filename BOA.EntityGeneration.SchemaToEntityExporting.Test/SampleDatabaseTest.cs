@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
             
             // AttachTests(schemaExporter);
 
-            schemaExporter.database.CreateTables();
+            schemaExporter.Database.CreateTables();
             schemaExporter.Export("ERP");
         }
         #endregion

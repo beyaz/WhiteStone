@@ -1,4 +1,12 @@
 {
   "ConnectionString": "Server=srvxdev\\zumrut;Database=BOACard;Trusted_Connection=True;",
-  "IntegrateWithTFSAndCheckInAutomatically": false
+  "IntegrateWithTFSAndCheckInAutomatically": false,
+  "NamespaceName": "BOA.Types.Kernel.Card.Constants",
+
+  "EnumPropertyDefinitionPattern": {
+    "enumClassName": "?",
+    "propertyName": "?",
+    "StringValue": "?",
+    "NumberValue": "?"
+  }
 }

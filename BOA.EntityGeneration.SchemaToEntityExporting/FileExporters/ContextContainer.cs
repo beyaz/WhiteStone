@@ -38,19 +38,19 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         #region Public Properties
         public Context Context { get; protected set; }
 
-        public IDatabase database => Context.database;
+        public IDatabase Database => Context.database;
         #endregion
 
         #region Properties
-        protected ConfigContract             config                                                   => Context.config;
+        protected ConfigContract             Config                                                   => Context.config;
         protected FileSystem                 FileSystem                                               => Context.FileSystem;
         protected MsBuildQueue               MsBuildQueue                                             => Context.MsBuildQueue;
-        protected NamingPatternContract      namingPattern                                            => Context.namingPattern;
-        protected ProcessContract            processInfo                                              => Context.processInfo;
+        protected NamingPatternContract      NamingPattern                                            => Context.namingPattern;
+        protected ProcessContract            ProcessInfo                                              => Context.processInfo;
         protected string                     SchemaName                                               => Context.SchemaName;
-        protected string                     tableEntityClassNameForMethodParametersInRepositoryFiles => Context.tableEntityClassNameForMethodParametersInRepositoryFiles;
-        protected ITableInfo                 tableInfo                                                => Context.tableInfo;
-        protected TableNamingPatternContract tableNamingPattern                                       => Context.tableNamingPattern;
+        protected string                     TableEntityClassNameForMethodParametersInRepositoryFiles => Context.tableEntityClassNameForMethodParametersInRepositoryFiles;
+        protected ITableInfo                 TableInfo                                                => Context.tableInfo;
+        protected TableNamingPatternContract TableNamingPattern                                       => Context.tableNamingPattern;
         #endregion
 
         #region Methods
