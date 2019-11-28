@@ -8,6 +8,7 @@
                       mc:Ignorable = "d"
                       xmlns:entityGenerationComponents = "clr-namespace:BOA.EntityGeneration.UI.Container.EntityGeneration.Components"
                       xmlns:customSqlGenerationComponents = "clr-namespace:BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components"
+                      xmlns:constantsProjectGenerationComponents = "clr-namespace:BOA.EntityGeneration.UI.Container.ConstantsProjectGeneration.Components"
                       x:Name = "CodeBehind"
                       SizeToContent = "Height"
                       WindowStartupLocation = "CenterScreen"
@@ -31,7 +32,9 @@
                 <customSqlGenerationComponents:Container Margin = "5" />
             </TabItem>
 
-            <TabItem Header = "Constant" />
+            <TabItem Header = "Constant">
+                <constantsProjectGenerationComponents:Container Margin = "5" />
+            </TabItem>
 
         </TabControl>
 

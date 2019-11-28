@@ -73,6 +73,12 @@
     </ApplicationDefinition>
     <Compile Include="CheckInCommentAccess.cs" />
     <Compile Include="Components\ProfileNameComponent.cs" />
+    <Compile Include="ConstantsProjectGeneration\Components\Container.xaml.cs">
+      <DependentUpon>Container.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConstantsProjectGeneration\Components\GenerationProcess.xaml.cs">
+      <DependentUpon>GenerationProcess.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomSqlGeneration\Components\Container.xaml.cs">
       <DependentUpon>Container.xaml</DependentUpon>
     </Compile>
@@ -86,6 +92,14 @@
       <DependentUpon>SchemaGenerationProcess.xaml</DependentUpon>
     </Compile>
     <Compile Include="UIRefresher.cs" />
+    <Page Include="ConstantsProjectGeneration\Components\Container.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConstantsProjectGeneration\Components\GenerationProcess.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomSqlGeneration\Components\Container.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -145,6 +159,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BOA.EntityGeneration.ConstantsProjectGeneration\BOA.EntityGeneration.ConstantsProjectGeneration.csproj">
+      <Project>{400856e3-3f37-4b90-a892-ad45c9d737a5}</Project>
+      <Name>BOA.EntityGeneration.ConstantsProjectGeneration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BOA.EntityGeneration.CustomSQLExporting\BOA.EntityGeneration.CustomSQLExporting.csproj">
       <Project>{E5E754FF-2406-43AC-8AD6-EC13038F1D6F}</Project>
       <Name>BOA.EntityGeneration.CustomSQLExporting</Name>

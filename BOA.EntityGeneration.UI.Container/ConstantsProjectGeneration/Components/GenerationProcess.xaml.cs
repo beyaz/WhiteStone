@@ -2,17 +2,15 @@
 using System.Linq;
 using System.Threading;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 
-namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
+namespace BOA.EntityGeneration.UI.Container.ConstantsProjectGeneration.Components
 {
-    public sealed partial class SchemaGenerationProcess
+    public sealed partial class GenerationProcess
     {
         #region Constructors
-        public SchemaGenerationProcess(string schemaName)
+        public GenerationProcess()
         {
-            SchemaName = schemaName;
-            Process    = new ProcessContract();
+            Process     = new ProcessContract();
 
             InitializeComponent();
         }
@@ -23,8 +21,7 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         #endregion
 
         #region Public Properties
-        public ProcessContract Process    { get; set; }
-        public string          SchemaName { get; set; }
+        public ProcessContract Process     { get; set; }
         #endregion
 
         #region Public Methods
@@ -37,11 +34,15 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         #endregion
 
         #region Methods
+        void OnProcessCompletedSuccessfully()
+        {
+            ProcessCompletedSuccessfully?.Invoke();
+        }
+
         void Run()
         {
-            var exporter = new SchemaExporter();
+            var exporter = new BOA.EntityGeneration.ConstantsProjectGeneration.Generator();
 
-            exporter.InitializeContext();
 
             var context = exporter.Context;
 
@@ -50,20 +51,15 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             exporter.Context.FileSystem.CheckinComment                          = App.Model.CheckinComment;
             exporter.Context.FileSystem.IntegrateWithTFSAndCheckInAutomatically = context.Config.IntegrateWithTFSAndCheckInAutomatically;
 
-            exporter.Export(SchemaName);
+            exporter.Generate();
 
-            if (context.ErrorList.Any())
+            if (context.Errors.Any())
             {
-                context.ProcessInfo.Text = string.Join(Environment.NewLine, context.ErrorList);
+                context.ProcessInfo.Text = string.Join(Environment.NewLine, context.Errors);
                 return;
             }
 
             OnProcessCompletedSuccessfully();
-        }
-
-        void OnProcessCompletedSuccessfully()
-        {
-            ProcessCompletedSuccessfully?.Invoke();
         }
         #endregion
     }
