@@ -89,13 +89,24 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
                 EntityProjectDirectory       = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
                 RepositoryProjectDirectory   = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
                 BoaRepositoryUsingLines      = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
-                AllSchemaInOneClassRepositoryUsingLines = dictionary[nameof(NamingPatternContract.AllSchemaInOneClassRepositoryUsingLines)].Split('|'),
                 EntityUsingLines             = dictionary[nameof(NamingPatternContract.EntityUsingLines)].Split('|'),
                 SharedRepositoryUsingLines   = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].Split('|'),
                 EntityAssemblyReferences     = dictionary[nameof(NamingPatternContract.EntityAssemblyReferences)].Split('|'),
                 RepositoryAssemblyReferences = dictionary[nameof(NamingPatternContract.RepositoryAssemblyReferences)].Split('|')
             };
+
+
+            dictionary = ConfigurationDictionaryCompiler.Compile(Config.AllSchemaInOneClassRepositoryNamingPattern, initialValues);
+
+            Context.AllSchemaInOneClassRepositoryNamingPattern = new AllSchemaInOneClassRepositoryNamingPatternContract()
+            {
+                NamespaceName             = dictionary[nameof(AllSchemaInOneClassRepositoryNamingPatternContract.NamespaceName)],
+                ClassName = dictionary[nameof(AllSchemaInOneClassRepositoryNamingPatternContract.ClassName)],
+                UsingLines = dictionary[nameof(AllSchemaInOneClassRepositoryNamingPatternContract.UsingLines)].Split('|'),
+                ExtraAssemblyReferences = dictionary[nameof(AllSchemaInOneClassRepositoryNamingPatternContract.ExtraAssemblyReferences)].Split('|')
+            };
         }
+
 
         void InitializeTableNamingPattern()
         {

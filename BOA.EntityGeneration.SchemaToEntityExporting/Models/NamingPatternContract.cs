@@ -6,8 +6,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
     {
         #region Public Properties
         public IReadOnlyList<string> BoaRepositoryUsingLines      { get; set; }
-        public IReadOnlyList<string> AllSchemaInOneClassRepositoryUsingLines { get; set; }
-        
         public IReadOnlyList<string> EntityAssemblyReferences     { get; set; }
         public string                EntityNamespace              { get; set; }
         public string                EntityProjectDirectory       { get; set; }

@@ -47,6 +47,14 @@ namespace BOA.Collections
         }
 
         /// <summary>
+        ///     Adds the range.
+        /// </summary>
+        public void AddRange(IEnumerable<T> collection)
+        {
+            items.AddRange(collection);
+        }
+
+        /// <summary>
         ///     Gets the enumerator.
         /// </summary>
         public IEnumerator<T> GetEnumerator()

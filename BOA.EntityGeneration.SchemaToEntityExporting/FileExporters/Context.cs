@@ -10,6 +10,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
     class Context
     {
+
+
+        public AddOnlyList<string> RepositoryAssemblyReferences { get; } = new AddOnlyList<string>();
+
         #region Constructors
         public Context()
         {
@@ -35,6 +39,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         public string                     TableEntityClassNameForMethodParametersInRepositoryFiles { get; set; }
         public ITableInfo                 TableInfo                                                { get; set; }
         public TableNamingPatternContract TableNamingPattern                                       { get; set; }
+        public AllSchemaInOneClassRepositoryNamingPatternContract AllSchemaInOneClassRepositoryNamingPattern { get; set; }
         #endregion
 
         #region TableExportFinished
