@@ -7,7 +7,7 @@
 
     <StackPanel>
         <Label FontWeight = "Bold" >Constant Project  Name</Label>
-        <components:ProfileNameComponent SelectedItem = "{Binding SelectedName,Mode=TwoWay}" />
+        <TextBox IsEnabled="False" Text= "{Binding SelectedName,Mode=TwoWay}" />
         <Button Margin = "0,10,0,0" Click = "OnGenerateClicked" >Generate</Button>
         <ScrollViewer VerticalScrollBarVisibility = "Auto" >
             <StackPanel Name = "processContainer" MaxHeight = "600" />

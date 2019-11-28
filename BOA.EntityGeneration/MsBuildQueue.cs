@@ -27,11 +27,13 @@ namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExport
 
             foreach (var data in Queue)
             {
-                Trace("Compile started." + data.ProjectFilePath);
+                var fileName = Path.GetFileName(data.ProjectFilePath);
+
+                Trace("Compile started." + fileName);
                 MSBuild.Build(data);
                 if (data.BuildError == null)
                 {
-                    Trace($"Compile successfully finished. {Path.GetFileName(data.ProjectFilePath)}");
+                    Trace($"Compile successfully finished. {fileName}");
                 }
                 else
                 {

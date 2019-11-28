@@ -101,29 +101,28 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
             database.CommandText = @"
 
 BEGIN
-  IF OBJECT_ID('tempdb..#enumInfo') IS NOT NULL DROP TABLE #enumInfo
+    IF OBJECT_ID('tempdb..#enumInfo') IS NOT NULL DROP TABLE #enumInfo
       
-  ;WITH AlreadyDefinedEnums AS
-  (
+    ;WITH AlreadyDefinedEnums AS
+    (
       SELECT enumclassname, enumitemname, enumvalue, enumsortid, ROW_NUMBER() OVER(PARTITION BY enumitemname ORDER BY enumsortid) AS 'RowNum'
         FROM dbo.enums
     GROUP BY enumclassname,enumitemname,enumvalue,enumsortid  
-  )
-   SELECT enumclassname AS ClassName, enumitemname AS PropertyName, enumvalue AS StringValue, enumsortid AS NumberValue INTO #enumInfo
+    )
+    SELECT enumclassname AS ClassName, enumitemname AS PropertyName, enumvalue AS StringValue, enumsortid AS NumberValue INTO #enumInfo
     FROM AlreadyDefinedEnums
-   WHERE RowNum = 1
-
-  create UNIQUE index idx on #enumInfo (ClassName,PropertyName)
-  
-  INSERT INTO #enumInfo VALUES('DENEME_CLASS_1','PROPERTY_1','A','0')
-  INSERT INTO #enumInfo VALUES('DENEME_CLASS_1','PROPERTY_2','B','0')       
-
-
-    SELECT * FROM #enumInfo      
+    WHERE RowNum = 1
+    
+    create UNIQUE index idx on #enumInfo (ClassName,PropertyName)
+    
+    INSERT INTO #enumInfo VALUES('DENEME_CLASS_1','PROPERTY_1','A','0')
+    INSERT INTO #enumInfo VALUES('DENEME_CLASS_1','PROPERTY_2','B','0') 
+    
+    -- fix same value Never_Active
+    DELETE FROM #enumInfo WHERE ClassName = 'ACTIVITY_STATUS' AND PropertyName = 'NeverActive'    
+    
+    SELECT * FROM #enumInfo
 END
-
-
-
 
 ";
             Context.EnumInfoList      = database.ExecuteReader().ToList<EnumInfo>();
@@ -132,6 +131,7 @@ END
 
         void WriteContent()
         {
+            File.AppendLine("using System;");
             File.AppendLine("using BOA.Card.Definitions;");
             File.AppendLine();
             File.AppendLine($"namespace {Config.NamespaceName}");

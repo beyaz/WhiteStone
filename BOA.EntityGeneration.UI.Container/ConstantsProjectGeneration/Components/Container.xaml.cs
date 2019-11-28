@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Threading;
 using System.Windows;
 
 namespace BOA.EntityGeneration.UI.Container.ConstantsProjectGeneration.Components
 {
     public partial class Container
     {
-        public string SelectedName { get; set; }
-
         #region Constructors
         public Container()
         {
@@ -15,15 +12,13 @@ namespace BOA.EntityGeneration.UI.Container.ConstantsProjectGeneration.Component
         }
         #endregion
 
-      
+        #region Public Properties
+        public string SelectedName { get; set; } = "BOA.Types.Kernel.Card.Constants";
+        #endregion
 
         #region Methods
-     
-
         void OnGenerateClicked(object sender, RoutedEventArgs e)
         {
-            
-
             var checkinComment = App.Model.CheckinComment;
 
             if (string.IsNullOrWhiteSpace(checkinComment))
@@ -31,8 +26,6 @@ namespace BOA.EntityGeneration.UI.Container.ConstantsProjectGeneration.Component
                 MessageBox.Show("Tfs Check-in comment girilmelidir.");
                 return;
             }
-
-           
 
             StartGeneration();
         }
@@ -42,6 +35,7 @@ namespace BOA.EntityGeneration.UI.Container.ConstantsProjectGeneration.Component
             var ui = new GenerationProcess();
             ui.ProcessCompletedSuccessfully += () =>
             {
+                Thread.Sleep(2000);
                 Dispatcher?.Invoke(() => { processContainer.Children.Remove(ui); });
             };
 
