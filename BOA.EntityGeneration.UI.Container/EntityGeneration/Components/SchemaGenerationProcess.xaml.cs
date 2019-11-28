@@ -45,16 +45,16 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 
             var context = exporter.Context;
 
-            Process = context.processInfo;
+            Process = context.ProcessInfo;
 
             exporter.Context.FileSystem.CheckinComment                          = App.Model.CheckinComment;
-            exporter.Context.FileSystem.IntegrateWithTFSAndCheckInAutomatically = context.config.IntegrateWithTFSAndCheckInAutomatically;
+            exporter.Context.FileSystem.IntegrateWithTFSAndCheckInAutomatically = context.Config.IntegrateWithTFSAndCheckInAutomatically;
 
             exporter.Export(SchemaName);
 
             if (context.Errors.Any())
             {
-                context.processInfo.Text = string.Join(Environment.NewLine, context.Errors);
+                context.ProcessInfo.Text = string.Join(Environment.NewLine, context.Errors);
                 return;
             }
 

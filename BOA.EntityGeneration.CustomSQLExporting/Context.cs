@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using BOA.Collections;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
             MsBuildQueue = new MsBuildQueue
             {
                 Trace   = trace => { ProcessInfo.Text = trace; },
-                OnError = error => { _errors.Add(error.ToString()); }
+                OnError = error => { Errors.Add(error.ToString()); }
             };
         }
         #endregion
@@ -25,22 +25,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         public CustomSqlInfo                  CustomSqlInfo          { get; set; }
         public CustomSqlNamingPatternContract CustomSqlNamingPattern { get; set; }
         public SqlDatabase                    Database               { get; set; }
+        public AddOnlyList<string>            Errors                 { get; } = new AddOnlyList<string>();
         public FileSystem                     FileSystem             { get; } = new FileSystem();
         public MsBuildQueue                   MsBuildQueue           { get; }
         public ProcessContract                ProcessInfo            { get; } = new ProcessContract();
         public string                         ProfileName            { get; set; }
         public ProfileNamingPatternContract   ProfileNamingPattern   { get; set; }
-        #endregion
-
-        #region Errors
-        readonly List<string> _errors = new List<string>();
-
-        public IReadOnlyList<string> Errors => _errors;
-
-        public void AddError(string errorMessage)
-        {
-            _errors.Add(errorMessage);
-        }
         #endregion
 
         #region CustomSqlInfoInitialized

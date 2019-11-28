@@ -53,7 +53,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             ProcessInfo.Text = "Exporting Boa repository...";
 
-            Context.PushFileNameToRepositoryProjectSourceFileNames(fileName);
+            Context.RepositoryProjectSourceFileNames.Add(fileName);
 
             FileSystem.WriteAllText(NamingPattern.RepositoryProjectDirectory + fileName, sourceCode);
         }

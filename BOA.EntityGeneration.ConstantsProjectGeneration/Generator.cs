@@ -16,10 +16,9 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
 
         #region Properties
         ConfigurationContract Config   => Context.Config;
-        IDatabase             Database => Context.Database;
         PaddedStringBuilder   file     => Context.File;
         #endregion
-         ProcessContract processInfo => Context.processInfo;
+         ProcessContract processInfo => Context.ProcessInfo;
          protected FileSystem FileSystem => Context.FileSystem;
 
         #region Public Methods
@@ -38,7 +37,7 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
 
             var filePath = Config.ProjectDirectory + "Boa.cs";
 
-            FileSystem.WriteAllText(filePath, sb.ToString());
+            FileSystem.WriteAllText(filePath, file.ToString());
         }
 
         void WriteContent()
@@ -89,7 +88,9 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
         #region Methods
         void InitEnumInformationList()
         {
-            Database.CommandText = @"
+            var database = Context.Database;
+
+            database.CommandText = @"
 
 BEGIN
   IF OBJECT_ID('tempdb..#enumInfo') IS NOT NULL DROP TABLE #enumInfo
@@ -117,7 +118,7 @@ END
 
 
 ";
-            Context.EnumInfoList      = Database.ExecuteReader().ToList<EnumInfo>();
+            Context.EnumInfoList      = database.ExecuteReader().ToList<EnumInfo>();
             Context.EnumClassNameList = Context.EnumInfoList.OrderBy(x => x.ClassName).GroupBy(x => x.ClassName).Select(x => x.Key).ToList();
         }
         #endregion

@@ -67,12 +67,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
         void InitializeConfig()
         {
-            Context.config = JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath));
+            Context.Config = JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath));
         }
 
         void InitializeDatabase()
         {
-            Context.database = new SqlDatabase(Config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
+            Context.Database = new SqlDatabase(Config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
 
         void InitializeNamingPattern()
@@ -81,7 +81,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(Config.NamingPattern, initialValues);
 
-            Context.namingPattern = new NamingPatternContract
+            Context.NamingPattern = new NamingPatternContract
             {
                 SlnDirectoryPath             = dictionary[nameof(NamingPatternContract.SlnDirectoryPath)],
                 EntityNamespace              = dictionary[nameof(NamingPatternContract.EntityNamespace)],
@@ -107,7 +107,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(Config.TableNamingPattern, initialValues);
 
-            Context.tableNamingPattern = new TableNamingPatternContract
+            Context.TableNamingPattern = new TableNamingPatternContract
             {
                 EntityClassName                              = dictionary[nameof(TableNamingPatternContract.EntityClassName)],
                 SharedRepositoryClassName                    = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassName)],
@@ -123,7 +123,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
                 typeContractName = $"{NamingPattern.EntityNamespace}.{typeContractName}";
             }
 
-            Context.tableEntityClassNameForMethodParametersInRepositoryFiles = typeContractName;
+            Context.TableEntityClassNameForMethodParametersInRepositoryFiles = typeContractName;
         }
 
         bool IsReadyToExport(string tableName)
@@ -157,7 +157,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
                 var tableInfoTemp = tableInfoDao.GetInfo(Config.TableCatalog, SchemaName, tableName);
 
-                Context.tableInfo = GeneratorDataCreator.Create(Config.SqlSequenceInformationOfTable, Config.DatabaseEnumName, Database, tableInfoTemp);
+                Context.TableInfo = GeneratorDataCreator.Create(Config.SqlSequenceInformationOfTable, Config.DatabaseEnumName, Database, tableInfoTemp);
 
                 Context.OnTableExportStarted();
                 Context.OnTableExportFinished();

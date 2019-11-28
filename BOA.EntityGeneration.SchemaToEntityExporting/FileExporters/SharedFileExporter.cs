@@ -65,7 +65,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
             ProcessInfo.Text = "Exporting Shared repository...";
 
-            Context.PushFileNameToRepositoryProjectSourceFileNames(fileName);
+            Context.RepositoryProjectSourceFileNames.Add(fileName);
 
             FileSystem.WriteAllText(NamingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
         }

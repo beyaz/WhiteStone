@@ -45,7 +45,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
             const string fileName = "All.cs";
 
-            Context.PushFileNameToEntityProjectSourceFileNames(fileName);
+            Context.EntityProjectSourceFileNames.Add(fileName);
 
             var filePath = NamingPattern.EntityProjectDirectory + fileName;
 
