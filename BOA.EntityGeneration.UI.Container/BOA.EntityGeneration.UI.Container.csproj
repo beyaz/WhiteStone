@@ -165,6 +165,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy /y  "$(SolutionDir)BOA.EntityGeneration.SchemaToEntityExporting\bin\Debug\*.txt"  "$(TargetDir)"</PreBuildEvent>
+    <PreBuildEvent>copy /y  "$(SolutionDir)BOA.EntityGeneration.SchemaToEntityExporting\bin\Debug\*.txt"  "$(TargetDir)"
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
