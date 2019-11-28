@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E5E754FF-2406-43AC-8AD6-EC13038F1D6F}</ProjectGuid>
+    <ProjectGuid>{400856E3-3F37-4B90-A892-AD45C9D737A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BOA.EntityGeneration.CustomSQLExporting</RootNamespace>
-    <AssemblyName>BOA.EntityGeneration.CustomSQLExporting</AssemblyName>
+    <RootNamespace>BOA.EntityGeneration.ConstantsProjectGeneration</RootNamespace>
+    <AssemblyName>BOA.EntityGeneration.ConstantsProjectGeneration</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -44,34 +44,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exporters\CustomSqlClassGenerator.cs" />
-    <Compile Include="Models\ConfigurationContract.cs" />
-    <Compile Include="Models\CustomSqlNamingPatternContract.cs" />
-    <Compile Include="Exporters\BoaRepositoryFileExporter.cs" />
-    <Compile Include="ContextContainer.cs" />
-    <Compile Include="Exporters\SharedFileExporter.cs" />
-    <Compile Include="Exporters\EntityFileExporter.cs" />
-    <Compile Include="Exporters\RepositoryCsprojFileExporter.cs" />
-    <Compile Include="Exporters\EntityCsprojFileExporter.cs" />
-    <Compile Include="Models\CustomSqlInfo.cs" />
-    <Compile Include="Models\CustomSqlInfoParameter.cs" />
-    <Compile Include="Models\CustomSqlInfoResult.cs" />
-    <Compile Include="Models\ProfileNamingPatternContract.cs" />
+    <Compile Include="ConfigurationContract.cs" />
     <Compile Include="Context.cs" />
-    <Compile Include="Wrapper\CustomSqlExporter.cs" />
-    <Compile Include="Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
+    <Compile Include="EnumInfo.cs" />
+    <Compile Include="Generator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CustomSQLExporting.json">
+    <None Include="BOA.EntityGeneration.ConstantsProjectGeneration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Exporters\BoaRepositoryFileEmbeddedCodes.txt" />
-    <Content Include="Exporters\SharedRepositoryFileEmbeddedCodes.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
@@ -79,6 +61,5 @@
       <Name>BOA.EntityGeneration</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
