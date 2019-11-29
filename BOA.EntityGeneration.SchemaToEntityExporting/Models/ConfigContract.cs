@@ -35,7 +35,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
         /// </summary>
         public IReadOnlyDictionary<string, string> NamingPattern { get; set; }
 
-        public IReadOnlyDictionary<string, string> AllSchemaInOneClassRepositoryNamingPattern { get; set; }
+       
 
         /// <summary>
         ///     Gets or sets the not exportable tables.

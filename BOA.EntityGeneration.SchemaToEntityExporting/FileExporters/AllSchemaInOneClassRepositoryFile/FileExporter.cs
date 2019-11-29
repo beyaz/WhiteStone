@@ -8,35 +8,18 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 {
     class FileExporter : ContextContainer
     {
-        readonly ConfigContract _config;
+        #region Fields
+        readonly ConfigContract      _config;
+        readonly PaddedStringBuilder file = new PaddedStringBuilder();
+        NamingPatternContract        _namingPattern;
+        #endregion
 
+        #region Constructors
         public FileExporter()
         {
-            _config = YamlHelper.DeserializeFromFile<ConfigContract>(ConfigDirectory + nameof(AllSchemaInOneClassRepositoryFile)+ Path.DirectorySeparatorChar+ "Config.yaml");
-
+            _config = YamlHelper.DeserializeFromFile<ConfigContract>(ConfigDirectory + nameof(AllSchemaInOneClassRepositoryFile) + Path.DirectorySeparatorChar + "Config.yaml");
         }
-        #region Fields
-        readonly PaddedStringBuilder file = new PaddedStringBuilder();
         #endregion
-
-        #region Properties
-        NamingPatternContract AllSchemaInOneClassRepositoryNamingPattern { get; set; }
-        #endregion
-
-        void InitializeNamingPattern()
-        {
-            var initialValues = new Dictionary<string, string> {{nameof(SchemaName), SchemaName}};
-
-            var dictionary = ConfigurationDictionaryCompiler.Compile(_config.NamingPattern, initialValues);
-
-            AllSchemaInOneClassRepositoryNamingPattern = new NamingPatternContract
-            {
-                NamespaceName             = dictionary[nameof(NamingPatternContract.NamespaceName)],
-                ClassName = dictionary[nameof(NamingPatternContract.ClassName)],
-                UsingLines = dictionary[nameof(NamingPatternContract.UsingLines)].Split('|'),
-                ExtraAssemblyReferences = dictionary[nameof(NamingPatternContract.ExtraAssemblyReferences)].Split('|')
-            };
-        }
 
         #region Public Methods
         public void AttachEvents()
@@ -57,19 +40,20 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         }
         #endregion
 
+        #region Methods
         void AddAssemblyReferencesToProject()
         {
-            Context.RepositoryAssemblyReferences.AddRange(AllSchemaInOneClassRepositoryNamingPattern.ExtraAssemblyReferences);
+            Context.RepositoryAssemblyReferences.AddRange(_namingPattern.ExtraAssemblyReferences);
         }
-        #region Methods
+
         void BeginClass()
         {
-            file.AppendLine($"public sealed class {AllSchemaInOneClassRepositoryNamingPattern.ClassName}");
+            file.AppendLine($"public sealed class {_namingPattern.ClassName}");
             file.OpenBracket();
 
             file.AppendLine("readonly IUnitOfWork unitOfWork;");
             file.AppendLine();
-            file.AppendLine($"public {AllSchemaInOneClassRepositoryNamingPattern.ClassName}(IUnitOfWork unitOfWork)");
+            file.AppendLine($"public {_namingPattern.ClassName}(IUnitOfWork unitOfWork)");
             file.OpenBracket();
             file.AppendLine("this.unitOfWork = unitOfWork;");
             file.CloseBracket();
@@ -77,7 +61,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
         void BeginNamespace()
         {
-            file.BeginNamespace(AllSchemaInOneClassRepositoryNamingPattern.NamespaceName);
+            file.BeginNamespace(_namingPattern.NamespaceName);
         }
 
         void EmptyLine()
@@ -106,6 +90,21 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             Context.RepositoryProjectSourceFileNames.Add(fileName);
 
             FileSystem.WriteAllText(NamingPattern.RepositoryProjectDirectory + fileName, sourceCode);
+        }
+
+        void InitializeNamingPattern()
+        {
+            var initialValues = new Dictionary<string, string> {{nameof(SchemaName), SchemaName}};
+
+            var dictionary = ConfigurationDictionaryCompiler.Compile(_config.NamingPattern, initialValues);
+
+            _namingPattern = new NamingPatternContract
+            {
+                NamespaceName           = dictionary[nameof(NamingPatternContract.NamespaceName)],
+                ClassName               = dictionary[nameof(NamingPatternContract.ClassName)],
+                UsingLines              = dictionary[nameof(NamingPatternContract.UsingLines)].Split('|'),
+                ExtraAssemblyReferences = dictionary[nameof(NamingPatternContract.ExtraAssemblyReferences)].Split('|')
+            };
         }
 
         void WriteClassMethods()
@@ -152,7 +151,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
         void WriteUsingList()
         {
-            foreach (var line in AllSchemaInOneClassRepositoryNamingPattern.UsingLines)
+            foreach (var line in _namingPattern.UsingLines)
             {
                 file.AppendLine(line);
             }
