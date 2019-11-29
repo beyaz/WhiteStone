@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exporters\CustomSqlClassGenerator.cs" />
-    <Compile Include="Models\ConfigurationContract.cs" />
+    <Compile Include="Models\CustomSQLExportingConfig.cs" />
     <Compile Include="Models\CustomSqlNamingPatternContract.cs" />
     <Compile Include="Exporters\BoaRepositoryFileExporter.cs" />
     <Compile Include="ContextContainer.cs" />
@@ -63,6 +63,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CustomSQLExportingConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="CustomSQLExporting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -44,14 +44,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationContract.cs" />
+    <Compile Include="ConstantsProjectGenerationConfig.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="EnumInfo.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BOA.EntityGeneration.ConstantsProjectGeneration.json">
+    <None Include="ConstantsProjectGenerationConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

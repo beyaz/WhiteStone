@@ -114,7 +114,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         void InitializeConfig()
         {
-            Context.Config = JsonHelper.Deserialize<ConfigurationContract>(File.ReadAllText(ConfigFilePath));
+            Context.Config = JsonHelper.Deserialize<CustomSQLExportingConfig>(File.ReadAllText(ConfigFilePath));
         }
 
         void InitializeCustomSqlNamingPattern()

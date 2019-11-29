@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     public class ProjectCustomSqlInfoDataAccess
     {
         #region Public Methods
-        public static CustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string id, ConfigurationContract config, int switchCaseIndex)
+        public static CustomSqlInfo GetCustomSqlInfo(IDatabase database, string profileId, string id, CustomSQLExportingConfig config, int switchCaseIndex)
         {
             var customSqlInfo = new CustomSqlInfo
             {
@@ -56,7 +56,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             return customSqlInfo;
         }
 
-        public static IReadOnlyList<string> GetCustomSqlNamesInfProfile(IDatabase database, string profileId, ConfigurationContract config)
+        public static IReadOnlyList<string> GetCustomSqlNamesInfProfile(IDatabase database, string profileId, CustomSQLExportingConfig config)
         {
             var objectIdList = new List<string>();
 

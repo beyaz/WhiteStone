@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #endregion
 
         #region Properties
-        protected ConfigurationContract          Config                       => Context.Config;
+        protected CustomSQLExportingConfig          Config                       => Context.Config;
         protected CustomSqlInfo                  CustomSqlInfo                => Context.CustomSqlInfo;
         protected CustomSqlNamingPatternContract CustomSqlNamingPattern       => Context.CustomSqlNamingPattern;
         protected IDatabase                      Database                     => Context.Database;

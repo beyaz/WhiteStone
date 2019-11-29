@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
         #endregion
 
         #region Properties
-        ConfigurationContract Config      => Context.Config;
+        ConstantsProjectGenerationConfig Config      => Context.Config;
         PaddedStringBuilder   File        => Context.File;
         FileSystem            FileSystem  => Context.FileSystem;
         ProcessContract       ProcessInfo => Context.ProcessInfo;

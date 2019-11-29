@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
     ///     The configuration contract
     /// </summary>
     [Serializable]
-    public class ConfigurationContract
+    public class CustomSQLExportingConfig
     {
         #region Public Properties
         /// <summary>
