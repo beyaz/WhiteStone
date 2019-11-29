@@ -1,0 +1,3 @@
+ConnectionString: Server=srvxdev\zumrut;Database=BOACard;Trusted_Connection=True;
+TableCatalog: BOACard
+DatabaseEnumName: BOACard

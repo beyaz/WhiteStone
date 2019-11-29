@@ -83,6 +83,9 @@
     <None Include="ConfigFiles\EntityFileExporter\EntityFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ConfigFiles\SchemaExporterConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ConfigFiles\SharedFileExporter\SharedFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

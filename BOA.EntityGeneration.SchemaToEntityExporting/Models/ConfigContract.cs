@@ -10,15 +10,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
     public class ConfigContract
     {
         #region Public Properties
-        /// <summary>
-        ///     Gets or sets the connection string.
-        /// </summary>
-        public string ConnectionString { get; set; }
         
-        /// <summary>
-        ///     Gets or sets the name of the database enum.
-        /// </summary>
-        public string DatabaseEnumName { get; set; }
 
         
 
@@ -39,10 +31,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
         /// </summary>
         public string SqlSequenceInformationOfTable { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the table catalog.
-        /// </summary>
-        public string TableCatalog { get; set; }
 
         public bool IntegrateWithTFSAndCheckInAutomatically { get; set; }
 

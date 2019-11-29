@@ -50,10 +50,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         /// </summary>
         public string SQL_GetProfileIdList { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the SQL sequence information of table.
-        /// </summary>
-        public string SqlSequenceInformationOfTable { get; set; }
+       
 
         public bool IntegrateWithTFSAndCheckInAutomatically { get; set; }
         #endregion

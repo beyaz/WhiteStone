@@ -15,11 +15,36 @@ using NamingPatternContract = BOA.EntityGeneration.SchemaToEntityExporting.Model
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 {
+    class SchemaExporterConfig
+    {
+        /// <summary>
+        ///     Gets or sets the table catalog.
+        /// </summary>
+        public string TableCatalog { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the connection string.
+        /// </summary>
+        public string ConnectionString { get; set; }
+        
+        /// <summary>
+        ///     Gets or sets the name of the database enum.
+        /// </summary>
+        public string DatabaseEnumName { get; set; }
+
+        public static SchemaExporterConfig CreateFromFile()
+        {
+            return YamlHelper.DeserializeFromFile<SchemaExporterConfig>(ContextContainer.ConfigDirectory + nameof(SchemaExporterConfig) + ".yaml");
+        }
+    }
+
     /// <summary>
     ///     The schema exporter
     /// </summary>
     class SchemaExporter : ContextContainer
     {
+        static readonly SchemaExporterConfig SchemaExporterConfig = SchemaExporterConfig.CreateFromFile();
+
         #region Public Properties
         public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(SchemaExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.SchemaToEntityExporting.json";
         #endregion
@@ -52,7 +77,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         #region Methods
         void AttachEvents()
         {
-            var context = Context;
             TableExportStarted += InitializeTableNamingPattern;
 
             Create<EntityFileExporter>().AttachEvents();
@@ -76,7 +100,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
         void InitializeDatabase()
         {
-            Context.Database = new SqlDatabase(Config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
+            Context.Database = new SqlDatabase(SchemaExporterConfig.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
 
         void InitializeNamingPattern()
@@ -163,9 +187,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
                 var tableInfoDao = new TableInfoDao {Database = Database, IndexInfoAccess = new IndexInfoAccess {Database = Database}};
 
-                var tableInfoTemp = tableInfoDao.GetInfo(Config.TableCatalog, SchemaName, tableName);
+                var tableInfoTemp = tableInfoDao.GetInfo(SchemaExporterConfig.TableCatalog, SchemaName, tableName);
 
-                Context.TableInfo = GeneratorDataCreator.Create(Config.SqlSequenceInformationOfTable, Config.DatabaseEnumName, Database, tableInfoTemp);
+                Context.TableInfo = GeneratorDataCreator.Create(Config.SqlSequenceInformationOfTable, SchemaExporterConfig.DatabaseEnumName, Database, tableInfoTemp);
 
                 Context.OnTableExportStarted();
                 Context.OnTableExportFinished();
