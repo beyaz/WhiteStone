@@ -11,13 +11,24 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
 {
     class SharedFileExporter : ContextContainer
     {
-        static readonly SharedFileExporterConfig SharedFileExporterConfig = SharedFileExporterConfig.CreateFromFile();
-        
+        #region Static Fields
+        static readonly SharedFileExporterConfig Config;
+        static readonly string                   EmbeddedCodes;
+        #endregion
+
         #region Fields
         readonly PaddedStringBuilder file;
         #endregion
 
         #region Constructors
+        static SharedFileExporter()
+        {
+            var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(SharedFileExporting)}{Path.DirectorySeparatorChar}";
+
+            EmbeddedCodes = File.ReadAllText($"{resourceDirectoryPath}EmbeddedCodes.txt");
+            Config        = YamlHelper.DeserializeFromFile<SharedFileExporterConfig>(resourceDirectoryPath + nameof(SharedFileExporterConfig) + ".yaml");
+        }
+
         public SharedFileExporter()
         {
             file = new PaddedStringBuilder();
@@ -40,6 +51,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
         #endregion
 
         #region Methods
+        internal static string GetMethodName(SelectByIndexInfo indexInfo)
+        {
+            return "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+        }
+
         void BeginNamespace()
         {
             file.BeginNamespace(NamingPattern.RepositoryNamespace + ".Shared");
@@ -135,9 +151,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
 
         void WriteEmbeddedClasses()
         {
-            var path = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(SharedFileExporting)}{Path.DirectorySeparatorChar}EmbeddedCodes.txt";
-
-            file.AppendAll(File.ReadAllText(path));
+            file.AppendAll(EmbeddedCodes);
             file.AppendLine();
         }
 
@@ -202,7 +216,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
                     readerMethodName = "GetGuidValue";
                 }
 
-                var contractReadLine = SharedFileExporterConfig.ContractReadLine
+                var contractReadLine = Config.ContractReadLine
                                              .Replace("$(Contract)", contractParameterName)
                                              .Replace("$(PropertyName)", columnInfo.ColumnName.ToContractName())
                                              .Replace("$(ColumnName)", columnInfo.ColumnName)
@@ -249,11 +263,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
             file.CloseBracket();
         }
 
-        internal static string GetMethodName(SelectByIndexInfo indexInfo)
-        {
-            return "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
-        }
-
         void WriteSelectByIndexMethods()
         {
             var allIndexes = new List<IIndexInfo>();
@@ -263,7 +272,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
             foreach (var indexIdentifier in allIndexes)
             {
                 var indexInfo     = SelectByIndexInfoCreator.Create(TableInfo, indexIdentifier);
-                var methodName = GetMethodName(indexInfo);
+                var methodName    = GetMethodName(indexInfo);
                 var parameterPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
                 file.AppendLine();

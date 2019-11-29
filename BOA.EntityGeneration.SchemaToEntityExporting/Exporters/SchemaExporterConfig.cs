@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using BOA.Common.Helpers;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
@@ -6,7 +7,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
     /// <summary>
     ///     The schema exporter configuration
     /// </summary>
-    class SchemaExporterConfig : ConfigBase
+    class SchemaExporterConfig 
     {
         #region Public Properties
         /// <summary>
@@ -51,7 +52,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         /// </summary>
         public static SchemaExporterConfig CreateFromFile()
         {
-            return YamlHelper.DeserializeFromFile<SchemaExporterConfig>(ConfigDirectory + nameof(SchemaExporterConfig) + ".yaml");
+            var resourceDirectoryPath = $"{nameof(Exporters)}{Path.DirectorySeparatorChar}";
+            return YamlHelper.DeserializeFromFile<SchemaExporterConfig>(resourceDirectoryPath + nameof(SchemaExporterConfig) + ".yaml");
         }
         #endregion
     }

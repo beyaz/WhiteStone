@@ -2,7 +2,7 @@
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting
 {
-    class EntityFileExporterConfig:ConfigBase
+    class EntityFileExporterConfig
     {
         /// <summary>
         ///     Gets or sets the entity contract base.
@@ -10,9 +10,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
         public string EntityContractBase { get; set; }
 
 
-        public static EntityFileExporterConfig CreateFromFile()
-        {
-            return YamlHelper.DeserializeFromFile<EntityFileExporterConfig>(ConfigDirectory + nameof(EntityFileExporterConfig) + ".yaml");
-        }
+        
     }
 }

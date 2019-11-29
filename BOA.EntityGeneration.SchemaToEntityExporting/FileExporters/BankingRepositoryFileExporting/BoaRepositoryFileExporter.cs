@@ -6,7 +6,6 @@ using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
-using Config = BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting.BoaRepositoryFileExporterConfig;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting
 {
@@ -17,7 +16,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         #endregion
 
         #region Static Fields
-        static readonly Config Config;
+        static readonly BoaRepositoryFileExporterConfig Config;
         static readonly string EmbeddedCodes;
         #endregion
 
@@ -31,7 +30,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(BankingRepositoryFileExporting)}{Path.DirectorySeparatorChar}";
 
             EmbeddedCodes = File.ReadAllText($"{resourceDirectoryPath}EmbeddedCodes.txt");
-            Config        = YamlHelper.DeserializeFromFile<Config>(resourceDirectoryPath + nameof(BoaRepositoryFileExporterConfig) + ".yaml");
+            Config        = YamlHelper.DeserializeFromFile<BoaRepositoryFileExporterConfig>(resourceDirectoryPath + nameof(BoaRepositoryFileExporterConfig) + ".yaml");
         }
         #endregion
 

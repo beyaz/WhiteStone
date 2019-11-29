@@ -53,7 +53,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigBase.cs" />
     <Compile Include="Exporters\SchemaExporterConfig.cs" />
     <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\NamingPatternContract.cs" />
     <Compile Include="FileExporters\BankingRepositoryFileExporting\BoaRepositoryFileExporterConfig.cs" />
@@ -87,13 +86,13 @@
     <None Include="FileExporters\BankingRepositoryFileExporting\BoaRepositoryFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SchemaToEntityExportingConfigFiles\EntityFileExporterConfig.yaml">
+    <None Include="FileExporters\EntityFileExporting\EntityFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SchemaToEntityExportingConfigFiles\SchemaExporterConfig.yaml">
+    <None Include="Exporters\SchemaExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SchemaToEntityExportingConfigFiles\SharedFileExporterConfig.yaml">
+    <None Include="FileExporters\SharedFileExporting\SharedFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="FileExporters\AllSchemaInOneClassRepositoryFile\AllSchemaInOneClassRepositoryFileExporterConfig.yaml">

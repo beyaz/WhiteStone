@@ -1,11 +1,20 @@
-﻿using BOA.Common.Helpers;
+﻿using System.IO;
+using BOA.Common.Helpers;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting
 {
     class EntityFileExporter : ContextContainer
     {
-        static readonly EntityFileExporterConfig EntityFileExporterConfig = EntityFileExporterConfig.CreateFromFile();
+        static readonly EntityFileExporterConfig Config;
+
+        static EntityFileExporter()
+        {
+            var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(EntityFileExporting)}{Path.DirectorySeparatorChar}";
+
+            Config        = YamlHelper.DeserializeFromFile<EntityFileExporterConfig>(resourceDirectoryPath + nameof(EntityFileExporterConfig) + ".yaml");
+        }
+
 
         #region Fields
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
@@ -64,9 +73,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
 
             var inheritancePart = string.Empty;
 
-            if (EntityFileExporterConfig.EntityContractBase != null)
+            if (Config.EntityContractBase != null)
             {
-                inheritancePart = ": " + EntityFileExporterConfig.EntityContractBase;
+                inheritancePart = ": " + Config.EntityContractBase;
             }
 
             file.AppendLine("[Serializable]");
