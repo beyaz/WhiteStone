@@ -98,7 +98,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             file.CloseBracket();
         }
 
-        void WriteDefaultValues(IReadOnlyDictionary<string, string> defaultValueMap, IReadOnlyList<IColumnInfo> parameters)
+        internal static void WriteDefaultValues(PaddedStringBuilder file, IReadOnlyDictionary<string, string> defaultValueMap, IReadOnlyList<IColumnInfo> parameters)
         {
             if (defaultValueMap == null)
             {
@@ -245,7 +245,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (insertInfo.SqlParameters.Any())
             {
-                WriteDefaultValues(Config.DefaultValuesForInsertMethod, insertInfo.SqlParameters);
+                WriteDefaultValues(file,Config.DefaultValuesForInsertMethod, insertInfo.SqlParameters);
             }
 
             file.AppendLine();
@@ -444,15 +444,13 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (updateInfo.SqlParameters.Any())
             {
-                WriteDefaultValues(Config.DefaultValuesForUpdateByKeyMethod, updateInfo.SqlParameters);
+                WriteDefaultValues(file,Config.DefaultValuesForUpdateByKeyMethod, updateInfo.SqlParameters);
             }
 
             file.AppendLine();
             file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.Update({contractParameterName});");
             file.AppendLine();
-
             file.AppendLine("return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
-
             file.CloseBracket();
         }
 

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileExporting;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
@@ -128,6 +129,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             WriteSelectByKeyMethod();
             WriteSelectByIndexMethods();
             WriteDeleteByKeyMethod();
+            WriteUpdateByKeyMethod();
         }
 
         void WriteDeleteByKeyMethod()
@@ -271,6 +273,49 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             file.CloseBracket();
         }
+        const string contractParameterName = "contract";
+        void WriteUpdateByKeyMethod()
+        {
+            if (!TableInfo.IsSupportSelectByKey)
+            {
+                return;
+            }
+
+            var methodName = "Modify" + TableNamingPattern.BoaRepositoryClassName;
+
+            var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
+
+            var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
+
+            var callerMemberPath = $"{_namingPattern.NamespaceName}.{_namingPattern.ClassName}.{methodName}";
+
+            var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(TableInfo);
+
+            file.AppendLine();
+            file.AppendLine("/// <summary>");
+            file.AppendLine($"///{Padding.ForComment} Updates only one record by given primary keys.");
+            file.AppendLine("/// </summary>");
+            file.AppendLine($"public int {methodName}({typeContractName} {contractParameterName})");
+            file.OpenBracket();
+            file.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            file.AppendLine();
+            file.AppendLine("if (contract == null)");
+            file.AppendLine("{");
+            file.AppendLine($"    throw new ArgumentNullException(nameof({contractParameterName}));");
+            file.AppendLine("}");
+
+            if (updateInfo.SqlParameters.Any())
+            {
+                BoaRepositoryFileExporter.WriteDefaultValues(file,Config.DefaultValuesForUpdateByKeyMethod, updateInfo.SqlParameters);
+            }
+
+            file.AppendLine();
+            file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.Update({contractParameterName});");
+            file.AppendLine();
+            file.AppendLine("return unitOfWork.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
+            file.CloseBracket();
+        }
+
 
         void WriteUsingList()
         {
