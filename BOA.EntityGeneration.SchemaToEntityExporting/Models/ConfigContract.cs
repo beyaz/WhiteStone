@@ -33,12 +33,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
         ///     Gets or sets the not exportable tables.
         /// </summary>
         public IReadOnlyCollection<string> NotExportableTables { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the schema names to be export.
-        /// </summary>
-        public IReadOnlyCollection<string> SchemaNamesToBeExport { get; set; }
-
+        
         /// <summary>
         ///     Gets or sets the SQL sequence information of table.
         /// </summary>
