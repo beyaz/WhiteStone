@@ -14,21 +14,13 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
         ///     Gets or sets the connection string.
         /// </summary>
         public string ConnectionString { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the contract read line.
-        /// </summary>
-        public string ContractReadLine { get; set; }
-
+        
         /// <summary>
         ///     Gets or sets the name of the database enum.
         /// </summary>
         public string DatabaseEnumName { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the entity contract base.
-        /// </summary>
-        public string EntityContractBase { get; set; }
+        
 
         /// <summary>
         ///     Gets or sets the naming pattern.

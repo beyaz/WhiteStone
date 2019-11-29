@@ -1,10 +1,29 @@
-﻿using BOA.Common.Helpers;
+﻿using System.IO;
+using BOA.Common.Helpers;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
+
+    class EntityFileExporterConfig
+    {
+        /// <summary>
+        ///     Gets or sets the entity contract base.
+        /// </summary>
+        public string EntityContractBase { get; set; }
+    }
+
     class EntityFileExporter : ContextContainer
     {
+
+        static readonly EntityFileExporterConfig EntityFileExporterConfig;
+
+        static EntityFileExporter()
+        {
+            EntityFileExporterConfig = YamlHelper.DeserializeFromFile<EntityFileExporterConfig>(ConfigDirectory + nameof(EntityFileExporter) + Path.DirectorySeparatorChar + nameof(EntityFileExporterConfig) + ".yaml");
+        }
+
+
         #region Fields
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
         #endregion
@@ -62,9 +81,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
             var inheritancePart = string.Empty;
 
-            if (Config.EntityContractBase != null)
+            if (EntityFileExporterConfig.EntityContractBase != null)
             {
-                inheritancePart = ": " + Config.EntityContractBase;
+                inheritancePart = ": " + EntityFileExporterConfig.EntityContractBase;
             }
 
             file.AppendLine("[Serializable]");

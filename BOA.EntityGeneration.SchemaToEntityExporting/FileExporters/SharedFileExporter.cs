@@ -4,15 +4,29 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.SchemaToEntityExporting.Util;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
+    class SharedFileExporterConfig
+    {
+        /// <summary>
+        ///     Gets or sets the contract read line.
+        /// </summary>
+        public string ContractReadLine { get; set; }
+    }
+
     class SharedFileExporter : ContextContainer
     {
+        static readonly SharedFileExporterConfig SharedFileExporterConfig;
+
+        static SharedFileExporter()
+        {
+            SharedFileExporterConfig = YamlHelper.DeserializeFromFile<SharedFileExporterConfig>(ConfigDirectory + nameof(SharedFileExporter) + Path.DirectorySeparatorChar + nameof(SharedFileExporterConfig) + ".yaml");
+        }
+
         #region Fields
         readonly PaddedStringBuilder file;
         #endregion
@@ -202,7 +216,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
                     readerMethodName = "GetGuidValue";
                 }
 
-                var contractReadLine = Config.ContractReadLine
+                var contractReadLine = SharedFileExporterConfig.ContractReadLine
                                              .Replace("$(Contract)", contractParameterName)
                                              .Replace("$(PropertyName)", columnInfo.ColumnName.ToContractName())
                                              .Replace("$(ColumnName)", columnInfo.ColumnName)

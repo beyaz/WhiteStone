@@ -69,10 +69,7 @@
     "SharedRepositoryClassName": "$(CamelCasedTableName)",
     "BoaRepositoryClassName": "$(CamelCasedTableName)",
     "SharedRepositoryClassNameInBoaRepositoryFile": "Shared.$(CamelCasedTableName)"
-  },
-  "EntityContractBase": "CardContractBase",
-
-
-  "ContractReadLine": "$(Contract).$(PropertyName) = reader.$(SqlReaderMethod)(\"$(ColumnName)\");"
+  }
+  
 
 }
