@@ -21,18 +21,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
 
        
 
-        /// <summary>
-        ///     Gets or sets the not exportable tables.
-        /// </summary>
-        public IReadOnlyCollection<string> NotExportableTables { get; set; }
+       
         
-        /// <summary>
-        ///     Gets or sets the SQL sequence information of table.
-        /// </summary>
-        public string SqlSequenceInformationOfTable { get; set; }
+       
 
 
-        public bool IntegrateWithTFSAndCheckInAutomatically { get; set; }
+        
 
         /// <summary>
         ///     Gets or sets the table naming pattern.

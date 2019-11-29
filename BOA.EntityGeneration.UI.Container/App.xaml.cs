@@ -9,6 +9,8 @@ namespace BOA.EntityGeneration.UI.Container
         public static readonly MainWindowModel Model;
         #endregion
 
+         internal static readonly EntityGenerationUIContainerConfig Config = EntityGenerationUIContainerConfig.CreateFromFile();
+
         #region Constructors
         static App()
         {

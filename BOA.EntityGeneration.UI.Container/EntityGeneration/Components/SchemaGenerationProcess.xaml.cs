@@ -48,7 +48,7 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             Process = context.ProcessInfo;
 
             exporter.Context.FileSystem.CheckinComment                          = App.Model.CheckinComment;
-            exporter.Context.FileSystem.IntegrateWithTFSAndCheckInAutomatically = context.Config.IntegrateWithTFSAndCheckInAutomatically;
+            exporter.Context.FileSystem.IntegrateWithTFSAndCheckInAutomatically = App.Config.IntegrateWithTFSAndCheckInAutomatically;
 
             exporter.Export(SchemaName);
 

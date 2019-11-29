@@ -18,9 +18,19 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
     class SchemaExporterConfig
     {
         /// <summary>
+        ///     Gets or sets the SQL sequence information of table.
+        /// </summary>
+        public string SqlSequenceInformationOfTable { get; set; }
+
+        /// <summary>
         ///     Gets or sets the table catalog.
         /// </summary>
         public string TableCatalog { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the not exportable tables.
+        /// </summary>
+        public string[] NotExportableTables { get; set; }
 
         /// <summary>
         ///     Gets or sets the connection string.
@@ -162,7 +172,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         {
             var fullTableName = $"{SchemaName}.{tableName}";
 
-            var isNotExportable = Config.NotExportableTables.Contains(fullTableName);
+            var isNotExportable = SchemaExporterConfig.NotExportableTables.Contains(fullTableName);
             if (isNotExportable)
             {
                 return false;
@@ -189,7 +199,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
                 var tableInfoTemp = tableInfoDao.GetInfo(SchemaExporterConfig.TableCatalog, SchemaName, tableName);
 
-                Context.TableInfo = GeneratorDataCreator.Create(Config.SqlSequenceInformationOfTable, SchemaExporterConfig.DatabaseEnumName, Database, tableInfoTemp);
+                Context.TableInfo = GeneratorDataCreator.Create(SchemaExporterConfig.SqlSequenceInformationOfTable, SchemaExporterConfig.DatabaseEnumName, Database, tableInfoTemp);
 
                 Context.OnTableExportStarted();
                 Context.OnTableExportFinished();
