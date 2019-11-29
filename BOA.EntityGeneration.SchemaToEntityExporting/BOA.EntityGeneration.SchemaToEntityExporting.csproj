@@ -97,9 +97,6 @@
     <None Include="ConfigFiles\AllSchemaInOneClassRepositoryFile\Config.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="BOA.EntityGeneration.SchemaToEntityExporting.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="package.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
