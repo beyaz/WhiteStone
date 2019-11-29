@@ -178,7 +178,9 @@
     <None Include="Analysis.fxcop" />
     <None Include="DeployTask.json" />
     <None Include="package.nuspec" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="WhiteStoneKey.pfx" />
   </ItemGroup>
   <ItemGroup>

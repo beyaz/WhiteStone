@@ -3,6 +3,15 @@ using Newtonsoft.Json;
 
 namespace BOA.Common.Helpers
 {
+    //public static class YamlHelper
+    //{
+    //    public static T Deserialize<T>(string serializedContent)
+    //    {
+    //        return new YamlDotNet.Serialization.Deserializer().Deserialize<T>(serializedContent);
+    //    }
+    //}
+
+
     /// <summary>
     ///     The json helper
     /// </summary>

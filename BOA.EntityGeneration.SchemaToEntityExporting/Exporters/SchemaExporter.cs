@@ -68,6 +68,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         void InitializeConfig()
         {
             Context.Config = JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath));
+            var configFilePath = Path.GetDirectoryName(typeof(SchemaExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.SchemaToEntityExporting.yaml";
+            var c =  new YamlDotNet.Serialization.Deserializer().Deserialize<ConfigContract>(File.ReadAllText(configFilePath));
         }
 
         void InitializeDatabase()
