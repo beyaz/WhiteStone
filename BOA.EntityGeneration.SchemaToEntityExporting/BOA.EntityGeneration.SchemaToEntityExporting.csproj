@@ -67,7 +67,6 @@
     <Compile Include="FileExporters\CsprojFileExporters\RepositoryCsprojFileExporter.cs" />
     <Compile Include="FileExporters\BankingRepositoryFileExporting\InsertInfoCreator.cs" />
     <Compile Include="FileExporters\CsprojFileExporters\EntityCsprojFileExporter.cs" />
-    <Compile Include="Models\ConfigContract.cs" />
     <Compile Include="FileExporters\BankingRepositoryFileExporting\BoaRepositoryFileExporter.cs" />
     <Compile Include="FileExporters\EntityFileExporter.cs" />
     <Compile Include="DataAccess\DbModelsImplementations\TableInfo.cs" />
