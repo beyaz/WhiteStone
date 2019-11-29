@@ -15,7 +15,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
         {
             var schemaExporter = new SchemaExporter
             {
-                ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.SchemaToEntityExporting.Test\BOA.EntityGeneration.SchemaToEntityExporting.json"
+                // ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.SchemaToEntityExporting.Test\BOA.EntityGeneration.SchemaToEntityExporting.json"
             };
             schemaExporter.InitializeContext();
             
