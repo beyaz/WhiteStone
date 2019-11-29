@@ -53,10 +53,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\NamingPatternContract.cs" />
     <Compile Include="FileExporters\ContextContainer.cs" />
     <Compile Include="FileExporters\Context.cs" />
-    <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFileExporter.cs" />
-    <Compile Include="Models\AllSchemaInOneClassRepositoryNamingPatternContract.cs" />
+    <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\FileExporter.cs" />
+    <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\ConfigContract.cs" />
     <Compile Include="Models\NamingPatternContract.cs" />
     <Compile Include="Models\TableNamingPatternContract.cs" />
     <Compile Include="FileExporters\SharedFileExporter.cs" />
@@ -79,7 +80,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BOA.EntityGeneration.SchemaToEntityExporting.yaml">
+    <None Include="ConfigFiles\AllSchemaInOneClassRepositoryFile\Config.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="BOA.EntityGeneration.SchemaToEntityExporting.json">
@@ -113,5 +114,6 @@
       <Version>8.0.0</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

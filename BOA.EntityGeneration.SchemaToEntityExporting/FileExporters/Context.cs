@@ -39,7 +39,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         public string                     TableEntityClassNameForMethodParametersInRepositoryFiles { get; set; }
         public ITableInfo                 TableInfo                                                { get; set; }
         public TableNamingPatternContract TableNamingPattern                                       { get; set; }
-        public AllSchemaInOneClassRepositoryNamingPatternContract AllSchemaInOneClassRepositoryNamingPattern { get; set; }
+        
         #endregion
 
         #region TableExportFinished

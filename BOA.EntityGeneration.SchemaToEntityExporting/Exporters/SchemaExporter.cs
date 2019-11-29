@@ -6,9 +6,12 @@ using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using BOA.EntityGeneration.SchemaToEntityExporting.DataAccess;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters;
+using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.Models;
+using ConfigContract = BOA.EntityGeneration.SchemaToEntityExporting.Models.ConfigContract;
+using NamingPatternContract = BOA.EntityGeneration.SchemaToEntityExporting.Models.NamingPatternContract;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 {
@@ -55,7 +58,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             Create<EntityFileExporter>().AttachEvents();
             Create<SharedFileExporter>().AttachEvents();
             Create<BoaRepositoryFileExporter>().AttachEvents();
-            Create<AllSchemaInOneClassRepositoryFileExporter>().AttachEvents();
+            Create<FileExporter>().AttachEvents();
 
             SchemaExportStarted += ProcessAllTablesInSchema;
 
@@ -68,8 +71,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         void InitializeConfig()
         {
             Context.Config = JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath));
-            var configFilePath = Path.GetDirectoryName(typeof(SchemaExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.SchemaToEntityExporting.yaml";
-            var c =  new YamlDotNet.Serialization.Deserializer().Deserialize<ConfigContract>(File.ReadAllText(configFilePath));
+            
         }
 
         void InitializeDatabase()
@@ -98,15 +100,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             };
 
 
-            dictionary = ConfigurationDictionaryCompiler.Compile(Config.AllSchemaInOneClassRepositoryNamingPattern, dictionary);
 
-            Context.AllSchemaInOneClassRepositoryNamingPattern = new AllSchemaInOneClassRepositoryNamingPatternContract()
-            {
-                NamespaceName             = dictionary[nameof(AllSchemaInOneClassRepositoryNamingPatternContract.NamespaceName)],
-                ClassName = dictionary[nameof(AllSchemaInOneClassRepositoryNamingPatternContract.ClassName)],
-                UsingLines = dictionary[nameof(AllSchemaInOneClassRepositoryNamingPatternContract.UsingLines)].Split('|'),
-                ExtraAssemblyReferences = dictionary[nameof(AllSchemaInOneClassRepositoryNamingPatternContract.ExtraAssemblyReferences)].Split('|')
-            };
+            
         }
 
 

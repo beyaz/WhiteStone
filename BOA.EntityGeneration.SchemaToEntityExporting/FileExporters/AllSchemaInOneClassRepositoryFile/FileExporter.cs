@@ -1,24 +1,47 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
-namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
+namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile
 {
-    class AllSchemaInOneClassRepositoryFileExporter : ContextContainer
+    class FileExporter : ContextContainer
     {
+        readonly ConfigContract _config;
+
+        public FileExporter()
+        {
+            _config = YamlHelper.DeserializeFromFile<ConfigContract>(ConfigDirectory + nameof(AllSchemaInOneClassRepositoryFile)+ Path.DirectorySeparatorChar+ "Config.yaml");
+
+        }
         #region Fields
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
         #endregion
 
         #region Properties
-        AllSchemaInOneClassRepositoryNamingPatternContract AllSchemaInOneClassRepositoryNamingPattern => Context.AllSchemaInOneClassRepositoryNamingPattern;
+        NamingPatternContract AllSchemaInOneClassRepositoryNamingPattern { get; set; }
         #endregion
+
+        void InitializeNamingPattern()
+        {
+            var initialValues = new Dictionary<string, string> {{nameof(SchemaName), SchemaName}};
+
+            var dictionary = ConfigurationDictionaryCompiler.Compile(_config.NamingPattern, initialValues);
+
+            AllSchemaInOneClassRepositoryNamingPattern = new NamingPatternContract
+            {
+                NamespaceName             = dictionary[nameof(NamingPatternContract.NamespaceName)],
+                ClassName = dictionary[nameof(NamingPatternContract.ClassName)],
+                UsingLines = dictionary[nameof(NamingPatternContract.UsingLines)].Split('|'),
+                ExtraAssemblyReferences = dictionary[nameof(NamingPatternContract.ExtraAssemblyReferences)].Split('|')
+            };
+        }
 
         #region Public Methods
         public void AttachEvents()
         {
+            SchemaExportStarted += InitializeNamingPattern;
             SchemaExportStarted += AddAssemblyReferencesToProject;
             SchemaExportStarted += WriteUsingList;
             SchemaExportStarted += EmptyLine;
@@ -92,7 +115,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteEmbeddedClasses()
         {
-            var path = Path.GetDirectoryName(typeof(AllSchemaInOneClassRepositoryFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "AllSchemaInOneClassRepositoryFileEmbeddedCodes.txt";
+            var path = Path.GetDirectoryName(typeof(FileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "AllSchemaInOneClassRepositoryFileEmbeddedCodes.txt";
 
             file.AppendAll(File.ReadAllText(path));
             file.AppendLine();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
@@ -9,6 +10,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
     class ContextContainer
     {
+        protected  string ConfigDirectory= Path.GetDirectoryName(typeof(ContextContainer).Assembly.Location) + Path.DirectorySeparatorChar + "ConfigFiles"+Path.DirectorySeparatorChar;
+
         #region Events
         protected event Action SchemaExportFinished
         {
