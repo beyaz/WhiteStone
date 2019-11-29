@@ -108,7 +108,7 @@
     <Content Include="BoaRepositoryFileEmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FileExporters\SharedFileExporting\SharedRepositoryFileEmbeddedCodes.txt">
+    <Content Include="FileExporters\SharedFileExporting\EmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

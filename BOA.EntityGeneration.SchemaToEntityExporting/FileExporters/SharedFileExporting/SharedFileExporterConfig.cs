@@ -1,6 +1,6 @@
 ﻿using BOA.Common.Helpers;
 
-namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
+namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileExporting
 {
     class SharedFileExporterConfig:ConfigBase
     {

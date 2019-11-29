@@ -8,6 +8,8 @@ using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExporters;
+using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting;
+using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using NamingPatternContract = BOA.EntityGeneration.SchemaToEntityExporting.Models.NamingPatternContract;
 

@@ -4,11 +4,10 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
-using BOA.EntityGeneration.SchemaToEntityExporting.Util;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
-namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
+namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileExporting
 {
     class SharedFileExporter : ContextContainer
     {
@@ -136,8 +135,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteEmbeddedClasses()
         {
-            // $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(SharedFileExporting)}"
-            var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryFileEmbeddedCodes.txt";
+            var path = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(SharedFileExporting)}{Path.DirectorySeparatorChar}EmbeddedCodes.txt";
 
             file.AppendAll(File.ReadAllText(path));
             file.AppendLine();
