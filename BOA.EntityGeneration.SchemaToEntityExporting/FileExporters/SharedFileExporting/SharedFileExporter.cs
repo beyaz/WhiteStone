@@ -10,23 +10,10 @@ using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
-    class SharedFileExporterConfig
-    {
-        /// <summary>
-        ///     Gets or sets the contract read line.
-        /// </summary>
-        public string ContractReadLine { get; set; }
-    }
-
     class SharedFileExporter : ContextContainer
     {
-        static readonly SharedFileExporterConfig SharedFileExporterConfig;
-
-        static SharedFileExporter()
-        {
-            SharedFileExporterConfig = YamlHelper.DeserializeFromFile<SharedFileExporterConfig>(ConfigDirectory + nameof(SharedFileExporter) + Path.DirectorySeparatorChar + nameof(SharedFileExporterConfig) + ".yaml");
-        }
-
+        static readonly SharedFileExporterConfig SharedFileExporterConfig = SharedFileExporterConfig.CreateFromFile();
+        
         #region Fields
         readonly PaddedStringBuilder file;
         #endregion

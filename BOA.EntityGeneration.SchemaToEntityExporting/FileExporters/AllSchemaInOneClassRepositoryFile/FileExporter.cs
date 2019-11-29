@@ -9,17 +9,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
     class FileExporter : ContextContainer
     {
         #region Fields
-        readonly ConfigContract      _config;
+        static readonly AllSchemaInOneClassRepositoryFileExporterConfig      Config = AllSchemaInOneClassRepositoryFileExporterConfig.CreateFromFile();
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
         NamingPatternContract        _namingPattern;
         #endregion
 
-        #region Constructors
-        public FileExporter()
-        {
-            _config = YamlHelper.DeserializeFromFile<ConfigContract>(ConfigDirectory + nameof(AllSchemaInOneClassRepositoryFile) + Path.DirectorySeparatorChar + "Config.yaml");
-        }
-        #endregion
+     
 
         #region Public Methods
         public void AttachEvents()
@@ -96,7 +91,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         {
             var initialValues = new Dictionary<string, string> {{nameof(SchemaName), SchemaName}};
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(_config.NamingPattern, initialValues);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.NamingPattern, initialValues);
 
             _namingPattern = new NamingPatternContract
             {

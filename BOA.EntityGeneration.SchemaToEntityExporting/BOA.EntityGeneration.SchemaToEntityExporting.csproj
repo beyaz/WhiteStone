@@ -56,14 +56,16 @@
     <Compile Include="ConfigBase.cs" />
     <Compile Include="Exporters\SchemaExporterConfig.cs" />
     <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\NamingPatternContract.cs" />
+    <Compile Include="FileExporters\BankingRepositoryFileExporting\BoaRepositoryFileExporterConfig.cs" />
     <Compile Include="FileExporters\ContextContainer.cs" />
     <Compile Include="FileExporters\Context.cs" />
     <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\FileExporter.cs" />
     <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\ConfigContract.cs" />
     <Compile Include="FileExporters\EntityFileExporting\EntityFileExporterConfig.cs" />
+    <Compile Include="FileExporters\SharedFileExporting\SharedFileExporterConfig.cs" />
     <Compile Include="Models\NamingPatternContract.cs" />
     <Compile Include="Models\TableNamingPatternContract.cs" />
-    <Compile Include="FileExporters\SharedFileExporter.cs" />
+    <Compile Include="FileExporters\SharedFileExporting\SharedFileExporter.cs" />
     <Compile Include="DbModels\ITableInfo.cs" />
     <Compile Include="DataAccess\DbModelsImplementations\SequenceInfo.cs" />
     <Compile Include="DbModels\ISequenceInfo.cs" />
@@ -82,22 +84,19 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ConfigFiles\EntityFileExporter\EntityFileExporterConfig.yaml">
+    <None Include="ConfigFiles\BoaRepositoryFileExporterConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ConfigFiles\EntityFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ConfigFiles\SchemaExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ConfigFiles\SharedFileExporter\SharedFileExporterConfig.yaml">
+    <None Include="ConfigFiles\SharedFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ConfigFiles\BoaRepositoryFileExporter\DefaultValuesForUpdateByKeyMethod.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ConfigFiles\BoaRepositoryFileExporter\DefaultValuesForInsertMethod.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ConfigFiles\AllSchemaInOneClassRepositoryFile\Config.yaml">
+    <None Include="ConfigFiles\AllSchemaInOneClassRepositoryFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="package.nuspec" />
