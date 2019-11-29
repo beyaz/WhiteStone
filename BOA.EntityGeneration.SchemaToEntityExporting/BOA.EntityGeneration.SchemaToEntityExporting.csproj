@@ -84,19 +84,19 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ConfigFiles\BoaRepositoryFileExporterConfig.yaml">
+    <None Include="SchemaToEntityExportingConfigFiles\BoaRepositoryFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ConfigFiles\EntityFileExporterConfig.yaml">
+    <None Include="SchemaToEntityExportingConfigFiles\EntityFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ConfigFiles\SchemaExporterConfig.yaml">
+    <None Include="SchemaToEntityExportingConfigFiles\SchemaExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ConfigFiles\SharedFileExporterConfig.yaml">
+    <None Include="SchemaToEntityExportingConfigFiles\SharedFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ConfigFiles\AllSchemaInOneClassRepositoryFileExporterConfig.yaml">
+    <None Include="SchemaToEntityExportingConfigFiles\AllSchemaInOneClassRepositoryFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="package.nuspec" />
