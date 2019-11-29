@@ -92,7 +92,7 @@ namespace BOA.Office.Excel
             var mWorkSheets = WorkBook.Worksheets;
             var mWSheet1    = (Worksheet) mWorkSheets[sheetName];
 
-            mWSheet1.Cells[rowIndex, columnIndex].Value2 = value;
+            mWSheet1.Cells[rowIndex, columnIndex] = value;
         }
         #endregion
 
