@@ -13,3 +13,18 @@ NamingPattern:
   NamespaceName: BOA.Business.Kernel.Card.$(SchemaName).Repository
   ClassName: $(SchemaName)Repository
   ExtraAssemblyReferences: <Reference Include="BOA.Card.Core"><HintPath>D:\BOA\Server\bin\BOA.Card.Core.dll</HintPath></Reference>
+DefaultValuesForInsertMethod:
+  contractInstanceName:
+  contractInstancePropertyName:  
+  ROW_GUID: $(contractInstanceName).$(contractInstancePropertyName) = Guid.NewGuid().ToString().ToUpper(new System.Globalization.CultureInfo("en-US", false));
+  INSERT_DATE: $(contractInstanceName).$(contractInstancePropertyName) = DateTime.Now;
+  INSERT_USER_ID: $(contractInstanceName).$(contractInstancePropertyName) = BOA.Card.Core.Identity.GetIdentity().Name;
+  'string:INSERT_TOKEN_ID': $(contractInstanceName).$(contractInstancePropertyName) = "0";
+  'decimal:INSERT_TOKEN_ID': $(contractInstanceName).$(contractInstancePropertyName) = 0;
+DefaultValuesForUpdateByKeyMethod:
+  contractInstanceName:
+  contractInstancePropertyName:  
+  UPDATE_DATE: $(contractInstanceName).$(contractInstancePropertyName) = DateTime.Now;
+  UPDATE_USER_ID: $(contractInstanceName).$(contractInstancePropertyName) = BOA.Card.Core.Identity.GetIdentity().Name;
+  'string:UPDATE_TOKEN_ID': $(contractInstanceName).$(contractInstancePropertyName) = "0";
+  'decimal:UPDATE_TOKEN_ID': $(contractInstanceName).$(contractInstancePropertyName) = 0;
