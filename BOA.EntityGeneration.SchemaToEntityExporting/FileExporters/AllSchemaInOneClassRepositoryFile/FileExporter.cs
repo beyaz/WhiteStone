@@ -2,20 +2,34 @@
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileExporting;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using Config = BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile.AllSchemaInOneClassRepositoryFileExporterConfig;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile
 {
     class FileExporter : ContextContainer
     {
+        #region Static Fields
+        static readonly Config Config;
+        static readonly string EmbeddedCodes;
+        #endregion
+
         #region Fields
-        static readonly AllSchemaInOneClassRepositoryFileExporterConfig      Config = AllSchemaInOneClassRepositoryFileExporterConfig.CreateFromFile();
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
         NamingPatternContract        _namingPattern;
         #endregion
 
-     
+        #region Constructors
+        static FileExporter()
+        {
+            var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(AllSchemaInOneClassRepositoryFile)}{Path.DirectorySeparatorChar}";
+
+            EmbeddedCodes = File.ReadAllText($"{resourceDirectoryPath}EmbeddedCodes.txt");
+            Config        = YamlHelper.DeserializeFromFile<Config>(resourceDirectoryPath + nameof(AllSchemaInOneClassRepositoryFileExporterConfig) + ".yaml");
+        }
+        #endregion
 
         #region Public Methods
         public void AttachEvents()
@@ -94,8 +108,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             var initialValues = new Dictionary<string, string>
             {
                 {nameof(SchemaName), SchemaName},
-                { nameof(NamingPattern.EntityNamespace),NamingPattern.EntityNamespace},
-                { nameof(NamingPattern.RepositoryNamespace),NamingPattern.RepositoryNamespace}
+                {nameof(NamingPattern.EntityNamespace), NamingPattern.EntityNamespace},
+                {nameof(NamingPattern.RepositoryNamespace), NamingPattern.RepositoryNamespace}
             };
 
             var dictionary = ConfigurationDictionaryCompiler.Compile(Config.NamingPattern, initialValues);
@@ -116,50 +130,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             WriteDeleteByKeyMethod();
         }
 
-        void WriteEmbeddedClasses()
-        {
-            var path = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(AllSchemaInOneClassRepositoryFile)}{Path.DirectorySeparatorChar}EmbeddedCodes.txt";
-
-            file.AppendAll(File.ReadAllText(path));
-            file.AppendLine();
-        }
-
-        void WriteSelectByKeyMethod()
-        {
-            if (!TableInfo.IsSupportSelectByKey)
-            {
-                return;
-            }
-
-            var typeContractName       = TableEntityClassNameForMethodParametersInRepositoryFiles;
-            var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(TableInfo);
-
-            var sqlParameters = selectByPrimaryKeyInfo.SqlParameters;
-
-            var parameterDefinitionPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
-
-            var methodName = "Get" + TableNamingPattern.BoaRepositoryClassName +"By"+ string.Join(string.Empty, sqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
-
-            var callerMemberPath = $"{_namingPattern.NamespaceName}.{_namingPattern.ClassName}.{methodName}";
-
-            file.AppendLine();
-            file.AppendLine($"public {typeContractName} {methodName}({parameterDefinitionPart})");
-            file.OpenBracket();
-
-            var sharedMethodInvocationParameters = string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
-
-            var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
-
-            file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.SelectByKey({sharedMethodInvocationParameters});");
-            file.AppendLine();
-            file.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
-            file.AppendLine();
-            file.AppendLine($"return unitOfWork.ExecuteReaderToContract<{typeContractName}>(CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
-
-            file.CloseBracket();
-        }
-
-
         void WriteDeleteByKeyMethod()
         {
             if (!TableInfo.IsSupportSelectByKey)
@@ -169,7 +139,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
-            var methodName = "Delete"+typeContractName;
+            var methodName = "Delete" + typeContractName;
 
             var deleteByKeyInfo                  = DeleteInfoCreator.Create(TableInfo);
             var sqlParameters                    = deleteByKeyInfo.SqlParameters;
@@ -192,6 +162,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             file.CloseBracket();
         }
 
+        void WriteEmbeddedClasses()
+        {
+            file.AppendAll(EmbeddedCodes);
+            file.AppendLine();
+        }
+
         void WriteSelectByIndexMethods()
         {
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
@@ -204,12 +180,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             {
                 var indexInfo = SelectByIndexInfoCreator.Create(TableInfo, indexIdentifier);
 
-                var sharedRepositoryMethodName = SharedFileExporting.SharedFileExporter.GetMethodName(indexInfo);
+                var sharedRepositoryMethodName = SharedFileExporter.GetMethodName(indexInfo);
 
                 var parameterDefinitionPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-                var methodName = "Get" + camelCasedTableName +"By"+ string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
-
+                var methodName = "Get" + camelCasedTableName + "By" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
                 file.AppendLine();
                 file.AppendLine("/// <summary>");
@@ -237,11 +212,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
                 var parameterDefinitionPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-                var methodName = "Get" + camelCasedTableName +"By"+ string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+                var methodName = "Get" + camelCasedTableName + "By" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
                 var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{camelCasedTableName}.{methodName}";
 
-                var sharedRepositoryMethodName = SharedFileExporting.SharedFileExporter.GetMethodName(indexInfo);
+                var sharedRepositoryMethodName = SharedFileExporter.GetMethodName(indexInfo);
 
                 file.AppendLine();
                 file.AppendLine("/// <summary>");
@@ -260,6 +235,41 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
                 file.CloseBracket();
             }
+        }
+
+        void WriteSelectByKeyMethod()
+        {
+            if (!TableInfo.IsSupportSelectByKey)
+            {
+                return;
+            }
+
+            var typeContractName       = TableEntityClassNameForMethodParametersInRepositoryFiles;
+            var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(TableInfo);
+
+            var sqlParameters = selectByPrimaryKeyInfo.SqlParameters;
+
+            var parameterDefinitionPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+
+            var methodName = "Get" + TableNamingPattern.BoaRepositoryClassName + "By" + string.Join(string.Empty, sqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+
+            var callerMemberPath = $"{_namingPattern.NamespaceName}.{_namingPattern.ClassName}.{methodName}";
+
+            file.AppendLine();
+            file.AppendLine($"public {typeContractName} {methodName}({parameterDefinitionPart})");
+            file.OpenBracket();
+
+            var sharedMethodInvocationParameters = string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
+
+            var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
+
+            file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.SelectByKey({sharedMethodInvocationParameters});");
+            file.AppendLine();
+            file.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            file.AppendLine();
+            file.AppendLine($"return unitOfWork.ExecuteReaderToContract<{typeContractName}>(CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
+
+            file.CloseBracket();
         }
 
         void WriteUsingList()

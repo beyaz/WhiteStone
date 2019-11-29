@@ -6,6 +6,7 @@ using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
+using Config = BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting.BoaRepositoryFileExporterConfig;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting
 {
@@ -16,11 +17,22 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         #endregion
 
         #region Static Fields
-        static readonly BoaRepositoryFileExporterConfig Config = BoaRepositoryFileExporterConfig.CreateFromFile();
+        static readonly Config Config;
+        static readonly string EmbeddedCodes;
         #endregion
 
         #region Fields
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
+        #endregion
+
+        #region Constructors
+        static BoaRepositoryFileExporter()
+        {
+            var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(BankingRepositoryFileExporting)}{Path.DirectorySeparatorChar}";
+
+            EmbeddedCodes = File.ReadAllText($"{resourceDirectoryPath}EmbeddedCodes.txt");
+            Config        = YamlHelper.DeserializeFromFile<Config>(resourceDirectoryPath + nameof(BoaRepositoryFileExporterConfig) + ".yaml");
+        }
         #endregion
 
         #region Public Methods
@@ -163,9 +175,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
         void WriteEmbeddedClasses()
         {
-            var path = Path.GetDirectoryName(typeof(BoaRepositoryFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BoaRepositoryFileEmbeddedCodes.txt";
-
-            file.AppendAll(File.ReadAllText(path));
+            file.AppendAll(EmbeddedCodes);
             file.AppendLine();
         }
 
@@ -412,6 +422,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                 return;
             }
 
+            var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
+
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
             var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.Update";
@@ -437,7 +449,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             }
 
             file.AppendLine();
-            file.AppendLine($"var sqlInfo = {TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Update({contractParameterName});");
+            file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.Update({contractParameterName});");
             file.AppendLine();
 
             file.AppendLine("return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");

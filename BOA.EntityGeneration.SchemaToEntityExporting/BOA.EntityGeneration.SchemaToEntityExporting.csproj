@@ -84,7 +84,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SchemaToEntityExportingConfigFiles\BoaRepositoryFileExporterConfig.yaml">
+    <None Include="FileExporters\BankingRepositoryFileExporting\BoaRepositoryFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="SchemaToEntityExportingConfigFiles\EntityFileExporterConfig.yaml">
@@ -96,7 +96,7 @@
     <None Include="SchemaToEntityExportingConfigFiles\SharedFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SchemaToEntityExportingConfigFiles\AllSchemaInOneClassRepositoryFileExporterConfig.yaml">
+    <None Include="FileExporters\AllSchemaInOneClassRepositoryFile\AllSchemaInOneClassRepositoryFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="package.nuspec" />
@@ -105,7 +105,7 @@
     <Content Include="FileExporters\AllSchemaInOneClassRepositoryFile\EmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="BoaRepositoryFileEmbeddedCodes.txt">
+    <Content Include="FileExporters\BankingRepositoryFileExporting\EmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="FileExporters\SharedFileExporting\EmbeddedCodes.txt">
