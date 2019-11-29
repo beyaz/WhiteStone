@@ -28,7 +28,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
             schemaExporter.Database.CreateTables();
             schemaExporter.Export("ERP");
 
-            schemaExporter.Context.ErrorList.Count.Should().Be(0);
+            schemaExporter.Context.ErrorList.Should().BeEmpty();
 
 
         }

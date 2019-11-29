@@ -249,6 +249,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
             file.CloseBracket();
         }
 
+        internal static string GetMethodName(SelectByIndexInfo indexInfo)
+        {
+            return "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+        }
+
         void WriteSelectByIndexMethods()
         {
             var allIndexes = new List<IIndexInfo>();
@@ -258,7 +263,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
             foreach (var indexIdentifier in allIndexes)
             {
                 var indexInfo     = SelectByIndexInfoCreator.Create(TableInfo, indexIdentifier);
-                var methodName    = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+                var methodName = GetMethodName(indexInfo);
                 var parameterPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
                 file.AppendLine();

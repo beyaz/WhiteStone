@@ -2,7 +2,14 @@ NamingPattern:
   SchemaName: '?'
   EntityNamespace: '?'
   RepositoryNamespace: '?'
-  UsingLines: "using System;|using System.Data;|using System.Data.SqlClient;|using\nSystem.Collections.Generic;|using $(EntityNamespace);|using $(RepositoryNamespace).Shared;|using\nIUnitOfWork = BOA.Card.Core.UOW.IUnitOfWork;|using State = BOA.Card.Core.UOW.State;"
+  UsingLines: using System;|
+    using System.Data;|
+    using System.Data.SqlClient;|
+    using System.Collections.Generic;|
+    using $(EntityNamespace);|
+    using $(RepositoryNamespace).Shared;|
+    using IUnitOfWork = BOA.Card.Core.UOW.IUnitOfWork;|
+    using State = BOA.Card.Core.UOW.State;
   NamespaceName: BOA.Business.Kernel.Card.$(SchemaName).Repository
   ClassName: $(SchemaName)Repository
-  ExtraAssemblyReferences: '<Reference Include="BOA.Card.Core"><HintPath>D:\BOA\Server\bin\BOA.Card.Core.dll</HintPath></Reference>'
+  ExtraAssemblyReferences: <Reference Include="BOA.Card.Core"><HintPath>D:\BOA\Server\bin\BOA.Card.Core.dll</HintPath></Reference>

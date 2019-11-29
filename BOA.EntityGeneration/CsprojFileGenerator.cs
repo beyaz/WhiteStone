@@ -21,7 +21,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var csprojFilePath = $"{ProjectDirectory}{NamespaceName}.csproj";
 
-            var assemblyReferences = string.Join(Environment.NewLine + "    ", References.Distinct());
+            
+            var assemblyReferences = "    "+string.Join(Environment.NewLine + "    ", References.Select(x=>x.Trim()).Distinct());
 
             var fileNames = string.Join(Environment.NewLine + "    ", FileNames.Select(fileName => $"    <Compile Include=\"{fileName}\" />"));
 

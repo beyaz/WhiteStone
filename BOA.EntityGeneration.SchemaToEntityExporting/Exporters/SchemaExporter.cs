@@ -84,11 +84,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
                 RepositoryNamespace          = dictionary[nameof(NamingPatternContract.RepositoryNamespace)],
                 EntityProjectDirectory       = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
                 RepositoryProjectDirectory   = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
-                BoaRepositoryUsingLines      = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
-                EntityUsingLines             = dictionary[nameof(NamingPatternContract.EntityUsingLines)].Split('|'),
-                SharedRepositoryUsingLines   = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].Split('|'),
-                EntityAssemblyReferences     = dictionary[nameof(NamingPatternContract.EntityAssemblyReferences)].Split('|'),
-                RepositoryAssemblyReferences = dictionary[nameof(NamingPatternContract.RepositoryAssemblyReferences)].Split('|')
+                BoaRepositoryUsingLines      = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].SplitAndClear("|"),
+                EntityUsingLines             = dictionary[nameof(NamingPatternContract.EntityUsingLines)].SplitAndClear("|"),
+                SharedRepositoryUsingLines   = dictionary[nameof(NamingPatternContract.SharedRepositoryUsingLines)].SplitAndClear("|"),
+                EntityAssemblyReferences     = dictionary[nameof(NamingPatternContract.EntityAssemblyReferences)].SplitAndClear("|"),
+                RepositoryAssemblyReferences = dictionary[nameof(NamingPatternContract.RepositoryAssemblyReferences)].SplitAndClear("|"),
             };
         }
 

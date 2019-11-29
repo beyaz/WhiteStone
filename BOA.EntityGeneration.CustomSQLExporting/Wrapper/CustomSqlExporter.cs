@@ -103,9 +103,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 EntityProjectDirectory       = dictionary[nameof(ProfileNamingPatternContract.EntityProjectDirectory)],
                 RepositoryProjectDirectory   = dictionary[nameof(ProfileNamingPatternContract.RepositoryProjectDirectory)],
                 BoaRepositoryUsingLines      = dictionary[nameof(ProfileNamingPatternContract.BoaRepositoryUsingLines)].SplitAndClear("|"),
-                EntityUsingLines             = dictionary[nameof(ProfileNamingPatternContract.EntityUsingLines)].Split('|'),
-                EntityAssemblyReferences     = dictionary[nameof(ProfileNamingPatternContract.EntityAssemblyReferences)].Split('|').ToList(),
-                RepositoryAssemblyReferences = dictionary[nameof(ProfileNamingPatternContract.RepositoryAssemblyReferences)].Split('|').ToList()
+                EntityUsingLines             = dictionary[nameof(ProfileNamingPatternContract.EntityUsingLines)].SplitAndClear("|"),
+                EntityAssemblyReferences     = dictionary[nameof(ProfileNamingPatternContract.EntityAssemblyReferences)].SplitAndClear("|").ToList(),
+                RepositoryAssemblyReferences = dictionary[nameof(ProfileNamingPatternContract.RepositoryAssemblyReferences)].SplitAndClear("|").ToList()
             };
         }
 
