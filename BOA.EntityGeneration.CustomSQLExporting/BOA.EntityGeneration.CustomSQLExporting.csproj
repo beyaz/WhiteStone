@@ -66,9 +66,6 @@
     <None Include="CustomSQLExportingConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="CustomSQLExporting.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Exporters\BoaRepositoryFileEmbeddedCodes.txt" />

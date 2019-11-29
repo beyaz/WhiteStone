@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BOA.Common.Helpers;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Models
 {
@@ -9,6 +10,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
     [Serializable]
     public class CustomSQLExportingConfig
     {
+
+        public static CustomSQLExportingConfig CreateFromFile()
+        {
+            return YamlHelper.DeserializeFromFile<CustomSQLExportingConfig>( nameof(CustomSQLExportingConfig) + ".yaml");
+        }
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets the connection string.
@@ -28,7 +35,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         /// <summary>
         ///     Gets or sets the custom SQL naming pattern.
         /// </summary>
-        public IReadOnlyDictionary<string, string> CustomSqlNamingPattern { get; set; }
+        public Dictionary<string, string> CustomSqlNamingPattern { get; set; }
 
         /// <summary>
         ///     Gets or sets the name of the database enum.
@@ -43,7 +50,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         /// <summary>
         ///     Gets or sets the profile naming pattern.
         /// </summary>
-        public IReadOnlyDictionary<string, string> ProfileNamingPattern { get; set; }
+        public Dictionary<string, string> ProfileNamingPattern { get; set; }
 
         /// <summary>
         ///     Gets or sets the SQL get profile identifier list.

@@ -12,9 +12,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     class CustomSqlExporter : ContextContainer
     {
-        #region Public Properties
-        public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(CustomSqlExporter).Assembly.Location) + Path.DirectorySeparatorChar + "CustomSQLExporting.json";
-        #endregion
 
         #region Public Methods
         public void Export(string profileId)
@@ -105,7 +102,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 RepositoryNamespace          = dictionary[nameof(ProfileNamingPatternContract.RepositoryNamespace)],
                 EntityProjectDirectory       = dictionary[nameof(ProfileNamingPatternContract.EntityProjectDirectory)],
                 RepositoryProjectDirectory   = dictionary[nameof(ProfileNamingPatternContract.RepositoryProjectDirectory)],
-                BoaRepositoryUsingLines      = dictionary[nameof(ProfileNamingPatternContract.BoaRepositoryUsingLines)].Split('|'),
+                BoaRepositoryUsingLines      = dictionary[nameof(ProfileNamingPatternContract.BoaRepositoryUsingLines)].SplitAndClear("|"),
                 EntityUsingLines             = dictionary[nameof(ProfileNamingPatternContract.EntityUsingLines)].Split('|'),
                 EntityAssemblyReferences     = dictionary[nameof(ProfileNamingPatternContract.EntityAssemblyReferences)].Split('|').ToList(),
                 RepositoryAssemblyReferences = dictionary[nameof(ProfileNamingPatternContract.RepositoryAssemblyReferences)].Split('|').ToList()
@@ -114,7 +111,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         void InitializeConfig()
         {
-            Context.Config = JsonHelper.Deserialize<CustomSQLExportingConfig>(File.ReadAllText(ConfigFilePath));
+            Context.Config = CustomSQLExportingConfig.CreateFromFile();
         }
 
         void InitializeCustomSqlNamingPattern()
