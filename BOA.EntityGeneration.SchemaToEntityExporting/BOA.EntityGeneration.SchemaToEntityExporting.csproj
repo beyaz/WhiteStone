@@ -60,6 +60,7 @@
     <Compile Include="FileExporters\Context.cs" />
     <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\FileExporter.cs" />
     <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\ConfigContract.cs" />
+    <Compile Include="FileExporters\EntityFileExporting\EntityFileExporterConfig.cs" />
     <Compile Include="Models\NamingPatternContract.cs" />
     <Compile Include="Models\TableNamingPatternContract.cs" />
     <Compile Include="FileExporters\SharedFileExporter.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="FileExporters\BankingRepositoryFileExporting\InsertInfoCreator.cs" />
     <Compile Include="FileExporters\CsprojFileExporters\EntityCsprojFileExporter.cs" />
     <Compile Include="FileExporters\BankingRepositoryFileExporting\BoaRepositoryFileExporter.cs" />
-    <Compile Include="FileExporters\EntityFileExporter.cs" />
+    <Compile Include="FileExporters\EntityFileExporting\EntityFileExporter.cs" />
     <Compile Include="DataAccess\DbModelsImplementations\TableInfo.cs" />
     <Compile Include="DataAccess\GeneratorDataCreator.cs" />
     <Compile Include="Util\ParameterHelper.cs" />
