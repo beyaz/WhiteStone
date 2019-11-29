@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
+using BOA.EntityGeneration.DbModel.Interfaces;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
@@ -126,10 +127,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             file.AppendAll(File.ReadAllText(path));
             file.AppendLine();
         }
-
+        const string contractParameterName = "contract";
         void WriteInsertMethod()
         {
-            const string contractParameterName = "contract";
+            
 
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
@@ -196,44 +197,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (insertInfo.SqlParameters.Any())
             {
-                if (Config.DefaultValuesForInsertMethod != null)
-                {
-                    var contractInitializations = new List<string>();
-
-                    foreach (var columnInfo in insertInfo.SqlParameters)
-                    {
-                        var contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
-                        var contractInstanceName         = contractParameterName;
-
-                        var map = ConfigurationDictionaryCompiler.Compile(Config.DefaultValuesForInsertMethod, new Dictionary<string, string>
-                        {
-                            {nameof(contractInstanceName), contractInstanceName},
-                            {nameof(contractInstancePropertyName), contractInstancePropertyName}
-                        });
-
-                        var key = columnInfo.ColumnName;
-                        if (map.ContainsKey(key))
-                        {
-                            contractInitializations.Add(map[key]);
-                            continue;
-                        }
-
-                        key = columnInfo.DotNetType + ":" + columnInfo.ColumnName;
-                        if (map.ContainsKey(key))
-                        {
-                            contractInitializations.Add(map[key]);
-                        }
-                    }
-
-                    if (contractInitializations.Any())
-                    {
-                        file.AppendLine();
-                        foreach (var item in contractInitializations)
-                        {
-                            file.AppendLine(item);
-                        }
-                    }
-                }
+                WriteDefaultValues(Config.DefaultValuesForInsertMethod,insertInfo.SqlParameters);
             }
 
             file.AppendLine();
@@ -256,6 +220,51 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             file.PaddingCount--;
             file.AppendLine("}");
+        }
+
+
+        void WriteDefaultValues(IReadOnlyDictionary<string,string> defaultValueMap, IReadOnlyList<IColumnInfo> parameters)
+        {
+            if (defaultValueMap == null)
+            {
+                return;
+            }
+
+            var contractInitializations = new List<string>();
+
+            foreach (var columnInfo in parameters)
+            {
+                var          contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
+                const string contractInstanceName         = contractParameterName;
+
+                var map = ConfigurationDictionaryCompiler.Compile(defaultValueMap, new Dictionary<string, string>
+                {
+                    {nameof(contractInstanceName), contractInstanceName},
+                    {nameof(contractInstancePropertyName), contractInstancePropertyName}
+                });
+
+                var key = columnInfo.ColumnName;
+                if (map.ContainsKey(key))
+                {
+                    contractInitializations.Add(map[key]);
+                    continue;
+                }
+
+                key = columnInfo.DotNetType + ":" + columnInfo.ColumnName;
+                if (map.ContainsKey(key))
+                {
+                    contractInitializations.Add(map[key]);
+                }
+            }
+
+            if (contractInitializations.Any())
+            {
+                file.AppendLine();
+                foreach (var item in contractInitializations)
+                {
+                    file.AppendLine(item);
+                }
+            }
         }
 
         void WriteSelectAllByValidFlagMethod()
@@ -409,8 +418,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                 return;
             }
 
-            const string contractParameterName = "contract";
-
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
             var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.Update";
@@ -432,44 +439,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (updateInfo.SqlParameters.Any())
             {
-                if (Config.DefaultValuesForUpdateByKeyMethod != null)
-                {
-                    var contractInitializations = new List<string>();
-
-                    foreach (var columnInfo in updateInfo.SqlParameters)
-                    {
-                        var contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
-                        var contractInstanceName         = contractParameterName;
-
-                        var map = ConfigurationDictionaryCompiler.Compile(Config.DefaultValuesForUpdateByKeyMethod, new Dictionary<string, string>
-                        {
-                            {nameof(contractInstanceName), contractInstanceName},
-                            {nameof(contractInstancePropertyName), contractInstancePropertyName}
-                        });
-
-                        var key = columnInfo.ColumnName;
-                        if (map.ContainsKey(key))
-                        {
-                            contractInitializations.Add(map[key]);
-                            continue;
-                        }
-
-                        key = columnInfo.DotNetType + ":" + columnInfo.ColumnName;
-                        if (map.ContainsKey(key))
-                        {
-                            contractInitializations.Add(map[key]);
-                        }
-                    }
-
-                    if (contractInitializations.Any())
-                    {
-                        file.AppendLine();
-                        foreach (var item in contractInitializations)
-                        {
-                            file.AppendLine(item);
-                        }
-                    }
-                }
+                WriteDefaultValues(Config.DefaultValuesForUpdateByKeyMethod,updateInfo.SqlParameters);
             }
 
             file.AppendLine();
