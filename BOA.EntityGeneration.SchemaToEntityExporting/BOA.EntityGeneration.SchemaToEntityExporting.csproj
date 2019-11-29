@@ -53,6 +53,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigBase.cs" />
+    <Compile Include="Exporters\SchemaExporterConfig.cs" />
     <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\NamingPatternContract.cs" />
     <Compile Include="FileExporters\ContextContainer.cs" />
     <Compile Include="FileExporters\Context.cs" />

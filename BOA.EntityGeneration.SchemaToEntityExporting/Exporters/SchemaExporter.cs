@@ -13,67 +13,14 @@ using NamingPatternContract = BOA.EntityGeneration.SchemaToEntityExporting.Model
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 {
-    class SchemaExporterConfig
-    {
-        /// <summary>
-        ///     Gets or sets the SQL sequence information of table.
-        /// </summary>
-        public string SqlSequenceInformationOfTable { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the table catalog.
-        /// </summary>
-        public string TableCatalog { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the not exportable tables.
-        /// </summary>
-        public string[] NotExportableTables { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the connection string.
-        /// </summary>
-        public string ConnectionString { get; set; }
-        
-        /// <summary>
-        ///     Gets or sets the name of the database enum.
-        /// </summary>
-        public string DatabaseEnumName { get; set; }
-
-
-        /// <summary>
-        ///     Gets or sets the naming pattern.
-        /// </summary>
-        public Dictionary<string, string> NamingPattern { get; set; }
-
-       
-
-       
-        
-       
-
-
-        
-
-        /// <summary>
-        ///     Gets or sets the table naming pattern.
-        /// </summary>
-        public Dictionary<string, string> TableNamingPattern { get; set; }
-
-        public static SchemaExporterConfig CreateFromFile()
-        {
-            return YamlHelper.DeserializeFromFile<SchemaExporterConfig>(ContextContainer.ConfigDirectory + nameof(SchemaExporterConfig) + ".yaml");
-        }
-    }
-
     /// <summary>
     ///     The schema exporter
     /// </summary>
     class SchemaExporter : ContextContainer
     {
-        static readonly SchemaExporterConfig SchemaExporterConfig = SchemaExporterConfig.CreateFromFile();
-
-        
+        #region Static Fields
+        static readonly SchemaExporterConfig Config = SchemaExporterConfig.CreateFromFile();
+        #endregion
 
         #region Public Methods
         /// <summary>
@@ -117,18 +64,16 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             SchemaExportFinished += MsBuildQueue.Build;
         }
 
-        
-
         void InitializeDatabase()
         {
-            Context.Database = new SqlDatabase(SchemaExporterConfig.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
+            Context.Database = new SqlDatabase(Config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
 
         void InitializeNamingPattern()
         {
             var initialValues = new Dictionary<string, string> {{nameof(SchemaName), SchemaName}};
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(SchemaExporterConfig.NamingPattern, initialValues);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.NamingPattern, initialValues);
 
             Context.NamingPattern = new NamingPatternContract
             {
@@ -143,12 +88,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
                 EntityAssemblyReferences     = dictionary[nameof(NamingPatternContract.EntityAssemblyReferences)].Split('|'),
                 RepositoryAssemblyReferences = dictionary[nameof(NamingPatternContract.RepositoryAssemblyReferences)].Split('|')
             };
-
-
-
-            
         }
-
 
         void InitializeTableNamingPattern()
         {
@@ -158,7 +98,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
                 {"CamelCasedTableName", TableInfo.TableName.ToContractName()}
             };
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(SchemaExporterConfig.TableNamingPattern, initialValues);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.TableNamingPattern, initialValues);
 
             Context.TableNamingPattern = new TableNamingPatternContract
             {
@@ -183,7 +123,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         {
             var fullTableName = $"{SchemaName}.{tableName}";
 
-            var isNotExportable = SchemaExporterConfig.NotExportableTables.Contains(fullTableName);
+            var isNotExportable = Config.NotExportableTables.Contains(fullTableName);
             if (isNotExportable)
             {
                 return false;
@@ -208,9 +148,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
                 var tableInfoDao = new TableInfoDao {Database = Database, IndexInfoAccess = new IndexInfoAccess {Database = Database}};
 
-                var tableInfoTemp = tableInfoDao.GetInfo(SchemaExporterConfig.TableCatalog, SchemaName, tableName);
+                var tableInfoTemp = tableInfoDao.GetInfo(Config.TableCatalog, SchemaName, tableName);
 
-                Context.TableInfo = GeneratorDataCreator.Create(SchemaExporterConfig.SqlSequenceInformationOfTable, SchemaExporterConfig.DatabaseEnumName, Database, tableInfoTemp);
+                Context.TableInfo = GeneratorDataCreator.Create(Config.SqlSequenceInformationOfTable, Config.DatabaseEnumName, Database, tableInfoTemp);
 
                 Context.OnTableExportStarted();
                 Context.OnTableExportFinished();
