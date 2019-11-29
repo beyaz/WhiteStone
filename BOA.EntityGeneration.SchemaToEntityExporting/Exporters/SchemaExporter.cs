@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
@@ -10,7 +9,6 @@ using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneC
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.Models;
-using ConfigContract = BOA.EntityGeneration.SchemaToEntityExporting.Models.ConfigContract;
 using NamingPatternContract = BOA.EntityGeneration.SchemaToEntityExporting.Models.NamingPatternContract;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
@@ -42,6 +40,26 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         /// </summary>
         public string DatabaseEnumName { get; set; }
 
+
+        /// <summary>
+        ///     Gets or sets the naming pattern.
+        /// </summary>
+        public Dictionary<string, string> NamingPattern { get; set; }
+
+       
+
+       
+        
+       
+
+
+        
+
+        /// <summary>
+        ///     Gets or sets the table naming pattern.
+        /// </summary>
+        public Dictionary<string, string> TableNamingPattern { get; set; }
+
         public static SchemaExporterConfig CreateFromFile()
         {
             return YamlHelper.DeserializeFromFile<SchemaExporterConfig>(ContextContainer.ConfigDirectory + nameof(SchemaExporterConfig) + ".yaml");
@@ -55,9 +73,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
     {
         static readonly SchemaExporterConfig SchemaExporterConfig = SchemaExporterConfig.CreateFromFile();
 
-        #region Public Properties
-        public string ConfigFilePath { get; set; } = Path.GetDirectoryName(typeof(SchemaExporter).Assembly.Location) + Path.DirectorySeparatorChar + "BOA.EntityGeneration.SchemaToEntityExporting.json";
-        #endregion
+        
 
         #region Public Methods
         /// <summary>
@@ -77,7 +93,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         {
             Context = new Context();
 
-            InitializeConfig();
             InitializeDatabase();
 
             AttachEvents();
@@ -102,11 +117,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             SchemaExportFinished += MsBuildQueue.Build;
         }
 
-        void InitializeConfig()
-        {
-            Context.Config = JsonHelper.Deserialize<ConfigContract>(File.ReadAllText(ConfigFilePath));
-            
-        }
+        
 
         void InitializeDatabase()
         {
@@ -117,7 +128,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         {
             var initialValues = new Dictionary<string, string> {{nameof(SchemaName), SchemaName}};
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.NamingPattern, initialValues);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(SchemaExporterConfig.NamingPattern, initialValues);
 
             Context.NamingPattern = new NamingPatternContract
             {
@@ -147,7 +158,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
                 {"CamelCasedTableName", TableInfo.TableName.ToContractName()}
             };
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.TableNamingPattern, initialValues);
+            var dictionary = ConfigurationDictionaryCompiler.Compile(SchemaExporterConfig.TableNamingPattern, initialValues);
 
             Context.TableNamingPattern = new TableNamingPatternContract
             {

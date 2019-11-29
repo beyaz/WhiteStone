@@ -45,7 +45,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         #endregion
 
         #region Properties
-        protected ConfigContract             Config                                                   => Context.Config;
         protected FileSystem                 FileSystem                                               => Context.FileSystem;
         protected MsBuildQueue               MsBuildQueue                                             => Context.MsBuildQueue;
         protected NamingPatternContract      NamingPattern                                            => Context.NamingPattern;

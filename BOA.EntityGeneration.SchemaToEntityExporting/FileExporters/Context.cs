@@ -26,7 +26,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         #endregion
 
         #region Public Properties
-        public ConfigContract             Config                                                   { get; set; }
         public IDatabase                  Database                                                 { get; set; }
         public AddOnlyList<string>        EntityProjectSourceFileNames                             { get; } = new AddOnlyList<string>();
         public AddOnlyList<string>        ErrorList                                                { get; } = new AddOnlyList<string>();
