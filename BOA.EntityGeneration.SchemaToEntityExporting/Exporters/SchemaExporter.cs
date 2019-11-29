@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
     class SchemaExporter : ContextContainer
     {
         #region Static Fields
-        static readonly SchemaExporterConfig Config = SchemaExporterConfig.CreateFromFile();
+        internal static readonly SchemaExporterConfig Config = SchemaExporterConfig.CreateFromFile();
         #endregion
 
         #region Public Methods

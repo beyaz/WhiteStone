@@ -13,16 +13,24 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
         [TestMethod]
         public void AllScenario()
         {
-            var schemaExporter = new SchemaExporter
-            {
-                // ConfigFilePath = @"D:\github\WhiteStone\BOA.EntityGeneration.SchemaToEntityExporting.Test\BOA.EntityGeneration.SchemaToEntityExporting.json"
-            };
+            
+            SchemaExporter.Config.ConnectionString = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = D:\github\WhiteStone\BOA.EntityGeneration.SchemaToEntityExporting.Test\SampleDatabase.mdf; Integrated Security = True";
+            SchemaExporter.Config.TableCatalog = @"D:\GITHUB\WHITESTONE\BOA.ENTITYGENERATION.SCHEMATOENTITYEXPORTING.TEST\SAMPLEDATABASE.MDF";
+            SchemaExporter.Config.DatabaseEnumName = "SampleDatabase";
+            SchemaExporter.Config.NamingPattern["SlnDirectoryPath"] = @"d:\temp\";
+            SchemaExporter.Config.SqlSequenceInformationOfTable = null;
+
+            var schemaExporter = new SchemaExporter();
             schemaExporter.InitializeContext();
             
             // AttachTests(schemaExporter);
 
             schemaExporter.Database.CreateTables();
             schemaExporter.Export("ERP");
+
+            schemaExporter.Context.ErrorList.Count.Should().Be(0);
+
+
         }
         #endregion
 
