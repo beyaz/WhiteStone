@@ -108,10 +108,7 @@
     <Content Include="BoaRepositoryFileEmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SharedRepositoryFileEmbeddedCodes.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="EmbeddedUtilizationClassForDao.txt">
+    <Content Include="FileExporters\SharedFileExporting\SharedRepositoryFileEmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

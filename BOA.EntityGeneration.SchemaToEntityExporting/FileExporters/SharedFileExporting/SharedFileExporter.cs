@@ -136,6 +136,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 
         void WriteEmbeddedClasses()
         {
+            // $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(SharedFileExporting)}"
             var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryFileEmbeddedCodes.txt";
 
             file.AppendAll(File.ReadAllText(path));
