@@ -113,11 +113,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         {
             WriteSelectByKeyMethod();
             WriteSelectByIndexMethods();
+            WriteDeleteByKeyMethod();
         }
 
         void WriteEmbeddedClasses()
         {
-            var path = Path.GetDirectoryName(typeof(FileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "AllSchemaInOneClassRepositoryFileEmbeddedCodes.txt";
+            var path = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(AllSchemaInOneClassRepositoryFile)}{Path.DirectorySeparatorChar}EmbeddedCodes.txt";
 
             file.AppendAll(File.ReadAllText(path));
             file.AppendLine();
@@ -155,6 +156,39 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             file.AppendLine();
             file.AppendLine($"return unitOfWork.ExecuteReaderToContract<{typeContractName}>(CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
 
+            file.CloseBracket();
+        }
+
+
+        void WriteDeleteByKeyMethod()
+        {
+            if (!TableInfo.IsSupportSelectByKey)
+            {
+                return;
+            }
+
+            var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
+
+            var methodName = "Delete"+typeContractName;
+
+            var deleteByKeyInfo                  = DeleteInfoCreator.Create(TableInfo);
+            var sqlParameters                    = deleteByKeyInfo.SqlParameters;
+            var callerMemberPath                 = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.{methodName}";
+            var parameterDefinitionPart          = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+            var sharedMethodInvocationParameters = string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
+            var sharedRepositoryClassAccessPath  = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
+
+            file.AppendLine();
+            file.AppendLine("/// <summary>");
+            file.AppendLine($"///{Padding.ForComment} Deletes only one record by given primary keys.");
+            file.AppendLine("/// </summary>");
+            file.AppendLine($"public int {methodName}({parameterDefinitionPart})");
+            file.OpenBracket();
+            file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.Delete({sharedMethodInvocationParameters});");
+            file.AppendLine();
+            file.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            file.AppendLine();
+            file.AppendLine("return unitOfWork.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
             file.CloseBracket();
         }
 

@@ -102,7 +102,7 @@
     <None Include="package.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AllSchemaInOneClassRepositoryFileEmbeddedCodes.txt">
+    <Content Include="FileExporters\AllSchemaInOneClassRepositoryFile\EmbeddedCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="BoaRepositoryFileEmbeddedCodes.txt">

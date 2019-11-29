@@ -4,6 +4,27 @@
 static class UnitOfWorkSqlUtil
 {
     #region Public Methods
+	/// <summary>
+    ///     Executes the non query.
+    /// </summary>
+    public static int ExecuteNonQuery(this IUnitOfWork unitOfWork, string methodFullPath, SqlInfo sqlInfo)
+    {
+        var localConnection = false;
+
+        var command = InitializeCommand(unitOfWork, sqlInfo.CommandText, ref localConnection);
+
+        AddParameters(command, sqlInfo);
+
+        var returnValue = command.ExecuteNonQuery();
+
+        if (localConnection && unitOfWork.State == State.ConnectionOpen)
+        {
+            unitOfWork.CloseConnection();
+        }
+
+        return returnValue;
+    }
+
     /// <summary>
     ///     Executes the reader to contract.
     /// </summary>

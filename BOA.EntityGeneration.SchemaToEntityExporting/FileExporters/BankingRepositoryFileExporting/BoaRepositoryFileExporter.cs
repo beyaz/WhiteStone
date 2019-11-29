@@ -11,6 +11,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 {
     class BoaRepositoryFileExporter : ContextContainer
     {
+        #region Constants
+        const string contractParameterName = "contract";
+        #endregion
+
         #region Static Fields
         static readonly BoaRepositoryFileExporterConfig Config = BoaRepositoryFileExporterConfig.CreateFromFile();
         #endregion
@@ -18,8 +22,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         #region Fields
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
         #endregion
-
-        
 
         #region Public Methods
         public void AttachEvents()
@@ -85,6 +87,50 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             file.CloseBracket();
         }
 
+        void WriteDefaultValues(IReadOnlyDictionary<string, string> defaultValueMap, IReadOnlyList<IColumnInfo> parameters)
+        {
+            if (defaultValueMap == null)
+            {
+                return;
+            }
+
+            var contractInitializations = new List<string>();
+
+            foreach (var columnInfo in parameters)
+            {
+                var          contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
+                const string contractInstanceName         = contractParameterName;
+
+                var map = ConfigurationDictionaryCompiler.Compile(defaultValueMap, new Dictionary<string, string>
+                {
+                    {nameof(contractInstanceName), contractInstanceName},
+                    {nameof(contractInstancePropertyName), contractInstancePropertyName}
+                });
+
+                var key = columnInfo.ColumnName;
+                if (map.ContainsKey(key))
+                {
+                    contractInitializations.Add(map[key]);
+                    continue;
+                }
+
+                key = columnInfo.DotNetType + ":" + columnInfo.ColumnName;
+                if (map.ContainsKey(key))
+                {
+                    contractInitializations.Add(map[key]);
+                }
+            }
+
+            if (contractInitializations.Any())
+            {
+                file.AppendLine();
+                foreach (var item in contractInitializations)
+                {
+                    file.AppendLine(item);
+                }
+            }
+        }
+
         void WriteDeleteByKeyMethod()
         {
             if (!TableInfo.IsSupportSelectByKey)
@@ -92,32 +138,27 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                 return;
             }
 
-            var deleteByKeyInfo = DeleteInfoCreator.Create(TableInfo);
+            const string methodName = "Delete";
 
-            var sqlParameters = deleteByKeyInfo.SqlParameters;
-
-            var tableName = TableInfo.TableName;
-
-            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.Delete";
-
-            var parameterPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+            var deleteByKeyInfo                  = DeleteInfoCreator.Create(TableInfo);
+            var sqlParameters                    = deleteByKeyInfo.SqlParameters;
+            var callerMemberPath                 = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.{methodName}";
+            var parameterDefinitionPart          = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
+            var sharedMethodInvocationParameters = string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
+            var sharedRepositoryClassAccessPath  = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
 
             file.AppendLine();
             file.AppendLine("/// <summary>");
-            file.AppendLine($"///{Padding.ForComment}Deletes only one record from '{SchemaName}.{tableName}' by using '{string.Join(" and ", sqlParameters.Select(x => x.ColumnName.AsMethodParameter()))}'");
+            file.AppendLine($"///{Padding.ForComment} Deletes only one record by given primary keys.");
             file.AppendLine("/// </summary>");
-            file.AppendLine($"public GenericResponse<int> Delete({parameterPart})");
-            file.AppendLine("{");
-            file.PaddingCount++;
-
-            file.AppendLine($"var sqlInfo = {TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Delete({string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"))});");
+            file.AppendLine($"public GenericResponse<int> {methodName}({parameterDefinitionPart})");
+            file.OpenBracket();
+            file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.Delete({sharedMethodInvocationParameters});");
             file.AppendLine();
             file.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
             file.AppendLine();
             file.AppendLine("return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
-
-            file.PaddingCount--;
-            file.AppendLine("}");
+            file.CloseBracket();
         }
 
         void WriteEmbeddedClasses()
@@ -127,11 +168,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             file.AppendAll(File.ReadAllText(path));
             file.AppendLine();
         }
-        const string contractParameterName = "contract";
+
         void WriteInsertMethod()
         {
-            
-
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
             var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.Insert";
@@ -197,7 +236,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (insertInfo.SqlParameters.Any())
             {
-                WriteDefaultValues(Config.DefaultValuesForInsertMethod,insertInfo.SqlParameters);
+                WriteDefaultValues(Config.DefaultValuesForInsertMethod, insertInfo.SqlParameters);
             }
 
             file.AppendLine();
@@ -220,51 +259,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             file.PaddingCount--;
             file.AppendLine("}");
-        }
-
-
-        void WriteDefaultValues(IReadOnlyDictionary<string,string> defaultValueMap, IReadOnlyList<IColumnInfo> parameters)
-        {
-            if (defaultValueMap == null)
-            {
-                return;
-            }
-
-            var contractInitializations = new List<string>();
-
-            foreach (var columnInfo in parameters)
-            {
-                var          contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
-                const string contractInstanceName         = contractParameterName;
-
-                var map = ConfigurationDictionaryCompiler.Compile(defaultValueMap, new Dictionary<string, string>
-                {
-                    {nameof(contractInstanceName), contractInstanceName},
-                    {nameof(contractInstancePropertyName), contractInstancePropertyName}
-                });
-
-                var key = columnInfo.ColumnName;
-                if (map.ContainsKey(key))
-                {
-                    contractInitializations.Add(map[key]);
-                    continue;
-                }
-
-                key = columnInfo.DotNetType + ":" + columnInfo.ColumnName;
-                if (map.ContainsKey(key))
-                {
-                    contractInitializations.Add(map[key]);
-                }
-            }
-
-            if (contractInitializations.Any())
-            {
-                file.AppendLine();
-                foreach (var item in contractInitializations)
-                {
-                    file.AppendLine(item);
-                }
-            }
         }
 
         void WriteSelectAllByValidFlagMethod()
@@ -426,7 +420,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             file.AppendLine();
             file.AppendLine("/// <summary>");
-            file.AppendLine($"///{Padding.ForComment} Updates only one record by primary keys.");
+            file.AppendLine($"///{Padding.ForComment} Updates only one record by given primary keys.");
             file.AppendLine("/// </summary>");
             file.AppendLine($"public GenericResponse<int> Update({typeContractName} {contractParameterName})");
             file.OpenBracket();
@@ -439,7 +433,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (updateInfo.SqlParameters.Any())
             {
-                WriteDefaultValues(Config.DefaultValuesForUpdateByKeyMethod,updateInfo.SqlParameters);
+                WriteDefaultValues(Config.DefaultValuesForUpdateByKeyMethod, updateInfo.SqlParameters);
             }
 
             file.AppendLine();
