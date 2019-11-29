@@ -80,6 +80,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ConfigFiles\BoaRepositoryFileExporter\DefaultValuesForUpdateByKeyMethod.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ConfigFiles\BoaRepositoryFileExporter\DefaultValuesForInsertMethod.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ConfigFiles\AllSchemaInOneClassRepositoryFile\Config.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

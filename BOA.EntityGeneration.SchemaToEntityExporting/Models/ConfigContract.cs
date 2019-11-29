@@ -65,8 +65,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
         public IReadOnlyDictionary<string, string> TableNamingPattern { get; set; }
 
 
-        public IReadOnlyDictionary<string, string> DefaultValuesForUpdateByKeyMethod { get; set; }
-        public IReadOnlyDictionary<string, string> DefaultValuesForInsertMethod { get; set; }
         
         #endregion
     }

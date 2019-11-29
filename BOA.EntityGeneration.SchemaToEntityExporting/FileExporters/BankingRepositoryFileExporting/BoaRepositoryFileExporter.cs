@@ -10,8 +10,21 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 {
     class BoaRepositoryFileExporter : ContextContainer
     {
+        #region Static Fields
+        static readonly IReadOnlyDictionary<string, string> DefaultValuesForInsertMethod;
+        static readonly IReadOnlyDictionary<string, string> DefaultValuesForUpdateByKeyMethod;
+        #endregion
+
         #region Fields
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
+        #endregion
+
+        #region Constructors
+        static BoaRepositoryFileExporter()
+        {
+            DefaultValuesForInsertMethod      = YamlHelper.DeserializeFromFile<Dictionary<string, string>>(ConfigDirectory + nameof(BoaRepositoryFileExporter) + Path.DirectorySeparatorChar + nameof(DefaultValuesForInsertMethod) + ".yaml");
+            DefaultValuesForUpdateByKeyMethod = YamlHelper.DeserializeFromFile<Dictionary<string, string>>(ConfigDirectory + nameof(BoaRepositoryFileExporter) + Path.DirectorySeparatorChar + nameof(DefaultValuesForUpdateByKeyMethod) + ".yaml");
+        }
         #endregion
 
         #region Public Methods
@@ -190,7 +203,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (insertInfo.SqlParameters.Any())
             {
-                if (Config.DefaultValuesForInsertMethod != null)
+                if (DefaultValuesForInsertMethod != null)
                 {
                     var contractInitializations = new List<string>();
 
@@ -199,7 +212,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                         var contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
                         var contractInstanceName         = contractParameterName;
 
-                        var map = ConfigurationDictionaryCompiler.Compile(Config.DefaultValuesForInsertMethod, new Dictionary<string, string>
+                        var map = ConfigurationDictionaryCompiler.Compile(DefaultValuesForInsertMethod, new Dictionary<string, string>
                         {
                             {nameof(contractInstanceName), contractInstanceName},
                             {nameof(contractInstancePropertyName), contractInstancePropertyName}
@@ -417,7 +430,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             if (updateInfo.SqlParameters.Any())
             {
-                if (Config.DefaultValuesForUpdateByKeyMethod != null)
+                if (DefaultValuesForUpdateByKeyMethod != null)
                 {
                     var contractInitializations = new List<string>();
 
@@ -426,7 +439,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                         var contractInstancePropertyName = columnInfo.ColumnName.ToContractName();
                         var contractInstanceName         = contractParameterName;
 
-                        var map = ConfigurationDictionaryCompiler.Compile(Config.DefaultValuesForUpdateByKeyMethod, new Dictionary<string, string>
+                        var map = ConfigurationDictionaryCompiler.Compile(DefaultValuesForUpdateByKeyMethod, new Dictionary<string, string>
                         {
                             {nameof(contractInstanceName), contractInstanceName},
                             {nameof(contractInstancePropertyName), contractInstancePropertyName}

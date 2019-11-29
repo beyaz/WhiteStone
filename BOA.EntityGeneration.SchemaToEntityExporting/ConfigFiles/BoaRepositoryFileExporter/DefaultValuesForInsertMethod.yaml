@@ -1,0 +1,7 @@
+contractInstanceName: '?'
+contractInstancePropertyName: '?'
+ROW_GUID: "$(contractInstanceName).$(contractInstancePropertyName) = Guid.NewGuid().ToString().ToUpper(new\nSystem.Globalization.CultureInfo(\"en-US\", false));"
+INSERT_DATE: '$(contractInstanceName).$(contractInstancePropertyName) = DateTime.Now;'
+INSERT_USER_ID: '$(contractInstanceName).$(contractInstancePropertyName) = Context.ApplicationContext.Authentication.UserName;'
+'string:INSERT_TOKEN_ID': "$(contractInstanceName).$(contractInstancePropertyName) = Context.EngineContext.MainBusinessKey.ToString();"
+'decimal:INSERT_TOKEN_ID': "$(contractInstanceName).$(contractInstancePropertyName) = decimal.ToInt32(Context.EngineContext.MainBusinessKey);"

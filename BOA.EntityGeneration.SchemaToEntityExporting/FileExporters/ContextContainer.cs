@@ -10,7 +10,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
     class ContextContainer
     {
-        protected  string ConfigDirectory= Path.GetDirectoryName(typeof(ContextContainer).Assembly.Location) + Path.DirectorySeparatorChar + "ConfigFiles"+Path.DirectorySeparatorChar;
+        public static string ConfigDirectory = Path.GetDirectoryName(typeof(ContextContainer).Assembly.Location) + Path.DirectorySeparatorChar + "ConfigFiles"+Path.DirectorySeparatorChar;
 
         #region Events
         protected event Action SchemaExportFinished
