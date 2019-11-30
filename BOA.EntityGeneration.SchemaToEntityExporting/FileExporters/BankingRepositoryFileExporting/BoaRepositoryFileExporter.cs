@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
@@ -16,22 +15,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         #endregion
 
         #region Static Fields
-        static readonly BoaRepositoryFileExporterConfig Config;
-        static readonly string EmbeddedCodes;
+        static readonly BoaRepositoryFileExporterConfig Config = BoaRepositoryFileExporterConfig.CreateFromFile();
         #endregion
 
         #region Fields
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
-        #endregion
-
-        #region Constructors
-        static BoaRepositoryFileExporter()
-        {
-            var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(BankingRepositoryFileExporting)}{Path.DirectorySeparatorChar}";
-
-            EmbeddedCodes = File.ReadAllText($"{resourceDirectoryPath}EmbeddedCodes.txt");
-            Config        = YamlHelper.DeserializeFromFile<BoaRepositoryFileExporterConfig>(resourceDirectoryPath + nameof(BoaRepositoryFileExporterConfig) + ".yaml");
-        }
         #endregion
 
         #region Public Methods
@@ -174,7 +162,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
         void WriteEmbeddedClasses()
         {
-            file.AppendAll(EmbeddedCodes);
+            file.AppendAll(Config.EmbeddedCodes);
             file.AppendLine();
         }
 

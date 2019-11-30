@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
@@ -12,8 +11,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
     class SharedFileExporter : ContextContainer
     {
         #region Static Fields
-        static readonly SharedFileExporterConfig Config;
-        static readonly string                   EmbeddedCodes;
+        static readonly SharedFileExporterConfig Config = SharedFileExporterConfig.CreateFromFile();
         #endregion
 
         #region Fields
@@ -21,13 +19,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
         #endregion
 
         #region Constructors
-        static SharedFileExporter()
-        {
-            var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(SharedFileExporting)}{Path.DirectorySeparatorChar}";
-
-            EmbeddedCodes = File.ReadAllText($"{resourceDirectoryPath}EmbeddedCodes.txt");
-            Config        = YamlHelper.DeserializeFromFile<SharedFileExporterConfig>(resourceDirectoryPath + nameof(SharedFileExporterConfig) + ".yaml");
-        }
+       
 
         public SharedFileExporter()
         {
@@ -151,7 +143,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
 
         void WriteEmbeddedClasses()
         {
-            file.AppendAll(EmbeddedCodes);
+            file.AppendAll(Config.EmbeddedCodes);
             file.AppendLine();
         }
 

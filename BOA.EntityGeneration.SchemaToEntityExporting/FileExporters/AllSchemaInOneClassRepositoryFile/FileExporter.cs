@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
@@ -14,8 +13,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
     class AllSchemaInOneClassRepositoryFileExporter : ContextContainer
     {
         #region Static Fields
-        internal static readonly Config Config;
-        static readonly string EmbeddedCodes;
+        internal static readonly Config Config = AllSchemaInOneClassRepositoryFileExporterConfig.CreateFromFile();
         #endregion
 
         #region Fields
@@ -23,15 +21,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         NamingPatternContract        _namingPattern;
         #endregion
 
-        #region Constructors
-        static AllSchemaInOneClassRepositoryFileExporter()
-        {
-            var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(AllSchemaInOneClassRepositoryFile)}{Path.DirectorySeparatorChar}";
-
-            EmbeddedCodes = File.ReadAllText($"{resourceDirectoryPath}EmbeddedCodes.txt");
-            Config        = YamlHelper.DeserializeFromFile<Config>(resourceDirectoryPath + nameof(AllSchemaInOneClassRepositoryFileExporterConfig) + ".yaml");
-        }
-        #endregion
 
         #region Public Methods
         public void AttachEvents()
@@ -168,7 +157,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
         void WriteEmbeddedClasses()
         {
-            file.AppendAll(EmbeddedCodes);
+            file.AppendAll(Config.EmbeddedCodes);
             file.AppendLine();
         }
 

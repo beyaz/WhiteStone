@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using BOA.Common.Helpers;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile
 {
@@ -9,6 +11,14 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         public Dictionary<string, string> DefaultValuesForUpdateByKeyMethod { get; set; }
         public Dictionary<string, string> NamingPattern                     { get; set; }
         public string[] ExcludedColumnNamesWhenInsertOperation { get; set; }
+        public string EmbeddedCodes { get; set; }
         #endregion
+
+        public static AllSchemaInOneClassRepositoryFileExporterConfig CreateFromFile()
+        {
+            var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(AllSchemaInOneClassRepositoryFile)}{Path.DirectorySeparatorChar}";
+
+            return YamlHelper.DeserializeFromFile<AllSchemaInOneClassRepositoryFileExporterConfig>(resourceDirectoryPath + nameof(AllSchemaInOneClassRepositoryFileExporterConfig) + ".yaml");
+        }
     }
 }
