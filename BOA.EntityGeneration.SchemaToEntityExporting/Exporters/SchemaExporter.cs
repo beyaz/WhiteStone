@@ -55,8 +55,17 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
             Create<EntityFileExporter>().AttachEvents();
             Create<SharedFileExporter>().AttachEvents();
-            Create<BoaRepositoryFileExporter>().AttachEvents();
-            Create<FileExporter>().AttachEvents();
+
+            if (Config.CanExportBoaRepository)
+            {
+                Create<BoaRepositoryFileExporter>().AttachEvents();    
+            }
+            if (Config.CanExportAllSchemaInOneClassRepository)
+            {
+                Create<FileExporter>().AttachEvents();
+            }
+            
+            
 
             SchemaExportStarted += ProcessAllTablesInSchema;
 

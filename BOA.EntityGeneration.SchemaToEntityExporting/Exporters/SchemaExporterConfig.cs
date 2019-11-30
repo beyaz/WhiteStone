@@ -9,6 +9,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
     /// </summary>
     class SchemaExporterConfig 
     {
+        public bool CanExportBoaRepository { get; set; }
+        public bool CanExportAllSchemaInOneClassRepository { get; set; }
+
         #region Public Properties
         /// <summary>
         ///     Gets or sets the connection string.

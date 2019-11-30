@@ -19,6 +19,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
             SchemaExporter.Config.DatabaseEnumName = "SampleDatabase";
             SchemaExporter.Config.NamingPattern["SlnDirectoryPath"] = @"d:\temp\";
             SchemaExporter.Config.SqlSequenceInformationOfTable = null;
+            SchemaExporter.Config.CanExportBoaRepository = false;
+            SchemaExporter.Config.CanExportAllSchemaInOneClassRepository = false;
+            
 
             var schemaExporter = new SchemaExporter();
             schemaExporter.InitializeContext();
