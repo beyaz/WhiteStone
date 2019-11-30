@@ -1,31 +1,39 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.Common.Helpers
 {
     [TestClass]
     public class YamlHelperTest
     {
-        class DataClass
-        {
-            public string[] StringArray { get; set; }
-
-        }
+        #region Public Methods
         [TestMethod]
-        public void A()
+        public void ShouldDeserializeIReadOnlyCollections()
         {
-     var result =       YamlHelper.Deserialize<DataClass>(@"
+            var result = YamlHelper.Deserialize<DataClass>(@"
 StringArray:
   - a
   - b
+StringArray2:
+  - a
+  - c
 ");
 
-            result.Should().
+            result.Should().BeEquivalentTo(new DataClass
+            {
+                StringArray = new[] {"a", "b"},
+                StringArray2 = new List<string> {"a", "c"}
+            });
+        }
+        #endregion
 
+        class DataClass
+        {
+            #region Public Properties
+            public string[] StringArray { get; set; }
+            public IReadOnlyList<string> StringArray2 { get; set; }
+            #endregion
         }
     }
 }
