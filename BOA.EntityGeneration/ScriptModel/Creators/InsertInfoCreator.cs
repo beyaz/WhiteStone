@@ -8,6 +8,8 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
 {
     public class InsertInfoCreator
     {
+        public IReadOnlyList<string> ExcludedColumnNames { get; set; }
+
         #region Public Methods
         public InsertInfo Create(ITableInfo tableInfo)
         {
@@ -22,9 +24,13 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
         #endregion
 
         #region Methods
-        protected virtual IReadOnlyList<IColumnInfo> GetColumnsWillBeInsert(ITableInfo tableInfo)
+        IReadOnlyList<IColumnInfo> GetColumnsWillBeInsert(ITableInfo tableInfo)
         {
             var excludedColumnNames = new List<string>();
+            if (ExcludedColumnNames != null)
+            {
+                excludedColumnNames.AddRange(ExcludedColumnNames);
+            }
 
             if (tableInfo.HasIdentityColumn)
             {
@@ -34,7 +40,7 @@ namespace BOA.EntityGeneration.ScriptModel.Creators
             return tableInfo.Columns.Where(c => !excludedColumnNames.Contains(c.ColumnName)).ToList();
         }
 
-        string GetSql(ITableInfo tableInfo, IReadOnlyList<IColumnInfo> columnsWillBeInsert)
+        static string GetSql(ITableInfo tableInfo, IReadOnlyList<IColumnInfo> columnsWillBeInsert)
         {
             var sb = new PaddedStringBuilder();
 

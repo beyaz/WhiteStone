@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileExporting;
 using BOA.EntityGeneration.ScriptModel;
@@ -130,6 +131,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             WriteSelectByIndexMethods();
             WriteDeleteByKeyMethod();
             WriteUpdateByKeyMethod();
+            WriteInsertMethod();
         }
 
         void WriteDeleteByKeyMethod()
@@ -316,6 +318,95 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             file.CloseBracket();
         }
 
+
+         void WriteInsertMethod()
+        {
+            var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
+
+
+            var methodName = "Create" + TableNamingPattern.BoaRepositoryClassName;
+
+            var callerMemberPath = $"{_namingPattern.NamespaceName}.{_namingPattern.ClassName}.{methodName}";
+
+            var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
+
+            var insertInfo = new InsertInfoCreator{ExcludedColumnNames = Config.ExcludedColumnNamesWhenInsertOperation}.Create(TableInfo);
+
+            file.AppendLine("/// <summary>");
+            file.AppendLine($"///{Padding.ForComment} Inserts new record into table.");
+            foreach (var sequenceInfo in TableInfo.SequenceList)
+            {
+                file.AppendLine($"///{Padding.ForComment} <para>Automatically initialize '{sequenceInfo.TargetColumnName.ToContractName()}' property by using '{sequenceInfo.Name}' sequence.</para>");
+            }
+
+            file.AppendLine("/// </summary>");
+            file.AppendLine($"public int Insert({typeContractName} {contractParameterName})");
+            file.OpenBracket();
+            file.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
+            file.AppendLine();
+
+            file.AppendLine("if (contract == null)");
+            file.AppendLine("{");
+            file.AppendLine($"    throw new ArgumentNullException(nameof({contractParameterName}));");
+            file.AppendLine("}");
+
+            foreach (var sequenceInfo in TableInfo.SequenceList)
+            {
+                file.AppendLine();
+
+                file.OpenBracket();
+
+                file.AppendLine($"// Init sequence for {sequenceInfo.TargetColumnName.ToContractName()}");
+                file.AppendLine();
+                file.AppendLine($"const string sqlNextSequence = @\"SELECT NEXT VALUE FOR {sequenceInfo.Name}\";");
+                file.AppendLine();
+                file.AppendLine($"const string callerMemberPath = \"{callerMemberPath} -> sqlNextSequence -> {sequenceInfo.Name}\";");
+                file.AppendLine();
+
+                file.AppendLine("var responseSequence = unitOfWork.ExecuteScalar<object>(callerMemberPath, new SqlInfo {CommandText = sqlNextSequence});");
+                file.AppendLine();
+
+                var columnInfo = TableInfo.Columns.First(x => x.ColumnName == sequenceInfo.TargetColumnName);
+                if (columnInfo.DotNetType == DotNetTypeName.DotNetInt32 || columnInfo.DotNetType == DotNetTypeName.DotNetInt32Nullable)
+                {
+                    file.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = Convert.ToInt32(responseSequence);");
+                }
+                else if (columnInfo.DotNetType == DotNetTypeName.DotNetStringName)
+                {
+                    file.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = Convert.ToString(responseSequence);");
+                }
+                else
+                {
+                    file.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = Convert.ToInt64(responseSequence);");
+                }
+
+                file.CloseBracket();
+            }
+
+            if (insertInfo.SqlParameters.Any())
+            {
+                BoaRepositoryFileExporter.WriteDefaultValues(file, Config.DefaultValuesForInsertMethod, insertInfo.SqlParameters);
+            }
+
+            file.AppendLine();
+            file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.Insert({contractParameterName});");
+
+            file.AppendLine();
+            if (TableInfo.HasIdentityColumn)
+            {
+                file.AppendLine("var response = unitOfWork.ExecuteScalar<int>(CallerMemberPath, sqlInfo);");
+                file.AppendLine();
+                file.AppendLine($"{contractParameterName}.{TableInfo.IdentityColumn.ColumnName.ToContractName()} = response;");
+                file.AppendLine();
+                file.AppendLine("return response;");
+            }
+            else
+            {
+                file.AppendLine("return unitOfWork.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
+            }
+
+            file.CloseBracket();
+        }
 
         void WriteUsingList()
         {

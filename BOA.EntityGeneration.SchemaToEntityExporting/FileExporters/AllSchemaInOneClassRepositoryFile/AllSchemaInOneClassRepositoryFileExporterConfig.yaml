@@ -28,3 +28,11 @@ DefaultValuesForUpdateByKeyMethod:
   UPDATE_USER_ID: $(contractInstanceName).$(contractInstancePropertyName) = BOA.Card.Core.Identity.GetIdentity().Name;
   'string:UPDATE_TOKEN_ID': $(contractInstanceName).$(contractInstancePropertyName) = "0";
   'decimal:UPDATE_TOKEN_ID': $(contractInstanceName).$(contractInstancePropertyName) = 0;
+ExcludedColumnNamesWhenInsertOperation:
+  - UPDATE_DATE
+  - UPDATE_USER_ID
+  - UPDATE_TOKEN_ID
+  - UpdateUserName
+  - UpdateHostName
+  - UpdateHostIP
+  - UpdateSystemDate

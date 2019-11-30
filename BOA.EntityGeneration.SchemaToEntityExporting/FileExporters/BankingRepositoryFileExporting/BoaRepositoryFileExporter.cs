@@ -184,7 +184,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.Insert";
 
-            var insertInfo = new InsertInfoCreator().Create(TableInfo);
+            var insertInfo = new InsertInfoCreator{ExcludedColumnNames = Config.ExcludedColumnNamesWhenInsertOperation}.Create(TableInfo);
 
             file.AppendLine("/// <summary>");
             file.AppendLine($"///{Padding.ForComment} Inserts new record into table.");
@@ -208,8 +208,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             {
                 file.AppendLine();
 
-                file.AppendLine("{");
-                file.PaddingCount++;
+                file.OpenBracket();
 
                 file.AppendLine($"// Init sequence for {sequenceInfo.TargetColumnName.ToContractName()}");
                 file.AppendLine();
@@ -239,18 +238,16 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                     file.AppendLine($"{contractParameterName}.{sequenceInfo.TargetColumnName.ToContractName()} = Convert.ToInt64(responseSequence.Value);");
                 }
 
-                file.PaddingCount--;
-                file.AppendLine("}");
+                file.CloseBracket();
             }
 
             if (insertInfo.SqlParameters.Any())
             {
-                WriteDefaultValues(file,Config.DefaultValuesForInsertMethod, insertInfo.SqlParameters);
+                WriteDefaultValues(file, Config.DefaultValuesForInsertMethod, insertInfo.SqlParameters);
             }
 
             file.AppendLine();
             file.AppendLine($"var sqlInfo = {TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile}.Insert({contractParameterName});");
-            file.AppendLine();
 
             file.AppendLine();
             if (TableInfo.HasIdentityColumn)
@@ -266,8 +263,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
                 file.AppendLine("return this.ExecuteNonQuery(CallerMemberPath, sqlInfo);");
             }
 
-            file.PaddingCount--;
-            file.AppendLine("}");
+            file.CloseBracket();
         }
 
         void WriteSelectAllByValidFlagMethod()

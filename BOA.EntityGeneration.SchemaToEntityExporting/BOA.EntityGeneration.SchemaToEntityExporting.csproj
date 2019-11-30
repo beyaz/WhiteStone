@@ -69,7 +69,6 @@
     <Compile Include="DataAccess\DbModelsImplementations\SequenceInfo.cs" />
     <Compile Include="DbModels\ISequenceInfo.cs" />
     <Compile Include="FileExporters\CsprojFileExporters\RepositoryCsprojFileExporter.cs" />
-    <Compile Include="FileExporters\BankingRepositoryFileExporting\InsertInfoCreator.cs" />
     <Compile Include="FileExporters\CsprojFileExporters\EntityCsprojFileExporter.cs" />
     <Compile Include="FileExporters\BankingRepositoryFileExporting\BoaRepositoryFileExporter.cs" />
     <Compile Include="FileExporters\EntityFileExporting\EntityFileExporter.cs" />
