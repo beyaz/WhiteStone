@@ -19,7 +19,6 @@ NamingPattern:
   RepositoryNamespace: BOA.Business.Kernel.Card.$(SchemaName)
   EntityProjectDirectory: $(SlnDirectoryPath)Entity\$(SchemaName)\$(EntityNamespace)\
   RepositoryProjectDirectory: $(SlnDirectoryPath)Entity\$(SchemaName)\$(RepositoryNamespace)\
-  BoaRepositoryUsingLines: "using System;|using System.Data;|using System.Data.SqlClient;|using\nSystem.Collections.Generic;|using BOA.Base;|using BOA.Base.Data;|using BOA.Common.Types;|using\n$(EntityNamespace);|using $(RepositoryNamespace).Shared;"
   RepositoryAssemblyReferences: |
     <Reference Include="$(EntityNamespace)"><HintPath>D:\BOA\Server\bin\$(EntityNamespace).dll</HintPath></Reference>,
     <Reference Include="System" />,

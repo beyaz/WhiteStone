@@ -93,7 +93,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
                 RepositoryNamespace          = dictionary[nameof(NamingPatternContract.RepositoryNamespace)],
                 EntityProjectDirectory       = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
                 RepositoryProjectDirectory   = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
-                BoaRepositoryUsingLines      = dictionary[nameof(NamingPatternContract.BoaRepositoryUsingLines)].SplitAndClear("|"),
+                
                 RepositoryAssemblyReferences = dictionary[nameof(NamingPatternContract.RepositoryAssemblyReferences)].SplitAndClear(","),
             };
         }

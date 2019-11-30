@@ -5,7 +5,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
     class NamingPatternContract
     {
         #region Public Properties
-        public IReadOnlyList<string> BoaRepositoryUsingLines      { get; set; }
+      
         public string                EntityNamespace              { get; set; }
         public string                EntityProjectDirectory       { get; set; }
         public IReadOnlyList<string> RepositoryAssemblyReferences { get; set; }

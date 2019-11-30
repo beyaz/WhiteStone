@@ -446,9 +446,13 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
         void WriteUsingList()
         {
-            foreach (var line in NamingPattern.BoaRepositoryUsingLines)
+            foreach (var line in Config.UsingLines)
             {
-                file.AppendLine(line);
+                var transformedLine = line.Trim()
+                                          .Replace("$(EntityNamespace)", NamingPattern.EntityNamespace)
+                                          .Replace("$(RepositoryNamespace)", NamingPattern.RepositoryNamespace);
+
+                file.AppendLine(transformedLine);
             }
         }
         #endregion

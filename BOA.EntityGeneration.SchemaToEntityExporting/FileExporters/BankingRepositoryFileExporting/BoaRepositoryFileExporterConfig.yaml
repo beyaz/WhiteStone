@@ -1,6 +1,16 @@
 ExtraAssemblyReferences:
   - <Reference Include="BOA.Common"><HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath></Reference>
   - <Reference Include="BOA.Base">  <HintPath>D:\BOA\Server\bin\BOA.Base.dll  </HintPath></Reference>
+UsingLines:
+  - using System;
+  - using System.Data;
+  - using System.Data.SqlClient;
+  - using System.Collections.Generic;
+  - using BOA.Base;
+  - using BOA.Base.Data;
+  - using BOA.Common.Types;
+  - using $(EntityNamespace);
+  - using $(RepositoryNamespace).Shared;
 DefaultValuesForInsertMethod:
   contractInstanceName:
   contractInstancePropertyName:  

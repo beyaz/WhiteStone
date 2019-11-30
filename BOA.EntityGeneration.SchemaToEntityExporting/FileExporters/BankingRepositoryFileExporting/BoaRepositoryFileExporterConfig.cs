@@ -12,6 +12,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         public string[] ExcludedColumnNamesWhenInsertOperation { get; set; }
         public string EmbeddedCodes { get; set; }
         public string[] ExtraAssemblyReferences { get; set; }
+
+        public string[] UsingLines { get; set; }
         #endregion
 
 
