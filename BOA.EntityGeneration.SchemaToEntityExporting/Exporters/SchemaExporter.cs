@@ -62,7 +62,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             }
             if (Config.CanExportAllSchemaInOneClassRepository)
             {
-                Create<FileExporter>().AttachEvents();
+                Create<AllSchemaInOneClassRepositoryFileExporter>().AttachEvents();
             }
             
             

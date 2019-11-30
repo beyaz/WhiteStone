@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace BOA.DatabaseAccess
@@ -12,7 +13,6 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Indicates CommandType is StoredProcedure or Text
         /// </summary>
-        /// <returns></returns>
         bool CommandIsStoredProcedure { set; get; }
 
         /// <summary>
@@ -35,12 +35,20 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Adds a parameter to sql command.
         /// </summary>
-        /// <param name="parameterName"></param>
-        /// <returns></returns>
         object this[string parameterName] { set; get; }
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Adds the parameter.
+        /// </summary>
+        void AddParameter(IDbDataParameter parameter);
+
+        /// <summary>
+        ///     Adds the parameters.
+        /// </summary>
+        void AddParameters(IEnumerable<IDbDataParameter> parameters);
+
         /// <summary>
         ///     Begins database transaction
         /// </summary>
@@ -54,19 +62,16 @@ namespace BOA.DatabaseAccess
         /// <summary>
         ///     Executes command and returns effected row counts
         /// </summary>
-        /// <returns></returns>
         int ExecuteNonQuery();
 
         /// <summary>
         ///     Executes command and returns reader
         /// </summary>
-        /// <returns></returns>
         IDataReader ExecuteReader();
 
         /// <summary>
         ///     Executes commands ands returns command value.
         /// </summary>
-        /// <returns></returns>
         object ExecuteScalar();
 
         /// <summary>

@@ -11,10 +11,10 @@ using Config = BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSch
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile
 {
-    class FileExporter : ContextContainer
+    class AllSchemaInOneClassRepositoryFileExporter : ContextContainer
     {
         #region Static Fields
-        static readonly Config Config;
+        internal static readonly Config Config;
         static readonly string EmbeddedCodes;
         #endregion
 
@@ -24,7 +24,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         #endregion
 
         #region Constructors
-        static FileExporter()
+        static AllSchemaInOneClassRepositoryFileExporter()
         {
             var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(AllSchemaInOneClassRepositoryFile)}{Path.DirectorySeparatorChar}";
 

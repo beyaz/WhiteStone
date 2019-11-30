@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
+using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,14 +20,14 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
             SchemaExporter.Config.DatabaseEnumName = "SampleDatabase";
             SchemaExporter.Config.NamingPattern["SlnDirectoryPath"] = @"d:\temp\";
             SchemaExporter.Config.SqlSequenceInformationOfTable = null;
-            SchemaExporter.Config.CanExportBoaRepository = false;
+            //SchemaExporter.Config.CanExportBoaRepository = false;
+            //AllSchemaInOneClassRepositoryFileExporter.Config.NamingPattern["UsingLines"] = AllSchemaInOneClassRepositoryFileExporter.Config.NamingPattern["UsingLines"].Replace("using IUnitOfWork = BOA.Card.Core.UOW.IUnitOfWork;", "using IUnitOfWork = BOA.DatabaseAccess.IDatabase;");
+            //AllSchemaInOneClassRepositoryFileExporter.Config.NamingPattern["ExtraAssemblyReferences"] = "<Reference Include=\"WhiteStone\"><HintPath>D:\\github\\WhiteStone\\WhiteStone\\bin\\Debug\\WhiteStone.dll</HintPath></Reference>";
             //SchemaExporter.Config.CanExportAllSchemaInOneClassRepository = false;
             
 
             var schemaExporter = new SchemaExporter();
             schemaExporter.InitializeContext();
-            
-            // AttachTests(schemaExporter);
 
             schemaExporter.Database.CreateTables();
             schemaExporter.Export("ERP");
@@ -37,23 +38,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
         }
         #endregion
 
-        #region Methods
-        static void AttachTests(SchemaExporter schemaExporter)
-        {
-            const string ExpectedResultsDirectory = @"D:\github\WhiteStone\BOA.EntityGeneration.SchemaToEntityExporting.Test\SampleDatabaseTest.ExpectedResults\";
-            schemaExporter.Context.EntityFileContentCompleted += content =>
-            {
-                var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Types.Kernel.Card.ERP\All.cs.txt");
-
-                StringHelper.IsEqualAsData(content, expected).Should().BeTrue();
-            };
-            schemaExporter.Context.SharedRepositoryFileContentCompleted += content =>
-            {
-                var expected = File.ReadAllText(ExpectedResultsDirectory + @"ERP\BOA.Business.Kernel.Card.ERP\Shared.cs.txt");
-
-                StringHelper.IsEqualAsData(content, expected).Should().BeTrue();
-            };
-        }
-        #endregion
+      
     }
 }

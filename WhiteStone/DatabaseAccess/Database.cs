@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -128,6 +129,35 @@ namespace BOA.DatabaseAccess
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Adds the parameter.
+        /// </summary>
+        public void AddParameter(IDbDataParameter parameter)
+        {
+            if (parameter == null)
+            {
+                throw new ArgumentNullException(nameof(parameter));
+            }
+
+            _command.Parameters.Add(parameter);
+        }
+
+        /// <summary>
+        ///     Adds the parameters.
+        /// </summary>
+        public void AddParameters(IEnumerable<IDbDataParameter> parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            foreach (var parameter in parameters)
+            {
+                _command.Parameters.Add(parameter);
+            }
+        }
+
         /// <summary>
         ///     Begins database transaction
         /// </summary>
