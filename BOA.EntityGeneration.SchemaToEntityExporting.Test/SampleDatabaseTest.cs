@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
             SchemaExporter.Config.NamingPattern["SlnDirectoryPath"] = @"d:\temp\";
             SchemaExporter.Config.SqlSequenceInformationOfTable = null;
             SchemaExporter.Config.CanExportBoaRepository = false;
-            SchemaExporter.Config.CanExportAllSchemaInOneClassRepository = false;
+            //SchemaExporter.Config.CanExportAllSchemaInOneClassRepository = false;
             
 
             var schemaExporter = new SchemaExporter();

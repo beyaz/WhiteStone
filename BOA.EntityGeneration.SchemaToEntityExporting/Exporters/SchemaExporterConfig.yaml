@@ -1,8 +1,8 @@
 ConnectionString: Server=srvxdev\zumrut;Database=BOACard;Trusted_Connection=True;
 TableCatalog: BOACard
 DatabaseEnumName: BOACard
-CanExportBoaRepository:true
-CanExportAllSchemaInOneClassRepository:true
+CanExportBoaRepository: true
+CanExportAllSchemaInOneClassRepository: true
 NotExportableTables:
 - MRC.SENDING_REPORT_PARAMS_
 - POS.POS_INVENTORY_
