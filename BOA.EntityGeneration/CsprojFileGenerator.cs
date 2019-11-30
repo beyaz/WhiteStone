@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         public bool                  IsClientDll      { get; set; }
         public string                NamespaceName    { get; set; }
         public string                ProjectDirectory { get; set; }
-        public IReadOnlyList<string> References       { get; set; }
+        public IReadOnlyCollection<string> References       { get; set; }
         #endregion
 
         #region Public Methods

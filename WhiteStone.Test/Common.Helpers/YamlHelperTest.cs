@@ -32,7 +32,7 @@ StringArray2:
         {
             #region Public Properties
             public string[] StringArray { get; set; }
-            public IReadOnlyList<string> StringArray2 { get; set; }
+            public ICollection<string> StringArray2 { get; set; }
             #endregion
         }
     }

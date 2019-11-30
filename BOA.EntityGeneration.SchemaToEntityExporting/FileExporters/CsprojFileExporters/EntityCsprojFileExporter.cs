@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
+using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExporters
 {
@@ -22,7 +23,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileE
                 NamespaceName    = NamingPattern.EntityNamespace,
                 IsClientDll      = true,
                 ProjectDirectory = NamingPattern.EntityProjectDirectory,
-                References       = NamingPattern.EntityAssemblyReferences
+                References       = EntityFileExporter.Config.AssemblyReferences
             };
 
             var csprojFilePath = csprojFileGenerator.Generate();

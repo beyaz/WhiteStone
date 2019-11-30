@@ -1,4 +1,10 @@
 ContractReadLine: $(Contract).$(PropertyName) = reader.$(SqlReaderMethod)("$(ColumnName)");
+UsingLines:
+  - using System;
+  - using System.Data;
+  - using System.Data.SqlClient;
+  - using System.Collections.Generic;
+  - using $(EntityNamespace);
 EmbeddedCodes: |
   /// <summary>
   ///     The SQL information
