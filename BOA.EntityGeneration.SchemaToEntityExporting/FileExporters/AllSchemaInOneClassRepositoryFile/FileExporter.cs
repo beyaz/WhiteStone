@@ -109,8 +109,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             {
                 NamespaceName           = dictionary[nameof(NamingPatternContract.NamespaceName)],
                 ClassName               = dictionary[nameof(NamingPatternContract.ClassName)],
-                UsingLines              = dictionary[nameof(NamingPatternContract.UsingLines)].SplitAndClear("|"),
-                ExtraAssemblyReferences = dictionary[nameof(NamingPatternContract.ExtraAssemblyReferences)].SplitAndClear("|")
+                UsingLines              = dictionary[nameof(NamingPatternContract.UsingLines)].SplitAndClear(","),
+                ExtraAssemblyReferences = dictionary[nameof(NamingPatternContract.ExtraAssemblyReferences)].SplitAndClear(",")
             };
         }
 
