@@ -11,6 +11,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         public Dictionary<string, string> DefaultValuesForUpdateByKeyMethod { get; set; }
         public string[] ExcludedColumnNamesWhenInsertOperation { get; set; }
         public string EmbeddedCodes { get; set; }
+        public string[] ExtraAssemblyReferences { get; set; }
         #endregion
 
 

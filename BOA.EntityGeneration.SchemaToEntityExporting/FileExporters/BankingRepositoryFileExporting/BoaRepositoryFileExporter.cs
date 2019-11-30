@@ -25,6 +25,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         #region Public Methods
         public void AttachEvents()
         {
+            SchemaExportStarted += AddAssemblyReferencesToProject;
             SchemaExportStarted += WriteUsingList;
             SchemaExportStarted += EmptyLine;
             SchemaExportStarted += BeginNamespace;
@@ -36,6 +37,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             SchemaExportFinished += ExportFileToDirectory;
         }
         #endregion
+
+        void AddAssemblyReferencesToProject()
+        {
+            Context.RepositoryAssemblyReferences.AddRange(Config.ExtraAssemblyReferences);
+        }
 
         #region Methods
         void BeginNamespace()

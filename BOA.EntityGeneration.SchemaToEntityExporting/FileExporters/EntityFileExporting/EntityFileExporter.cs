@@ -1,20 +1,12 @@
-﻿using System.IO;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting
 {
     class EntityFileExporter : ContextContainer
     {
-        static readonly EntityFileExporterConfig Config;
-
-        static EntityFileExporter()
-        {
-            var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(EntityFileExporting)}{Path.DirectorySeparatorChar}";
-
-            Config        = YamlHelper.DeserializeFromFile<EntityFileExporterConfig>(resourceDirectoryPath + nameof(EntityFileExporterConfig) + ".yaml");
-        }
-
+        internal static readonly EntityFileExporterConfig Config = EntityFileExporterConfig.LoadFromFile();
+        
 
         #region Fields
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
@@ -97,7 +89,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
 
         void WriteUsingList()
         {
-            foreach (var line in NamingPattern.EntityUsingLines)
+            foreach (var line in Config.UsingLines)
             {
                 file.AppendLine(line);
             }

@@ -83,6 +83,24 @@ namespace BOA.Common.Helpers
             return destination;
         }
 
+        public static void CopyProperties<T>(T source, T destination) where T : class
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (destination == null)
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+
+            foreach (var propertyInfo in typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p=>p.CanRead && p.CanWrite))
+            {
+                propertyInfo.SetValue(destination,propertyInfo.GetValue(source));
+            }
+        }
+
         /// <summary>
         ///     Exports <paramref name="instance" /> to c# code initialization
         /// </summary>

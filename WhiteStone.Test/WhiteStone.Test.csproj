@@ -62,6 +62,7 @@
     <Compile Include="Common.Helpers\XmlHelperTest.cs" />
     <Compile Include="Common.Helpers\CastingTest.cs" />
     <Compile Include="BOA.Office.Excel\CopyPasteStringHelperTest.cs" />
+    <Compile Include="Common.Helpers\YamlHelperTest.cs" />
     <Compile Include="Common.Helpers\ZipHelperTest.cs" />
     <Compile Include="Configuration\PropertyFileTest.cs" />
     <Compile Include="Helpers\ExpressionUtilityTest.cs" />

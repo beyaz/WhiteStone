@@ -1,1 +1,4 @@
 EntityContractBase: CardContractBase
+UsingLines:
+  - using System;
+  - using CardContractBase = BOA.Common.Types.CardContractBase;

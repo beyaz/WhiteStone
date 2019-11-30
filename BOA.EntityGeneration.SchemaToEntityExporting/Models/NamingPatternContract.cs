@@ -9,7 +9,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
         public IReadOnlyList<string> EntityAssemblyReferences     { get; set; }
         public string                EntityNamespace              { get; set; }
         public string                EntityProjectDirectory       { get; set; }
-        public IReadOnlyList<string> EntityUsingLines             { get; set; }
         public IReadOnlyList<string> RepositoryAssemblyReferences { get; set; }
         public string                RepositoryNamespace          { get; set; }
         public string                RepositoryProjectDirectory   { get; set; }

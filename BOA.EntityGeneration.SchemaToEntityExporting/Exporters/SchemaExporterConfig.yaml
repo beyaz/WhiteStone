@@ -23,11 +23,10 @@ NamingPattern:
   EntityAssemblyReferences: <Reference Include="BOA.Common"><HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath></Reference>|
     <Reference Include="System" />|
     <Reference Include="System.Core" />
-  RepositoryAssemblyReferences: <Reference Include="BOA.Common"><HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath></Reference>|
-    <Reference Include="BOA.Base"><HintPath>D:\BOA\Server\bin\BOA.Base.dll</HintPath></Reference>|
-    <Reference Include="$(EntityNamespace)"><HintPath>D:\BOA\Server\bin\$(EntityNamespace).dll</HintPath></Reference>|
-    <Reference Include="System" />|
-    <Reference Include="System.Core" />|
+  RepositoryAssemblyReferences: |
+    <Reference Include="$(EntityNamespace)"><HintPath>D:\BOA\Server\bin\$(EntityNamespace).dll</HintPath></Reference>,
+    <Reference Include="System" />,
+    <Reference Include="System.Core" />,
     <Reference Include="System.Data" />
   EntityUsingLines: 'using System;|using CardContractBase = BOA.Common.Types.CardContractBase;'
   SharedRepositoryUsingLines: "using System;|using System.Data;|using System.Data.SqlClient;|using\nSystem.Collections.Generic;|using $(EntityNamespace);"

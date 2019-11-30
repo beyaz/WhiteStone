@@ -18,7 +18,13 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         {
             var resourceDirectoryPath = $"{nameof(FileExporters)}{Path.DirectorySeparatorChar}{nameof(AllSchemaInOneClassRepositoryFile)}{Path.DirectorySeparatorChar}";
 
-            return YamlHelper.DeserializeFromFile<AllSchemaInOneClassRepositoryFileExporterConfig>(resourceDirectoryPath + nameof(AllSchemaInOneClassRepositoryFileExporterConfig) + ".yaml");
+            return CreateFromFile(resourceDirectoryPath + nameof(AllSchemaInOneClassRepositoryFileExporterConfig) + ".yaml");
+        }
+
+        public static AllSchemaInOneClassRepositoryFileExporterConfig CreateFromFile(string yamlFilePath)
+        {
+
+            return YamlHelper.DeserializeFromFile<AllSchemaInOneClassRepositoryFileExporterConfig>(yamlFilePath);
         }
     }
 }

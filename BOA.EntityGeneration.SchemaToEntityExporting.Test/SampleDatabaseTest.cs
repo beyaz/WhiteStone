@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile;
+using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,15 +16,22 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
         [TestMethod]
         public void AllScenario()
         {
-            
+
+            EntityFileExporter.Config.EntityContractBase = null;
+            EntityFileExporter.Config.UsingLines = new[] {"using System;"};
+
             SchemaExporter.Config.ConnectionString = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = D:\github\WhiteStone\BOA.EntityGeneration.SchemaToEntityExporting.Test\SampleDatabase.mdf; Integrated Security = True";
             SchemaExporter.Config.TableCatalog = @"D:\GITHUB\WHITESTONE\BOA.ENTITYGENERATION.SCHEMATOENTITYEXPORTING.TEST\SAMPLEDATABASE.MDF";
             SchemaExporter.Config.DatabaseEnumName = "SampleDatabase";
             SchemaExporter.Config.NamingPattern["SlnDirectoryPath"] = @"d:\temp\";
             SchemaExporter.Config.SqlSequenceInformationOfTable = null;
-            //SchemaExporter.Config.CanExportBoaRepository = false;
-            //AllSchemaInOneClassRepositoryFileExporter.Config.NamingPattern["UsingLines"] = AllSchemaInOneClassRepositoryFileExporter.Config.NamingPattern["UsingLines"].Replace("using IUnitOfWork = BOA.Card.Core.UOW.IUnitOfWork;", "using IUnitOfWork = BOA.DatabaseAccess.IDatabase;");
-            //AllSchemaInOneClassRepositoryFileExporter.Config.NamingPattern["ExtraAssemblyReferences"] = "<Reference Include=\"WhiteStone\"><HintPath>D:\\github\\WhiteStone\\WhiteStone\\bin\\Debug\\WhiteStone.dll</HintPath></Reference>";
+
+            SchemaExporter.Config.CanExportBoaRepository = false;
+
+            var overriddenConfig = AllSchemaInOneClassRepositoryFileExporterConfig.CreateFromFile("SampleDatabaseTest.AllSchemaInOneClassRepositoryFileExporterConfig.yaml");
+
+            ReflectionHelper.CopyProperties(overriddenConfig, AllSchemaInOneClassRepositoryFileExporter.Config);
+             
             //SchemaExporter.Config.CanExportAllSchemaInOneClassRepository = false;
             
 
