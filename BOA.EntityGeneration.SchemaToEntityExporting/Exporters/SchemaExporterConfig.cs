@@ -7,23 +7,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
     /// <summary>
     ///     The schema exporter configuration
     /// </summary>
-    class SchemaExporterConfig 
+    class SchemaExporterConfig
     {
-
-
-
-        public string                EntityProjectDirectory       { get; set; }
-        public IList<string> RepositoryAssemblyReferences { get; set; }
-        public string                RepositoryProjectDirectory   { get; set; }
-        public string                SlnDirectoryPath             { get; set; }
-
-
-
-        public string RepositoryNamespace { get; set; }
-        public bool CanExportBoaRepository { get; set; }
-        public bool CanExportAllSchemaInOneClassRepository { get; set; }
-
         #region Public Properties
+        public bool CanExportAllSchemaInOneClassRepository { get; set; }
+        public bool CanExportBoaRepository                 { get; set; }
+
         /// <summary>
         ///     Gets or sets the connection string.
         /// </summary>
@@ -33,11 +22,19 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         ///     Gets or sets the name of the database enum.
         /// </summary>
         public string DatabaseEnumName { get; set; }
-        
+
+        public string EntityProjectDirectory { get; set; }
+
         /// <summary>
         ///     Gets or sets the not exportable tables.
         /// </summary>
         public string[] NotExportableTables { get; set; }
+
+        public IList<string> RepositoryAssemblyReferences { get; set; }
+
+        public string RepositoryNamespace        { get; set; }
+        public string RepositoryProjectDirectory { get; set; }
+        public string SlnDirectoryPath           { get; set; }
 
         /// <summary>
         ///     Gets or sets the SQL sequence information of table.
@@ -59,10 +56,14 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         /// <summary>
         ///     Creates from file.
         /// </summary>
+        public static SchemaExporterConfig CreateFromFile(string filePath)
+        {
+            return YamlHelper.DeserializeFromFile<SchemaExporterConfig>(filePath);
+        }
+
         public static SchemaExporterConfig CreateFromFile()
         {
-            var resourceDirectoryPath = $"{nameof(Exporters)}{Path.DirectorySeparatorChar}";
-            return YamlHelper.DeserializeFromFile<SchemaExporterConfig>(resourceDirectoryPath + nameof(SchemaExporterConfig) + ".yaml");
+            return CreateFromFile($"{nameof(Exporters)}{Path.DirectorySeparatorChar}{nameof(SchemaExporterConfig)}.yaml");
         }
         #endregion
     }

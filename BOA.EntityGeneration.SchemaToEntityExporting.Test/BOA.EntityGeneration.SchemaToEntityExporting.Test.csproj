@@ -84,6 +84,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="SampleDatabaseTest.SchemaExporterConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BOA.EntityGeneration.CustomSQLExporting\BOA.EntityGeneration.CustomSQLExporting.csproj">

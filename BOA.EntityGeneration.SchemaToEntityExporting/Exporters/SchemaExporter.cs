@@ -100,8 +100,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         {
             var fullTableName = $"{SchemaName}.{tableName}";
 
-            var isNotExportable = Config.NotExportableTables.Contains(fullTableName);
-            if (isNotExportable)
+            var isNotExportable = Config.NotExportableTables?.Contains(fullTableName);
+            if (isNotExportable == true)
             {
                 return false;
             }

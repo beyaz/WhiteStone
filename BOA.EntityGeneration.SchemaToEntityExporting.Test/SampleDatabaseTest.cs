@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting;
@@ -16,35 +14,20 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
         [TestMethod]
         public void AllScenario()
         {
-            
-            
-
-            SchemaExporter.Config.ConnectionString = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = D:\github\WhiteStone\BOA.EntityGeneration.SchemaToEntityExporting.Test\SampleDatabase.mdf; Integrated Security = True";
-            SchemaExporter.Config.TableCatalog = @"D:\GITHUB\WHITESTONE\BOA.ENTITYGENERATION.SCHEMATOENTITYEXPORTING.TEST\SAMPLEDATABASE.MDF";
-            SchemaExporter.Config.DatabaseEnumName = "SampleDatabase";
-            SchemaExporter.Config.SlnDirectoryPath = @"d:\temp\";
-            SchemaExporter.Config.SqlSequenceInformationOfTable = null;
-
-            SchemaExporter.Config.CanExportBoaRepository = false;
-
+            ReflectionHelper.CopyProperties(SchemaExporterConfig.CreateFromFile("SampleDatabaseTest.SchemaExporterConfig.yaml"), SchemaExporter.Config);
             ReflectionHelper.CopyProperties(EntityFileExporterConfig.LoadFromFile("SampleDatabaseTest.EntityFileExporterConfig.yaml"), EntityFileExporter.Config);
             ReflectionHelper.CopyProperties(AllSchemaInOneClassRepositoryFileExporterConfig.CreateFromFile("SampleDatabaseTest.AllSchemaInOneClassRepositoryFileExporterConfig.yaml"), AllSchemaInOneClassRepositoryFileExporter.Config);
-             
-            //SchemaExporter.Config.CanExportAllSchemaInOneClassRepository = false;
-            
 
             var schemaExporter = new SchemaExporter();
+
             schemaExporter.InitializeContext();
 
             schemaExporter.Database.CreateTables();
+
             schemaExporter.Export("ERP");
 
             schemaExporter.Context.ErrorList.Should().BeEmpty();
-
-
         }
         #endregion
-
-      
     }
 }
