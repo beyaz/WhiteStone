@@ -28,11 +28,13 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         public void Export(string schemaName)
         {
             Context.SchemaName = schemaName;
-            PushNamingMap(nameof(Config.SlnDirectoryPath),Config.SlnDirectoryPath);
-            PushNamingMap(nameof(Context.SchemaName),schemaName);
-            PushNamingMap(nameof(Config.RepositoryNamespace),NamingMap.Resolve(Config.RepositoryNamespace));
-            PushNamingMap(nameof(Config.EntityProjectDirectory),NamingMap.Resolve(Config.EntityProjectDirectory));
-            PushNamingMap(nameof(Config.RepositoryProjectDirectory),NamingMap.Resolve(Config.RepositoryProjectDirectory));
+            
+
+            PushNamingMap(nameof(NamingMap.SlnDirectoryPath),Config.SlnDirectoryPath);
+            PushNamingMap(nameof(NamingMap.SchemaName),schemaName);
+            PushNamingMap(nameof(NamingMap.RepositoryNamespace),Resolve(Config.RepositoryNamespace));
+            PushNamingMap(nameof(NamingMap.EntityProjectDirectory),Resolve(Config.EntityProjectDirectory));
+            PushNamingMap(nameof(NamingMap.RepositoryProjectDirectory),Resolve(Config.RepositoryProjectDirectory));
 
 
             InitializeNamingPattern();
@@ -85,12 +87,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
         void InitializeNamingPattern()
         {
-            
+       
         }
 
         void InitializeTableNamingPattern()
         {
-            NamingMap.Push(NamingMapKey.CamelCasedTableName, TableInfo.TableName.ToContractName());
+            PushNamingMap(NamingMapKey.CamelCasedTableName, TableInfo.TableName.ToContractName());
 
             
 

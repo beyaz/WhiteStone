@@ -3,22 +3,11 @@ using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.SchemaToEntityExporting.DbModels;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
     class ContextContainer
     {
-
-        protected string Resolve(string value)
-        {
-            return NamingMap.Resolve(value);
-        }
-
-        protected string RepositoryProjectDirectory => NamingMap.Resolve(SchemaToEntityExporting.Exporters.SchemaExporter.Config.RepositoryProjectDirectory);
-        protected string EntityProjectDirectory => NamingMap.Resolve(SchemaToEntityExporting.Exporters.SchemaExporter.Config.EntityProjectDirectory);
-        
-
         #region Events
         protected event Action SchemaExportFinished
         {
@@ -52,13 +41,13 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         #endregion
 
         #region Properties
-        protected FileSystem                 FileSystem                                               => Context.FileSystem;
-        protected MsBuildQueue               MsBuildQueue                                             => Context.MsBuildQueue;
-        protected NamingMap                  NamingMap                                                => Context.NamingMap;
-        protected ProcessContract            ProcessInfo                                              => Context.ProcessInfo;
-        protected string                     SchemaName                                               => Context.SchemaName;
-        protected string                     TableEntityClassNameForMethodParametersInRepositoryFiles => Context.TableEntityClassNameForMethodParametersInRepositoryFiles;
-        protected ITableInfo                 TableInfo                                                => Context.TableInfo;
+        protected FileSystem      FileSystem                                               => Context.FileSystem;
+        protected MsBuildQueue    MsBuildQueue                                             => Context.MsBuildQueue;
+        protected NamingMap       NamingMap                                                => Context.NamingMap;
+        protected ProcessContract ProcessInfo                                              => Context.ProcessInfo;
+        protected string          SchemaName                                               => Context.SchemaName;
+        protected string          TableEntityClassNameForMethodParametersInRepositoryFiles => Context.TableEntityClassNameForMethodParametersInRepositoryFiles;
+        protected ITableInfo      TableInfo                                                => Context.TableInfo;
         #endregion
 
         #region Methods
@@ -66,11 +55,16 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         {
             return new T {Context = Context};
         }
-        #endregion
 
         protected void PushNamingMap(string key, string value)
         {
-            NamingMap.Push(key,value);
+            NamingMap.Push(key, value);
         }
+
+        protected string Resolve(string value)
+        {
+            return NamingMap.Resolve(value);
+        }
+        #endregion
     }
 }

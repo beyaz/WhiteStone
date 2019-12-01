@@ -10,7 +10,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
     class Context
     {
-        public readonly  NamingMap NamingMap = new NamingMap();
+
+
+        public readonly BOA.EntityGeneration.SchemaToEntityExporting.NamingMap NamingMap = new BOA.EntityGeneration.SchemaToEntityExporting.NamingMap();
 
         public AddOnlyList<string> RepositoryAssemblyReferences { get; } = new AddOnlyList<string>();
 

@@ -4,7 +4,6 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
-using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
@@ -45,7 +44,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             Context.RepositoryAssemblyReferences.AddRange(Config.ExtraAssemblyReferences);
         }
 
-        string RepositoryNamespace =>NamingMap.Resolve(nameof(SchemaExporter.Config.RepositoryNamespace));
+        string RepositoryNamespace => NamingMap.RepositoryNamespace;
 
         #region Methods
         void BeginNamespace()

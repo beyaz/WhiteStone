@@ -12,7 +12,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileE
         }
         #endregion
 
-        string RepositoryNamespace =>NamingMap.Resolve(nameof(SchemaExporter.Config.RepositoryNamespace));
 
         #region Methods
         void Export()
@@ -28,9 +27,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileE
             {
                 FileSystem       = FileSystem,
                 FileNames        = Context.RepositoryProjectSourceFileNames,
-                NamespaceName    = RepositoryNamespace,
+                NamespaceName    = NamingMap.RepositoryNamespace,
                 IsClientDll      = false,
-                ProjectDirectory = RepositoryProjectDirectory,
+                ProjectDirectory = NamingMap.RepositoryProjectDirectory,
                 References       = Context.RepositoryAssemblyReferences
             };
 

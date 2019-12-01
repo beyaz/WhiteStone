@@ -73,6 +73,7 @@
     <Compile Include="DataAccess\DbModelsImplementations\TableInfo.cs" />
     <Compile Include="DataAccess\GeneratorDataCreator.cs" />
     <Compile Include="FileExporters\SharedFileExporting\ParameterHelper.cs" />
+    <Compile Include="NamingMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exporters\SchemaExporter.cs" />
   </ItemGroup>
