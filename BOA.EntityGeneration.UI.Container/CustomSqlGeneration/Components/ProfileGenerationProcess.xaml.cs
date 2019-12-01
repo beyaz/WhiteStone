@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.CustomSQLExporting.Wrapper;
 
 namespace BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components

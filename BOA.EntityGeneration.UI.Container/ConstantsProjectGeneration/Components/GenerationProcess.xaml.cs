@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 
 namespace BOA.EntityGeneration.UI.Container.ConstantsProjectGeneration.Components
 {

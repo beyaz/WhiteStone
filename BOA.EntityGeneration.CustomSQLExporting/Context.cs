@@ -1,8 +1,6 @@
 ﻿using System;
 using BOA.Collections;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
 
 namespace BOA.EntityGeneration.CustomSQLExporting

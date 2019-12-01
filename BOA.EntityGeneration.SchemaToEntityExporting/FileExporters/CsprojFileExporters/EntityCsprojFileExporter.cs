@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExporters

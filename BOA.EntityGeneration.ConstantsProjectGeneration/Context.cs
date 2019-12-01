@@ -2,8 +2,6 @@
 using BOA.Collections;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 
 namespace BOA.EntityGeneration.ConstantsProjectGeneration
 {

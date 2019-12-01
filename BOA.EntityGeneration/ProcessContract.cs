@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util
+namespace BOA.EntityGeneration
 {
     /// <summary>
     ///     The process information

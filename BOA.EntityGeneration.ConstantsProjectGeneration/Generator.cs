@@ -2,9 +2,6 @@
 using System.Linq;
 using System.Threading;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
-using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
-using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using WhiteStone.Helpers;
 
 namespace BOA.EntityGeneration.ConstantsProjectGeneration

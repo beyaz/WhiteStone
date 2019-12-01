@@ -1,9 +1,8 @@
-﻿using System.IO;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 using BOA.TfsAccess;
 using FileAccess = BOA.TfsAccess.FileAccess;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
+namespace BOA.EntityGeneration
 {
     /// <summary>
     ///     The file system

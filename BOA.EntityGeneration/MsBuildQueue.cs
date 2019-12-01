@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using BOA.Tasks;
 
-namespace BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters
+namespace BOA.EntityGeneration
 {
     public class MsBuildQueue
     {

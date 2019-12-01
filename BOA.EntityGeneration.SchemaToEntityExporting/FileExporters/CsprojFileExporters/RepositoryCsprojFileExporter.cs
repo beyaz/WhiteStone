@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExporters
 {
