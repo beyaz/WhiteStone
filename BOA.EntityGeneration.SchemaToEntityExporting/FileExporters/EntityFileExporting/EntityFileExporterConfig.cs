@@ -11,6 +11,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
         /// </summary>
         public string EntityContractBase { get; set; }
 
+        public string NamespaceName { get; set; }
+        public string ClassName { get; set; }
+
         public ICollection<string> UsingLines { get; set; }
 
         public string[] AssemblyReferences { get; set; }

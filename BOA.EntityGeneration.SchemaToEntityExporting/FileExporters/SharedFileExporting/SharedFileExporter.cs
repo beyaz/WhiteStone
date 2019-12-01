@@ -368,8 +368,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
         {
             foreach (var line in Config.UsingLines)
             {
-                var transformedLine = line.Trim().Replace("$(EntityNamespace)", NamingPattern.EntityNamespace);
-                file.AppendLine(transformedLine);
+                file.AppendLine(NamingMap.Resolve(line));
             }
         }
         #endregion

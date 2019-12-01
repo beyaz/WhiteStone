@@ -1,4 +1,6 @@
 EntityContractBase: CardContractBase
+NamespaceName: BOA.Types.Kernel.Card.$(SchemaName)
+ClassName: $(CamelCasedTableName)Contract
 UsingLines:
   - using System;
   - using CardContractBase = BOA.Common.Types.CardContractBase;

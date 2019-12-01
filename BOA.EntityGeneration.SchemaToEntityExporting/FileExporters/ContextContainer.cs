@@ -44,6 +44,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         #region Properties
         protected FileSystem                 FileSystem                                               => Context.FileSystem;
         protected MsBuildQueue               MsBuildQueue                                             => Context.MsBuildQueue;
+        protected NamingMap                  NamingMap                                                => Context.NamingMap;
         protected NamingPatternContract      NamingPattern                                            => Context.NamingPattern;
         protected ProcessContract            ProcessInfo                                              => Context.ProcessInfo;
         protected string                     SchemaName                                               => Context.SchemaName;

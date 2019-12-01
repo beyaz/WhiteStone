@@ -1,4 +1,5 @@
 ﻿using BOA.Common.Helpers;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting
@@ -15,10 +16,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
         #region Public Methods
         public void AttachEvents()
         {
+            SchemaExportStarted += InitializeNamingForSchema;
             SchemaExportStarted += WriteUsingList;
             SchemaExportStarted += EmptyLine;
             SchemaExportStarted += BeginNamespace;
 
+            TableExportStarted += InitializeNamingForTable;
             TableExportStarted += WriteClass;
 
             SchemaExportFinished += EndNamespace;
@@ -26,10 +29,18 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
         }
         #endregion
 
+        void InitializeNamingForSchema()
+        {
+            NamingMap.Push(NamingMapKey.EntityNamespaceName, NamingMap.Resolve(Config.NamespaceName));
+        }
+        void InitializeNamingForTable()
+        {
+            NamingMap.Push(NamingMapKey.EntityClassName, NamingMap.Resolve(Config.ClassName));
+        }
         #region Methods
         void BeginNamespace()
         {
-            file.BeginNamespace(NamingPattern.EntityNamespace);
+            file.BeginNamespace(NamingMap.Resolve(NamingMapKey.EntityNamespaceName));
         }
 
         void EmptyLine()
@@ -71,7 +82,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
             }
 
             file.AppendLine("[Serializable]");
-            file.AppendLine($"public sealed class {TableNamingPattern.EntityClassName} {inheritancePart}");
+            file.AppendLine($"public sealed class {NamingMap.Resolve(NamingMapKey.EntityClassName)} {inheritancePart}");
             file.OpenBracket();
 
             ContractCommentInfoCreator.Write(file, TableInfo);

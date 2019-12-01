@@ -99,7 +99,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             var initialValues = new Dictionary<string, string>
             {
                 {nameof(SchemaName), SchemaName},
-                {nameof(NamingPattern.EntityNamespace), NamingPattern.EntityNamespace},
                 {nameof(NamingPattern.RepositoryNamespace), NamingPattern.RepositoryNamespace}
             };
 

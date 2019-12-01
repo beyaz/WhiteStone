@@ -31,6 +31,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         public void Export(string schemaName)
         {
             Context.SchemaName = schemaName;
+            NamingMap.Push(nameof(Context.SchemaName),schemaName);
 
             InitializeNamingPattern();
 
@@ -89,7 +90,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             Context.NamingPattern = new NamingPatternContract
             {
                 SlnDirectoryPath             = dictionary[nameof(NamingPatternContract.SlnDirectoryPath)],
-                EntityNamespace              = dictionary[nameof(NamingPatternContract.EntityNamespace)],
                 RepositoryNamespace          = dictionary[nameof(NamingPatternContract.RepositoryNamespace)],
                 EntityProjectDirectory       = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
                 RepositoryProjectDirectory   = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
@@ -100,6 +100,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
         void InitializeTableNamingPattern()
         {
+            NamingMap.Push("CamelCasedTableName", TableInfo.TableName.ToContractName());
+
             var initialValues = new Dictionary<string, string>
             {
                 {nameof(SchemaName), SchemaName},
@@ -110,21 +112,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
             Context.TableNamingPattern = new TableNamingPatternContract
             {
-                EntityClassName                              = dictionary[nameof(TableNamingPatternContract.EntityClassName)],
                 SharedRepositoryClassName                    = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassName)],
                 BoaRepositoryClassName                       = dictionary[nameof(TableNamingPatternContract.BoaRepositoryClassName)],
                 SharedRepositoryClassNameInBoaRepositoryFile = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassNameInBoaRepositoryFile)]
             };
 
-            // TODO: move to usings
-            var typeContractName = TableNamingPattern.EntityClassName;
-            if (typeContractName == "TransactionLogContract" ||
-                typeContractName == "BoaUserContract") // resolve conflig
-            {
-                typeContractName = $"{NamingPattern.EntityNamespace}.{typeContractName}";
-            }
-
-            Context.TableEntityClassNameForMethodParametersInRepositoryFiles = typeContractName;
         }
 
         bool IsReadyToExport(string tableName)

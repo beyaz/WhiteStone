@@ -2,11 +2,17 @@
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
 {
+
+    static class NamingMapKey
+    {
+        public const string EntityNamespaceName = "$(EntityNamespace)";
+        public const string EntityClassName = "$(EntityClassName)";
+    }
+
     class NamingPatternContract
     {
         #region Public Properties
       
-        public string                EntityNamespace              { get; set; }
         public string                EntityProjectDirectory       { get; set; }
         public IReadOnlyList<string> RepositoryAssemblyReferences { get; set; }
         public string                RepositoryNamespace          { get; set; }

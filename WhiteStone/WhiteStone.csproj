@@ -62,6 +62,7 @@
     <Compile Include="BOA.Common.Helpers\ConfigHelper.cs" />
     <Compile Include="BOA.Common.Helpers\ConfigurationDictionaryCompiler.cs" />
     <Compile Include="BOA.Common.Helpers\DateTimeExtensions.cs" />
+    <Compile Include="BOA.Common.Helpers\DictionaryExtensions.cs" />
     <Compile Include="BOA.Common.Helpers\EmbeddedAssembly.cs" />
     <Compile Include="BOA.Common.Helpers\EmbeddedResourceHelper.cs" />
     <Compile Include="BOA.Common.Helpers\EmbeddedZippedAssemblyResolver.cs" />
