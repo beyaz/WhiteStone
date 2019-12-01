@@ -1,7 +1,6 @@
 ﻿using BOA.EntityGeneration.SchemaToEntityExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting

@@ -4,7 +4,6 @@ using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
-using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
@@ -50,11 +49,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
             return "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
         }
 
-        string RepositoryNamespace=>NamingMap.Resolve(nameof(SchemaExporter.Config.RepositoryNamespace));
         void BeginNamespace()
         {
             
-            file.BeginNamespace(RepositoryNamespace + ".Shared");
+            file.BeginNamespace(NamingMap.RepositoryNamespace + ".Shared");
         }
 
         void EmptyLine()

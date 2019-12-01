@@ -4,7 +4,6 @@ using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileExporting;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using Config = BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile.AllSchemaInOneClassRepositoryFileExporterConfig;
@@ -303,7 +302,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             file.CloseBracket();
         }
 
-        string CamelCasedTableName => NamingMap.Resolve(NamingMapKey.CamelCasedTableName);
+        string CamelCasedTableName => NamingMap.CamelCasedTableName;
 
          void WriteInsertMethod()
         {

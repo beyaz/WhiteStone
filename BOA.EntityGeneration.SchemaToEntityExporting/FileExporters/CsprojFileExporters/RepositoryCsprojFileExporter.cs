@@ -1,10 +1,25 @@
-﻿using BOA.EntityGeneration.CustomSQLExporting.Exporters;
-using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
+﻿using System.Collections.Generic;
+using System.IO;
+using BOA.Common.Helpers;
+using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExporters
 {
+    class RepositoryCsprojFileExporterConfig
+    {
+        public IList<string> DefaultAssemblyReferences { get; set; }
+
+        public static RepositoryCsprojFileExporterConfig CreateFromFile()
+        {
+            var separatorChar = Path.DirectorySeparatorChar;
+
+            return YamlHelper.DeserializeFromFile<RepositoryCsprojFileExporterConfig>($"{nameof(FileExporters)}{separatorChar}{nameof(CsprojFileExporters)}{separatorChar}{nameof(RepositoryCsprojFileExporterConfig)}.yaml");
+        }
+    }
     class RepositoryCsprojFileExporter : ContextContainer
     {
+        static readonly RepositoryCsprojFileExporterConfig Config = RepositoryCsprojFileExporterConfig.CreateFromFile();
+
         #region Public Methods
         public void AttachEvents()
         {
@@ -16,7 +31,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileE
         #region Methods
         void Export()
         {
-            foreach (var item in SchemaExporter.Config.RepositoryAssemblyReferences)
+            foreach (var item in Config.DefaultAssemblyReferences)
             {
                 Context.RepositoryAssemblyReferences.Add(Resolve(item));
 

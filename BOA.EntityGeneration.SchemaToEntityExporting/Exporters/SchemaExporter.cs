@@ -8,7 +8,6 @@ using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingReposito
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileExporting;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 {
@@ -92,7 +91,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
         void InitializeTableNamingPattern()
         {
-            PushNamingMap(NamingMapKey.CamelCasedTableName, TableInfo.TableName.ToContractName());
+            PushNamingMap(nameof(NamingMap.CamelCasedTableName), TableInfo.TableName.ToContractName());
 
             
 

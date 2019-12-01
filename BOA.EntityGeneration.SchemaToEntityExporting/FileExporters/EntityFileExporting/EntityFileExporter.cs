@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting
@@ -69,12 +68,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
 
         void InitializeNamingForSchema()
         {
-            PushNamingMap(NamingMapKey.EntityNamespaceName, NamespaceName);
+            PushNamingMap(nameof(NamingMap.EntityNamespaceName), NamespaceName);
         }
 
         void InitializeNamingForTable()
         {
-            PushNamingMap(NamingMapKey.EntityClassName, ClassName);
+            PushNamingMap(nameof(NamingMap.EntityClassName), ClassName);
         }
 
         void WriteClass()

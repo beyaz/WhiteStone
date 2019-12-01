@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         /// </summary>
         public string[] NotExportableTables { get; set; }
 
-        public IList<string> RepositoryAssemblyReferences { get; set; }
+       
 
         public string RepositoryNamespace        { get; set; }
         public string RepositoryProjectDirectory { get; set; }

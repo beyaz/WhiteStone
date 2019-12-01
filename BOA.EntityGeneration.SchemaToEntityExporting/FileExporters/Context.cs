@@ -4,7 +4,6 @@ using BOA.DatabaseAccess;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.ProjectExporters;
 using BOA.EntityGeneration.BOACardDatabaseSchemaToDllExporting.Util;
 using BOA.EntityGeneration.SchemaToEntityExporting.DbModels;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
@@ -36,7 +35,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         public ProcessContract            ProcessInfo                                              { get; } = new ProcessContract();
         public AddOnlyList<string>        RepositoryProjectSourceFileNames                         { get; } = new AddOnlyList<string>();
         public string                     SchemaName                                               { get; set; }
-        public string TableEntityClassNameForMethodParametersInRepositoryFiles => NamingMap.Resolve(NamingMapKey.EntityClassName);
+        public string TableEntityClassNameForMethodParametersInRepositoryFiles => NamingMap.EntityClassName;
         public ITableInfo                 TableInfo                                                { get; set; }
         
         #endregion

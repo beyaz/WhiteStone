@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using BOA.Common.Helpers;
-
-namespace BOA.EntityGeneration.SchemaToEntityExporting
+﻿namespace BOA.EntityGeneration.SchemaToEntityExporting
 {
-    public class NamingMap:BOA.EntityGeneration.NamingMap
+    public class NamingMap : EntityGeneration.NamingMap
     {
-        public string SlnDirectoryPath { get; set; }
-
-        public string SchemaName => Resolve(nameof(SchemaName));
-        public string RepositoryNamespace => Resolve(nameof(RepositoryNamespace));
-        public string EntityProjectDirectory => Resolve(nameof(EntityProjectDirectory));
+        #region Public Properties
+        public string CamelCasedTableName        => Resolve(nameof(CamelCasedTableName));
+        public string EntityClassName            => Resolve(nameof(EntityClassName));
+        public string EntityNamespaceName        => Resolve(nameof(EntityNamespaceName));
+        public string EntityProjectDirectory     => Resolve(nameof(EntityProjectDirectory));
+        public string RepositoryNamespace        => Resolve(nameof(RepositoryNamespace));
         public string RepositoryProjectDirectory => Resolve(nameof(RepositoryProjectDirectory));
-        
+        public string SchemaName                 => Resolve(nameof(SchemaName));
+        public string SlnDirectoryPath           { get; set; }
+        #endregion
     }
 }

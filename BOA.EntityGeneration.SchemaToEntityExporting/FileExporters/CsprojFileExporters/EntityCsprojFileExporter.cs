@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting;
-using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExporters
 {
@@ -21,7 +20,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileE
             {
                 FileSystem       = FileSystem,
                 FileNames        = Context.EntityProjectSourceFileNames,
-                NamespaceName    =  Resolve(NamingMapKey.EntityNamespaceName),
+                NamespaceName    =  NamingMap.EntityNamespaceName,
                 IsClientDll      = true,
                 ProjectDirectory = NamingMap.EntityProjectDirectory,
                 References       = EntityFileExporter.Config.AssemblyReferences
