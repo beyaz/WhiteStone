@@ -112,7 +112,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
             Context.TableNamingPattern = new TableNamingPatternContract
             {
-                SharedRepositoryClassName                    = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassName)],
                 BoaRepositoryClassName                       = dictionary[nameof(TableNamingPatternContract.BoaRepositoryClassName)],
                 SharedRepositoryClassNameInBoaRepositoryFile = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassNameInBoaRepositoryFile)]
             };
