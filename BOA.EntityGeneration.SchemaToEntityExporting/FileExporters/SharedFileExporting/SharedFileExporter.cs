@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.DbModel.Interfaces;
+using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 
@@ -48,9 +50,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
             return "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
         }
 
+        string RepositoryNamespace=>NamingMap.Resolve(nameof(SchemaExporter.Config.RepositoryNamespace));
         void BeginNamespace()
         {
-            file.BeginNamespace(NamingPattern.RepositoryNamespace + ".Shared");
+            
+            file.BeginNamespace(RepositoryNamespace + ".Shared");
         }
 
         void EmptyLine()
@@ -65,7 +69,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
 
         void ExportFileToDirectory()
         {
-            const string fileName = "Shared.cs";
+            var outputFilePath = Resolve(Config.OutputFilePath);
 
             var sourceCode = file.ToString();
 
@@ -73,9 +77,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
 
             ProcessInfo.Text = "Exporting Shared repository...";
 
-            Context.RepositoryProjectSourceFileNames.Add(fileName);
+            Context.RepositoryProjectSourceFileNames.Add(Path.GetFileName(outputFilePath));
 
-            FileSystem.WriteAllText(NamingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
+            FileSystem.WriteAllText(outputFilePath, sourceCode);
         }
 
         

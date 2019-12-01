@@ -1,3 +1,4 @@
+OutputFilePath: $(EntityProjectDirectory)All.cs
 EntityContractBase: CardContractBase
 NamespaceName: BOA.Types.Kernel.Card.$(SchemaName)
 ClassName: $(CamelCasedTableName)Contract

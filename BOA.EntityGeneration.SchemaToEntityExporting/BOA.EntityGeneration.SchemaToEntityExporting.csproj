@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exporters\SchemaExporterConfig.cs" />
-    <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\NamingPatternContract.cs" />
     <Compile Include="FileExporters\BankingRepositoryFileExporting\BoaRepositoryFileExporterConfig.cs" />
     <Compile Include="FileExporters\ContextContainer.cs" />
     <Compile Include="FileExporters\Context.cs" />
@@ -63,7 +62,6 @@
     <Compile Include="FileExporters\EntityFileExporting\EntityFileExporterConfig.cs" />
     <Compile Include="FileExporters\SharedFileExporting\SharedFileExporterConfig.cs" />
     <Compile Include="Models\NamingPatternContract.cs" />
-    <Compile Include="Models\TableNamingPatternContract.cs" />
     <Compile Include="FileExporters\SharedFileExporting\SharedFileExporter.cs" />
     <Compile Include="DbModels\ITableInfo.cs" />
     <Compile Include="DataAccess\DbModelsImplementations\SequenceInfo.cs" />

@@ -1,3 +1,4 @@
+OutputFilePath: $(RepositoryProjectDirectory)Shared.cs
 ClassNamePattern: $(CamelCasedTableName)
 ContractReadLine: $(Contract).$(PropertyName) = reader.$(SqlReaderMethod)("$(ColumnName)");
 UsingLines:

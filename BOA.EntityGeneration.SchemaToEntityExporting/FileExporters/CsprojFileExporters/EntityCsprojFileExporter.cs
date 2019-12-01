@@ -23,7 +23,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileE
                 FileNames        = Context.EntityProjectSourceFileNames,
                 NamespaceName    =  NamingMap.Resolve(NamingMapKey.EntityNamespaceName),
                 IsClientDll      = true,
-                ProjectDirectory = NamingPattern.EntityProjectDirectory,
+                ProjectDirectory = EntityProjectDirectory,
                 References       = EntityFileExporter.Config.AssemblyReferences
             };
 

@@ -6,9 +6,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
 {
     class EntityFileExporterConfig
     {
-        /// <summary>
-        ///     Gets or sets the entity contract base.
-        /// </summary>
+
+        public string OutputFilePath { get; set; }
         public string EntityContractBase { get; set; }
 
         public string NamespaceName { get; set; }

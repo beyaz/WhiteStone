@@ -6,6 +6,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
 {
     class SharedFileExporterConfig
     {
+        public string OutputFilePath { get; set; }
         public   string ClassNamePattern { get; set; }
         public string ContractReadLine { get; set; }
         public string EmbeddedCodes { get; set; }

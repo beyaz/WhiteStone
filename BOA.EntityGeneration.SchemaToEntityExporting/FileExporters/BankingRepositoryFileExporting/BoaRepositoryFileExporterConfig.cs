@@ -6,6 +6,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 {
     class BoaRepositoryFileExporterConfig
     {
+        public string OutputFilePath { get; set; }
+        public string SharedRepositoryClassAccessPath { get; set; }
         public string ClassNamePattern { get; set; }
         #region Public Properties
         public Dictionary<string, string> DefaultValuesForInsertMethod      { get; set; }

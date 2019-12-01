@@ -9,6 +9,16 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
 {
     class ContextContainer
     {
+
+        protected string Resolve(string value)
+        {
+            return NamingMap.Resolve(value);
+        }
+
+        protected string RepositoryProjectDirectory => NamingMap.Resolve(SchemaToEntityExporting.Exporters.SchemaExporter.Config.RepositoryProjectDirectory);
+        protected string EntityProjectDirectory => NamingMap.Resolve(SchemaToEntityExporting.Exporters.SchemaExporter.Config.EntityProjectDirectory);
+        
+
         #region Events
         protected event Action SchemaExportFinished
         {
@@ -45,12 +55,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         protected FileSystem                 FileSystem                                               => Context.FileSystem;
         protected MsBuildQueue               MsBuildQueue                                             => Context.MsBuildQueue;
         protected NamingMap                  NamingMap                                                => Context.NamingMap;
-        protected NamingPatternContract      NamingPattern                                            => Context.NamingPattern;
         protected ProcessContract            ProcessInfo                                              => Context.ProcessInfo;
         protected string                     SchemaName                                               => Context.SchemaName;
         protected string                     TableEntityClassNameForMethodParametersInRepositoryFiles => Context.TableEntityClassNameForMethodParametersInRepositoryFiles;
         protected ITableInfo                 TableInfo                                                => Context.TableInfo;
-        protected TableNamingPatternContract TableNamingPattern                                       => Context.TableNamingPattern;
         #endregion
 
         #region Methods

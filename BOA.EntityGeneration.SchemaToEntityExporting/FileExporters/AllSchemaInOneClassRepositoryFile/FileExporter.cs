@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.IO;
 using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
@@ -13,13 +13,15 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 {
     class AllSchemaInOneClassRepositoryFileExporter : ContextContainer
     {
+
+        string sharedRepositoryClassAccessPath => NamingMap.Resolve(Config.SharedRepositoryClassAccessPath);
+
         #region Static Fields
         internal static readonly Config Config = AllSchemaInOneClassRepositoryFileExporterConfig.CreateFromFile();
         #endregion
 
         #region Fields
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
-        NamingPatternContract        _namingPattern;
         #endregion
 
 
@@ -46,17 +48,17 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         #region Methods
         void AddAssemblyReferencesToProject()
         {
-            Context.RepositoryAssemblyReferences.AddRange(_namingPattern.ExtraAssemblyReferences);
+            Context.RepositoryAssemblyReferences.AddRange(Config.ExtraAssemblyReferences.Select(x=>NamingMap.Resolve(x)));
         }
 
         void BeginClass()
         {
-            file.AppendLine($"public sealed class {_namingPattern.ClassName}");
+            file.AppendLine($"public sealed class {ClassName}");
             file.OpenBracket();
 
             file.AppendLine("readonly IUnitOfWork unitOfWork;");
             file.AppendLine();
-            file.AppendLine($"public {_namingPattern.ClassName}(IUnitOfWork unitOfWork)");
+            file.AppendLine($"public {ClassName}(IUnitOfWork unitOfWork)");
             file.OpenBracket();
             file.AppendLine("this.unitOfWork = unitOfWork;");
             file.CloseBracket();
@@ -64,7 +66,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
         void BeginNamespace()
         {
-            file.BeginNamespace(_namingPattern.NamespaceName);
+            file.BeginNamespace(NamespaceName);
         }
 
         void EmptyLine()
@@ -84,34 +86,27 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
         void ExportFileToDirectory()
         {
-            const string fileName = "AllInOneRepository.cs";
+            var outputFilePath = NamingMap.Resolve(Config.OutputFilePath);
 
             var sourceCode = file.ToString();
 
             ProcessInfo.Text = "Exporting All In One Class repository...";
 
-            Context.RepositoryProjectSourceFileNames.Add(fileName);
+            Context.RepositoryProjectSourceFileNames.Add(Path.GetFileName(outputFilePath));
 
-            FileSystem.WriteAllText(NamingPattern.RepositoryProjectDirectory + fileName, sourceCode);
+            FileSystem.WriteAllText(outputFilePath, sourceCode);
         }
+
+        string NamespaceName => NamingMap.Resolve(Config.NamespaceName);
+        string ClassName => NamingMap.Resolve(Config.ClassNamePattern);
+
 
         void InitializeNamingPattern()
         {
-            var initialValues = new Dictionary<string, string>
-            {
-                {nameof(SchemaName), SchemaName},
-                {nameof(NamingPattern.RepositoryNamespace), NamingPattern.RepositoryNamespace}
-            };
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.NamingPattern, initialValues);
 
-            _namingPattern = new NamingPatternContract
-            {
-                NamespaceName           = dictionary[nameof(NamingPatternContract.NamespaceName)],
-                ClassName               = dictionary[nameof(NamingPatternContract.ClassName)],
-                UsingLines              = dictionary[nameof(NamingPatternContract.UsingLines)].SplitAndClear(","),
-                ExtraAssemblyReferences = dictionary[nameof(NamingPatternContract.ExtraAssemblyReferences)].SplitAndClear(",")
-            };
+            
+
         }
 
         void WriteClassMethods()
@@ -136,10 +131,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             var deleteByKeyInfo                  = DeleteInfoCreator.Create(TableInfo);
             var sqlParameters                    = deleteByKeyInfo.SqlParameters;
-            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{CamelCasedTableName}.{methodName}";
+            var callerMemberPath = $"{FullClassName}.{methodName}";
             var parameterDefinitionPart          = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
             var sharedMethodInvocationParameters = string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
-            var sharedRepositoryClassAccessPath  = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
+            
 
             file.AppendLine();
             file.AppendLine("/// <summary>");
@@ -161,11 +156,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             file.AppendLine();
         }
 
+        string FullClassName => NamespaceName + "." + ClassName;
         void WriteSelectByIndexMethods()
         {
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
-            var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
+            
 
             
 
@@ -188,7 +184,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
                 var sharedMethodInvocationParameters = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
 
-                var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{CamelCasedTableName}.{methodName}";
+                var callerMemberPath = $"{FullClassName}.{methodName}";
 
                 file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.{sharedRepositoryMethodName}({sharedMethodInvocationParameters});");
                 file.AppendLine();
@@ -207,7 +203,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
                 var methodName = "Get" + CamelCasedTableName + "By" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
-                var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{CamelCasedTableName}.{methodName}";
+                var callerMemberPath = $"{FullClassName}.{methodName}";
 
                 var sharedRepositoryMethodName = SharedFileExporter.GetMethodName(indexInfo);
 
@@ -246,7 +242,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             var methodName = "Get" + CamelCasedTableName + "By" + string.Join(string.Empty, sqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
-            var callerMemberPath = $"{_namingPattern.NamespaceName}.{_namingPattern.ClassName}.{methodName}";
+            var callerMemberPath = $"{FullClassName}.{methodName}";
 
             file.AppendLine();
             file.AppendLine($"public {typeContractName} {methodName}({parameterDefinitionPart})");
@@ -254,7 +250,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             var sharedMethodInvocationParameters = string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
 
-            var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
+            
 
             file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.SelectByKey({sharedMethodInvocationParameters});");
             file.AppendLine();
@@ -274,11 +270,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             var methodName = "Modify" + CamelCasedTableName;
 
-            var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
+            
 
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
-            var callerMemberPath = $"{_namingPattern.NamespaceName}.{_namingPattern.ClassName}.{methodName}";
+            var callerMemberPath = $"{FullClassName}.{methodName}";
 
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(TableInfo);
 
@@ -316,9 +312,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             var methodName = "Create" + CamelCasedTableName;
 
-            var callerMemberPath = $"{_namingPattern.NamespaceName}.{_namingPattern.ClassName}.{methodName}";
+            var callerMemberPath = $"{FullClassName}.{methodName}";
 
-            var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
+            
 
             var insertInfo = new InsertInfoCreator{ExcludedColumnNames = Config.ExcludedColumnNamesWhenInsertOperation}.Create(TableInfo);
 
@@ -400,9 +396,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
         void WriteUsingList()
         {
-            foreach (var line in _namingPattern.UsingLines)
+            foreach (var line in Config.UsingLines)
             {
-                file.AppendLine(line);
+                file.AppendLine(NamingMap.Resolve(line));
             }
         }
         #endregion

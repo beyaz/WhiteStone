@@ -1,4 +1,5 @@
 ﻿using BOA.EntityGeneration.CustomSQLExporting.Exporters;
+using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExporters
 {
@@ -11,18 +12,25 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileE
         }
         #endregion
 
+        string RepositoryNamespace =>NamingMap.Resolve(nameof(SchemaExporter.Config.RepositoryNamespace));
+
         #region Methods
         void Export()
         {
-            Context.RepositoryAssemblyReferences.AddRange(NamingPattern.RepositoryAssemblyReferences);
+            foreach (var item in SchemaExporter.Config.RepositoryAssemblyReferences)
+            {
+                Context.RepositoryAssemblyReferences.Add(Resolve(item));
+
+            }
+            
 
             var csprojFileGenerator = new CsprojFileGenerator
             {
                 FileSystem       = FileSystem,
                 FileNames        = Context.RepositoryProjectSourceFileNames,
-                NamespaceName    = NamingPattern.RepositoryNamespace,
+                NamespaceName    = RepositoryNamespace,
                 IsClientDll      = false,
-                ProjectDirectory = NamingPattern.RepositoryProjectDirectory,
+                ProjectDirectory = RepositoryProjectDirectory,
                 References       = Context.RepositoryAssemblyReferences
             };
 

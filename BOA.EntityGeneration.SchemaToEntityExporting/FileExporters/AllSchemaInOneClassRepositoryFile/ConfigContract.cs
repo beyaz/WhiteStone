@@ -6,7 +6,18 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 {
     class AllSchemaInOneClassRepositoryFileExporterConfig
     {
+
+        public string OutputFilePath { get; set; }
+        public IList<string> UsingLines              { get; set; }
+        public IList<string> ExtraAssemblyReferences { get; set; }
+        
+        public string NamespaceName { get; set; }
+        public string ClassName     { get; set; }
+
+
+
         public string ClassNamePattern { get; set; }
+        public string SharedRepositoryClassAccessPath { get; set; }
         #region Public Properties
         public Dictionary<string, string> DefaultValuesForInsertMethod      { get; set; }
         public Dictionary<string, string> DefaultValuesForUpdateByKeyMethod { get; set; }

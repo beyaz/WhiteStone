@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BOA.Common.Helpers;
+﻿using System.Linq;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.DbModel.SqlServerDataAccess;
 using BOA.EntityGeneration.SchemaToEntityExporting.DataAccess;
@@ -11,7 +9,6 @@ using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.CsprojFileExpor
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.Models;
-using NamingPatternContract = BOA.EntityGeneration.SchemaToEntityExporting.Models.NamingPatternContract;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 {
@@ -32,6 +29,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         {
             Context.SchemaName = schemaName;
             NamingMap.Push(nameof(Context.SchemaName),schemaName);
+            NamingMap.Push(nameof(Config.RepositoryNamespace),NamingMap.Resolve(Config.RepositoryNamespace));
+
 
             InitializeNamingPattern();
 
@@ -83,37 +82,14 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
         void InitializeNamingPattern()
         {
-            var initialValues = new Dictionary<string, string> {{nameof(SchemaName), SchemaName}};
-
-            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.NamingPattern, initialValues);
-
-            Context.NamingPattern = new NamingPatternContract
-            {
-                SlnDirectoryPath             = dictionary[nameof(NamingPatternContract.SlnDirectoryPath)],
-                RepositoryNamespace          = dictionary[nameof(NamingPatternContract.RepositoryNamespace)],
-                EntityProjectDirectory       = dictionary[nameof(NamingPatternContract.EntityProjectDirectory)],
-                RepositoryProjectDirectory   = dictionary[nameof(NamingPatternContract.RepositoryProjectDirectory)],
-                
-                RepositoryAssemblyReferences = dictionary[nameof(NamingPatternContract.RepositoryAssemblyReferences)].SplitAndClear(","),
-            };
+            
         }
 
         void InitializeTableNamingPattern()
         {
             NamingMap.Push(NamingMapKey.CamelCasedTableName, TableInfo.TableName.ToContractName());
 
-            var initialValues = new Dictionary<string, string>
-            {
-                {nameof(SchemaName), SchemaName},
-                {"CamelCasedTableName", TableInfo.TableName.ToContractName()}
-            };
-
-            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.TableNamingPattern, initialValues);
-
-            Context.TableNamingPattern = new TableNamingPatternContract
-            {
-                SharedRepositoryClassNameInBoaRepositoryFile = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassNameInBoaRepositoryFile)]
-            };
+            
 
         }
 

@@ -31,13 +31,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
         public AddOnlyList<string>        ErrorList                                                { get; } = new AddOnlyList<string>();
         public FileSystem                 FileSystem                                               { get; } = new FileSystem();
         public MsBuildQueue               MsBuildQueue                                             { get; }
-        public NamingPatternContract      NamingPattern                                            { get; set; }
         public ProcessContract            ProcessInfo                                              { get; } = new ProcessContract();
         public AddOnlyList<string>        RepositoryProjectSourceFileNames                         { get; } = new AddOnlyList<string>();
         public string                     SchemaName                                               { get; set; }
         public string TableEntityClassNameForMethodParametersInRepositoryFiles => NamingMap.Resolve(NamingMapKey.EntityClassName);
         public ITableInfo                 TableInfo                                                { get; set; }
-        public TableNamingPatternContract TableNamingPattern                                       { get; set; }
         
         #endregion
 

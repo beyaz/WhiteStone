@@ -9,6 +9,17 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
     /// </summary>
     class SchemaExporterConfig 
     {
+
+
+
+        public string                EntityProjectDirectory       { get; set; }
+        public IList<string> RepositoryAssemblyReferences { get; set; }
+        public string                RepositoryProjectDirectory   { get; set; }
+        public string                SlnDirectoryPath             { get; set; }
+
+
+
+        public string RepositoryNamespace { get; set; }
         public bool CanExportBoaRepository { get; set; }
         public bool CanExportAllSchemaInOneClassRepository { get; set; }
 
