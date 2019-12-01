@@ -2,7 +2,7 @@
 using System.IO;
 using BOA.Common.Helpers;
 
-namespace BOA.EntityGeneration.UI.MainForm
+namespace BOA.EntityGeneration.UI.Container
 {
     class CheckInCommentAccess
     {

@@ -2,7 +2,7 @@
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
 
-namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
+namespace BOA.EntityGeneration.CustomSQLExporting
 {
     class ContextContainer
     {

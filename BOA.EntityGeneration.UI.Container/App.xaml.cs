@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BOA.EntityGeneration.UI.MainForm;
 
 namespace BOA.EntityGeneration.UI.Container
 {

@@ -57,8 +57,9 @@
     <Compile Include="FileExporters\BankingRepositoryFileExporting\BoaRepositoryFileExporterConfig.cs" />
     <Compile Include="FileExporters\ContextContainer.cs" />
     <Compile Include="FileExporters\Context.cs" />
-    <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\FileExporter.cs" />
-    <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\ConfigContract.cs" />
+    <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\AllSchemaInOneClassRepositoryFileExporter.cs" />
+    <Compile Include="FileExporters\AllSchemaInOneClassRepositoryFile\AllSchemaInOneClassRepositoryFileExporterConfig.cs" />
+    <Compile Include="FileExporters\CsprojFileExporters\RepositoryCsprojFileExporterConfig.cs" />
     <Compile Include="FileExporters\EntityFileExporting\EntityFileExporterConfig.cs" />
     <Compile Include="FileExporters\SharedFileExporting\SharedFileExporterConfig.cs" />
     <Compile Include="FileExporters\SharedFileExporting\SharedFileExporter.cs" />
