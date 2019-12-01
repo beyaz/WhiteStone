@@ -84,12 +84,14 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
 
 
             contract.FieldNvarcharNullable = "012345";
+            contract.UpdateTokenId = "uop";
 
             repository.Update(contract);
 
             dbRecord = repository.GetSampleTableBySampleTableId(contract.SampleTableId);
 
             dbRecord.FieldNvarcharNullable.Should().Be("012345");
+            dbRecord.UpdateTokenId.Should().Be("uop");
 
             dbRecord.UpdateDate = contract.UpdateDate;
             dbRecord.InsertDate = contract.InsertDate;
