@@ -67,6 +67,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
                 FieldTinyintNullable = 5,
                 FieldUniqueidentifierNullable = new Guid(),
                 FieldVarbinaryNullable = new byte[]{8},
+                FieldIndex33 = 4,
+                UpdateDate = DateTime.Today,
+                UpdateUserId = "5",
+                UpdateTokenId = "5"
 
             };
 
