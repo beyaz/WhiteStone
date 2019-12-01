@@ -7,11 +7,17 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
 {
     class EntityFileExporter : ContextContainer
     {
+        #region Static Fields
         internal static readonly EntityFileExporterConfig Config = EntityFileExporterConfig.LoadFromFile();
-        
+        #endregion
 
         #region Fields
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
+        #endregion
+
+        #region Properties
+        string ClassName     => Resolve(Config.ClassName);
+        string NamespaceName => Resolve(Config.NamespaceName);
         #endregion
 
         #region Public Methods
@@ -30,18 +36,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
         }
         #endregion
 
-        void InitializeNamingForSchema()
-        {
-            NamingMap.Push(NamingMapKey.EntityNamespaceName, NamingMap.Resolve(Config.NamespaceName));
-        }
-        void InitializeNamingForTable()
-        {
-            NamingMap.Push(NamingMapKey.EntityClassName, NamingMap.Resolve(Config.ClassName));
-        }
         #region Methods
         void BeginNamespace()
         {
-            file.BeginNamespace(NamingMap.Resolve(NamingMapKey.EntityNamespaceName));
+            file.BeginNamespace(NamespaceName);
         }
 
         void EmptyLine()
@@ -60,16 +58,23 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
 
             var filePath = Resolve(Config.OutputFilePath);
 
-
             Context.EntityProjectSourceFileNames.Add(Path.GetFileName(filePath));
-
-            
 
             var content = file.ToString();
 
             Context.OnEntityFileContentCompleted(content);
 
             FileSystem.WriteAllText(filePath, content);
+        }
+
+        void InitializeNamingForSchema()
+        {
+            PushNamingMap(NamingMapKey.EntityNamespaceName, NamespaceName);
+        }
+
+        void InitializeNamingForTable()
+        {
+            PushNamingMap(NamingMapKey.EntityClassName, ClassName);
         }
 
         void WriteClass()
@@ -84,7 +89,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
             }
 
             file.AppendLine("[Serializable]");
-            file.AppendLine($"public sealed class {NamingMap.Resolve(NamingMapKey.EntityClassName)} {inheritancePart}");
+            file.AppendLine($"public sealed class {ClassName} {inheritancePart}");
             file.OpenBracket();
 
             ContractCommentInfoCreator.Write(file, TableInfo);

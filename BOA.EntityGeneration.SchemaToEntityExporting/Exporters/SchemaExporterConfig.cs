@@ -33,12 +33,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         ///     Gets or sets the name of the database enum.
         /// </summary>
         public string DatabaseEnumName { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the naming pattern.
-        /// </summary>
-        public Dictionary<string, string> NamingPattern { get; set; }
-
+        
         /// <summary>
         ///     Gets or sets the not exportable tables.
         /// </summary>

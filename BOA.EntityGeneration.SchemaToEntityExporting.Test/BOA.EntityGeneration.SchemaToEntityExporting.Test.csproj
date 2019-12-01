@@ -77,6 +77,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="SampleDatabaseTest.EntityFileExporterConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="SampleDatabaseTest.AllSchemaInOneClassRepositoryFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

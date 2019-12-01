@@ -28,8 +28,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         public void Export(string schemaName)
         {
             Context.SchemaName = schemaName;
-            NamingMap.Push(nameof(Context.SchemaName),schemaName);
-            NamingMap.Push(nameof(Config.RepositoryNamespace),NamingMap.Resolve(Config.RepositoryNamespace));
+            PushNamingMap(nameof(Config.SlnDirectoryPath),Config.SlnDirectoryPath);
+            PushNamingMap(nameof(Context.SchemaName),schemaName);
+            PushNamingMap(nameof(Config.RepositoryNamespace),NamingMap.Resolve(Config.RepositoryNamespace));
+            PushNamingMap(nameof(Config.EntityProjectDirectory),NamingMap.Resolve(Config.EntityProjectDirectory));
+            PushNamingMap(nameof(Config.RepositoryProjectDirectory),NamingMap.Resolve(Config.RepositoryProjectDirectory));
 
 
             InitializeNamingPattern();

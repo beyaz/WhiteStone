@@ -16,7 +16,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
 
 
-        public string ClassNamePattern { get; set; }
         public string SharedRepositoryClassAccessPath { get; set; }
         #region Public Properties
         public Dictionary<string, string> DefaultValuesForInsertMethod      { get; set; }

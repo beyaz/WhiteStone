@@ -17,9 +17,17 @@ namespace BOA.EntityGeneration
 
         public string Resolve(string value)
         {
-            var compiledDictionary = ConfigurationDictionaryCompiler.Compile(new Dictionary<string, string> {{nameof(value), value}}, map);
+            if (map.ContainsKey(value))
+            {
+                return map[value];
+            }
 
-            return compiledDictionary[nameof(value)];
+            foreach (var pair in map)
+            {
+                value = value.Replace($"$({pair.Key})", pair.Value);
+            }
+
+            return value;
         }
         #endregion
     }

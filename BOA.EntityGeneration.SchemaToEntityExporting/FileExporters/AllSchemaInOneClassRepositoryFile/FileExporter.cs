@@ -48,7 +48,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         #region Methods
         void AddAssemblyReferencesToProject()
         {
-            Context.RepositoryAssemblyReferences.AddRange(Config.ExtraAssemblyReferences.Select(x=>NamingMap.Resolve(x)));
+            Context.RepositoryAssemblyReferences.AddRange(Config.ExtraAssemblyReferences.Select(Resolve));
         }
 
         void BeginClass()
@@ -98,7 +98,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         }
 
         string NamespaceName => NamingMap.Resolve(Config.NamespaceName);
-        string ClassName => NamingMap.Resolve(Config.ClassNamePattern);
+        string ClassName => NamingMap.Resolve(Config.ClassName);
 
 
         void InitializeNamingPattern()

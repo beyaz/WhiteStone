@@ -82,10 +82,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
             FileSystem.WriteAllText(outputFilePath, sourceCode);
         }
 
-        
+        string ClassName => NamingMap.Resolve(Config.ClassNamePattern);
+
         void WriteClass()
         {
-            file.AppendLine($"public sealed class {  NamingMap.Resolve(Config.ClassNamePattern)}");
+            file.AppendLine($"public sealed class {ClassName}");
             file.OpenBracket();
 
             if (TableInfo.IsSupportSelectByKey)

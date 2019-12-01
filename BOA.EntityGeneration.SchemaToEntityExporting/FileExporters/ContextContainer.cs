@@ -67,5 +67,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters
             return new T {Context = Context};
         }
         #endregion
+
+        protected void PushNamingMap(string key, string value)
+        {
+            NamingMap.Push(key,value);
+        }
     }
 }

@@ -1,4 +1,8 @@
 OutputFilePath: $(RepositoryProjectDirectory)AllInOneRepository.cs
+NamespaceName: BOA.Business.Kernel.Card.$(SchemaName).Repository
+ClassName: $(SchemaName)Repository
+ExtraAssemblyReferences: 
+  - <Reference Include="BOA.Card.Core"><HintPath>D:\BOA\Server\bin\BOA.Card.Core.dll</HintPath></Reference>
 SharedRepositoryClassAccessPath: Shared.$(CamelCasedTableName)
 UsingLines: 
   - using System;,
@@ -9,10 +13,6 @@ UsingLines:
   - using $(RepositoryNamespace).Shared;
   - using IUnitOfWork = BOA.Card.Core.UOW.IUnitOfWork;
   - using State = BOA.Card.Core.UOW.State;
-ExtraAssemblyReferences: 
-  - <Reference Include="BOA.Card.Core"><HintPath>D:\BOA\Server\bin\BOA.Card.Core.dll</HintPath></Reference>
-NamespaceName: BOA.Business.Kernel.Card.$(SchemaName).Repository
-ClassName: $(SchemaName)Repository  
 DefaultValuesForInsertMethod:
   contractInstanceName:
   contractInstancePropertyName:  
