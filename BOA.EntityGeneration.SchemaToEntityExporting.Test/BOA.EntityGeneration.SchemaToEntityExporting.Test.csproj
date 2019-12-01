@@ -42,8 +42,14 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BOA.Business.Kernel.Card.ERP">
+      <HintPath>..\..\..\temp\Entity\ERP\BOA.Business.Kernel.Card.ERP\bin\Debug\BOA.Business.Kernel.Card.ERP.dll</HintPath>
+    </Reference>
     <Reference Include="BOA.TfsAccess">
       <HintPath>$(SolutionDir)BOA.TfsAccess\bin\debug\BOA.TfsAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="BOA.Types.Kernel.Card.ERP">
+      <HintPath>..\..\..\temp\Entity\ERP\BOA.Business.Kernel.Card.ERP\bin\Debug\BOA.Types.Kernel.Card.ERP.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=5.6.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.5.6.0\lib\net45\FluentAssertions.dll</HintPath>
