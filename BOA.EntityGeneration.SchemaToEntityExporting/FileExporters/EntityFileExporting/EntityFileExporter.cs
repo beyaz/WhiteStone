@@ -68,7 +68,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileE
 
         void InitializeNamingForSchema()
         {
-            PushNamingMap(nameof(NamingMap.EntityNamespaceName), NamespaceName);
+            PushNamingMap(nameof(NamingMap.EntityNamespace), NamespaceName);
         }
 
         void InitializeNamingForTable()

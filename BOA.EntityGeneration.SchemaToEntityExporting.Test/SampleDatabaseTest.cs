@@ -5,7 +5,7 @@ using BOA.DatabaseAccess;
 using BOA.EntityGeneration.SchemaToEntityExporting.Exporters;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.EntityFileExporting;
-using BOA.Types.Kernel.Card.ERP;
+ using BOA.Types.Kernel.Card.ERP;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -32,7 +32,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
 
             schemaExporter.Context.ErrorList.Should().BeEmpty();
 
-            TestDmlOperations(schemaExporter.Database);
+             TestDmlOperations(schemaExporter.Database);
         }
         #endregion
 
@@ -81,11 +81,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
 
             dbRecord.InsertDate = contract.InsertDate;
             dbRecord.Should().BeEquivalentTo(contract);
-            
+
 
             contract.FieldNvarcharNullable = "012345";
 
-            repository.ModifySampleTable(contract);
+            repository.Update(contract);
 
             dbRecord = repository.GetSampleTableBySampleTableId(contract.SampleTableId);
 

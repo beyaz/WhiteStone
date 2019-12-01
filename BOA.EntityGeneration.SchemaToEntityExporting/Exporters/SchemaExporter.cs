@@ -32,6 +32,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
             PushNamingMap(nameof(NamingMap.SlnDirectoryPath),Config.SlnDirectoryPath);
             PushNamingMap(nameof(NamingMap.SchemaName),schemaName);
             PushNamingMap(nameof(NamingMap.RepositoryNamespace),Resolve(Config.RepositoryNamespace));
+            
             PushNamingMap(nameof(NamingMap.EntityProjectDirectory),Resolve(Config.EntityProjectDirectory));
             PushNamingMap(nameof(NamingMap.RepositoryProjectDirectory),Resolve(Config.RepositoryProjectDirectory));
 

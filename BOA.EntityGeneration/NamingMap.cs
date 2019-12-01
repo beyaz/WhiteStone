@@ -19,7 +19,7 @@ namespace BOA.EntityGeneration
         {
             if (map.ContainsKey(value))
             {
-                return map[value];
+                value = map[value];
             }
 
             foreach (var pair in map)
