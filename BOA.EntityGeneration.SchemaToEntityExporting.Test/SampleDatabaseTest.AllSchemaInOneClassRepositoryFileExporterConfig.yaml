@@ -5,12 +5,11 @@ SharedRepositoryClassAccessPath: Shared.$(CamelCasedTableName)
 ExtraAssemblyReferences: 
   - <Reference Include="WhiteStone"><HintPath>D:\github\WhiteStone\WhiteStone\bin\Debug\WhiteStone.dll</HintPath></Reference>
 UsingLines: 
-  - using System;,
-  - using System.Data;,
-  - using System.Data.SqlClient;,
-  - using System.Collections.Generic;,
-  - using $(EntityNamespace);,
-  - using $(RepositoryNamespace).Shared;,
+  - using System;
+  - using System.Data;
+  - using System.Collections.Generic;
+  - using $(EntityNamespace);
+  - using $(RepositoryNamespace).Shared;
   - using IUnitOfWork = BOA.DatabaseAccess.IDatabase;
 DefaultValuesForInsertMethod:
   contractInstanceName:
