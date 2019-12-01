@@ -267,7 +267,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
                 return;
             }
 
-            var methodName = "Modify" + CamelCasedTableName;
+            // var methodName = "Modify" + CamelCasedTableName;
+            var methodName = "Update";
 
             
 
