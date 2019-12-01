@@ -7,6 +7,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Models
     {
         public const string EntityNamespaceName = "$(EntityNamespace)";
         public const string EntityClassName = "$(EntityClassName)";
+        public const string CamelCasedTableName = "$(CamelCasedTableName)";
     }
 
     class NamingPatternContract

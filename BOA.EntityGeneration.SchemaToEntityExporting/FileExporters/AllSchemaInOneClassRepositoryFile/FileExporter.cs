@@ -4,6 +4,7 @@ using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepositoryFileExporting;
 using BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileExporting;
+using BOA.EntityGeneration.SchemaToEntityExporting.Models;
 using BOA.EntityGeneration.ScriptModel;
 using BOA.EntityGeneration.ScriptModel.Creators;
 using Config = BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaInOneClassRepositoryFile.AllSchemaInOneClassRepositoryFileExporterConfig;
@@ -135,7 +136,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             var deleteByKeyInfo                  = DeleteInfoCreator.Create(TableInfo);
             var sqlParameters                    = deleteByKeyInfo.SqlParameters;
-            var callerMemberPath                 = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.{methodName}";
+            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{CamelCasedTableName}.{methodName}";
             var parameterDefinitionPart          = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
             var sharedMethodInvocationParameters = string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
             var sharedRepositoryClassAccessPath  = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
@@ -166,7 +167,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
 
-            var camelCasedTableName = TableNamingPattern.BoaRepositoryClassName;
+            
 
             foreach (var indexIdentifier in TableInfo.UniqueIndexInfoList)
             {
@@ -176,7 +177,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
                 var parameterDefinitionPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-                var methodName = "Get" + camelCasedTableName + "By" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+                var methodName = "Get" + CamelCasedTableName + "By" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
                 file.AppendLine();
                 file.AppendLine("/// <summary>");
@@ -187,7 +188,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
                 var sharedMethodInvocationParameters = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
 
-                var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{camelCasedTableName}.{methodName}";
+                var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{CamelCasedTableName}.{methodName}";
 
                 file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.{sharedRepositoryMethodName}({sharedMethodInvocationParameters});");
                 file.AppendLine();
@@ -204,9 +205,9 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
                 var parameterDefinitionPart = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-                var methodName = "Get" + camelCasedTableName + "By" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+                var methodName = "Get" + CamelCasedTableName + "By" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
-                var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{camelCasedTableName}.{methodName}";
+                var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{CamelCasedTableName}.{methodName}";
 
                 var sharedRepositoryMethodName = SharedFileExporter.GetMethodName(indexInfo);
 
@@ -243,7 +244,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             var parameterDefinitionPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-            var methodName = "Get" + TableNamingPattern.BoaRepositoryClassName + "By" + string.Join(string.Empty, sqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+            var methodName = "Get" + CamelCasedTableName + "By" + string.Join(string.Empty, sqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
             var callerMemberPath = $"{_namingPattern.NamespaceName}.{_namingPattern.ClassName}.{methodName}";
 
@@ -271,7 +272,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
                 return;
             }
 
-            var methodName = "Modify" + TableNamingPattern.BoaRepositoryClassName;
+            var methodName = "Modify" + CamelCasedTableName;
 
             var sharedRepositoryClassAccessPath = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
 
@@ -306,13 +307,14 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
             file.CloseBracket();
         }
 
+        string CamelCasedTableName => NamingMap.Resolve(NamingMapKey.CamelCasedTableName);
 
          void WriteInsertMethod()
         {
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
 
-            var methodName = "Create" + TableNamingPattern.BoaRepositoryClassName;
+            var methodName = "Create" + CamelCasedTableName;
 
             var callerMemberPath = $"{_namingPattern.NamespaceName}.{_namingPattern.ClassName}.{methodName}";
 

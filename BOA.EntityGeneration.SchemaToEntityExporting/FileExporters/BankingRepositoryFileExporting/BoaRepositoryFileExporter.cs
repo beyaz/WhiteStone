@@ -72,14 +72,16 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             FileSystem.WriteAllText(NamingPattern.RepositoryProjectDirectory + fileName, sourceCode);
         }
 
+        string ClassName => NamingMap.Resolve(Config.ClassNamePattern);
+
         void WriteClass()
         {
             ContractCommentInfoCreator.Write(file, TableInfo);
-            file.AppendLine($"public sealed class {TableNamingPattern.BoaRepositoryClassName} : ObjectHelper");
+            file.AppendLine($"public sealed class {ClassName} : ObjectHelper");
             file.OpenBracket();
 
             ContractCommentInfoCreator.Write(file, TableInfo);
-            file.AppendLine($"public {TableNamingPattern.BoaRepositoryClassName}(ExecutionDataContext context) : base(context) {{ }}");
+            file.AppendLine($"public {ClassName}(ExecutionDataContext context) : base(context) {{ }}");
 
             WriteInsertMethod();
             WriteSelectByKeyMethod();
@@ -147,7 +149,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             var deleteByKeyInfo                  = DeleteInfoCreator.Create(TableInfo);
             var sqlParameters                    = deleteByKeyInfo.SqlParameters;
-            var callerMemberPath                 = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.{methodName}";
+            var callerMemberPath                 = $"{NamingPattern.RepositoryNamespace}.{ClassName}.{methodName}";
             var parameterDefinitionPart          = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
             var sharedMethodInvocationParameters = string.Join(", ", sqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
             var sharedRepositoryClassAccessPath  = TableNamingPattern.SharedRepositoryClassNameInBoaRepositoryFile;
@@ -176,7 +178,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         {
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
-            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.Insert";
+            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{ClassName}.Insert";
 
             var insertInfo = new InsertInfoCreator{ExcludedColumnNames = Config.ExcludedColumnNamesWhenInsertOperation}.Create(TableInfo);
 
@@ -269,7 +271,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
-            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.SelectByValidFlag";
+            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{ClassName}.SelectByValidFlag";
 
             file.AppendLine();
             file.AppendLine("/// <summary>");
@@ -291,7 +293,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         {
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
-            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.Select";
+            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{ClassName}.Select";
 
             file.AppendLine();
             file.AppendLine("/// <summary>");
@@ -332,7 +334,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
                 var sharedMethodInvocationParameters = string.Join(", ", indexInfo.SqlParameters.Select(x => $"{x.ColumnName.AsMethodParameter()}"));
 
-                var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.{methodName}";
+                var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{ClassName}.{methodName}";
 
                 file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.{methodName}({sharedMethodInvocationParameters});");
                 file.AppendLine();
@@ -351,7 +353,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
                 var methodName = "SelectBy" + string.Join(string.Empty, indexInfo.SqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
 
-                var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.{methodName}";
+                var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{ClassName}.{methodName}";
 
                 file.AppendLine();
                 file.AppendLine("/// <summary>");
@@ -382,7 +384,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             var typeContractName       = TableEntityClassNameForMethodParametersInRepositoryFiles;
             var selectByPrimaryKeyInfo = SelectByPrimaryKeyInfoCreator.Create(TableInfo);
 
-            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.SelectByKey";
+            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{ClassName}.SelectByKey";
 
             var parameterPart = string.Join(", ", selectByPrimaryKeyInfo.SqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
@@ -415,7 +417,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
 
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
 
-            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{TableNamingPattern.BoaRepositoryClassName}.Update";
+            var callerMemberPath = $"{NamingPattern.RepositoryNamespace}.{ClassName}.Update";
 
             var updateInfo = UpdateByPrimaryKeyInfoCreator.Create(TableInfo);
 

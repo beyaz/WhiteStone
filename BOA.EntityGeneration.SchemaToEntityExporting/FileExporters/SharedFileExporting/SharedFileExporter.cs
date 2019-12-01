@@ -78,10 +78,10 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.SharedFileE
             FileSystem.WriteAllText(NamingPattern.RepositoryProjectDirectory + "Shared.cs", sourceCode);
         }
 
-        public static readonly string ClassNamePattern = "$(CamelCasedTableName)";
+        
         void WriteClass()
         {
-            file.AppendLine($"public sealed class {  NamingMap.Resolve(ClassNamePattern)}");
+            file.AppendLine($"public sealed class {  NamingMap.Resolve(Config.ClassNamePattern)}");
             file.OpenBracket();
 
             if (TableInfo.IsSupportSelectByKey)

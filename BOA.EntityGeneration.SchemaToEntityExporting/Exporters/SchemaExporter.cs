@@ -100,7 +100,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
         void InitializeTableNamingPattern()
         {
-            NamingMap.Push("CamelCasedTableName", TableInfo.TableName.ToContractName());
+            NamingMap.Push(NamingMapKey.CamelCasedTableName, TableInfo.TableName.ToContractName());
 
             var initialValues = new Dictionary<string, string>
             {
@@ -112,7 +112,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
             Context.TableNamingPattern = new TableNamingPatternContract
             {
-                BoaRepositoryClassName                       = dictionary[nameof(TableNamingPatternContract.BoaRepositoryClassName)],
                 SharedRepositoryClassNameInBoaRepositoryFile = dictionary[nameof(TableNamingPatternContract.SharedRepositoryClassNameInBoaRepositoryFile)]
             };
 

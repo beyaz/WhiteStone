@@ -6,6 +6,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 {
     class AllSchemaInOneClassRepositoryFileExporterConfig
     {
+        public string ClassNamePattern { get; set; }
         #region Public Properties
         public Dictionary<string, string> DefaultValuesForInsertMethod      { get; set; }
         public Dictionary<string, string> DefaultValuesForUpdateByKeyMethod { get; set; }
