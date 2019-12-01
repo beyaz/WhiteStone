@@ -7,8 +7,8 @@
     <ProjectGuid>{2CE3E1B8-6F47-4F70-8F67-372D02D3EBC3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BOA.EntityGeneration.Data</RootNamespace>
-    <AssemblyName>BOA.EntityGeneration.Data</AssemblyName>
+    <RootNamespace>BOA.EntityGeneration</RootNamespace>
+    <AssemblyName>BOA.EntityGeneration</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
