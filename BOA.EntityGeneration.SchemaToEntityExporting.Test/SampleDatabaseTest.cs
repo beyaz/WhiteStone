@@ -43,41 +43,61 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting
 
             var contract = new SampleTableContract
             {
-                FieldVarbinary = new byte[]{8},
-                FieldChar = "y",
-                FieldNchar = "t",
-                FieldVarchar50 = "y",
-                FieldNvarchar = "5",
-                FieldVarchar50Nullable = "y",
-                RowGuid = "y",
-                FieldSmalldatetime         = DateTime.Today,
-                FieldDatetime              = DateTime.Now,
-                FieldDatetimeNullable = DateTime.Today,
-                FieldNumeric270Nullable = 4,
-                FieldIntNullable = 5,
-                FieldMoneyNullable = 57.7M,
-                FieldNvarcharNullable = "6y",
-                FieldNcharNullable = "4",
-                FieldSmalldatetimeNullable = DateTime.Today,
-                FieldBigintNullable = 6,
-                FieldBitNullable = true,
-                FieldCharNullable = "1",
-                FieldDecimalNullable = 3,
-                FieldSmallintNullable = 3,
-                FieldTinyintNullable = 5,
+                FieldVarbinary                = new byte[] {8},
+                FieldChar                     = "y",
+                FieldNchar                    = "t      ",
+                FieldVarchar50                = "y",
+                FieldNvarchar                 = "5",
+                FieldVarchar50Nullable        = "y",
+                RowGuid                       = "y",
+                FieldSmalldatetime            = DateTime.Today,
+                FieldDatetime                 = DateTime.Today,
+                FieldDatetimeNullable         = DateTime.Today,
+                FieldNumeric270Nullable       = 4,
+                FieldIntNullable              = 5,
+                FieldMoneyNullable            = 57.7M,
+                FieldNvarcharNullable         = "012",
+                FieldNcharNullable            = "4      ",
+                FieldSmalldatetimeNullable    = DateTime.Today,
+                FieldBigintNullable           = 6,
+                FieldBitNullable              = true,
+                FieldCharNullable             = "1",
+                FieldDecimalNullable          = 3,
+                FieldSmallintNullable         = 3,
+                FieldTinyintNullable          = 5,
                 FieldUniqueidentifierNullable = new Guid(),
-                FieldVarbinaryNullable = new byte[]{8},
-                FieldIndex33 = 4,
-                UpdateDate = DateTime.Today,
-                UpdateUserId = "5",
-                UpdateTokenId = "5"
-
+                FieldVarbinaryNullable        = new byte[] {8},
+                FieldIndex33                  = 4,
+                UpdateDate                    = DateTime.Today,
+                UpdateUserId                  = "5",
+                UpdateTokenId                 = "5"
             };
-
 
             repository.Insert(contract);
 
             contract.SampleTableId.Should().Be(1);
+
+            var dbRecord = repository.GetSampleTableBySampleTableId(contract.SampleTableId);
+
+            dbRecord.InsertDate = contract.InsertDate;
+            dbRecord.Should().BeEquivalentTo(contract);
+            
+
+            contract.FieldNvarcharNullable = "012345";
+
+            repository.ModifySampleTable(contract);
+
+            dbRecord = repository.GetSampleTableBySampleTableId(contract.SampleTableId);
+
+            dbRecord.FieldNvarcharNullable.Should().Be("012345");
+
+            dbRecord.UpdateDate = contract.UpdateDate;
+            dbRecord.InsertDate = contract.InsertDate;
+            dbRecord.Should().BeEquivalentTo(contract);
+
+            repository.DeleteSampleTableContract(dbRecord.SampleTableId).Should().Be(1);
+
+
         }
         #endregion
     }
