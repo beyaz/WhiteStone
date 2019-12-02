@@ -8,12 +8,13 @@
              x:Name="CodeBehind"
              DataContext="{Binding ElementName=CodeBehind}">
 
-    <GroupBox Header = "{Binding SchemaName}" >
+    <Expander IsExpanded="True" Header="{Binding SchemaName}">
         <ScrollViewer VerticalScrollBarVisibility = "Auto" >
-            <StackPanel Margin = "10" >
-                <TextBlock FontWeight = "Bold" Text = "{Binding Process.Text}"   TextWrapping="WrapWithOverflow" />
-                <ProgressBar Minimum = "0" Maximum = "{Binding Process.Total}" Value = "{Binding Process.Current}" />
+            <StackPanel Margin = "5" >
+                <TextBox FontWeight = "Bold" Text = "{Binding Process.Text}"   TextWrapping="WrapWithOverflow" IsReadOnly="True" />
+                <ProgressBar Minimum = "0"  Maximum = "{Binding Process.Total}" Value = "{Binding Process.Current}" />
             </StackPanel>
         </ScrollViewer>
-    </GroupBox>
+    </Expander>
+    
 </UserControl>

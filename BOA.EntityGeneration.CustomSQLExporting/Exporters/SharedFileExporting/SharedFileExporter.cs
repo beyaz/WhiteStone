@@ -118,7 +118,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{CustomSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public void ReadContract(IDataReader reader, {CustomSqlNamingPattern.ResultClassName} contract)");
+            sb.AppendLine($"public static void ReadContract(IDataReader reader, {CustomSqlNamingPattern.ResultClassName} contract)");
             sb.OpenBracket();
 
             foreach (var item in CustomSqlInfo.ResultColumns)

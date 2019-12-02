@@ -22,7 +22,7 @@ ProfileNamingPattern:
     using $(EntityNamespace);|
     using $(RepositoryNamespace).Shared;
   EntityUsingLines: using CardContractBase = BOA.Common.Types.CardContractBase;
-  EntityAssemblyReferences: <Reference Include="BOA.Common"><HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath></Reference>|<Reference Include="System" />|<Reference Include="System.Core" />|"
+  EntityAssemblyReferences: <Reference Include="BOA.Common"><HintPath>D:\BOA\Server\bin\BOA.Common.dll</HintPath></Reference>|<Reference Include="System" />|<Reference Include="System.Core" />
   RepositoryAssemblyReferences: <Reference Include="System" />|
     <Reference Include="System.Core" />|
     <Reference Include="System.Data" />|

@@ -44,11 +44,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporterConfig.cs" />
     <Compile Include="Exporters\CustomSqlClassGenerator.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporterConfig.cs" />
     <Compile Include="Models\CustomSQLExportingConfig.cs" />
     <Compile Include="Models\CustomSqlNamingPatternContract.cs" />
-    <Compile Include="Exporters\BoaRepositoryFileExporter.cs" />
+    <Compile Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporter.cs" />
     <Compile Include="ContextContainer.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporter.cs" />
     <Compile Include="Exporters\EntityFileExporter.cs" />
@@ -67,15 +68,12 @@
     <None Include="CustomSQLExportingConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporterConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Exporters\SharedFileExporting\SharedFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Exporters\BoaRepositoryFileEmbeddedCodes.txt" />
-    <Content Include="Exporters\SharedRepositoryFileEmbeddedCodes.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">

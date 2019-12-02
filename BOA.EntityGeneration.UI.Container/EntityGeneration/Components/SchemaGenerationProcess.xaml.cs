@@ -7,9 +7,12 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 {
     public sealed partial class SchemaGenerationProcess
     {
+        readonly UIRefresher refresher;
         #region Constructors
         public SchemaGenerationProcess(string schemaName)
         {
+            refresher = new UIRefresher {Element = this};
+            
             SchemaName = schemaName;
             Process    = new ProcessContract();
 
@@ -25,11 +28,13 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
         public ProcessContract Process    { get; set; }
         public string          SchemaName { get; set; }
         #endregion
-
+       
         #region Public Methods
         public void Start()
         {
-            new UIRefresher {Element = this}.Start();
+            
+            
+            refresher.Start();
 
             new Thread(Run).Start();
         }
@@ -54,6 +59,8 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
             if (context.ErrorList.Any())
             {
                 context.ProcessInfo.Text = string.Join(Environment.NewLine, context.ErrorList);
+                Thread.Sleep(2000);
+                refresher.Stop();
                 return;
             }
 
