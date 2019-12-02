@@ -1,14 +1,14 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 
-namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
+namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
 {
     class SharedFileExporter : ContextContainer
     {
-        
+
+        internal static readonly SharedFileExporterConfig _config = SharedFileExporterConfig.CreateFromFile();
 
         #region Properties
         readonly PaddedStringBuilder sb =new PaddedStringBuilder();
@@ -104,9 +104,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 
         void WriteEmbeddedClasses()
         {
-            var path = Path.GetDirectoryName(typeof(SharedFileExporter).Assembly.Location) + Path.DirectorySeparatorChar + "SharedRepositoryFileEmbeddedCodes.txt";
-
-            sb.AppendAll(System.IO.File.ReadAllText(path));
+            sb.AppendAll(_config.EmbeddedCodes);
             sb.AppendLine();
         }
 

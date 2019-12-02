@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using BOA.Common.Helpers;
+using Config = BOA.EntityGeneration.SchemaToEntityExporting.Exporters.SchemaExporterConfig;
 
 namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 {
@@ -30,8 +31,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         /// </summary>
         public string[] NotExportableTables { get; set; }
 
-       
-
         public string RepositoryNamespace        { get; set; }
         public string RepositoryProjectDirectory { get; set; }
         public string SlnDirectoryPath           { get; set; }
@@ -56,12 +55,12 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         /// <summary>
         ///     Creates from file.
         /// </summary>
-        public static SchemaExporterConfig CreateFromFile(string filePath)
+        public static Config CreateFromFile(string filePath)
         {
-            return YamlHelper.DeserializeFromFile<SchemaExporterConfig>(filePath);
+            return YamlHelper.DeserializeFromFile<Config>(filePath);
         }
 
-        public static SchemaExporterConfig CreateFromFile()
+        public static Config CreateFromFile()
         {
             return CreateFromFile($"{nameof(Exporters)}{Path.DirectorySeparatorChar}{nameof(SchemaExporterConfig)}.yaml");
         }

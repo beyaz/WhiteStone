@@ -6,6 +6,7 @@ using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
+using BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper

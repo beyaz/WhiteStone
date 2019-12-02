@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting;
 using BOA.EntityGeneration.ScriptModel;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters

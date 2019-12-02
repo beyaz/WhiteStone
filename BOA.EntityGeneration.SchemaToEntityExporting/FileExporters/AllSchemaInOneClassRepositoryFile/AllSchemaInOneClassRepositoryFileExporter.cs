@@ -189,7 +189,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
                 file.AppendLine();
                 file.AppendLine($"const string CallerMemberPath = \"{callerMemberPath}\";");
                 file.AppendLine();
-                file.AppendLine($"return unitOfWork.ExecuteReaderToContract<{typeContractName}>( CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
+                file.AppendLine($"return unitOfWork.ExecuteReaderToContract<{typeContractName}>(CallerMemberPath, sqlInfo, {sharedRepositoryClassAccessPath}.ReadContract);");
 
                 file.CloseBracket();
             }
@@ -239,7 +239,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
             var parameterDefinitionPart = string.Join(", ", sqlParameters.Select(x => $"{x.DotNetType} {x.ColumnName.AsMethodParameter()}"));
 
-            var methodName = "Get" + CamelCasedTableName + "By" + string.Join(string.Empty, sqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+            // var methodName = "Get" + CamelCasedTableName + "By" + string.Join(string.Empty, sqlParameters.Select(x => $"{x.ColumnName.ToContractName()}"));
+            var methodName = "Get" + CamelCasedTableName + "ByKey";
 
             var callerMemberPath = $"{FullClassName}.{methodName}";
 
