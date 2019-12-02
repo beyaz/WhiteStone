@@ -19,6 +19,13 @@ SchemaSpecificUsingLines:
     - using TransactionLogContract = BOA.Types.Kernel.Card.BKM.TransactionLogContract;
   BNS:
     - using TransactionLogContract = BOA.Types.Kernel.Card.BNS.TransactionLogContract;
+  POS:
+    - using TransactionLogContract = BOA.Types.Kernel.Card.POS.TransactionLogContract;
+  PRM:
+    - using BoaUserContract = BOA.Types.Kernel.Card.PRM.BoaUserContract;
+  SYSOP:
+    - using TransactionLogContract = BOA.Types.Kernel.Card.SYSOP.TransactionLogContract;
+
 DefaultValuesForInsertMethod:
   contractInstanceName:
   contractInstancePropertyName:  

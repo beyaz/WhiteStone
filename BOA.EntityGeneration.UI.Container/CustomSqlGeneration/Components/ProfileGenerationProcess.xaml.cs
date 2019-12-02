@@ -10,6 +10,8 @@ namespace BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components
         #region Constructors
         public ProfileGenerationProcess(string profileName)
         {
+            refresher = new UIRefresher {Element = this};
+
             ProfileName = profileName;
             Process     = new ProcessContract();
 
@@ -26,10 +28,12 @@ namespace BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components
         public string          ProfileName { get; set; }
         #endregion
 
+        readonly UIRefresher refresher;
         #region Public Methods
         public void Start()
         {
-            new UIRefresher {Element = this}.Start();
+            
+            refresher.Start();
 
             new Thread(Run).Start();
         }
@@ -59,6 +63,8 @@ namespace BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components
             if (context.Errors.Any())
             {
                 context.ProcessInfo.Text = string.Join(Environment.NewLine, context.Errors);
+                Thread.Sleep(2000);
+                refresher.Stop();
                 return;
             }
 
