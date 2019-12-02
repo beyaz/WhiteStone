@@ -1,6 +1,6 @@
 ﻿namespace BOA.EntityGeneration.CustomSQLExporting.Models
 {
-    class CustomSqlNamingPatternContract
+    public class CustomSqlNamingPatternContract
     {
         #region Public Properties
         public string InputClassName                   { get; set; }

@@ -37,7 +37,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             ProcessInfo.Text = "Fetching profile informations...";
 
-            var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(Database, ProfileName, Config);
+            var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(Database, ProfileName, _config);
 
             Context.OnProfileInfoInitialized();
 
@@ -49,7 +49,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 ProcessInfo.Text    = $"Processing '{objectId}'";
                 ProcessInfo.Current = switchCaseIndex;
 
-                Context.CustomSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(Database, ProfileName, objectId, Config, switchCaseIndex++);
+                Context.CustomSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(Database, ProfileName, objectId, _config, switchCaseIndex++);
 
                 InitializeCustomSqlNamingPattern();
 
@@ -67,7 +67,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             var profileIdList = new List<string>();
 
-            Database.CommandText = Config.SQL_GetProfileIdList;
+            Database.CommandText = _config.SQL_GetProfileIdList;
             var reader = Database.ExecuteReader();
             while (reader.Read())
             {
@@ -84,7 +84,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public void InitializeContext()
         {
             Context = new Context();
-            InitializeConfig();
+            
             InitializeDatabaseConnection();
 
             // attach events
@@ -106,10 +106,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         
 
-        void InitializeConfig()
-        {
-            Context.Config = CustomSQLExportingConfig.CreateFromFile();
-        }
+      
 
         void InitializeCustomSqlNamingPattern()
         {
@@ -147,7 +144,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         void InitializeDatabaseConnection()
         {
-            Context.Database = new SqlDatabase(Config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
+            Context.Database = new SqlDatabase(_config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
         #endregion
     }

@@ -17,26 +17,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         }
 
         #region Public Properties
-        /// <summary>
-        ///     Gets or sets the connection string.
-        /// </summary>
-        public string ConnectionString { get; set; }
+       
+        
+        
 
-        /// <summary>
-        ///     Gets or sets the custom SQL get SQL item information.
-        /// </summary>
-        public string CustomSQL_Get_SQL_Item_Info { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the custom SQL names defined to profile SQL.
-        /// </summary>
-        public string CustomSQLNamesDefinedToProfileSql { get; set; }
-
-
-        /// <summary>
-        ///     Gets or sets the name of the database enum.
-        /// </summary>
-        public string DatabaseEnumName { get; set; }
+        
 
         
         /// <summary>

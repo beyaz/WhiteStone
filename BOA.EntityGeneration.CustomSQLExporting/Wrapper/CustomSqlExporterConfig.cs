@@ -4,7 +4,7 @@ using BOA.EntityGeneration.CustomSQLExporting.Models;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
-    class CustomSqlExporterConfig
+    public class CustomSqlExporterConfig
     {
         public string SlnDirectoryPath { get; set; }
         public string EntityNamespace { get; set; }
