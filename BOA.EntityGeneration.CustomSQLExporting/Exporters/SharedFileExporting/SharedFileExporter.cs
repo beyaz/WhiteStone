@@ -95,7 +95,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
         {
             ProcessInfo.Text = "Exporting Shared repository.";
 
-            var filePath = ProfileNamingPattern.RepositoryProjectDirectory + "Shared.cs";
+            var filePath = Resolve(_config.OutputFilePath);
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }

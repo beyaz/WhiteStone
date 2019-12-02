@@ -8,6 +8,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public string SlnDirectoryPath { get; set; }
         public string EntityNamespace { get; set; }
         public string RepositoryNamespace { get; set; }
+        public string EntityProjectDirectory { get; set; }
+        public string RepositoryProjectDirectory { get; set; }
+        
+            
 
 
         public static CustomSqlExporterConfig CreateFromFile(string filePath)

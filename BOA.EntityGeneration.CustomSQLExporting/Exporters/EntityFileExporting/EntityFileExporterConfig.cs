@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
     class EntityFileExporterConfig
     {
         public IList<string> UsingLines { get; set; }
-        
+        public string OutputFilePath { get; set; }
 
         public static EntityFileExporterConfig CreateFromFile(string filePath)
         {

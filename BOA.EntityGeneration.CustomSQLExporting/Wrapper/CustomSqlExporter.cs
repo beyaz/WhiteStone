@@ -30,6 +30,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             Context.NamingMap.Push(nameof(NamingMap.EntityNamespace),Resolve(_config.EntityNamespace));
             Context.NamingMap.Push(nameof(NamingMap.RepositoryNamespace),Resolve(_config.RepositoryNamespace));
             Context.NamingMap.Push(nameof(NamingMap.SlnDirectoryPath),Resolve(_config.SlnDirectoryPath));
+            Context.NamingMap.Push(nameof(NamingMap.EntityProjectDirectory),Resolve(_config.EntityProjectDirectory));
+            Context.NamingMap.Push(nameof(NamingMap.RepositoryProjectDirectory),Resolve(_config.RepositoryProjectDirectory));
 
 
 
@@ -118,8 +120,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 SlnDirectoryPath             = dictionary[nameof(ProfileNamingPatternContract.SlnDirectoryPath)],
                 EntityNamespace              = dictionary[nameof(ProfileNamingPatternContract.EntityNamespace)],
                 RepositoryNamespace          = dictionary[nameof(ProfileNamingPatternContract.RepositoryNamespace)],
-                EntityProjectDirectory       = dictionary[nameof(ProfileNamingPatternContract.EntityProjectDirectory)],
-                RepositoryProjectDirectory   = dictionary[nameof(ProfileNamingPatternContract.RepositoryProjectDirectory)]
             };
         }
 

@@ -59,7 +59,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
         {
             ProcessInfo.Text = "Exporting BOA repository.";
 
-            var filePath = ProfileNamingPattern.RepositoryProjectDirectory + "Boa.cs";
+            var filePath = Resolve(_config.OutputFilePath);
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }

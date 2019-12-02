@@ -1,3 +1,4 @@
+OutputFilePath: $(RepositoryProjectDirectory)Shared.cs
 EmbeddedCodes: |
   /// <summary>
   ///     The SQL information

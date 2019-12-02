@@ -66,7 +66,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
         {
             ProcessInfo.Text = "Exporting Entity classes.";
 
-            var filePath = ProfileNamingPattern.EntityProjectDirectory + "All.cs";
+            var filePath= Resolve(_config.OutputFilePath);
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }

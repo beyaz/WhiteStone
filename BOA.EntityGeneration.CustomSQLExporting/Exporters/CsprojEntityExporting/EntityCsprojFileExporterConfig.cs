@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojEntityExportin
     class EntityCsprojFileExporterConfig
     {
         public IList<string> DefaultAssemblyReferences { get; set; }
-
+        
         public static EntityCsprojFileExporterConfig CreateFromFile(string filePath)
         {
             return YamlHelper.DeserializeFromFile<EntityCsprojFileExporterConfig>(filePath);
