@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting;
 
-namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
+namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojEntityExporting
 {
     class EntityCsprojFileExporter : ContextContainer
     {
+        static readonly EntityCsprojFileExporterConfig _config = EntityCsprojFileExporterConfig.CreateFromFile();
+
         #region Public Methods
         public void AttachEvents()
         {
@@ -17,7 +18,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         {
             var references  = new List<string>();
 
-            foreach (var reference in EntityFileExporter._config.DefaultAssemblyReferences)
+            foreach (var reference in _config.DefaultAssemblyReferences)
             {
                 references.Add(Resolve(reference));
             }

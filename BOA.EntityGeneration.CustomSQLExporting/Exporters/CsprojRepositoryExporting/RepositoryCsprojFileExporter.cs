@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
+namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojRepositoryExporting
 {
     class RepositoryCsprojFileExporter : ContextContainer
     {

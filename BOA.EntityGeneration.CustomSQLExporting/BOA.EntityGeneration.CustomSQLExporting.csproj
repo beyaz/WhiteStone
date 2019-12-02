@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporterConfig.cs" />
+    <Compile Include="Exporters\CsprojEntityExporting\EntityCsprojFileExporterConfig.cs" />
     <Compile Include="Exporters\CustomSqlClassGenerator.cs" />
     <Compile Include="Exporters\EntityFileExporting\EntityFileExporterConfig.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporterConfig.cs" />
@@ -54,8 +55,8 @@
     <Compile Include="ContextContainer.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporter.cs" />
     <Compile Include="Exporters\EntityFileExporting\EntityFileExporter.cs" />
-    <Compile Include="Exporters\RepositoryCsprojFileExporter.cs" />
-    <Compile Include="Exporters\EntityCsprojFileExporter.cs" />
+    <Compile Include="Exporters\CsprojRepositoryExporting\RepositoryCsprojFileExporter.cs" />
+    <Compile Include="Exporters\CsprojEntityExporting\EntityCsprojFileExporter.cs" />
     <Compile Include="Models\CustomSqlInfo.cs" />
     <Compile Include="Models\CustomSqlInfoParameter.cs" />
     <Compile Include="Models\CustomSqlInfoResult.cs" />
@@ -72,6 +73,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporterConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Exporters\CsprojEntityExporting\EntityCsprojFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Exporters\EntityFileExporting\EntityFileExporterConfig.yaml">
