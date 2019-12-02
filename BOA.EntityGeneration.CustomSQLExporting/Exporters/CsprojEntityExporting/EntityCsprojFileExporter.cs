@@ -29,7 +29,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojEntityExportin
             {
                 FileSystem       = FileSystem,
                 FileNames        = new List<string> {"All.cs"},
-                NamespaceName    = ProfileNamingPattern.EntityNamespace,
+                NamespaceName    = NamingMap.EntityNamespace,
                 IsClientDll      = true,
                 ProjectDirectory = Context.NamingMap.EntityProjectDirectory,
                 References       = references

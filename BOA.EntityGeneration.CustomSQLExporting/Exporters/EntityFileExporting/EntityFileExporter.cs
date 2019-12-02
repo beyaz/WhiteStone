@@ -45,7 +45,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
 
 
             sb.AppendLine();
-            sb.AppendLine($"namespace {ProfileNamingPattern.EntityNamespace}");
+            sb.AppendLine($"namespace {NamingMap.EntityNamespace}");
             sb.OpenBracket();
 
             sb.AppendLine("/// <summary>");

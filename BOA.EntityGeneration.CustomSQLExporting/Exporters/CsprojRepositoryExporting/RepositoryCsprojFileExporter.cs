@@ -31,7 +31,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojRepositoryExpo
             {
                 FileSystem       = FileSystem,
                 FileNames        = new List<string> {"Shared.cs", "Boa.cs"},
-                NamespaceName    = ProfileNamingPattern.RepositoryNamespace,
+                NamespaceName    = NamingMap.RepositoryNamespace,
                 IsClientDll      = false,
                 ProjectDirectory = Context.NamingMap.RepositoryProjectDirectory,
                 References       = references

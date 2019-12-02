@@ -7,6 +7,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting
 {
     class ContextContainer
     {
+
+        protected NamingMap NamingMap => Context.NamingMap;
         protected string Resolve(string value)
         {
             return Context.NamingMap.Resolve(value);
@@ -26,7 +28,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         protected MsBuildQueue                   MsBuildQueue                 => Context.MsBuildQueue;
         protected ProcessContract                ProcessInfo                  => Context.ProcessInfo;
         protected string                         ProfileName                  => Context.ProfileName;
-        protected ProfileNamingPatternContract   ProfileNamingPattern         => Context.ProfileNamingPattern;
         #endregion
 
         #region Methods

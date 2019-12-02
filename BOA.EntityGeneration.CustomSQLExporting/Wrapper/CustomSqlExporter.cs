@@ -34,8 +34,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             Context.NamingMap.Push(nameof(NamingMap.RepositoryProjectDirectory),Resolve(_config.RepositoryProjectDirectory));
 
 
-
-            Context.ProfileNamingPattern = CreateProfileNamingPattern();
+            
 
             ProcessInfo.Text = "Fetching profile informations...";
 
@@ -106,22 +105,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             Thread.Sleep(TimeSpan.FromSeconds(2));
         }
 
-        ProfileNamingPatternContract CreateProfileNamingPattern()
-        {
-            var initialValues = new Dictionary<string, string>
-            {
-                {nameof(ProfileName), ProfileName}
-            };
-
-            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.ProfileNamingPattern, initialValues);
-
-            return new ProfileNamingPatternContract
-            {
-                SlnDirectoryPath             = dictionary[nameof(ProfileNamingPatternContract.SlnDirectoryPath)],
-                EntityNamespace              = dictionary[nameof(ProfileNamingPatternContract.EntityNamespace)],
-                RepositoryNamespace          = dictionary[nameof(ProfileNamingPatternContract.RepositoryNamespace)],
-            };
-        }
+        
 
         void InitializeConfig()
         {

@@ -33,7 +33,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         public MsBuildQueue                   MsBuildQueue           { get; }
         public ProcessContract                ProcessInfo            { get; } = new ProcessContract();
         public string                         ProfileName            { get; set; }
-        public ProfileNamingPatternContract   ProfileNamingPattern   { get; set; }
         #endregion
 
         #region CustomSqlInfoInitialized

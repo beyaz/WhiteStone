@@ -43,7 +43,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
 
         void BeginNamespace()
         {
-            sb.AppendLine($"namespace {ProfileNamingPattern.RepositoryNamespace}.Shared");
+            sb.AppendLine($"namespace {NamingMap.RepositoryNamespace}.Shared");
             sb.OpenBracket();
         }
 
@@ -151,7 +151,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
             sb.AppendLine("using System.Data;");
             sb.AppendLine("using System.Data.SqlClient;");
             sb.AppendLine("using System.Collections.Generic;");
-            sb.AppendLine($"using {ProfileNamingPattern.EntityNamespace};");
+            sb.AppendLine($"using {NamingMap.EntityNamespace};");
         }
         #endregion
     }

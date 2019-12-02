@@ -61,7 +61,6 @@
     <Compile Include="Models\CustomSqlInfo.cs" />
     <Compile Include="Models\CustomSqlInfoParameter.cs" />
     <Compile Include="Models\CustomSqlInfoResult.cs" />
-    <Compile Include="Models\ProfileNamingPatternContract.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="NamingMap.cs" />
     <Compile Include="Wrapper\CustomSqlExporter.cs" />

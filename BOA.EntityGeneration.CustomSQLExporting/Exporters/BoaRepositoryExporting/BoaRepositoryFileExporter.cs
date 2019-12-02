@@ -42,7 +42,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
         #region Methods
         void BeginNamespace()
         {
-            sb.BeginNamespace(ProfileNamingPattern.RepositoryNamespace);
+            sb.BeginNamespace(NamingMap.RepositoryNamespace);
         }
 
         void EmptyLine()
@@ -76,9 +76,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
         void WriteBoaRepositoryClass()
         {
-            var namingPattern = ProfileNamingPattern;
+          
 
-            var key = $"{namingPattern.RepositoryNamespace}.{CustomSqlNamingPattern.RepositoryClassName}.Execute";
+            var key = $"{NamingMap.RepositoryNamespace}.{CustomSqlNamingPattern.RepositoryClassName}.Execute";
 
             var sharedRepositoryClassAccessPath = $"Shared.{CustomSqlNamingPattern.RepositoryClassName}";
 
