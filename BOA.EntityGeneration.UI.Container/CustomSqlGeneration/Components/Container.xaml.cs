@@ -52,7 +52,7 @@ namespace BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components
 
             if (selectedProfileName == "*")
             {
-                foreach (var item in App.Model.ProfileNames.Where(x => x != "*"))
+                foreach (var item in App.Config.ProfileNames.Where(x => x != "*"))
                 {
                     generationQueue.Enqueue(item);
                 }

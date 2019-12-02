@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.UI.Container.Components
                 return null;
             }
 
-            return App.Model.ProfileNames.Where(name => name.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0);
+            return App.Config.ProfileNames.Where(name => name.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0);
         }
         #endregion
     }

@@ -52,7 +52,7 @@ namespace BOA.EntityGeneration.UI.Container.EntityGeneration.Components
 
             if (schemaName == "*")
             {
-                foreach (var item in App.Model.SchemaNames.Where(x => x != "*"))
+                foreach (var item in App.Config.SchemaNames.Where(x => x != "*"))
                 {
                     generationQueue.Enqueue(item);
                 }

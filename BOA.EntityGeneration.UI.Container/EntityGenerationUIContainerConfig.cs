@@ -12,6 +12,9 @@ namespace BOA.EntityGeneration.UI.Container
     {
         public bool IntegrateWithTFSAndCheckInAutomatically { get; set; }
 
+        public string[] ProfileNames { get; set; }
+        public string[] SchemaNames { get; set; }
+
         public static EntityGenerationUIContainerConfig CreateFromFile()
         {
             return YamlHelper.DeserializeFromFile<EntityGenerationUIContainerConfig>(nameof(EntityGenerationUIContainerConfig) + ".yaml");
