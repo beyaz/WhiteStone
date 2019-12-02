@@ -50,7 +50,7 @@
     <Compile Include="Exporters\BoaRepositoryExporting\CustomSqlClassGenerator.cs" />
     <Compile Include="Exporters\EntityFileExporting\EntityFileExporterConfig.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporterConfig.cs" />
-    <Compile Include="Models\CustomSqlNamingPatternContract.cs" />
+    <Compile Include="Models\ReferencedEntityTypeNamingPatternContract.cs" />
     <Compile Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporter.cs" />
     <Compile Include="ContextManagement\ContextContainer.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporter.cs" />
