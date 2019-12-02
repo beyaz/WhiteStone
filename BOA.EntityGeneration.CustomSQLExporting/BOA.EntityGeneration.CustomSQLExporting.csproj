@@ -50,7 +50,6 @@
     <Compile Include="Exporters\CustomSqlClassGenerator.cs" />
     <Compile Include="Exporters\EntityFileExporting\EntityFileExporterConfig.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporterConfig.cs" />
-    <Compile Include="Models\CustomSQLExportingConfig.cs" />
     <Compile Include="Models\CustomSqlNamingPatternContract.cs" />
     <Compile Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporter.cs" />
     <Compile Include="ContextContainer.cs" />
@@ -69,9 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CustomSQLExportingConfig.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

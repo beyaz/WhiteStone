@@ -30,10 +30,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public string CustomSQLNamesDefinedToProfileSql { get; set; }
 
 
-        /// <summary>
-        ///     Gets or sets the name of the database enum.
-        /// </summary>
-        public string DatabaseEnumName { get; set; }
 
         
         /// <summary>

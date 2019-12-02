@@ -24,7 +24,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         #endregion
 
         #region Public Properties
-        public CustomSQLExportingConfig          Config                 { get; set; }
+        
         public CustomSqlInfo                  CustomSqlInfo          { get; set; }
         public CustomSqlNamingPatternContract CustomSqlNamingPattern { get; set; }
         public SqlDatabase                    Database               { get; set; }
