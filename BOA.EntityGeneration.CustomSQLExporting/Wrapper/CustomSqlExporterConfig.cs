@@ -6,18 +6,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     public class CustomSqlExporterConfig
     {
-        public string SlnDirectoryPath { get; set; }
-        public string EntityNamespace { get; set; }
-        public string RepositoryNamespace { get; set; }
-        public string EntityProjectDirectory { get; set; }
-        public string RepositoryProjectDirectory { get; set; }
-        public ReferencedEntityTypeNamingPatternContract ReferencedEntityTypeNamingPattern { get; set; }
-            
-
-        public string InputClassName     { get; set; }
-        public string ResultClassName    { get; set; }
-        public string RepositoryClassName{ get; set; }
-
+        #region Public Properties
         /// <summary>
         ///     Gets or sets the connection string.
         /// </summary>
@@ -33,14 +22,24 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         /// </summary>
         public string CustomSQLNamesDefinedToProfileSql { get; set; }
 
+        public string EntityNamespace        { get; set; }
+        public string EntityProjectDirectory { get; set; }
 
+        public string                                    InputClassName                    { get; set; }
+        public ReferencedEntityTypeNamingPatternContract ReferencedEntityTypeNamingPattern { get; set; }
+        public string                                    RepositoryClassName               { get; set; }
+        public string                                    RepositoryNamespace               { get; set; }
+        public string                                    RepositoryProjectDirectory        { get; set; }
+        public string                                    ResultClassName                   { get; set; }
+        public string                                    SlnDirectoryPath                  { get; set; }
 
-        
         /// <summary>
         ///     Gets or sets the SQL get profile identifier list.
         /// </summary>
         public string SQL_GetProfileIdList { get; set; }
+        #endregion
 
+        #region Public Methods
         public static CustomSqlExporterConfig CreateFromFile(string filePath)
         {
             return YamlHelper.DeserializeFromFile<CustomSqlExporterConfig>(filePath);
@@ -48,7 +47,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         public static CustomSqlExporterConfig CreateFromFile()
         {
-            return CreateFromFile(string.Join(Path.DirectorySeparatorChar.ToString(),nameof(Wrapper),nameof(CustomSqlExporterConfig)+".yaml"));
+            return CreateFromFile(string.Join(Path.DirectorySeparatorChar.ToString(), nameof(Wrapper), nameof(CustomSqlExporterConfig) + ".yaml"));
         }
+        #endregion
     }
 }

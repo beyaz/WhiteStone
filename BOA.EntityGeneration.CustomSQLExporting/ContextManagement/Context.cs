@@ -7,10 +7,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.ContextManagement
 {
     class Context
     {
-        public readonly AddOnlyList<string> ExtraAssemblyReferencesForEntityProject  = new AddOnlyList<string>();
+        #region Fields
+        public readonly AddOnlyList<string> ExtraAssemblyReferencesForEntityProject     = new AddOnlyList<string>();
         public readonly AddOnlyList<string> ExtraAssemblyReferencesForRepositoryProject = new AddOnlyList<string>();
 
         public readonly NamingMap NamingMap = new NamingMap();
+        #endregion
 
         #region Constructors
         public Context()
@@ -24,15 +26,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.ContextManagement
         #endregion
 
         #region Public Properties
-        
-        public CustomSqlInfo                  CustomSqlInfo          { get; set; }
+        public CustomSqlInfo                             CustomSqlInfo                     { get; set; }
+        public SqlDatabase                               Database                          { get; set; }
+        public AddOnlyList<string>                       Errors                            { get; } = new AddOnlyList<string>();
+        public FileSystem                                FileSystem                        { get; } = new FileSystem();
+        public MsBuildQueue                              MsBuildQueue                      { get; }
+        public ProcessContract                           ProcessInfo                       { get; } = new ProcessContract();
+        public string                                    ProfileName                       { get; set; }
         public ReferencedEntityTypeNamingPatternContract ReferencedEntityTypeNamingPattern { get; set; }
-        public SqlDatabase                    Database               { get; set; }
-        public AddOnlyList<string>            Errors                 { get; } = new AddOnlyList<string>();
-        public FileSystem                     FileSystem             { get; } = new FileSystem();
-        public MsBuildQueue                   MsBuildQueue           { get; }
-        public ProcessContract                ProcessInfo            { get; } = new ProcessContract();
-        public string                         ProfileName            { get; set; }
         #endregion
 
         #region CustomSqlInfoInitialized

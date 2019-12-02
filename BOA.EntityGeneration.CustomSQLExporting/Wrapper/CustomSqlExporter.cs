@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
-using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporting;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojEntityExporting;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojRepositoryExporting;
@@ -17,26 +15,25 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     class CustomSqlExporter : ContextContainer
     {
+        #region Static Fields
         internal static readonly CustomSqlExporterConfig _config = CustomSqlExporterConfig.CreateFromFile();
-
+        #endregion
 
         #region Public Methods
         public void Export(string profileId)
         {
-            Context.ProfileName          = profileId;
+            Context.ProfileName = profileId;
 
             // initialize Naming Map
-            Context.NamingMap.Push(nameof(NamingMap.ProfileName),ProfileName);
-            Context.NamingMap.Push(nameof(NamingMap.EntityNamespace),Resolve(_config.EntityNamespace));
-            Context.NamingMap.Push(nameof(NamingMap.RepositoryNamespace),Resolve(_config.RepositoryNamespace));
-            Context.NamingMap.Push(nameof(NamingMap.SlnDirectoryPath),Resolve(_config.SlnDirectoryPath));
-            Context.NamingMap.Push(nameof(NamingMap.EntityProjectDirectory),Resolve(_config.EntityProjectDirectory));
-            Context.NamingMap.Push(nameof(NamingMap.RepositoryProjectDirectory),Resolve(_config.RepositoryProjectDirectory));
-            Context.NamingMap.Push(nameof(NamingMap.InputClassName),_config.InputClassName);
-            Context.NamingMap.Push(nameof(NamingMap.ResultClassName),_config.ResultClassName);
-            Context.NamingMap.Push(nameof(NamingMap.RepositoryClassName),_config.RepositoryClassName);
-
-            
+            Context.NamingMap.Push(nameof(NamingMap.ProfileName), ProfileName);
+            Context.NamingMap.Push(nameof(NamingMap.EntityNamespace), Resolve(_config.EntityNamespace));
+            Context.NamingMap.Push(nameof(NamingMap.RepositoryNamespace), Resolve(_config.RepositoryNamespace));
+            Context.NamingMap.Push(nameof(NamingMap.SlnDirectoryPath), Resolve(_config.SlnDirectoryPath));
+            Context.NamingMap.Push(nameof(NamingMap.EntityProjectDirectory), Resolve(_config.EntityProjectDirectory));
+            Context.NamingMap.Push(nameof(NamingMap.RepositoryProjectDirectory), Resolve(_config.RepositoryProjectDirectory));
+            Context.NamingMap.Push(nameof(NamingMap.InputClassName), _config.InputClassName);
+            Context.NamingMap.Push(nameof(NamingMap.ResultClassName), _config.ResultClassName);
+            Context.NamingMap.Push(nameof(NamingMap.RepositoryClassName), _config.RepositoryClassName);
 
             ProcessInfo.Text = "Fetching profile informations...";
 
@@ -87,7 +84,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public void InitializeContext()
         {
             Context = new Context();
-            
+
             InitializeDatabaseConnection();
 
             // attach events
@@ -107,48 +104,24 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             Thread.Sleep(TimeSpan.FromSeconds(2));
         }
 
-        
-
-      
-
         void InitializeCustomSqlNamingPattern()
         {
-
-           
-
-            Context.NamingMap.Push(nameof(NamingMap.CamelCasedCustomSqlName),CustomSqlInfo.Name.ToContractName());
-
-           
-
-                 
-                    
-            
-
-
-
+            Context.NamingMap.Push(nameof(NamingMap.CamelCasedCustomSqlName), CustomSqlInfo.Name.ToContractName());
 
             var entityReferencedResultColumn = CustomSqlInfo.ResultColumns.FirstOrDefault(x => x.IsReferenceToEntity);
             if (entityReferencedResultColumn != null)
             {
-                Context.NamingMap.Push(nameof(NamingMap.SchemaName),CustomSqlInfo.SchemaName);
-                Context.NamingMap.Push(nameof(NamingMap.CamelCasedResultName),entityReferencedResultColumn.Name.ToContractName());
+                Context.NamingMap.Push(nameof(NamingMap.SchemaName), CustomSqlInfo.SchemaName);
+                Context.NamingMap.Push(nameof(NamingMap.CamelCasedResultName), entityReferencedResultColumn.Name.ToContractName());
 
                 Context.ReferencedEntityTypeNamingPattern = new ReferencedEntityTypeNamingPatternContract
                 {
                     ReferencedEntityAccessPath       = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedEntityAccessPath),
                     ReferencedEntityAssemblyPath     = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedEntityAssemblyPath),
                     ReferencedEntityReaderMethodPath = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedEntityReaderMethodPath),
-                    ReferencedRepositoryAssemblyPath = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedRepositoryAssemblyPath),
+                    ReferencedRepositoryAssemblyPath = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedRepositoryAssemblyPath)
                 };
-
             }
-
-         
-
-            
-
-            
-
         }
 
         void InitializeDatabaseConnection()

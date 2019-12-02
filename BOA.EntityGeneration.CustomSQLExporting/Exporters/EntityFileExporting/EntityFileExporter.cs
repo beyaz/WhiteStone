@@ -6,10 +6,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
 {
     class EntityFileExporter : ContextContainer
     {
+        #region Static Fields
         internal static readonly EntityFileExporterConfig _config = EntityFileExporterConfig.CreateFromFile();
+        #endregion
 
-        #region Properties
-        readonly PaddedStringBuilder sb =new PaddedStringBuilder();
+        #region Fields
+        readonly PaddedStringBuilder sb = new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
@@ -25,26 +27,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
         }
         #endregion
 
-        void EmptyLine()
-        {
-            sb.AppendLine();
-        }
         #region Methods
-
-        void UsingList()
-        {
-            foreach (var line in _config.UsingLines)
-            {
-                sb.AppendLine(Resolve(line));
-            }
-            
-        }
-
-
         void BeginNamespace()
         {
-
-
             sb.AppendLine();
             sb.AppendLine($"namespace {NamingMap.EntityNamespace}");
             sb.OpenBracket();
@@ -58,6 +43,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
             sb.AppendLine("}");
         }
 
+        void EmptyLine()
+        {
+            sb.AppendLine();
+        }
+
         void EndNamespace()
         {
             sb.CloseBracket();
@@ -67,12 +57,18 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
         {
             ProcessInfo.Text = "Exporting Entity classes.";
 
-            var filePath= Resolve(_config.OutputFilePath);
+            var filePath = Resolve(_config.OutputFilePath);
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }
 
-       
+        void UsingList()
+        {
+            foreach (var line in _config.UsingLines)
+            {
+                sb.AppendLine(Resolve(line));
+            }
+        }
 
         void WriteSqlInputOutputTypes()
         {

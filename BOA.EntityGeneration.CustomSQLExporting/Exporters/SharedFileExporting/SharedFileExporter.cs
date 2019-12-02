@@ -8,11 +8,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
 {
     class SharedFileExporter : ContextContainer
     {
-
+        #region Static Fields
         internal static readonly SharedFileExporterConfig _config = SharedFileExporterConfig.CreateFromFile();
+        #endregion
 
-        #region Properties
-        readonly PaddedStringBuilder sb =new PaddedStringBuilder();
+        #region Fields
+        readonly PaddedStringBuilder sb = new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
@@ -100,8 +101,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }
-
-       
 
         void WriteEmbeddedClasses()
         {

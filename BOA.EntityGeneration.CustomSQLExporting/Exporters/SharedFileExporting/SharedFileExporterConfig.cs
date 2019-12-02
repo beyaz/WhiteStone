@@ -8,9 +8,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
     {
         #region Public Properties
         public string EmbeddedCodes { get; set; }
-        #endregion
 
         public string OutputFilePath { get; set; }
+        #endregion
+
         #region Public Methods
         public static Config CreateFromFile(string filePath)
         {

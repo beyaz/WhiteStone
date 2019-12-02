@@ -6,10 +6,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
     class BoaRepositoryFileExporterConfig
     {
         #region Public Properties
-        public string EmbeddedCodes { get; set; }
+        public string EmbeddedCodes  { get; set; }
+        public string OutputFilePath { get; set; }
 
         public string[] UsingLines { get; set; }
-        public string OutputFilePath { get; set; }
         #endregion
 
         #region Public Methods
@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
         public static BoaRepositoryFileExporterConfig CreateFromFile()
         {
-            return CreateFromFile(string.Join(Path.DirectorySeparatorChar.ToString(),nameof(Exporters),nameof(BoaRepositoryExporting),nameof(BoaRepositoryFileExporterConfig)+".yaml"));
+            return CreateFromFile(string.Join(Path.DirectorySeparatorChar.ToString(), nameof(Exporters), nameof(BoaRepositoryExporting), nameof(BoaRepositoryFileExporterConfig) + ".yaml"));
         }
         #endregion
     }

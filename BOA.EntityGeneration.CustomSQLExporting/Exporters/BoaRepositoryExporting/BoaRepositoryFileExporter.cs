@@ -1,24 +1,23 @@
-﻿using System.IO;
-using BOA.Common.Helpers;
+﻿using BOA.Common.Helpers;
 using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
-using BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting;
 using BOA.EntityGeneration.ScriptModel;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporting
 {
     class BoaRepositoryFileExporter : ContextContainer
     {
+        #region Static Fields
         internal static readonly BoaRepositoryFileExporterConfig _config = BoaRepositoryFileExporterConfig.CreateFromFile();
+        #endregion
 
-        #region Properties
-        readonly PaddedStringBuilder sb =new PaddedStringBuilder();
+        #region Fields
+        readonly PaddedStringBuilder sb = new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
         public void AttachEvents()
         {
             var customSqlClassGenerator = Create<CustomSqlClassGenerator>();
-
 
             customSqlClassGenerator.AttachEvents();
 
@@ -65,8 +64,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
             FileSystem.WriteAllText(filePath, sb.ToString());
         }
 
-        
-
         void UsingList()
         {
             foreach (var line in _config.UsingLines)
@@ -77,8 +74,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
         void WriteBoaRepositoryClass()
         {
-          
-
             var key = $"{NamingMap.RepositoryNamespace}.{NamingMap.RepositoryClassName}.Execute";
 
             var sharedRepositoryClassAccessPath = $"Shared.{NamingMap.RepositoryClassName}";
@@ -147,8 +142,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
             sb.AppendAll(_config.EmbeddedCodes);
             sb.AppendLine();
         }
-
-       
         #endregion
     }
 }

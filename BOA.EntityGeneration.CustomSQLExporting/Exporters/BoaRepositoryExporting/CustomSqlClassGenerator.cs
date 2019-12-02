@@ -5,10 +5,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 {
     class CustomSqlClassGenerator : ContextContainer
     {
-       
-
-        #region Properties
-        public readonly PaddedStringBuilder sb =new PaddedStringBuilder();
+        #region Fields
+        public readonly PaddedStringBuilder sb = new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
@@ -20,8 +18,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
             Context.ProfileInfoRemove += End;
         }
-
-       
         #endregion
 
         #region Methods
