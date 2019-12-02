@@ -125,8 +125,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
             {
                 if (item.IsReferenceToEntity)
                 {
-                    RepositoryAssemblyReferences.Add(CustomSqlNamingPattern.ReferencedRepositoryAssemblyPath);
-                    RepositoryAssemblyReferences.Add(CustomSqlNamingPattern.ReferencedEntityAssemblyPath);
+                    Context.ExtraAssemblyReferencesForRepositoryProject.Add(CustomSqlNamingPattern.ReferencedRepositoryAssemblyPath);
+                    Context.ExtraAssemblyReferencesForRepositoryProject.Add(CustomSqlNamingPattern.ReferencedEntityAssemblyPath);
 
                     sb.AppendLine($"contract.{item.NameInDotnet} = new {CustomSqlNamingPattern.ReferencedEntityAccessPath}();");
                     sb.AppendLine($"{CustomSqlNamingPattern.ReferencedEntityReaderMethodPath}(reader, contract.{item.NameInDotnet});");

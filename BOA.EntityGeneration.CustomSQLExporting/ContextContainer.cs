@@ -27,7 +27,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         protected ProcessContract                ProcessInfo                  => Context.ProcessInfo;
         protected string                         ProfileName                  => Context.ProfileName;
         protected ProfileNamingPatternContract   ProfileNamingPattern         => Context.ProfileNamingPattern;
-        protected List<string>                   RepositoryAssemblyReferences => ProfileNamingPattern.RepositoryAssemblyReferences;
         #endregion
 
         #region Methods

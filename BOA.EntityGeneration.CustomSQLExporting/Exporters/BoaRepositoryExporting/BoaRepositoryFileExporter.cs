@@ -108,8 +108,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
                 resultContractName     = CustomSqlNamingPattern.ReferencedEntityAccessPath;
                 readContractMethodPath = CustomSqlNamingPattern.ReferencedEntityReaderMethodPath;
 
-                RepositoryAssemblyReferences.Add(CustomSqlNamingPattern.ReferencedEntityAssemblyPath);
-                RepositoryAssemblyReferences.Add(CustomSqlNamingPattern.ReferencedRepositoryAssemblyPath);
+                Context.ExtraAssemblyReferencesForRepositoryProject.Add(CustomSqlNamingPattern.ReferencedEntityAssemblyPath);
+                Context.ExtraAssemblyReferencesForRepositoryProject.Add(CustomSqlNamingPattern.ReferencedRepositoryAssemblyPath);
             }
 
             if (CustomSqlInfo.SqlResultIsCollection)

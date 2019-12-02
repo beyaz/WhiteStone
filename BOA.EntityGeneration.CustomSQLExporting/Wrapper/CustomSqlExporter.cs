@@ -119,8 +119,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 EntityNamespace              = dictionary[nameof(ProfileNamingPatternContract.EntityNamespace)],
                 RepositoryNamespace          = dictionary[nameof(ProfileNamingPatternContract.RepositoryNamespace)],
                 EntityProjectDirectory       = dictionary[nameof(ProfileNamingPatternContract.EntityProjectDirectory)],
-                RepositoryProjectDirectory   = dictionary[nameof(ProfileNamingPatternContract.RepositoryProjectDirectory)],
-                RepositoryAssemblyReferences = dictionary[nameof(ProfileNamingPatternContract.RepositoryAssemblyReferences)].SplitAndClear("|").ToList()
+                RepositoryProjectDirectory   = dictionary[nameof(ProfileNamingPatternContract.RepositoryProjectDirectory)]
             };
         }
 
