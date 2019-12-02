@@ -17,7 +17,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
         public static BoaRepositoryFileExporterConfig CreateFromFile()
         {
-            
             return CreateFromFile(string.Join(Path.DirectorySeparatorChar.ToString(),nameof(Exporters),nameof(BoaRepositoryExporting),nameof(BoaRepositoryFileExporterConfig)+".yaml"));
         }
         #endregion

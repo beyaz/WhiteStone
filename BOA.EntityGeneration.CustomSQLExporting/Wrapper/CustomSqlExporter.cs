@@ -7,6 +7,7 @@ using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporting;
+using BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
 
@@ -107,7 +108,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 EntityProjectDirectory       = dictionary[nameof(ProfileNamingPatternContract.EntityProjectDirectory)],
                 RepositoryProjectDirectory   = dictionary[nameof(ProfileNamingPatternContract.RepositoryProjectDirectory)],
                 BoaRepositoryUsingLines      = dictionary[nameof(ProfileNamingPatternContract.BoaRepositoryUsingLines)].SplitAndClear("|"),
-                EntityUsingLines             = dictionary[nameof(ProfileNamingPatternContract.EntityUsingLines)].SplitAndClear("|"),
                 EntityAssemblyReferences     = dictionary[nameof(ProfileNamingPatternContract.EntityAssemblyReferences)].SplitAndClear("|").ToList(),
                 RepositoryAssemblyReferences = dictionary[nameof(ProfileNamingPatternContract.RepositoryAssemblyReferences)].SplitAndClear("|").ToList()
             };
@@ -120,6 +120,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
         void InitializeCustomSqlNamingPattern()
         {
+
+            Context.NamingMap.Push(nameof(NamingMap.ProfileName),ProfileName);
+            Context.NamingMap.Push(nameof(NamingMap.CamelCasedCustomSqlName),CustomSqlInfo.Name.ToContractName());
+
+
             var initialValues = new Dictionary<string, string>
             {
                 {nameof(ProfileName), ProfileName},
@@ -130,6 +135,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             if (entityReferencedResultColumn != null)
             {
+                Context.NamingMap.Push(nameof(NamingMap.SchemaName),CustomSqlInfo.SchemaName);
+                Context.NamingMap.Push(nameof(NamingMap.CamelCasedResultName),entityReferencedResultColumn.Name.ToContractName());
+
                 initialValues[nameof(CustomSqlInfo.SchemaName)] = CustomSqlInfo.SchemaName;
                 initialValues["CamelCasedResultName"]           = entityReferencedResultColumn.Name.ToContractName();
             }

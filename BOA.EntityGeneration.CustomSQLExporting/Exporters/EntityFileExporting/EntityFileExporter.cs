@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
 
-namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
+namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
 {
     class EntityFileExporter : ContextContainer
     {
-       
+        static readonly EntityFileExporterConfig _config = EntityFileExporterConfig.CreateFromFile();
 
         #region Properties
         readonly PaddedStringBuilder sb =new PaddedStringBuilder();
@@ -14,6 +14,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Public Methods
         public void AttachEvents()
         {
+            Context.ProfileInfoInitialized += UsingList;
             Context.ProfileInfoInitialized += BeginNamespace;
 
             Context.CustomSqlInfoInitialized += WriteSqlInputOutputTypes;
@@ -23,12 +24,25 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         }
         #endregion
 
+        void EmptyLine()
+        {
+            sb.AppendLine();
+        }
         #region Methods
+
+        void UsingList()
+        {
+            foreach (var line in _config.UsingLines)
+            {
+                sb.AppendLine(Resolve(line));
+            }
+            
+        }
+
+
         void BeginNamespace()
         {
-            sb.AppendLine("using BOA.Common.Types;");
-            sb.AppendLine("using System;");
-            sb.AppendLine("using System.Collections.Generic;");
+
 
             sb.AppendLine();
             sb.AppendLine($"namespace {ProfileNamingPattern.EntityNamespace}");

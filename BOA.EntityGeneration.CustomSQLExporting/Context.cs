@@ -7,6 +7,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting
 {
     class Context
     {
+        public readonly NamingMap NamingMap = new NamingMap();
+
         #region Constructors
         public Context()
         {

@@ -6,6 +6,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting
 {
     class ContextContainer
     {
+        protected string Resolve(string value)
+        {
+            return Context.NamingMap.Resolve(value);
+        }
+
         #region Public Properties
         public Context Context { get; set; }
         #endregion

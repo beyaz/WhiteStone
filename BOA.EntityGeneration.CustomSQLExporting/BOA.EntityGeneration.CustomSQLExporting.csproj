@@ -46,13 +46,14 @@
   <ItemGroup>
     <Compile Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporterConfig.cs" />
     <Compile Include="Exporters\CustomSqlClassGenerator.cs" />
+    <Compile Include="Exporters\EntityFileExporting\EntityFileExporterConfig.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporterConfig.cs" />
     <Compile Include="Models\CustomSQLExportingConfig.cs" />
     <Compile Include="Models\CustomSqlNamingPatternContract.cs" />
     <Compile Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporter.cs" />
     <Compile Include="ContextContainer.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporter.cs" />
-    <Compile Include="Exporters\EntityFileExporter.cs" />
+    <Compile Include="Exporters\EntityFileExporting\EntityFileExporter.cs" />
     <Compile Include="Exporters\RepositoryCsprojFileExporter.cs" />
     <Compile Include="Exporters\EntityCsprojFileExporter.cs" />
     <Compile Include="Models\CustomSqlInfo.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Models\CustomSqlInfoResult.cs" />
     <Compile Include="Models\ProfileNamingPatternContract.cs" />
     <Compile Include="Context.cs" />
+    <Compile Include="NamingMap.cs" />
     <Compile Include="Wrapper\CustomSqlExporter.cs" />
     <Compile Include="Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +71,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporterConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Exporters\EntityFileExporting\EntityFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Exporters\SharedFileExporting\SharedFileExporterConfig.yaml">

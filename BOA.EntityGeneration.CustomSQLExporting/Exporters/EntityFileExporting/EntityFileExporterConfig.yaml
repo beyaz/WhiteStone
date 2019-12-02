@@ -1,0 +1,4 @@
+UsingLines:
+  - using System;
+  - using System.Collections.Generic;
+  - using CardContractBase = BOA.Common.Types.CardContractBase;
