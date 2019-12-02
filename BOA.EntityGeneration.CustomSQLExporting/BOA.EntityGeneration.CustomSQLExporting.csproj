@@ -63,6 +63,7 @@
     <Compile Include="Context.cs" />
     <Compile Include="NamingMap.cs" />
     <Compile Include="Wrapper\CustomSqlExporter.cs" />
+    <Compile Include="Wrapper\CustomSqlExporterConfig.cs" />
     <Compile Include="Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -77,6 +78,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Exporters\SharedFileExporting\SharedFileExporterConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Wrapper\CustomSqlExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

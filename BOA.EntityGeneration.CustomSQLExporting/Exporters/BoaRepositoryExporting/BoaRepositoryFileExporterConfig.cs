@@ -7,6 +7,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
     {
         #region Public Properties
         public string EmbeddedCodes { get; set; }
+
+        public string[] UsingLines { get; set; }
         #endregion
 
         #region Public Methods

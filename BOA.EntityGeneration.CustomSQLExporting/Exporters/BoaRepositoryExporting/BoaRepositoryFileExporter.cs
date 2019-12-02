@@ -68,9 +68,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
         void UsingList()
         {
-            foreach (var line in ProfileNamingPattern.BoaRepositoryUsingLines)
+            foreach (var line in _config.UsingLines)
             {
-                sb.AppendLine(line);
+                sb.AppendLine(Resolve(line));
             }
         }
 

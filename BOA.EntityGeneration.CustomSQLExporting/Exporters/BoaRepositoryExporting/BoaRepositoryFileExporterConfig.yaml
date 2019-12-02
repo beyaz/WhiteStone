@@ -1,3 +1,13 @@
+UsingLines: 
+  - using System;
+  - using System.Data;
+  - using System.Data.SqlClient;
+  - using System.Collections.Generic;
+  - using BOA.Base;
+  - using BOA.Base.Data;
+  - using BOA.Common.Types;
+  - using $(EntityNamespace);
+  - using $(RepositoryNamespace).Shared;  
 EmbeddedCodes: |
   /// <summary>
   ///     The object helper SQL utility

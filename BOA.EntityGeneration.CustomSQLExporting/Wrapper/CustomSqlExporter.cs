@@ -15,11 +15,22 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     class CustomSqlExporter : ContextContainer
     {
+        internal static readonly CustomSqlExporterConfig _config = CustomSqlExporterConfig.CreateFromFile();
+
 
         #region Public Methods
         public void Export(string profileId)
         {
             Context.ProfileName          = profileId;
+
+            // initialize Naming Map
+            Context.NamingMap.Push(nameof(NamingMap.ProfileName),ProfileName);
+            Context.NamingMap.Push(nameof(NamingMap.EntityNamespace),Resolve(_config.EntityNamespace));
+            Context.NamingMap.Push(nameof(NamingMap.RepositoryNamespace),Resolve(_config.RepositoryNamespace));
+            Context.NamingMap.Push(nameof(NamingMap.SlnDirectoryPath),Resolve(_config.SlnDirectoryPath));
+
+
+
             Context.ProfileNamingPattern = CreateProfileNamingPattern();
 
             ProcessInfo.Text = "Fetching profile informations...";
@@ -107,7 +118,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 RepositoryNamespace          = dictionary[nameof(ProfileNamingPatternContract.RepositoryNamespace)],
                 EntityProjectDirectory       = dictionary[nameof(ProfileNamingPatternContract.EntityProjectDirectory)],
                 RepositoryProjectDirectory   = dictionary[nameof(ProfileNamingPatternContract.RepositoryProjectDirectory)],
-                BoaRepositoryUsingLines      = dictionary[nameof(ProfileNamingPatternContract.BoaRepositoryUsingLines)].SplitAndClear("|"),
                 RepositoryAssemblyReferences = dictionary[nameof(ProfileNamingPatternContract.RepositoryAssemblyReferences)].SplitAndClear("|").ToList()
             };
         }
@@ -120,8 +130,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         void InitializeCustomSqlNamingPattern()
         {
 
-            Context.NamingMap.Push(nameof(NamingMap.ProfileName),ProfileName);
+           
+
             Context.NamingMap.Push(nameof(NamingMap.CamelCasedCustomSqlName),CustomSqlInfo.Name.ToContractName());
+
+            
+
 
 
             var initialValues = new Dictionary<string, string>

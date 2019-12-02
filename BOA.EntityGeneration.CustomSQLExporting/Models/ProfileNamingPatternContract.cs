@@ -5,7 +5,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
     class ProfileNamingPatternContract
     {
         #region Public Properties
-        public IReadOnlyList<string> BoaRepositoryUsingLines      { get; set; }
         public string                EntityNamespace              { get; set; }
         public string                EntityProjectDirectory       { get; set; }
         public List<string>          RepositoryAssemblyReferences { get; set; }
