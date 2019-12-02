@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.CustomSQLExporting.Models;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
@@ -10,7 +11,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public string RepositoryNamespace { get; set; }
         public string EntityProjectDirectory { get; set; }
         public string RepositoryProjectDirectory { get; set; }
-        
+        public CustomSqlNamingPatternContract CustomSqlNamingPattern { get; set; }
             
 
 

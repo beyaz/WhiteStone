@@ -32,10 +32,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         /// </summary>
         public string CustomSQLNamesDefinedToProfileSql { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the custom SQL naming pattern.
-        /// </summary>
-        public Dictionary<string, string> CustomSqlNamingPattern { get; set; }
 
         /// <summary>
         ///     Gets or sets the name of the database enum.

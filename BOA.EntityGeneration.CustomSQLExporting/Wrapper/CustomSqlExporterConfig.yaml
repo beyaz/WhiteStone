@@ -3,3 +3,11 @@ EntityNamespace: BOA.Types.Kernel.Card.CustomSql_$(ProfileName)
 RepositoryNamespace: BOA.Business.Kernel.Card.CustomSql_$(ProfileName)
 EntityProjectDirectory: $(SlnDirectoryPath)CustomSQL\$(ProfileName)\$(EntityNamespace)\
 RepositoryProjectDirectory: $(SlnDirectoryPath)CustomSQL\$(ProfileName)\$(RepositoryNamespace)\
+CustomSqlNamingPattern:
+  InputClassName: $(CamelCasedCustomSqlName)Request
+  ResultClassName: $(CamelCasedCustomSqlName)Contract
+  RepositoryClassName: $(CamelCasedCustomSqlName)
+  ReferencedEntityAccessPath: Types.Kernel.Card.$(SchemaName).$(CamelCasedResultName)Contract
+  ReferencedEntityReaderMethodPath: $(SchemaName).Shared.$(CamelCasedResultName).ReadContract
+  ReferencedEntityAssemblyPath: <Reference Include="BOA.Types.Kernel.Card.$(SchemaName)"><HintPath>D:\BOA\Server\bin\BOA.Types.Kernel.Card.$(SchemaName).dll</HintPath></Reference>
+  ReferencedRepositoryAssemblyPath: <Reference Include="BOA.Business.Kernel.Card.$(SchemaName)"><HintPath>D:\BOA\Server\bin\BOA.Business.Kernel.Card.$(SchemaName).dll</HintPath></Reference>

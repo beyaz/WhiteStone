@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using BOA.Common.Helpers;
@@ -119,39 +118,31 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             Context.NamingMap.Push(nameof(NamingMap.CamelCasedCustomSqlName),CustomSqlInfo.Name.ToContractName());
 
-            
-
-
-
-            var initialValues = new Dictionary<string, string>
-            {
-                {nameof(ProfileName), ProfileName},
-                {"CamelCasedCustomSqlName", CustomSqlInfo.Name.ToContractName()}
-            };
-
             var entityReferencedResultColumn = CustomSqlInfo.ResultColumns.FirstOrDefault(x => x.IsReferenceToEntity);
-
             if (entityReferencedResultColumn != null)
             {
                 Context.NamingMap.Push(nameof(NamingMap.SchemaName),CustomSqlInfo.SchemaName);
                 Context.NamingMap.Push(nameof(NamingMap.CamelCasedResultName),entityReferencedResultColumn.Name.ToContractName());
 
-                initialValues[nameof(CustomSqlInfo.SchemaName)] = CustomSqlInfo.SchemaName;
-                initialValues["CamelCasedResultName"]           = entityReferencedResultColumn.Name.ToContractName();
+                Context.CustomSqlNamingPattern = new CustomSqlNamingPatternContract
+                {
+                    ResultClassName                  = Resolve(_config.CustomSqlNamingPattern.ResultClassName),
+                    RepositoryClassName              = Resolve(_config.CustomSqlNamingPattern.RepositoryClassName),
+                    InputClassName                   = Resolve(_config.CustomSqlNamingPattern.InputClassName),
+                    ReferencedEntityAccessPath       = Resolve(_config.CustomSqlNamingPattern.ReferencedEntityAccessPath),
+                    ReferencedEntityAssemblyPath     = Resolve(_config.CustomSqlNamingPattern.ReferencedEntityAssemblyPath),
+                    ReferencedEntityReaderMethodPath = Resolve(_config.CustomSqlNamingPattern.ReferencedEntityReaderMethodPath),
+                    ReferencedRepositoryAssemblyPath = Resolve(_config.CustomSqlNamingPattern.ReferencedRepositoryAssemblyPath),
+                };
+
             }
 
-            var dictionary = ConfigurationDictionaryCompiler.Compile(Config.CustomSqlNamingPattern, initialValues);
+         
 
-            Context.CustomSqlNamingPattern = new CustomSqlNamingPatternContract
-            {
-                ResultClassName                  = dictionary[nameof(CustomSqlNamingPatternContract.ResultClassName)],
-                RepositoryClassName              = dictionary[nameof(CustomSqlNamingPatternContract.RepositoryClassName)],
-                InputClassName                   = dictionary[nameof(CustomSqlNamingPatternContract.InputClassName)],
-                ReferencedEntityAccessPath       = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAccessPath)],
-                ReferencedEntityAssemblyPath     = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityAssemblyPath)],
-                ReferencedEntityReaderMethodPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedEntityReaderMethodPath)],
-                ReferencedRepositoryAssemblyPath = dictionary[nameof(CustomSqlNamingPatternContract.ReferencedRepositoryAssemblyPath)]
-            };
+            
+
+            
+
         }
 
         void InitializeDatabaseConnection()
