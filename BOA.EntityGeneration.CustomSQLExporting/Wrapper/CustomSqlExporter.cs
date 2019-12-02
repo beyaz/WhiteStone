@@ -133,12 +133,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 Context.NamingMap.Push(nameof(NamingMap.SchemaName),CustomSqlInfo.SchemaName);
                 Context.NamingMap.Push(nameof(NamingMap.CamelCasedResultName),entityReferencedResultColumn.Name.ToContractName());
 
-                Context.CustomSqlNamingPattern = new CustomSqlNamingPatternContract
+                Context.ReferencedEntityTypeNamingPattern = new ReferencedEntityTypeNamingPatternContract
                 {
-                    ReferencedEntityAccessPath       = Resolve(_config.CustomSqlNamingPattern.ReferencedEntityAccessPath),
-                    ReferencedEntityAssemblyPath     = Resolve(_config.CustomSqlNamingPattern.ReferencedEntityAssemblyPath),
-                    ReferencedEntityReaderMethodPath = Resolve(_config.CustomSqlNamingPattern.ReferencedEntityReaderMethodPath),
-                    ReferencedRepositoryAssemblyPath = Resolve(_config.CustomSqlNamingPattern.ReferencedRepositoryAssemblyPath),
+                    ReferencedEntityAccessPath       = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedEntityAccessPath),
+                    ReferencedEntityAssemblyPath     = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedEntityAssemblyPath),
+                    ReferencedEntityReaderMethodPath = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedEntityReaderMethodPath),
+                    ReferencedRepositoryAssemblyPath = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedRepositoryAssemblyPath),
                 };
 
             }

@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public string RepositoryNamespace { get; set; }
         public string EntityProjectDirectory { get; set; }
         public string RepositoryProjectDirectory { get; set; }
-        public CustomSqlNamingPatternContract CustomSqlNamingPattern { get; set; }
+        public ReferencedEntityTypeNamingPatternContract ReferencedEntityTypeNamingPattern { get; set; }
             
 
         public string InputClassName     { get; set; }

@@ -78,7 +78,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
         {
             if (CustomSqlInfo.ResultColumns.Any(r => r.IsReferenceToEntity))
             {
-                ExtraAssemblyReferencesForEntityProject.Add(CustomSqlNamingPattern.ReferencedEntityAssemblyPath);
+                ExtraAssemblyReferencesForEntityProject.Add(ReferencedEntityTypeNamingPattern.ReferencedEntityAssemblyPath);
             }
 
             var resultContractName = NamingMap.ResultClassName;
@@ -104,7 +104,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
             }
             else
             {
-                resultContractName = CustomSqlNamingPattern.ReferencedEntityAccessPath;
+                resultContractName = ReferencedEntityTypeNamingPattern.ReferencedEntityAccessPath;
             }
 
             var interfaceName = $"ICustomSqlProxy<Common.Types.GenericResponse<{resultContractName}>, {resultContractName}>";

@@ -20,7 +20,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.ContextManagement
         #region Properties
         
         protected CustomSqlInfo                  CustomSqlInfo                => Context.CustomSqlInfo;
-        protected CustomSqlNamingPatternContract CustomSqlNamingPattern       => Context.CustomSqlNamingPattern;
+        protected ReferencedEntityTypeNamingPatternContract ReferencedEntityTypeNamingPattern       => Context.ReferencedEntityTypeNamingPattern;
         protected IDatabase                      Database                     => Context.Database;
         protected AddOnlyList<string>                   ExtraAssemblyReferencesForEntityProject     => Context.ExtraAssemblyReferencesForEntityProject;
         protected FileSystem                     FileSystem                   => Context.FileSystem;

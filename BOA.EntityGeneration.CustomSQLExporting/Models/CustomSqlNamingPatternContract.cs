@@ -1,6 +1,6 @@
 ﻿namespace BOA.EntityGeneration.CustomSQLExporting.Models
 {
-    public class CustomSqlNamingPatternContract
+    public class ReferencedEntityTypeNamingPatternContract
     {
         #region Public Properties
 

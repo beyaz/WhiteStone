@@ -10,7 +10,7 @@ RepositoryProjectDirectory: $(SlnDirectoryPath)CustomSQL\$(ProfileName)\$(Reposi
 InputClassName: $(CamelCasedCustomSqlName)Request
 ResultClassName: $(CamelCasedCustomSqlName)Contract
 RepositoryClassName: $(CamelCasedCustomSqlName)
-CustomSqlNamingPattern:  
+ReferencedEntityTypeNamingPattern:  
   ReferencedEntityAccessPath: Types.Kernel.Card.$(SchemaName).$(CamelCasedResultName)Contract
   ReferencedEntityReaderMethodPath: $(SchemaName).Shared.$(CamelCasedResultName).ReadContract
   ReferencedEntityAssemblyPath: <Reference Include="BOA.Types.Kernel.Card.$(SchemaName)"><HintPath>D:\BOA\Server\bin\BOA.Types.Kernel.Card.$(SchemaName).dll</HintPath></Reference>

@@ -26,7 +26,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.ContextManagement
         #region Public Properties
         
         public CustomSqlInfo                  CustomSqlInfo          { get; set; }
-        public CustomSqlNamingPatternContract CustomSqlNamingPattern { get; set; }
+        public ReferencedEntityTypeNamingPatternContract ReferencedEntityTypeNamingPattern { get; set; }
         public SqlDatabase                    Database               { get; set; }
         public AddOnlyList<string>            Errors                 { get; } = new AddOnlyList<string>();
         public FileSystem                     FileSystem             { get; } = new FileSystem();
