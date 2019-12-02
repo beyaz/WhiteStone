@@ -51,7 +51,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
             sb.AppendLine("/// <summary>");
             sb.AppendLine("///     Custom sql proxy.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine("public interface ICustomSqlProxy<TOutput, T> where TOutput : GenericResponse<T>");
+            sb.AppendLine("public interface ICustomSqlProxy<TOutput, T> where TOutput : Common.Types.GenericResponse<T>");
             sb.AppendLine("{");
             sb.AppendLine("    int Index { get; }");
             sb.AppendLine("}");
@@ -106,10 +106,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
                 resultContractName = CustomSqlNamingPattern.ReferencedEntityAccessPath;
             }
 
-            var interfaceName = $"ICustomSqlProxy<GenericResponse<{resultContractName}>, {resultContractName}>";
+            var interfaceName = $"ICustomSqlProxy<Common.Types.GenericResponse<{resultContractName}>, {resultContractName}>";
             if (CustomSqlInfo.SqlResultIsCollection)
             {
-                interfaceName = $"ICustomSqlProxy<GenericResponse<List<{resultContractName}>>, List<{resultContractName}>>";
+                interfaceName = $"ICustomSqlProxy<Common.Types.GenericResponse<List<{resultContractName}>>, List<{resultContractName}>>";
             }
 
             sb.AppendLine();
