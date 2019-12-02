@@ -47,7 +47,7 @@
     <Compile Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporterConfig.cs" />
     <Compile Include="Exporters\CsprojEntityExporting\EntityCsprojFileExporterConfig.cs" />
     <Compile Include="Exporters\CsprojRepositoryExporting\RepositoryCsprojFileExporterConfig.cs" />
-    <Compile Include="Exporters\CustomSqlClassGenerator.cs" />
+    <Compile Include="Exporters\BoaRepositoryExporting\CustomSqlClassGenerator.cs" />
     <Compile Include="Exporters\EntityFileExporting\EntityFileExporterConfig.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporterConfig.cs" />
     <Compile Include="Models\CustomSqlNamingPatternContract.cs" />

@@ -1,6 +1,6 @@
 ﻿using BOA.Common.Helpers;
 
-namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
+namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporting
 {
     class CustomSqlClassGenerator : ContextContainer
     {
