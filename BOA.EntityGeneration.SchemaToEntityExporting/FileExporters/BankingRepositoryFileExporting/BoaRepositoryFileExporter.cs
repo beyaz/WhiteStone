@@ -458,6 +458,14 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
             {
                 file.AppendLine(NamingMap.Resolve(line));
             }
+
+            if (Config.SchemaSpecificUsingLines.ContainsKey(Context.SchemaName))
+            {
+                foreach (var line in Config.SchemaSpecificUsingLines[Context.SchemaName])
+                {
+                    file.AppendLine(NamingMap.Resolve(line));
+                }
+            }
         }
         #endregion
     }

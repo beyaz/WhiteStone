@@ -16,6 +16,8 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.BankingRepo
         public string EmbeddedCodes { get; set; }
         public string[] ExtraAssemblyReferences { get; set; }
 
+        public Dictionary<string,string[]> SchemaSpecificUsingLines { get; set; }
+
         public string[] UsingLines { get; set; }
         #endregion
 
