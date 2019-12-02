@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
 {
@@ -14,6 +15,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
         #region Methods
         void Export()
         {
+            var references  = new List<string>();
+
+            foreach (var reference in EntityFileExporter._config.DefaultAssemblyReferences)
+            {
+                references.Add(Resolve(reference));
+            }
+
+            references.AddRange(ExtraAssemblyReferencesForEntityProject);
+
             var csprojFileGenerator = new CsprojFileGenerator
             {
                 FileSystem       = FileSystem,
@@ -21,7 +31,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters
                 NamespaceName    = ProfileNamingPattern.EntityNamespace,
                 IsClientDll      = true,
                 ProjectDirectory = ProfileNamingPattern.EntityProjectDirectory,
-                References       = EntityAssemblyReferences
+                References       = references
             };
 
             var csprojFilePath = csprojFileGenerator.Generate();

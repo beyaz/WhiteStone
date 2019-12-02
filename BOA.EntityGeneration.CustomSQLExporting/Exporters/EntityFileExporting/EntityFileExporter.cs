@@ -5,7 +5,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
 {
     class EntityFileExporter : ContextContainer
     {
-        static readonly EntityFileExporterConfig _config = EntityFileExporterConfig.CreateFromFile();
+        internal static readonly EntityFileExporterConfig _config = EntityFileExporterConfig.CreateFromFile();
 
         #region Properties
         readonly PaddedStringBuilder sb =new PaddedStringBuilder();
@@ -77,7 +77,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
         {
             if (CustomSqlInfo.ResultColumns.Any(r => r.IsReferenceToEntity))
             {
-                EntityAssemblyReferences.Add(CustomSqlNamingPattern.ReferencedEntityAssemblyPath);
+                ExtraAssemblyReferencesForEntityProject.Add(CustomSqlNamingPattern.ReferencedEntityAssemblyPath);
             }
 
             var resultContractName = CustomSqlNamingPattern.ResultClassName;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BOA.Collections;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
 
@@ -20,7 +21,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting
         protected CustomSqlInfo                  CustomSqlInfo                => Context.CustomSqlInfo;
         protected CustomSqlNamingPatternContract CustomSqlNamingPattern       => Context.CustomSqlNamingPattern;
         protected IDatabase                      Database                     => Context.Database;
-        protected List<string>                   EntityAssemblyReferences     => ProfileNamingPattern.EntityAssemblyReferences;
+        protected AddOnlyList<string>                   ExtraAssemblyReferencesForEntityProject     => Context.ExtraAssemblyReferencesForEntityProject;
         protected FileSystem                     FileSystem                   => Context.FileSystem;
         protected MsBuildQueue                   MsBuildQueue                 => Context.MsBuildQueue;
         protected ProcessContract                ProcessInfo                  => Context.ProcessInfo;
