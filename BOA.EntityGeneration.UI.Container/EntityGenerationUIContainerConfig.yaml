@@ -17,6 +17,7 @@ ProfileNames:
   - CC_OPERATIONS
   - CC_OPERATIONS_KERNEL
   - DLV_COURIER
+  - '*'
 SchemaNames:
   - BKM
   - BNS
@@ -47,4 +48,4 @@ SchemaNames:
   - EMB
   - SYSOP
   - DIS
-  - *
+  - '*'
