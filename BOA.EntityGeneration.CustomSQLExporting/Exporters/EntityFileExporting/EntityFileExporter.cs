@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
 {
@@ -80,7 +81,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
                 ExtraAssemblyReferencesForEntityProject.Add(CustomSqlNamingPattern.ReferencedEntityAssemblyPath);
             }
 
-            var resultContractName = CustomSqlNamingPattern.ResultClassName;
+            var resultContractName = NamingMap.ResultClassName;
 
             if (!CustomSqlInfo.ResultContractIsReferencedToEntity)
             {
@@ -117,7 +118,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
             sb.AppendLine($"///     Parameter class of '{CustomSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
             sb.AppendLine("[Serializable]");
-            sb.AppendLine($"public sealed class {CustomSqlNamingPattern.InputClassName} : {interfaceName}");
+            sb.AppendLine($"public sealed class {NamingMap.InputClassName} : {interfaceName}");
 
             sb.AppendLine("{");
             sb.PaddingCount++;

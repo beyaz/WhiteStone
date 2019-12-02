@@ -14,6 +14,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         public CustomSqlNamingPatternContract CustomSqlNamingPattern { get; set; }
             
 
+        public string InputClassName     { get; set; }
+        public string ResultClassName    { get; set; }
+        public string RepositoryClassName{ get; set; }
+
         /// <summary>
         ///     Gets or sets the connection string.
         /// </summary>

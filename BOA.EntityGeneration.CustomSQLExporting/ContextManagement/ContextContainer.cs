@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using BOA.Collections;
+﻿using BOA.Collections;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.CustomSQLExporting.Models;
 
-namespace BOA.EntityGeneration.CustomSQLExporting
+namespace BOA.EntityGeneration.CustomSQLExporting.ContextManagement
 {
     class ContextContainer
     {

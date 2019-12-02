@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using BOA.Common.Helpers;
 using BOA.DatabaseAccess;
+using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporting;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojEntityExporting;
@@ -31,7 +32,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             Context.NamingMap.Push(nameof(NamingMap.SlnDirectoryPath),Resolve(_config.SlnDirectoryPath));
             Context.NamingMap.Push(nameof(NamingMap.EntityProjectDirectory),Resolve(_config.EntityProjectDirectory));
             Context.NamingMap.Push(nameof(NamingMap.RepositoryProjectDirectory),Resolve(_config.RepositoryProjectDirectory));
-
+            Context.NamingMap.Push(nameof(NamingMap.InputClassName),_config.InputClassName);
+            Context.NamingMap.Push(nameof(NamingMap.ResultClassName),_config.ResultClassName);
+            Context.NamingMap.Push(nameof(NamingMap.RepositoryClassName),_config.RepositoryClassName);
 
             
 
@@ -115,6 +118,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             Context.NamingMap.Push(nameof(NamingMap.CamelCasedCustomSqlName),CustomSqlInfo.Name.ToContractName());
 
+           
+
+                 
+                    
+            
+
+
+
+
             var entityReferencedResultColumn = CustomSqlInfo.ResultColumns.FirstOrDefault(x => x.IsReferenceToEntity);
             if (entityReferencedResultColumn != null)
             {
@@ -123,9 +135,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
                 Context.CustomSqlNamingPattern = new CustomSqlNamingPatternContract
                 {
-                    ResultClassName                  = Resolve(_config.CustomSqlNamingPattern.ResultClassName),
-                    RepositoryClassName              = Resolve(_config.CustomSqlNamingPattern.RepositoryClassName),
-                    InputClassName                   = Resolve(_config.CustomSqlNamingPattern.InputClassName),
                     ReferencedEntityAccessPath       = Resolve(_config.CustomSqlNamingPattern.ReferencedEntityAccessPath),
                     ReferencedEntityAssemblyPath     = Resolve(_config.CustomSqlNamingPattern.ReferencedEntityAssemblyPath),
                     ReferencedEntityReaderMethodPath = Resolve(_config.CustomSqlNamingPattern.ReferencedEntityReaderMethodPath),

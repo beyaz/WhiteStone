@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting;
 using BOA.EntityGeneration.ScriptModel;
 
@@ -78,14 +79,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
         {
           
 
-            var key = $"{NamingMap.RepositoryNamespace}.{CustomSqlNamingPattern.RepositoryClassName}.Execute";
+            var key = $"{NamingMap.RepositoryNamespace}.{NamingMap.RepositoryClassName}.Execute";
 
-            var sharedRepositoryClassAccessPath = $"Shared.{CustomSqlNamingPattern.RepositoryClassName}";
+            var sharedRepositoryClassAccessPath = $"Shared.{NamingMap.RepositoryClassName}";
 
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public sealed class {CustomSqlNamingPattern.RepositoryClassName} : ObjectHelper");
+            sb.AppendLine($"public sealed class {NamingMap.RepositoryClassName} : ObjectHelper");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -93,14 +94,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public {CustomSqlNamingPattern.RepositoryClassName}(ExecutionDataContext context) : base(context) {{}}");
+            sb.AppendLine($"public {NamingMap.RepositoryClassName}(ExecutionDataContext context) : base(context) {{}}");
 
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
 
-            var resultContractName     = CustomSqlNamingPattern.ResultClassName;
+            var resultContractName     = NamingMap.ResultClassName;
             var readContractMethodPath = $"{sharedRepositoryClassAccessPath}.ReadContract";
 
             if (CustomSqlInfo.ResultContractIsReferencedToEntity)
@@ -114,7 +115,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
             if (CustomSqlInfo.SqlResultIsCollection)
             {
-                sb.AppendLine($"public GenericResponse<List<{resultContractName}>> Execute({CustomSqlNamingPattern.InputClassName} request)");
+                sb.AppendLine($"public GenericResponse<List<{resultContractName}>> Execute({NamingMap.InputClassName} request)");
                 sb.OpenBracket();
                 sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
                 sb.AppendLine();
@@ -125,7 +126,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
             }
             else
             {
-                sb.AppendLine($"public GenericResponse<{resultContractName}> Execute({CustomSqlNamingPattern.InputClassName} request)");
+                sb.AppendLine($"public GenericResponse<{resultContractName}> Execute({NamingMap.InputClassName} request)");
                 sb.OpenBracket();
                 sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
                 sb.AppendLine();

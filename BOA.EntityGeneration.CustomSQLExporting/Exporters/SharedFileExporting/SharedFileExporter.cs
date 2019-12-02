@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BOA.Common.Helpers;
+using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
 using BOA.EntityGeneration.DbModel;
 using BOA.EntityGeneration.ScriptModel;
 
@@ -37,7 +38,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
         #region Methods
         void BeginClass()
         {
-            sb.AppendLine($"public static class {CustomSqlNamingPattern.RepositoryClassName}");
+            sb.AppendLine($"public static class {NamingMap.RepositoryClassName}");
             sb.OpenBracket();
         }
 
@@ -49,7 +50,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
 
         void CreateSqlInfo()
         {
-            sb.AppendLine($"public static SqlInfo CreateSqlInfo({CustomSqlNamingPattern.InputClassName} request)");
+            sb.AppendLine($"public static SqlInfo CreateSqlInfo({NamingMap.InputClassName} request)");
             sb.AppendLine("{");
             sb.PaddingCount++;
 
@@ -118,7 +119,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
             sb.AppendLine("/// <summary>");
             sb.AppendLine($"///{Padding.ForComment}Maps reader columns to contract for '{CustomSqlInfo.Name}' sql.");
             sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public static void ReadContract(IDataReader reader, {CustomSqlNamingPattern.ResultClassName} contract)");
+            sb.AppendLine($"public static void ReadContract(IDataReader reader, {NamingMap.ResultClassName} contract)");
             sb.OpenBracket();
 
             foreach (var item in CustomSqlInfo.ResultColumns)

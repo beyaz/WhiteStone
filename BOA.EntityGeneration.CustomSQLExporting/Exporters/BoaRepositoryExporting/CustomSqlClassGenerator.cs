@@ -1,4 +1,5 @@
 ﻿using BOA.Common.Helpers;
+using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporting
 {
@@ -52,7 +53,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
         {
             sb.AppendLine($"case {CustomSqlInfo.SwitchCaseIndex}:");
             sb.OpenBracket();
-            sb.AppendLine($"return (TOutput) (object) new {CustomSqlNamingPattern.RepositoryClassName}(objectHelper.Context).Execute(({CustomSqlNamingPattern.InputClassName})(object) input);");
+            sb.AppendLine($"return (TOutput) (object) new {NamingMap.RepositoryClassName}(objectHelper.Context).Execute(({NamingMap.InputClassName})(object) input);");
             sb.CloseBracket();
         }
         #endregion

@@ -52,7 +52,7 @@
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporterConfig.cs" />
     <Compile Include="Models\CustomSqlNamingPatternContract.cs" />
     <Compile Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporter.cs" />
-    <Compile Include="ContextContainer.cs" />
+    <Compile Include="ContextManagement\ContextContainer.cs" />
     <Compile Include="Exporters\SharedFileExporting\SharedFileExporter.cs" />
     <Compile Include="Exporters\EntityFileExporting\EntityFileExporter.cs" />
     <Compile Include="Exporters\CsprojRepositoryExporting\RepositoryCsprojFileExporter.cs" />
@@ -60,8 +60,8 @@
     <Compile Include="Models\CustomSqlInfo.cs" />
     <Compile Include="Models\CustomSqlInfoParameter.cs" />
     <Compile Include="Models\CustomSqlInfoResult.cs" />
-    <Compile Include="Context.cs" />
-    <Compile Include="NamingMap.cs" />
+    <Compile Include="ContextManagement\Context.cs" />
+    <Compile Include="ContextManagement\NamingMap.cs" />
     <Compile Include="Wrapper\CustomSqlExporter.cs" />
     <Compile Include="Wrapper\CustomSqlExporterConfig.cs" />
     <Compile Include="Wrapper\ProjectCustomSqlInfoDataAccess.cs" />
