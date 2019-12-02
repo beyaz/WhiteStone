@@ -42,16 +42,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         /// </summary>
         public string DatabaseEnumName { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the entity contract base.
-        /// </summary>
-        public string EntityContractBase { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the profile naming pattern.
-        /// </summary>
-        public Dictionary<string, string> ProfileNamingPattern { get; set; }
-
+        
         /// <summary>
         ///     Gets or sets the SQL get profile identifier list.
         /// </summary>
