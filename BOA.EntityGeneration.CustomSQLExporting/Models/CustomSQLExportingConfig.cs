@@ -45,8 +45,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Models
         public string SQL_GetProfileIdList { get; set; }
 
        
-
-        public bool IntegrateWithTFSAndCheckInAutomatically { get; set; }
         #endregion
     }
 }
