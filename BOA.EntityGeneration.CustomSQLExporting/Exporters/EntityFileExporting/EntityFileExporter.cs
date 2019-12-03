@@ -74,7 +74,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
         {
             if (CustomSqlInfo.ResultColumns.Any(r => r.IsReferenceToEntity))
             {
-                ExtraAssemblyReferencesForEntityProject.Add(ReferencedEntityTypeNamingPattern.ReferencedEntityAssemblyPath);
+                EntityAssemblyReferences.Add(ReferencedEntityTypeNamingPattern.ReferencedEntityAssemblyPath);
             }
 
             var resultContractName = NamingMap.ResultClassName;

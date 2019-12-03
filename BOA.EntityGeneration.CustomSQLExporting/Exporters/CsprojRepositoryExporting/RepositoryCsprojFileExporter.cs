@@ -19,14 +19,12 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojRepositoryExpo
         #region Methods
         void Export()
         {
-            var references = new List<string>();
 
-            foreach (var reference in Config.DefaultAssemblyReferences)
+            foreach (var item in Config.DefaultAssemblyReferences)
             {
-                references.Add(Resolve(reference));
+                Context.RepositoryAssemblyReferences.Add(Resolve(item));
             }
 
-            references.AddRange(Context.ExtraAssemblyReferencesForRepositoryProject);
 
             var csprojFileGenerator = new CsprojFileGenerator
             {
@@ -35,7 +33,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojRepositoryExpo
                 NamespaceName    = NamingMap.RepositoryNamespace,
                 IsClientDll      = false,
                 ProjectDirectory = Context.NamingMap.RepositoryProjectDirectory,
-                References       = references
+                References       = Context.RepositoryAssemblyReferences
             };
 
             var csprojFilePath = csprojFileGenerator.Generate();

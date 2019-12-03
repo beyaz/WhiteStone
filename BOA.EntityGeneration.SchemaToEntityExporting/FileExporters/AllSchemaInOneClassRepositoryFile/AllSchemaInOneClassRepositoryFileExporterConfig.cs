@@ -14,7 +14,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         public string NamespaceName { get; set; }
         public string ClassName     { get; set; }
 
-
+        public string ClassDefinitionBegin { get; set; }
 
         public string SharedRepositoryClassAccessPath { get; set; }
         #region Public Properties

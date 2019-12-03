@@ -13,7 +13,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.ContextManagement
         #region Properties
         protected CustomSqlInfo       CustomSqlInfo                           => Context.CustomSqlInfo;
         protected IDatabase           Database                                => Context.Database;
-        protected AddOnlyList<string> ExtraAssemblyReferencesForEntityProject => Context.ExtraAssemblyReferencesForEntityProject;
+        protected AddOnlyList<string> EntityAssemblyReferences => Context.EntityAssemblyReferences;
         protected FileSystem          FileSystem                              => Context.FileSystem;
         protected MsBuildQueue        MsBuildQueue                            => Context.MsBuildQueue;
 

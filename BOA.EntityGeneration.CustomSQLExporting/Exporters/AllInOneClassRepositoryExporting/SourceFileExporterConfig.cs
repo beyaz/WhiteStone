@@ -5,6 +5,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
 {
     class SourceFileExporterConfig
     {
+        public string MethodName { get; set; }
         #region Public Properties
         public string   EmbeddedCodes                   { get; set; }
         public string   OutputFilePath                  { get; set; }
@@ -12,6 +13,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
         public string[] UsingLines                      { get; set; }
         #endregion
 
+        public string[] ExtraAssemblyReferences { get; set; }
+        public string ClassDefinitionBegin { get; set; }
         public string ClassName { get; set; }
         public string NamespaceName { get; set; }
         #region Public Methods

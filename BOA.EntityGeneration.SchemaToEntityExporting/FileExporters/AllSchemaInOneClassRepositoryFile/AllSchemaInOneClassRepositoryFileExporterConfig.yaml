@@ -13,6 +13,15 @@ UsingLines:
   - using $(RepositoryNamespace).Shared;
   - using IUnitOfWork = BOA.Card.Core.UOW.IUnitOfWork;
   - using State = BOA.Card.Core.UOW.State;
+ClassDefinitionBegin: |
+  public sealed class $(SchemaName)Repository
+  {
+      readonly IUnitOfWork unitOfWork;
+      
+      public $(SchemaName)Repository(IUnitOfWork unitOfWork)
+      {
+          this.unitOfWork = unitOfWork;
+      }
 DefaultValuesForInsertMethod:
   contractInstanceName:
   contractInstancePropertyName:  

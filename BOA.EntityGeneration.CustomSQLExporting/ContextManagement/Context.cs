@@ -8,9 +8,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.ContextManagement
     class Context
     {
         #region Fields
-        public readonly AddOnlyList<string> ExtraAssemblyReferencesForEntityProject     = new AddOnlyList<string>();
-        public readonly AddOnlyList<string> ExtraAssemblyReferencesForRepositoryProject = new AddOnlyList<string>();
-
+        public readonly AddOnlyList<string> EntityAssemblyReferences     = new AddOnlyList<string>();
+        public AddOnlyList<string> RepositoryAssemblyReferences { get; } = new AddOnlyList<string>();
         public readonly NamingMap NamingMap = new NamingMap();
         #endregion
 

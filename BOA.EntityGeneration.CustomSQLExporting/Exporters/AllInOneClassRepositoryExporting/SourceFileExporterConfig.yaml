@@ -1,46 +1,68 @@
-OutputFilePath: $(RepositoryProjectDirectory)Boa.cs
+OutputFilePath: $(RepositoryProjectDirectory)AllInOneRepository.cs
 SharedRepositoryClassAccessPath: Shared.$(RepositoryClassName)
 NamespaceName: $(RepositoryNamespace).Repository
 ClassName: $(ProfileName)Repository
+MethodName: $(CamelCasedCustomSqlName)
+ExtraAssemblyReferences: 
+  - <Reference Include="BOA.Card.Core"><HintPath>D:\BOA\Server\bin\BOA.Card.Core.dll</HintPath></Reference>
+ClassDefinitionBegin: |
+  public sealed class $(ProfileName)Repository
+  {
+      readonly IUnitOfWork unitOfWork;
+      
+      public $(ProfileName)Repository(IUnitOfWork unitOfWork)
+      {
+          this.unitOfWork = unitOfWork;
+      }
 UsingLines: 
   - using System;
   - using System.Data;
   - using System.Data.SqlClient;
   - using System.Collections.Generic;
-  - using BOA.Base;
-  - using BOA.Base.Data;
-  - using BOA.Common.Types;
   - using $(EntityNamespace);
-  - using $(RepositoryNamespace).Shared;  
+  - using $(RepositoryNamespace).Shared;
+  - using IUnitOfWork = BOA.Card.Core.UOW.IUnitOfWork;
+  - using State = BOA.Card.Core.UOW.State; 
 EmbeddedCodes: |
   /// <summary>
-  ///     The object helper SQL utility
+  ///     The unit of work SQL utility
   /// </summary>
-  static class ObjectHelperSqlUtil
+  static class UnitOfWorkSqlUtil
   {
       #region Public Methods
+      /// <summary>
+      ///     Executes the non query.
+      /// </summary>
+      public static int ExecuteNonQuery(this IUnitOfWork unitOfWork, string methodFullPath, SqlInfo sqlInfo)
+      {
+          var localConnection = false;
+  
+          var command = InitializeCommand(unitOfWork, sqlInfo.CommandText, ref localConnection);
+  
+          AddParameters(command, sqlInfo);
+  
+          var returnValue = command.ExecuteNonQuery();
+  
+          if (localConnection && unitOfWork.State == State.ConnectionOpen)
+          {
+              unitOfWork.CloseConnection();
+          }
+  
+          return returnValue;
+      }
   
       /// <summary>
       ///     Executes the reader to contract.
       /// </summary>
-      public static GenericResponse<TResultContractType> ExecuteReaderToContract<TResultContractType>(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract) where TResultContractType : new()
+      public static TResultContractType ExecuteReaderToContract<TResultContractType>(this IUnitOfWork unitOfWork, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract) where TResultContractType : new()
       {
-          var returnObject = objectHelper.InitializeGenericResponse<TResultContractType>(methodFullPath);
+          var localConnection = false;
   
-          var dbLayer = objectHelper.Context.DBLayer;
+          var command = InitializeCommand(unitOfWork, sqlInfo.CommandText, ref localConnection);
   
-          var command = dbLayer.GetDBCommand(Databases.BOACard, sqlInfo.CommandText, null, CommandType.Text);
+          AddParameters(command, sqlInfo);
   
-          AddParameters(objectHelper, command, sqlInfo);
-  
-          var readerResponse = dbLayer.ExecuteReader(command);
-          if (!readerResponse.Success)
-          {
-              returnObject.Results.AddRange(readerResponse.Results);
-              return returnObject;
-          }
-  
-          var reader = readerResponse.Value;
+          var reader = command.ExecuteReader();
   
           var dataContract = default(TResultContractType);
   
@@ -55,52 +77,114 @@ EmbeddedCodes: |
   
           reader.Close();
   
-          returnObject.Value = dataContract;
+          if (localConnection && unitOfWork.State == State.ConnectionOpen)
+          {
+              unitOfWork.CloseConnection();
+          }
   
-          return returnObject;
+          return dataContract;
       }
   
       /// <summary>
       ///     Executes the reader to list.
       /// </summary>
-      public static GenericResponse<List<TResultContractType>> ExecuteReaderToList<TResultContractType>(this ObjectHelper objectHelper, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract) where TResultContractType : new()
+      public static List<TResultContractType> ExecuteReaderToList<TResultContractType>(this IUnitOfWork unitOfWork, string methodFullPath, SqlInfo sqlInfo, Action<IDataReader, TResultContractType> readContract) where TResultContractType : new()
       {
-          var returnObject = objectHelper.InitializeGenericResponse<List<TResultContractType>>(methodFullPath);
+          var localConnection = false;
   
-          var dbLayer = objectHelper.Context.DBLayer;
+          var command = InitializeCommand(unitOfWork, sqlInfo.CommandText, ref localConnection);
   
-          var command = dbLayer.GetDBCommand(Databases.BOACard, sqlInfo.CommandText, null, CommandType.Text);
+          AddParameters(command, sqlInfo);
   
-          AddParameters(objectHelper, command, sqlInfo);
+          var reader = command.ExecuteReader();
   
-          var readerResponse = dbLayer.ExecuteReader(command);
-          if (!readerResponse.Success)
+          var returnValue = reader.ReadToList(readContract);
+  
+          if (localConnection && unitOfWork.State == State.ConnectionOpen)
           {
-              returnObject.Results.AddRange(readerResponse.Results);
-              return returnObject;
+              unitOfWork.CloseConnection();
           }
   
-          var reader = readerResponse.Value;
-  
-          returnObject.Value = reader.ReadToList(readContract);
-  
-          return returnObject;
+          return returnValue;
       }
   
+      /// <summary>
+      ///     Executes the scalar.
+      /// </summary>
+      public static TReturnValueType ExecuteScalar<TReturnValueType>(this IUnitOfWork unitOfWork, string methodFullPath, SqlInfo sqlInfo)
+      {
+          var localConnection = false;
+  
+          var command = InitializeCommand(unitOfWork, sqlInfo.CommandText, ref localConnection);
+  
+          AddParameters(command, sqlInfo);
+  
+          var returnValue = (TReturnValueType) command.ExecuteScalar();
+  
+          if (localConnection && unitOfWork.State == State.ConnectionOpen)
+          {
+              unitOfWork.CloseConnection();
+          }
+  
+          return returnValue;
+      }
       #endregion
   
       #region Methods
       /// <summary>
       ///     Adds the parameters.
       /// </summary>
-      static void AddParameters(ObjectHelper objectHelper, SqlCommand command, SqlInfo sqlInfo)
+      static void AddParameters(SqlCommand command, SqlInfo sqlInfo)
       {
+          if (sqlInfo.Parameters == null)
+          {
+              return;
+          }
+  
           foreach (var parameter in sqlInfo.Parameters)
           {
-              var dbLayer = objectHelper.DBLayer;
-  
-              dbLayer.AddInParameter(command, parameter.ParameterName, parameter.SqlDbType, parameter.Value);
+              command.Parameters.Add(parameter);
           }
+      }
+  
+      /// <summary>
+      ///     Initializes the command.
+      /// </summary>
+      static SqlCommand InitializeCommand(IUnitOfWork unitOfWork, string commandText, ref bool localConnection)
+      {
+          localConnection = false;
+  
+          var command = new SqlCommand(commandText);
+  
+          if (unitOfWork.IsDistributed)
+          {
+              if (null == unitOfWork.ConnectionObject)
+              {
+                  unitOfWork.OpenConnection();
+              }
+  
+              command.Connection = (SqlConnection) unitOfWork.ConnectionObject;
+          }
+          else
+          {
+              localConnection = null == unitOfWork.TransactionObject
+                                  || null == unitOfWork.ConnectionObject
+                                  || ((SqlConnection) unitOfWork.ConnectionObject).State == ConnectionState.Closed;
+  
+              if (localConnection)
+              {
+                  unitOfWork.OpenConnection();
+              }
+              else
+              {
+                  var transactionObject = unitOfWork.TransactionObject as IDbTransaction;
+                  command.Transaction = (SqlTransaction) transactionObject;
+              }
+  
+              command.Connection = (SqlConnection) unitOfWork.ConnectionObject;
+          }
+  
+          return command;
       }
   
       /// <summary>

@@ -1,4 +1,5 @@
-﻿using BOA.Common.Helpers;
+﻿using System.Linq;
+using BOA.Common.Helpers;
 using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
 using BOA.EntityGeneration.ScriptModel;
 
@@ -14,22 +15,38 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
         readonly PaddedStringBuilder file = new PaddedStringBuilder();
         #endregion
 
+        void AddAssemblyReferencesToProject()
+        {
+            Context.RepositoryAssemblyReferences.AddRange(Config.ExtraAssemblyReferences.Select(Resolve));
+        }
+
         #region Public Methods
         public void AttachEvents()
         {
 
-
+            Context.ProfileInfoInitialized += AddAssemblyReferencesToProject;
             Context.ProfileInfoInitialized += UsingList;
             Context.ProfileInfoInitialized += EmptyLine;
             Context.ProfileInfoInitialized += BeginNamespace;
             Context.ProfileInfoInitialized += WriteEmbeddedClasses;
+            Context.ProfileInfoInitialized += BeginClass;
 
             Context.CustomSqlInfoInitialized += WriteCustomSqlToMethod;
 
+            Context.ProfileInfoRemove += EndClass;
             Context.ProfileInfoRemove += EndNamespace;
             Context.ProfileInfoRemove += ExportFileToDirectory;
         }
         #endregion
+
+        void BeginClass()
+        {
+            file.AppendAll(Resolve(Config.ClassDefinitionBegin));
+            file.AppendLine();
+            file.PaddingCount++; // enter class body
+
+            
+        }
 
         #region Methods
         void BeginNamespace()
@@ -49,7 +66,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
         {
             file.CloseBracket();
         }
-
+        void EndClass()
+        {
+            file.CloseBracket();
+        }
         void ExportFileToDirectory()
         {
             ProcessInfo.Text = "Exporting BOA repository.";
@@ -69,28 +89,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
 
         void WriteCustomSqlToMethod()
         {
+            var methodName = Resolve(Config.MethodName);
             
-            var key = $"{Resolve(Config.NamespaceName)}.{NamingMap.RepositoryClassName}.Execute";
+            
+            var key = $"{Resolve(Config.NamespaceName)}.{Resolve(Config.ClassName)}.{methodName}";
 
             var sharedRepositoryClassAccessPath = Resolve(Config.SharedRepositoryClassAccessPath);
-
-            file.AppendLine("/// <summary>");
-            file.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
-            file.AppendLine("/// </summary>");
-            file.AppendLine($"public sealed class {NamingMap.RepositoryClassName} : ObjectHelper");
-            file.AppendLine("{");
-            file.PaddingCount++;
-
-            file.AppendLine();
-            file.AppendLine("/// <summary>");
-            file.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
-            file.AppendLine("/// </summary>");
-            file.AppendLine($"public {NamingMap.RepositoryClassName}(ExecutionDataContext context) : base(context) {{}}");
-
-            file.AppendLine();
-            file.AppendLine("/// <summary>");
-            file.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
-            file.AppendLine("/// </summary>");
+            
+           
 
             var resultContractName     = NamingMap.ResultClassName;
             var readContractMethodPath = $"{sharedRepositoryClassAccessPath}.ReadContract";
@@ -100,13 +106,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
                 resultContractName     = ReferencedEntityTypeNamingPattern.ReferencedEntityAccessPath;
                 readContractMethodPath = ReferencedEntityTypeNamingPattern.ReferencedEntityReaderMethodPath;
 
-                Context.ExtraAssemblyReferencesForRepositoryProject.Add(ReferencedEntityTypeNamingPattern.ReferencedEntityAssemblyPath);
-                Context.ExtraAssemblyReferencesForRepositoryProject.Add(ReferencedEntityTypeNamingPattern.ReferencedRepositoryAssemblyPath);
+                Context.RepositoryAssemblyReferences.Add(ReferencedEntityTypeNamingPattern.ReferencedEntityAssemblyPath);
+                Context.RepositoryAssemblyReferences.Add(ReferencedEntityTypeNamingPattern.ReferencedRepositoryAssemblyPath);
             }
 
+            
             if (CustomSqlInfo.SqlResultIsCollection)
             {
-                file.AppendLine($"public GenericResponse<List<{resultContractName}>> Execute({NamingMap.InputClassName} request)");
+                file.AppendLine($"public List<{resultContractName}> {methodName}({NamingMap.InputClassName} request)");
                 file.OpenBracket();
                 file.AppendLine($"const string CallerMemberPath = \"{key}\";");
                 file.AppendLine();
@@ -117,7 +124,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
             }
             else
             {
-                file.AppendLine($"public GenericResponse<{resultContractName}> Execute({NamingMap.InputClassName} request)");
+                file.AppendLine($"public {resultContractName} {methodName}({NamingMap.InputClassName} request)");
                 file.OpenBracket();
                 file.AppendLine($"const string CallerMemberPath = \"{key}\";");
                 file.AppendLine();
@@ -130,7 +137,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
 
             file.AppendLine();
 
-            file.CloseBracket();
+           
         }
 
         void WriteEmbeddedClasses()

@@ -18,7 +18,6 @@
             foreach (var item in Config.DefaultAssemblyReferences)
             {
                 Context.RepositoryAssemblyReferences.Add(Resolve(item));
-
             }
             
 

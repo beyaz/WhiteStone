@@ -52,15 +52,11 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
 
         void BeginClass()
         {
-            file.AppendLine($"public sealed class {ClassName}");
-            file.OpenBracket();
-
-            file.AppendLine("readonly IUnitOfWork unitOfWork;");
+            file.AppendAll(Resolve(Config.ClassDefinitionBegin));
             file.AppendLine();
-            file.AppendLine($"public {ClassName}(IUnitOfWork unitOfWork)");
-            file.OpenBracket();
-            file.AppendLine("this.unitOfWork = unitOfWork;");
-            file.CloseBracket();
+            file.PaddingCount++; // enter class body
+
+            
         }
 
         void BeginNamespace()
@@ -156,6 +152,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.FileExporters.AllSchemaIn
         }
 
         string FullClassName => NamespaceName + "." + ClassName;
+
         void WriteSelectByIndexMethods()
         {
             var typeContractName = TableEntityClassNameForMethodParametersInRepositoryFiles;
