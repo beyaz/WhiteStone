@@ -11,7 +11,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
         #endregion
 
         #region Fields
-        readonly PaddedStringBuilder sb = new PaddedStringBuilder();
+        readonly PaddedStringBuilder file = new PaddedStringBuilder();
         #endregion
 
         #region Public Methods
@@ -31,8 +31,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
             Context.ProfileInfoRemove += () =>
             {
                 var proxyClass = customSqlClassGenerator.sb.ToString();
-                sb.AppendAll(proxyClass);
-                sb.AppendLine();
+                file.AppendAll(proxyClass);
+                file.AppendLine();
             };
             Context.ProfileInfoRemove += EndNamespace;
             Context.ProfileInfoRemove += ExportFileToDirectory;
@@ -42,17 +42,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
         #region Methods
         void BeginNamespace()
         {
-            sb.BeginNamespace(NamingMap.RepositoryNamespace);
+            file.BeginNamespace(NamingMap.RepositoryNamespace);
         }
 
         void EmptyLine()
         {
-            sb.AppendLine();
+            file.AppendLine();
         }
 
         void EndNamespace()
         {
-            sb.CloseBracket();
+            file.CloseBracket();
         }
 
         void ExportFileToDirectory()
@@ -61,14 +61,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
             var filePath = Resolve(Config.OutputFilePath);
 
-            FileSystem.WriteAllText(filePath, sb.ToString());
+            FileSystem.WriteAllText(filePath, file.ToString());
         }
 
         void UsingList()
         {
             foreach (var line in Config.UsingLines)
             {
-                sb.AppendLine(Resolve(line));
+                file.AppendLine(Resolve(line));
             }
         }
 
@@ -78,23 +78,23 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
             var sharedRepositoryClassAccessPath = $"Shared.{NamingMap.RepositoryClassName}";
 
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public sealed class {NamingMap.RepositoryClassName} : ObjectHelper");
-            sb.AppendLine("{");
-            sb.PaddingCount++;
+            file.AppendLine("/// <summary>");
+            file.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
+            file.AppendLine("/// </summary>");
+            file.AppendLine($"public sealed class {NamingMap.RepositoryClassName} : ObjectHelper");
+            file.AppendLine("{");
+            file.PaddingCount++;
 
-            sb.AppendLine();
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
-            sb.AppendLine("/// </summary>");
-            sb.AppendLine($"public {NamingMap.RepositoryClassName}(ExecutionDataContext context) : base(context) {{}}");
+            file.AppendLine();
+            file.AppendLine("/// <summary>");
+            file.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
+            file.AppendLine("/// </summary>");
+            file.AppendLine($"public {NamingMap.RepositoryClassName}(ExecutionDataContext context) : base(context) {{}}");
 
-            sb.AppendLine();
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
-            sb.AppendLine("/// </summary>");
+            file.AppendLine();
+            file.AppendLine("/// <summary>");
+            file.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");
+            file.AppendLine("/// </summary>");
 
             var resultContractName     = NamingMap.ResultClassName;
             var readContractMethodPath = $"{sharedRepositoryClassAccessPath}.ReadContract";
@@ -110,37 +110,37 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
             if (CustomSqlInfo.SqlResultIsCollection)
             {
-                sb.AppendLine($"public GenericResponse<List<{resultContractName}>> Execute({NamingMap.InputClassName} request)");
-                sb.OpenBracket();
-                sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
-                sb.AppendLine();
-                sb.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
-                sb.AppendLine();
-                sb.AppendLine($"return this.ExecuteReaderToList<{resultContractName}>(CallerMemberPath, sqlInfo, {readContractMethodPath});");
-                sb.CloseBracket();
+                file.AppendLine($"public GenericResponse<List<{resultContractName}>> Execute({NamingMap.InputClassName} request)");
+                file.OpenBracket();
+                file.AppendLine($"const string CallerMemberPath = \"{key}\";");
+                file.AppendLine();
+                file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
+                file.AppendLine();
+                file.AppendLine($"return this.ExecuteReaderToList<{resultContractName}>(CallerMemberPath, sqlInfo, {readContractMethodPath});");
+                file.CloseBracket();
             }
             else
             {
-                sb.AppendLine($"public GenericResponse<{resultContractName}> Execute({NamingMap.InputClassName} request)");
-                sb.OpenBracket();
-                sb.AppendLine($"const string CallerMemberPath = \"{key}\";");
-                sb.AppendLine();
-                sb.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
-                sb.AppendLine();
-                sb.AppendLine($"return this.ExecuteReaderToContract<{resultContractName}>(CallerMemberPath, sqlInfo, {readContractMethodPath});");
+                file.AppendLine($"public GenericResponse<{resultContractName}> Execute({NamingMap.InputClassName} request)");
+                file.OpenBracket();
+                file.AppendLine($"const string CallerMemberPath = \"{key}\";");
+                file.AppendLine();
+                file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
+                file.AppendLine();
+                file.AppendLine($"return this.ExecuteReaderToContract<{resultContractName}>(CallerMemberPath, sqlInfo, {readContractMethodPath});");
 
-                sb.CloseBracket();
+                file.CloseBracket();
             }
 
-            sb.AppendLine();
+            file.AppendLine();
 
-            sb.CloseBracket();
+            file.CloseBracket();
         }
 
         void WriteEmbeddedClasses()
         {
-            sb.AppendAll(Config.EmbeddedCodes);
-            sb.AppendLine();
+            file.AppendAll(Config.EmbeddedCodes);
+            file.AppendLine();
         }
         #endregion
     }
