@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
         public void AttachEvents()
         {
             var customSqlClassGenerator = Create<CustomSqlClassGenerator>();
-            
+
             customSqlClassGenerator.AttachEvents();
 
             Context.ProfileInfoInitialized += UsingList;
@@ -76,7 +76,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
         {
             var key = $"{NamingMap.RepositoryNamespace}.{NamingMap.RepositoryClassName}.Execute";
 
-            var sharedRepositoryClassAccessPath = $"Shared.{NamingMap.RepositoryClassName}";
+            var sharedRepositoryClassAccessPath = Resolve(Config.SharedRepositoryClassAccessPath);
 
             file.AppendLine("/// <summary>");
             file.AppendLine($"///{Padding.ForComment}Data access part of '{CustomSqlInfo.Name}' sql.");

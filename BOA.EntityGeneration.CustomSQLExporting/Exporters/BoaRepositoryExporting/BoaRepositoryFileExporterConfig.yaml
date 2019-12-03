@@ -1,4 +1,5 @@
 OutputFilePath: $(RepositoryProjectDirectory)Boa.cs
+SharedRepositoryClassAccessPath: Shared.$(RepositoryClassName)
 UsingLines: 
   - using System;
   - using System.Data;

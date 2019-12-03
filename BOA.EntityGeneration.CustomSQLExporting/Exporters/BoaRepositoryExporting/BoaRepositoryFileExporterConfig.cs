@@ -6,10 +6,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
     class BoaRepositoryFileExporterConfig
     {
         #region Public Properties
-        public string EmbeddedCodes  { get; set; }
-        public string OutputFilePath { get; set; }
-
-        public string[] UsingLines { get; set; }
+        public string   EmbeddedCodes                   { get; set; }
+        public string   OutputFilePath                  { get; set; }
+        public string   SharedRepositoryClassAccessPath { get; set; }
+        public string[] UsingLines                      { get; set; }
         #endregion
 
         #region Public Methods
