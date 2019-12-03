@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
 using BOA.EntityGeneration.ScriptModel;
@@ -72,9 +73,11 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
         }
         void ExportFileToDirectory()
         {
-            ProcessInfo.Text = "Exporting BOA repository.";
+            ProcessInfo.Text = "Exporting All in one class repository.";
 
             var filePath = Resolve(Config.OutputFilePath);
+
+            Context.RepositoryProjectSourceFileNames.Add(Path.GetFileName(filePath));
 
             FileSystem.WriteAllText(filePath, file.ToString());
         }

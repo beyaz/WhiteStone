@@ -25,7 +25,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
 
         public static SourceFileExporterConfig CreateFromFile()
         {
-            return CreateFromFile(string.Join(Path.DirectorySeparatorChar.ToString(), nameof(Exporters), nameof(BoaRepositoryExporting), nameof(SourceFileExporterConfig) + ".yaml"));
+            return CreateFromFile(string.Join(Path.DirectorySeparatorChar.ToString(), nameof(Exporters), nameof(AllInOneClassRepositoryExporting), nameof(SourceFileExporterConfig) + ".yaml"));
         }
         #endregion
     }

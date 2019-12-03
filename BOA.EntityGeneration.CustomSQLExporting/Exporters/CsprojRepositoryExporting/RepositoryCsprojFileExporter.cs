@@ -29,7 +29,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojRepositoryExpo
             var csprojFileGenerator = new CsprojFileGenerator
             {
                 FileSystem       = FileSystem,
-                FileNames        = new List<string> {"Shared.cs", "Boa.cs"},
+                FileNames        = Context.RepositoryProjectSourceFileNames,
                 NamespaceName    = NamingMap.RepositoryNamespace,
                 IsClientDll      = false,
                 ProjectDirectory = Context.NamingMap.RepositoryProjectDirectory,

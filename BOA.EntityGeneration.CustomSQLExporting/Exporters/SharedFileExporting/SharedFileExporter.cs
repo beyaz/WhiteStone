@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using BOA.Common.Helpers;
 using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
 using BOA.EntityGeneration.DbModel;
@@ -98,6 +99,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
             ProcessInfo.Text = "Exporting Shared repository.";
 
             var filePath = Resolve(Config.OutputFilePath);
+
+            Context.RepositoryProjectSourceFileNames.Add(Path.GetFileName(filePath));
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }

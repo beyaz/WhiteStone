@@ -91,9 +91,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             Create<EntityFileExporter>().AttachEvents();
             Create<SharedFileExporter>().AttachEvents();
             Create<BoaRepositoryFileExporter>().AttachEvents();
+            Create<BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassRepositoryExporting.SourceFileExporter>().AttachEvents();
             Create<EntityCsprojFileExporter>().AttachEvents();
             Create<RepositoryCsprojFileExporter>().AttachEvents();
-
+            
             Context.ProfileInfoRemove += MsBuildQueue.Build;
         }
         #endregion

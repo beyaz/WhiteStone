@@ -1,4 +1,5 @@
-﻿using BOA.Common.Helpers;
+﻿using System.IO;
+using BOA.Common.Helpers;
 using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
 using BOA.EntityGeneration.ScriptModel;
 
@@ -60,6 +61,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
             ProcessInfo.Text = "Exporting BOA repository.";
 
             var filePath = Resolve(Config.OutputFilePath);
+
+            Context.RepositoryProjectSourceFileNames.Add(Path.GetFileName(filePath));
 
             FileSystem.WriteAllText(filePath, file.ToString());
         }

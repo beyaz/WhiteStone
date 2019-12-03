@@ -12,7 +12,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.ContextManagement
         public AddOnlyList<string> RepositoryAssemblyReferences { get; } = new AddOnlyList<string>();
         public readonly NamingMap NamingMap = new NamingMap();
         #endregion
-
+        public AddOnlyList<string> RepositoryProjectSourceFileNames { get; } = new AddOnlyList<string>();
         #region Constructors
         public Context()
         {
