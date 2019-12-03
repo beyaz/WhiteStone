@@ -18,11 +18,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
         ///     Gets or sets the connection string.
         /// </summary>
         public string ConnectionString { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the name of the database enum.
-        /// </summary>
-        public string DatabaseEnumName { get; set; }
+        
 
         public string EntityProjectDirectory { get; set; }
 
