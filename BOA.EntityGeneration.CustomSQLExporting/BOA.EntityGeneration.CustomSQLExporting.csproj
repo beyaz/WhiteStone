@@ -44,6 +44,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exporters\AllInOneClassRepositoryExporting\BoaRepositoryFileExporter.cs" />
+    <Compile Include="Exporters\AllInOneClassRepositoryExporting\BoaRepositoryFileExporterConfig.cs" />
+    <Compile Include="Exporters\AllInOneClassRepositoryExporting\CustomSqlClassGenerator.cs" />
     <Compile Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporterConfig.cs" />
     <Compile Include="Exporters\CsprojEntityExporting\EntityCsprojFileExporterConfig.cs" />
     <Compile Include="Exporters\CsprojRepositoryExporting\RepositoryCsprojFileExporterConfig.cs" />
@@ -68,6 +71,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Exporters\AllInOneClassRepositoryExporting\BoaRepositoryFileExporterConfig.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Exporters\BoaRepositoryExporting\BoaRepositoryFileExporterConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
