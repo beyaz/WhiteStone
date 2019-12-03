@@ -8,9 +8,7 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
 {
     class Generator
     {
-        #region Constants
-        const string FileName = "AllEnums.cs";
-        #endregion
+       
 
         #region Public Properties
         public Context Context { get; } = new Context();
@@ -70,7 +68,7 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
             var csprojFileGenerator = new CsprojFileGenerator
             {
                 FileSystem       = FileSystem,
-                FileNames        = new List<string> {FileName},
+                FileNames        = new List<string> {Config.SourceCodeFileName},
                 NamespaceName    = Config.NamespaceName,
                 IsClientDll      = true,
                 ProjectDirectory = Config.ProjectDirectory,
@@ -81,12 +79,12 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
 
             Context.MsBuildQueue.Push(csprojFilePath);
         }
-
+        
         void ExportFile()
         {
             ProcessInfo.Text = "Writing files.";
 
-            var filePath = Config.ProjectDirectory + FileName;
+            var filePath = Config.ProjectDirectory + Config.SourceCodeFileName;
 
             FileSystem.WriteAllText(filePath, File.ToString());
         }
@@ -95,33 +93,8 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
         {
             var database = Context.Database;
 
-            database.CommandText = @"
-
-BEGIN
-    IF OBJECT_ID('tempdb..#enumInfo') IS NOT NULL DROP TABLE #enumInfo
-      
-    ;WITH AlreadyDefinedEnums AS
-    (
-      SELECT enumclassname, enumitemname, enumvalue, enumsortid, ROW_NUMBER() OVER(PARTITION BY enumitemname ORDER BY enumsortid) AS 'RowNum'
-        FROM dbo.enums
-    GROUP BY enumclassname,enumitemname,enumvalue,enumsortid  
-    )
-    SELECT enumclassname AS ClassName, enumitemname AS PropertyName, enumvalue AS StringValue, enumsortid AS NumberValue INTO #enumInfo
-    FROM AlreadyDefinedEnums
-    WHERE RowNum = 1
-    
-    create UNIQUE index idx on #enumInfo (ClassName,PropertyName)
-    
-    INSERT INTO #enumInfo VALUES('DENEME_CLASS_1','PROPERTY_1','A','0')
-    INSERT INTO #enumInfo VALUES('DENEME_CLASS_1','PROPERTY_2','B','0') 
-    
-    -- fix same value Never_Active
-    DELETE FROM #enumInfo WHERE ClassName = 'ACTIVITY_STATUS' AND PropertyName = 'NeverActive'    
-    
-    SELECT * FROM #enumInfo
-END
-
-";
+            database.CommandText = Config.DataSourceProcedureFullName;
+            database.CommandIsStoredProcedure = true;
             Context.EnumInfoList      = database.ExecuteReader().ToList<EnumInfo>();
             Context.EnumClassNameList = Context.EnumInfoList.OrderBy(x => x.ClassName).GroupBy(x => x.ClassName).Select(x => x.Key).ToList();
         }

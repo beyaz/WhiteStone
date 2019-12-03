@@ -8,14 +8,18 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
     {
         #region Public Properties
         public string ConnectionString                        { get; set; }
+        public string DataSourceProcedureFullName             { get; set; }
         public bool   IntegrateWithTFSAndCheckInAutomatically { get; set; }
-        public string NamespaceName { get; set; }
-        public string ProjectDirectory { get; set; }
+        public string NamespaceName                           { get; set; }
+        public string ProjectDirectory                        { get; set; }
+        public string SourceCodeFileName { get; set; }
         #endregion
 
+        #region Public Methods
         public static ConstantsProjectGenerationConfig CreateFromFile()
         {
-            return YamlHelper.DeserializeFromFile<ConstantsProjectGenerationConfig>( nameof(ConstantsProjectGenerationConfig) + ".yaml");
+            return YamlHelper.DeserializeFromFile<ConstantsProjectGenerationConfig>(nameof(ConstantsProjectGenerationConfig) + ".yaml");
         }
+        #endregion
     }
 }

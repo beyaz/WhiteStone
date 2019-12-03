@@ -61,5 +61,8 @@
       <Name>BOA.EntityGeneration</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="dbo.sel_constant_values_for_exporting_csharp_code.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

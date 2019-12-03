@@ -56,7 +56,6 @@ namespace BOA.EntityGeneration.UI.Container.CustomSqlGeneration.Components
                 {
                     generationQueue.Enqueue(item);
                 }
-
                 // Max three thread
                 ConsumeGenerationQueue();
                 ConsumeGenerationQueue();

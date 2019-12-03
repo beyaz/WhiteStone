@@ -6,8 +6,11 @@
              DataContext="{Binding ElementName=CodeBehind}">
 
     <StackPanel>
-        <Label FontWeight = "Bold" >Constant Project  Name</Label>
-        <TextBox IsEnabled="False" Text= "{Binding SelectedName,Mode=TwoWay}" />
+        <Label FontWeight = "Bold" >Data Source</Label>
+        <TextBox IsEnabled="False" Text= "{Binding Config.DataSourceProcedureFullName,Mode=TwoWay}" />
+
+        <Label Margin = "0,10,0,0" FontWeight = "Bold" >Constant Project  Name</Label>
+        <TextBox IsEnabled="False" Text= "{Binding Config.NamespaceName,Mode=TwoWay}" />
         <Button Margin = "0,10,0,0" Click = "OnGenerateClicked" >Generate</Button>
         <ScrollViewer VerticalScrollBarVisibility = "Auto" >
             <StackPanel Name = "processContainer" MaxHeight = "600" />

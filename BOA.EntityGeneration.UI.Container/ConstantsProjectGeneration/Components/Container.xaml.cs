@@ -1,19 +1,20 @@
 ﻿using System.Threading;
 using System.Windows;
+using BOA.EntityGeneration.ConstantsProjectGeneration;
 
 namespace BOA.EntityGeneration.UI.Container.ConstantsProjectGeneration.Components
 {
     public partial class Container
     {
+        #region Fields
+        public ConstantsProjectGenerationConfig Config { get; set; }= ConstantsProjectGenerationConfig.CreateFromFile();
+        #endregion
+
         #region Constructors
         public Container()
         {
             InitializeComponent();
         }
-        #endregion
-
-        #region Public Properties
-        public string SelectedName { get; set; } = "BOA.Types.Kernel.Card.Constants";
         #endregion
 
         #region Methods
