@@ -12,6 +12,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
         public string[] UsingLines                      { get; set; }
         #endregion
 
+        public string ClassName { get; set; }
+        public string NamespaceName { get; set; }
         #region Public Methods
         public static SourceFileExporterConfig CreateFromFile(string filePath)
         {

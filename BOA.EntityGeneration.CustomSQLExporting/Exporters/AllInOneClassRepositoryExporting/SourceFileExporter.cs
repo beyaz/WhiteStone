@@ -24,7 +24,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
             Context.ProfileInfoInitialized += BeginNamespace;
             Context.ProfileInfoInitialized += WriteEmbeddedClasses;
 
-            Context.CustomSqlInfoInitialized += WriteBoaRepositoryClass;
+            Context.CustomSqlInfoInitialized += WriteCustomSqlToMethod;
 
             Context.ProfileInfoRemove += EndNamespace;
             Context.ProfileInfoRemove += ExportFileToDirectory;
@@ -34,7 +34,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
         #region Methods
         void BeginNamespace()
         {
-            file.BeginNamespace(NamingMap.RepositoryNamespace);
+            file.BeginNamespace(Resolve(Config.NamespaceName));
+            file.AppendLine($"public sealed class {Resolve(Config.ClassName)}");
+            file.OpenBracket();
+
         }
 
         void EmptyLine()
@@ -64,9 +67,10 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
             }
         }
 
-        void WriteBoaRepositoryClass()
+        void WriteCustomSqlToMethod()
         {
-            var key = $"{NamingMap.RepositoryNamespace}.{NamingMap.RepositoryClassName}.Execute";
+            
+            var key = $"{Resolve(Config.NamespaceName)}.{NamingMap.RepositoryClassName}.Execute";
 
             var sharedRepositoryClassAccessPath = Resolve(Config.SharedRepositoryClassAccessPath);
 
