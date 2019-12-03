@@ -1,4 +1,6 @@
-﻿namespace BOA.EntityGeneration.UI.Container.Bootstrapper
+﻿using BOA.EntityGeneration.UI.Container.Bootstrapper.Infrastructure;
+
+namespace BOA.EntityGeneration.UI.Container.Bootstrapper
 {
     class Config
     {

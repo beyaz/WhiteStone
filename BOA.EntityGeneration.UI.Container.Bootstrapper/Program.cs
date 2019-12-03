@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using BOA.CodeGeneration.Util;
+using BOA.EntityGeneration.UI.Container.Bootstrapper.Infrastructure;
 
 namespace BOA.EntityGeneration.UI.Container.Bootstrapper
 {

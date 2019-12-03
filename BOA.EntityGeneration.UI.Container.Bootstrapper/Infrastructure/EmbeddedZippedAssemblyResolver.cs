@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Resources;
 
-namespace BOA.EntityGeneration.UI.Container.Bootstrapper
+namespace BOA.EntityGeneration.UI.Container.Bootstrapper.Infrastructure
 {
     /// <summary>
     ///     The embedded zipped assembly resolver data

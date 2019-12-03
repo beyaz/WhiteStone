@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using YamlDotNet.Serialization;
 
-namespace BOA.EntityGeneration.UI.Container.Bootstrapper
+namespace BOA.EntityGeneration.UI.Container.Bootstrapper.Infrastructure
 {
     public static class YamlHelper
     {
