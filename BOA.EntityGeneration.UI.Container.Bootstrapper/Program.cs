@@ -19,13 +19,18 @@ namespace BOA.EntityGeneration.UI.Container.Bootstrapper
         #region Public Methods
         public static void Main(string[] args)
         {
-            var data = new EmbeddedZippedAssemblyResolverData
+            EmbeddedZippedAssemblyResolver.Attach(new EmbeddedZippedAssemblyResolverData
             {
                 Assembly                       = typeof(Program).Assembly,
                 AppDomain                      = AppDomain.CurrentDomain,
-                EmbeddedResourcePathInAssembly = "WhiteStone.ApplicationStarter.References.BOA.TfsAccess.zip"
-            };
-            EmbeddedZippedAssemblyResolver.Attach(data);
+                EmbeddedResourcePathInAssembly = "BOA.EntityGeneration.UI.Container.Bootstrapper.References.BOA.TfsAccess.zip"
+            });
+            EmbeddedZippedAssemblyResolver.Attach(new EmbeddedZippedAssemblyResolverData
+            {
+                Assembly                       = typeof(Program).Assembly,
+                AppDomain                      = AppDomain.CurrentDomain,
+                EmbeddedResourcePathInAssembly = "BOA.EntityGeneration.UI.Container.Bootstrapper.References.WhiteStone.dll"
+            });
 
             TryToExtractZipFile();
 
