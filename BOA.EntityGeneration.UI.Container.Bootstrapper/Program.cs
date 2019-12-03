@@ -30,7 +30,7 @@ namespace BOA.EntityGeneration.UI.Container.Bootstrapper
             {
                 Assembly                       = typeof(Program).Assembly,
                 AppDomain                      = AppDomain.CurrentDomain,
-                EmbeddedResourcePathInAssembly = "BOA.EntityGeneration.UI.Container.Bootstrapper.References.WhiteStone.dll"
+                EmbeddedResourcePathInAssembly = "BOA.EntityGeneration.UI.Container.Bootstrapper.References.YamlDotNet.dll"
             });
 
             TryToExtractZipFile();
