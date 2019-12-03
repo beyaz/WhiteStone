@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.Helpers\ConfigurationDictionaryCompilerTest.cs" />
+    <Compile Include="Common.Helpers\EmbeddedAssemblyReferenceResolverTest.cs" />
     <Compile Include="Common.Helpers\FileHelperTest.cs" />
     <Compile Include="Common.Helpers\PaddedStringBuilderTest.cs" />
     <Compile Include="Common.Helpers\SpaceCaseInsensitiveComparatorTest.cs" />

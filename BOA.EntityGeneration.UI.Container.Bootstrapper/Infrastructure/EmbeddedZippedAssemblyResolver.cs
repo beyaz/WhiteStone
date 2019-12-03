@@ -52,11 +52,7 @@ namespace BOA.EntityGeneration.UI.Container.Bootstrapper.Infrastructure
         {
             Extract(data);
 
-            if (data.EmbeddedResourcePathInAssembly.EndsWith(".zip"))
-            {
-                ZipFile.ExtractToDirectory(data.TargetFilePath, data.OutDir);    
-            }
-            
+            ZipFile.ExtractToDirectory(data.TargetFilePath, data.OutDir);    
 
             data.AppDomain.AssemblyResolve += new AssemblyResolver(data.OutDir).Resolve;
         }
