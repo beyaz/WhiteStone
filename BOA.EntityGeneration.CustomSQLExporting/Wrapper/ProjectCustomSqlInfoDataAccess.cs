@@ -308,13 +308,15 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                     if (isNullable)
                     {
                         cSharpPropertyTypeName = DotNetTypeName.GetDotNetNullableType(DotNetTypeName.DotNetBool);
+                        valueAccessPathForAddInParameter = valueAccessPathForAddInParameter + ".GetCharNullableValueFromBoolean()";
                     }
                     else
                     {
                         cSharpPropertyTypeName = DotNetTypeName.DotNetBool;
+                        valueAccessPathForAddInParameter = valueAccessPathForAddInParameter + "GetCharValueFromBoolean()";
                     }
 
-                    valueAccessPathForAddInParameter = valueAccessPathForAddInParameter + " ? \"1\" : \"0\"";
+                    
                 }
 
                 var item = new CustomSqlInfoParameter

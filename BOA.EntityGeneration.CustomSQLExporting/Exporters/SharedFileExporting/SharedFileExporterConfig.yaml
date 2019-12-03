@@ -340,3 +340,31 @@ EmbeddedCodes: |
       }
       #endregion
   }
+
+  static class Extensions
+  {
+      public static string GetCharNullableValueFromBoolean(this bool? value)
+      {
+          if (value == null)
+          {
+              return null;
+          }
+              
+          if (value == true)
+          {
+              return "1";
+          }
+              
+          return "0";
+      }
+          
+      public static string GetCharValueFromBoolean(this bool value)
+      {
+          if (value == true)
+          {
+              return "1";
+          }
+              
+          return "0";
+      }
+  }
