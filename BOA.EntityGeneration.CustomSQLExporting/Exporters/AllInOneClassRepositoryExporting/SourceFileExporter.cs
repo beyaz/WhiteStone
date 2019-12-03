@@ -4,10 +4,10 @@ using BOA.EntityGeneration.ScriptModel;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassRepositoryExporting
 {
-    class BoaRepositoryFileExporter : ContextContainer
+    class SourceFileExporter : ContextContainer
     {
         #region Static Fields
-        internal static readonly BoaRepositoryFileExporterConfig Config = BoaRepositoryFileExporterConfig.CreateFromFile();
+        internal static readonly SourceFileExporterConfig Config = SourceFileExporterConfig.CreateFromFile();
         #endregion
 
         #region Fields
@@ -17,9 +17,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
         #region Public Methods
         public void AttachEvents()
         {
-            var customSqlClassGenerator = Create<CustomSqlClassGenerator>();
 
-            customSqlClassGenerator.AttachEvents();
 
             Context.ProfileInfoInitialized += UsingList;
             Context.ProfileInfoInitialized += EmptyLine;
@@ -28,12 +26,6 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
 
             Context.CustomSqlInfoInitialized += WriteBoaRepositoryClass;
 
-            Context.ProfileInfoRemove += () =>
-            {
-                var proxyClass = customSqlClassGenerator.sb.ToString();
-                file.AppendAll(proxyClass);
-                file.AppendLine();
-            };
             Context.ProfileInfoRemove += EndNamespace;
             Context.ProfileInfoRemove += ExportFileToDirectory;
         }

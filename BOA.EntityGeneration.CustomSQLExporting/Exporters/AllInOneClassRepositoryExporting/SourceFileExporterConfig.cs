@@ -3,7 +3,7 @@ using BOA.Common.Helpers;
 
 namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassRepositoryExporting
 {
-    class BoaRepositoryFileExporterConfig
+    class SourceFileExporterConfig
     {
         #region Public Properties
         public string   EmbeddedCodes                   { get; set; }
@@ -13,14 +13,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
         #endregion
 
         #region Public Methods
-        public static BoaRepositoryFileExporterConfig CreateFromFile(string filePath)
+        public static SourceFileExporterConfig CreateFromFile(string filePath)
         {
-            return YamlHelper.DeserializeFromFile<BoaRepositoryFileExporterConfig>(filePath);
+            return YamlHelper.DeserializeFromFile<SourceFileExporterConfig>(filePath);
         }
 
-        public static BoaRepositoryFileExporterConfig CreateFromFile()
+        public static SourceFileExporterConfig CreateFromFile()
         {
-            return CreateFromFile(string.Join(Path.DirectorySeparatorChar.ToString(), nameof(Exporters), nameof(BoaRepositoryExporting), nameof(BoaRepositoryFileExporterConfig) + ".yaml"));
+            return CreateFromFile(string.Join(Path.DirectorySeparatorChar.ToString(), nameof(Exporters), nameof(BoaRepositoryExporting), nameof(SourceFileExporterConfig) + ".yaml"));
         }
         #endregion
     }
