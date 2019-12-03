@@ -21,7 +21,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Debug\BOA.TfsAccess.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -30,7 +30,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.22.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -228,6 +228,11 @@
     <Compile Include="FileAccess.cs" />
     <Compile Include="FileAccessWithAutoCheckIn.cs" />
     <Compile Include="FileAccessWriteResult.cs" />
+    <Compile Include="Infrastructure\EmbeddedAssemblyReferenceResolver.cs" />
+    <Compile Include="Infrastructure\Extensions.cs" />
+    <Compile Include="Infrastructure\ModuleInitializer.cs" />
+    <Compile Include="Infrastructure\SpaceCaseInsensitiveComparator.cs" />
+    <Compile Include="Infrastructure\StringHelper.cs" />
     <Compile Include="TFSAccessForBOA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -238,6 +243,28 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.ServiceBus.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.Client.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.Common.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.Core.WebApi.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.Diff.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.VersionControl.Client.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.VersionControl.Common.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.VersionControl.Common.Integration.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.Work.WebApi.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStoreLoader.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.WorkItemTracking.Client.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.WorkItemTracking.Common.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.TeamFoundation.WorkItemTracking.WebApi.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.VisualStudio.Services.Client.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.VisualStudio.Services.Common.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\Microsoft.VisualStudio.Services.WebApi.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\System.IdentityModel.Tokens.Jwt.dll" />
+    <EmbeddedResource Include="Infrastructure\EmbeddedReferences\System.Net.Http.Formatting.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>D:\github\WhiteStone\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>

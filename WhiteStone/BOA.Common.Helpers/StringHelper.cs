@@ -104,7 +104,7 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static string RemoveFromStart(this string data, string value)
         {
-            return RemoveFromStart(data, value, StringComparison.CurrentCulture);
+            return RemoveFromStart(data, value, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>

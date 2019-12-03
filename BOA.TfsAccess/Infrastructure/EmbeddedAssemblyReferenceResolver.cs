@@ -4,12 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 
-namespace BOA.Common.Helpers
+namespace BOA.TfsAccess.Infrastructure
 {
     /// <summary>
     ///     The embedded assembly reference resolver
     /// </summary>
-    public class EmbeddedAssemblyReferenceResolver
+    class EmbeddedAssemblyReferenceResolver
     {
         #region Fields
         /// <summary>
