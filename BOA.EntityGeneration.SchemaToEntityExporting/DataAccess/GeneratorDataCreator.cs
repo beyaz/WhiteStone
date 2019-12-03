@@ -22,7 +22,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.DataAccess
         /// <summary>
         ///     Creates the specified table information.
         /// </summary>
-        public static ITableInfo Create(string SqlSequenceInformationOfTable, string DatabaseEnumName, IDatabase database, DbModel.Interfaces.ITableInfo tableInfo)
+        public static ITableInfo Create(string SqlSequenceInformationOfTable, IDatabase database, DbModel.Interfaces.ITableInfo tableInfo)
         {
             var uniqueIndexIdentifiers = tableInfo.IndexInfoList.Where(x => !x.IsPrimaryKey && x.IsUnique).ToList();
 
@@ -60,7 +60,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.DataAccess
                 NonUniqueIndexInfoList = nonUniqueIndexIdentifiers,
                 IsSupportSelectByKey   = isSupportSelectByKey,
                 IsSupportSelectByIndex = isSupportSelectByIndex,
-                DatabaseEnumName       = DatabaseEnumName,
                 SequenceList           = SequenceList
             };
 

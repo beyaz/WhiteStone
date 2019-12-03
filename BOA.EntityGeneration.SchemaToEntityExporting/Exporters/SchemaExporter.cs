@@ -129,7 +129,7 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.Exporters
 
                 var tableInfoTemp = tableInfoDao.GetInfo(Config.TableCatalog, SchemaName, tableName);
 
-                Context.TableInfo = GeneratorDataCreator.Create(Config.SqlSequenceInformationOfTable, Config.DatabaseEnumName, Database, tableInfoTemp);
+                Context.TableInfo = GeneratorDataCreator.Create(Config.SqlSequenceInformationOfTable, Database, tableInfoTemp);
 
                 Context.OnTableExportStarted();
                 Context.OnTableExportFinished();
