@@ -313,7 +313,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                     else
                     {
                         cSharpPropertyTypeName = DotNetTypeName.DotNetBool;
-                        valueAccessPathForAddInParameter = valueAccessPathForAddInParameter + "GetCharValueFromBoolean()";
+                        valueAccessPathForAddInParameter = valueAccessPathForAddInParameter + ".GetCharValueFromBoolean()";
                     }
 
                     
