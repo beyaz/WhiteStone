@@ -13,6 +13,8 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
         public string NamespaceName                           { get; set; }
         public string ProjectDirectory                        { get; set; }
         public string SourceCodeFileName { get; set; }
+        public string[] UsingLines { get; set; }
+        public string[] AsseblyReferences { get; set; }
         #endregion
 
         #region Public Methods

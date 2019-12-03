@@ -8,17 +8,15 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
 {
     class Generator
     {
-       
-
         #region Public Properties
         public Context Context { get; } = new Context();
         #endregion
 
         #region Properties
         ConstantsProjectGenerationConfig Config      => Context.Config;
-        PaddedStringBuilder   File        => Context.File;
-        FileSystem            FileSystem  => Context.FileSystem;
-        ProcessContract       ProcessInfo => Context.ProcessInfo;
+        PaddedStringBuilder              File        => Context.File;
+        FileSystem                       FileSystem  => Context.FileSystem;
+        ProcessContract                  ProcessInfo => Context.ProcessInfo;
         #endregion
 
         #region Public Methods
@@ -72,14 +70,14 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
                 NamespaceName    = Config.NamespaceName,
                 IsClientDll      = true,
                 ProjectDirectory = Config.ProjectDirectory,
-                References       = new[] {"<Reference Include=\"BOA.Card.Definitions\"><HintPath>D:\\BOA\\Server\\bin\\BOA.Card.Definitions.dll</HintPath></Reference>"}
+                References       = Config.AsseblyReferences
             };
 
             var csprojFilePath = csprojFileGenerator.Generate();
 
             Context.MsBuildQueue.Push(csprojFilePath);
         }
-        
+
         void ExportFile()
         {
             ProcessInfo.Text = "Writing files.";
@@ -93,16 +91,19 @@ namespace BOA.EntityGeneration.ConstantsProjectGeneration
         {
             var database = Context.Database;
 
-            database.CommandText = Config.DataSourceProcedureFullName;
+            database.CommandText              = Config.DataSourceProcedureFullName;
             database.CommandIsStoredProcedure = true;
-            Context.EnumInfoList      = database.ExecuteReader().ToList<EnumInfo>();
-            Context.EnumClassNameList = Context.EnumInfoList.OrderBy(x => x.ClassName).GroupBy(x => x.ClassName).Select(x => x.Key).ToList();
+            Context.EnumInfoList              = database.ExecuteReader().ToList<EnumInfo>();
+            Context.EnumClassNameList         = Context.EnumInfoList.OrderBy(x => x.ClassName).GroupBy(x => x.ClassName).Select(x => x.Key).ToList();
         }
 
         void WriteContent()
         {
-            File.AppendLine("using System;");
-            File.AppendLine("using BOA.Card.Definitions;");
+            foreach (var line in Config.UsingLines)
+            {
+                File.AppendLine(line);
+            }
+
             File.AppendLine();
             File.AppendLine($"namespace {Config.NamespaceName}");
             File.OpenBracket();

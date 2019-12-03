@@ -6,7 +6,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojRepositoryExpo
     class RepositoryCsprojFileExporter : ContextContainer
     {
         #region Static Fields
-        internal static readonly RepositoryCsprojFileExporterConfig _config = RepositoryCsprojFileExporterConfig.CreateFromFile();
+        internal static readonly RepositoryCsprojFileExporterConfig Config = RepositoryCsprojFileExporterConfig.CreateFromFile();
         #endregion
 
         #region Public Methods
@@ -21,7 +21,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojRepositoryExpo
         {
             var references = new List<string>();
 
-            foreach (var reference in _config.DefaultAssemblyReferences)
+            foreach (var reference in Config.DefaultAssemblyReferences)
             {
                 references.Add(Resolve(reference));
             }

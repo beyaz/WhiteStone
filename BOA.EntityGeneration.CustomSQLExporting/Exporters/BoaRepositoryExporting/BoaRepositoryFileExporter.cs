@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
     class BoaRepositoryFileExporter : ContextContainer
     {
         #region Static Fields
-        internal static readonly BoaRepositoryFileExporterConfig _config = BoaRepositoryFileExporterConfig.CreateFromFile();
+        internal static readonly BoaRepositoryFileExporterConfig Config = BoaRepositoryFileExporterConfig.CreateFromFile();
         #endregion
 
         #region Fields
@@ -18,7 +18,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
         public void AttachEvents()
         {
             var customSqlClassGenerator = Create<CustomSqlClassGenerator>();
-
+            
             customSqlClassGenerator.AttachEvents();
 
             Context.ProfileInfoInitialized += UsingList;
@@ -59,14 +59,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
         {
             ProcessInfo.Text = "Exporting BOA repository.";
 
-            var filePath = Resolve(_config.OutputFilePath);
+            var filePath = Resolve(Config.OutputFilePath);
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }
 
         void UsingList()
         {
-            foreach (var line in _config.UsingLines)
+            foreach (var line in Config.UsingLines)
             {
                 sb.AppendLine(Resolve(line));
             }
@@ -139,7 +139,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporti
 
         void WriteEmbeddedClasses()
         {
-            sb.AppendAll(_config.EmbeddedCodes);
+            sb.AppendAll(Config.EmbeddedCodes);
             sb.AppendLine();
         }
         #endregion

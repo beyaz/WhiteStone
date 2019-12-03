@@ -9,7 +9,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
     class SharedFileExporter : ContextContainer
     {
         #region Static Fields
-        internal static readonly SharedFileExporterConfig _config = SharedFileExporterConfig.CreateFromFile();
+        internal static readonly SharedFileExporterConfig Config = SharedFileExporterConfig.CreateFromFile();
         #endregion
 
         #region Fields
@@ -97,14 +97,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.SharedFileExporting
         {
             ProcessInfo.Text = "Exporting Shared repository.";
 
-            var filePath = Resolve(_config.OutputFilePath);
+            var filePath = Resolve(Config.OutputFilePath);
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }
 
         void WriteEmbeddedClasses()
         {
-            sb.AppendAll(_config.EmbeddedCodes);
+            sb.AppendAll(Config.EmbeddedCodes);
             sb.AppendLine();
         }
 

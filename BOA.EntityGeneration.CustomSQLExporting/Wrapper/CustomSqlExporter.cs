@@ -16,7 +16,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
     class CustomSqlExporter : ContextContainer
     {
         #region Static Fields
-        internal static readonly CustomSqlExporterConfig _config = CustomSqlExporterConfig.CreateFromFile();
+        internal static readonly CustomSqlExporterConfig Config = CustomSqlExporterConfig.CreateFromFile();
         #endregion
 
         #region Public Methods
@@ -26,18 +26,18 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
             // initialize Naming Map
             Context.NamingMap.Push(nameof(NamingMap.ProfileName), ProfileName);
-            Context.NamingMap.Push(nameof(NamingMap.EntityNamespace), Resolve(_config.EntityNamespace));
-            Context.NamingMap.Push(nameof(NamingMap.RepositoryNamespace), Resolve(_config.RepositoryNamespace));
-            Context.NamingMap.Push(nameof(NamingMap.SlnDirectoryPath), Resolve(_config.SlnDirectoryPath));
-            Context.NamingMap.Push(nameof(NamingMap.EntityProjectDirectory), Resolve(_config.EntityProjectDirectory));
-            Context.NamingMap.Push(nameof(NamingMap.RepositoryProjectDirectory), Resolve(_config.RepositoryProjectDirectory));
-            Context.NamingMap.Push(nameof(NamingMap.InputClassName), _config.InputClassName);
-            Context.NamingMap.Push(nameof(NamingMap.ResultClassName), _config.ResultClassName);
-            Context.NamingMap.Push(nameof(NamingMap.RepositoryClassName), _config.RepositoryClassName);
+            Context.NamingMap.Push(nameof(NamingMap.EntityNamespace), Resolve(Config.EntityNamespace));
+            Context.NamingMap.Push(nameof(NamingMap.RepositoryNamespace), Resolve(Config.RepositoryNamespace));
+            Context.NamingMap.Push(nameof(NamingMap.SlnDirectoryPath), Resolve(Config.SlnDirectoryPath));
+            Context.NamingMap.Push(nameof(NamingMap.EntityProjectDirectory), Resolve(Config.EntityProjectDirectory));
+            Context.NamingMap.Push(nameof(NamingMap.RepositoryProjectDirectory), Resolve(Config.RepositoryProjectDirectory));
+            Context.NamingMap.Push(nameof(NamingMap.InputClassName), Config.InputClassName);
+            Context.NamingMap.Push(nameof(NamingMap.ResultClassName), Config.ResultClassName);
+            Context.NamingMap.Push(nameof(NamingMap.RepositoryClassName), Config.RepositoryClassName);
 
             ProcessInfo.Text = "Fetching profile informations...";
 
-            var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(Database, ProfileName, _config);
+            var customSqlNamesInfProfile = ProjectCustomSqlInfoDataAccess.GetCustomSqlNamesInfProfile(Database, ProfileName, Config);
 
             Context.OnProfileInfoInitialized();
 
@@ -49,7 +49,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
                 ProcessInfo.Text    = $"Processing '{objectId}'";
                 ProcessInfo.Current = switchCaseIndex;
 
-                Context.CustomSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(Database, ProfileName, objectId, _config, switchCaseIndex++);
+                Context.CustomSqlInfo = ProjectCustomSqlInfoDataAccess.GetCustomSqlInfo(Database, ProfileName, objectId, Config, switchCaseIndex++);
 
                 InitializeCustomSqlNamingPattern();
 
@@ -67,7 +67,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
         {
             var profileIdList = new List<string>();
 
-            Database.CommandText = _config.SQL_GetProfileIdList;
+            Database.CommandText = Config.SQL_GetProfileIdList;
             var reader = Database.ExecuteReader();
             while (reader.Read())
             {
@@ -116,17 +116,17 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 
                 Context.ReferencedEntityTypeNamingPattern = new ReferencedEntityTypeNamingPatternContract
                 {
-                    ReferencedEntityAccessPath       = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedEntityAccessPath),
-                    ReferencedEntityAssemblyPath     = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedEntityAssemblyPath),
-                    ReferencedEntityReaderMethodPath = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedEntityReaderMethodPath),
-                    ReferencedRepositoryAssemblyPath = Resolve(_config.ReferencedEntityTypeNamingPattern.ReferencedRepositoryAssemblyPath)
+                    ReferencedEntityAccessPath       = Resolve(Config.ReferencedEntityTypeNamingPattern.ReferencedEntityAccessPath),
+                    ReferencedEntityAssemblyPath     = Resolve(Config.ReferencedEntityTypeNamingPattern.ReferencedEntityAssemblyPath),
+                    ReferencedEntityReaderMethodPath = Resolve(Config.ReferencedEntityTypeNamingPattern.ReferencedEntityReaderMethodPath),
+                    ReferencedRepositoryAssemblyPath = Resolve(Config.ReferencedEntityTypeNamingPattern.ReferencedRepositoryAssemblyPath)
                 };
             }
         }
 
         void InitializeDatabaseConnection()
         {
-            Context.Database = new SqlDatabase(_config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
+            Context.Database = new SqlDatabase(Config.ConnectionString) {CommandTimeout = 1000 * 60 * 60};
         }
         #endregion
     }

@@ -7,7 +7,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
     class EntityFileExporter : ContextContainer
     {
         #region Static Fields
-        internal static readonly EntityFileExporterConfig _config = EntityFileExporterConfig.CreateFromFile();
+        internal static readonly EntityFileExporterConfig Config = EntityFileExporterConfig.CreateFromFile();
         #endregion
 
         #region Fields
@@ -57,14 +57,14 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.EntityFileExporting
         {
             ProcessInfo.Text = "Exporting Entity classes.";
 
-            var filePath = Resolve(_config.OutputFilePath);
+            var filePath = Resolve(Config.OutputFilePath);
 
             FileSystem.WriteAllText(filePath, sb.ToString());
         }
 
         void UsingList()
         {
-            foreach (var line in _config.UsingLines)
+            foreach (var line in Config.UsingLines)
             {
                 sb.AppendLine(Resolve(line));
             }
