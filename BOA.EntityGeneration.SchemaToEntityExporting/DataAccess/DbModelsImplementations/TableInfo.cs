@@ -14,11 +14,6 @@ namespace BOA.EntityGeneration.SchemaToEntityExporting.DataAccess.DbModelsImplem
     {
         #region Public Properties
         /// <summary>
-        ///     Gets or sets the name of the database enum.
-        /// </summary>
-        public string DatabaseEnumName { get; set; }
-
-        /// <summary>
         ///     Gets or sets a value indicating whether this instance is support select by index.
         /// </summary>
         public bool IsSupportSelectByIndex { get; set; }
