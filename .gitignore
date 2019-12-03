@@ -126,3 +126,5 @@ WhiteStone.Test/obj
 /BOA.EntityGeneration.SchemaToEntityExporting.Test/obj/
 /BOA.EntityGeneration.ConstantsProjectGeneration/obj
 /BOA.EntityGeneration.ConstantsProjectGeneration/bin
+/BOA.EntityGeneration.UI.Container.Bootstrapper/obj/
+/BOA.EntityGeneration.UI.Container.Bootstrapper/bin/
