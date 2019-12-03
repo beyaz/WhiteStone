@@ -1,6 +1,4 @@
-﻿using BOA.Common.Helpers;
-
-namespace BOA.EntityGeneration.UI.Container.Bootstrapper
+﻿namespace BOA.EntityGeneration.UI.Container.Bootstrapper
 {
     class Config
     {
