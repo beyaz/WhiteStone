@@ -53,10 +53,9 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
         void BeginNamespace()
         {
             file.BeginNamespace(Resolve(Config.NamespaceName));
-            file.AppendLine($"public sealed class {Resolve(Config.ClassName)}");
-            file.OpenBracket();
-
         }
+
+        
 
         void EmptyLine()
         {
@@ -122,7 +121,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
                 file.AppendLine();
                 file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
                 file.AppendLine();
-                file.AppendLine($"return this.ExecuteReaderToList<{resultContractName}>(CallerMemberPath, sqlInfo, {readContractMethodPath});");
+                file.AppendLine($"return unitOfWork.ExecuteReaderToList<{resultContractName}>(CallerMemberPath, sqlInfo, {readContractMethodPath});");
                 file.CloseBracket();
             }
             else
@@ -133,7 +132,7 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassReposit
                 file.AppendLine();
                 file.AppendLine($"var sqlInfo = {sharedRepositoryClassAccessPath}.CreateSqlInfo(request);");
                 file.AppendLine();
-                file.AppendLine($"return this.ExecuteReaderToContract<{resultContractName}>(CallerMemberPath, sqlInfo, {readContractMethodPath});");
+                file.AppendLine($"return unitOfWork.ExecuteReaderToContract<{resultContractName}>(CallerMemberPath, sqlInfo, {readContractMethodPath});");
 
                 file.CloseBracket();
             }

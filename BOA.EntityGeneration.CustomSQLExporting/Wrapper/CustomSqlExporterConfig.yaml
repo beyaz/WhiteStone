@@ -10,6 +10,8 @@ RepositoryProjectDirectory: $(SlnDirectoryPath)CustomSQL\$(ProfileName)\$(Reposi
 InputClassName: $(CamelCasedCustomSqlName)Request
 ResultClassName: $(CamelCasedCustomSqlName)Contract
 RepositoryClassName: $(CamelCasedCustomSqlName)
+CanExportBoaRepository: true
+CanExportAllInOneClassRepository: true
 ReferencedEntityTypeNamingPattern:  
   ReferencedEntityAccessPath: Types.Kernel.Card.$(SchemaName).$(CamelCasedResultName)Contract
   ReferencedEntityReaderMethodPath: $(SchemaName).Shared.$(CamelCasedResultName).ReadContract

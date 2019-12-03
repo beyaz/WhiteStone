@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using BOA.DatabaseAccess;
 using BOA.EntityGeneration.CustomSQLExporting.ContextManagement;
+using BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassRepositoryExporting;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.BoaRepositoryExporting;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojEntityExporting;
 using BOA.EntityGeneration.CustomSQLExporting.Exporters.CsprojRepositoryExporting;
@@ -90,11 +91,20 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
             // attach events
             Create<EntityFileExporter>().AttachEvents();
             Create<SharedFileExporter>().AttachEvents();
-            Create<BoaRepositoryFileExporter>().AttachEvents();
-            Create<BOA.EntityGeneration.CustomSQLExporting.Exporters.AllInOneClassRepositoryExporting.SourceFileExporter>().AttachEvents();
+
+            if (Config.CanExportBoaRepository)
+            {
+                Create<BoaRepositoryFileExporter>().AttachEvents();
+            }
+
+            if (Config.CanExportAllInOneClassRepository)
+            {
+                Create<SourceFileExporter>().AttachEvents();
+            }
+
             Create<EntityCsprojFileExporter>().AttachEvents();
             Create<RepositoryCsprojFileExporter>().AttachEvents();
-            
+
             Context.ProfileInfoRemove += MsBuildQueue.Build;
         }
         #endregion

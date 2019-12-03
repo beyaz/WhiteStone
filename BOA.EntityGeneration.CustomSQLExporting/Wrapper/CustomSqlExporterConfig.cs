@@ -6,6 +6,8 @@ namespace BOA.EntityGeneration.CustomSQLExporting.Wrapper
 {
     public class CustomSqlExporterConfig
     {
+        public bool CanExportBoaRepository { get; set; }
+        public bool CanExportAllInOneClassRepository { get; set; }
         #region Public Properties
         /// <summary>
         ///     Gets or sets the connection string.
