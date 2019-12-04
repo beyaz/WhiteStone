@@ -156,9 +156,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BOA.EntityGeneration.ConstantsProjectGeneration\BOA.EntityGeneration.ConstantsProjectGeneration.csproj">
       <Project>{400856e3-3f37-4b90-a892-ad45c9d737a5}</Project>
       <Name>BOA.EntityGeneration.ConstantsProjectGeneration</Name>
