@@ -1,6 +1,4 @@
-﻿using BOA.CodeGeneration.Util;
-
-namespace BOA.TfsAccess
+﻿namespace BOA.TfsAccess
 {
     public class FileAccessWithAutoCheckIn : FileAccess
     {

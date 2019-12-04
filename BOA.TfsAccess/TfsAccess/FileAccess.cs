@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using BOA.CodeGeneration.Util;
 using BOA.Infrastructure;
 
 namespace BOA.TfsAccess
@@ -12,15 +11,31 @@ namespace BOA.TfsAccess
     {
         #region Public Methods
         /// <summary>
+        ///     Writes to file system.
+        /// </summary>
+        public static void WriteToFileSystem(string path, string content, FileAccessWriteResult result)
+        {
+            try
+            {
+                if (new FileInfo(path).Exists && new FileInfo(path).IsReadOnly)
+                {
+                    File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
+                    result.FileReadOnlyAttributeRemoved = true;
+                }
+
+                FileHelper.WriteAllText(path, content);
+            }
+            catch (Exception e)
+            {
+                result.Exception = e;
+            }
+        }
+
+        /// <summary>
         ///     Writes all text.
         /// </summary>
         public virtual FileAccessWriteResult WriteAllText(string path, string content)
         {
-
-
-          
-
-
             var tfsPath = GetTfsPath(path);
 
             var oldContent = string.Empty;
@@ -32,7 +47,7 @@ namespace BOA.TfsAccess
             var isEqual = StringHelper.IsEqualAsData(oldContent, content);
             if (isEqual)
             {
-                WriteToFileSystem(path,content,new FileAccessWriteResult());
+                WriteToFileSystem(path, content, new FileAccessWriteResult());
 
                 return new FileAccessWriteResult {TfsVersionAndNewContentIsSameSoNothingDoneAnything = true};
             }
@@ -55,32 +70,10 @@ namespace BOA.TfsAccess
                 result.FileIsCheckOutFromTfs = true;
             }
 
-            WriteToFileSystem(path,content,result);
-            
+            WriteToFileSystem(path, content, result);
+
             return result;
         }
-
-        /// <summary>
-        ///     Writes to file system.
-        /// </summary>
-        public static void WriteToFileSystem(string path, string content, FileAccessWriteResult result)
-        {
-            try
-            {
-                if (new FileInfo(path).Exists && new FileInfo(path).IsReadOnly)
-                {
-                    File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
-                    result.FileReadOnlyAttributeRemoved = true;
-                }
-
-                FileHelper.WriteAllText(path, content);
-            }
-            catch (Exception e)
-            {
-                result.Exception = e;
-            }
-        }
-
         #endregion
 
         #region Methods
@@ -89,10 +82,8 @@ namespace BOA.TfsAccess
         /// </summary>
         static string GetTfsPath(string filePath)
         {
-            return "$" + filePath.RemoveFromStart(@"d:\work",StringComparison.OrdinalIgnoreCase).Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            return "$" + filePath.RemoveFromStart(@"d:\work", StringComparison.OrdinalIgnoreCase).Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         }
         #endregion
     }
-
-    
 }

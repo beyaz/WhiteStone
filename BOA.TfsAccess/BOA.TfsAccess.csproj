@@ -219,6 +219,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TfsAccess\CheckInSolutionInput.cs" />
     <Compile Include="TfsAccess\FileAccess.cs" />
     <Compile Include="TfsAccess\FileAccessWithAutoCheckIn.cs" />
     <Compile Include="TfsAccess\FileAccessWriteResult.cs" />

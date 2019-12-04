@@ -2,26 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Resources;
 using BOA.Infrastructure;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
 
-namespace BOA.CodeGeneration.Util
+namespace BOA.TfsAccess
 {
-    public class CheckInSolutionInput
-    {
-        #region Public Properties
-        public string Comment          { get; set; }
-        public string ResultMessage    { get; set; }
-        public string SolutionFilePath { get; set; }
-        #endregion
-    }
-
     public class TFSAccessForBOA
     {
         #region Public Properties
-         public static TfsTeamProjectCollection KT => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri("http://srvtfs:8080/tfs/KT"));
+        public static TfsTeamProjectCollection KT => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri("http://srvtfs:8080/tfs/KT"));
         #endregion
 
         #region Public Methods
@@ -109,30 +99,7 @@ namespace BOA.CodeGeneration.Util
             _workspace.Map(serverPath, localPath);
         }
 
-        public static string GetFileContent(string path)
-        {
-            var ConstTfsServerUri = GetTfsServerPath(path);
-
-            using (var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(ConstTfsServerUri)))
-            {
-                if (pc == null)
-                {
-                    return null;
-                }
-
-                var version = pc.GetService(typeof(VersionControlServer)) as VersionControlServer;
-                var item    = version?.GetItem(path);
-                var stream  = item?.DownloadFile();
-                if (stream == null)
-                {
-                    return null;
-                }
-
-                return new StreamReader(stream).ReadToEnd();
-            }
-        }
-
-        public static void DownloadFile(string path,string destinationPath)
+        public static void DownloadFile(string path, string destinationPath)
         {
             var ConstTfsServerUri = GetTfsServerPath(path);
 
@@ -166,11 +133,34 @@ namespace BOA.CodeGeneration.Util
                 {
                     Directory.CreateDirectory(directoryName);
                 }
-                
+
                 using (var fs = new FileStream(destinationPath, FileMode.OpenOrCreate))
                 {
                     stream.ReadAllWriteToOutput(fs);
                 }
+            }
+        }
+
+        public static string GetFileContent(string path)
+        {
+            var ConstTfsServerUri = GetTfsServerPath(path);
+
+            using (var pc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(ConstTfsServerUri)))
+            {
+                if (pc == null)
+                {
+                    return null;
+                }
+
+                var version = pc.GetService(typeof(VersionControlServer)) as VersionControlServer;
+                var item    = version?.GetItem(path);
+                var stream  = item?.DownloadFile();
+                if (stream == null)
+                {
+                    return null;
+                }
+
+                return new StreamReader(stream).ReadToEnd();
             }
         }
 

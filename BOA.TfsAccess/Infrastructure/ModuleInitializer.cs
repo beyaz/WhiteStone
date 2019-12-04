@@ -2,6 +2,7 @@
 {
     public static class ModuleInitializer
     {
+        #region Public Methods
         public static void Initialize()
         {
             var references = new[]
@@ -29,7 +30,7 @@
             };
 
             EmbeddedAssemblyReferenceResolver.Resolve(references);
-            
         }
+        #endregion
     }
 }

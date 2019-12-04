@@ -5,6 +5,7 @@ namespace BOA.Infrastructure
 {
     static class Extensions
     {
+        #region Public Methods
         /// <summary>
         ///     Determines whether this instance has value.
         /// </summary>
@@ -63,5 +64,6 @@ namespace BOA.Infrastructure
 
             return data;
         }
+        #endregion
     }
 }

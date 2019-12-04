@@ -5,6 +5,7 @@ namespace BOA.Infrastructure
 {
     static class FileHelper
     {
+        #region Public Methods
         public static void CreateDirectoryIfNotExists(string path)
         {
             if (Directory.Exists(path))
@@ -14,6 +15,7 @@ namespace BOA.Infrastructure
 
             Directory.CreateDirectory(path);
         }
+
         public static void WriteAllText(string path, string data)
         {
             if (path == null)
@@ -31,5 +33,6 @@ namespace BOA.Infrastructure
             sw.Close();
             fs.Close();
         }
+        #endregion
     }
 }
