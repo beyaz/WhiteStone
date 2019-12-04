@@ -40,6 +40,11 @@ timeout 1
 timeout 1
 %sevenZip% u %zipFilePath% %sourceDirctory%FileExporters
 timeout 1
+%sevenZip% u %zipFilePath% %sourceDirctory%Wrapper
+timeout 1
+%sevenZip% u %zipFilePath% %sourceDirctory%ConstantsProjectGenerationConfig.yaml
+timeout 1
+%sevenZip% u %zipFilePath% %sourceDirctory%EntityGenerationUIContainerConfig.yaml
 
 @echo Success
 
