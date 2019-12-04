@@ -235,6 +235,11 @@ namespace BOA.Common.Helpers
         /// </summary>
         public static void WriteAllText(string path, string data)
         {
+            if (path == null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
             CreateDirectoryIfNotExists(Path.GetDirectoryName(path));
 
             File.Delete(path);
