@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BOA.CodeGeneration.Util;
+using BOA.TfsAccess;
 
 namespace BOA.OneDesigner.Helpers
 {

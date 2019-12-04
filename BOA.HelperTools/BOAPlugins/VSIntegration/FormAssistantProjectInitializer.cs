@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using BOA.CodeGeneration.Util;
+using BOA.TfsAccess;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 

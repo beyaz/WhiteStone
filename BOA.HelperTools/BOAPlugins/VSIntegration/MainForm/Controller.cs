@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
+using BOA.TfsAccess;
 using BOAPlugins.Messaging;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;

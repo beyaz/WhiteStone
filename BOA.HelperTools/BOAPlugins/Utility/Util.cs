@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
+using BOA.TfsAccess;
 
 namespace BOAPlugins.Utility
 {
