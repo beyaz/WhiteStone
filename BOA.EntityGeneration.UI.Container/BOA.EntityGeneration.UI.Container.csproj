@@ -46,16 +46,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -179,10 +174,6 @@
     <ProjectReference Include="..\BOA.EntityGeneration\BOA.EntityGeneration.csproj">
       <Project>{2ce3e1b8-6f47-4f70-8f67-372d02d3ebc3}</Project>
       <Name>BOA.EntityGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BOA.HelperTools\BOA.CodeGeneration\BOA.CodeGeneration.csproj">
-      <Project>{a51d1954-365f-4f98-8492-f8841fbad5be}</Project>
-      <Name>BOA.CodeGeneration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
