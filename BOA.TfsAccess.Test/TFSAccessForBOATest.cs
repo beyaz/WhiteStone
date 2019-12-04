@@ -44,7 +44,7 @@ namespace BOA.TfsAccess
         public void CheckOutFile()
         {
             // ARRANGE
-            const string path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";
+            const string path = @"D:\work\BOA.Retired\Dev\Atm\Operator\Atm.Operator.TaskManager\DeviceManagers\DeviceFactory.cs";
 
             TFSAccessForBOA.CheckoutFile(path).Should().BeNull();
             TFSAccessForBOA.UndoCheckoutFile(path).Should().BeTrue();
