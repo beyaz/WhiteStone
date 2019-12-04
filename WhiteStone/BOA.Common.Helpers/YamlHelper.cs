@@ -5,14 +5,12 @@ namespace BOA.Common.Helpers
 {
     public static class YamlHelper
     {
-        #region Constants
-        internal const string ReferencedModuleName = "YamlDotNet.dll";
-        #endregion
+       
 
         #region Constructors
         static YamlHelper()
         {
-            new EmbeddedAssemblyReferenceResolver(typeof(EmbeddedAssemblyReferenceResolver).Assembly, ReferencedModuleName).Resolve();
+            EmbeddedCompressedAssemblyReferencesResolver.Resolve("YamlDotNet.zip");
         }
         #endregion
 

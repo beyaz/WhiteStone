@@ -163,11 +163,11 @@
   <ItemGroup>
     <None Include="Analysis.fxcop" />
     <None Include="DeployTask.json" />
+    <EmbeddedResource Include="EmbeddedReferences\YamlDotNet.zip" />
     <None Include="package.nuspec" />
     <None Include="WhiteStoneKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EmbeddedReferences\YamlDotNet.dll" />
     <Content Include="LanguageTranslations\EnglishBank\DataSource.txt" />
   </ItemGroup>
   <ItemGroup>
