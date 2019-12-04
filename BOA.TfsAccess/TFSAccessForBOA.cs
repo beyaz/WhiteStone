@@ -5,7 +5,6 @@ using System.Linq;
 using System.Resources;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
-using WhiteStone.Helpers;
 
 namespace BOA.CodeGeneration.Util
 {
