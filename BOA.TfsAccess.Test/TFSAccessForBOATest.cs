@@ -1,4 +1,7 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.IO;
+using System.Linq;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.TfsAccess
@@ -78,6 +81,22 @@ namespace BOA.TfsAccess
 
             // ASSERT
             Assert.IsNotNull(content);
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            RemoveTfsRelatedAssemblies();
+        }
+        #endregion
+
+        #region Methods
+        static void RemoveTfsRelatedAssemblies()
+        {
+            foreach (var file in Directory.GetFiles(Path.GetDirectoryName(typeof(TFSAccessForBOATest).Assembly.Location) ?? throw new InvalidOperationException()).Where(f => Path.GetFileName(f).Contains(".TeamFoundation.")))
+            {
+                File.Delete(file);
+            }
         }
         #endregion
     }
