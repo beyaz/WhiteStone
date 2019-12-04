@@ -17,8 +17,8 @@ namespace BOA.TfsAccess
         }
         #endregion
 
-        #region Public Properties
-        public static TfsTeamProjectCollection KT => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri("http://srvtfs:8080/tfs/KT"));
+        #region Properties
+        internal static TfsTeamProjectCollection KT => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri("http://srvtfs:8080/tfs/KT"));
         #endregion
 
         #region Public Methods
@@ -95,15 +95,6 @@ namespace BOA.TfsAccess
 
                 return "Number of checked files is " + count;
             }
-        }
-
-        public static void CreateWorkspace(TfsTeamProjectCollection tfsTeamProjectCollection, string name, string serverPath, string localPath)
-        {
-            var _versionControl = tfsTeamProjectCollection.GetService<VersionControlServer>();
-
-            var _workspace = _versionControl.CreateWorkspace(name, _versionControl.AuthorizedUser);
-
-            _workspace.Map(serverPath, localPath);
         }
 
         public static void DownloadFile(string path, string destinationPath)
@@ -226,6 +217,15 @@ namespace BOA.TfsAccess
         #endregion
 
         #region Methods
+        internal static void CreateWorkspace(TfsTeamProjectCollection tfsTeamProjectCollection, string name, string serverPath, string localPath)
+        {
+            var _versionControl = tfsTeamProjectCollection.GetService<VersionControlServer>();
+
+            var _workspace = _versionControl.CreateWorkspace(name, _versionControl.AuthorizedUser);
+
+            _workspace.Map(serverPath, localPath);
+        }
+
         static string GetTfsServerPath(string path)
         {
             if (path.IndexOf("WORKDE", StringComparison.OrdinalIgnoreCase) >= 0)
