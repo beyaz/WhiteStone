@@ -8,7 +8,7 @@ namespace BOA.Infrastructure
     /// <summary>
     ///     The space case insensitive comparator
     /// </summary>
-    public sealed class SpaceCaseInsensitiveComparator
+    sealed class SpaceCaseInsensitiveComparator
     {
         #region Static Fields
         internal static readonly char[] ExceptCharacters = {' ', '\t', '\n', '\r'};

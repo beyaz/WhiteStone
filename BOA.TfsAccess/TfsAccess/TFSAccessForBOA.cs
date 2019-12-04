@@ -10,6 +10,13 @@ namespace BOA.TfsAccess
 {
     public class TFSAccessForBOA
     {
+        #region Constructors
+        static TFSAccessForBOA()
+        {
+            ModuleInitializer.Initialize();
+        }
+        #endregion
+
         #region Public Properties
         public static TfsTeamProjectCollection KT => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri("http://srvtfs:8080/tfs/KT"));
         #endregion
