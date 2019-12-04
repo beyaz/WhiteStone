@@ -1,6 +1,4 @@
-﻿using BOA.TfsAccess.Infrastructure;
-
-namespace BOA.TfsAccess
+﻿namespace BOA.TfsAccess.Infrastructure
 {
     public static class ModuleInitializer
     {

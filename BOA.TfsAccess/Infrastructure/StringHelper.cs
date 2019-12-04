@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
-using BOA.Common.Helpers;
 
-namespace BOA.TfsAccess
+namespace BOA.TfsAccess.Infrastructure
 {
     static class StringHelper
     {

@@ -7,7 +7,7 @@
     <ProjectGuid>{819466B2-7D52-4C21-A270-61134A6A04C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BOA.TfsAccess</RootNamespace>
+    <RootNamespace>BOA</RootNamespace>
     <AssemblyName>BOA.TfsAccess</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -219,20 +219,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileAccess.cs" />
-    <Compile Include="FileAccessWithAutoCheckIn.cs" />
-    <Compile Include="FileAccessWriteResult.cs" />
+    <Compile Include="TfsAccess\FileAccess.cs" />
+    <Compile Include="TfsAccess\FileAccessWithAutoCheckIn.cs" />
+    <Compile Include="TfsAccess\FileAccessWriteResult.cs" />
     <Compile Include="Infrastructure\EmbeddedAssemblyReferenceResolver.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
+    <Compile Include="Infrastructure\FileHelper.cs" />
     <Compile Include="Infrastructure\ModuleInitializer.cs" />
     <Compile Include="Infrastructure\SpaceCaseInsensitiveComparator.cs" />
     <Compile Include="Infrastructure\StringHelper.cs" />
-    <Compile Include="TFSAccessForBOA.cs" />
+    <Compile Include="TfsAccess\TFSAccessForBOA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DeployTask.json" />
-    <None Include="dist\BOA.TfsAccess.zip" />
     <None Include="package.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -261,6 +260,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>D:\github\WhiteStone\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
