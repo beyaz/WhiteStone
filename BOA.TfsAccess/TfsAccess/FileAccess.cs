@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using BOA.CodeGeneration.Util;
-using BOA.TfsAccess.Infrastructure;
+using BOA.Infrastructure;
 
 namespace BOA.TfsAccess
 {

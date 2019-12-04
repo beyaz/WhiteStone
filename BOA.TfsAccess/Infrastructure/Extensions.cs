@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace BOA.TfsAccess.Infrastructure
+namespace BOA.Infrastructure
 {
     static class Extensions
     {

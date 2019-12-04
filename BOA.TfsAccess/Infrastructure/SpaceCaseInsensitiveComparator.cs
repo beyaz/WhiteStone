@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace BOA.TfsAccess.Infrastructure
+namespace BOA.Infrastructure
 {
     /// <summary>
     ///     The space case insensitive comparator

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 
-namespace BOA.TfsAccess.Infrastructure
+namespace BOA.Infrastructure
 {
     /// <summary>
     ///     The embedded assembly reference resolver

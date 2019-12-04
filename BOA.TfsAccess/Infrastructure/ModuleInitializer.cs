@@ -1,4 +1,4 @@
-﻿namespace BOA.TfsAccess.Infrastructure
+﻿namespace BOA.Infrastructure
 {
     public static class ModuleInitializer
     {
