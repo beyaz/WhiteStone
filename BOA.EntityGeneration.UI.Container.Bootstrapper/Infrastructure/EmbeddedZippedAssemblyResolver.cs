@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 
-namespace BOA.Common.Helpers
+namespace BOA.EntityGeneration.UI.Container.Infrastructure
 {
     /// <summary>
     ///     The embedded compressed assembly references resolver

@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using YamlDotNet.Serialization;
 
-namespace BOA.EntityGeneration.UI.Container.Bootstrapper.Infrastructure
+namespace BOA.EntityGeneration.UI.Container.Infrastructure
 {
-    public static class YamlHelper
+    static class YamlHelper
     {
         #region Public Methods
         public static T Deserialize<T>(string serializedContent)
@@ -15,8 +15,6 @@ namespace BOA.EntityGeneration.UI.Container.Bootstrapper.Infrastructure
         {
             return Deserialize<T>(File.ReadAllText(filePath));
         }
-
-        
         #endregion
     }
 }
