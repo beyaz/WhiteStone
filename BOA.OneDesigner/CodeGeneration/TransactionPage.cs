@@ -243,11 +243,17 @@ namespace BOA.OneDesigner.CodeGeneration
 
             sb.AppendLine("super.componentDidMount();");
 
+            var methodParameters = "this.state.windowRequest";
+            if (writerContext.HasWorkflow)
+            {
+                methodParameters = "this.state.windowRequest, null";
+            }
+
             sb.AppendLine();
             sb.AppendLine("// on tab changed no need to go to orchestration and refresh tab pages.");
             sb.AppendLine("if (this.state.windowRequest)");
             sb.AppendLine("{");
-            sb.AppendLine("    this.restoreWindowRequest(this.state.windowRequest);");
+            sb.AppendLine($"    this.restoreWindowRequest({methodParameters});");
             sb.AppendLine("}");
 
             sb.PaddingCount--;
