@@ -1,6 +1,4 @@
 ﻿using BOA.CodeGeneration.Util;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,18 +13,20 @@ namespace BOA.TfsAccess
 
         #region Public Methods
         [TestMethod]
+        [Ignore]
         public void CheckInFile()
         {
             // ARRANGE
-            var path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";
+            const string path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";
 
             TFSAccessForBOA.CheckoutFile(path);
 
             // ACT  + ASSERT
-            //TFSAccessForBOA.CheckInFile(path, "INC292087# auto check in.");
+            TFSAccessForBOA.CheckInFile(path, "INC292087# auto check in.");
         }
 
         [TestMethod]
+        [Ignore]
         public void CheckInSolution()
         {
             var input = new CheckInSolutionInput
@@ -35,18 +35,24 @@ namespace BOA.TfsAccess
                 SolutionFilePath = @"D:\work\BOA.Kernel\Dev\BOA.Kernel.CardGeneral\BOA.Kernel.CardGeneral.sln"
             };
 
-            // TFSAccessForBOA.CheckInSolution(input);
+            TFSAccessForBOA.CheckInSolution(input);
         }
 
         [TestMethod]
         public void CheckOutFile()
         {
             // ARRANGE
-            var path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";
-            // path = @"D:\workde\BOA.BusinessModules\Dev\BOA.Card.CreditCardOperation\BOA.Business.Card.CreditCardOperation\BOA.Business.Kernel.CreditCard\CreditCardInstallmentTransaction.designer.cs";
+            const string path = @"D:\work\BOA.Retired\Dev\BOA.Kernel.DataAccess\BOA.CodeGeneration\Common\SqlReaderMethods.cs";
 
             TFSAccessForBOA.CheckoutFile(path).Should().BeNull();
             TFSAccessForBOA.UndoCheckoutFile(path).Should().BeTrue();
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void CreateWorkspace()
+        {
+            TFSAccessForBOA.CreateWorkspace(TFSAccessForBOA.KT, "BT3UG105NB2", "$/", @"D:\work");
         }
 
         [TestMethod]
@@ -61,6 +67,7 @@ namespace BOA.TfsAccess
             // ASSERT
             Assert.IsNotNull(content);
         }
+
         [TestMethod]
         public void GetSubFolderNames()
         {
@@ -73,19 +80,6 @@ namespace BOA.TfsAccess
             // ASSERT
             Assert.IsNotNull(content);
         }
-
         #endregion
-
-        #region Public Methods
-        // [TestMethod]
-        public void CreateWorkspace()
-        {
-            TFSAccessForBOA.CreateWorkspace(TFSAccessForBOA.KT,"BT3UG105NB2","$/",@"D:\work");
-        }
-        #endregion
-
     }
 }
-
-
-
