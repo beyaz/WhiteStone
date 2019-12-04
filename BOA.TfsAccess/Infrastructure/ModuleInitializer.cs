@@ -29,7 +29,7 @@
                 "System.IdentityModel.Tokens.Jwt.dll"
             };
 
-            EmbeddedAssemblyReferenceResolver.Resolve(references);
+            EmbeddedCompressedAssemblyReferencesResolver.Resolve("EmbeddedReferences.zip");
         }
         #endregion
     }

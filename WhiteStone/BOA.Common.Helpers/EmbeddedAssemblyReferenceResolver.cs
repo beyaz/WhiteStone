@@ -78,6 +78,39 @@ namespace BOA.Common.Helpers
 
         #region Methods
         /// <summary>
+        ///     Reads the resource.
+        /// </summary>
+        static byte[] ReadResource(Assembly locatedAssembly, string resourceSuffix)
+        {
+            var matchedResourceNames = locatedAssembly.GetManifestResourceNames().Where(x => x.EndsWith(resourceSuffix)).ToList();
+
+            if (!matchedResourceNames.Any())
+            {
+                throw new MissingManifestResourceException(resourceSuffix);
+            }
+
+            var resourceName = matchedResourceNames[0];
+            if (resourceName == null)
+            {
+                throw new MissingManifestResourceException(resourceSuffix);
+            }
+
+            using (var manifestResourceStream = locatedAssembly.GetManifestResourceStream(resourceName))
+            {
+                if (manifestResourceStream == null)
+                {
+                    throw new MissingManifestResourceException(resourceName);
+                }
+
+                var data = new byte[manifestResourceStream.Length];
+
+                manifestResourceStream.Read(data, 0, data.Length);
+
+                return data;
+            }
+        }
+
+        /// <summary>
         ///     Resolves the specified sender.
         /// </summary>
         Assembly Resolve(object sender, ResolveEventArgs args)
@@ -93,25 +126,7 @@ namespace BOA.Common.Helpers
                 return null;
             }
 
-            var resourceName = locatedAssembly.GetManifestResourceNames().FirstOrDefault(x => x.EndsWith("." + assemblyFullName));
-            if (resourceName == null)
-            {
-                throw new MissingManifestResourceException(assemblyFullName);
-            }
-
-            using (var manifestResourceStream = locatedAssembly.GetManifestResourceStream(resourceName))
-            {
-                if (manifestResourceStream == null)
-                {
-                    throw new MissingManifestResourceException(resourceName);
-                }
-
-                var data = new byte[manifestResourceStream.Length];
-
-                manifestResourceStream.Read(data, 0, data.Length);
-
-                return Assembly.Load(data);
-            }
+            return Assembly.Load(ReadResource(locatedAssembly, "." + assemblyFullName));
         }
         #endregion
     }
