@@ -2,8 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using BOA.CodeGeneration.Util;
+
 using BOA.EntityGeneration.UI.Container.Bootstrapper.Infrastructure;
+using BOA.TfsAccess;
 
 namespace BOA.EntityGeneration.UI.Container.Bootstrapper
 {
@@ -20,18 +21,7 @@ namespace BOA.EntityGeneration.UI.Container.Bootstrapper
         #region Public Methods
         public static void Main(string[] args)
         {
-            EmbeddedZippedAssemblyResolver.Attach(new EmbeddedZippedAssemblyResolverData
-            {
-                Assembly                       = typeof(Program).Assembly,
-                AppDomain                      = AppDomain.CurrentDomain,
-                EmbeddedResourcePathInAssembly = "BOA.EntityGeneration.UI.Container.Bootstrapper.References.BOA.TfsAccess.zip"
-            });
-            EmbeddedZippedAssemblyResolver.Attach(new EmbeddedZippedAssemblyResolverData
-            {
-                Assembly                       = typeof(Program).Assembly,
-                AppDomain                      = AppDomain.CurrentDomain,
-                EmbeddedResourcePathInAssembly = "BOA.EntityGeneration.UI.Container.Bootstrapper.References.YamlDotNet.dll"
-            });
+           ModuleLoader.Load();
 
             TryToExtractZipFile();
 

@@ -1,175 +1,174 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Reflection;
 using System.Resources;
 
-namespace BOA.EntityGeneration.UI.Container.Bootstrapper.Infrastructure
+namespace BOA.Common.Helpers
 {
     /// <summary>
-    ///     The embedded zipped assembly resolver data
+    ///     The embedded compressed assembly references resolver
     /// </summary>
-    public sealed class EmbeddedZippedAssemblyResolverData
+    class EmbeddedCompressedAssemblyReferencesResolver
     {
-        #region Public Properties
+        #region Fields
         /// <summary>
-        ///     Gets or sets the application domain.
+        ///     The application domain
         /// </summary>
-        public AppDomain AppDomain { get; set; }
+        readonly AppDomain appDomain;
 
         /// <summary>
-        ///     Gets or sets the assembly.
+        ///     The embedded zip file name
         /// </summary>
-        public Assembly Assembly { get; set; }
+        readonly string embeddedZipFileName;
 
         /// <summary>
-        ///     Gets or sets the embedded resource path in assembly.
+        ///     The located assembly
         /// </summary>
-        public string EmbeddedResourcePathInAssembly { get; set; }
+        readonly Assembly locatedAssembly;
 
         /// <summary>
-        ///     Gets the out dir.
+        ///     The temporary directory
         /// </summary>
-        public string OutDir => Path.GetTempPath() + Path.GetFileNameWithoutExtension(EmbeddedResourcePathInAssembly) + Path.DirectorySeparatorChar;
+        readonly string temporaryDirectory;
 
         /// <summary>
-        ///     Gets the target file path.
+        ///     The temporary zip file path
         /// </summary>
-        public string TargetFilePath => OutDir + EmbeddedResourcePathInAssembly;
+        readonly string temporaryZipFilePath;
         #endregion
-    }
 
-    /// <summary>
-    ///     The embedded zipped assembly resolver
-    /// </summary>
-    public static class EmbeddedZippedAssemblyResolver
-    {
+        #region Constructors
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EmbeddedCompressedAssemblyReferencesResolver" /> class.
+        /// </summary>
+        public EmbeddedCompressedAssemblyReferencesResolver(AppDomain appDomain, Assembly locatedAssembly, string embeddedZipFileName)
+        {
+            this.appDomain           = appDomain;
+            this.locatedAssembly     = locatedAssembly;
+            this.embeddedZipFileName = embeddedZipFileName;
+
+            temporaryDirectory   = Path.GetTempPath() + Path.GetFileNameWithoutExtension(locatedAssembly.Location) + "-" + Path.GetFileNameWithoutExtension(embeddedZipFileName) + Path.DirectorySeparatorChar;
+            temporaryZipFilePath = temporaryDirectory + embeddedZipFileName;
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EmbeddedCompressedAssemblyReferencesResolver" /> class.
+        /// </summary>
+        public EmbeddedCompressedAssemblyReferencesResolver(Assembly locatedAssembly, string assemblyFullName) : this(AppDomain.CurrentDomain, locatedAssembly, assemblyFullName)
+        {
+        }
+        #endregion
+
         #region Public Methods
         /// <summary>
-        ///     Attaches the specified data.
+        ///     Resolves the specified assembly full name.
         /// </summary>
-        public static void Attach(EmbeddedZippedAssemblyResolverData data)
+        public static void Resolve(string embeddedZipFileName)
         {
-            Extract(data);
+            new EmbeddedCompressedAssemblyReferencesResolver(typeof(EmbeddedCompressedAssemblyReferencesResolver).Assembly, embeddedZipFileName).Resolve();
+        }
 
-            ZipFile.ExtractToDirectory(data.TargetFilePath, data.OutDir);    
+        /// <summary>
+        ///     Resolves this instance.
+        /// </summary>
+        public void Resolve()
+        {
+            ExtractZipFile();
 
-            data.AppDomain.AssemblyResolve += new AssemblyResolver(data.OutDir).Resolve;
+            appDomain.AssemblyResolve += Resolve;
         }
         #endregion
 
         #region Methods
         /// <summary>
-        ///     Extracts the specified name space.
+        ///     Reads the resource.
         /// </summary>
-        static void Extract(EmbeddedZippedAssemblyResolverData data)
+        static byte[] ReadResource(Assembly locatedAssembly, string resourceSuffix)
         {
-            var assembly = data.Assembly;
+            var matchedResourceNames = locatedAssembly.GetManifestResourceNames().Where(x => x.EndsWith(resourceSuffix)).ToList();
 
-            var filePath = data.EmbeddedResourcePathInAssembly;
+            if (!matchedResourceNames.Any())
+            {
+                throw new MissingManifestResourceException(resourceSuffix);
+            }
 
-            using (var manifestResourceStream = assembly.GetManifestResourceStream(filePath))
+            var resourceName = matchedResourceNames[0];
+            if (resourceName == null)
+            {
+                throw new MissingManifestResourceException(resourceSuffix);
+            }
+
+            using (var manifestResourceStream = locatedAssembly.GetManifestResourceStream(resourceName))
             {
                 if (manifestResourceStream == null)
                 {
-                    throw new MissingManifestResourceException(filePath);
+                    throw new MissingManifestResourceException(resourceName);
                 }
 
-                var targetFilePath = data.TargetFilePath;
+                var data = new byte[manifestResourceStream.Length];
 
-                if (File.Exists(targetFilePath))
-                {
-                    File.Delete(targetFilePath);
-                }
+                manifestResourceStream.Read(data, 0, data.Length);
 
-                var targetDirectory = Path.GetDirectoryName(targetFilePath);
-                if (targetDirectory == null)
-                {
-                    throw new ArgumentNullException(nameof(targetDirectory));
-                }
-
-                if (File.Exists(targetDirectory))
-                {
-                    File.Delete(targetDirectory);
-                }
-
-                if (Directory.Exists(targetDirectory))
-                {
-                    Directory.Delete(targetDirectory, true);
-                }
-
-                Directory.CreateDirectory(targetDirectory);
-
-                using (var fs = new FileStream(targetFilePath, FileMode.OpenOrCreate))
-                {
-                    manifestResourceStream.ReadAllWriteToOutput(fs);
-                }
+                return data;
             }
         }
 
         /// <summary>
-        ///     Reads all write to output.
+        ///     Extracts the zip file.
         /// </summary>
-        static void ReadAllWriteToOutput(this Stream inputStream, Stream outputStream)
+        void ExtractZipFile()
         {
-            if (inputStream == null)
+            var data = ReadResource(locatedAssembly, "." + embeddedZipFileName);
+
+            if (File.Exists(temporaryZipFilePath))
             {
-                throw new ArgumentNullException(nameof(inputStream));
+                File.Delete(temporaryZipFilePath);
             }
 
-            if (outputStream == null)
+            var targetDirectory = Path.GetDirectoryName(temporaryZipFilePath);
+            if (targetDirectory == null)
             {
-                throw new ArgumentNullException(nameof(outputStream));
+                throw new ArgumentNullException(nameof(targetDirectory));
             }
 
-            var array = new byte[2048];
-            int count;
-            do
+            if (File.Exists(targetDirectory))
             {
-                count = inputStream.Read(array, 0, array.Length);
+                File.Delete(targetDirectory);
+            }
 
-                outputStream.Write(array, 0, count);
-            } while (count > 0);
+            if (Directory.Exists(targetDirectory))
+            {
+                Directory.Delete(targetDirectory, true);
+            }
+
+            Directory.CreateDirectory(targetDirectory);
+
+            File.WriteAllBytes(temporaryZipFilePath, data);
+
+            ZipFile.ExtractToDirectory(temporaryZipFilePath, temporaryDirectory);
+        }
+
+        /// <summary>
+        ///     Resolves the specified sender.
+        /// </summary>
+        Assembly Resolve(object sender, ResolveEventArgs args)
+        {
+            // Sample:
+            // args.Name => YamlDotNet, Version=8.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e
+            // new AssemblyName(args.Name).Name => YamlDotNet
+            // searchFileName => YamlDotNet.dll
+
+            var searchFileName = new AssemblyName(args.Name).Name + ".dll";
+
+            if (!File.Exists(temporaryDirectory + searchFileName))
+            {
+                return null;
+            }
+
+            return Assembly.LoadFrom(temporaryDirectory + searchFileName);
         }
         #endregion
-
-        /// <summary>
-        ///     The assembly resolver
-        /// </summary>
-        class AssemblyResolver
-        {
-            #region Constructors
-            /// <summary>
-            ///     Initializes a new instance of the <see cref="AssemblyResolver" /> class.
-            /// </summary>
-            internal AssemblyResolver(string binDirectory)
-            {
-                BinDirectory = binDirectory;
-            }
-            #endregion
-
-            #region Public Properties
-            /// <summary>
-            ///     Gets the bin directory.
-            /// </summary>
-            public string BinDirectory { get; }
-            #endregion
-
-            #region Public Methods
-            /// <summary>
-            ///     Resolves the specified sender.
-            /// </summary>
-            public Assembly Resolve(object sender, ResolveEventArgs args)
-            {
-                var assemblyPath = Path.Combine(BinDirectory, new AssemblyName(args.Name).Name + ".dll");
-                if (!File.Exists(assemblyPath))
-                {
-                    return null;
-                }
-
-                return Assembly.LoadFrom(assemblyPath);
-            }
-            #endregion
-        }
     }
 }

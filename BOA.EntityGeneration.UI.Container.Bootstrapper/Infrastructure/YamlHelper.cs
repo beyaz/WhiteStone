@@ -16,10 +16,7 @@ namespace BOA.EntityGeneration.UI.Container.Bootstrapper.Infrastructure
             return Deserialize<T>(File.ReadAllText(filePath));
         }
 
-        public static string Serialize<T>(T instance)
-        {
-            return new Serializer().Serialize(instance);
-        }
+        
         #endregion
     }
 }
