@@ -4,6 +4,7 @@ using System.Linq;
 using BOA.CodeGeneration.Model;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
+using BOA.TfsAccess;
 using WhiteStone.IO;
 
 namespace BOA.CodeGeneration.Generators
