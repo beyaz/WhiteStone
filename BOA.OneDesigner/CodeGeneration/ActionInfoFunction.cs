@@ -97,6 +97,10 @@ namespace BOA.OneDesigner.CodeGeneration
                 {
                     sb.AppendLine($"if(!{EvaluateBindingPath(Data.YesNoQuestionCondition)})");
                     sb.AppendLine("{");
+                    if (Data.YesNoQuestionAfterYesOrchestrationCall.HasValue())
+                    {
+                        sb.AppendLine($"    {mainFormPath}.processQueue.shift();");
+                    }
                     sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
                     sb.AppendLine("    return;");
                     sb.AppendLine("}");

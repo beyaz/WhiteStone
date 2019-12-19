@@ -89,7 +89,11 @@ namespace BOA.OneDesigner.CodeGeneration
                     }
 
                     var isCollection = SelectedRowDataBindingPathIsConnectedToCollection(writerContext, data);
-                    if (isCollection == false)
+                    if (isCollection)
+                    {
+                        writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("selectable", "\"multiple\"");    
+                    }
+                    else
                     {
                         writerContext.StateObjectWhenIncomingRequestIsSuccess.Add("selectable", "\"single\"");    
                     }
@@ -151,6 +155,11 @@ namespace BOA.OneDesigner.CodeGeneration
             {
                 const string single = "single";
                 sb.AppendLine($"selectable={{'{single}'}}");
+            }
+            else
+            {
+                const string multiple = "multiple";
+                sb.AppendLine($"selectable={{'{multiple}'}}");
             }
             
 
