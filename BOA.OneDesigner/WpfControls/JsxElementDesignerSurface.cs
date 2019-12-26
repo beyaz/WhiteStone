@@ -16,7 +16,7 @@ namespace BOA.OneDesigner.WpfControls
         {
             VerticalAlignment = VerticalAlignment.Stretch;
             
-            // MaxWidth = 1500;
+            MaxWidth = 1500;
         }
         #endregion
 

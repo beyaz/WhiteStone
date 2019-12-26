@@ -21,6 +21,8 @@ namespace BOA.OneDesigner.MainForm
         #region Constructors
         public View()
         {
+
+            
             SM.Set(Host);
 
             Controller.Host = Host;
