@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using BOA.TfsAccess;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BOA.CodeGeneration.Util

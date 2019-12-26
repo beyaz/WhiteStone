@@ -16,7 +16,7 @@ namespace BOA.OneDesigner.WpfControls
         public DivAsCardContainerWpf()
         {
             ResetBackground();
-
+            // MaxWidth = 1000;
         }
         #endregion
 

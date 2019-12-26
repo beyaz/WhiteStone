@@ -21,6 +21,17 @@ namespace BOA.OneDesigner.WpfControls
         }
 
         [TestMethod]
+        public void Move_Should_Take_front()
+        {
+            var items = new List<string> {"0", "1", "2","3","4"};
+
+            InsertHelper.Move(items, "3", 0);
+
+            items.Should().Equal("3","0", "1", "2","4");
+        }
+
+
+        [TestMethod]
         public void Move_should_add_at_the_end_of_list_when_target_index_is_bigger_than_items_count()
         {
             var items = new List<string> {"0", "1", "2"};

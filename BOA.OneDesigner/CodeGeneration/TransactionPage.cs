@@ -783,6 +783,12 @@ addToProcessQueue(fn: Function)
             sb.AppendLine("{");
             sb.PaddingCount++;
 
+            if (writerContext.HandleProxyDidRespondCallback)
+            {
+                sb.AppendLine();
+                sb.AppendLine("this.processQueue.length = 0;");
+            }
+
             sb.AppendLine("if (results == null)");
             sb.AppendLine("{");
             sb.PaddingCount++;

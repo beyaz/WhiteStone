@@ -37,6 +37,7 @@ namespace BOA.OneDesigner.WpfControls
         public BCardWpf()
         {
             Background = Brushes.White;
+           
 
             this.LoadJson(@"
 {
