@@ -36,9 +36,16 @@ namespace BOA.OneDesigner.WpfControls
         {
             var items = new List<string> {"0", "1", "2"};
 
-            InsertHelper.Move(items, "1", 3);
+            InsertHelper.Move(items, "1", 8);
 
             items.Should().Equal("0", "2", "1");
+
+
+            items = new List<string> {"0", "1", "2"};
+
+            InsertHelper.Move(items, "1", 2);
+
+            items.Should().Equal("0", "1", "2");
         }
 
         [TestMethod]

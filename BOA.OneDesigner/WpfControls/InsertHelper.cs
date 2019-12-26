@@ -16,12 +16,33 @@ namespace BOA.OneDesigner.WpfControls
                 throw Error.InvalidOperation();
             }
 
-            if (target >= items.Count)
+            if (index == target)
             {
-                target = items.Count - 1;
+                return;
             }
 
-            items.Swap(index, target);
+            if (target >= items.Count)
+            {
+                target = items.Count ;
+            }
+
+            if (index == target)
+            {
+                return;
+            }
+
+            items.Insert(target,item);
+
+            if (target>index)
+            {
+                items.RemoveAt(index);
+            }
+            else
+            {
+                items.RemoveAt(index+1);
+            }
+
+           
         }
         #endregion
     }
