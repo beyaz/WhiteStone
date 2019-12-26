@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
@@ -14,6 +15,8 @@ namespace BOA.OneDesigner.WpfControls
         public JsxElementDesignerSurface()
         {
             VerticalAlignment = VerticalAlignment.Stretch;
+            
+            // MaxWidth = 1500;
         }
         #endregion
 
