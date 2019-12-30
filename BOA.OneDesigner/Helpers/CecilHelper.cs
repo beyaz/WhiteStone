@@ -431,6 +431,12 @@ namespace BOA.OneDesigner.Helpers
                 return;
             }
 
+            // avoid circular properties
+            if (typeDefinition.FullName == "BOA.Types.Kernel.Customer.ChangeTrackBase")
+            {
+                return;
+            }
+
             foreach (var propertyDefinition in typeDefinition.Properties)
             {
                 if (propertyDefinition.GetMethod == null || propertyDefinition.SetMethod == null)
@@ -534,6 +540,11 @@ namespace BOA.OneDesigner.Helpers
             }
 
             if (  typeDefinition.FullName == "System.Object")
+            {
+                return;
+            }
+            // avoid circular properties
+            if (typeDefinition.FullName == "BOA.Types.Kernel.Customer.ChangeTrackBase")
             {
                 return;
             }

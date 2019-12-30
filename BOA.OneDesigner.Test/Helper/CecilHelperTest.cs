@@ -71,6 +71,14 @@ namespace BOA.OneDesigner.Helper
 
             data.RequestPropertyIntellisense.Should().Contain("ClearingNumber");
         }
+
+        [TestMethod]
+        public void Should_handle_circular_properties()
+        {
+            var data = CecilHelper.GetRequestIntellisenseData(@"d:\boa\server\bin\BOA.Types.Kernel.Customer.dll", "BOA.Types.Kernel.Customer.CustomerInfoContract");
+
+            data.RequestPropertyIntellisense.Should().Contain("ClearingNumber");
+        }
         #endregion
     }
 }
