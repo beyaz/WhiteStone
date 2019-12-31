@@ -161,7 +161,7 @@ namespace BOA.OneDesigner.CodeGeneration
 
                 if (Data.OpenFormWithResourceCodeCondition.HasValue())
                 {
-                    sb.AppendLine($"if(!{Data.OpenFormWithResourceCodeCondition})");
+                    sb.AppendLine($"if(!{EvaluateBindingPath( Data.OpenFormWithResourceCodeCondition)})");
                     sb.AppendLine("{");
                     sb.AppendLine($"    {mainFormPath}.runProcessQueue();");
                     sb.AppendLine("    return;");
