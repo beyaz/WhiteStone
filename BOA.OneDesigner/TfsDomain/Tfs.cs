@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BOA.TfsAccess;
 
 namespace BOA.OneDesigner.TfsDomain
@@ -36,15 +35,6 @@ namespace BOA.OneDesigner.TfsDomain
                 Exception                                          = source.Exception
             };
         }
-        #endregion
-    }
-
-    public class FileAccessWriteResult
-    {
-        #region Public Properties
-        public Exception Exception                                          { get; set; }
-        public bool      TfsVersionAndNewContentIsSameSoNothingDoneAnything { get; set; }
-        public bool      ThereIsNoFileAndFileCreated                        { get; set; }
         #endregion
     }
 }

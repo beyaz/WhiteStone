@@ -158,6 +158,7 @@
     <Compile Include="JsxElementModel\LayoutProps.cs" />
     <Compile Include="JsxElementModel\VisitHelper.cs" />
     <Compile Include="PropertyEditors\ActionInfoEditor.cs" />
+    <Compile Include="TfsDomain\FileAccessWriteResult.cs" />
     <Compile Include="WpfControls\ActionButton.cs" />
     <Compile Include="PropertyEditors\BComboBoxEditor.cs" />
     <Compile Include="PropertyEditors\ComponentEditor.cs" />
@@ -215,7 +216,7 @@
     <Compile Include="PropertyEditors\OrchestrationIntellisense.cs" />
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
-    <Compile Include="TfsDomain\TfsHelper.cs" />
+    <Compile Include="TfsDomain\Tfs.cs" />
     <Compile Include="WpfControls\BTabBarWpf.cs" />
     <Compile Include="PropertyEditors\ResourceCodeTextBox.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
