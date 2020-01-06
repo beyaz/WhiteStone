@@ -7,7 +7,6 @@ using BOA.OneDesigner.CodeGenerationHelper;
 using BOA.OneDesigner.Deployment;
 using BOA.OneDesigner.Helpers;
 using BOA.OneDesigner.JsxElementModel;
-using BOA.TfsAccess;
 using BOAPlugins.TypescriptModelGeneration;
 using WhiteStone.UI.Container;
 using WhiteStone.UI.Container.Mvc;
@@ -32,9 +31,8 @@ namespace BOA.OneDesigner.MainForm
 
             var filePath = GetOutputFilePath(screenInfo);
 
-            var message = "Dosya güncellendi. @filePath: " + filePath;
 
-            var result = new FileAccess().WriteAllText(filePath, tsxCode);
+            var result = TfsDomain.Tfs.WriteAllText(filePath, tsxCode);
             if (result.TfsVersionAndNewContentIsSameSoNothingDoneAnything)
             {
                 App.ShowSuccessNotification($"Dosya zaten güncel. @filePath:{filePath}");

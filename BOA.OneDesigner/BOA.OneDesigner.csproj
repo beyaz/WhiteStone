@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -215,7 +215,7 @@
     <Compile Include="PropertyEditors\OrchestrationIntellisense.cs" />
     <Compile Include="WpfControls\PropertyEditorContainer.cs" />
     <Compile Include="WpfControls\RequestIntellisenseTextBox.cs" />
-    <Compile Include="Helpers\TfsHelper.cs" />
+    <Compile Include="TfsDomain\TfsHelper.cs" />
     <Compile Include="WpfControls\BTabBarWpf.cs" />
     <Compile Include="PropertyEditors\ResourceCodeTextBox.cs" />
     <Compile Include="WpfControls\ToolBox.cs" />
@@ -262,6 +262,7 @@
   <ItemGroup>
     <Content Include="dist\BOA.OneDesigner.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>D:\github\WhiteStone\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>

@@ -89,7 +89,7 @@ namespace BOA.OneDesigner.AppModel
 
         public IReadOnlyList<string> GetTfsFolderNames()
         {
-            return TfsHelper.GetFolderNames();
+            return TfsDomain.Tfs.GetFolderNames();
         }
 
         sealed class MyBinder : SerializationBinder
