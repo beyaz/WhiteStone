@@ -11,9 +11,8 @@ namespace BOA.OneDesigner.WpfControls
     class BComboBoxInWpf : StackPanel, IHostItem, ISupportSizeInfo, IEventBusListener
     {
         #region Fields
-        public TextBox   _bindingPath;
-        public TextBlock _label;
-
+        public TextBox    _bindingPath;
+        public TextBlock  _label;
         public StackPanel GridContainer;
         #endregion
 
@@ -26,20 +25,35 @@ namespace BOA.OneDesigner.WpfControls
             this.LoadJson(@"
 {
     Margin:10,
-    Childrens:[
+    Childrens:
+    [
         {
             ui:'Grid',
 	        rows:
 	        [
-		        {view:'TextBlock', Name:'_label',        Text:'{Binding " + nameof(BComboBox.Label) + @",       Mode = OneWay}', MarginBottom:5, IsBold:true},
-                {view:'TextBox',   Name:'_bindingPath',  Text:'{Binding " + nameof(BComboBox.SelectedValueBindingPath) + @", Mode = OneWay}' , IsReadOnly:true}        
+		        {
+                    view: 'TextBlock', 
+                    Name: '" + nameof(_label) + @"',        
+                    Text: '{Binding " + nameof(BComboBox.Label) + @", Mode = OneWay}', 
+                    MarginBottom: 5, 
+                    IsBold: true
+                }
+                ,
+                {
+                    view: 'TextBox',   
+                    Name: '" + nameof(_bindingPath) + @"',  
+                    Text: '{Binding " + nameof(BComboBox.SelectedValueBindingPath) + @", Mode = OneWay}', 
+                    IsReadOnly: true
+                }        
 	        ]
 	        
-        },
-        {ui:'StackPanel',Name:'GridContainer'}
-
+        }
+        ,
+        {
+            ui: 'StackPanel', 
+            Name: '" + nameof(GridContainer) + @"'
+        }
     ]
-
 }
 
 
