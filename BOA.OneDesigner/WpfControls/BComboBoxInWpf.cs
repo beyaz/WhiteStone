@@ -20,8 +20,8 @@ namespace BOA.OneDesigner.WpfControls
         #region Constructors
         public BComboBoxInWpf()
         {
-            MouseEnter += BInput_MouseEnter;
-            MouseLeave += BInput_MouseLeave;
+            MouseEnter += CursorShouldBeHand;
+            MouseLeave += CursorShouldBeArrow;
 
             this.LoadJson(@"
 {
@@ -77,7 +77,6 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.DeAttachToEventBus(GridContainer.Children);
 
-            
             var bDataGridInfoWpf = Host.CreateBDataGridInfoWpf(Model.DataGrid);
 
             Host.AttachToEventBus(bDataGridInfoWpf, this);
@@ -90,14 +89,14 @@ namespace BOA.OneDesigner.WpfControls
         #endregion
 
         #region Methods
-        void BInput_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Cursor = Cursors.Hand;
-        }
-
-        void BInput_MouseLeave(object sender, MouseEventArgs e)
+        void CursorShouldBeArrow(object sender, MouseEventArgs e)
         {
             Cursor = Cursors.Arrow;
+        }
+
+        void CursorShouldBeHand(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Hand;
         }
 
         void Show_data_grid_is_this_component_selected()
