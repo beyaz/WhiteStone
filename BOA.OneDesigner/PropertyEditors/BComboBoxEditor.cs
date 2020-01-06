@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using BOA.OneDesigner.AppModel;
 using BOA.OneDesigner.JsxElementModel;
 using CustomUIMarkupLanguage.UIBuilding;
@@ -8,15 +7,10 @@ namespace BOA.OneDesigner.PropertyEditors
 {
     class BComboBoxEditor : StackPanel, IHostItem
     {
-        public void OnIsMultiSelectChanged()
-        {
-            
-        }
-
         #region Fields
+        public CheckBox    _isMultiSelect;
         public LabelEditor _labelEditor;
         public SizeEditor  _sizeEditor;
-        public CheckBox _isMultiSelect;
 
         public ActionInfoEditor _valueChangedActionInfoEditor;
         #endregion
@@ -55,7 +49,7 @@ namespace BOA.OneDesigner.PropertyEditors
                         IsChecked: '{Binding " + nameof(Model.IsMultiSelect) + @"}', 
                         Checked  : '" + nameof(OnIsMultiSelectChanged) + @"',
                         Unchecked: '" + nameof(OnIsMultiSelectChanged) + @"',
-                        Name     : '" + nameof(_isMultiSelect)+@"'
+                        Name     : '" + nameof(_isMultiSelect) + @"'
                     }
                 ]
             }
@@ -101,7 +95,7 @@ namespace BOA.OneDesigner.PropertyEditors
                     {
                         ui          : 'ActionInfoEditor',
                         Header      : 'On Value Changed',
-                        Name        : '"+nameof(_valueChangedActionInfoEditor)+@"',
+                        Name        : '" + nameof(_valueChangedActionInfoEditor) + @"',
                         Margin      : 5
                     }
                 ]
@@ -117,18 +111,16 @@ namespace BOA.OneDesigner.PropertyEditors
 
 ");
 
-            
-
             Loaded += (s, e) =>
             {
                 _labelEditor.Host = Host;
                 _sizeEditor.Host  = Host;
-                if (Model.ValueChangedAction ==null)
+                if (Model.ValueChangedAction == null)
                 {
                     Model.ValueChangedAction = new ActionInfo();
                 }
-                _valueChangedActionInfoEditor.Load(Host,Model.ValueChangedAction);
 
+                _valueChangedActionInfoEditor.Load(Host, Model.ValueChangedAction);
             };
         }
         #endregion
@@ -144,8 +136,11 @@ namespace BOA.OneDesigner.PropertyEditors
         #region Public Methods
         public void Delete()
         {
-            
             Host.EventBus.Publish(EventBus.ComponentDeleted);
+        }
+
+        public void OnIsMultiSelectChanged()
+        {
         }
         #endregion
     }
