@@ -151,7 +151,6 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.EventBus.Subscribe(EventBus.OnDragElementSelected, Show_data_grid_is_this_component_selected);
             Host.EventBus.Subscribe(EventBus.LabelChanged, UpdateLabel);
-            //Host.EventBus.Subscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
 
         public void DeAttachToEventBus()
@@ -165,7 +164,6 @@ namespace BOA.OneDesigner.WpfControls
 
             Host.EventBus.UnSubscribe(EventBus.OnDragElementSelected, Show_data_grid_is_this_component_selected);
             Host.EventBus.UnSubscribe(EventBus.LabelChanged, UpdateLabel);
-            //Host.EventBus.UnSubscribe(EventBus.OnComponentPropertyChanged, UpdateBindingPath);
         }
         #endregion
     }
