@@ -426,7 +426,8 @@ namespace BOA.OneDesigner.Helpers
                 return;
             }
 
-            if (typeDefinition.FullName == "System.Object")
+            if (typeDefinition.FullName == "System.Object"||
+                typeDefinition.FullName == "System.Data.DataTable")
             {
                 return;
             }
