@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx">
-      <HintPath>$(SolutionDir)packages\ControlzEx.4.0.0-alpha0218\lib\net45\ControlzEx.dll</HintPath>
-    </Reference>
     <Reference Include="CustomUIMarkupLanguage">
       <HintPath>D:\github\WhiteStone\CustomUIMarkupLanguage\bin\Debug\CustomUIMarkupLanguage.dll</HintPath>
     </Reference>
@@ -62,9 +59,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(SolutionDir)packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Notifications.Wpf">
-      <HintPath>$(SolutionDir)packages\Notifications.Wpf.0.1.1\lib\net461\Notifications.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="WhiteStone">
       <HintPath>$(SolutionDir)WhiteStone\bin\debug\WhiteStone.dll</HintPath>
@@ -227,9 +221,9 @@
     <EmbeddedResource Include="MainForm\View.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="DeployTask.json" />
     <None Include="dist\BOA.OneDesigner.zip" />
-    <None Include="packages.config" />
     <None Include="WhiteStone.Updater.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -263,7 +257,14 @@
   <ItemGroup>
     <Content Include="dist\BOA.OneDesigner.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="ControlzEx">
+      <Version>4.0.0-alpha0218</Version>
+    </PackageReference>
+    <PackageReference Include="Notifications.Wpf">
+      <Version>0.1.1</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>D:\github\WhiteStone\WhiteStone.Tasks\bin\Debug\WhiteStone.Tasks $(ProjectDir)\DeployTask.json</PostBuildEvent>
