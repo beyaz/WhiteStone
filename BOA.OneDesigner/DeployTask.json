@@ -21,6 +21,8 @@
         "$(SolutionDir)WhiteStone.UI.Container\\bin\\Debug\\Microsoft.Xaml.Behaviors.dll",
         "$(SolutionDir)WhiteStone.UI.Container\\bin\\Debug\\Notifications.Wpf.dll",
 
+        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Dapper.dll",
+
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Newtonsoft.Json.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.Mdb.dll",

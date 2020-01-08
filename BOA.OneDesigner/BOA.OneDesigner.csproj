@@ -221,7 +221,6 @@
     <EmbeddedResource Include="MainForm\View.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="DeployTask.json" />
     <None Include="dist\BOA.OneDesigner.zip" />
     <None Include="WhiteStone.Updater.exe.config">
