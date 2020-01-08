@@ -26,27 +26,7 @@
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.Mdb.dll",
         "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.Pdb.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.Rocks.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.Core.WebApi.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.Work.WebApi.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.WebApi.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.Diff.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.VersionControl.Client.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.VersionControl.Common.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.VersionControl.Common.Integration.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStoreLoader.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.Client.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.Common.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.Client.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.TeamFoundation.Common.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.VisualStudio.Services.WebApi.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.VisualStudio.Services.Common.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.VisualStudio.Services.Client.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Microsoft.ServiceBus.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\System.Net.Http.Formatting.dll",
-        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\System.IdentityModel.Tokens.Jwt.dll"
+        "$(SolutionDir)BOA.OneDesigner\\bin\\Debug\\Mono.Cecil.Rocks.dll"
       ]
     }
     

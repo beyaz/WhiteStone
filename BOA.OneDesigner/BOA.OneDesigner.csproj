@@ -57,9 +57,6 @@
       <HintPath>$(SolutionDir)packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(SolutionDir)packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="WhiteStone">
       <HintPath>$(SolutionDir)WhiteStone\bin\debug\WhiteStone.dll</HintPath>
     </Reference>
@@ -258,6 +255,9 @@
     </PackageReference>
     <PackageReference Include="Dapper">
       <Version>2.0.30</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="Notifications.Wpf">
       <Version>0.1.1</Version>
