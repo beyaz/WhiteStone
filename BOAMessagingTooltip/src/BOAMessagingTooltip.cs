@@ -96,7 +96,7 @@ namespace BOAMessagingTooltip
                 }
 
                 var arr = part.SplitAndClear(",");
-                if (arr.Count == 2)
+                if (arr.Count >= 2)
                 {
                     return new MessagingAccessInfo
                     {

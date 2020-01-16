@@ -10,19 +10,23 @@ namespace BOAMessagingTooltip.Test
         [TestMethod]
         public void ShouldExtractMessagingCodeAndPropertyIfLineContainsMessagingAccessLine()
         {
-            const string line = @"ErrorCode = BOA.Messaging.MessagingHelper.GetMessage(""CallCenter"", ""SendMailFailure""),Severity = Severity.Error });";
+            void assert(MessagingAccessInfo info)
+            {
+                info.GroupCode.Should().Be("CallCenter");
 
-            var info = Parser.Parse(line);
+                info.PropertyName.Should().Be("SendMailFailure");
 
-            info.GroupCode.Should().Be("CallCenter");
-            info.PropertyName.Should().Be("SendMailFailure");
+                MessagingDataAccess.FillTR(info);
 
-            MessagingDataAccess.FillTR(info);
+                info.TurkishText.Should().Be("E-posta gönderilemedi.");
+            }
 
-            info.TurkishText.Should().Be("E-posta gönderilemedi.");
+
+            assert(Parser.Parse(@"ErrorCode = BOA.Messaging.MessagingHelper.GetMessage(""CallCenter"", ""SendMailFailure""),Severity = Severity.Error });"));
+            assert(Parser.Parse(@"ErrorCode = BOA.Messaging.MessagingHelper.GetMessage(""CallCenter"", ""SendMailFailure""    ),Severity = Severity.Error });"));
+            assert(Parser.Parse(@"ErrorCode = BOA.Messaging.MessagingHelper.GetMessage(""CallCenter"", ""SendMailFailure"",Severity = Severity.Error });"));
+            assert(Parser.Parse(@"ErrorCode = BOA.Messaging.MessagingHelper.GetMessage(""CallCenter"", ""SendMailFailure""   ,Severity = Severity.Error });"));
         }
-
-        
         #endregion
     }
 }
