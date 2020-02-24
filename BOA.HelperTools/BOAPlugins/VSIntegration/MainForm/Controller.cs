@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
 using BOA.TfsAccess;
+using BOAPlugins.DocumentFile;
 using BOAPlugins.Messaging;
 using BOAPlugins.TypescriptModelGeneration;
 using BOAPlugins.Utility;
 using BOAPlugins.ViewClassDependency;
 using WhiteStone.UI.Container.Mvc;
+using Data = BOAPlugins.ViewClassDependency.Data;
 using Handler = BOAPlugins.TypescriptModelGeneration.Handler;
 
 namespace BOAPlugins.VSIntegration.MainForm
@@ -242,6 +243,32 @@ namespace BOAPlugins.VSIntegration.MainForm
 
             VisualStudio.OpenFile(data.GraphFilePath);
         }
+
+        public void DocumentSelectedProject()
+        {
+            var documentDirectoryHandler = new DocumentDirectoryHandler
+            {
+                DirectoryName = Path.GetDirectoryName(VisualStudio.ActiveProjectCsprojFilePath),
+                VisualStudio  = VisualStudio
+            };
+            documentDirectoryHandler.Execute();
+
+            Model.ViewShouldBeClose = true;
+        }
+
+        public void DocumentSolution()
+        {
+            var documentDirectoryHandler = new DocumentDirectoryHandler
+            {
+                DirectoryName = Path.GetDirectoryName(VisualStudio.GetSolutionFilePath()),
+                VisualStudio  = VisualStudio
+            };
+            documentDirectoryHandler.Execute();
+
+            Model.ViewShouldBeClose = true;
+        }
         #endregion
     }
+
+
 }

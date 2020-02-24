@@ -7,6 +7,8 @@ namespace BOAPlugins.VSIntegration
     /// </summary>
     public interface IVisualStudioLayer
     {
+        void SaveAndCloseActiveDocument();
+        void ExecuteCommand(string commandName);
         #region Public Properties
         /// <summary>
         ///     Gets the active project csproj file path.

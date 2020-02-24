@@ -62,6 +62,19 @@
       },
       {
         "ui": "Button",
+        "Text": "Document selected project",
+        "Click": "this.FireAction('DocumentSelectedProject')",
+        "IsVisible": "{Binding ViewTypeDependencyOfSelectedProjectIsVisible}",
+        "Margin": 10
+      },
+      {
+        "ui": "Button",
+        "Text": "Document Solution",
+        "Click": "this.FireAction('DocumentSolution')",
+        "Margin": 10
+      },
+      {
+        "ui": "Button",
         "Text": "Open Plugin Directory",
         "Click": "this.FireAction('OpenPluginDirectory')",
         "Margin": 10

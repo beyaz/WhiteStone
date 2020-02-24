@@ -4,10 +4,6 @@ using BOA.Common.Helpers;
 
 namespace BOAPlugins.DocumentFile
 {
-
-    
-
-
     /// <summary>
     ///     Defines the handler.
     /// </summary>

@@ -29,6 +29,11 @@ namespace BOASpSearch
 
         #region Public Properties
         public string ActiveDocumentText          => ActiveDocument_TextSelection?.Text;
+        public void ExecuteCommand(string commandName)
+        {
+           DTE.ExecuteCommand(commandName);
+        }
+
         public string ActiveProjectCsprojFilePath => ActiveProject?.FullName;
 
         public string ActiveProjectName => ActiveProject?.Name;
@@ -65,6 +70,9 @@ namespace BOASpSearch
         }
 
         DTE DTE => (DTE) ServiceProvider.GetService(typeof(DTE));
+
+        DTE2 DTE2 => (DTE2)DTE;
+
         #endregion
 
         #region Public Methods
@@ -80,7 +88,8 @@ namespace BOASpSearch
                 return false;
             }
 
-            ActiveDocument.Saved = true;
+            // ActiveDocument.Saved = true;
+            ActiveDocument.Save();
 
             return true;
         }
@@ -162,6 +171,11 @@ namespace BOASpSearch
         public void OpenFile(string filePath)
         {
             DTE.ItemOperations.OpenFile(filePath);
+        }
+
+        public void SaveAndCloseActiveDocument()
+        {
+            DTE2.ActiveDocument.Close(vsSaveChanges.vsSaveChangesYes);
         }
 
         public void ShowDialog(Window window)

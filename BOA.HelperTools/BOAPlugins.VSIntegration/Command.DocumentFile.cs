@@ -1,7 +1,5 @@
 ﻿using BOAPlugins.DocumentFile;
 using System;
-using EnvDTE;
-using EnvDTE80;
 
 namespace BOASpSearch
 {
@@ -11,24 +9,8 @@ namespace BOASpSearch
     internal sealed partial class Command1
     {
         #region Methods
-
-        void xx()
-        {
-            var path = @"D:\git\PropertyMapper\PropertyMapper\Infrastructure\GenericProxy\IProxyInput.cs";
-
-            VisualStudio.OpenFile(path);
-
-            DocumentFile(null,null);
-
-            var dte = (DTE2) ServiceProvider.GetService(typeof(DTE));
-            
-            dte.ActiveDocument.Close(vsSaveChanges.vsSaveChangesYes);
-               
-        }
-
         void DocumentFile(object sender, EventArgs e)
         {
-            xx();
             try
             {
                 VisualStudio.DocumentActiveFile();
