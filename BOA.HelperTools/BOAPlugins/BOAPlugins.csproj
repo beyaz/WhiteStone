@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -41,6 +41,9 @@
     <AssemblyOriginatorKeyFile>..\Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BOA.TfsAccess, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\BOA.TfsAccess.1.0.0.7\lib\net452\BOA.TfsAccess.dll</HintPath>
+    </Reference>
     <Reference Include="CustomUIMarkupLanguage">
       <HintPath>D:\github\WhiteStone\CustomUIMarkupLanguage\bin\Debug\CustomUIMarkupLanguage.dll</HintPath>
     </Reference>
@@ -135,16 +138,6 @@
     <Compile Include="VSIntegration\MainForm\View.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BOA.TfsAccess\BOA.TfsAccess.csproj">
-      <Project>{819466b2-7d52-4c21-a270-61134a6a04c9}</Project>
-      <Name>BOA.TfsAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BOA.CodeGeneration\BOA.CodeGeneration.csproj">
-      <Project>{a51d1954-365f-4f98-8492-f8841fbad5be}</Project>
-      <Name>BoaCodeGenerator</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -169,7 +162,12 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BOA.CodeGeneration\BOA.CodeGeneration.csproj">
+      <Project>{a51d1954-365f-4f98-8492-f8841fbad5be}</Project>
+      <Name>BOA.CodeGeneration</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

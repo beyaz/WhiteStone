@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using BOA.CodeGeneration.Util;
 using BOA.Common.Helpers;
+using BOA.TfsAccess;
 using BOAPlugins.SearchProcedure;
 using BOAPlugins.Utility;
 using BOAPlugins.VSIntegration;

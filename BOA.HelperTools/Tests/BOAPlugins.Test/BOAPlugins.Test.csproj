@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -46,6 +46,9 @@
     <AssemblyOriginatorKeyFile>..\..\Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BOA.TfsAccess, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\BOA.TfsAccess.1.0.0.7\lib\net452\BOA.TfsAccess.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
@@ -108,10 +111,6 @@
     <Compile Include="ViewClassDependency\HandlerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BOA.TfsAccess\BOA.TfsAccess.csproj">
-      <Project>{819466b2-7d52-4c21-a270-61134a6a04c9}</Project>
-      <Name>BOA.TfsAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\BOAPlugins\BOAPlugins.csproj">
       <Project>{92502f72-d2a3-4b2f-aa82-3e4f286599aa}</Project>
       <Name>BOAPlugins</Name>
@@ -149,6 +148,7 @@
     <Folder Include="Utility\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>
