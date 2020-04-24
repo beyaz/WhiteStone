@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using BOA.Common.Helpers;
 using BOAPlugins.VSIntegration;
 
 namespace BOAPlugins.DocumentFile
@@ -39,7 +40,17 @@ namespace BOAPlugins.DocumentFile
 
             foreach (var cSharpFile in cSharpFiles)
             {
-                DocumentFile(cSharpFile);
+                Trace("Started to document file: " + Path.GetFileName(cSharpFile));
+
+                try
+                {
+                    DocumentFile(cSharpFile);
+                }
+                catch (Exception exception)
+                {
+                    Trace("Error occured when documenting file: " + Path.GetFileName(cSharpFile));
+                    Trace(exception.ToString());
+                }
             }
         }
         #endregion
@@ -73,6 +84,11 @@ namespace BOAPlugins.DocumentFile
             }
 
             return true;
+        }
+
+        void Trace(string message)
+        {
+            Log.Push(message);
         }
         #endregion
     }
