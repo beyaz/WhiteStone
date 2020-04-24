@@ -38,6 +38,8 @@ namespace BOAPlugins.DocumentFile
 
             cSharpFiles = cSharpFiles.Where(FileCanBeDocument).ToArray();
 
+            Trace("Starting documentation...");
+
             foreach (var cSharpFile in cSharpFiles)
             {
                 Trace("Started to document file: " + Path.GetFileName(cSharpFile));
@@ -52,6 +54,8 @@ namespace BOAPlugins.DocumentFile
                     Trace(exception.ToString());
                 }
             }
+
+            Trace("Finishing documentation...");
         }
         #endregion
 
@@ -79,6 +83,16 @@ namespace BOAPlugins.DocumentFile
             }
 
             if (path.Contains(@"\bin\"))
+            {
+                return false;
+            }
+
+            if (path.Contains("AssemblyInfo.cs"))
+            {
+                return false;
+            }
+
+            if (path.Contains("GenerateDatabase.cs"))
             {
                 return false;
             }
