@@ -17,10 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomUIMarkupLanguage.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiteStone.UI.Container.Test", "WhiteStone.UI.Container.Test\WhiteStone.UI.Container.Test.csproj", "{F3793DB0-432A-48D6-9BD7-8A98ACDE618B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiteStone.Updater", "WhiteStone.Updater\WhiteStone.Updater.csproj", "{1E5F3BAB-3A3C-4489-A4B5-86FCBB960647}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiteStone.ApplicationStarter", "WhiteStone.ApplicationStarter\WhiteStone.ApplicationStarter.csproj", "{99B7CBE4-129D-4C1A-88F8-AF132851F4B3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,14 +51,6 @@ Global
 		{F3793DB0-432A-48D6-9BD7-8A98ACDE618B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3793DB0-432A-48D6-9BD7-8A98ACDE618B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3793DB0-432A-48D6-9BD7-8A98ACDE618B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E5F3BAB-3A3C-4489-A4B5-86FCBB960647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E5F3BAB-3A3C-4489-A4B5-86FCBB960647}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E5F3BAB-3A3C-4489-A4B5-86FCBB960647}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E5F3BAB-3A3C-4489-A4B5-86FCBB960647}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99B7CBE4-129D-4C1A-88F8-AF132851F4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99B7CBE4-129D-4C1A-88F8-AF132851F4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99B7CBE4-129D-4C1A-88F8-AF132851F4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99B7CBE4-129D-4C1A-88F8-AF132851F4B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
