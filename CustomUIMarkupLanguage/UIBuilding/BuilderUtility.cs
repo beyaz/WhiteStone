@@ -17,7 +17,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Converts to binding.
         /// </summary>
-        public static Binding ConvertToBinding(this BindingInfoContract bindingInfoContract, TypeFinder typeFinder, string bindingPathPrefix)
+        public static Binding ConvertToBinding(this BindingInfoContract bindingInfoContract, Func<string,Type> getType, string bindingPathPrefix)
         {
             var binding = new Binding
             {
@@ -27,7 +27,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
             if (bindingInfoContract.ConverterTypeFullName != null)
             {
-                var converterType = typeFinder.GetType(bindingInfoContract.ConverterTypeFullName);
+                var converterType = getType(bindingInfoContract.ConverterTypeFullName);
                 binding.Converter = (IValueConverter) Activator.CreateInstance(converterType);
             }
 
@@ -71,15 +71,15 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Searches the dependency property in view.
         /// </summary>
-        public static DependencyProperty SearchDependencyProperty(string dpFullName, TypeFinder typeFinder)
+        public static DependencyProperty SearchDependencyProperty(string dpFullName, Func<string,Type> getType)
         {
             var lastDotIndex = dpFullName.LastIndexOf('.');
             var propertyName = dpFullName.Substring(lastDotIndex + 1);
 
-            var fieldInfo = typeFinder.GetType(dpFullName.Substring(0, lastDotIndex))
-                                      .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-                                      .FirstOrDefault(p => p.FieldType == typeof(DependencyProperty) &&
-                                                           p.Name == propertyName);
+            var fieldInfo = getType(dpFullName.Substring(0, lastDotIndex))
+                            .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                            .FirstOrDefault(p => p.FieldType == typeof(DependencyProperty) &&
+                                                 p.Name == propertyName);
 
             if (fieldInfo == null)
             {

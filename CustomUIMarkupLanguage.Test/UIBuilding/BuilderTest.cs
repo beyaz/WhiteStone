@@ -120,9 +120,9 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
             
 
 
-            var typeFinder = new TypeFinder();
+            
 
-            Func<string,Binding> ParseBinding = (bindingExpressionAsText) => { return BindingExpressionParser.TryParse(bindingExpressionAsText).ConvertToBinding(typeFinder, null); };
+            Func<string,Binding> ParseBinding = (bindingExpressionAsText) => { return BindingExpressionParser.TryParse(bindingExpressionAsText).ConvertToBinding(TypeFinder.GetType, null); };
 
 
             var expression = "{Binding Model.Customers, Mode=OneWay,Converter =" + typeof(ConverterClass).FullName + "}";
@@ -157,8 +157,8 @@ namespace CustomUIMarkupLanguage.Test.UIBuilding
         [TestMethod]
         public void SearchDependencyProperty()
         {
-            Assert.IsNotNull(BuilderUtility.SearchDependencyProperty("System.Windows.FrameworkElement.WidthProperty", new TypeFinder()));
-            Assert.IsNotNull(BuilderUtility.SearchDependencyProperty(GetType().FullName + ".TestPropertyNullableInt32Property", new TypeFinder()));
+            Assert.IsNotNull(BuilderUtility.SearchDependencyProperty("System.Windows.FrameworkElement.WidthProperty", TypeFinder.GetType));
+            Assert.IsNotNull(BuilderUtility.SearchDependencyProperty(GetType().FullName + ".TestPropertyNullableInt32Property", TypeFinder.GetType));
         }
 
         [TestMethod]

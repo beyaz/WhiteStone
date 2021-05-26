@@ -69,26 +69,13 @@ namespace CustomUIMarkupLanguage.UIBuilding
         };
         #endregion
 
-        #region Constructors
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Builder" /> class.
-        /// </summary>
-        public Builder()
-        {
-            TypeFinder = new TypeFinder();
-        }
-        #endregion
-
         #region Public Properties
+        public static Func<string, Type> FindType { get; set; } = TypeFinder.GetType;
+
         /// <summary>
         ///     Gets or sets the caller.
         /// </summary>
         public UIElement Caller { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the type finder.
-        /// </summary>
-        public TypeFinder TypeFinder { get; set; }
         #endregion
 
         #region Public Methods
@@ -121,7 +108,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         public static void RegisterElementCreation(string uiName, Type uiType)
         {
-            ElementCreationDelegate func = (builder, node) =>
+            UIElement fun(Builder builder, Node node)
             {
                 if (node.UI == uiName.ToUpperEN())
                 {
@@ -129,9 +116,9 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 }
 
                 return null;
-            };
+            }
 
-            _tryToCreateElement.Add(func);
+            _tryToCreateElement.Add(fun);
         }
 
         /// <summary>
@@ -522,7 +509,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     throw Errors.DependencyPropertyNotFound(node.Name);
                 }
 
-                var binding = bindingInfoContract.ConvertToBinding(TypeFinder, "DataContext.");
+                var binding = bindingInfoContract.ConvertToBinding(FindType, "DataContext.");
                 binding.Source              = Caller;
                 binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
@@ -536,14 +523,14 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Tries to handle d property.
         /// </summary>
-        bool TryToHandleDProperty(Builder builder, UIElement element, Node node)
+        static bool TryToHandleDProperty(Builder builder, UIElement element, Node node)
         {
             var attributeName = node.Name;
 
             // BOA.UI.EditorBase.LabelWidthProperty
             if (attributeName.Contains('.')) // dependency property
             {
-                var dp = BuilderUtility.SearchDependencyProperty(attributeName, TypeFinder);
+                var dp = BuilderUtility.SearchDependencyProperty(attributeName, FindType);
                 if (dp == null)
                 {
                     throw Errors.DependencyPropertyNotFound(attributeName);
@@ -651,25 +638,40 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                     if (eventInfo.EventHandlerType == typeof(Action))
                     {
-                        var    caller  = Caller;
-                        Action handler = () => { mi.Invoke(caller, parameters); };
-                        eventInfo.AddMethod.Invoke(element, new object[] {handler});
+                        var caller = Caller;
+
+                        void handler()
+                        {
+                            mi.Invoke(caller, parameters);
+                        }
+
+                        eventInfo.AddMethod.Invoke(element, new object[] {(Action) handler});
                         return true;
                     }
 
                     if (eventInfo.EventHandlerType == typeof(TextChangedEventHandler))
                     {
-                        var                     caller  = Caller;
-                        TextChangedEventHandler handler = (s, e) => { mi.Invoke(caller, parameters); };
-                        eventInfo.AddMethod.Invoke(element, new object[] {handler});
+                        var caller = Caller;
+
+                        void handler(object s, TextChangedEventArgs e)
+                        {
+                            mi.Invoke(caller, parameters);
+                        }
+
+                        eventInfo.AddMethod.Invoke(element, new object[] {(TextChangedEventHandler) handler});
                         return true;
                     }
 
                     if (eventInfo.EventHandlerType == typeof(SelectionChangedEventHandler))
                     {
-                        var                          caller  = Caller;
-                        SelectionChangedEventHandler handler = (s, e) => { mi.Invoke(caller, parameters); };
-                        eventInfo.AddMethod.Invoke(element, new object[] {handler});
+                        var caller = Caller;
+
+                        void handler(object s, SelectionChangedEventArgs e)
+                        {
+                            mi.Invoke(caller, parameters);
+                        }
+
+                        eventInfo.AddMethod.Invoke(element, new object[] {(SelectionChangedEventHandler) handler});
                         return true;
                     }
 
@@ -689,36 +691,56 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                         if (eventInfo.EventHandlerType == typeof(KeyEventHandler))
                         {
-                            KeyEventHandler handler = (s, e) => { handlerMethod.Invoke(caller, null); };
-                            eventInfo.AddEventHandler(element, handler);
+                            void handler(object s, KeyEventArgs e)
+                            {
+                                handlerMethod.Invoke(caller, null);
+                            }
+
+                            eventInfo.AddEventHandler(element, (KeyEventHandler) handler);
                             return true;
                         }
 
                         if (eventInfo.EventHandlerType == typeof(RoutedEventHandler))
                         {
-                            RoutedEventHandler handler = (s, e) => { handlerMethod.Invoke(caller, null); };
-                            eventInfo.AddEventHandler(element, handler);
+                            void handler(object s, RoutedEventArgs e)
+                            {
+                                handlerMethod.Invoke(caller, null);
+                            }
+
+                            eventInfo.AddEventHandler(element, (RoutedEventHandler) handler);
                             return true;
                         }
 
                         if (eventInfo.EventHandlerType == typeof(Action))
                         {
-                            Action handler = () => { handlerMethod.Invoke(caller, null); };
-                            eventInfo.AddEventHandler(element, handler);
+                            void handler()
+                            {
+                                handlerMethod.Invoke(caller, null);
+                            }
+
+                            eventInfo.AddEventHandler(element, (Action) handler);
                             return true;
                         }
 
                         if (eventInfo.EventHandlerType == typeof(TextChangedEventHandler))
                         {
-                            TextChangedEventHandler handler = (s, e) => { handlerMethod.Invoke(caller, null); };
-                            eventInfo.AddEventHandler(element, handler);
+                            void handler(object s, TextChangedEventArgs e)
+                            {
+                                handlerMethod.Invoke(caller, null);
+                            }
+
+                            eventInfo.AddEventHandler(element, (TextChangedEventHandler) handler);
                             return true;
                         }
 
                         if (eventInfo.EventHandlerType == typeof(SelectionChangedEventHandler))
                         {
-                            SelectionChangedEventHandler handler = (s, e) => { handlerMethod.Invoke(caller, null); };
-                            eventInfo.AddEventHandler(element, handler);
+                            void handler(object s, SelectionChangedEventArgs e)
+                            {
+                                handlerMethod.Invoke(caller, null);
+                            }
+
+                            eventInfo.AddEventHandler(element, (SelectionChangedEventHandler) handler);
                             return true;
                         }
 

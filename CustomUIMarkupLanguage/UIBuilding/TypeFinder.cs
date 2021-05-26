@@ -9,15 +9,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
     /// <summary>
     ///     Defines the type finder.
     /// </summary>
-    public class TypeFinder
+    public static class TypeFinder
     {
-        #region Constants
-        /// <summary>
-        ///     The dot
-        /// </summary>
-        const char Dot = '.';
-        #endregion
-
         #region Static Fields
         /// <summary>
         ///     The qualified type names
@@ -45,10 +38,28 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
         #region Public Methods
         /// <summary>
+        ///     Gets the type.
+        /// </summary>
+        public static Type GetType(string fullTypeName)
+        {
+            var type = Find(fullTypeName);
+            if (type == null)
+            {
+                throw Errors.TypeNotFound(fullTypeName);
+            }
+
+            return type;
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
         ///     Finds the specified type full name.
         /// </summary>
-        public virtual Type Find(string typeFullName)
+        static Type Find(string typeFullName)
         {
+            const char Dot = '.';
+
             var isQualifiedName = typeFullName.IndexOf(Dot) == -1;
             if (isQualifiedName)
             {
@@ -74,9 +85,9 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 }
             }
 
-            var assemblyLocation = GetType().Assembly.Location;
+            var assemblyLocation = typeof(TypeFinder).Assembly.Location;
             {
-                var searchDirectory = Directory.GetParent(assemblyLocation).FullName + Path.DirectorySeparatorChar;
+                var searchDirectory = Directory.GetParent(assemblyLocation)?.FullName + Path.DirectorySeparatorChar;
                 foreach (var fileInfo in GetDotNetFiles(searchDirectory))
                 {
                     try
@@ -98,22 +109,6 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return null;
         }
 
-        /// <summary>
-        ///     Gets the type.
-        /// </summary>
-        public Type GetType(string fullTypeName)
-        {
-            var type = Find(fullTypeName);
-            if (type == null)
-            {
-                throw Errors.TypeNotFound(fullTypeName);
-            }
-
-            return type;
-        }
-        #endregion
-
-        #region Methods
         /// <summary>
         ///     Gets the dot net files.
         /// </summary>
