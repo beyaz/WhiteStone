@@ -31,14 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BOA.TfsAccess">
-      <HintPath>$(SolutionDir)BOA.TfsAccess\bin\debug\BOA.TfsAccess.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="WhiteStone">
       <HintPath>$(SolutionDir)WhiteStone\bin\debug\WhiteStone.dll</HintPath>
     </Reference>

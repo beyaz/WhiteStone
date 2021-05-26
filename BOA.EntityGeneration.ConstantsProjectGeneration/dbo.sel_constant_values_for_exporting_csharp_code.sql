@@ -25,7 +25,8 @@ BEGIN
     create UNIQUE index idx on #enumInfo (ClassName,PropertyName)
     
     INSERT INTO #enumInfo VALUES('DENEME_CLASS_1','PROPERTY_1','A','0')
-    INSERT INTO #enumInfo VALUES('DENEME_CLASS_1','PROPERTY_2','B','0') 
+    INSERT INTO #enumInfo VALUES('DENEME_CLASS_1','PROPERTY_2','B','1')
+	INSERT INTO #enumInfo VALUES('DENEME_CLASS_1','PROPERTY_3','C','2')
     
     -- fix same value Never_Active
     DELETE FROM #enumInfo WHERE ClassName = 'ACTIVITY_STATUS' AND PropertyName = 'NeverActive'    
