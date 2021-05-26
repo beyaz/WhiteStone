@@ -124,27 +124,6 @@ namespace CustomUIMarkupLanguage.Markup
             return node;
         }
 
-        static JToken Visit(JToken jToken)
-        {
-            foreach (var func in AfterJsonStringParse)
-            {
-                jToken = func(jToken);
-            }
-
-            var jObject = jToken as JObject;
-            if (jObject == null)
-            {
-                return jToken;
-            }
-
-            foreach (var jProperty in jObject.Properties())
-            {
-                jProperty.Value = Visit(jProperty.Value);
-            }
-
-            return jToken;
-        }
-
         /// <summary>
         ///     Transforms the specified json.
         /// </summary>
@@ -153,13 +132,9 @@ namespace CustomUIMarkupLanguage.Markup
             JObject jObject;
             try
             {
-              
-
                 jObject = (JObject) JsonConvert.DeserializeObject(json);
 
-
                 // jObject = (JObject)Visit(jObject);
-
             }
             catch (Exception)
             {
@@ -224,6 +199,29 @@ namespace CustomUIMarkupLanguage.Markup
             }
 
             onVisit(root);
+        }
+        #endregion
+
+        #region Methods
+        static JToken Visit(JToken jToken)
+        {
+            foreach (var func in AfterJsonStringParse)
+            {
+                jToken = func(jToken);
+            }
+
+            var jObject = jToken as JObject;
+            if (jObject == null)
+            {
+                return jToken;
+            }
+
+            foreach (var jProperty in jObject.Properties())
+            {
+                jProperty.Value = Visit(jProperty.Value);
+            }
+
+            return jToken;
         }
         #endregion
     }

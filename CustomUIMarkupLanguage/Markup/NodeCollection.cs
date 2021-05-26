@@ -10,16 +10,9 @@ namespace CustomUIMarkupLanguage.Markup
     /// </summary>
     public class NodeCollection : IEnumerable<Node>
     {
-        #region Public Properties
-        /// <summary>
-        ///     Gets or sets the items.
-        /// </summary>
-        public List<Node> Items { get; set; } = new List<Node>();
-        #endregion
-
+        #region Constructors
         public NodeCollection()
         {
-            
         }
 
         public NodeCollection(params Node[] items)
@@ -31,6 +24,15 @@ namespace CustomUIMarkupLanguage.Markup
 
             Items = items.ToList();
         }
+        #endregion
+
+        #region Public Properties
+        /// <summary>
+        ///     Gets or sets the items.
+        /// </summary>
+        public List<Node> Items { get; set; } = new List<Node>();
+        #endregion
+
         #region Public Indexers
         /// <summary>
         ///     Gets the <see cref="Node" /> with the specified name.
@@ -44,7 +46,7 @@ namespace CustomUIMarkupLanguage.Markup
             }
         }
 
-        public Node this[params  string[] optionalNames]
+        public Node this[params string[] optionalNames]
         {
             get
             {

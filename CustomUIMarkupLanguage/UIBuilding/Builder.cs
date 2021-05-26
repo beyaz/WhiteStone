@@ -12,15 +12,13 @@ using CustomUIMarkupLanguage.Markup;
 
 namespace CustomUIMarkupLanguage.UIBuilding
 {
-
     public delegate void CreationCompletedCallback(Builder builder, UIElement element, Node node);
 
-    public delegate UIElement ElementCreationDelegate(Builder builder,   Node node);
+    public delegate UIElement ElementCreationDelegate(Builder builder, Node node);
 
     public delegate bool CustomPropertyHandlerDelegate(Builder builder, UIElement element, Node node);
 
-
-    #region Builder    
+    #region Builder
     /// <summary>
     ///     The builder
     /// </summary>
@@ -164,7 +162,6 @@ namespace CustomUIMarkupLanguage.UIBuilding
             BuildProperties(Caller, node);
         }
 
-        
         /// <summary>
         ///     Registers the on creation completed.
         /// </summary>
@@ -187,7 +184,6 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 return (UIElement) Activator.CreateInstance(controlType);
             }
 
-            
             throw Errors.TypeNotFound(wpfElementName);
         }
 
@@ -530,8 +526,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     throw Errors.DependencyPropertyNotFound(node.Name);
                 }
 
-                var binding = bindingInfoContract.ConvertToBinding(TypeFinder,"DataContext.");
-                binding.Source = Caller;
+                var binding = bindingInfoContract.ConvertToBinding(TypeFinder, "DataContext.");
+                binding.Source              = Caller;
                 binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
                 BindingOperations.SetBinding(element, dp, binding);
@@ -661,36 +657,27 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                     if (eventInfo.EventHandlerType == typeof(Action))
                     {
-                        var caller = Caller;
-                        Action handler = () =>
-                        {
-                            mi.Invoke(caller, parameters);
-                        };
-                        eventInfo.AddMethod.Invoke(element, new object[]{handler});
+                        var    caller  = Caller;
+                        Action handler = () => { mi.Invoke(caller, parameters); };
+                        eventInfo.AddMethod.Invoke(element, new object[] {handler});
                         return true;
                     }
+
                     if (eventInfo.EventHandlerType == typeof(TextChangedEventHandler))
                     {
-                        var caller = Caller;
-                        TextChangedEventHandler handler = (s,e) =>
-                        {
-                            mi.Invoke(caller, parameters);
-                        };
-                        eventInfo.AddMethod.Invoke(element, new object[]{handler});
+                        var                     caller  = Caller;
+                        TextChangedEventHandler handler = (s, e) => { mi.Invoke(caller, parameters); };
+                        eventInfo.AddMethod.Invoke(element, new object[] {handler});
                         return true;
                     }
+
                     if (eventInfo.EventHandlerType == typeof(SelectionChangedEventHandler))
                     {
-                        var caller = Caller;
-                        SelectionChangedEventHandler handler = (s, e) =>
-                        {
-                            mi.Invoke(caller, parameters);
-                        };
-                        eventInfo.AddMethod.Invoke(element, new object[]{handler});
+                        var                          caller  = Caller;
+                        SelectionChangedEventHandler handler = (s, e) => { mi.Invoke(caller, parameters); };
+                        eventInfo.AddMethod.Invoke(element, new object[] {handler});
                         return true;
                     }
-                    
-                    
 
                     throw new NotImplementedException();
                 }
@@ -708,14 +695,13 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                         if (eventInfo.EventHandlerType == typeof(KeyEventHandler))
                         {
-                            KeyEventHandler handler     = (s, e) => { handlerMethod.Invoke(caller, null); };
+                            KeyEventHandler handler = (s, e) => { handlerMethod.Invoke(caller, null); };
                             eventInfo.AddEventHandler(element, handler);
                             return true;
                         }
 
                         if (eventInfo.EventHandlerType == typeof(RoutedEventHandler))
                         {
-                           
                             RoutedEventHandler handler = (s, e) => { handlerMethod.Invoke(caller, null); };
                             eventInfo.AddEventHandler(element, handler);
                             return true;
@@ -723,12 +709,10 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                         if (eventInfo.EventHandlerType == typeof(Action))
                         {
-                           
                             Action handler = () => { handlerMethod.Invoke(caller, null); };
                             eventInfo.AddEventHandler(element, handler);
                             return true;
                         }
-
 
                         if (eventInfo.EventHandlerType == typeof(TextChangedEventHandler))
                         {
@@ -736,10 +720,10 @@ namespace CustomUIMarkupLanguage.UIBuilding
                             eventInfo.AddEventHandler(element, handler);
                             return true;
                         }
+
                         if (eventInfo.EventHandlerType == typeof(SelectionChangedEventHandler))
                         {
-                           
-                            SelectionChangedEventHandler handler = (s,e) => { handlerMethod.Invoke(caller, null); };
+                            SelectionChangedEventHandler handler = (s, e) => { handlerMethod.Invoke(caller, null); };
                             eventInfo.AddEventHandler(element, handler);
                             return true;
                         }
@@ -760,10 +744,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
             }
             else
             {
-                attributeValue =  Cast.To(attributeValue, property.PropertyType,CultureInfo.CurrentUICulture);
+                attributeValue = Cast.To(attributeValue, property.PropertyType, CultureInfo.CurrentUICulture);
             }
-
-            
 
             property.SetValue(element, attributeValue);
 

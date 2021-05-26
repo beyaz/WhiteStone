@@ -17,12 +17,12 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Converts to binding.
         /// </summary>
-        public static Binding ConvertToBinding(this BindingInfoContract bindingInfoContract, TypeFinder typeFinder,string bindingPathPrefix)
+        public static Binding ConvertToBinding(this BindingInfoContract bindingInfoContract, TypeFinder typeFinder, string bindingPathPrefix)
         {
             var binding = new Binding
             {
                 Mode = bindingInfoContract.BindingMode,
-                Path = new PropertyPath(bindingPathPrefix+bindingInfoContract.SourcePath)
+                Path = new PropertyPath(bindingPathPrefix + bindingInfoContract.SourcePath)
             };
 
             if (bindingInfoContract.ConverterTypeFullName != null)
@@ -33,8 +33,6 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
             return binding;
         }
-
-       
 
         /// <summary>
         ///     Normalizes the given <paramref name="value" /> for given <paramref name="targetType" />.

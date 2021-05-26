@@ -102,8 +102,5 @@ namespace CustomUIMarkupLanguage
             return value.ToUpper(new CultureInfo("en-US"));
         }
         #endregion
-
-        #region Methods
-        #endregion
     }
 }

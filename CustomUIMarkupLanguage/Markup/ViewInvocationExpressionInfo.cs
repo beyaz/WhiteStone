@@ -1,14 +1,11 @@
-﻿
-
-
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CustomUIMarkupLanguage.TextTokenizer;
 
 namespace CustomUIMarkupLanguage.Markup
 {
     class ViewInvocationExpressionInfo
     {
+        #region Static Fields
         static readonly List<TokenDefinition> TokenDefinitions = new List<TokenDefinition>
         {
             new TokenDefinition(TokenType.Binding, "this", 1),
@@ -21,11 +18,12 @@ namespace CustomUIMarkupLanguage.Markup
             new TokenDefinition(TokenType.Comma, ",", 1),
             new TokenDefinition(TokenType.Dot, ".", 1)
         };
+        #endregion
 
         #region Public Properties
-        public bool                  IsStartsWithThis { get; set; }
-        public string                MethodName       { get; set; }
-        public IReadOnlyList<object> Parameters       { get; set; }
+        public bool IsStartsWithThis { get; set; }
+        public string MethodName { get; set; }
+        public IReadOnlyList<object> Parameters { get; set; }
         #endregion
 
         #region Public Methods
@@ -35,7 +33,7 @@ namespace CustomUIMarkupLanguage.Markup
 
             var parameters = new List<object>();
 
-            var tokens = Tokenizer.Tokenize(TokenDefinitions,expression);
+            var tokens = Tokenizer.Tokenize(TokenDefinitions, expression);
             var len    = tokens.Count;
             for (var i = 0; i < len; i++)
             {
