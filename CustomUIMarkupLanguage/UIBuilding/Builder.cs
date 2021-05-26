@@ -192,8 +192,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         static void ProcessGridRowsAndColumns(Builder builder, UIElement element, Node node)
         {
-            var grid = element as Grid;
-            if (grid == null)
+            if (!(element is Grid grid))
             {
                 return;
             }
@@ -217,10 +216,9 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     }
                     else
                     {
-                        var gravity = gridChildAsDpObject.GetValue(GravityProperty) as double?;
-                        if (gravity != null)
+                        if (gridChildAsDpObject.GetValue(GravityProperty) is double gravity)
                         {
-                            rowDefinition = new RowDefinition {Height = new GridLength(gravity.Value, GridUnitType.Star)};
+                            rowDefinition = new RowDefinition {Height = new GridLength(gravity, GridUnitType.Star)};
                         }
                         else
                         {
@@ -273,10 +271,9 @@ namespace CustomUIMarkupLanguage.UIBuilding
                     }
                     else
                     {
-                        var gravity = gridChildAsDpObject.GetValue(GravityProperty) as double?;
-                        if (gravity != null)
+                        if (gridChildAsDpObject.GetValue(GravityProperty) is double gravity)
                         {
-                            columnDefinition = new ColumnDefinition {Width = new GridLength(gravity.Value, GridUnitType.Star)};
+                            columnDefinition = new ColumnDefinition {Width = new GridLength(gravity, GridUnitType.Star)};
                         }
                         else
                         {
@@ -403,8 +400,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         bool TryToSetName(Builder builder, UIElement element, Node node)
         {
-            var fe = Caller as FrameworkElement;
-            if (node.NameToUpperInEnglish == "NAME" && fe != null)
+            if (node.NameToUpperInEnglish == "NAME" && Caller is FrameworkElement fe)
             {
                 var fieldInfo = fe.GetType().GetField(node.ValueAsString, null, false, true, false);
                 if (fieldInfo != null)
@@ -423,7 +419,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Tries to handle stack panel title.
         /// </summary>
-        bool TryToHandleStackPanelTitle(Builder builder, UIElement element, Node node)
+        static bool TryToHandleStackPanelTitle(Builder builder, UIElement element, Node node)
         {
             if (node.NameToUpperInEnglish == "TITLE" && element is StackPanel)
             {
@@ -442,7 +438,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Tries to handle gravity.
         /// </summary>
-        bool TryToHandleGravity(Builder builder, UIElement element, Node node)
+        static bool TryToHandleGravity(Builder builder, UIElement element, Node node)
         {
             if (node.NameToUpperInEnglish == "GRAVITY")
             {
@@ -638,9 +634,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                     mi.DoCastOperationsOnParametersForInvokeMethod(parameters);
 
-                    var button = element as Button;
-
-                    if (button != null && node.NameToUpperInEnglish == "CLICK")
+                    if (element is Button button && node.NameToUpperInEnglish == "CLICK")
                     {
                         button.Click += (s, e) =>
                         {
@@ -765,7 +759,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Tries to handle height property automatic value.
         /// </summary>
-        bool TryToHandleHeightPropertyAutoValue(Builder builder, UIElement element, Node node)
+        static bool TryToHandleHeightPropertyAutoValue(Builder builder, UIElement element, Node node)
         {
             if (node.NameToUpperInEnglish == "HEIGHT" && node.ValueAsStringToUpperInEnglish == "AUTO")
             {
@@ -780,7 +774,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Tries to handle width property automatic value.
         /// </summary>
-        bool TryToHandleWidthPropertyAutoValue(Builder builder, UIElement element, Node node)
+        static bool TryToHandleWidthPropertyAutoValue(Builder builder, UIElement element, Node node)
         {
             if (node.NameToUpperInEnglish == "WIDTH" && node.ValueAsStringToUpperInEnglish == "AUTO")
             {
@@ -795,7 +789,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// <summary>
         ///     Tries to handle margin values.
         /// </summary>
-        bool TryToHandleMarginValues(Builder builder, UIElement element, Node node)
+        static bool TryToHandleMarginValues(Builder builder, UIElement element, Node node)
         {
             var name = node.NameToUpperInEnglish;
 
