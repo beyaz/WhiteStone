@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 using CustomUIMarkupLanguage.Markup;
 using Newtonsoft.Json.Linq;
 
@@ -288,6 +290,31 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return jObject;
         }
 
+        public static bool HasSimpleDropShadowEffect(Builder builder, UIElement element, Node node)
+        {
+            if (node.NameToUpperInEnglish == "HASSIMPLEDROPSHADOWEFFECT")
+            {
+                if (node.ValueIsBoolean)
+                {
+                    if (node.ValueAsBoolean)
+                    {
+                        element.Effect = new DropShadowEffect
+                        {
+                            BlurRadius  = 20,
+                            Color       = Colors.DarkGray,
+                            Opacity     = 0.4,
+                            Direction   = 280,
+                            ShadowDepth = 0
+                        };
+                    }
+                        
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
         /// <summary>
         ///     Transforms the name of the view.
         /// </summary>
@@ -359,6 +386,10 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                 return false;
             }
+
+            
+            
+
             #endregion
         }
     }

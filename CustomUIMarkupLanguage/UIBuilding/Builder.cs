@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Windows.Media.Effects;
 using CustomUIMarkupLanguage.Markup;
 
 namespace CustomUIMarkupLanguage.UIBuilding
@@ -37,7 +38,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
             WpfExtra.IsVisible,
             WpfExtra.HorizontalAlignmentIsCenter,
             WpfExtra.VerticalAlignmentIsCenter,
-            WpfExtra.MarginInChildren
+            WpfExtra.MarginInChildren,
+            WpfExtra.HasSimpleDropShadowEffect
         };
 
         /// <summary>
