@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -36,10 +37,12 @@ namespace CustomUIMarkupLanguage.UIBuilding
             WpfExtra.Button_Text,
             WpfExtra.RadioButton_Label,
             WpfExtra.IsVisible,
+            WpfExtra.ControlStyles,
             WpfExtra.HorizontalAlignmentIsCenter,
             WpfExtra.VerticalAlignmentIsCenter,
             WpfExtra.MarginInChildren,
-            WpfExtra.HasSimpleDropShadowEffect
+            WpfExtra.HasSimpleDropShadowEffect,
+            WpfExtra.BorderStyle
         };
 
         /// <summary>
@@ -47,9 +50,12 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         static readonly List<ElementCreationDelegate> _tryToCreateElement = new List<ElementCreationDelegate>
         {
+            WpfExtra.StackPanelCreations,
             WpfExtra.RichTextBox_Create,
             WpfExtra.ListBox_Create,
-            Card.CreateCard
+            Card.CreateCard,
+            ActionButton.HandleCreation,
+            LabeledTextBox.On
         };
 
         /// <summary>
@@ -304,6 +310,12 @@ namespace CustomUIMarkupLanguage.UIBuilding
         /// </summary>
         static DependencyProperty SearchDependencyPropertyInView(string name, UIElement element)
         {
+            var propertyInfo = element.GetType().GetProperty(name, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
+            if (propertyInfo != null)
+            {
+                name = propertyInfo.Name;
+            }
+
             var descriptor = DependencyPropertyDescriptor.FromName(name, element.GetType(), element.GetType());
             if (descriptor == null)
             {

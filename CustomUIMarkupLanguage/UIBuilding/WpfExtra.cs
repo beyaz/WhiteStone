@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Threading;
 using CustomUIMarkupLanguage.Markup;
 using Newtonsoft.Json.Linq;
 
@@ -16,6 +18,20 @@ namespace CustomUIMarkupLanguage.UIBuilding
     /// </summary>
     class WpfExtra
     {
+        
+        /// <summary>
+        ///     Updates the UI after sleep.
+        /// </summary>
+        public static void UpdateUiAfterSleep(Dispatcher dispatcher, int sleepMilliseconds, Action action)
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                await dispatcher.BeginInvoke(action);
+            });
+        }
+
+
         #region Static Fields
         static readonly string[] MarginInChildrenNames =
         {
@@ -87,6 +103,51 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return false;
         }
 
+        
+        public static bool BorderStyle(Builder builder, UIElement element, Node node)
+        {
+            if (!(element is Border border ))
+            {
+                return false;
+            }
+
+            if (node.NameToUpperInEnglish == "BORDER")
+            {
+                var list = node.ValueAsString.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+                if (list.Count == 3)
+                {
+                    border.BorderThickness = new Thickness(double.Parse(list[0].RemoveFromEnd("px")));
+                    border.BorderBrush     = ToBrush(list[2]);
+
+                    return true;
+                }
+
+                throw new NotImplementedException(node.ValueAsString);
+            }
+
+            return false;
+        }
+
+        
+        
+        public static bool ControlStyles(Builder builder, UIElement element, Node node)
+        {
+            if (!(element is Border control ))
+            {
+                return false;
+            }
+
+            if ("borderThickness".Equals( node.Name,StringComparison.OrdinalIgnoreCase))
+            {
+                control.BorderThickness = new Thickness(node.ValueAsNumberAsDouble);
+
+                return true;
+            }
+
+            return false;
+        }
+
+
         public static bool IsVisible(Builder builder, UIElement element, Node node)
         {
             if (node.NameToUpperInEnglish == "ISVISIBLE")
@@ -129,6 +190,33 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
             return null;
         }
+
+        
+        public static UIElement StackPanelCreations(Builder builder, Node node)
+        {
+            if ("hStack".Equals(node.UI,StringComparison.OrdinalIgnoreCase))
+            {
+                var ui = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal
+                };
+
+                return ui;
+            }
+
+            if ("vStack".Equals(node.UI,StringComparison.OrdinalIgnoreCase))
+            {
+                var ui = new StackPanel
+                {
+                    Orientation = Orientation.Vertical
+                };
+
+                return ui;
+            }
+
+            return null;
+        }
+
 
         public static bool MarginInChildren(Builder builder, UIElement element, Node node)
         {

@@ -37,10 +37,11 @@ namespace CustomUIMarkupLanguage.UIBuilding
 	{
         view:'StackPanel',
         spacing: 15,
+        margin: 10,
         Name:'" + nameof(panel) + @"',
         Children:
         [
-            {view:'TextBlock', Text:'{Binding Header}' }    
+            {view:'TextBlock', isBold: true, fontSize:16, Text:'{Binding Header}', foreground: '#596B75' }    
         ]
 	}	
 }";
@@ -55,6 +56,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
         #region Constructors
         public Card()
         {
+            DataContext  = this;
+
             CornerRadius = new CornerRadius(10);
             Background   = WpfExtra.ToBrush("White");
             Effect = new DropShadowEffect

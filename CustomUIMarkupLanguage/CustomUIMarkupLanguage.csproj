@@ -52,12 +52,14 @@
   <ItemGroup>
     <Compile Include="Cast.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="UIBuilding\WpfExtra.LabeledTextBox.cs" />
     <Compile Include="Markup\Node.cs" />
     <Compile Include="Markup\NodeCollection.cs" />
     <Compile Include="Markup\ViewInvocationExpressionInfo.cs" />
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="UIBuilding\Builder.cs" />
     <Compile Include="UIBuilding\BuilderUtility.cs" />
+    <Compile Include="UIBuilding\WpfExtra.ActionButton.cs" />
     <Compile Include="UIBuilding\WpfExtra.Card.cs" />
     <Compile Include="UIBuilding\Errors.cs" />
     <Compile Include="UIBuilding\Extensions.cs" />

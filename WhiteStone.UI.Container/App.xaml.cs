@@ -62,7 +62,7 @@ namespace WhiteStone.UI.Container
                 return null;
             });
 
-            Builder.RegisterElementCreation(LabeledTextBox.On);
+            
             Builder.RegisterElementCreation(LabeledComboBox.On);
 
             Builder.RegisterElementCreation("Tile", typeof(Tile));

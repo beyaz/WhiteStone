@@ -2,11 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
-using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.Markup;
-using CustomUIMarkupLanguage.UIBuilding;
 
-namespace WhiteStone.UI.Container
+namespace CustomUIMarkupLanguage.UIBuilding
 {
 
     public class LabeledTextBox : Grid
@@ -16,8 +14,16 @@ namespace WhiteStone.UI.Container
 {
 	rows:
 	[
-		{view:'TextBlock', Text:'{Binding Label}', MarginBottom:5, IsBold:true},
-        {view:'TextBox',   Text:'{Binding Text}' , Name:'" + nameof(_textBox) + @"' }        
+		{view:'TextBlock', Text:'{Binding Label}', IsBold:true, foreground: '#596B75' },
+        {   
+            ui: 'Border', 
+            cornerRadius: 3, 
+            padding: 1, 
+            marginTop:5, 
+            border: '0.2px solid Black',
+            child: { ui:'TextBox', Text:'{Binding Text}', Name:'" + nameof(_textBox) + @"', borderThickness: 0 }        
+        }
+        
 	]
 	
 }";
