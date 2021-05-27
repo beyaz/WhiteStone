@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Cast.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="MahAppHelper.cs" />
     <Compile Include="UIBuilding\WpfExtra.LabeledTextBox.cs" />
     <Compile Include="Markup\Node.cs" />
     <Compile Include="Markup\NodeCollection.cs" />
