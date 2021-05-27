@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using CustomUIMarkupLanguage.Markup;
@@ -31,6 +32,51 @@ namespace CustomUIMarkupLanguage.UIBuilding
                 if (node.Name == "Text")
                 {
                     node.Name = "Content";
+                }
+            }
+
+            return false;
+        }
+
+        public static void CardCreationEnd(Builder builder, UIElement element, Node node)
+        {
+            if (!(element is Card card))
+            {
+                return;
+            }
+
+            card.Child.LoadJson("{ spacing: 15 }");
+        }
+
+        public static UIElement CreateCard(Builder builder, Node node)
+        {
+            if (node.UI == nameof(Card).ToUpperEN())
+            {
+                return new Card();
+            }
+
+            return null;
+        }
+
+        public static bool HasSimpleDropShadowEffect(Builder builder, UIElement element, Node node)
+        {
+            if (node.NameToUpperInEnglish == "HASSIMPLEDROPSHADOWEFFECT")
+            {
+                if (node.ValueIsBoolean)
+                {
+                    if (node.ValueAsBoolean)
+                    {
+                        element.Effect = new DropShadowEffect
+                        {
+                            BlurRadius  = 20,
+                            Color       = Colors.DarkGray,
+                            Opacity     = 0.4,
+                            Direction   = 280,
+                            ShadowDepth = 0
+                        };
+                    }
+
+                    return true;
                 }
             }
 
@@ -290,31 +336,6 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return jObject;
         }
 
-        public static bool HasSimpleDropShadowEffect(Builder builder, UIElement element, Node node)
-        {
-            if (node.NameToUpperInEnglish == "HASSIMPLEDROPSHADOWEFFECT")
-            {
-                if (node.ValueIsBoolean)
-                {
-                    if (node.ValueAsBoolean)
-                    {
-                        element.Effect = new DropShadowEffect
-                        {
-                            BlurRadius  = 20,
-                            Color       = Colors.DarkGray,
-                            Opacity     = 0.4,
-                            Direction   = 280,
-                            ShadowDepth = 0
-                        };
-                    }
-                        
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
         /// <summary>
         ///     Transforms the name of the view.
         /// </summary>
@@ -354,6 +375,90 @@ namespace CustomUIMarkupLanguage.UIBuilding
         }
         #endregion
 
+        #region Methods
+        static Brush ToBrush(string hexaDecimalColorValue)
+        {
+            var color = ColorConverter.ConvertFromString(hexaDecimalColorValue);
+            if (color == null)
+            {
+                throw new ArgumentException(hexaDecimalColorValue);
+            }
+
+            return new SolidColorBrush((Color) color);
+        }
+        #endregion
+
+        class Card : Border, IAddChild
+        {
+            #region Constants
+            const string UITemplate = @"
+{
+	Child:
+	{
+        view:'StackPanel',
+        spacing: 15,
+        Name:'" + nameof(panel) + @"',
+        Children:
+        [
+            {view:'TextBlock', Text:'{Binding Header}' }    
+        ]
+	}	
+}";
+            #endregion
+
+            #region Fields
+            #pragma warning disable 649
+            StackPanel panel;
+            #pragma warning restore 649
+            #endregion
+
+            #region Constructors
+            public Card()
+            {
+                CornerRadius = new CornerRadius(10);
+                Background   = ToBrush("White");
+                Effect = new DropShadowEffect
+                {
+                    BlurRadius  = 20,
+                    Color       = Colors.DarkGray,
+                    Opacity     = 0.4,
+                    Direction   = 280,
+                    ShadowDepth = 0
+                };
+
+                this.LoadJson(UITemplate);
+            }
+            #endregion
+
+            #region Explicit Interface Methods
+            void IAddChild.AddChild(object value)
+            {
+                if (ReferenceEquals(value, panel))
+                {
+                    Child = panel;
+                    return;
+                }
+
+                panel.Children.Add((UIElement) value);
+            }
+
+            void IAddChild.AddText(string text)
+            {
+                throw new NotImplementedException(text);
+            }
+            #endregion
+
+            #region string Header
+            public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(Card), new PropertyMetadata(default(string)));
+
+            public string Header
+            {
+                get { return (string) GetValue(HeaderProperty); }
+                set { SetValue(HeaderProperty, value); }
+            }
+            #endregion
+        }
+
         class IsBoldConverter : IValueConverter
         {
             #region IValueConverter Members
@@ -386,10 +491,6 @@ namespace CustomUIMarkupLanguage.UIBuilding
 
                 return false;
             }
-
-            
-            
-
             #endregion
         }
     }

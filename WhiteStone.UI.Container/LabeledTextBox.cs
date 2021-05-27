@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using BOA.Common.Helpers;
 using CustomUIMarkupLanguage.Markup;
 using CustomUIMarkupLanguage.UIBuilding;
 
 namespace WhiteStone.UI.Container
 {
+
     public class LabeledTextBox : Grid
     {
         #region Constants

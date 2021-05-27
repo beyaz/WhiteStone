@@ -48,7 +48,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
         static readonly List<ElementCreationDelegate> _tryToCreateElement = new List<ElementCreationDelegate>
         {
             WpfExtra.RichTextBox_Create,
-            WpfExtra.ListBox_Create
+            WpfExtra.ListBox_Create,
+            WpfExtra.CreateCard
         };
 
         /// <summary>
@@ -67,7 +68,8 @@ namespace CustomUIMarkupLanguage.UIBuilding
         readonly List<CreationCompletedCallback> _creationCompletedHandlers = new List<CreationCompletedCallback>
         {
             ProcessGridRowsAndColumns,
-            WpfExtra.MarginInChildrenEnd
+            WpfExtra.MarginInChildrenEnd,
+            WpfExtra.CardCreationEnd
         };
         #endregion
 

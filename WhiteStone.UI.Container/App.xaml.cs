@@ -66,6 +66,8 @@ namespace WhiteStone.UI.Container
             Builder.RegisterElementCreation(LabeledComboBox.On);
 
             Builder.RegisterElementCreation("Tile", typeof(Tile));
+
+            
         }
 
         /// <summary>
