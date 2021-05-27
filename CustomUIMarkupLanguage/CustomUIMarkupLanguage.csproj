@@ -58,6 +58,7 @@
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="UIBuilding\Builder.cs" />
     <Compile Include="UIBuilding\BuilderUtility.cs" />
+    <Compile Include="UIBuilding\WpfExtra.Card.cs" />
     <Compile Include="UIBuilding\Errors.cs" />
     <Compile Include="UIBuilding\Extensions.cs" />
     <Compile Include="UIBuilding\TypeFinder.cs" />

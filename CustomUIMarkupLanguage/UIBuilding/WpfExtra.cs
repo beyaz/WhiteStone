@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using CustomUIMarkupLanguage.Markup;
@@ -38,25 +37,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return false;
         }
 
-        public static void CardCreationEnd(Builder builder, UIElement element, Node node)
-        {
-            if (!(element is Card card))
-            {
-                return;
-            }
-
-            card.Child.LoadJson("{ spacing: 15 }");
-        }
-
-        public static UIElement CreateCard(Builder builder, Node node)
-        {
-            if (node.UI == nameof(Card).ToUpperEN())
-            {
-                return new Card();
-            }
-
-            return null;
-        }
+       
 
         public static bool HasSimpleDropShadowEffect(Builder builder, UIElement element, Node node)
         {
@@ -376,7 +357,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         #endregion
 
         #region Methods
-        static Brush ToBrush(string hexaDecimalColorValue)
+        public static Brush ToBrush(string hexaDecimalColorValue)
         {
             var color = ColorConverter.ConvertFromString(hexaDecimalColorValue);
             if (color == null)
@@ -387,77 +368,6 @@ namespace CustomUIMarkupLanguage.UIBuilding
             return new SolidColorBrush((Color) color);
         }
         #endregion
-
-        class Card : Border, IAddChild
-        {
-            #region Constants
-            const string UITemplate = @"
-{
-	Child:
-	{
-        view:'StackPanel',
-        spacing: 15,
-        Name:'" + nameof(panel) + @"',
-        Children:
-        [
-            {view:'TextBlock', Text:'{Binding Header}' }    
-        ]
-	}	
-}";
-            #endregion
-
-            #region Fields
-            #pragma warning disable 649
-            StackPanel panel;
-            #pragma warning restore 649
-            #endregion
-
-            #region Constructors
-            public Card()
-            {
-                CornerRadius = new CornerRadius(10);
-                Background   = ToBrush("White");
-                Effect = new DropShadowEffect
-                {
-                    BlurRadius  = 20,
-                    Color       = Colors.DarkGray,
-                    Opacity     = 0.4,
-                    Direction   = 280,
-                    ShadowDepth = 0
-                };
-
-                this.LoadJson(UITemplate);
-            }
-            #endregion
-
-            #region Explicit Interface Methods
-            void IAddChild.AddChild(object value)
-            {
-                if (ReferenceEquals(value, panel))
-                {
-                    Child = panel;
-                    return;
-                }
-
-                panel.Children.Add((UIElement) value);
-            }
-
-            void IAddChild.AddText(string text)
-            {
-                throw new NotImplementedException(text);
-            }
-            #endregion
-
-            #region string Header
-            public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(Card), new PropertyMetadata(default(string)));
-
-            public string Header
-            {
-                get { return (string) GetValue(HeaderProperty); }
-                set { SetValue(HeaderProperty, value); }
-            }
-            #endregion
-        }
 
         class IsBoldConverter : IValueConverter
         {

@@ -49,7 +49,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         {
             WpfExtra.RichTextBox_Create,
             WpfExtra.ListBox_Create,
-            WpfExtra.CreateCard
+            Card.CreateCard
         };
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace CustomUIMarkupLanguage.UIBuilding
         {
             ProcessGridRowsAndColumns,
             WpfExtra.MarginInChildrenEnd,
-            WpfExtra.CardCreationEnd
+            Card.CardCreationEnd
         };
         #endregion
 
